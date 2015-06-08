@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbarStyle="outsideOverlay">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/customOrange"
+            android:text="@string/activity_signup_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_large"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activitycontent_padding">
+
+            <include layout="@layout/form_user_layout"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activitycontent_padding"
+                android:layout_marginTop="@dimen/view_margintop_medium">
+
+                <CheckBox
+                    android:id="@+id/signup_form_user_checkbox_valid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:button="@drawable/btn_check_holo_light"/>
+
+                <TextView
+                    android:id="@+id/signup_form_user_checkbox_valid_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/activitycontent_padding"
+                    android:text="@string/signup_form_user_textview_validcheckbox_validation" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/signup_button_save"
+                android:tag="customize_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/view_margintop_medium"
+                android:text="@string/button_save"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>

@@ -34,7 +34,7 @@
     <string name="settings_alertdialog_lougout_message_error">Un problème est survenu : impossible de déconnecter</string>
 
     <!-- Application -->
-    <string name="app_name">Gestion de projets</string>
+    <string name="app_name">ProAdmin</string>
 
     <!-- Button -->
     <string name="button_save">Enregistrer</string>

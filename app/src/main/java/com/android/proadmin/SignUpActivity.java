@@ -37,8 +37,7 @@ public class SignUpActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Set ActivityContent
-        //setContentView(R.layout.form_user_layout);
+        setContentView(R.layout.activity_signup);
 
         //Set User form
         this.form = new ViewHolder();
@@ -49,9 +48,7 @@ public class SignUpActivity extends ActionBarActivity {
         this.form.passwordEditText = (EditText) findViewById(R.id.form_user_edittext_password);
         this.form.confirmPasswordEditText = (EditText) findViewById(R.id.form_user_edittext_confirmpassword);
 
-        this.form.validCheckBox = (CheckBox) findViewById(R.id.form_user_checkbox);
-        TextView validCheckBoxTextView = (TextView) findViewById(R.id.form_user_textview_validcheckbox);
-        validCheckBoxTextView.setText(R.string.signup_form_user_textview_validcheckbox_validation);
+        this.form.validCheckBox = (CheckBox) findViewById(R.id.signup_form_user_checkbox_valid);
     }
 
     @Override
