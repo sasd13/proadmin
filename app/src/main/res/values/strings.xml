@@ -15,7 +15,6 @@
     <string name="activity_settings_name">Paramètres</string>
 
     <!-- Activity LogIn -->
-    <string name="login_button_login">Connexion</string>
     <string name="login_textview_signup">Inscription</string>
     <string name="login_textview_restorepassword">Mot de passe oublié ?</string>
     <string name="login_alertdialog_login_title_error">Erreur connexion</string>
@@ -34,10 +33,11 @@
     <string name="projects_spinner_year">Année</string>
     <string name="projects_button_list">Liste</string>
     <string name="projects_button_new">Nouveau</string>
-    <string name="project_new_textview_title">Détails du projet</string>
-    <string name="project_new_textview_project_year">Année de création</string>
-    <string name="project_new_textview_project_id">Identifiant du projet</string>
-    <string name="project_new_edittext_project_title_hint">Titre</string>
+    <string name="project_textview_title">Détails du projet</string>
+    <string name="project_textview_year">Année de création</string>
+    <string name="project_textview_id">Identifiant du projet</string>
+    <string name="project_edittext_project_title_hint">Titre</string>
+    <string name="project_textview_description">Description</string>
 
     <!-- Activity Settings -->
     <string name="settings_form_user_textview_validcheckbox_connect">Rester connecté</string>
@@ -50,6 +50,9 @@
 
     <!-- Button -->
     <string name="button_save">Enregistrer</string>
+    <string name="button_login">Connexion</string>
+    <string name="button_delete">Supprimer</string>
+    <string name="button_create">Créer</string>
 
     <!-- Dialog -->
     <string name="alertdialog_careful_title">Attention</string>

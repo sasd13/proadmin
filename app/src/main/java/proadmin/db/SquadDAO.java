@@ -48,6 +48,10 @@ class SquadDAO extends AbstractDAO {
         mDb.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId});
     }
 
+    public void deleteAllOfYearAndProject(long year, String projectId) {
+        mDb.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{String.valueOf(year), projectId});
+    }
+
     public void deleteAllOfProject(String projectId) {
         mDb.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId});
     }

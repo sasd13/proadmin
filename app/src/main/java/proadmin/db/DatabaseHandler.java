@@ -20,6 +20,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + TeacherDAO.TEACHER_PASSWORD + " TEXT NOT NULL);";
 
     /**
+     * Table year
+     */
+    public static final String YEAR_TABLE_DROP = "DROP TABLE IF EXISTS " + YearDAO.YEAR_TABLE_NAME + ";";
+    public static final String YEAR_TABLE_CREATE =
+            "CREATE TABLE " + YearDAO.YEAR_TABLE_NAME + " ("
+                    + YearDAO.YEAR_YEAR + " TEXT PRIMARY KEY);";
+
+    /**
      * Table project
      */
     public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.PROJECT_TABLE_NAME + ";";
@@ -31,6 +39,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL);";
 
     /**
+     * Table student_has_squad
+     */
+    public static final String PROJECT_HAS_YEAR_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectHasYearDAO.PROJECT_HAS_YEAR_TABLE_NAME + ";";
+    public static final String PROJECT_HAS_YEAR_TABLE_CREATE =
+            "CREATE TABLE " + ProjectHasYearDAO.PROJECT_HAS_YEAR_TABLE_NAME + " ("
+                    + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + " TEXT NOT NULL, "
+                    + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR +" TEXT NOT NULL, "
+                    + "FOREIGN KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + ") REFERENCES " + ProjectDAO.PROJECT_TABLE_NAME + "("+ ProjectDAO.PROJECT_ID + "), "
+                    + "FOREIGN KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR + ") REFERENCES " + YearDAO.YEAR_TABLE_NAME + "("+ YearDAO.YEAR_YEAR + "), "
+                    + "PRIMARY KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + ", " + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR + "));";
+
+    /**
      * Table squad
      */
     public static final String SQUAD_TABLE_DROP = "DROP TABLE IF EXISTS " + SquadDAO.SQUAD_TABLE_NAME + ";";
@@ -40,6 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + SquadDAO.SQUAD_YEAR +" INTEGER NOT NULL, "
                     + SquadDAO.SQUAD_PROJECT_ID +" TEXT NOT NULL, "
                     + SquadDAO.SQUAD_TEACHER_ID +" TEXT NOT NULL, "
+                    + "FOREIGN KEY (" + SquadDAO.SQUAD_YEAR + ") REFERENCES " + YearDAO.YEAR_TABLE_NAME + "("+ YearDAO.YEAR_YEAR + "), "
                     + "FOREIGN KEY (" + SquadDAO.SQUAD_PROJECT_ID + ") REFERENCES " + ProjectDAO.PROJECT_TABLE_NAME + "("+ ProjectDAO.PROJECT_ID + "), "
                     + "FOREIGN KEY (" + SquadDAO.SQUAD_TEACHER_ID + ") REFERENCES " + TeacherDAO.TEACHER_TABLE_NAME + "("+ TeacherDAO.TEACHER_ID + "));";
 
@@ -57,14 +78,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /**
      * Table student_has_squad
      */
-    public static final String STUDENT_HAS_SQUAD_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_TABLE_NAME + ";";
+    public static final String STUDENT_HAS_SQUAD_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentHasSquadDAO.STUDENT_HAS_SQUAD_TABLE_NAME + ";";
     public static final String STUDENT_HAS_SQUAD_TABLE_CREATE =
-            "CREATE TABLE " + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_TABLE_NAME + " ("
-                    + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_STUDENT_ID + " TEXT NOT NULL, "
-                    + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_SQUAD_ID +" TEXT NOT NULL, "
-                    + "FOREIGN KEY (" + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "), "
-                    + "FOREIGN KEY (" + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_SQUAD_ID + ") REFERENCES " + SquadDAO.SQUAD_TABLE_NAME + "("+ SquadDAO.SQUAD_ID + "), "
-                    + "PRIMARY KEY (" + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_STUDENT_ID + ", " + StudentsHaveSquadsDAO.STUDENT_HAS_SQUAD_SQUAD_ID + "));";
+            "CREATE TABLE " + StudentHasSquadDAO.STUDENT_HAS_SQUAD_TABLE_NAME + " ("
+                    + StudentHasSquadDAO.STUDENT_HAS_SQUAD_STUDENT_ID + " TEXT NOT NULL, "
+                    + StudentHasSquadDAO.STUDENT_HAS_SQUAD_SQUAD_ID +" TEXT NOT NULL, "
+                    + "FOREIGN KEY (" + StudentHasSquadDAO.STUDENT_HAS_SQUAD_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "), "
+                    + "FOREIGN KEY (" + StudentHasSquadDAO.STUDENT_HAS_SQUAD_SQUAD_ID + ") REFERENCES " + SquadDAO.SQUAD_TABLE_NAME + "("+ SquadDAO.SQUAD_ID + "), "
+                    + "PRIMARY KEY (" + StudentHasSquadDAO.STUDENT_HAS_SQUAD_STUDENT_ID + ", " + StudentHasSquadDAO.STUDENT_HAS_SQUAD_SQUAD_ID + "));";
 
     /**
      * Table report

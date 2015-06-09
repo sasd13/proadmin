@@ -22,7 +22,6 @@
                 android:layout_width="28dp"
                 android:layout_height="30dp"
                 android:background="#dda600"
-                android:contentDescription="@+id/attribut_Todo"
                 android:src="@drawable/ic_project" />
 
             <TextView
@@ -47,7 +46,7 @@
         android:weightSum="3">
 
         <Spinner
-            android:id="@+id/projet_spinner_annee"
+            android:id="@+id/projects_spinner_year"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -57,7 +56,7 @@
             android:prompt="@string/projects_spinner_year"/>
 
         <Button
-            android:id="@+id/projet_bouton_liste"
+            android:id="@+id/projects_button_list"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -69,7 +68,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/projet_bouton_nouveau"
+            android:id="@+id/projects_button_new"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -90,17 +89,17 @@
         android:layout_gravity="center">
 
         <include
-            android:id="@+id/project_recyclerview"
+            android:id="@+id/projects_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/recyclerview"
             android:visibility="gone" />
 
         <include
-            android:id="@+id/project_new_layout"
+            android:id="@+id/projects_project_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/project_new_layout"
+            layout="@layout/project_layout"
             android:visibility="visible" />
 
     </LinearLayout>

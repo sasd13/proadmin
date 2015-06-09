@@ -34,7 +34,7 @@
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/relativeLayout_conatainer_imageviews"
+            android:id="@+id/relativelayout_conatainer_imageviews"
             android:layout_width="@dimen/home_relativelayout_container_window_width"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -44,8 +44,8 @@
                 android:id="@+id/imageview_report"
                 android:layout_width="@dimen/home_imageview_dimen"
                 android:layout_height="@dimen/home_imageview_dimen"
-                android:layout_alignLeft="@id/relativeLayout_container_imageviews_project"
-                android:layout_below="@id/relativeLayout_container_imageviews_project"
+                android:layout_alignLeft="@+id/relativelayout_container_imageviews_project"
+                android:layout_below="@id/relativelayout_container_imageviews_project"
                 android:layout_marginTop="@dimen/home_imageview_margin"
                 android:clickable="true"
                 android:src="@drawable/imageview_report" />
@@ -90,7 +90,7 @@
                     android:layout_width="1dp"
                     android:layout_height="120dp"
                     android:layout_alignBaseline="@id/trait_liste_squads"
-                    android:layout_alignRight="@id/imageview_squad"
+                    android:layout_alignRight="@+id/imageview_squad"
                     android:layout_marginRight="10dp"
                     android:background="#659025" />
 
@@ -107,7 +107,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_container_imageviews_project"
+                android:id="@+id/relativelayout_container_imageviews_project"
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 android:layout_alignParentRight="true" >
@@ -116,8 +116,8 @@
                     android:id="@+id/trait_liste"
                     android:layout_width="42dp"
                     android:layout_height="1dp"
-                    android:layout_alignBottom="@id/imageview_project"
-                    android:layout_alignLeft="@id/imageview_project"
+                    android:layout_alignBottom="@+id/imageview_project"
+                    android:layout_alignLeft="@+id/imageview_project"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="80dp"
                     android:background="#dda600" />
@@ -126,7 +126,7 @@
                     android:id="@+id/trait_nouveau"
                     android:layout_width="1dp"
                     android:layout_height="100dp"
-                    android:layout_alignLeft="@id/imageview_project"
+                    android:layout_alignLeft="@+id/imageview_project"
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="210dp"
                     android:layout_marginLeft="13dp"

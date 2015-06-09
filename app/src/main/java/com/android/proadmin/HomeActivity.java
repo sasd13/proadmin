@@ -22,10 +22,10 @@ public class HomeActivity extends Activity {
 
         setContentView(R.layout.activity_home);
 
-        ImageView imageViewSquad = (ImageView) findViewById(R.id.fen_squad);
-        ImageView imageViewProject = (ImageView) findViewById(R.id.fen_projet);
-        ImageView imageViewReport = (ImageView) findViewById(R.id.fen_report);
-        ImageView imageViewCalendar = (ImageView) findViewById(R.id.fen_calendar);
+        ImageView imageViewSquad = (ImageView) findViewById(R.id.imageview_squad);
+        ImageView imageViewProject = (ImageView) findViewById(R.id.imageview_project);
+        ImageView imageViewReport = (ImageView) findViewById(R.id.imageview_report);
+        ImageView imageViewCalendar = (ImageView) findViewById(R.id.imageview_calendar);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -33,15 +33,15 @@ public class HomeActivity extends Activity {
                 Intent intent;
 
                 switch (v.getId()) {
-                    case R.id.fen_squad:
+                    case R.id.imageview_squad:
                         intent = new Intent(HomeActivity.this, SquadsActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.fen_projet:
+                    case R.id.imageview_project:
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.fen_report:
+                    case R.id.imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
                         startActivity(intent);
                         break;

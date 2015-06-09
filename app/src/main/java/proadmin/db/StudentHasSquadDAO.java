@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * Created by Samir on 02/04/2015.
  */
-class StudentsHaveSquadsDAO extends AbstractDAO {
+class StudentHasSquadDAO extends AbstractDAO {
 
     public static final String STUDENT_HAS_SQUAD_TABLE_NAME = "students_have_squads";
 
     public static final String STUDENT_HAS_SQUAD_STUDENT_ID = "student_id";
     public static final String STUDENT_HAS_SQUAD_SQUAD_ID = "squad_id";
 
-    public StudentsHaveSquadsDAO(Context context, SQLiteDatabase mDb) {
+    public StudentHasSquadDAO(Context context, SQLiteDatabase mDb) {
         super(context, mDb);
     }
 

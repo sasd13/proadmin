@@ -28,9 +28,10 @@ public class DAO {
 
 	private static TeacherDAO teacherDAO;
 	private static ProjectDAO projectDAO;
+	private static ProjectHasYearDAO projectHasYearDAO;
 	private static SquadDAO squadDAO;
 	private static StudentDAO studentDAO;
-	private static StudentsHaveSquadsDAO studentsHaveSquadsDAO;
+	private static StudentHasSquadDAO studentHasSquadDAO;
 	private static ReportDAO reportDAO;
 	private static NoteDAO noteDAO;
 
@@ -47,9 +48,10 @@ public class DAO {
 
 		teacherDAO = new TeacherDAO(context, mDb);
 		projectDAO = new ProjectDAO(context, mDb);
+		projectHasYearDAO = new ProjectHasYearDAO(context, mDb);
 		squadDAO = new SquadDAO(context, mDb);
 		studentDAO = new StudentDAO(context, mDb);
-		studentsHaveSquadsDAO = new StudentsHaveSquadsDAO(context, mDb);
+		studentHasSquadDAO = new StudentHasSquadDAO(context, mDb);
 		reportDAO = new ReportDAO(context, mDb);
 		noteDAO = new NoteDAO(context, mDb);
 
@@ -93,8 +95,12 @@ public class DAO {
 		return teacherDAO.select(email, password);
 	}
 
-	public static void insertProject(Project project) {
-		projectDAO.insert(project);
+	public static void insertProject(Project project, long year) {
+		if (!projectDAO.contains(project.getId())) {
+			projectDAO.insert(project);
+		}
+
+		projectHasYearDAO.insert(project.getId(), year);
 	}
 
 	public static void updateProject(Project project) {
@@ -103,7 +109,13 @@ public class DAO {
 
 	public static void deleteProject(String projectId) {
 		squadDAO.deleteAllOfProject(projectId);
+		projectHasYearDAO.deleteYearsIds(projectId);
 		projectDAO.delete(projectId);
+	}
+
+	public static void deleteProjectFromYear(String projectId, long year) {
+		squadDAO.deleteAllOfYearAndProject(year, projectId);
+		projectHasYearDAO.deleteYearsIds(projectId);
 	}
 
 	public static Project selectProject(String projectId) {
@@ -138,7 +150,7 @@ public class DAO {
 
 	public static void deleteSquad(String squadId) {
 		reportDAO.deleteAllOfSquad(squadId);
-		studentsHaveSquadsDAO.deleteStudentsIds(squadId);
+		studentHasSquadDAO.deleteStudentsIds(squadId);
 		squadDAO.delete(squadId);
 	}
 
@@ -151,11 +163,20 @@ public class DAO {
 			studentDAO.insert(student);
 		}
 
-		studentsHaveSquadsDAO.insert(student.getId(), squadId);
+		studentHasSquadDAO.insert(student.getId(), squadId);
 	}
 
 	public static void updateStudent(Student student) {
 		studentDAO.update(student);
+	}
+
+	public static void deleteStudent(String studentId) {
+		studentHasSquadDAO.deleteSquadsIds(studentId);
+		studentDAO.delete(studentId);
+	}
+
+	public static void deleteStudentFromSquad(String studentId, String squadId) {
+		studentHasSquadDAO.delete(studentId, squadId);
 	}
 
 	public static Student selectStudent(String studentId) {
