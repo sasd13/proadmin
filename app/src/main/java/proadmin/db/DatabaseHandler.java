@@ -118,14 +118,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + "FOREIGN KEY (" + NoteDAO.NOTE_REPORT_ID + ") REFERENCES " + ReportDAO.REPORT_TABLE_NAME + "("+ ReportDAO.REPORT_ID + "), "
                     + "PRIMARY KEY (" + NoteDAO.NOTE_STUDENT_ID + ", " + NoteDAO.NOTE_REPORT_ID + "));";
 
-    /**
-     * Constructor
-     *
-     * @param context
-     * @param name
-     * @param factory
-     * @param version
-     */
+
     public DatabaseHandler(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
@@ -133,7 +126,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
         db.execSQL(TEACHER_TABLE_CREATE);
+        db.execSQL(YEAR_TABLE_CREATE);
         db.execSQL(PROJECT_TABLE_CREATE);
+        db.execSQL(PROJECT_HAS_YEAR_TABLE_CREATE);
 		db.execSQL(SQUAD_TABLE_CREATE);
 		db.execSQL(STUDENT_TABLE_CREATE);
 		db.execSQL(STUDENT_HAS_SQUAD_TABLE_CREATE);
@@ -148,7 +143,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(STUDENT_HAS_SQUAD_TABLE_DROP);
         db.execSQL(STUDENT_TABLE_DROP);
         db.execSQL(SQUAD_TABLE_DROP);
+        db.execSQL(PROJECT_HAS_YEAR_TABLE_DROP);
         db.execSQL(PROJECT_TABLE_DROP);
+        db.execSQL(YEAR_TABLE_DROP);
         db.execSQL(TEACHER_TABLE_DROP);
 
 		onCreate(db);

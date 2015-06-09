@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.ListReports;
-import proadmin.content.MapNotes;
 import proadmin.content.Report;
 
 /**

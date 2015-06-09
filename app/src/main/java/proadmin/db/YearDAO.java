@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import proadmin.content.MapNotes;
+import proadmin.content.ListYears;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -34,6 +34,21 @@ class YearDAO extends AbstractDAO {
 
     public void delete(long year) {
         mDb.delete(YEAR_TABLE_NAME, YEAR_YEAR + " = ?", new String[]{String.valueOf(year)});
+    }
+
+    public ListYears selectAll() {
+        ListYears listYears = new ListYears();
+
+        Cursor cursor = mDb.rawQuery(
+                "select " + YEAR_YEAR
+                        + " from " + YEAR_TABLE_NAME, null);
+
+        if (cursor.moveToNext()) {
+            listYears.add(cursor.getLong(0));
+        }
+        cursor.close();
+
+        return listYears;
     }
 
     public boolean contains(long year) {

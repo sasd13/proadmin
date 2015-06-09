@@ -33,11 +33,6 @@
     <string name="projects_spinner_year">Année</string>
     <string name="projects_button_list">Liste</string>
     <string name="projects_button_new">Nouveau</string>
-    <string name="project_textview_title">Détails du projet</string>
-    <string name="project_textview_year">Année de création</string>
-    <string name="project_textview_id">Identifiant du projet</string>
-    <string name="project_edittext_project_title_hint">Titre</string>
-    <string name="project_textview_description">Description</string>
 
     <!-- Activity Settings -->
     <string name="settings_form_user_textview_validcheckbox_connect">Rester connecté</string>
@@ -74,13 +69,21 @@
     <!-- Grid -->
     <string name="griditem_textview">Item</string>
 
-    <!-- Searchable -->
-    <string name="search_hint">Rechercher</string>
+    <!-- Form project -->
+    <string name="form_project_textview_title">Détails du projet</string>
+    <string name="form_project_textview_year">Année de création</string>
+    <string name="form_project_textview_id">Identifiant du projet</string>
+    <string name="form_project_edittext_project_title_hint">Titre</string>
+    <string name="form_project_textview_description">Description</string>
+    <string name="form_project_button_delete_all">Tout supprimer</string>
 
     <!-- Form user -->
     <string name="form_user_textview_identity">Identité</string>
     <string name="form_user_textview_connection">Connexion</string>
     <string name="form_user_textview_validcheckbox">Valider</string>
+
+    <!-- Searchable -->
+    <string name="search_hint">Rechercher</string>
 
     <!-- Tab -->
     <string name="tabitem_title_textview_name">NOM</string>

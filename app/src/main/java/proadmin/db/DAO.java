@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.util.Iterator;
 
+import proadmin.content.ListYears;
 import proadmin.content.Squad;
 import proadmin.content.MapNotes;
 import proadmin.content.Project;
@@ -27,6 +28,7 @@ public class DAO {
 	protected static DatabaseHandler mHandler = null;
 
 	private static TeacherDAO teacherDAO;
+    private static YearDAO yearDAO;
 	private static ProjectDAO projectDAO;
 	private static ProjectHasYearDAO projectHasYearDAO;
 	private static SquadDAO squadDAO;
@@ -47,6 +49,7 @@ public class DAO {
 		mDb = mHandler.getWritableDatabase();
 
 		teacherDAO = new TeacherDAO(context, mDb);
+        yearDAO = new YearDAO(context, mDb);
 		projectDAO = new ProjectDAO(context, mDb);
 		projectHasYearDAO = new ProjectHasYearDAO(context, mDb);
 		squadDAO = new SquadDAO(context, mDb);
@@ -95,7 +98,20 @@ public class DAO {
 		return teacherDAO.select(email, password);
 	}
 
+    public static void deleteYear(long year) {
+        projectHasYearDAO.deleteProjectsIds(year);
+        yearDAO.delete(year);
+    }
+
+    public static ListYears selectAllYears() {
+        return yearDAO.selectAll();
+    }
+
 	public static void insertProject(Project project, long year) {
+        if (!yearDAO.contains(year)) {
+            yearDAO.insert(year);
+        }
+
 		if (!projectDAO.contains(project.getId())) {
 			projectDAO.insert(project);
 		}
