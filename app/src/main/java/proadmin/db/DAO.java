@@ -5,7 +5,7 @@ import android.content.Context;
 
 import java.util.Iterator;
 
-import proadmin.content.Group;
+import proadmin.content.Squad;
 import proadmin.content.MapNotes;
 import proadmin.content.Project;
 import proadmin.content.Report;
@@ -28,24 +28,28 @@ public class DAO {
 
 	private static TeacherDAO teacherDAO;
 	private static ProjectDAO projectDAO;
-	private static GroupDAO groupDAO;
+	private static SquadDAO squadDAO;
 	private static StudentDAO studentDAO;
-	private static StudentHasGroupDAO studentHasGroupDAO;
+	private static StudentsHaveSquadsDAO studentsHaveSquadsDAO;
 	private static ReportDAO reportDAO;
 	private static NoteDAO noteDAO;
 
 	protected DAO() {}
 
+	//Methode d'ouverture de la base de donnees
+	public static void create(Context context) {
+		mHandler = new DatabaseHandler(context, NOM, null, VERSION);
+    }
+
     //Methode d'ouverture de la base de donnees
 	public static SQLiteDatabase open(Context context) {
-		mHandler = new DatabaseHandler(context, NOM, null, VERSION);
 		mDb = mHandler.getWritableDatabase();
 
 		teacherDAO = new TeacherDAO(context, mDb);
 		projectDAO = new ProjectDAO(context, mDb);
-		groupDAO = new GroupDAO(context, mDb);
+		squadDAO = new SquadDAO(context, mDb);
 		studentDAO = new StudentDAO(context, mDb);
-		studentHasGroupDAO = new StudentHasGroupDAO(context, mDb);
+		studentsHaveSquadsDAO = new StudentsHaveSquadsDAO(context, mDb);
 		reportDAO = new ReportDAO(context, mDb);
 		noteDAO = new NoteDAO(context, mDb);
 
@@ -77,7 +81,7 @@ public class DAO {
 	}
 
 	public static void deleteTeacher(String teacherId) {
-		groupDAO.deleteAllOfTeacher(teacherId);
+		squadDAO.deleteAllOfTeacher(teacherId);
 		teacherDAO.delete(teacherId);
 	}
 
@@ -98,7 +102,7 @@ public class DAO {
 	}
 
 	public static void deleteProject(String projectId) {
-		groupDAO.deleteAllOfProject(projectId);
+		squadDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
@@ -106,48 +110,48 @@ public class DAO {
 		return projectDAO.select(projectId);
 	}
 
-	public static void insertGroup(Group group) {
-		long rowId = groupDAO.insert(group);
+	public static void insertSquad(Squad squad) {
+		long rowId = squadDAO.insert(squad);
 
 		if (rowId > 0) {
-			Iterator it = group.getListStudents().iterator();
+			Iterator it = squad.getListStudents().iterator();
 
 			Student student;
 			while (it.hasNext()) {
 				student = (Student) it.next();
-				insertStudent(student, group.getId());
+				insertStudent(student, squad.getId());
 			}
 
-			it = group.getListReports().iterator();
+			it = squad.getListReports().iterator();
 
 			Report report;
 			while (it.hasNext()) {
 				report = (Report) it.next();
-				insertReport(report, group.getId());
+				insertReport(report, squad.getId());
 			}
 		}
 	}
 
-	public static void updateGroup(Group group) {
-		groupDAO.update(group);
+	public static void updateSquad(Squad squad) {
+		squadDAO.update(squad);
 	}
 
-	public static void deleteGroup(String groupId) {
-		reportDAO.deleteAllOfGroup(groupId);
-		studentHasGroupDAO.deleteStudentsIds(groupId);
-		groupDAO.delete(groupId);
+	public static void deleteSquad(String squadId) {
+		reportDAO.deleteAllOfSquad(squadId);
+		studentsHaveSquadsDAO.deleteStudentsIds(squadId);
+		squadDAO.delete(squadId);
 	}
 
-	public static Group selectGroup(String groupId) {
-		return groupDAO.select(groupId);
+	public static Squad selectSquad(String squadId) {
+		return squadDAO.select(squadId);
 	}
 
-	public static void insertStudent(Student student, String groupId) {
+	public static void insertStudent(Student student, String squadId) {
 		if (!studentDAO.contains(student.getId())) {
 			studentDAO.insert(student);
 		}
 
-		studentHasGroupDAO.insert(student.getId(), groupId);
+		studentsHaveSquadsDAO.insert(student.getId(), squadId);
 	}
 
 	public static void updateStudent(Student student) {
@@ -158,12 +162,12 @@ public class DAO {
 		return studentDAO.select(studentId);
 	}
 
-	public static void insertReport(Report report, String groupId) {
-		reportDAO.insert(report, groupId);
+	public static void insertReport(Report report, String squadId) {
+		reportDAO.insert(report, squadId);
 	}
 
-	public static void updateReport(Report report, String groupeId) {
-		reportDAO.update(report, groupeId);
+	public static void updateReport(Report report, String squadId) {
+		reportDAO.update(report, squadId);
 	}
 
 	public static void deleteReport(String reportId) {

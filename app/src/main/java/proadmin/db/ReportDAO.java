@@ -14,27 +14,27 @@ import proadmin.content.Report;
  */
 class ReportDAO extends AbstractDAO {
 
-    public static final String REPORT_TABLE_NAME = "report";
+    public static final String REPORT_TABLE_NAME = "reports";
 
-    public static final String REPORT_ID = "id";
+    public static final String REPORT_ID = "report_id";
     public static final String REPORT_NUMBER_WEEK = "number_week";
     public static final String REPORT_PLANNING_NOTE = "planning_note";
     public static final String REPORT_PLANNING_COMMENT = "planning_comment";
     public static final String REPORT_COMMUNICATION_NOTE = "communication_note";
     public static final String REPORT_COMMUNICATION_COMMENT = "communication_comment";
-    public static final String REPORT_COMMENT = "comment";
-    public static final String REPORT_GROUP_ID = "report_id";
+    public static final String REPORT_COMMENT = "report_comment";
+    public static final String REPORT_SQUAD_ID = "squad_id";
     public static final String REPORT_STUDENT_ID = "student_id";
 
     public ReportDAO(Context context, SQLiteDatabase mDb) {
         super(context, mDb);
     }
 
-    public long insert(Report report, String groupId) {
-        return mDb.insert(REPORT_TABLE_NAME, null, getContentValues(report, groupId));
+    public long insert(Report report, String squadId) {
+        return mDb.insert(REPORT_TABLE_NAME, null, getContentValues(report, squadId));
     }
 
-    private ContentValues getContentValues(Report report, String groupId) {
+    private ContentValues getContentValues(Report report, String squadId) {
         ContentValues values = new ContentValues();
 
         values.put(REPORT_ID, report.getId());
@@ -44,22 +44,22 @@ class ReportDAO extends AbstractDAO {
         values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationNote());
         values.put(REPORT_COMMUNICATION_COMMENT, report.getCommunicationComment());
         values.put(REPORT_COMMENT, report.getComment());
-        values.put(REPORT_GROUP_ID, groupId);
+        values.put(REPORT_SQUAD_ID, squadId);
         values.put(REPORT_STUDENT_ID, report.getProjectLeadId());
 
         return values;
     }
 
-    public void update(Report report, String groupId) {
-        mDb.update(REPORT_TABLE_NAME, getContentValues(report, groupId), REPORT_ID + " = ?", new String[]{report.getId()});
+    public void update(Report report, String squadId) {
+        mDb.update(REPORT_TABLE_NAME, getContentValues(report, squadId), REPORT_ID + " = ?", new String[]{report.getId()});
     }
 
     public void delete(String reportId) {
         mDb.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId});
     }
 
-    public void deleteAllOfGroup(String groupId) {
-        mDb.delete(REPORT_TABLE_NAME, REPORT_GROUP_ID + " = ?", new String[]{groupId});
+    public void deleteAllOfSquad(String squadId) {
+        mDb.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId});
     }
 
     public Report select(String reportId) {
@@ -90,7 +90,7 @@ class ReportDAO extends AbstractDAO {
         return report;
     }
 
-    public ListReports selectAllOfGroup(String groupId) {
+    public ListReports selectAllOfSquad(String squadId) {
         ListReports listReports = new ListReports();
 
         Cursor cursor = mDb.rawQuery(
@@ -100,7 +100,7 @@ class ReportDAO extends AbstractDAO {
                         + ", " + REPORT_COMMENT
                         + ", " + REPORT_STUDENT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_GROUP_ID + " = ?", new String[]{groupId});
+                        + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId});
 
         Report report;
 

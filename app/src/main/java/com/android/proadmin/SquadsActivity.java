@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.example.proadmin.R;
 
-public class GroupsActivity extends ActionBarActivity {
+public class SquadsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

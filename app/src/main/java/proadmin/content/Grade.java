@@ -3,7 +3,7 @@ package proadmin.content;
 /**
  * Created by Samir on 04/06/2015.
  */
-public enum Level {
+public enum Grade {
     L1,
     L2,
     L3,

@@ -248,7 +248,7 @@
                                 android:textSize="12sp" />
 
                             <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_groupes"
+                                android:id="@+id/config_demarrage_radioButton_squads"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp" />

@@ -16,23 +16,21 @@ import android.widget.TextView;
 
 import com.example.proadmin.R;
 
+import proadmin.constant.Extra;
+import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
-import proadmin.tool.FormValidator;
-import proadmin.tool.FormValidatorCode;
-import proadmin.tool.Session;
+import proadmin.session.Session;
 
 public class LogInActivity extends ActionBarActivity {
 
     private static final int LOADING_TIME_OUT = 2000;
-    private Handler handler;
-    private Runnable runnable;
 
     private class ViewHolder {
-        public EditText loginEditText, passwordEditText;
-        public Button connectButton;
+        public EditText editTextLogin, editTextPassword;
+        public Button buttonLogin;
     }
 
-    private ViewHolder form;
+    private ViewHolder formUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,18 +40,18 @@ public class LogInActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         //Set User form
-        this.form = new ViewHolder();
+        this.formUser = new ViewHolder();
 
-        this.form.loginEditText = (EditText) findViewById(R.id.login_edittext_email);
-        this.form.passwordEditText = (EditText) findViewById(R.id.login_edittext_password);
+        this.formUser.editTextLogin = (EditText) findViewById(R.id.login_edittext_email);
+        this.formUser.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
 
-        this.form.connectButton = (Button) findViewById(R.id.login_button_connect);
-        this.form.connectButton.setOnClickListener(new View.OnClickListener() {
+        this.formUser.buttonLogin = (Button) findViewById(R.id.login_button_connect);
+        this.formUser.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (form.loginEditText.getText().toString().trim().length() > 0
-                        && form.passwordEditText.getText().toString().trim().length() > 0) {
-                    startConnection();
+                if (formUser.editTextLogin.getText().toString().trim().length() > 0
+                        && formUser.editTextPassword.getText().toString().trim().length() > 0) {
+                    logIn();
                 }
             }
         });
@@ -95,6 +93,26 @@ public class LogInActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(getIntent().hasExtra(Extra.CLOSE) && getIntent().getBooleanExtra(Extra.CLOSE, false) == true) {
+            getIntent().removeExtra(Extra.CLOSE);
+
+            if(getIntent().hasExtra(Extra.TEACHER_FIRSTNAME)) {
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Extra.WELCOME, true);
+                intent.putExtra(Extra.TEACHER_FIRSTNAME, getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME));
+
+                startActivity(intent);
+            }
+
+            finish();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
@@ -110,23 +128,14 @@ public class LogInActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startConnection() {
-        String login = this.form.loginEditText.getEditableText().toString();
-        String password = this.form.passwordEditText.getEditableText().toString();
+    public void logIn() {
+        String login = this.formUser.editTextLogin.getEditableText().toString();
+        String password = this.formUser.editTextPassword.getEditableText().toString();
 
-        boolean connected = false;
-        FormValidatorCode codeEmail = FormValidator.validEmail(login);
-        if(codeEmail == FormValidatorCode.OK) {
-            connected = Session.logIn(login, password);
-        }
+        boolean connected = Session.logIn(login, password);
 
         if(!connected) {
-            CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_ONEBUTTON_OK);
-            builder.setTitle(R.string.login_alertdialog_login_title_error)
-                    .setMessage(R.string.login_alertdialog_login_message_error)
-                    .setNeutralButton(null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            CustomDialog.showDialog(this, R.string.login_alertdialog_login_title_error, R.string.login_alertdialog_login_message_error, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
         } else {
             CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
             final AlertDialog dialog = builder.create();
@@ -134,7 +143,7 @@ public class LogInActivity extends ActionBarActivity {
             final Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            this.runnable = new Runnable() {
+            Runnable runnable = new Runnable() {
 
                 @Override
                 public void run() {
@@ -144,8 +153,8 @@ public class LogInActivity extends ActionBarActivity {
                 }
             };
             
-            this.handler = new Handler();
-            this.handler.postDelayed(this.runnable, LOADING_TIME_OUT);
+            Handler handler = new Handler();
+            handler.postDelayed(runnable, LOADING_TIME_OUT);
             dialog.show();
         }
     }

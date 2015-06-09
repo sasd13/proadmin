@@ -9,7 +9,7 @@ import com.example.proadmin.R;
 import java.util.ArrayList;
 
 /**
- * <b>AbstractRecycler is a container class for a group of elements (AbstractRecyclerItem)</b>
+ * <b>AbstractRecycler is a container class for a squad of elements (AbstractRecyclerItem)</b>
  * <p>
  * A container has :
  * <ul>

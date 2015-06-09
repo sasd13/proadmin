@@ -12,13 +12,13 @@ import proadmin.content.Teacher;
  */
 class TeacherDAO extends AbstractDAO {
 
-    public static final String TEACHER_TABLE_NAME = "teacher";
+    public static final String TEACHER_TABLE_NAME = "teachers";
 
-    public static final String TEACHER_ID = "id";
+    public static final String TEACHER_ID = "teacher_id";
     public static final String TEACHER_FIRSTNAME = "first_name";
     public static final String TEACHER_LASTNAME = "last_name";
     public static final String TEACHER_EMAIL = "email";
-    public static final String TEACHER_PASSWORD = "password";
+    public static final String TEACHER_PASSWORD = "pwd";
 
     public TeacherDAO(Context context, SQLiteDatabase mDb) {
         super(context, mDb);

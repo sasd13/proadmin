@@ -3,14 +3,14 @@ package proadmin.content;
 public class Project {
 
     private String id, title, description;
-    private Level level;
+    private Grade grade;
 
     public Project() {}
 	
-	public Project(String id, String title, Level level, String description) {
+	public Project(String id, String title, Grade grade, String description) {
         this.id = id;
         this.title = title;
-        this.level = level;
+        this.grade = grade;
         this.description = description;
     }
 
@@ -30,12 +30,12 @@ public class Project {
         this.title = title;
     }
 
-    public Level getLevel() {
-        return this.level;
+    public Grade getGrade() {
+        return this.grade;
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public String getDescription() {

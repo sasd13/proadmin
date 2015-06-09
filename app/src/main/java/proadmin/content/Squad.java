@@ -1,6 +1,6 @@
 package proadmin.content;
 
-public class Group {
+public class Squad {
 
     private String id;
     private long year;
@@ -9,9 +9,9 @@ public class Group {
     private ListStudents listStudents;
     private ListReports listReports;
 
-    public Group() {}
+    public Squad() {}
 
-    public Group(String id, long year, Project project, Teacher teacher) {
+    public Squad(String id, long year, Project project, Teacher teacher) {
         this.id = id;
         this.year = year;
         this.project = project;

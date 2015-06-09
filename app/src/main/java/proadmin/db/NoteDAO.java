@@ -12,7 +12,7 @@ import proadmin.content.MapNotes;
  */
 class NoteDAO extends AbstractDAO {
 
-    public static final String NOTE_TABLE_NAME = "note";
+    public static final String NOTE_TABLE_NAME = "notes";
 
     public static final String NOTE_NOTE = "note";
     public static final String NOTE_STUDENT_ID = "student_id";

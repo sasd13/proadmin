@@ -10,7 +10,8 @@ import android.widget.ImageView;
 
 import com.example.proadmin.R;
 
-import proadmin.tool.Session;
+import proadmin.db.DAO;
+import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
 
@@ -34,6 +35,7 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
+        DAO.create(this);
         Session.start(this);
 
         if (Session.isTeacherLogged()) {

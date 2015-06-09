@@ -2,53 +2,78 @@ package com.android.proadmin;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.ImageView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.proadmin.R;
+
+import proadmin.constant.Extra;
+import proadmin.gui.widget.CustomDialog;
+import proadmin.gui.widget.CustomDialogBuilder;
 
 public class HomeActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.page_principale);
-        /*
-        ImageView imageViewGroup = (ImageView) findViewById(R.id.fen_groupe);
+
+        setContentView(R.layout.activity_home);
+
+        ImageView imageViewSquad = (ImageView) findViewById(R.id.fen_squad);
         ImageView imageViewProject = (ImageView) findViewById(R.id.fen_projet);
-        ImageView imageViewReport = (ImageView) findViewById(R.id.fen_fiche);
+        ImageView imageViewReport = (ImageView) findViewById(R.id.fen_report);
         ImageView imageViewCalendar = (ImageView) findViewById(R.id.fen_calendar);
 
-        OnClickListener monEcouteur = new OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent;
+
                 switch (v.getId()) {
-                    case R.id.fen_groupe:
-                        Intent intentSurGroupe = new Intent(getApplicationContext(), GroupsActivity.class);
-                        startActivity(intentSurGroupe);
+                    case R.id.fen_squad:
+                        intent = new Intent(HomeActivity.this, SquadsActivity.class);
+                        startActivity(intent);
                         break;
-                    case R.id.fen_projet: // 2.a.b ...
-                        Intent intentSurProjet = new Intent(getApplicationContext(), ProjectsActivity.class);
-                        startActivity(intentSurProjet);
+                    case R.id.fen_projet:
+                        intent = new Intent(HomeActivity.this, ProjectsActivity.class);
+                        startActivity(intent);
                         break;
-                    case R.id.fen_fiche: // 2.a.c ...
-                        Intent intentSurFiche = new Intent(getApplicationContext(), ReportsActivity.class);
-                        startActivity(intentSurFiche);
+                    case R.id.fen_report:
+                        intent = new Intent(HomeActivity.this, ReportsActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
         };
 
-        imageViewGroup.setOnClickListener(monEcouteur);
-        imageViewProject.setOnClickListener(monEcouteur);
-        imageViewReport.setOnClickListener(monEcouteur);
-        imageViewCalendar.setOnClickListener(monEcouteur);
-        */
+        imageViewSquad.setOnClickListener(listener);
+        imageViewProject.setOnClickListener(listener);
+        imageViewReport.setOnClickListener(listener);
+        imageViewCalendar.setOnClickListener(listener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (getIntent().hasExtra(Extra.WELCOME) && getIntent().getBooleanExtra(Extra.WELCOME, false)) {
+            getIntent().removeExtra(Extra.WELCOME);
+
+            CharSequence firstName = getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME);
+            CustomDialog.showDialog(
+                    this,
+                    getResources().getString(R.string.home_alertdialog_welcome_title),
+                    getResources().getString(R.string.home_alertdialog_welcome_message) + " " + firstName + " !",
+                    CustomDialogBuilder.TYPE_ONEBUTTON_OK,
+                    null);
+        } else if (getIntent().hasExtra(Extra.EXIT) && getIntent().getBooleanExtra(Extra.EXIT, false)) {
+            getIntent().removeExtra(Extra.EXIT);
+
+            finish();
+        }
     }
 
     @Override

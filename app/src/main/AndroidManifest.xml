@@ -32,6 +32,26 @@
             android:name="com.android.proadmin.RestorePasswordActivity"
             android:label="@string/activity_restorepassword_name" >
         </activity>
+
+        <activity
+            android:name="com.android.proadmin.HomeActivity"
+            android:label="@string/activity_home_name" >
+        </activity>
+
+        <activity
+            android:name="com.android.proadmin.ProjectsActivity"
+            android:label="@string/activity_projects_name" >
+        </activity>
+
+        <activity
+            android:name="com.android.proadmin.SquadsActivity"
+            android:label="@string/activity_squads_name" >
+        </activity>
+
+        <activity
+            android:name="com.android.proadmin.ReportsActivity"
+            android:label="@string/activity_reports_name" >
+        </activity>
     </application>
 
 </manifest>

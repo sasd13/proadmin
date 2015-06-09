@@ -12,11 +12,11 @@ import proadmin.content.Student;
  */
 class StudentDAO extends AbstractDAO {
 
-    public static final String STUDENT_TABLE_NAME = "student";
+    public static final String STUDENT_TABLE_NAME = "students";
 
-    public static final String STUDENT_ID = "id";
-    public static final String STUDENT_FIRSTNAME = "firstname";
-    public static final String STUDENT_LASTNAME = "lastname";
+    public static final String STUDENT_ID = "student_id";
+    public static final String STUDENT_FIRSTNAME = "first_name";
+    public static final String STUDENT_LASTNAME = "last_name";
     public static final String STUDENT_EMAIL = "email";
 
     public StudentDAO(Context context, SQLiteDatabase mDb) {
