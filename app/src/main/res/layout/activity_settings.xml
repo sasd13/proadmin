@@ -32,8 +32,7 @@
                         android:layout_width="28dp"
                         android:layout_height="30dp"
                         android:background="#337caa"
-                        android:contentDescription="@+id/attribut_Todo"
-                        android:src="@drawable/fen_param" />
+                        android:contentDescription="@+id/attribut_Todo" />
 
                     <TextView
                         android:id="@+id/textView1"

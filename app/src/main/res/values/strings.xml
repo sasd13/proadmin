@@ -30,6 +30,15 @@
     <string name="signup_alertdialog_signup_title_error">Erreur inscription</string>
     <string name="signup_alertdialog_signup_message_error">Remplir le formulaire d\'inscription</string>
 
+    <!-- Activity Projects -->
+    <string name="projects_spinner_year">Année</string>
+    <string name="projects_button_list">Liste</string>
+    <string name="projects_button_new">Nouveau</string>
+    <string name="project_new_textview_title">Détails du projet</string>
+    <string name="project_new_textview_project_year">Année de création</string>
+    <string name="project_new_textview_project_id">Identifiant du projet</string>
+    <string name="project_new_edittext_project_title_hint">Titre</string>
+
     <!-- Activity Settings -->
     <string name="settings_form_user_textview_validcheckbox_connect">Rester connecté</string>
     <string name="settings_form_user_button_logout">Déconnexion</string>

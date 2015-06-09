@@ -27,11 +27,11 @@ public class SignUpActivity extends ActionBarActivity {
     private static final int SIGNUP_TIME_OUT = 2000;
 
     private class ViewHolder {
-        public EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
-        public CheckBox validCheckBox;
+        public EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
+        public CheckBox checkBoxValid;
     }
 
-    private ViewHolder form;
+    private ViewHolder formUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,15 +39,15 @@ public class SignUpActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_signup);
 
-        //Set User form
-        this.form = new ViewHolder();
+        //Set Form user
+        this.formUser = new ViewHolder();
 
-        this.form.firstNameEditText = (EditText) findViewById(R.id.form_user_edittext_firstname);
-        this.form.lastNameEditText = (EditText) findViewById(R.id.form_user_edittext_lastname);
-        this.form.emailEditText = (EditText) findViewById(R.id.form_user_edittext_email);
-        this.form.passwordEditText = (EditText) findViewById(R.id.form_user_edittext_password);
-        this.form.confirmPasswordEditText = (EditText) findViewById(R.id.form_user_edittext_confirmpassword);
-        this.form.validCheckBox = (CheckBox) findViewById(R.id.signup_form_user_checkbox_valid);
+        this.formUser.editTextFirstName = (EditText) findViewById(R.id.form_user_edittext_firstname);
+        this.formUser.editTextLastName = (EditText) findViewById(R.id.form_user_edittext_lastname);
+        this.formUser.editTextEmail = (EditText) findViewById(R.id.form_user_edittext_email);
+        this.formUser.editTextPassword = (EditText) findViewById(R.id.form_user_edittext_password);
+        this.formUser.editTextConfirmPassword = (EditText) findViewById(R.id.form_user_edittext_confirmpassword);
+        this.formUser.checkBoxValid = (CheckBox) findViewById(R.id.signup_form_user_checkbox_valid);
 
         Button buttonSave = (Button) findViewById(R.id.signup_button_save);
         buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -99,14 +99,14 @@ public class SignUpActivity extends ActionBarActivity {
     private Teacher validForm() {
         Teacher teacher = null;
 
-        String firstName = this.form.firstNameEditText.getEditableText().toString().trim();
-        String lastName = this.form.lastNameEditText.getEditableText().toString().trim();
-        String email = this.form.emailEditText.getEditableText().toString().trim();
-        String password = this.form.passwordEditText.getEditableText().toString().trim();
-        String confirmPassword = this.form.confirmPasswordEditText.getEditableText().toString().trim();
-        Boolean validCheckBox = this.form.validCheckBox.isChecked();
+        String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
+        String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
+        String email = this.formUser.editTextEmail.getEditableText().toString().trim();
+        String password = this.formUser.editTextPassword.getEditableText().toString().trim();
+        String confirmPassword = this.formUser.editTextConfirmPassword.getEditableText().toString().trim();
+        Boolean checkBoxValid = this.formUser.checkBoxValid.isChecked();
 
-        String message = FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, validCheckBox);
+        String message = FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, checkBoxValid);
 
         if (message != null ) {
             CustomDialog.showDialog(this, "Erreur formulaire", message, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);

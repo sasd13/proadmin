@@ -2,27 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     android:orientation="vertical"
     android:scrollbars="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="#dda600"
+        android:layout_height="wrap_content"
+        android:background="@color/customOrange"
         android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/home_textView_title"
                 android:layout_width="match_parent"
-                android:layout_height="28dp"
-                android:background="#337caa"
+                android:layout_height="@dimen/home_textview_title_height"
+                android:background="@color/customBlue"
                 android:gravity="center|right"
-                android:paddingRight="20dp"
+                android:layout_marginTop="@dimen/home_textview_title_verticalmargin"
+                android:layout_marginBottom="@dimen/home_textview_title_verticalmargin"
+                android:paddingRight="@dimen/home_textview_title_paddingright"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffff"
-                android:textSize="12sp" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize_small" />
 
         </LinearLayout>
 
@@ -32,41 +34,41 @@
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/relativeLayout_conteneur_fenetres"
-            android:layout_width="270dp"
+            android:id="@+id/relativeLayout_conatainer_imageviews"
+            android:layout_width="@dimen/home_relativelayout_container_window_width"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center|center_horizontal|center_vertical" >
 
             <ImageView
-                android:id="@+id/fen_report"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignLeft="@+id/relativeLayout_fenetre_projet"
-                android:layout_below="@+id/relativeLayout_fenetre_projet"
-                android:layout_marginTop="10dp"
+                android:id="@+id/imageview_report"
+                android:layout_width="@dimen/home_imageview_dimen"
+                android:layout_height="@dimen/home_imageview_dimen"
+                android:layout_alignLeft="@id/relativeLayout_container_imageviews_project"
+                android:layout_below="@id/relativeLayout_container_imageviews_project"
+                android:layout_marginTop="@dimen/home_imageview_margin"
                 android:clickable="true"
-                android:src="@drawable/fen_report" />
+                android:src="@drawable/imageview_report" />
 
             <ImageView
-                android:id="@+id/fen_calendar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_above="@+id/fen_report"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/fen_report"
+                android:id="@+id/imageview_calendar"
+                android:layout_width="@dimen/home_imageview_dimen"
+                android:layout_height="@dimen/home_imageview_dimen"
+                android:layout_above="@id/imageview_report"
+                android:layout_marginRight="@dimen/home_imageview_margin"
+                android:layout_toLeftOf="@id/imageview_report"
                 android:animation="@anim/anim1"
                 android:clickable="true"
-                android:layoutAnimation="@anim/animation_page_principale"
+                android:layoutAnimation="@anim/animation_home"
                 android:persistentDrawingCache="animation|scrolling"
-                android:src="@drawable/fen_calendar" />
+                android:src="@drawable/imageview_calendar" />
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_fenetre_squads"
+                android:id="@+id/relativeLayout_container_imageviews_squad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/fen_calendar"
-                android:layout_alignTop="@+id/fen_report" >
+                android:layout_alignRight="@id/imageview_calendar"
+                android:layout_alignTop="@id/imageview_report" >
 
                 <View
                     android:id="@+id/trait_liste_squads"
@@ -88,24 +90,24 @@
                     android:layout_width="1dp"
                     android:layout_height="120dp"
                     android:layout_alignBaseline="@id/trait_liste_squads"
-                    android:layout_alignRight="@+id/fen_squad"
+                    android:layout_alignRight="@id/imageview_squad"
                     android:layout_marginRight="10dp"
                     android:background="#659025" />
 
                 <ImageView
-                    android:id="@+id/fen_squad"
+                    android:id="@+id/imageview_squad"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="30dp"
                     android:clickable="true"
-                    android:src="@drawable/fen_squad" />
+                    android:src="@drawable/imageview_squad" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_fenetre_projet"
+                android:id="@+id/relativeLayout_container_imageviews_project"
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 android:layout_alignParentRight="true" >
@@ -114,8 +116,8 @@
                     android:id="@+id/trait_liste"
                     android:layout_width="42dp"
                     android:layout_height="1dp"
-                    android:layout_alignBottom="@+id/fen_projet"
-                    android:layout_alignLeft="@+id/fen_projet"
+                    android:layout_alignBottom="@id/imageview_project"
+                    android:layout_alignLeft="@id/imageview_project"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="80dp"
                     android:background="#dda600" />
@@ -124,20 +126,20 @@
                     android:id="@+id/trait_nouveau"
                     android:layout_width="1dp"
                     android:layout_height="100dp"
-                    android:layout_alignLeft="@+id/fen_projet"
+                    android:layout_alignLeft="@id/imageview_project"
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="210dp"
                     android:layout_marginLeft="13dp"
                     android:background="#dda600" />
 
                 <ImageView
-                    android:id="@+id/fen_projet"
+                    android:id="@+id/imageview_project"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:clickable="true"
-                    android:src="@drawable/fen_projet" />
+                    android:src="@drawable/imageview_project" />
 
             </RelativeLayout>
 
