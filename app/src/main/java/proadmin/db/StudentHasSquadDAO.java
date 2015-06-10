@@ -35,11 +35,11 @@ class StudentHasSquadDAO extends AbstractDAO {
         return values;
     }
 
-    public void deleteStudentsIds(String squadId) {
+    public void deleteAllOfSquad(String squadId) {
         mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId});
     }
 
-    public void deleteSquadsIds(String studentId) {
+    public void deleteAllOfStudent(String studentId) {
         mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId});
     }
 
@@ -47,7 +47,7 @@ class StudentHasSquadDAO extends AbstractDAO {
         mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId, squadId});
     }
 
-    public List<String> selectStudentsIds(String squadId) {
+    public List<String> selectAllOfSquad(String squadId) {
         List<String> listIds = new ArrayList<>();
 
         Cursor cursor = mDb.rawQuery(
@@ -63,7 +63,7 @@ class StudentHasSquadDAO extends AbstractDAO {
         return listIds;
     }
 
-    public List<String> selectSquadsIds(String studentId) {
+    public List<String> selectAllOfStudent(String studentId) {
         List<String> listIds = new ArrayList<>();
 
         Cursor cursor = mDb.rawQuery(

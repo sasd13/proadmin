@@ -2,6 +2,8 @@ package proadmin.content;
 
 public class Squad {
 
+    private static int count = 0;
+
     private String id;
     private long year;
     private Project project;
@@ -9,10 +11,14 @@ public class Squad {
     private ListStudents listStudents;
     private ListReports listReports;
 
-    public Squad() {}
+    public Squad() {
+        count++;
+    }
 
-    public Squad(String id, long year, Project project, Teacher teacher) {
-        this.id = id;
+    public Squad(long year, Project project, Teacher teacher) {
+        count++;
+
+        this.id = "id-squad-" + count;
         this.year = year;
         this.project = project;
         this.teacher = teacher;

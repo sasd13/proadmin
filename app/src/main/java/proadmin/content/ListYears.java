@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Samir on 09/06/2015.
  */
-public class ListYears implements Iterable {
+public class ListYears implements Iterable, Viewable {
 
     private List<Long> listYears;
 
@@ -38,5 +38,16 @@ public class ListYears implements Iterable {
     @Override
     public Iterator iterator() {
         return this.listYears.iterator();
+    }
+
+    @Override
+    public List<String> getListSrings() {
+        List<String> listStrings = new ArrayList<>();
+
+        for(Long year : this.listYears) {
+            listStrings.add(year.toString());
+        }
+
+        return listStrings;
     }
 }

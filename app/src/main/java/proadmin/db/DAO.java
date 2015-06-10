@@ -4,7 +4,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
 import java.util.Iterator;
+import java.util.List;
 
+import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
 import proadmin.content.Squad;
 import proadmin.content.MapNotes;
@@ -74,12 +76,8 @@ public class DAO {
 	public static boolean insertTeacher(Teacher teacher) {
 		long rowId = teacherDAO.insert(teacher);
 
-		if (rowId > 0) {
-			return true;
-		}
-
-		return false;
-	}
+        return rowId > 0;
+    }
 
 	public static void updateTeacher(Teacher teacher) {
 		teacherDAO.update(teacher);
@@ -99,15 +97,15 @@ public class DAO {
 	}
 
     public static void deleteYear(long year) {
-        projectHasYearDAO.deleteProjectsIds(year);
+        projectHasYearDAO.deleteAllOfYear(year);
         yearDAO.delete(year);
     }
 
-    public static ListYears selectAllYears() {
+    public static ListYears selectYears() {
         return yearDAO.selectAll();
     }
 
-	public static void insertProject(Project project, long year) {
+	public static boolean insertProject(Project project, long year) {
         if (!yearDAO.contains(year)) {
             yearDAO.insert(year);
         }
@@ -116,7 +114,9 @@ public class DAO {
 			projectDAO.insert(project);
 		}
 
-		projectHasYearDAO.insert(project.getId(), year);
+		long rowId = projectHasYearDAO.insert(project.getId(), year);
+
+        return rowId > 0;
 	}
 
 	public static void updateProject(Project project) {
@@ -125,20 +125,31 @@ public class DAO {
 
 	public static void deleteProject(String projectId) {
 		squadDAO.deleteAllOfProject(projectId);
-		projectHasYearDAO.deleteYearsIds(projectId);
+		projectHasYearDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
 	public static void deleteProjectFromYear(String projectId, long year) {
 		squadDAO.deleteAllOfYearAndProject(year, projectId);
-		projectHasYearDAO.deleteYearsIds(projectId);
+		projectHasYearDAO.deleteAllOfProject(projectId);
 	}
 
 	public static Project selectProject(String projectId) {
 		return projectDAO.select(projectId);
 	}
 
-	public static void insertSquad(Squad squad) {
+    public static ListProjects selectProjectsOfYear(long year) {
+        ListProjects listProjects = new ListProjects();
+
+        List<String> listProjectIds = projectHasYearDAO.selectAllOfYear(year);
+        for (String projectId : listProjectIds) {
+            listProjects.add(projectDAO.select(projectId));
+        }
+
+        return listProjects;
+    }
+
+	public static boolean insertSquad(Squad squad) {
 		long rowId = squadDAO.insert(squad);
 
 		if (rowId > 0) {
@@ -158,6 +169,8 @@ public class DAO {
 				insertReport(report, squad.getId());
 			}
 		}
+
+        return rowId > 0;
 	}
 
 	public static void updateSquad(Squad squad) {
@@ -166,7 +179,7 @@ public class DAO {
 
 	public static void deleteSquad(String squadId) {
 		reportDAO.deleteAllOfSquad(squadId);
-		studentHasSquadDAO.deleteStudentsIds(squadId);
+		studentHasSquadDAO.deleteAllOfSquad(squadId);
 		squadDAO.delete(squadId);
 	}
 
@@ -174,12 +187,14 @@ public class DAO {
 		return squadDAO.select(squadId);
 	}
 
-	public static void insertStudent(Student student, String squadId) {
+	public static boolean insertStudent(Student student, String squadId) {
 		if (!studentDAO.contains(student.getId())) {
 			studentDAO.insert(student);
 		}
 
-		studentHasSquadDAO.insert(student.getId(), squadId);
+		long rowId = studentHasSquadDAO.insert(student.getId(), squadId);
+
+        return rowId > 0;
 	}
 
 	public static void updateStudent(Student student) {
@@ -187,7 +202,7 @@ public class DAO {
 	}
 
 	public static void deleteStudent(String studentId) {
-		studentHasSquadDAO.deleteSquadsIds(studentId);
+		studentHasSquadDAO.deleteAllOfStudent(studentId);
 		studentDAO.delete(studentId);
 	}
 
@@ -199,8 +214,10 @@ public class DAO {
 		return studentDAO.select(studentId);
 	}
 
-	public static void insertReport(Report report, String squadId) {
-		reportDAO.insert(report, squadId);
+	public static boolean insertReport(Report report, String squadId) {
+		long rowId = reportDAO.insert(report, squadId);
+
+        return rowId > 0;
 	}
 
 	public static void updateReport(Report report, String squadId) {

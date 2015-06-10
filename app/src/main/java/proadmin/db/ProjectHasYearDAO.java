@@ -35,11 +35,11 @@ class ProjectHasYearDAO extends AbstractDAO {
         return values;
     }
 
-    public void deleteProjectsIds(long year) {
+    public void deleteAllOfYear(long year) {
         mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{String.valueOf(year)});
     }
 
-    public void deleteYearsIds(String projectId) {
+    public void deleteAllOfProject(String projectId) {
         mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId});
     }
 
@@ -47,7 +47,7 @@ class ProjectHasYearDAO extends AbstractDAO {
         mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId, String.valueOf(year)});
     }
 
-    public List<String> selectProjectsIds(long year) {
+    public List<String> selectAllOfYear(long year) {
         List<String> listIds = new ArrayList<>();
 
         Cursor cursor = mDb.rawQuery(
@@ -63,7 +63,7 @@ class ProjectHasYearDAO extends AbstractDAO {
         return listIds;
     }
 
-    public List<Long> selectYearsIds(String projectId) {
+    public List<Long> selectAllOfProject(String projectId) {
         List<Long> listIds = new ArrayList<>();
 
         Cursor cursor = mDb.rawQuery(

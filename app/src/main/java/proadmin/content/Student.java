@@ -2,14 +2,15 @@ package proadmin.content;
 
 public class Student extends Person {
 
-    private int count = 0;
+    private static int count = 0;
+
     private String id, email;
 
     public Student() {
         count++;
     }
 	
-	public Student(String id, String firstName, String lastName, String email) {
+	public Student(String firstName, String lastName, String email) {
         super(firstName, lastName);
 
         count++;

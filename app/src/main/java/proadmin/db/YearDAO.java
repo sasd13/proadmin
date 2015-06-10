@@ -41,7 +41,7 @@ class YearDAO extends AbstractDAO {
 
         Cursor cursor = mDb.rawQuery(
                 "select " + YEAR_YEAR
-                        + " from " + YEAR_TABLE_NAME, null);
+                        + " from " + YEAR_TABLE_NAME + " order by desc", null);
 
         if (cursor.moveToNext()) {
             listYears.add(cursor.getLong(0));

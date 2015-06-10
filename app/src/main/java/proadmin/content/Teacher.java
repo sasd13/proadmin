@@ -2,7 +2,8 @@ package proadmin.content;
 
 public class Teacher extends Person {
 
-    private int count = 0;
+    private static int count = 0;
+
     private String id, email, password;
 
     public Teacher() {

@@ -2,16 +2,20 @@ package proadmin.content;
 
 public class Report {
 
+    private static int count = 0;
+
     private String id, projectLeadId, planningComment, communicationComment, comment;
     private long numberWeek, planningNote, communicationNote;
     private MapNotes mapNotes;
 
-    public Report() {}
+    public Report() {
+        count++;
+    }
 
-    public Report(String id, long numberWeek, String projectLeadId) {
-        this();
+    public Report(long numberWeek, String projectLeadId) {
+        count++;
 
-        this.id = id;
+        this.id = "id-report-" + count;
         this.numberWeek = numberWeek;
         this.projectLeadId = projectLeadId;
     }

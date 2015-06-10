@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Samir on 05/06/2015.
  */
-public class ListStudents implements Iterable {
+public class ListStudents implements Iterable, Viewable {
 
     private List<Student> listStudents;
 
@@ -44,5 +44,16 @@ public class ListStudents implements Iterable {
     @Override
     public Iterator iterator() {
         return this.listStudents.iterator();
+    }
+
+    @Override
+    public List<String> getListSrings() {
+        List<String> list = new ArrayList<>();
+
+        for (Student student : this.listStudents) {
+            list.add(student.getFirstName() + " " + student.getLastName());
+        }
+
+        return list;
     }
 }
