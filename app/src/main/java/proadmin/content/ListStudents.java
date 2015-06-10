@@ -27,9 +27,9 @@ public class ListStudents implements Iterable, Viewable {
         return this.listStudents.get(index);
     }
 
-    public Student get(String studentId) {
+    public Student get(Id studentId) {
         for (Student student : this.listStudents) {
-            if (student.getId().compareTo(studentId) == 0) {
+            if (student.getId().equals(studentId)) {
                 return student;
             }
         }

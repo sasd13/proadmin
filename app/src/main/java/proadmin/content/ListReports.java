@@ -27,9 +27,9 @@ public class ListReports implements Iterable {
         return this.listReports.get(index);
     }
 
-    public Report get(String reportId) {
+    public Report get(Id reportId) {
         for (Report report : this.listReports) {
-            if (report.getId().compareTo(reportId) == 0) {
+            if (report.getId().equals(reportId)) {
                 return report;
             }
         }

@@ -1,6 +1,5 @@
 package proadmin.content;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -8,30 +7,30 @@ import java.util.LinkedHashMap;
  */
 public class MapNotes {
 
-    private LinkedHashMap<String, Long> mapNotes;
+    private LinkedHashMap<Id, Note> mapNotes;
 
     public MapNotes() {
         this.mapNotes = new LinkedHashMap<>();
     }
 
-    public void put(String studentId, long note) {
-        this.mapNotes.put(studentId, new Long(note));
+    public void put(Id studentId, Note note) {
+        this.mapNotes.put(studentId, note);
     }
 
-    public void remove(String studentId) {
+    public void remove(Id studentId) {
         this.mapNotes.remove(studentId);
     }
 
-    public long get(String studentId) {
+    public Note get(Id studentId) {
         return this.mapNotes.get(studentId);
     }
 
-    public long get(int index) {
+    public Note get(int index) {
         return this.mapNotes.get(index);
     }
 
-    public String[] getKeys() {
-        return (String[]) this.mapNotes.keySet().toArray();
+    public Id[] getKeys() {
+        return (Id[]) this.mapNotes.keySet().toArray();
     }
 
     public int size() {

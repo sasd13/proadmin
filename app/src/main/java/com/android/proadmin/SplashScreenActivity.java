@@ -38,7 +38,7 @@ public class SplashScreenActivity extends Activity {
         DAO.create(this);
         Session.start(this);
 
-        if (Session.isTeacherLogged()) {
+        if (Session.isLogged()) {
             attachActivity(HomeActivity.class, SPLASH_TIME_OUT);
         } else {
             attachActivity(LogInActivity.class, SPLASH_TIME_OUT);

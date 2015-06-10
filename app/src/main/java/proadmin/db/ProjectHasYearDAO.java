@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import proadmin.content.Id;
 import proadmin.content.ListIds;
 import proadmin.content.ListYears;
+import proadmin.content.Year;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -21,70 +23,70 @@ class ProjectHasYearDAO extends AbstractDAO {
         super(mDb);
     }
 
-    public long insert(String projectId, long year) {
+    public long insert(Id projectId, Year year) {
         return mDb.insert(PROJECT_HAS_YEAR_TABLE_NAME, null, getContentValues(projectId, year));
     }
 
-    private ContentValues getContentValues(String projectId, long year) {
+    private ContentValues getContentValues(Id projectId, Year year) {
         ContentValues values = new ContentValues();
 
-        values.put(PROJECT_HAS_YEAR_PROJECT_ID, projectId);
-        values.put(PROJECT_HAS_YEAR_YEAR_YEAR, year);
+        values.put(PROJECT_HAS_YEAR_PROJECT_ID, projectId.toString());
+        values.put(PROJECT_HAS_YEAR_YEAR_YEAR, year.getValue());
 
         return values;
     }
 
-    public void deleteAllOfYear(long year) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{String.valueOf(year)});
+    public void deleteAllOfYear(Year year) {
+        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
     }
 
-    public void deleteAllOfProject(String projectId) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId});
+    public void deleteAllOfProject(Id projectId) {
+        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
-    public void delete(String projectId, long year) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId, String.valueOf(year)});
+    public void delete(Id projectId, Year year) {
+        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId.toString(), year.toString()});
     }
 
-    public ListIds selectAllOfYear(long year) {
+    public ListIds selectAllOfYear(Year year) {
         ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + PROJECT_HAS_YEAR_PROJECT_ID
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
-                        + " where " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{String.valueOf(year)});
+                        + " where " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
 
         if (cursor.moveToNext()) {
-            listIds.add(cursor.getString(0));
+            listIds.add(new Id(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
     }
 
-    public ListYears selectAllOfProject(String projectId) {
+    public ListYears selectAllOfProject(Id projectId) {
         ListYears listYears = new ListYears();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + PROJECT_HAS_YEAR_YEAR_YEAR
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
-                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId});
+                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
 
         if (cursor.moveToNext()) {
-            listYears.add(cursor.getLong(0));
+            listYears.add(new Year(cursor.getLong(0)));
         }
         cursor.close();
 
         return listYears;
     }
 
-    public boolean contains(String projectId, long year) {
+    public boolean contains(Id projectId, Year year) {
         boolean contains = false;
 
         Cursor cursor = mDb.rawQuery(
                 "select " + PROJECT_HAS_YEAR_PROJECT_ID + ", " + PROJECT_HAS_YEAR_YEAR_YEAR
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
-                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId, String.valueOf(year)});
+                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId.toString(), year.toString()});
 
         if (cursor.moveToNext()) {
             contains = true;

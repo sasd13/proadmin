@@ -9,25 +9,25 @@ import java.util.List;
  */
 public class ListYears implements Iterable, Viewable {
 
-    private List<Long> listYears;
+    private List<Year> listYears;
 
     public ListYears() {
         this.listYears = new ArrayList<>();
     }
 
-    public void add(Long year) {
+    public void add(Year year) {
         this.listYears.add(year);
     }
 
-    public void remove(Long year) {
+    public void remove(Year year) {
         this.listYears.remove(year);
     }
 
-    public Long get(int index) {
+    public Year get(int index) {
         return this.listYears.get(index);
     }
 
-    public boolean contains(Long year) {
+    public boolean contains(Year year) {
         return this.listYears.contains(year);
     }
 
@@ -44,7 +44,7 @@ public class ListYears implements Iterable, Viewable {
     public List<String> getListSrings() {
         List<String> listStrings = new ArrayList<>();
 
-        for(Long year : this.listYears) {
+        for(Year year : this.listYears) {
             listStrings.add(year.toString());
         }
 

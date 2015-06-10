@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import proadmin.content.Id;
 import proadmin.content.Student;
 
 /**
@@ -29,7 +30,7 @@ class StudentDAO extends AbstractDAO {
     private ContentValues getContentValues(Student student) {
         ContentValues values = new ContentValues();
 
-        values.put(STUDENT_ID, student.getId());
+        values.put(STUDENT_ID, student.getId().toString());
         values.put(STUDENT_FIRSTNAME, student.getFirstName());
         values.put(STUDENT_LASTNAME, student.getLastName());
         values.put(STUDENT_EMAIL, student.getEmail());
@@ -38,20 +39,20 @@ class StudentDAO extends AbstractDAO {
     }
 
     public void update(Student student) {
-        mDb.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId()});
+        mDb.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
     }
 
-    public void delete(String studentId) {
-        mDb.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId});
+    public void delete(Id studentId) {
+        mDb.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
-    public Student select(String studentId) {
+    public Student select(Id studentId) {
         Student student = null;
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_FIRSTNAME + ", " + STUDENT_LASTNAME + ", " + STUDENT_EMAIL
                         + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{studentId});
+                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
 
         if (cursor.moveToNext()) {
             student = new Student();
@@ -65,13 +66,13 @@ class StudentDAO extends AbstractDAO {
         return student;
     }
 
-    public boolean contains(String studentId) {
+    public boolean contains(Id studentId) {
         boolean contains = false;
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_ID
                         + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{studentId});
+                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
 
         if (cursor.moveToNext()) {
             contains = true;

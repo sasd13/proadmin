@@ -2,29 +2,25 @@ package proadmin.content;
 
 public class Report {
 
-    private static int count = 0;
-
-    private String id, projectLeadId, planningComment, communicationComment, comment;
-    private long numberWeek, planningNote, communicationNote;
+    private Id id, projectLeadId;
+    private long numberWeek;
+    private String planningComment, communicationComment, comment;
+    private Note planningNote, communicationNote;
     private MapNotes mapNotes;
 
-    public Report() {
-        count++;
-    }
+    public Report() {}
 
-    public Report(long numberWeek, String projectLeadId) {
-        count++;
-
-        this.id = "id-report-" + count;
+    public Report(long numberWeek, Id projectLeadId) {
+        this.id = new Id();
         this.numberWeek = numberWeek;
         this.projectLeadId = projectLeadId;
     }
 
-    public String getId() {
+    public Id getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Id id) {
         this.id = id;
     }
 
@@ -36,19 +32,19 @@ public class Report {
         this.numberWeek = numberWeek;
     }
 
-    public String getProjectLeadId() {
+    public Id getProjectLeadId() {
         return this.projectLeadId;
     }
 
-    public void setProjectLeadId(String projectLeadId) {
+    public void setProjectLeadId(Id projectLeadId) {
         this.projectLeadId = projectLeadId;
     }
 
-    public long getPlanningNote() {
+    public Note getPlanningNote() {
         return this.planningNote;
     }
 
-    public void setPlanningNote(long planningNote) {
+    public void setPlanningNote(Note planningNote) {
         this.planningNote = planningNote;
     }
 
@@ -60,11 +56,11 @@ public class Report {
         this.planningComment = planningComment;
     }
 
-    public long getCommunicationNote() {
+    public Note getCommunicationNote() {
         return this.communicationNote;
     }
 
-    public void setCommunicationNote(long communicationNote) {
+    public void setCommunicationNote(Note communicationNote) {
         this.communicationNote = communicationNote;
     }
 

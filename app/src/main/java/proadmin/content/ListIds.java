@@ -9,25 +9,25 @@ import java.util.List;
  */
 public class ListIds implements Iterable, Viewable {
 
-    private List<String> listIds;
+    private List<Id> listIds;
 
     public ListIds() {
         this.listIds = new ArrayList<>();
     }
 
-    public void add(String id) {
+    public void add(Id id) {
         this.listIds.add(id);
     }
 
-    public void remove(String id) {
+    public void remove(Id id) {
         this.listIds.remove(id);
     }
 
-    public String get(int index) {
+    public Id get(int index) {
         return this.listIds.get(index);
     }
 
-    public boolean contains(String id) {
+    public boolean contains(Id id) {
         return this.listIds.contains(id);
     }
 
@@ -42,6 +42,12 @@ public class ListIds implements Iterable, Viewable {
 
     @Override
     public List<String> getListSrings() {
-        return this.listIds;
+        List<String> list = new ArrayList<>();
+
+        for (Id id : this.listIds) {
+            list.add(id.toString());
+        }
+
+        return list;
     }
 }

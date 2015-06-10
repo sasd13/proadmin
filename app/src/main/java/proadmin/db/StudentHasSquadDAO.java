@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import proadmin.content.Id;
 import proadmin.content.ListIds;
 
 /**
@@ -20,70 +21,70 @@ class StudentHasSquadDAO extends AbstractDAO {
         super(mDb);
     }
 
-    public long insert(String studentId,String squadId) {
+    public long insert(Id studentId, Id squadId) {
         return mDb.insert(STUDENT_HAS_SQUAD_TABLE_NAME, null, getContentValues(studentId, squadId));
     }
 
-    private ContentValues getContentValues(String studentId, String squadId) {
+    private ContentValues getContentValues(Id studentId, Id squadId) {
         ContentValues values = new ContentValues();
 
-        values.put(STUDENT_HAS_SQUAD_STUDENT_ID, studentId);
-        values.put(STUDENT_HAS_SQUAD_SQUAD_ID, squadId);
+        values.put(STUDENT_HAS_SQUAD_STUDENT_ID, studentId.toString());
+        values.put(STUDENT_HAS_SQUAD_SQUAD_ID, squadId.toString());
 
         return values;
     }
 
-    public void deleteAllOfSquad(String squadId) {
-        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId});
+    public void deleteAllOfSquad(Id squadId) {
+        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
-    public void deleteAllOfStudent(String studentId) {
-        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId});
+    public void deleteAllOfStudent(Id studentId) {
+        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
-    public void delete(String studentId, String squadId) {
-        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId, squadId});
+    public void delete(Id studentId, Id squadId) {
+        mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
     }
 
-    public ListIds selectAllOfSquad(String squadId) {
+    public ListIds selectAllOfSquad(Id squadId) {
         ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_HAS_SQUAD_STUDENT_ID
                         + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
-                        + " where " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId});
+                        + " where " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
         if (cursor.moveToNext()) {
-            listIds.add(cursor.getString(0));
+            listIds.add(new Id(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
     }
 
-    public ListIds selectAllOfStudent(String studentId) {
+    public ListIds selectAllOfStudent(Id studentId) {
         ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_HAS_SQUAD_SQUAD_ID
                         + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
-                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId});
+                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
 
         if (cursor.moveToNext()) {
-            listIds.add(cursor.getString(0));
+            listIds.add(new Id(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
     }
 
-    public boolean contains(String studentId, String squadId) {
+    public boolean contains(Id studentId, Id squadId) {
         boolean contains = false;
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_HAS_SQUAD_STUDENT_ID + ", " + STUDENT_HAS_SQUAD_SQUAD_ID
                         + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
-                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId, squadId});
+                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
 
         if (cursor.moveToNext()) {
             contains = true;

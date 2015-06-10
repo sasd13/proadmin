@@ -2,29 +2,24 @@ package proadmin.content;
 
 public class Project {
 
-    private static int count = 0;
-
-    private String id, title, description;
+    private Id id;
+    private String title, description;
     private Grade grade;
 
-    public Project() {
-        count++;
-    }
+    public Project() {}
 	
 	public Project(String title, Grade grade, String description) {
-        count++;
-
-        this.id = "id-project-" + count;
+        this.id = new Id();
         this.title = title;
         this.grade = grade;
         this.description = description;
     }
 
-    public String getId() {
+    public Id getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Id id) {
         this.id = id;
     }
 

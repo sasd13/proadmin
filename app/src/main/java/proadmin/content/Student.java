@@ -2,28 +2,23 @@ package proadmin.content;
 
 public class Student extends Person {
 
-    private static int count = 0;
+    private Id id;
+    private String email;
 
-    private String id, email;
-
-    public Student() {
-        count++;
-    }
+    public Student() {}
 	
 	public Student(String firstName, String lastName, String email) {
         super(firstName, lastName);
 
-        count++;
-
-        this.id = "id-student-" + count;
+        this.id = new Id();
         this.email = email;
     }
 
-    public String getId() {
+    public Id getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Id id) {
         this.id = id;
     }
 

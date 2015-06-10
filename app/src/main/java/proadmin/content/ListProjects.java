@@ -27,9 +27,9 @@ public class ListProjects implements Iterable {
         return this.listProjects.get(index);
     }
 
-    public Project get(String projectId) {
+    public Project get(Id projectId) {
         for (Project project : this.listProjects) {
-            if (project.getId().compareTo(projectId) == 0) {
+            if (project.getId().equals(projectId)) {
                 return project;
             }
         }

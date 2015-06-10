@@ -14,13 +14,11 @@ public class Session {
     private static final String SESSION_PREFERENCES = "session_preferences";
     private static final String SESSION_KEY = "teacher_id";
 
-    private static Context context;
     private static SharedPreferences preferences;
 
     protected Session() {}
     
-    public static void start(Context myContext) {
-        context = myContext;
+    public static void start(Context context) {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
     }
 
@@ -31,11 +29,11 @@ public class Session {
         return editor.commit();
     }
 
-    public static boolean isTeacherLogged() {
+    public static boolean isLogged() {
         return preferences.contains(SESSION_KEY);
     }
 
-    public static String getTeacherId() {
+    public static String getLogin() {
         return preferences.getString(SESSION_KEY, null);
     }
 
@@ -48,7 +46,7 @@ public class Session {
 
         if(teacher != null) {
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(SESSION_KEY, teacher.getId());
+            editor.putString(SESSION_KEY, teacher.getId().toString());
 
             return editor.commit();
         }

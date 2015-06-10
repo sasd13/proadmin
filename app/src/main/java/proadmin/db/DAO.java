@@ -3,6 +3,7 @@ package proadmin.db;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
+import proadmin.content.Id;
 import proadmin.content.ListIds;
 import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
@@ -12,6 +13,7 @@ import proadmin.content.Project;
 import proadmin.content.Report;
 import proadmin.content.Student;
 import proadmin.content.Teacher;
+import proadmin.content.Year;
 
 public class DAO {
 	
@@ -81,12 +83,12 @@ public class DAO {
 		teacherDAO.update(teacher);
 	}
 
-	public static void deleteTeacher(String teacherId) {
+	public static void deleteTeacher(Id teacherId) {
 		squadDAO.deleteAllOfTeacher(teacherId);
 		teacherDAO.delete(teacherId);
 	}
 
-	public static Teacher selectTeacher(String teacherId) {
+	public static Teacher selectTeacher(Id teacherId) {
 		return teacherDAO.select(teacherId);
 	}
 
@@ -94,7 +96,7 @@ public class DAO {
 		return teacherDAO.select(email, password);
 	}
 
-    public static void deleteYear(long year) {
+    public static void deleteYear(Year year) {
         projectHasYearDAO.deleteAllOfYear(year);
         yearDAO.delete(year);
     }
@@ -103,7 +105,7 @@ public class DAO {
         return yearDAO.selectAll();
     }
 
-	public static boolean insertProject(Project project, long year) {
+	public static boolean insertProject(Project project, Year year) {
         if (!yearDAO.contains(year)) {
             yearDAO.insert(year);
         }
@@ -121,27 +123,27 @@ public class DAO {
 		projectDAO.update(project);
 	}
 
-	public static void deleteProject(String projectId) {
+	public static void deleteProject(Id projectId) {
 		squadDAO.deleteAllOfProject(projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
-	public static void deleteProjectFromYear(String projectId, long year) {
+	public static void deleteProjectFromYear(Id projectId, Year year) {
 		squadDAO.deleteAllOfYearAndProject(year, projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 	}
 
-	public static Project selectProject(String projectId) {
+	public static Project selectProject(Id projectId) {
 		return projectDAO.select(projectId);
 	}
 
-    public static ListProjects selectProjectsOfYear(long year) {
+    public static ListProjects selectProjectsOfYear(Year year) {
         ListProjects listProjects = new ListProjects();
 
         ListIds listProjectsIds = projectHasYearDAO.selectAllOfYear(year);
         for (Object projectId : listProjectsIds) {
-            listProjects.add(projectDAO.select((String) projectId));
+            listProjects.add(projectDAO.select((Id) projectId));
         }
 
         return listProjects;
@@ -167,17 +169,17 @@ public class DAO {
 		squadDAO.update(squad);
 	}
 
-	public static void deleteSquad(String squadId) {
+	public static void deleteSquad(Id squadId) {
 		reportDAO.deleteAllOfSquad(squadId);
 		studentHasSquadDAO.deleteAllOfSquad(squadId);
 		squadDAO.delete(squadId);
 	}
 
-	public static Squad selectSquad(String squadId) {
+	public static Squad selectSquad(Id squadId) {
 		return squadDAO.select(squadId);
 	}
 
-	public static boolean insertStudent(Student student, String squadId) {
+	public static boolean insertStudent(Student student, Id squadId) {
 		if (!studentDAO.contains(student.getId())) {
 			studentDAO.insert(student);
 		}
@@ -191,50 +193,50 @@ public class DAO {
 		studentDAO.update(student);
 	}
 
-	public static void deleteStudent(String studentId) {
+	public static void deleteStudent(Id studentId) {
 		studentHasSquadDAO.deleteAllOfStudent(studentId);
 		studentDAO.delete(studentId);
 	}
 
-	public static void deleteStudentFromSquad(String studentId, String squadId) {
+	public static void deleteStudentFromSquad(Id studentId, Id squadId) {
 		studentHasSquadDAO.delete(studentId, squadId);
 	}
 
-	public static Student selectStudent(String studentId) {
+	public static Student selectStudent(Id studentId) {
 		return studentDAO.select(studentId);
 	}
 
-	public static boolean insertReport(Report report, String squadId) {
+	public static boolean insertReport(Report report, Id squadId) {
 		long rowId = reportDAO.insert(report, squadId);
 
         return rowId > 0;
 	}
 
-	public static void updateReport(Report report, String squadId) {
+	public static void updateReport(Report report, Id squadId) {
 		reportDAO.update(report, squadId);
 	}
 
-	public static void deleteReport(String reportId) {
+	public static void deleteReport(Id reportId) {
 		reportDAO.delete(reportId);
 	}
 
-	public static Report selectReport(String reportId) {
+	public static Report selectReport(Id reportId) {
 		return reportDAO.select(reportId);
 	}
 
-	public static void insertNotes(MapNotes mapNotes, String reportId) {
+	public static void insertNotes(MapNotes mapNotes, Id reportId) {
 		noteDAO.insert(mapNotes, reportId);
 	}
 
-	public static void updateNotes(MapNotes mapNotes, String reportId) {
+	public static void updateNotes(MapNotes mapNotes, Id reportId) {
 		noteDAO.update(mapNotes, reportId);
 	}
 
-	public static void deleteNotes(String studentId, String reportId) {
+	public static void deleteNotes(Id studentId, Id reportId) {
 		noteDAO.delete(studentId, reportId);
 	}
 
-	public static MapNotes selectNotes(String reportId) {
+	public static MapNotes selectNotes(Id reportId) {
 		return noteDAO.selectAllOfReport(reportId);
 	}
 }

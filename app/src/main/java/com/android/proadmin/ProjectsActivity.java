@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import com.example.proadmin.R;
 
-import java.util.Calendar;
-
 import proadmin.content.Grade;
 import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
 import proadmin.content.Project;
+import proadmin.content.Year;
 import proadmin.db.DAO;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
@@ -32,8 +31,6 @@ public class ProjectsActivity extends ActionBarActivity {
     private Spinner spinnerYears;
     private RecyclerView recyclerViewProjects;
     private View layoutProject;
-
-    private long currentYear;
 
     private class ViewHolder {
         public TextView textViewYear, textViewId;
@@ -112,8 +109,6 @@ public class ProjectsActivity extends ActionBarActivity {
                 deleteAll();
             }
         });
-
-        this.currentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     @Override
@@ -160,7 +155,7 @@ public class ProjectsActivity extends ActionBarActivity {
 
         DAO.open();
 
-        ListProjects listProjects = DAO.selectProjectsOfYear(selectedYear);
+        ListProjects listProjects = DAO.selectProjectsOfYear(new Year(selectedYear));
 
         DAO.close();
     }
@@ -171,7 +166,7 @@ public class ProjectsActivity extends ActionBarActivity {
         if (project != null) {
             DAO.open();
 
-            boolean inserted = DAO.insertProject(project, this.currentYear);
+            boolean inserted = DAO.insertProject(project, new Year());
 
             DAO.close();
 
@@ -240,7 +235,7 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void prepareFormForNewProject() {
-        this.formProject.textViewYear.setText(String.valueOf(this.currentYear));
+        this.formProject.textViewYear.setText(new Year().toString());
         this.formProject.textViewId.setText("(Auto generated)");
         this.formProject.editTextTitle.setText("", EditText.BufferType.EDITABLE);
         this.formProject.editTextDescription.setText("", EditText.BufferType.EDITABLE);

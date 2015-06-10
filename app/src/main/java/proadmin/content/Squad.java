@@ -2,41 +2,35 @@ package proadmin.content;
 
 public class Squad {
 
-    private static int count = 0;
-
-    private String id;
-    private long year;
+    private Id id;
+    private Year year;
     private Project project;
     private Teacher teacher;
     private ListStudents listStudents;
     private ListReports listReports;
 
-    public Squad() {
-        count++;
-    }
+    public Squad() {}
 
-    public Squad(long year, Project project, Teacher teacher) {
-        count++;
-
-        this.id = "id-squad-" + count;
+    public Squad(Year year, Project project, Teacher teacher) {
+        this.id = new Id();
         this.year = year;
         this.project = project;
         this.teacher = teacher;
     }
 
-    public String getId() {
+    public Id getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Id id) {
         this.id = id;
     }
 
-    public long getYear() {
+    public Year getYear() {
         return this.year;
     }
 
-    public void setYear(long year) {
+    public void setYear(Year year) {
         this.year = year;
     }
 

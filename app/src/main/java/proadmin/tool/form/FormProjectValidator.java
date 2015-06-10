@@ -1,6 +1,6 @@
 package proadmin.tool.form;
 
-import java.util.Calendar;
+import proadmin.content.Year;
 
 /**
  * Created by Samir on 13/03/2015.
@@ -26,9 +26,7 @@ public class FormProjectValidator {
     }
 
     private static void validYear(String year) throws FormException {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-        if (Integer.parseInt(year) != currentYear) {
+        if (year.compareTo(new Year().toString()) == 0) {
             throw new FormException("date must be current");
         }
     }

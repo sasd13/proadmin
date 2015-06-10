@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import proadmin.content.Id;
 import proadmin.content.ListReports;
+import proadmin.content.Note;
 import proadmin.content.Report;
 
 /**
@@ -28,39 +30,39 @@ class ReportDAO extends AbstractDAO {
         super(mDb);
     }
 
-    public long insert(Report report, String squadId) {
+    public long insert(Report report, Id squadId) {
         return mDb.insert(REPORT_TABLE_NAME, null, getContentValues(report, squadId));
     }
 
-    private ContentValues getContentValues(Report report, String squadId) {
+    private ContentValues getContentValues(Report report, Id squadId) {
         ContentValues values = new ContentValues();
 
-        values.put(REPORT_ID, report.getId());
+        values.put(REPORT_ID, report.getId().toString());
         values.put(REPORT_NUMBER_WEEK, report.getNumberWeek());
-        values.put(REPORT_PLANNING_NOTE, report.getPlanningNote());
+        values.put(REPORT_PLANNING_NOTE, report.getPlanningNote().getValue());
         values.put(REPORT_PLANNING_COMMENT, report.getPlanningComment());
-        values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationNote());
+        values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationNote().getValue());
         values.put(REPORT_COMMUNICATION_COMMENT, report.getCommunicationComment());
         values.put(REPORT_COMMENT, report.getComment());
-        values.put(REPORT_SQUAD_ID, squadId);
-        values.put(REPORT_STUDENT_ID, report.getProjectLeadId());
+        values.put(REPORT_SQUAD_ID, squadId.toString());
+        values.put(REPORT_STUDENT_ID, report.getProjectLeadId().toString());
 
         return values;
     }
 
-    public void update(Report report, String squadId) {
-        mDb.update(REPORT_TABLE_NAME, getContentValues(report, squadId), REPORT_ID + " = ?", new String[]{report.getId()});
+    public void update(Report report, Id squadId) {
+        mDb.update(REPORT_TABLE_NAME, getContentValues(report, squadId), REPORT_ID + " = ?", new String[]{report.getId().toString()});
     }
 
-    public void delete(String reportId) {
-        mDb.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId});
+    public void delete(Id reportId) {
+        mDb.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId.toString()});
     }
 
-    public void deleteAllOfSquad(String squadId) {
-        mDb.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId});
+    public void deleteAllOfSquad(Id squadId) {
+        mDb.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
-    public Report select(String reportId) {
+    public Report select(Id reportId) {
         Report report = null;
 
         Cursor cursor = mDb.rawQuery(
@@ -70,25 +72,25 @@ class ReportDAO extends AbstractDAO {
                         + ", " + REPORT_COMMENT
                         + ", " + REPORT_STUDENT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{reportId});
+                        + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});
 
         if (cursor.moveToNext()) {
             report = new Report();
             report.setId(reportId);
             report.setNumberWeek(cursor.getLong(0));
-            report.setPlanningNote(cursor.getLong(1));
+            report.setPlanningNote(new Note(cursor.getLong(1)));
             report.setPlanningComment(cursor.getString(2));
-            report.setCommunicationNote(cursor.getLong(3));
+            report.setCommunicationNote(new Note(cursor.getLong(3)));
             report.setCommunicationComment(cursor.getString(4));
             report.setComment(cursor.getString(5));
-            report.setProjectLeadId(cursor.getString(6));
+            report.setProjectLeadId(new Id(cursor.getString(6)));
         }
         cursor.close();
 
         return report;
     }
 
-    public ListReports selectAllOfSquad(String squadId) {
+    public ListReports selectAllOfSquad(Id squadId) {
         ListReports listReports = new ListReports();
 
         Cursor cursor = mDb.rawQuery(
@@ -98,20 +100,20 @@ class ReportDAO extends AbstractDAO {
                         + ", " + REPORT_COMMENT
                         + ", " + REPORT_STUDENT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId});
+                        + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
         Report report;
 
         while (cursor.moveToNext()) {
             report = new Report();
-            report.setId(cursor.getString(0));
+            report.setId(new Id(cursor.getString(0)));
             report.setNumberWeek(cursor.getLong(1));
-            report.setPlanningNote(cursor.getLong(2));
+            report.setPlanningNote(new Note(cursor.getLong(2)));
             report.setPlanningComment(cursor.getString(3));
-            report.setCommunicationNote(cursor.getLong(4));
+            report.setCommunicationNote(new Note(cursor.getLong(4)));
             report.setCommunicationComment(cursor.getString(5));
             report.setComment(cursor.getString(6));
-            report.setProjectLeadId(cursor.getString(7));
+            report.setProjectLeadId(new Id(cursor.getString(7)));
 
             listReports.add(report);
         }
@@ -120,13 +122,13 @@ class ReportDAO extends AbstractDAO {
         return listReports;
     }
 
-    public boolean contains(String reportId) {
+    public boolean contains(Id reportId) {
         boolean contains = false;
 
         Cursor cursor = mDb.rawQuery(
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{reportId});
+                        + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});
 
         if (cursor.moveToNext()) {
             contains = true;
