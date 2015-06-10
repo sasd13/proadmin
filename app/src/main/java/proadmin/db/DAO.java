@@ -3,9 +3,7 @@ package proadmin.db;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
-import java.util.Iterator;
-import java.util.List;
-
+import proadmin.content.ListIds;
 import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
 import proadmin.content.Squad;
@@ -141,9 +139,9 @@ public class DAO {
     public static ListProjects selectProjectsOfYear(long year) {
         ListProjects listProjects = new ListProjects();
 
-        List<String> listProjectIds = projectHasYearDAO.selectAllOfYear(year);
-        for (String projectId : listProjectIds) {
-            listProjects.add(projectDAO.select(projectId));
+        ListIds listProjectsIds = projectHasYearDAO.selectAllOfYear(year);
+        for (Object projectId : listProjectsIds) {
+            listProjects.add(projectDAO.select((String) projectId));
         }
 
         return listProjects;
@@ -153,21 +151,13 @@ public class DAO {
 		long rowId = squadDAO.insert(squad);
 
 		if (rowId > 0) {
-			Iterator it = squad.getListStudents().iterator();
+            for (Object student : squad.getListStudents()) {
+                insertStudent((Student) student, squad.getId());
+            }
 
-			Student student;
-			while (it.hasNext()) {
-				student = (Student) it.next();
-				insertStudent(student, squad.getId());
-			}
-
-			it = squad.getListReports().iterator();
-
-			Report report;
-			while (it.hasNext()) {
-				report = (Report) it.next();
-				insertReport(report, squad.getId());
-			}
+            for (Object report : squad.getListReports()) {
+                insertReport((Report) report, squad.getId());
+            }
 		}
 
         return rowId > 0;

@@ -56,9 +56,6 @@ public class ProjectsActivity extends ActionBarActivity {
         Button buttonList = (Button) findViewById(R.id.projects_button_list);
         Button buttonNew = (Button) findViewById(R.id.projects_button_new);
 
-        this.recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
-        this.layoutProject = findViewById(R.id.projects_project_layout);
-
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +72,9 @@ public class ProjectsActivity extends ActionBarActivity {
 
         buttonList.setOnClickListener(listener);
         buttonNew.setOnClickListener(listener);
+
+        this.recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
+        this.layoutProject = findViewById(R.id.projects_project_layout);
 
         this.formProject = new ViewHolder();
 
@@ -120,8 +120,10 @@ public class ProjectsActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        addYearsInSpinner();
-        selectProjectsOfSelectedYear();
+        int spinnerSize = addYearsInSpinner();
+        if (spinnerSize > 0) {
+            selectProjectsOfSelectedYear();
+        }
     }
 
     @Override
@@ -140,7 +142,7 @@ public class ProjectsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addYearsInSpinner() {
+    private int addYearsInSpinner() {
         DAO.open(this);
 
         ListYears listYears = DAO.selectYears();
@@ -149,14 +151,16 @@ public class ProjectsActivity extends ActionBarActivity {
 
         SpinnerAdapter adapter = new SpinnerAdapter(this, listYears);
         this.spinnerYears.setAdapter(adapter.getAdapter());
+
+        return listYears.size();
     }
 
     private void selectProjectsOfSelectedYear() {
-        String selectedYear = (String) this.spinnerYears.getSelectedItem();
+        long selectedYear = Long.parseLong((String) this.spinnerYears.getSelectedItem());
 
         DAO.open(this);
 
-        ListProjects listProjects = DAO.selectProjectsOfYear(Long.parseLong(selectedYear));
+        ListProjects listProjects = DAO.selectProjectsOfYear(selectedYear);
 
         DAO.close();
     }
@@ -195,7 +199,7 @@ public class ProjectsActivity extends ActionBarActivity {
         String title = this.formProject.editTextTitle.getEditableText().toString().trim();
         String description = this.formProject.editTextDescription.getEditableText().toString().trim();
 
-        Grade grade = null;
+        Grade grade;
 
         int checkedRadioButtonId = this.formProject.radioGroupGrade.getCheckedRadioButtonId();
         if (checkedRadioButtonId == this.formProject.radioButtonM2.getId()) {

@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
+import proadmin.content.ListIds;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -47,8 +46,8 @@ class StudentHasSquadDAO extends AbstractDAO {
         mDb.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId, squadId});
     }
 
-    public List<String> selectAllOfSquad(String squadId) {
-        List<String> listIds = new ArrayList<>();
+    public ListIds selectAllOfSquad(String squadId) {
+        ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_HAS_SQUAD_STUDENT_ID
@@ -63,8 +62,8 @@ class StudentHasSquadDAO extends AbstractDAO {
         return listIds;
     }
 
-    public List<String> selectAllOfStudent(String studentId) {
-        List<String> listIds = new ArrayList<>();
+    public ListIds selectAllOfStudent(String studentId) {
+        ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + STUDENT_HAS_SQUAD_SQUAD_ID

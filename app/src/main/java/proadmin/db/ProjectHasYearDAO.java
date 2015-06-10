@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
+import proadmin.content.ListIds;
+import proadmin.content.ListYears;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -47,8 +47,8 @@ class ProjectHasYearDAO extends AbstractDAO {
         mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId, String.valueOf(year)});
     }
 
-    public List<String> selectAllOfYear(long year) {
-        List<String> listIds = new ArrayList<>();
+    public ListIds selectAllOfYear(long year) {
+        ListIds listIds = new ListIds();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + PROJECT_HAS_YEAR_PROJECT_ID
@@ -63,8 +63,8 @@ class ProjectHasYearDAO extends AbstractDAO {
         return listIds;
     }
 
-    public List<Long> selectAllOfProject(String projectId) {
-        List<Long> listIds = new ArrayList<>();
+    public ListYears selectAllOfProject(String projectId) {
+        ListYears listYears = new ListYears();
 
         Cursor cursor = mDb.rawQuery(
                 "select " + PROJECT_HAS_YEAR_YEAR_YEAR
@@ -72,11 +72,11 @@ class ProjectHasYearDAO extends AbstractDAO {
                         + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId});
 
         if (cursor.moveToNext()) {
-            listIds.add(cursor.getLong(0));
+            listYears.add(cursor.getLong(0));
         }
         cursor.close();
 
-        return listIds;
+        return listYears;
     }
 
     public boolean contains(String projectId, long year) {
