@@ -24,53 +24,53 @@ public class DAO {
 	protected final static String NOM = "database.db";
 	
 	//Objet Base de donnees SQLite
-	protected static SQLiteDatabase mDb = null;
+	protected static SQLiteDatabase db = null;
 	
 	//Objet Base de donnees de notre base DatabaseHandler
-	protected static DatabaseHandler mHandler = null;
+	protected static DatabaseHandler dbHandler = null;
 
-	private static TeacherDAO teacherDAO;
-    private static YearDAO yearDAO;
-	private static ProjectDAO projectDAO;
-	private static ProjectHasYearDAO projectHasYearDAO;
-	private static SquadDAO squadDAO;
-	private static StudentDAO studentDAO;
-	private static StudentHasSquadDAO studentHasSquadDAO;
-	private static ReportDAO reportDAO;
-	private static NoteDAO noteDAO;
+	private static TeacherDAO teacherDAO = new TeacherDAO();
+    private static YearDAO yearDAO = new YearDAO();
+	private static ProjectDAO projectDAO = new ProjectDAO();
+	private static ProjectHasYearDAO projectHasYearDAO = new ProjectHasYearDAO();
+	private static SquadDAO squadDAO = new SquadDAO();
+	private static StudentDAO studentDAO = new StudentDAO();
+	private static StudentHasSquadDAO studentHasSquadDAO = new StudentHasSquadDAO();
+	private static ReportDAO reportDAO = new ReportDAO();
+	private static NoteDAO noteDAO = new NoteDAO();
 
 	protected DAO() {}
 
 	//Methode d'ouverture de la base de donnees
 	public static void create(Context context) {
-		mHandler = new DatabaseHandler(context, NOM, null, VERSION);
+		dbHandler = new DatabaseHandler(context, NOM, null, VERSION);
     }
 
     //Methode d'ouverture de la base de donnees
 	public static SQLiteDatabase open() {
-		mDb = mHandler.getWritableDatabase();
+		db = dbHandler.getWritableDatabase();
 
-		teacherDAO = new TeacherDAO(mDb);
-        yearDAO = new YearDAO(mDb);
-		projectDAO = new ProjectDAO(mDb);
-		projectHasYearDAO = new ProjectHasYearDAO(mDb);
-		squadDAO = new SquadDAO(mDb);
-		studentDAO = new StudentDAO(mDb);
-		studentHasSquadDAO = new StudentHasSquadDAO(mDb);
-		reportDAO = new ReportDAO(mDb);
-		noteDAO = new NoteDAO(mDb);
+        teacherDAO.setDb(db);
+        yearDAO.setDb(db);
+        projectDAO.setDb(db);
+        projectHasYearDAO.setDb(db);
+        squadDAO.setDb(db);
+        studentDAO.setDb(db);
+        studentHasSquadDAO.setDb(db);
+        reportDAO.setDb(db);
+        noteDAO.setDb(db);
 
-		return mDb;
+		return db;
 	}
 	
 	//Methode de fermeture de la base de donnees
 	public static void close() {
-		mDb.close();
+		db.close();
 	}
 	
 	//Methode pour renvoyer la base de donnees
 	public static SQLiteDatabase getDb() {
-		return mDb;
+		return db;
 	}
 
 	public static boolean insertTeacher(Teacher teacher) {

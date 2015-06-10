@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.Squad;
@@ -22,12 +21,8 @@ class SquadDAO extends AbstractDAO {
     public static final String SQUAD_PROJECT_ID = "project_id";
     public static final String SQUAD_TEACHER_ID = "teacher_id";
 
-    public SquadDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Squad squad) {
-        return mDb.insert(SQUAD_TABLE_NAME, null, getContentValues(squad));
+        return db.insert(SQUAD_TABLE_NAME, null, getContentValues(squad));
     }
 
     private ContentValues getContentValues(Squad squad) {
@@ -42,29 +37,29 @@ class SquadDAO extends AbstractDAO {
     }
 
     public void update(Squad squad) {
-        mDb.update(SQUAD_TABLE_NAME, getContentValues(squad), SQUAD_ID + " = ?", new String[]{squad.getId().toString()});
+        db.update(SQUAD_TABLE_NAME, getContentValues(squad), SQUAD_ID + " = ?", new String[]{squad.getId().toString()});
     }
 
     public void delete(Id squadId) {
-        mDb.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId.toString()});
+        db.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
     public void deleteAllOfYearAndProject(Year year, Id projectId) {
-        mDb.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
+        db.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
     }
 
     public void deleteAllOfProject(Id projectId) {
-        mDb.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
+        db.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
     public void deleteAllOfTeacher(Id teacherId) {
-        mDb.delete(SQUAD_TABLE_NAME, SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+        db.delete(SQUAD_TABLE_NAME, SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
     }
 
     public Squad select(Id squadId) {
         Squad squad = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + SQUAD_YEAR + ", " + SQUAD_PROJECT_ID + ", " + SQUAD_TEACHER_ID
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});
@@ -97,7 +92,7 @@ class SquadDAO extends AbstractDAO {
     public boolean contains(Id squadId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + SQUAD_ID
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});

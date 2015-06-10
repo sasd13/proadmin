@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.MapNotes;
@@ -19,15 +18,11 @@ class NoteDAO extends AbstractDAO {
     public static final String NOTE_STUDENT_ID = "student_id";
     public static final String NOTE_REPORT_ID = "report_id";
 
-    public NoteDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public void insert(MapNotes mapNotes, Id reportId) {
         Id[] tabStudentsIds = mapNotes.getKeys();
 
         for (Id studentId : tabStudentsIds) {
-            mDb.insert(NOTE_TABLE_NAME, null, getContentValues(mapNotes.get(studentId), studentId, reportId));
+            db.insert(NOTE_TABLE_NAME, null, getContentValues(mapNotes.get(studentId), studentId, reportId));
         }
     }
 
@@ -45,26 +40,26 @@ class NoteDAO extends AbstractDAO {
         Id[] tabStudentsIds = mapNotes.getKeys();
 
         for (Id studentId : tabStudentsIds) {
-            mDb.update(NOTE_TABLE_NAME, getContentValues(mapNotes.get(studentId), studentId, reportId), NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
+            db.update(NOTE_TABLE_NAME, getContentValues(mapNotes.get(studentId), studentId, reportId), NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
         }
     }
 
     public void delete(Id studentId, Id reportId) {
-        mDb.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
+        db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
     }
 
     public void deleteAllOfStudent(Id studentId) {
-        mDb.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ?", new String[]{studentId.toString()});
+        db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
     public void deleteAllOfReport(Id reportId) {
-        mDb.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
+        db.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
     }
 
     public Long select(Id studentId, Id reportId) {
         Long note = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + NOTE_NOTE
                         + " from " + NOTE_TABLE_NAME
                         + " where " + NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
@@ -80,7 +75,7 @@ class NoteDAO extends AbstractDAO {
     public MapNotes selectAllOfReport(Id reportId) {
         MapNotes mapNotes = new MapNotes();
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + NOTE_NOTE + ", " + NOTE_STUDENT_ID
                         + " from " + NOTE_TABLE_NAME
                         + " where " + NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
@@ -96,7 +91,7 @@ class NoteDAO extends AbstractDAO {
     public boolean contains(Id studentId, Id reportId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + NOTE_REPORT_ID + ", " + NOTE_STUDENT_ID
                         + " from " + NOTE_TABLE_NAME
                         + " where " + NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});

@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.ListReports;
@@ -26,12 +25,8 @@ class ReportDAO extends AbstractDAO {
     public static final String REPORT_SQUAD_ID = "squad_id";
     public static final String REPORT_STUDENT_ID = "student_id";
 
-    public ReportDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Report report, Id squadId) {
-        return mDb.insert(REPORT_TABLE_NAME, null, getContentValues(report, squadId));
+        return db.insert(REPORT_TABLE_NAME, null, getContentValues(report, squadId));
     }
 
     private ContentValues getContentValues(Report report, Id squadId) {
@@ -51,21 +46,21 @@ class ReportDAO extends AbstractDAO {
     }
 
     public void update(Report report, Id squadId) {
-        mDb.update(REPORT_TABLE_NAME, getContentValues(report, squadId), REPORT_ID + " = ?", new String[]{report.getId().toString()});
+        db.update(REPORT_TABLE_NAME, getContentValues(report, squadId), REPORT_ID + " = ?", new String[]{report.getId().toString()});
     }
 
     public void delete(Id reportId) {
-        mDb.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId.toString()});
+        db.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId.toString()});
     }
 
     public void deleteAllOfSquad(Id squadId) {
-        mDb.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
+        db.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
     public Report select(Id reportId) {
         Report report = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + REPORT_NUMBER_WEEK
                         + ", " + REPORT_PLANNING_NOTE + ", " + REPORT_PLANNING_COMMENT
                         + ", " + REPORT_COMMUNICATION_NOTE + ", " + REPORT_COMMUNICATION_COMMENT
@@ -93,7 +88,7 @@ class ReportDAO extends AbstractDAO {
     public ListReports selectAllOfSquad(Id squadId) {
         ListReports listReports = new ListReports();
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + REPORT_ID + ", " + REPORT_NUMBER_WEEK
                         + ", " + REPORT_PLANNING_NOTE + ", " + REPORT_PLANNING_COMMENT
                         + ", " + REPORT_COMMUNICATION_NOTE + ", " + REPORT_COMMUNICATION_COMMENT
@@ -125,7 +120,7 @@ class ReportDAO extends AbstractDAO {
     public boolean contains(Id reportId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
                         + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});

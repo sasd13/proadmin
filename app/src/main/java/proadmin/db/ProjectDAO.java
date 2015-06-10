@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.Project;
@@ -20,12 +19,8 @@ class ProjectDAO extends AbstractDAO {
     public static final String PROJECT_GRADE = "grade";
     public static final String PROJECT_DESCRIPTION = "description";
 
-    public ProjectDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Project project) {
-        return mDb.insert(PROJECT_TABLE_NAME, null, getContentValues(project));
+        return db.insert(PROJECT_TABLE_NAME, null, getContentValues(project));
     }
 
     private ContentValues getContentValues(Project project) {
@@ -40,17 +35,17 @@ class ProjectDAO extends AbstractDAO {
     }
 
     public void update(Project project) {
-        mDb.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId().toString()});
+        db.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId().toString()});
     }
 
     public void delete(Id projectId) {
-        mDb.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId.toString()});
+        db.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
     public Project select(Id projectId) {
         Project project = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + PROJECT_TITLE + ", " + PROJECT_GRADE + ", " + PROJECT_DESCRIPTION
                         + " from " + PROJECT_TABLE_NAME
                         + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});
@@ -70,7 +65,7 @@ class ProjectDAO extends AbstractDAO {
     public boolean contains(Id projectId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + PROJECT_ID
                         + " from " + PROJECT_TABLE_NAME
                         + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});

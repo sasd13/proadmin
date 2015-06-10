@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.Student;
@@ -19,12 +18,8 @@ class StudentDAO extends AbstractDAO {
     public static final String STUDENT_LASTNAME = "last_name";
     public static final String STUDENT_EMAIL = "email";
 
-    public StudentDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Student student) {
-        return mDb.insert(STUDENT_TABLE_NAME, null, getContentValues(student));
+        return db.insert(STUDENT_TABLE_NAME, null, getContentValues(student));
     }
 
     private ContentValues getContentValues(Student student) {
@@ -39,17 +34,17 @@ class StudentDAO extends AbstractDAO {
     }
 
     public void update(Student student) {
-        mDb.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
+        db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
     }
 
     public void delete(Id studentId) {
-        mDb.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
+        db.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
     public Student select(Id studentId) {
         Student student = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + STUDENT_FIRSTNAME + ", " + STUDENT_LASTNAME + ", " + STUDENT_EMAIL
                         + " from " + STUDENT_TABLE_NAME
                         + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
@@ -69,7 +64,7 @@ class StudentDAO extends AbstractDAO {
     public boolean contains(Id studentId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + STUDENT_ID
                         + " from " + STUDENT_TABLE_NAME
                         + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});

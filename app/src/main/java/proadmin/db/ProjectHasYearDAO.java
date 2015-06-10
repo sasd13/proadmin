@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.ListIds;
@@ -19,12 +18,8 @@ class ProjectHasYearDAO extends AbstractDAO {
     public static final String PROJECT_HAS_YEAR_PROJECT_ID = "project_id";
     public static final String PROJECT_HAS_YEAR_YEAR_YEAR = "school_year";
 
-    public ProjectHasYearDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Id projectId, Year year) {
-        return mDb.insert(PROJECT_HAS_YEAR_TABLE_NAME, null, getContentValues(projectId, year));
+        return db.insert(PROJECT_HAS_YEAR_TABLE_NAME, null, getContentValues(projectId, year));
     }
 
     private ContentValues getContentValues(Id projectId, Year year) {
@@ -37,21 +32,21 @@ class ProjectHasYearDAO extends AbstractDAO {
     }
 
     public void deleteAllOfYear(Year year) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
+        db.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
     }
 
     public void deleteAllOfProject(Id projectId) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
+        db.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
     public void delete(Id projectId, Year year) {
-        mDb.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId.toString(), year.toString()});
+        db.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId.toString(), year.toString()});
     }
 
     public ListIds selectAllOfYear(Year year) {
         ListIds listIds = new ListIds();
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + PROJECT_HAS_YEAR_PROJECT_ID
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
                         + " where " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
@@ -67,7 +62,7 @@ class ProjectHasYearDAO extends AbstractDAO {
     public ListYears selectAllOfProject(Id projectId) {
         ListYears listYears = new ListYears();
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + PROJECT_HAS_YEAR_YEAR_YEAR
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
                         + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
@@ -83,7 +78,7 @@ class ProjectHasYearDAO extends AbstractDAO {
     public boolean contains(Id projectId, Year year) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + PROJECT_HAS_YEAR_PROJECT_ID + ", " + PROJECT_HAS_YEAR_YEAR_YEAR
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
                         + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{projectId.toString(), year.toString()});

@@ -1,6 +1,5 @@
 package proadmin.db;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -8,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
  */
 abstract class AbstractDAO {
 
-    protected SQLiteDatabase mDb;
+    protected SQLiteDatabase db;
 
-    protected AbstractDAO(SQLiteDatabase mDb) {
-        this.mDb = mDb;
+    public void setDb(SQLiteDatabase db) {
+        this.db = db;
     }
 }

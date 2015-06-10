@@ -151,11 +151,12 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void selectProjectsOfSelectedYear() {
-        long selectedYear = Long.parseLong((String) this.spinnerYears.getSelectedItem());
+        String selectedYear = (String) this.spinnerYears.getSelectedItem();
+        Year year = new Year(Long.parseLong(selectedYear));
 
         DAO.open();
 
-        ListProjects listProjects = DAO.selectProjectsOfYear(new Year(selectedYear));
+        ListProjects listProjects = DAO.selectProjectsOfYear(year);
 
         DAO.close();
     }

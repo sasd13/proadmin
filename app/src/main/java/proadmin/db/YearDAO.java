@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.ListYears;
 import proadmin.content.Year;
@@ -16,12 +15,8 @@ class YearDAO extends AbstractDAO {
 
     public static final String YEAR_YEAR = "school_year";
 
-    public YearDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public void insert(Year year) {
-        mDb.insert(YEAR_TABLE_NAME, null, getContentValues(year));
+        db.insert(YEAR_TABLE_NAME, null, getContentValues(year));
     }
 
     private ContentValues getContentValues(Year year) {
@@ -33,13 +28,13 @@ class YearDAO extends AbstractDAO {
     }
 
     public void delete(Year year) {
-        mDb.delete(YEAR_TABLE_NAME, YEAR_YEAR + " = ?", new String[]{year.toString()});
+        db.delete(YEAR_TABLE_NAME, YEAR_YEAR + " = ?", new String[]{year.toString()});
     }
 
     public ListYears selectAll() {
         ListYears listYears = new ListYears();
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + YEAR_YEAR
                         + " from " + YEAR_TABLE_NAME + " order by desc", null);
 
@@ -54,7 +49,7 @@ class YearDAO extends AbstractDAO {
     public boolean contains(Year year) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + YEAR_YEAR
                         + " from " + YEAR_TABLE_NAME
                         + " where " + YEAR_YEAR + " = ?", new String[]{year.toString()});

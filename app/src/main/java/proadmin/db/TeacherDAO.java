@@ -2,7 +2,6 @@ package proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import proadmin.content.Id;
 import proadmin.content.Teacher;
@@ -20,12 +19,8 @@ class TeacherDAO extends AbstractDAO {
     public static final String TEACHER_EMAIL = "email";
     public static final String TEACHER_PASSWORD = "pwd";
 
-    public TeacherDAO(SQLiteDatabase mDb) {
-        super(mDb);
-    }
-
     public long insert(Teacher teacher) {
-        return mDb.insert(TEACHER_TABLE_NAME, null, getContentValues(teacher));
+        return db.insert(TEACHER_TABLE_NAME, null, getContentValues(teacher));
     }
 
     private ContentValues getContentValues(Teacher teacher) {
@@ -41,17 +36,17 @@ class TeacherDAO extends AbstractDAO {
     }
 
     public void update(Teacher teacher) {
-        mDb.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId().toString()});
+        db.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId().toString()});
     }
 
     public void delete(Id teacherId) {
-        mDb.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+        db.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId.toString()});
     }
 
     public Teacher select(Id teacherId) {
         Teacher teacher = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_EMAIL + ", " + TEACHER_PASSWORD
                         + " from " + TEACHER_TABLE_NAME
                         + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
@@ -72,7 +67,7 @@ class TeacherDAO extends AbstractDAO {
     public Teacher select(String email, String password) {
         Teacher teacher = null;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + TEACHER_ID + ", " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME
                         + " from " + TEACHER_TABLE_NAME
                         + " where " + TEACHER_EMAIL + " = ? and " + TEACHER_PASSWORD + " = ?", new String[]{email, password});
@@ -93,7 +88,7 @@ class TeacherDAO extends AbstractDAO {
     public boolean contains(Id teacherId) {
         boolean contains = false;
 
-        Cursor cursor = mDb.rawQuery(
+        Cursor cursor = db.rawQuery(
                 "select " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_EMAIL + ", " + TEACHER_PASSWORD
                         + " from " + TEACHER_TABLE_NAME
                         + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
