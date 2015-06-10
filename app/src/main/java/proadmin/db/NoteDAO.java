@@ -1,7 +1,6 @@
 package proadmin.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,8 +17,8 @@ class NoteDAO extends AbstractDAO {
     public static final String NOTE_STUDENT_ID = "student_id";
     public static final String NOTE_REPORT_ID = "report_id";
 
-    public NoteDAO(Context context, SQLiteDatabase mDb) {
-        super(context, mDb);
+    public NoteDAO(SQLiteDatabase mDb) {
+        super(mDb);
     }
 
     public void insert(MapNotes mapNotes, String reportId) {

@@ -78,7 +78,7 @@ public class SignUpActivity extends ActionBarActivity {
         Teacher teacher = validForm();
 
         if (teacher != null) {
-            DAO.open(this);
+            DAO.open();
 
             boolean signed = DAO.insertTeacher(teacher);
 

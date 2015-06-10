@@ -1,7 +1,6 @@
 package proadmin.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -25,8 +24,8 @@ class ReportDAO extends AbstractDAO {
     public static final String REPORT_SQUAD_ID = "squad_id";
     public static final String REPORT_STUDENT_ID = "student_id";
 
-    public ReportDAO(Context context, SQLiteDatabase mDb) {
-        super(context, mDb);
+    public ReportDAO(SQLiteDatabase mDb) {
+        super(mDb);
     }
 
     public long insert(Report report, String squadId) {

@@ -1,7 +1,6 @@
 package proadmin.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -21,8 +20,8 @@ class SquadDAO extends AbstractDAO {
     public static final String SQUAD_PROJECT_ID = "project_id";
     public static final String SQUAD_TEACHER_ID = "teacher_id";
 
-    public SquadDAO(Context context, SQLiteDatabase mDb) {
-        super(context, mDb);
+    public SquadDAO(SQLiteDatabase mDb) {
+        super(mDb);
     }
 
     public long insert(Squad squad) {

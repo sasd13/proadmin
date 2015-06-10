@@ -1,7 +1,6 @@
 package proadmin.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,8 +19,8 @@ class TeacherDAO extends AbstractDAO {
     public static final String TEACHER_EMAIL = "email";
     public static final String TEACHER_PASSWORD = "pwd";
 
-    public TeacherDAO(Context context, SQLiteDatabase mDb) {
-        super(context, mDb);
+    public TeacherDAO(SQLiteDatabase mDb) {
+        super(mDb);
     }
 
     public long insert(Teacher teacher) {

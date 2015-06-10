@@ -40,7 +40,7 @@ public class Session {
     }
 
     public static boolean logIn(String email, String password) {
-        DAO.open(context);
+        DAO.open();
 
         Teacher teacher = DAO.selectTeacher(email, password);
 
@@ -63,7 +63,7 @@ public class Session {
         return editor.commit();
     }
 
-    public static boolean updateSession(String teacherId) {
+    public static boolean update(String teacherId) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(SESSION_KEY);
         editor.putString(SESSION_KEY, teacherId);

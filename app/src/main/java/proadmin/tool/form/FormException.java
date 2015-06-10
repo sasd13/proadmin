@@ -1,7 +1,5 @@
 package proadmin.tool.form;
 
-import android.util.Log;
-
 /**
  * Created by Samir on 09/06/2015.
  */

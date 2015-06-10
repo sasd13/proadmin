@@ -1,7 +1,6 @@
 package proadmin.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,8 +19,8 @@ class ProjectDAO extends AbstractDAO {
     public static final String PROJECT_GRADE = "grade";
     public static final String PROJECT_DESCRIPTION = "description";
 
-    public ProjectDAO(Context context, SQLiteDatabase mDb) {
-        super(context, mDb);
+    public ProjectDAO(SQLiteDatabase mDb) {
+        super(mDb);
     }
 
     public long insert(Project project) {

@@ -143,7 +143,7 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private int addYearsInSpinner() {
-        DAO.open(this);
+        DAO.open();
 
         ListYears listYears = DAO.selectYears();
 
@@ -158,7 +158,7 @@ public class ProjectsActivity extends ActionBarActivity {
     private void selectProjectsOfSelectedYear() {
         long selectedYear = Long.parseLong((String) this.spinnerYears.getSelectedItem());
 
-        DAO.open(this);
+        DAO.open();
 
         ListProjects listProjects = DAO.selectProjectsOfYear(selectedYear);
 
@@ -169,7 +169,7 @@ public class ProjectsActivity extends ActionBarActivity {
         Project project = validForm();
 
         if (project != null) {
-            DAO.open(this);
+            DAO.open();
 
             boolean inserted = DAO.insertProject(project, this.currentYear);
 

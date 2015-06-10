@@ -8,11 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
  */
 abstract class AbstractDAO {
 
-    protected Context context;
     protected SQLiteDatabase mDb;
 
-    protected AbstractDAO(Context context, SQLiteDatabase mDb) {
-        this.context = context;
+    protected AbstractDAO(SQLiteDatabase mDb) {
         this.mDb = mDb;
     }
 }

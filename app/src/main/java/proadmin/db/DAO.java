@@ -45,18 +45,18 @@ public class DAO {
     }
 
     //Methode d'ouverture de la base de donnees
-	public static SQLiteDatabase open(Context context) {
+	public static SQLiteDatabase open() {
 		mDb = mHandler.getWritableDatabase();
 
-		teacherDAO = new TeacherDAO(context, mDb);
-        yearDAO = new YearDAO(context, mDb);
-		projectDAO = new ProjectDAO(context, mDb);
-		projectHasYearDAO = new ProjectHasYearDAO(context, mDb);
-		squadDAO = new SquadDAO(context, mDb);
-		studentDAO = new StudentDAO(context, mDb);
-		studentHasSquadDAO = new StudentHasSquadDAO(context, mDb);
-		reportDAO = new ReportDAO(context, mDb);
-		noteDAO = new NoteDAO(context, mDb);
+		teacherDAO = new TeacherDAO(mDb);
+        yearDAO = new YearDAO(mDb);
+		projectDAO = new ProjectDAO(mDb);
+		projectHasYearDAO = new ProjectHasYearDAO(mDb);
+		squadDAO = new SquadDAO(mDb);
+		studentDAO = new StudentDAO(mDb);
+		studentHasSquadDAO = new StudentHasSquadDAO(mDb);
+		reportDAO = new ReportDAO(mDb);
+		noteDAO = new NoteDAO(mDb);
 
 		return mDb;
 	}
