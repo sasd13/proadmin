@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import proadmin.content.Id;
+import proadmin.content.ListReports;
+import proadmin.content.ListStudents;
 import proadmin.content.Squad;
 import proadmin.content.Project;
 import proadmin.content.Teacher;
@@ -85,6 +87,9 @@ class SquadDAO extends AbstractDAO {
             Teacher teacher = DAO.selectTeacher(teacherId);
             squad.setTeacher(teacher);
         }
+
+        ListStudents listStudents = DAO.selectStudents(squadId);
+        ListReports listReports = DAO.selectReports(squadId);
 
         return squad;
     }

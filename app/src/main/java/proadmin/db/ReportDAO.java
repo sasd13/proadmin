@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import proadmin.content.Id;
 import proadmin.content.ListReports;
+import proadmin.content.MapNotes;
 import proadmin.content.Note;
 import proadmin.content.Report;
 
@@ -82,6 +83,9 @@ class ReportDAO extends AbstractDAO {
         }
         cursor.close();
 
+        MapNotes mapNotes = DAO.selectNotes(reportId);
+        report.setMapNotes(mapNotes);
+
         return report;
     }
 
@@ -113,6 +117,12 @@ class ReportDAO extends AbstractDAO {
             listReports.add(report);
         }
         cursor.close();
+
+        MapNotes mapNotes;
+        for (Object report2 : listReports) {
+            mapNotes = DAO.selectNotes(((Report) report2).getId());
+            ((Report) report2).setMapNotes(mapNotes);
+        }
 
         return listReports;
     }

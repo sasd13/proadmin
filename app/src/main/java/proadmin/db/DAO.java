@@ -6,6 +6,8 @@ import android.content.Context;
 import proadmin.content.Id;
 import proadmin.content.ListIds;
 import proadmin.content.ListProjects;
+import proadmin.content.ListReports;
+import proadmin.content.ListStudents;
 import proadmin.content.ListYears;
 import proadmin.content.Squad;
 import proadmin.content.MapNotes;
@@ -206,6 +208,20 @@ public class DAO {
 		return studentDAO.select(studentId);
 	}
 
+    public static ListStudents selectStudents(Id squadId) {
+        ListStudents listStudents = new ListStudents();
+
+        ListIds listIds = studentHasSquadDAO.selectAllOfSquad(squadId);
+
+        Student student;
+        for (Object id : listIds) {
+            student = studentDAO.select((Id) id);
+            listStudents.add(student);
+        }
+
+        return listStudents;
+    }
+
 	public static boolean insertReport(Report report, Id squadId) {
 		long rowId = reportDAO.insert(report, squadId);
 
@@ -223,6 +239,10 @@ public class DAO {
 	public static Report selectReport(Id reportId) {
 		return reportDAO.select(reportId);
 	}
+
+    public static ListReports selectReports(Id squadId) {
+        return reportDAO.selectAllOfSquad(squadId);
+    }
 
 	public static void insertNotes(MapNotes mapNotes, Id reportId) {
 		noteDAO.insert(mapNotes, reportId);
