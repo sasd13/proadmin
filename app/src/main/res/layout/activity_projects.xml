@@ -88,15 +88,18 @@
         android:layout_marginTop="15dp"
         android:layout_gravity="center">
 
-        <include
+        <!--<android.support.v7.widget.RecyclerView
             android:id="@+id/projects_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/recyclerview"
-            android:visibility="gone" />
+            android:layout_gravity="center"
+            android:padding="@dimen/activitycontent_padding"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:visibility="visible"/>-->
 
         <include
-            android:id="@+id/projects_project_layout"
+            android:id="@+id/projects_form_project_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/form_project_layout"

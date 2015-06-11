@@ -16,7 +16,7 @@ import com.example.proadmin.R;
 
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
-import proadmin.db.DAO;
+import proadmin.db.sqlite.SQLiteDAO;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
 import proadmin.tool.form.FormUserValidator;
@@ -78,11 +78,11 @@ public class SignUpActivity extends ActionBarActivity {
         Teacher teacher = validForm();
 
         if (teacher != null) {
-            DAO.open();
+            SQLiteDAO.open();
 
-            boolean signed = DAO.insertTeacher(teacher);
+            boolean signed = SQLiteDAO.insertTeacher(teacher);
 
-            DAO.close();
+            SQLiteDAO.close();
 
             if(!signed) {
                 CustomDialog.showDialog(this,

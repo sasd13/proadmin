@@ -19,7 +19,7 @@ import com.example.proadmin.R;
 import proadmin.constant.Extra;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
-import proadmin.session.Session;
+import proadmin.manager.session.Session;
 
 public class LogInActivity extends ActionBarActivity {
 

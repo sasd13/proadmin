@@ -1,4 +1,4 @@
-package proadmin.db;
+package proadmin.db.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package proadmin.db;
+package proadmin.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -83,7 +83,7 @@ class ReportDAO extends AbstractDAO {
         }
         cursor.close();
 
-        MapNotes mapNotes = DAO.selectNotes(reportId);
+        MapNotes mapNotes = SQLiteDAO.selectNotes(reportId);
         report.setMapNotes(mapNotes);
 
         return report;
@@ -120,7 +120,7 @@ class ReportDAO extends AbstractDAO {
 
         MapNotes mapNotes;
         for (Object report2 : listReports) {
-            mapNotes = DAO.selectNotes(((Report) report2).getId());
+            mapNotes = SQLiteDAO.selectNotes(((Report) report2).getId());
             ((Report) report2).setMapNotes(mapNotes);
         }
 

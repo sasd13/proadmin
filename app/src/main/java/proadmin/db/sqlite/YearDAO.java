@@ -1,4 +1,4 @@
-package proadmin.db;
+package proadmin.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -36,7 +36,7 @@ class YearDAO extends AbstractDAO {
 
         Cursor cursor = db.rawQuery(
                 "select " + YEAR_YEAR
-                        + " from " + YEAR_TABLE_NAME + " order by desc", null);
+                        + " from " + YEAR_TABLE_NAME + " order by " + YEAR_YEAR + " desc", null);
 
         if (cursor.moveToNext()) {
             listYears.add(new Year(cursor.getLong(0)));

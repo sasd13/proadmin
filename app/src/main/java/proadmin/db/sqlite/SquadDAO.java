@@ -1,4 +1,4 @@
-package proadmin.db;
+package proadmin.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -79,17 +79,17 @@ class SquadDAO extends AbstractDAO {
         cursor.close();
 
         if (projectId != null) {
-            Project project = DAO.selectProject(projectId);
+            Project project = SQLiteDAO.selectProject(projectId);
             squad.setProject(project);
         }
 
         if (teacherId != null) {
-            Teacher teacher = DAO.selectTeacher(teacherId);
+            Teacher teacher = SQLiteDAO.selectTeacher(teacherId);
             squad.setTeacher(teacher);
         }
 
-        ListStudents listStudents = DAO.selectStudents(squadId);
-        ListReports listReports = DAO.selectReports(squadId);
+        ListStudents listStudents = SQLiteDAO.selectStudents(squadId);
+        ListReports listReports = SQLiteDAO.selectReports(squadId);
 
         return squad;
     }

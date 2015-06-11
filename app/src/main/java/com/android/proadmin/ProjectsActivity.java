@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -20,7 +21,7 @@ import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
 import proadmin.content.Project;
 import proadmin.content.Year;
-import proadmin.db.DAO;
+import proadmin.db.sqlite.SQLiteDAO;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
 import proadmin.gui.widget.SpinnerAdapter;
@@ -49,6 +50,17 @@ public class ProjectsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_projects);
 
         this.spinnerYears = (Spinner) findViewById(R.id.projects_spinner_year);
+        this.spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectProjectsOfSelectedYear();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Button buttonList = (Button) findViewById(R.id.projects_button_list);
         Button buttonNew = (Button) findViewById(R.id.projects_button_new);
@@ -70,8 +82,8 @@ public class ProjectsActivity extends ActionBarActivity {
         buttonList.setOnClickListener(listener);
         buttonNew.setOnClickListener(listener);
 
-        this.recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
-        this.layoutProject = findViewById(R.id.projects_project_layout);
+        //this.recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
+        this.layoutProject = findViewById(R.id.projects_form_project_layout);
 
         this.formProject = new ViewHolder();
 
@@ -138,11 +150,11 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private int addYearsInSpinner() {
-        DAO.open();
+        SQLiteDAO.open();
 
-        ListYears listYears = DAO.selectYears();
+        ListYears listYears = SQLiteDAO.selectYears();
 
-        DAO.close();
+        SQLiteDAO.close();
 
         SpinnerAdapter adapter = new SpinnerAdapter(this, listYears);
         this.spinnerYears.setAdapter(adapter.getAdapter());
@@ -154,22 +166,22 @@ public class ProjectsActivity extends ActionBarActivity {
         String selectedYear = (String) this.spinnerYears.getSelectedItem();
         Year year = new Year(Long.parseLong(selectedYear));
 
-        DAO.open();
+        SQLiteDAO.open();
 
-        ListProjects listProjects = DAO.selectProjectsOfYear(year);
+        ListProjects listProjects = SQLiteDAO.selectProjectsOfYear(year);
 
-        DAO.close();
+        SQLiteDAO.close();
     }
 
     private void insert() {
         Project project = validForm();
 
         if (project != null) {
-            DAO.open();
+            SQLiteDAO.open();
 
-            boolean inserted = DAO.insertProject(project, new Year());
+            boolean inserted = SQLiteDAO.insertProject(project, new Year());
 
-            DAO.close();
+            SQLiteDAO.close();
 
             if(!inserted) {
                 CustomDialog.showDialog(this,
@@ -222,17 +234,28 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void switchToList() {
-        recyclerViewProjects.setVisibility(View.VISIBLE);
-        layoutProject.setVisibility(View.GONE);
-
         selectProjectsOfSelectedYear();
+        showList();
+    }
+
+    private void showList() {
+        //recyclerViewProjects.setVisibility(View.VISIBLE);
+        layoutProject.setVisibility(View.GONE);
     }
 
     private void switchToNew() {
-        layoutProject.setVisibility(View.VISIBLE);
-        recyclerViewProjects.setVisibility(View.GONE);
-
         prepareFormForNewProject();
+
+        this.formProject.buttonCreate.setVisibility(View.VISIBLE);
+        this.formProject.buttonDelete.setVisibility(View.INVISIBLE);
+        this.formProject.buttonDeleteAll.setVisibility(View.INVISIBLE);
+
+        showProject();
+    }
+
+    private void showProject() {
+        layoutProject.setVisibility(View.VISIBLE);
+        //recyclerViewProjects.setVisibility(View.GONE);
     }
 
     private void prepareFormForNewProject() {
@@ -241,6 +264,16 @@ public class ProjectsActivity extends ActionBarActivity {
         this.formProject.editTextTitle.setText("", EditText.BufferType.EDITABLE);
         this.formProject.editTextDescription.setText("", EditText.BufferType.EDITABLE);
         this.formProject.radioButtonL1.setChecked(true);
+    }
+
+    private void switchToConsult(String projectId) {
+        select(projectId);
+
+        this.formProject.buttonCreate.setVisibility(View.VISIBLE);
+        this.formProject.buttonDelete.setVisibility(View.INVISIBLE);
+        this.formProject.buttonDeleteAll.setVisibility(View.INVISIBLE);
+
+        showProject();
     }
 
     private void update() {

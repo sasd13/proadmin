@@ -1,4 +1,4 @@
-package proadmin.db;
+package proadmin.db.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
@@ -16,40 +16,44 @@ import proadmin.content.Report;
 import proadmin.content.Student;
 import proadmin.content.Teacher;
 import proadmin.content.Year;
+import proadmin.manager.data.DataAccessor;
 
-public class DAO {
+public class SQLiteDAO implements DataAccessor {
 	
-	//Constante de version de la base de donnees
 	protected final static int VERSION = 1;
-	
-	//Constante du fichier de la base de donnees
 	protected final static String NOM = "database.db";
-	
-	//Objet Base de donnees SQLite
 	protected static SQLiteDatabase db = null;
-	
-	//Objet Base de donnees de notre base DatabaseHandler
 	protected static DatabaseHandler dbHandler = null;
 
-	private static TeacherDAO teacherDAO = new TeacherDAO();
-    private static YearDAO yearDAO = new YearDAO();
-	private static ProjectDAO projectDAO = new ProjectDAO();
-	private static ProjectHasYearDAO projectHasYearDAO = new ProjectHasYearDAO();
-	private static SquadDAO squadDAO = new SquadDAO();
-	private static StudentDAO studentDAO = new StudentDAO();
-	private static StudentHasSquadDAO studentHasSquadDAO = new StudentHasSquadDAO();
-	private static ReportDAO reportDAO = new ReportDAO();
-	private static NoteDAO noteDAO = new NoteDAO();
+	protected static TeacherDAO teacherDAO;
+    protected static YearDAO yearDAO;
+	protected static ProjectDAO projectDAO;
+	protected static ProjectHasYearDAO projectHasYearDAO;
+	protected static SquadDAO squadDAO;
+	protected static StudentDAO studentDAO;
+	protected static StudentHasSquadDAO studentHasSquadDAO;
+	protected static ReportDAO reportDAO;
+	protected static NoteDAO noteDAO;
 
-	protected DAO() {}
+    public Context context;
 
-	//Methode d'ouverture de la base de donnees
-	public static void create(Context context) {
-		dbHandler = new DatabaseHandler(context, NOM, null, VERSION);
+	public SQLiteDAO() {
+        teacherDAO = new TeacherDAO();
+        yearDAO = new YearDAO();
+        projectDAO = new ProjectDAO();
+        projectHasYearDAO = new ProjectHasYearDAO();
+        squadDAO = new SquadDAO();
+        studentDAO = new StudentDAO();
+        studentHasSquadDAO = new StudentHasSquadDAO();
+        reportDAO = new ReportDAO();
+        noteDAO = new NoteDAO();
     }
 
-    //Methode d'ouverture de la base de donnees
-	public static SQLiteDatabase open() {
+    public void create(Context context) {
+        dbHandler = new DatabaseHandler(context, NOM, null, VERSION);
+    }
+
+    public void open() {
 		db = dbHandler.getWritableDatabase();
 
         teacherDAO.setDb(db);
@@ -61,53 +65,45 @@ public class DAO {
         studentHasSquadDAO.setDb(db);
         reportDAO.setDb(db);
         noteDAO.setDb(db);
-
-		return db;
 	}
 	
-	//Methode de fermeture de la base de donnees
-	public static void close() {
+	public void close() {
 		db.close();
 	}
-	
-	//Methode pour renvoyer la base de donnees
-	public static SQLiteDatabase getDb() {
-		return db;
-	}
 
-	public static boolean insertTeacher(Teacher teacher) {
+	public boolean insertTeacher(Teacher teacher) {
 		long rowId = teacherDAO.insert(teacher);
 
         return rowId > 0;
     }
 
-	public static void updateTeacher(Teacher teacher) {
+	public void updateTeacher(Teacher teacher) {
 		teacherDAO.update(teacher);
 	}
 
-	public static void deleteTeacher(Id teacherId) {
+	public void deleteTeacher(Id teacherId) {
 		squadDAO.deleteAllOfTeacher(teacherId);
 		teacherDAO.delete(teacherId);
 	}
 
-	public static Teacher selectTeacher(Id teacherId) {
+	public Teacher selectTeacher(Id teacherId) {
 		return teacherDAO.select(teacherId);
 	}
 
-	public static Teacher selectTeacher(String email, String password) {
+	public Teacher selectTeacher(String email, String password) {
 		return teacherDAO.select(email, password);
 	}
 
-    public static void deleteYear(Year year) {
+    public void deleteYear(Year year) {
         projectHasYearDAO.deleteAllOfYear(year);
         yearDAO.delete(year);
     }
 
-    public static ListYears selectYears() {
+    public ListYears selectYears() {
         return yearDAO.selectAll();
     }
 
-	public static boolean insertProject(Project project, Year year) {
+	public boolean insertProject(Project project, Year year) {
         if (!yearDAO.contains(year)) {
             yearDAO.insert(year);
         }
@@ -121,26 +117,26 @@ public class DAO {
         return rowId > 0;
 	}
 
-	public static void updateProject(Project project) {
+	public void updateProject(Project project) {
 		projectDAO.update(project);
 	}
 
-	public static void deleteProject(Id projectId) {
+	public void deleteProject(Id projectId) {
 		squadDAO.deleteAllOfProject(projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
-	public static void deleteProjectFromYear(Id projectId, Year year) {
+	public void deleteProjectFromYear(Id projectId, Year year) {
 		squadDAO.deleteAllOfYearAndProject(year, projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 	}
 
-	public static Project selectProject(Id projectId) {
+	public Project selectProject(Id projectId) {
 		return projectDAO.select(projectId);
 	}
 
-    public static ListProjects selectProjectsOfYear(Year year) {
+    public ListProjects selectProjectsOfYear(Year year) {
         ListProjects listProjects = new ListProjects();
 
         ListIds listProjectsIds = projectHasYearDAO.selectAllOfYear(year);
@@ -151,7 +147,7 @@ public class DAO {
         return listProjects;
     }
 
-	public static boolean insertSquad(Squad squad) {
+	public boolean insertSquad(Squad squad) {
 		long rowId = squadDAO.insert(squad);
 
 		if (rowId > 0) {
@@ -167,21 +163,21 @@ public class DAO {
         return rowId > 0;
 	}
 
-	public static void updateSquad(Squad squad) {
+	public void updateSquad(Squad squad) {
 		squadDAO.update(squad);
 	}
 
-	public static void deleteSquad(Id squadId) {
+	public void deleteSquad(Id squadId) {
 		reportDAO.deleteAllOfSquad(squadId);
 		studentHasSquadDAO.deleteAllOfSquad(squadId);
 		squadDAO.delete(squadId);
 	}
 
-	public static Squad selectSquad(Id squadId) {
+	public Squad selectSquad(Id squadId) {
 		return squadDAO.select(squadId);
 	}
 
-	public static boolean insertStudent(Student student, Id squadId) {
+	public boolean insertStudent(Student student, Id squadId) {
 		if (!studentDAO.contains(student.getId())) {
 			studentDAO.insert(student);
 		}
@@ -191,24 +187,24 @@ public class DAO {
         return rowId > 0;
 	}
 
-	public static void updateStudent(Student student) {
+	public void updateStudent(Student student) {
 		studentDAO.update(student);
 	}
 
-	public static void deleteStudent(Id studentId) {
+	public void deleteStudent(Id studentId) {
 		studentHasSquadDAO.deleteAllOfStudent(studentId);
 		studentDAO.delete(studentId);
 	}
 
-	public static void deleteStudentFromSquad(Id studentId, Id squadId) {
+	public void deleteStudentFromSquad(Id studentId, Id squadId) {
 		studentHasSquadDAO.delete(studentId, squadId);
 	}
 
-	public static Student selectStudent(Id studentId) {
+	public Student selectStudent(Id studentId) {
 		return studentDAO.select(studentId);
 	}
 
-    public static ListStudents selectStudents(Id squadId) {
+    public ListStudents selectStudents(Id squadId) {
         ListStudents listStudents = new ListStudents();
 
         ListIds listIds = studentHasSquadDAO.selectAllOfSquad(squadId);
@@ -222,41 +218,41 @@ public class DAO {
         return listStudents;
     }
 
-	public static boolean insertReport(Report report, Id squadId) {
+	public boolean insertReport(Report report, Id squadId) {
 		long rowId = reportDAO.insert(report, squadId);
 
         return rowId > 0;
 	}
 
-	public static void updateReport(Report report, Id squadId) {
+	public void updateReport(Report report, Id squadId) {
 		reportDAO.update(report, squadId);
 	}
 
-	public static void deleteReport(Id reportId) {
+	public void deleteReport(Id reportId) {
 		reportDAO.delete(reportId);
 	}
 
-	public static Report selectReport(Id reportId) {
+	public Report selectReport(Id reportId) {
 		return reportDAO.select(reportId);
 	}
 
-    public static ListReports selectReports(Id squadId) {
+    public ListReports selectReports(Id squadId) {
         return reportDAO.selectAllOfSquad(squadId);
     }
 
-	public static void insertNotes(MapNotes mapNotes, Id reportId) {
+	public void insertNotes(MapNotes mapNotes, Id reportId) {
 		noteDAO.insert(mapNotes, reportId);
 	}
 
-	public static void updateNotes(MapNotes mapNotes, Id reportId) {
+	public void updateNotes(MapNotes mapNotes, Id reportId) {
 		noteDAO.update(mapNotes, reportId);
 	}
 
-	public static void deleteNotes(Id studentId, Id reportId) {
+	public void deleteNotes(Id studentId, Id reportId) {
 		noteDAO.delete(studentId, reportId);
 	}
 
-	public static MapNotes selectNotes(Id reportId) {
+	public MapNotes selectNotes(Id reportId) {
 		return noteDAO.selectAllOfReport(reportId);
 	}
 }

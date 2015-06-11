@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.example.proadmin.R;
 
-import proadmin.db.DAO;
+import proadmin.db.sqlite.SQLiteDAO;
 import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
@@ -35,7 +35,7 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        DAO.create(this);
+        SQLiteDAO.create(this);
         Session.start(this);
 
         if (Session.isLogged()) {
