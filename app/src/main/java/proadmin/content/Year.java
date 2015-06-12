@@ -27,6 +27,6 @@ public class Year {
 
     @Override
     public String toString() {
-        return String.valueOf(this.value);
+        return Long.toString(this.value);
     }
 }

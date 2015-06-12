@@ -27,8 +27,6 @@ public class SignUpActivity extends ActionBarActivity {
 
     private static final int SIGNUP_TIME_OUT = 2000;
 
-    private DataAccessor dao;
-
     private class ViewHolder {
         public EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
         public CheckBox checkBoxValid;
@@ -36,13 +34,14 @@ public class SignUpActivity extends ActionBarActivity {
 
     private ViewHolder formUser;
 
+    private DataAccessor dao;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_signup);
 
-        //Set Form user
         this.formUser = new ViewHolder();
 
         this.formUser.editTextFirstName = (EditText) findViewById(R.id.form_user_edittext_firstname);

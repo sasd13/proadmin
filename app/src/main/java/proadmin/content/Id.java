@@ -11,6 +11,8 @@ public class Id {
 
     public Id() {
         count++;
+
+        this.id = "id-" + count;
     }
 
     public Id(String id) {

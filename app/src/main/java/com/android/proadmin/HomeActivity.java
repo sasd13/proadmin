@@ -1,6 +1,8 @@
 package com.android.proadmin;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +18,8 @@ import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
 
 public class HomeActivity extends Activity {
+
+    private static final int LOGOUT_TIME_OUT = 2000;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +37,25 @@ public class HomeActivity extends Activity {
                 Intent intent;
 
                 switch (v.getId()) {
-                    case R.id.imageview_squad:
-                        intent = new Intent(HomeActivity.this, SquadsActivity.class);
-                        startActivity(intent);
+                    case R.id.imageview_calendar:
+                        intent = new Intent(HomeActivity.this, SettingsActivity.class);
                         break;
                     case R.id.imageview_project:
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
-                        startActivity(intent);
+                        break;
+                    case R.id.imageview_squad:
+                        intent = new Intent(HomeActivity.this, SquadsActivity.class);
                         break;
                     case R.id.imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
-                        startActivity(intent);
                         break;
+                    default:
+                        intent = new Intent(HomeActivity.this, HomeActivity.class);
+                        break;
+
                 }
+
+                startActivity(intent);
             }
         };
 
@@ -62,17 +72,11 @@ public class HomeActivity extends Activity {
         if (getIntent().hasExtra(Extra.WELCOME) && getIntent().getBooleanExtra(Extra.WELCOME, false)) {
             getIntent().removeExtra(Extra.WELCOME);
 
-            CharSequence firstName = getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME);
-            CustomDialog.showDialog(
-                    this,
-                    getResources().getString(R.string.home_alertdialog_welcome_title),
-                    getResources().getString(R.string.home_alertdialog_welcome_message) + " " + firstName + " !",
-                    CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                    null);
+            showWelcome();
         } else if (getIntent().hasExtra(Extra.EXIT) && getIntent().getBooleanExtra(Extra.EXIT, false)) {
             getIntent().removeExtra(Extra.EXIT);
 
-            finish();
+            goToLogin();
         }
     }
 
@@ -90,5 +94,38 @@ public class HomeActivity extends Activity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showWelcome() {
+        CharSequence firstName = getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME);
+        CustomDialog.showDialog(
+                this,
+                getResources().getString(R.string.home_alertdialog_welcome_title),
+                getResources().getString(R.string.home_alertdialog_welcome_message) + " " + firstName + " !",
+                CustomDialogBuilder.TYPE_ONEBUTTON_OK,
+                null);
+    }
+
+    private void goToLogin() {
+        CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
+        final AlertDialog dialog = builder.create();
+
+        final Intent intent = new Intent(this, LogInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+            }
+        };
+
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, LOGOUT_TIME_OUT);
+
+        dialog.show();
     }
 }

@@ -35,19 +35,20 @@
     <string name="projects_button_new">Nouveau</string>
 
     <!-- Activity Settings -->
-    <string name="settings_form_user_textview_validcheckbox_connect">Rester connecté</string>
-    <string name="settings_form_user_button_logout">Déconnexion</string>
     <string name="settings_alertdialog_logout_title">Déconnexion</string>
     <string name="settings_alertdialog_lougout_message_error">Un problème est survenu : impossible de déconnecter</string>
+    <string name="settings_textview_security">Sécurité</string>
 
     <!-- Application -->
     <string name="app_name">ProAdmin</string>
 
     <!-- Button -->
-    <string name="button_save">Enregistrer</string>
     <string name="button_login">Connexion</string>
-    <string name="button_remove">Supprimer</string>
+    <string name="button_logout">Déconnexion</string>
+    <string name="button_save">Enregistrer</string>
+    <string name="button_reset">Reset</string>
     <string name="button_create">Créer</string>
+    <string name="button_remove">Supprimer</string>
 
     <!-- Dialog -->
     <string name="alertdialog_careful_title">Attention</string>

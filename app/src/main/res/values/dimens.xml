@@ -18,8 +18,9 @@
     <dimen name="home_imageview_margin">10dp</dimen>
 
     <!-- Button -->
-    <dimen name="button_horizontalpadding">20dp</dimen>
-    <dimen name="button_verticalpadding">10dp</dimen>
+    <dimen name="button_width">115dp</dimen>
+    <dimen name="button_width_large">155dp</dimen>
+    <dimen name="button_height">45dp</dimen>
 
     <!-- Dialog -->
     <dimen name="customdialog_progressbar_padding">15dp</dimen>

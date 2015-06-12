@@ -56,11 +56,13 @@
 
             <Button
                 android:id="@+id/signup_button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/viewgroup_margintop"
-                android:text="@string/button_save"/>
+                android:background="#dda600"
+                android:text="@string/button_save"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 

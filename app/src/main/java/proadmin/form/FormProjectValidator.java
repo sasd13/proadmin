@@ -26,7 +26,7 @@ public class FormProjectValidator {
     }
 
     private static void validYear(String year) throws FormException {
-        if (year.compareTo(new Year().toString()) == 0) {
+        if (year.trim().compareTo(new Year().toString()) != 0) {
             throw new FormException("date must be current");
         }
     }

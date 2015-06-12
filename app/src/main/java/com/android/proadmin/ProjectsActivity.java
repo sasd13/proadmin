@@ -34,8 +34,6 @@ public class ProjectsActivity extends ActionBarActivity {
     private RecyclerView recyclerViewProjects;
     private View layoutProject;
 
-    private DataAccessor dao;
-
     private class ViewHolder {
         public TextView textViewYear, textViewId;
         public EditText editTextTitle, editTextDescription;
@@ -45,6 +43,8 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private ViewHolder formProject;
+
+    private DataAccessor dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,24 +66,20 @@ public class ProjectsActivity extends ActionBarActivity {
         });
 
         Button buttonList = (Button) findViewById(R.id.projects_button_list);
-        Button buttonNew = (Button) findViewById(R.id.projects_button_new);
-
-        View.OnClickListener listener = new View.OnClickListener() {
+        buttonList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.projects_button_list:
-                        switchToList();
-                        break;
-                    case R.id.projects_button_new:
-                        switchToNew();
-                        break;
-                }
+                switchToList();
             }
-        };
+        });
 
-        buttonList.setOnClickListener(listener);
-        buttonNew.setOnClickListener(listener);
+        Button buttonNew = (Button) findViewById(R.id.projects_button_new);
+        buttonNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToNew();
+            }
+        });
 
         //this.recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
         this.layoutProject = findViewById(R.id.projects_form_project_layout);
@@ -184,9 +180,27 @@ public class ProjectsActivity extends ActionBarActivity {
         if (project != null) {
             this.dao.open();
 
-            this.dao.insertProject(project, new Year());
+            boolean inserted = this.dao.insertProject(project, new Year());
 
             this.dao.close();
+
+            if(inserted) {
+                CustomDialog.showDialog(
+                        this,
+                        "Project",
+                        "The project is added",
+                        CustomDialogBuilder.TYPE_ONEBUTTON_OK,
+                        null
+                );
+            } else {
+                CustomDialog.showDialog(
+                        this,
+                        "Project",
+                        "The project was not added",
+                        CustomDialogBuilder.TYPE_ONEBUTTON_OK,
+                        null
+                );
+            }
         }
     }
 

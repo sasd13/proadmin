@@ -2,7 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -51,14 +50,14 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_margin="7dp"
-            android:background="#eff1f2"
+            android:background="@drawable/abc_spinner_mtrl_am_alpha"
             android:gravity="center"
             android:prompt="@string/projects_spinner_year"/>
 
         <Button
             android:id="@+id/projects_button_list"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:layout_weight="1"
             android:layout_margin="7dp"
             android:background="#dda600"
@@ -70,7 +69,7 @@
         <Button
             android:id="@+id/projects_button_new"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:layout_weight="1"
             android:layout_margin="7dp"
             android:background="#dda600"
@@ -84,7 +83,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:layout_gravity="center">
 

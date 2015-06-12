@@ -1,282 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content"
+    android:scrollbarStyle="outsideOverlay">
 
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/settings_linearlayout_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:background="#dda600"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="28dp"
                 android:layout_height="30dp"
-                android:background="#116389"
-                android:baselineAligned="false" >
+                android:background="#337caa" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#dda600"
-                    android:orientation="horizontal" >
-
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="28dp"
-                        android:layout_height="30dp"
-                        android:background="#337caa"
-                        android:contentDescription="@+id/attribut_Todo" />
-
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="match_parent"
-                        android:layout_height="28dp"
-                        android:background="#337caa"
-                        android:gravity="center|right"
-                        android:paddingRight="20dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#ffffff"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#000000"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/config_bouton_dftConfig"
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:background="#eff1f2"
-                        android:onClick="ButtonOnclick"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="600dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="#000000" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="12sp" />
-
-                    <View
-                        android:layout_width="600dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="#000000" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-
-                        <EditText
-                            android:id="@+id/config_encadrant_nom"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:ems="10"
-                            android:hint="Nom Encadrant"
-                            android:inputType="textPersonName" >
-
-                            <requestFocus />
-                        </EditText>
-
-                        <EditText
-                            android:id="@+id/config_encadrant_prenom"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Prenom Encadrant"
-                            android:inputType="textPersonName" />
-
-                        <EditText
-                            android:id="@+id/config_encadrant_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Email"
-                            android:inputType="textEmailAddress" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="600dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#000000" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="600dp"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <RadioGroup
-                        android:id="@+id/config_securite_radioGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#eff1f2"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <RadioButton
-                            android:id="@+id/config_securite_radioButton_oui"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <RadioButton
-                            android:id="@+id/config_securite_radioButton_non"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true" />
-                    </RadioGroup>
-
-                    <EditText
-                        android:id="@+id/config_securite_mdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Mot de Passe"
-                        android:inputType="textPassword" />
-
-                    <EditText
-                        android:id="@+id/config_securite_confirm_mdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Confirmez"
-                        android:inputType="textPassword" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="600dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="#000000" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="12sp" />
-
-                    <View
-                        android:layout_width="600dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="#000000" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#eff1f2"
-                        android:orientation="horizontal" >
-
-                        <RadioGroup
-                            android:id="@+id/config_radioGroup_demarrage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="#eff1f2"
-                            android:gravity="center"
-                            android:orientation="vertical" >
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_accueil"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:checked="true"
-                                android:textSize="12sp" />
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_projets"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp" />
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_squads"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp" />
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_config"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp" />
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_radioButton_fiches"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" FICHE EVALUATION"
-                                android:textSize="12sp" />
-
-                            <RadioButton
-                                android:id="@+id/config_demarrage_rb_bilan"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="BILAN"
-                                android:textSize="12sp" />
-                        </RadioGroup>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="28dp"
+                android:background="#337caa"
+                android:gravity="center|right"
+                android:paddingRight="20dp"
+                android:text="@string/activity_settings_name"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
         </LinearLayout>
 
-    </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activitycontent_padding">
 
-</LinearLayout>
+            <include
+                android:id="@+id/settings_layout_teacher_edit"
+                layout="@layout/form_user_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/settings_textview_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/viewgroup_margintop"
+                android:layout_below="@id/settings_layout_teacher_edit"
+                android:text="@string/settings_textview_security"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_medium"
+                android:textStyle="bold|italic"/>
+
+            <View
+                android:id="@+id/settings_textview_security_divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/dividerview_margintop"
+                android:layout_below="@id/settings_textview_security"
+                android:background="@color/black" />
+
+            <RadioGroup
+                android:id="@+id/settings_radiogroup_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_textview_security_divider"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/view_margintop_medium"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/settings_radiobutton_security_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/settings_radiobutton_security_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="No"
+                    android:checked="true"/>
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/settings_button_logout"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_below="@id/settings_radiogroup_security"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/viewgroup_margintop"
+                android:layout_gravity="center"
+                android:text="@string/button_logout"
+                android:textColor="@color/white"
+                android:background="#337caa"/>
+
+            <Button
+                android:id="@+id/settings_button_reset"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@id/settings_button_logout"
+                android:layout_gravity="center"
+                android:text="@string/button_reset"
+                android:textColor="@color/white"
+                android:background="#337caa"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>
