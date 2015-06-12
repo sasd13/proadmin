@@ -83,7 +83,7 @@ class ReportDAO extends AbstractDAO {
         }
         cursor.close();
 
-        MapNotes mapNotes = SQLiteDAO.selectNotes(reportId);
+        MapNotes mapNotes = SQLiteDAO.getInstance().selectNotes(reportId);
         report.setMapNotes(mapNotes);
 
         return report;
@@ -120,7 +120,7 @@ class ReportDAO extends AbstractDAO {
 
         MapNotes mapNotes;
         for (Object report2 : listReports) {
-            mapNotes = SQLiteDAO.selectNotes(((Report) report2).getId());
+            mapNotes = SQLiteDAO.getInstance().selectNotes(((Report) report2).getId());
             ((Report) report2).setMapNotes(mapNotes);
         }
 

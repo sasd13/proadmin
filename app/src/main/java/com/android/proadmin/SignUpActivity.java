@@ -16,15 +16,18 @@ import com.example.proadmin.R;
 
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
-import proadmin.db.sqlite.SQLiteDAO;
+import proadmin.db.DataManager;
+import proadmin.db.accessor.DataAccessor;
+import proadmin.form.FormUserValidator;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
-import proadmin.tool.form.FormUserValidator;
 import proadmin.session.Session;
 
 public class SignUpActivity extends ActionBarActivity {
 
     private static final int SIGNUP_TIME_OUT = 2000;
+
+    private DataAccessor dao;
 
     private class ViewHolder {
         public EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
@@ -59,6 +62,13 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        this.dao = DataManager.getDao();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
@@ -78,11 +88,11 @@ public class SignUpActivity extends ActionBarActivity {
         Teacher teacher = validForm();
 
         if (teacher != null) {
-            SQLiteDAO.open();
+            this.dao.open();
 
-            boolean signed = SQLiteDAO.insertTeacher(teacher);
+            boolean signed = this.dao.insertTeacher(teacher);
 
-            SQLiteDAO.close();
+            this.dao.close();
 
             if(!signed) {
                 CustomDialog.showDialog(this,

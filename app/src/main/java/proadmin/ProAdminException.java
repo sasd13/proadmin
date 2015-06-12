@@ -1,13 +1,13 @@
-package proadmin.tool.form;
+package proadmin;
 
 /**
- * Created by Samir on 09/06/2015.
+ * Created by Samir on 11/06/2015.
  */
-public class FormException extends Exception {
+public class ProAdminException extends Exception {
 
     private String message;
 
-    public FormException (String message) {
+    public ProAdminException(String message) {
         this.message = message;
     }
 

@@ -21,17 +21,20 @@ import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
 import proadmin.content.Project;
 import proadmin.content.Year;
-import proadmin.db.sqlite.SQLiteDAO;
+import proadmin.db.DataManager;
+import proadmin.db.accessor.DataAccessor;
+import proadmin.form.FormProjectValidator;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
 import proadmin.gui.widget.SpinnerAdapter;
-import proadmin.tool.form.FormProjectValidator;
 
 public class ProjectsActivity extends ActionBarActivity {
 
     private Spinner spinnerYears;
     private RecyclerView recyclerViewProjects;
     private View layoutProject;
+
+    private DataAccessor dao;
 
     private class ViewHolder {
         public TextView textViewYear, textViewId;
@@ -127,6 +130,8 @@ public class ProjectsActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
+        this.dao = DataManager.getDao();
+
         int spinnerSize = addYearsInSpinner();
         if (spinnerSize > 0) {
             selectProjectsOfSelectedYear();
@@ -150,11 +155,11 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private int addYearsInSpinner() {
-        SQLiteDAO.open();
+        this.dao.open();
 
-        ListYears listYears = SQLiteDAO.selectYears();
+        ListYears listYears = this.dao.selectYears();
 
-        SQLiteDAO.close();
+        this.dao.close();
 
         SpinnerAdapter adapter = new SpinnerAdapter(this, listYears);
         this.spinnerYears.setAdapter(adapter.getAdapter());
@@ -166,36 +171,22 @@ public class ProjectsActivity extends ActionBarActivity {
         String selectedYear = (String) this.spinnerYears.getSelectedItem();
         Year year = new Year(Long.parseLong(selectedYear));
 
-        SQLiteDAO.open();
+        this.dao.open();
 
-        ListProjects listProjects = SQLiteDAO.selectProjectsOfYear(year);
+        ListProjects listProjects = this.dao.selectProjectsOfYear(year);
 
-        SQLiteDAO.close();
+        this.dao.close();
     }
 
     private void insert() {
         Project project = validForm();
 
         if (project != null) {
-            SQLiteDAO.open();
+            this.dao.open();
 
-            boolean inserted = SQLiteDAO.insertProject(project, new Year());
+            this.dao.insertProject(project, new Year());
 
-            SQLiteDAO.close();
-
-            if(!inserted) {
-                CustomDialog.showDialog(this,
-                        "Error",
-                        "Project is not created",
-                        CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                        null);
-            } else {
-                CustomDialog.showDialog(this,
-                        "New",
-                        "Project is created",
-                        CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                        null);
-            }
+            this.dao.close();
         }
     }
 

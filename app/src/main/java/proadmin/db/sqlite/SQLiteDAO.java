@@ -16,28 +16,29 @@ import proadmin.content.Report;
 import proadmin.content.Student;
 import proadmin.content.Teacher;
 import proadmin.content.Year;
-import proadmin.manager.data.DataAccessor;
+import proadmin.db.accessor.DataAccessor;
+import proadmin.db.accessor.DataAccessorType;
 
 public class SQLiteDAO implements DataAccessor {
+
+    private static SQLiteDAO instance = null;
 	
-	protected final static int VERSION = 1;
-	protected final static String NOM = "database.db";
-	protected static SQLiteDatabase db = null;
-	protected static DatabaseHandler dbHandler = null;
+	private static final int VERSION = 1;
+	private static final String NOM = "database.db";
+	private SQLiteDatabase db = null;
+	private DatabaseHandler dbHandler = null;
 
-	protected static TeacherDAO teacherDAO;
-    protected static YearDAO yearDAO;
-	protected static ProjectDAO projectDAO;
-	protected static ProjectHasYearDAO projectHasYearDAO;
-	protected static SquadDAO squadDAO;
-	protected static StudentDAO studentDAO;
-	protected static StudentHasSquadDAO studentHasSquadDAO;
-	protected static ReportDAO reportDAO;
-	protected static NoteDAO noteDAO;
+	private TeacherDAO teacherDAO;
+    private YearDAO yearDAO;
+	private ProjectDAO projectDAO;
+	private ProjectHasYearDAO projectHasYearDAO;
+	private SquadDAO squadDAO;
+	private StudentDAO studentDAO;
+	private StudentHasSquadDAO studentHasSquadDAO;
+	private ReportDAO reportDAO;
+	private NoteDAO noteDAO;
 
-    public Context context;
-
-	public SQLiteDAO() {
+	private SQLiteDAO() {
         teacherDAO = new TeacherDAO();
         yearDAO = new YearDAO();
         projectDAO = new ProjectDAO();
@@ -47,6 +48,14 @@ public class SQLiteDAO implements DataAccessor {
         studentHasSquadDAO = new StudentHasSquadDAO();
         reportDAO = new ReportDAO();
         noteDAO = new NoteDAO();
+    }
+
+    public static synchronized SQLiteDAO getInstance() {
+        if (instance == null) {
+            instance = new SQLiteDAO();
+        }
+
+        return instance;
     }
 
     public void create(Context context) {
@@ -71,7 +80,12 @@ public class SQLiteDAO implements DataAccessor {
 		db.close();
 	}
 
-	public boolean insertTeacher(Teacher teacher) {
+    @Override
+    public DataAccessorType getType() {
+        return DataAccessorType.SQLITE;
+    }
+
+    public boolean insertTeacher(Teacher teacher) {
 		long rowId = teacherDAO.insert(teacher);
 
         return rowId > 0;

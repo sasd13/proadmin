@@ -1,12 +1,11 @@
-package proadmin.manager.session;
+package proadmin.session;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import proadmin.content.Teacher;
-import proadmin.db.sqlite.SQLiteDAO;
-import proadmin.manager.data.Data;
-import proadmin.manager.data.DataAccessor;
+import proadmin.db.accessor.DataAccessor;
+import proadmin.db.DataManager;
 
 /**
  * Created by Samir on 15/03/2015.
@@ -17,13 +16,12 @@ public class Session {
     private static final String SESSION_KEY = "teacher_id";
 
     private static SharedPreferences preferences;
-    private static DataAccessor dao;
+    private static DataAccessor dao = DataManager.getDao();
 
     protected Session() {}
     
     public static void start(Context context) {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
-        dao = Data.getInstance(context).getDao();
     }
 
     public static boolean dispose() {
@@ -44,7 +42,7 @@ public class Session {
     public static boolean logIn(String email, String password) {
         dao.open();
 
-        Teacher teacher = ((SQLiteDAO) dao).selectTeacher(email, password);
+        Teacher teacher = dao.selectTeacher(email, password);
 
         dao.close();
 

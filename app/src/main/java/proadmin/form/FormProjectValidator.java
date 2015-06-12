@@ -1,4 +1,4 @@
-package proadmin.tool.form;
+package proadmin.form;
 
 import proadmin.content.Year;
 
