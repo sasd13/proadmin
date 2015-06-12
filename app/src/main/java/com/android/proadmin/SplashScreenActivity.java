@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.example.proadmin.R;
 
 import proadmin.db.DataManager;
-import proadmin.db.accessor.DataAccessorType;
 import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
@@ -24,10 +23,8 @@ public class SplashScreenActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Set content view
         setContentView(R.layout.activity_splashscreen);
 
-        //Set Logo
         ImageView imageView = (ImageView) findViewById(R.id.splashscreen_imageview_logo);
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
     }
@@ -36,7 +33,7 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        DataManager.start(this, DataAccessorType.SQLITE);
+        DataManager.start(this);
         Session.start(this);
 
         if (Session.isLogged()) {
@@ -99,7 +96,7 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void detachActivity() {
-        if(this.runnable != null && this.handler != null) {
+        if(this.handler != null && this.runnable != null) {
             this.handler.removeCallbacks(this.runnable);
         }
     }

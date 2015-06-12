@@ -10,18 +10,14 @@ import proadmin.content.Viewable;
  */
 public class SpinnerAdapter {
 
-    private ArrayAdapter adapter;
+    private ArrayAdapter<String> adapter;
 
     public SpinnerAdapter(Context context, Viewable viewable) {
-        this.adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, viewable.getListSrings());
+        this.adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, viewable.getListSrings());
         this.adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
     }
 
-    public ArrayAdapter getAdapter() {
+    public ArrayAdapter<String> getAdapter() {
         return this.adapter;
-    }
-
-    public void setAdapter(ArrayAdapter adapter) {
-        this.adapter = adapter;
     }
 }

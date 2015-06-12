@@ -186,26 +186,26 @@
                 android:visibility="invisible" />
 
             <Button
-                android:id="@+id/form_project_button_delete"
+                android:id="@+id/form_project_button_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
                 android:background="#dda600"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="@string/button_delete"
+                android:text="@string/button_remove"
                 android:textColor="@color/white"
                 android:visibility="visible" />
 
             <Button
-                android:id="@+id/form_project_button_delete_all"
+                android:id="@+id/form_project_button_remove_all"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_alignParentRight="true"
                 android:background="#dda600"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="@string/form_project_button_delete_all"
+                android:text="@string/form_project_button_remove_all"
                 android:textColor="@color/white"
                 android:visibility="visible" />
 

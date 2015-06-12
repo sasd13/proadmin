@@ -41,7 +41,7 @@ public class ProjectsActivity extends ActionBarActivity {
         public EditText editTextTitle, editTextDescription;
         public RadioGroup radioGroupGrade;
         public RadioButton radioButtonL1, radioButtonL2, radioButtonL3, radioButtonM1, radioButtonM2;
-        public Button buttonCreate, buttonDelete, buttonDeleteAll;
+        public Button buttonCreate, buttonRemove, buttonRemoveAll;
     }
 
     private ViewHolder formProject;
@@ -56,7 +56,7 @@ public class ProjectsActivity extends ActionBarActivity {
         this.spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectProjectsOfSelectedYear();
+                loadProjectsOfSelectedYear();
             }
 
             @Override
@@ -105,23 +105,23 @@ public class ProjectsActivity extends ActionBarActivity {
         this.formProject.buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insert();
+                addProjectForCurrentYear();
             }
         });
 
-        this.formProject.buttonDelete = (Button) findViewById(R.id.form_project_button_delete);
-        this.formProject.buttonDelete.setOnClickListener(new View.OnClickListener() {
+        this.formProject.buttonRemove = (Button) findViewById(R.id.form_project_button_remove);
+        this.formProject.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delete();
+                removeProjectForYear();
             }
         });
 
-        this.formProject.buttonDeleteAll = (Button) findViewById(R.id.form_project_button_delete_all);
-        this.formProject.buttonDeleteAll.setOnClickListener(new View.OnClickListener() {
+        this.formProject.buttonRemoveAll = (Button) findViewById(R.id.form_project_button_remove_all);
+        this.formProject.buttonRemoveAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAll();
+                removeProjectForAllYears();
             }
         });
     }
@@ -134,7 +134,7 @@ public class ProjectsActivity extends ActionBarActivity {
 
         int spinnerSize = addYearsInSpinner();
         if (spinnerSize > 0) {
-            selectProjectsOfSelectedYear();
+            loadProjectsOfSelectedYear();
         }
     }
 
@@ -161,13 +161,13 @@ public class ProjectsActivity extends ActionBarActivity {
 
         this.dao.close();
 
-        SpinnerAdapter adapter = new SpinnerAdapter(this, listYears);
-        this.spinnerYears.setAdapter(adapter.getAdapter());
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, listYears);
+        this.spinnerYears.setAdapter(spinnerAdapter.getAdapter());
 
         return listYears.size();
     }
 
-    private void selectProjectsOfSelectedYear() {
+    private void loadProjectsOfSelectedYear() {
         String selectedYear = (String) this.spinnerYears.getSelectedItem();
         Year year = new Year(Long.parseLong(selectedYear));
 
@@ -178,7 +178,7 @@ public class ProjectsActivity extends ActionBarActivity {
         this.dao.close();
     }
 
-    private void insert() {
+    private void addProjectForCurrentYear() {
         Project project = validForm();
 
         if (project != null) {
@@ -225,7 +225,7 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void switchToList() {
-        selectProjectsOfSelectedYear();
+        loadProjectsOfSelectedYear();
         showList();
     }
 
@@ -238,8 +238,8 @@ public class ProjectsActivity extends ActionBarActivity {
         prepareFormForNewProject();
 
         this.formProject.buttonCreate.setVisibility(View.VISIBLE);
-        this.formProject.buttonDelete.setVisibility(View.INVISIBLE);
-        this.formProject.buttonDeleteAll.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemove.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemoveAll.setVisibility(View.INVISIBLE);
 
         showProject();
     }
@@ -258,31 +258,31 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void switchToConsult(String projectId) {
-        select(projectId);
+        loadProject(projectId);
 
         this.formProject.buttonCreate.setVisibility(View.VISIBLE);
-        this.formProject.buttonDelete.setVisibility(View.INVISIBLE);
-        this.formProject.buttonDeleteAll.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemove.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemoveAll.setVisibility(View.INVISIBLE);
 
         showProject();
     }
 
-    private void update() {
+    private void updateProject() {
         //TODO
 
     }
 
-    private void delete() {
+    private void removeProjectForYear() {
         //TODO
 
     }
 
-    private void deleteAll() {
+    private void removeProjectForAllYears() {
         //TODO
 
     }
 
-    private void select(String projectId) {
+    private void loadProject(String projectId) {
         //TODO
 
     }

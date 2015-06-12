@@ -36,10 +36,8 @@ public class LogInActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Set content view
         setContentView(R.layout.activity_login);
 
-        //Set User form
         this.formUser = new ViewHolder();
 
         this.formUser.editTextLogin = (EditText) findViewById(R.id.login_edittext_email);
@@ -96,7 +94,7 @@ public class LogInActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        if(getIntent().hasExtra(Extra.CLOSE) && getIntent().getBooleanExtra(Extra.CLOSE, false) == true) {
+        if(getIntent().hasExtra(Extra.CLOSE) && getIntent().getBooleanExtra(Extra.CLOSE, false)) {
             getIntent().removeExtra(Extra.CLOSE);
 
             if(getIntent().hasExtra(Extra.TEACHER_FIRSTNAME)) {
@@ -137,25 +135,29 @@ public class LogInActivity extends ActionBarActivity {
         if(!connected) {
             CustomDialog.showDialog(this, R.string.login_alertdialog_login_title_error, R.string.login_alertdialog_login_message_error, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
         } else {
-            CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
-            final AlertDialog dialog = builder.create();
-
-            final Intent intent = new Intent(this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            Runnable runnable = new Runnable() {
-
-                @Override
-                public void run() {
-                    startActivity(intent);
-                    dialog.dismiss();
-                    finish();
-                }
-            };
-            
-            Handler handler = new Handler();
-            handler.postDelayed(runnable, LOADING_TIME_OUT);
-            dialog.show();
+            goToHome();
         }
+    }
+
+    private void goToHome() {
+        CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
+        final AlertDialog dialog = builder.create();
+
+        final Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+            }
+        };
+
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, LOADING_TIME_OUT);
+        dialog.show();
     }
 }

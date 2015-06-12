@@ -46,7 +46,7 @@
     <!-- Button -->
     <string name="button_save">Enregistrer</string>
     <string name="button_login">Connexion</string>
-    <string name="button_delete">Supprimer</string>
+    <string name="button_remove">Supprimer</string>
     <string name="button_create">Créer</string>
 
     <!-- Dialog -->
@@ -75,7 +75,7 @@
     <string name="form_project_textview_id">Identifiant du projet</string>
     <string name="form_project_edittext_project_title_hint">Titre</string>
     <string name="form_project_textview_description">Description</string>
-    <string name="form_project_button_delete_all">Tout supprimer</string>
+    <string name="form_project_button_remove_all">Tout supprimer</string>
 
     <!-- Form user -->
     <string name="form_user_textview_identity">Identité</string>

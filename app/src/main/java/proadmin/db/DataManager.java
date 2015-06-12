@@ -14,16 +14,29 @@ import proadmin.db.sqlite.SQLiteDAO;
 public class DataManager {
 
     private static DataAccessor dao;
+    private static Context context;
 
-    public static void start(Context context, DataAccessorType type) {
+    public static void start(Context context) {
+        start(context, DataAccessorType.SQLITE);
+    }
+
+    public static void start(Context mContext, DataAccessorType type) {
+        context = mContext;
+
         try {
             dao = DataAccessorFactory.get(type);
 
-            if (type == DataAccessorType.SQLITE) {
-                ((SQLiteDAO) dao).create(context);
-            }
+            config();
         } catch (DataAccessorException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void config() {
+        switch (dao.getType()) {
+            case SQLITE:
+                ((SQLiteDAO) dao).create(context);
+                break;
         }
     }
 
