@@ -14,8 +14,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.proadmin.R;
-
 import proadmin.content.Grade;
 import proadmin.content.ListProjects;
 import proadmin.content.ListYears;
@@ -39,7 +37,7 @@ public class ProjectsActivity extends ActionBarActivity {
         public EditText editTextTitle, editTextDescription;
         public RadioGroup radioGroupGrade;
         public RadioButton radioButtonL1, radioButtonL2, radioButtonL3, radioButtonM1, radioButtonM2;
-        public Button buttonCreate, buttonRemove, buttonRemoveAll;
+        public Button buttonSave, buttonRemove, buttonRemoveAll;
     }
 
     private ViewHolder formProject;
@@ -97,8 +95,8 @@ public class ProjectsActivity extends ActionBarActivity {
         this.formProject.radioButtonM1 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m1);
         this.formProject.radioButtonM2 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m2);
 
-        this.formProject.buttonCreate = (Button) findViewById(R.id.form_project_button_create);
-        this.formProject.buttonCreate.setOnClickListener(new View.OnClickListener() {
+        this.formProject.buttonSave = (Button) findViewById(R.id.form_project_button_save);
+        this.formProject.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addProjectForCurrentYear();
@@ -251,7 +249,7 @@ public class ProjectsActivity extends ActionBarActivity {
     private void switchToNew() {
         prepareFormForNewProject();
 
-        this.formProject.buttonCreate.setVisibility(View.VISIBLE);
+        this.formProject.buttonSave.setVisibility(View.VISIBLE);
         this.formProject.buttonRemove.setVisibility(View.INVISIBLE);
         this.formProject.buttonRemoveAll.setVisibility(View.INVISIBLE);
 
@@ -265,7 +263,7 @@ public class ProjectsActivity extends ActionBarActivity {
 
     private void prepareFormForNewProject() {
         this.formProject.textViewYear.setText(new Year().toString());
-        this.formProject.textViewId.setText("(Auto generated)");
+        this.formProject.textViewId.setText("(Generated)");
         this.formProject.editTextTitle.setText("", EditText.BufferType.EDITABLE);
         this.formProject.editTextDescription.setText("", EditText.BufferType.EDITABLE);
         this.formProject.radioButtonL1.setChecked(true);
@@ -274,7 +272,7 @@ public class ProjectsActivity extends ActionBarActivity {
     private void switchToConsult(String projectId) {
         loadProject(projectId);
 
-        this.formProject.buttonCreate.setVisibility(View.VISIBLE);
+        this.formProject.buttonSave.setVisibility(View.VISIBLE);
         this.formProject.buttonRemove.setVisibility(View.INVISIBLE);
         this.formProject.buttonRemoveAll.setVisibility(View.INVISIBLE);
 

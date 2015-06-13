@@ -13,7 +13,7 @@ import proadmin.db.DataManager;
 public class Session {
 
     private static final String SESSION_PREFERENCES = "session_preferences";
-    private static final String SESSION_KEY = "teacher_id";
+    private static final String SESSION_ID = "teacher_id";
 
     private static SharedPreferences preferences;
     private static DataAccessor dao = DataManager.getDao();
@@ -32,23 +32,23 @@ public class Session {
     }
 
     public static boolean isLogged() {
-        return preferences.contains(SESSION_KEY);
+        return preferences.contains(SESSION_ID);
     }
 
-    public static String getLogin() {
-        return preferences.getString(SESSION_KEY, null);
+    public static String getSessionId() {
+        return preferences.getString(SESSION_ID, null);
     }
 
     public static boolean logIn(String email, String password) {
         dao.open();
 
-        Teacher teacher = dao.selectTeacher(email, password);
+        Teacher teacher = dao.selectTeacher(email);
 
         dao.close();
 
-        if(teacher != null) {
+        if(teacher != null && teacher.getPassword().compareTo(password) == 0) {
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(SESSION_KEY, teacher.getId().toString());
+            editor.putString(SESSION_ID, teacher.getId().toString());
 
             return editor.commit();
         }
@@ -58,15 +58,15 @@ public class Session {
 
     public static boolean logOut() {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(SESSION_KEY);
+        editor.remove(SESSION_ID);
 
         return editor.commit();
     }
 
     public static boolean update(String teacherId) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(SESSION_KEY);
-        editor.putString(SESSION_KEY, teacherId);
+        editor.remove(SESSION_ID);
+        editor.putString(SESSION_ID, teacherId);
 
         return editor.commit();
     }

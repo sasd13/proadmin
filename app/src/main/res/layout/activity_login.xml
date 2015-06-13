@@ -58,6 +58,8 @@
             android:layout_marginTop="@dimen/view_margintop_medium"
             android:text="@string/button_login"
             android:textColor="@color/white"
+            android:textSize="@dimen/textsize_small"
+            android:textStyle="bold"
             android:background="#dda600"/>
 
         <TextView

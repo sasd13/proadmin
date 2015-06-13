@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import proadmin.gui.recycler.AbstractRecycler;
-import proadmin.gui.recycler.AbstractRecyclerItem;
 import proadmin.gui.recycler.RecyclerAdapter;
 
 /**

@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.proadmin.R;
-
 import proadmin.constant.Extra;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;

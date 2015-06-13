@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.proadmin.R;
+import com.android.proadmin.R;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public abstract class AbstractRecycler {
 
     protected AbstractRecycler(Context context) {
         this.context = context;
-        this.listAbstractRecyclerItem = new ArrayList<AbstractRecyclerItem>();
+        this.listAbstractRecyclerItem = new ArrayList<>();
         this.itemStubLayout = R.layout.recyclerviewitem;
         this.view = null;
     }

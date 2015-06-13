@@ -5,8 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.proadmin.R;
-
 public class SquadsActivity extends ActionBarActivity {
 
     @Override

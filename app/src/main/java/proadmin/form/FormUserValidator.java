@@ -11,6 +11,22 @@ public class FormUserValidator {
 
     public static String validForm(String firstName,
                                    String lastName,
+                                   String email) {
+        String message = null;
+
+        try {
+            validName(firstName);
+            validName(lastName);
+            validEmail(email);
+        } catch (FormException e) {
+            message = e.getMessage();
+        }
+
+        return message;
+    }
+
+    public static String validForm(String firstName,
+                                   String lastName,
                                    String email,
                                    String password,
                                    String confirmPassword,

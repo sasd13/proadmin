@@ -16,5 +16,5 @@ public interface TeacherAccessor {
 
     Teacher selectTeacher(Id teacherId);
 
-    Teacher selectTeacher(String email, String password);
+    Teacher selectTeacher(String email);
 }

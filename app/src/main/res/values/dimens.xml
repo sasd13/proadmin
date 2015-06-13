@@ -13,14 +13,14 @@
     <dimen name="home_textview_title_height">28dp</dimen>
     <dimen name="home_textview_title_verticalmargin">1dp</dimen>
     <dimen name="home_textview_title_paddingright">20dp</dimen>
-    <dimen name="home_relativelayout_container_window_width">270dp</dimen>
+    <dimen name="home_relativelayout_container_window_width">300dp</dimen>
     <dimen name="home_imageview_dimen">70dp</dimen>
     <dimen name="home_imageview_margin">10dp</dimen>
 
     <!-- Button -->
-    <dimen name="button_width">115dp</dimen>
-    <dimen name="button_width_large">155dp</dimen>
-    <dimen name="button_height">45dp</dimen>
+    <dimen name="button_width">110dp</dimen>
+    <dimen name="button_width_large">140dp</dimen>
+    <dimen name="button_height">40dp</dimen>
 
     <!-- Dialog -->
     <dimen name="customdialog_progressbar_padding">15dp</dimen>

@@ -13,7 +13,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherDAO.TEACHER_TABLE_NAME + ";";
     public static final String TEACHER_TABLE_CREATE =
             "CREATE TABLE " + TeacherDAO.TEACHER_TABLE_NAME + " ("
-                    + TeacherDAO.TEACHER_ID + " TEXT PRIMARY KEY, "
+                    + TeacherDAO.TEACHER_ID + " TEXT PRIMARY KEY NOT NULL, "
                     + TeacherDAO.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
                     + TeacherDAO.TEACHER_LASTNAME + " TEXT NOT NULL, "
                     + TeacherDAO.TEACHER_EMAIL + " TEXT NOT NULL UNIQUE, "
@@ -25,7 +25,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String YEAR_TABLE_DROP = "DROP TABLE IF EXISTS " + YearDAO.YEAR_TABLE_NAME + ";";
     public static final String YEAR_TABLE_CREATE =
             "CREATE TABLE " + YearDAO.YEAR_TABLE_NAME + " ("
-                    + YearDAO.YEAR_YEAR + " TEXT PRIMARY KEY);";
+                    + YearDAO.YEAR_YEAR + " TEXT PRIMARY KEY NOT NULL);";
 
     /**
      * Table project
@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.PROJECT_TABLE_NAME + ";";
     public static final String PROJECT_TABLE_CREATE =
             "CREATE TABLE " + ProjectDAO.PROJECT_TABLE_NAME + " ("
-                    + ProjectDAO.PROJECT_ID + " TEXT PRIMARY KEY, "
+                    + ProjectDAO.PROJECT_ID + " TEXT PRIMARY KEY NOT NULL, "
                     + ProjectDAO.PROJECT_TITLE + " TEXT NOT NULL, "
                     + ProjectDAO.PROJECT_GRADE + " TEXT NOT NULL, "
                     + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL);";
@@ -56,7 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String SQUAD_TABLE_DROP = "DROP TABLE IF EXISTS " + SquadDAO.SQUAD_TABLE_NAME + ";";
     public static final String SQUAD_TABLE_CREATE =
             "CREATE TABLE " + SquadDAO.SQUAD_TABLE_NAME + " ("
-                    + SquadDAO.SQUAD_ID + " TEXT PRIMARY KEY, "
+                    + SquadDAO.SQUAD_ID + " TEXT PRIMARY KEY NOT NULL, "
                     + SquadDAO.SQUAD_YEAR +" INTEGER NOT NULL, "
                     + SquadDAO.SQUAD_PROJECT_ID +" TEXT NOT NULL, "
                     + SquadDAO.SQUAD_TEACHER_ID +" TEXT NOT NULL, "
@@ -70,7 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.STUDENT_TABLE_NAME + ";";
     public static final String STUDENT_TABLE_CREATE =
             "CREATE TABLE " + StudentDAO.STUDENT_TABLE_NAME + " ("
-                    + StudentDAO.STUDENT_ID + " TEXT PRIMARY KEY, "
+                    + StudentDAO.STUDENT_ID + " TEXT PRIMARY KEY NOT NULL, "
                     + StudentDAO.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
                     + StudentDAO.STUDENT_LASTNAME + " TEXT NOT NULL, "
                     + StudentDAO.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE);";
@@ -93,7 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.REPORT_TABLE_NAME + ";";
     public static final String REPORT_TABLE_CREATE =
             "CREATE TABLE " + ReportDAO.REPORT_TABLE_NAME + " ("
-                    + ReportDAO.REPORT_ID + " TEXT PRIMARY KEY, "
+                    + ReportDAO.REPORT_ID + " TEXT PRIMARY KEY NOT NULL, "
                     + ReportDAO.REPORT_NUMBER_WEEK + " INTEGER NOT NULL, "
                     + ReportDAO.REPORT_PLANNING_NOTE + " INTEGER NOT NULL, "
                     + ReportDAO.REPORT_PLANNING_COMMENT + " TEXT, "

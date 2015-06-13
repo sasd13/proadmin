@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.proadmin.R;
-
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
 import proadmin.db.DataManager;

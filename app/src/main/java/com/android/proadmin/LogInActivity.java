@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.proadmin.R;
-
 import proadmin.constant.Extra;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
@@ -27,6 +25,7 @@ public class LogInActivity extends ActionBarActivity {
 
     private class ViewHolder {
         public EditText editTextLogin, editTextPassword;
+        public Button buttonLogin;
     }
 
     private ViewHolder formUser;
@@ -42,8 +41,8 @@ public class LogInActivity extends ActionBarActivity {
         this.formUser.editTextLogin = (EditText) findViewById(R.id.login_edittext_email);
         this.formUser.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
 
-        Button buttonLogin = (Button) findViewById(R.id.login_button_connect);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        this.formUser.buttonLogin = (Button) findViewById(R.id.login_button_connect);
+        this.formUser.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (formUser.editTextLogin.getText().toString().trim().length() > 0

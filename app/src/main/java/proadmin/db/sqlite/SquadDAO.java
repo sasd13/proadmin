@@ -88,8 +88,15 @@ class SquadDAO extends AbstractDAO {
             squad.setTeacher(teacher);
         }
 
-        ListStudents listStudents = SQLiteDAO.getInstance().selectStudents(squadId);
-        ListReports listReports = SQLiteDAO.getInstance().selectReports(squadId);
+        if (squad != null) {
+            ListStudents listStudents = SQLiteDAO.getInstance().selectStudents(squadId);
+            squad.setListStudents(listStudents);
+        }
+
+        if (squad != null) {
+            ListReports listReports = SQLiteDAO.getInstance().selectReports(squadId);
+            squad.setListReports(listReports);
+        }
 
         return squad;
     }

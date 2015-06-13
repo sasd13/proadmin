@@ -1,149 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:scrollbars="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/customOrange"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/home_textView_title"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/home_textview_title_height"
-                android:background="@color/customBlue"
-                android:gravity="center|right"
-                android:layout_marginTop="@dimen/home_textview_title_verticalmargin"
-                android:layout_marginBottom="@dimen/home_textview_title_verticalmargin"
-                android:paddingRight="@dimen/home_textview_title_paddingright"
-                android:text="@string/app_name"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_small" />
+        <TextView
+            android:id="@+id/home_textView_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_textview_title_height"
+            android:background="@color/customBlue"
+            android:gravity="center|right"
+            android:layout_marginTop="@dimen/home_textview_title_verticalmargin"
+            android:layout_marginBottom="@dimen/home_textview_title_verticalmargin"
+            android:paddingRight="@dimen/home_textview_title_paddingright"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_small" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:id="@+id/relativelayout_conatainer_imageviews"
+        android:layout_width="@dimen/home_relativelayout_container_window_width"
+        android:layout_height="@dimen/home_relativelayout_container_window_width"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" >
 
-        <RelativeLayout
-            android:id="@+id/relativelayout_conatainer_imageviews"
-            android:layout_width="@dimen/home_relativelayout_container_window_width"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center|center_horizontal|center_vertical" >
+        <ImageView
+            android:id="@+id/imageview_report"
+            android:layout_width="@dimen/home_imageview_dimen"
+            android:layout_height="@dimen/home_imageview_dimen"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="80dp"
+            android:clickable="true"
+            android:src="@drawable/imageview_report" />
 
-            <ImageView
-                android:id="@+id/imageview_report"
-                android:layout_width="@dimen/home_imageview_dimen"
-                android:layout_height="@dimen/home_imageview_dimen"
-                android:layout_alignLeft="@+id/relativelayout_container_imageviews_project"
-                android:layout_below="@id/relativelayout_container_imageviews_project"
-                android:layout_marginTop="@dimen/home_imageview_margin"
-                android:clickable="true"
-                android:src="@drawable/imageview_report" />
+        <ImageView
+            android:id="@+id/imageview_project"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="43dp"
+            android:layout_marginTop="45dp"
+            android:clickable="true"
+            android:src="@drawable/imageview_project" />
 
-            <ImageView
-                android:id="@+id/imageview_calendar"
-                android:layout_width="@dimen/home_imageview_dimen"
-                android:layout_height="@dimen/home_imageview_dimen"
-                android:layout_above="@id/imageview_report"
-                android:layout_marginRight="@dimen/home_imageview_margin"
-                android:layout_toLeftOf="@id/imageview_report"
-                android:animation="@anim/anim1"
-                android:clickable="true"
-                android:layoutAnimation="@anim/animation_home"
-                android:persistentDrawingCache="animation|scrolling"
-                android:src="@drawable/imageview_calendar" />
+        <View
+            android:id="@+id/trait_nouveau"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="142dp"
+            android:background="#dda600" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout_container_imageviews_squad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/imageview_calendar"
-                android:layout_alignTop="@id/imageview_report" >
+        <View
+            android:id="@+id/trait_liste"
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="142dp"
+            android:background="#dda600" />
 
-                <View
-                    android:id="@+id/trait_liste_squads"
-                    android:layout_width="100dp"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentRight="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignWithParentIfMissing="false"
-                    android:layout_centerHorizontal="false"
-                    android:layout_centerInParent="false"
-                    android:layout_centerVertical="false"
-                    android:layout_marginTop="13dp"
-                    android:background="#659025" />
+        <ImageView
+            android:id="@+id/imageview_squad"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="43dp"
+            android:layout_marginBottom="43dp"
+            android:clickable="true"
+            android:src="@drawable/imageview_squad" />
 
-                <View
-                    android:id="@+id/trait_creer_squads"
-                    android:layout_width="1dp"
-                    android:layout_height="120dp"
-                    android:layout_alignBaseline="@id/trait_liste_squads"
-                    android:layout_alignRight="@+id/imageview_squad"
-                    android:layout_marginRight="10dp"
-                    android:background="#659025" />
+        <View
+            android:id="@+id/trait_creer_squads"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="142dp"
+            android:background="#659025" />
 
-                <ImageView
-                    android:id="@+id/imageview_squad"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="30dp"
-                    android:clickable="true"
-                    android:src="@drawable/imageview_squad" />
+        <View
+            android:id="@+id/trait_liste_squads"
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="142dp"
+            android:background="#659025" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativelayout_container_imageviews_project"
-                android:layout_width="wrap_content"
-                android:layout_height="120dp"
-                android:layout_alignParentRight="true" >
-
-                <View
-                    android:id="@+id/trait_liste"
-                    android:layout_width="42dp"
-                    android:layout_height="1dp"
-                    android:layout_alignBottom="@+id/imageview_project"
-                    android:layout_alignLeft="@+id/imageview_project"
-                    android:layout_marginBottom="9dp"
-                    android:layout_marginLeft="80dp"
-                    android:background="#dda600" />
-
-                <View
-                    android:id="@+id/trait_nouveau"
-                    android:layout_width="1dp"
-                    android:layout_height="100dp"
-                    android:layout_alignLeft="@+id/imageview_project"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="210dp"
-                    android:layout_marginLeft="13dp"
-                    android:background="#dda600" />
-
-                <ImageView
-                    android:id="@+id/imageview_project"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:clickable="true"
-                    android:src="@drawable/imageview_project" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageview_calendar"
+            android:layout_width="@dimen/home_imageview_dimen"
+            android:layout_height="@dimen/home_imageview_dimen"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="80dp"
+            android:animation="@anim/anim1"
+            android:clickable="true"
+            android:layoutAnimation="@anim/animation_home"
+            android:persistentDrawingCache="animation|scrolling"
+            android:src="@drawable/imageview_calendar" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

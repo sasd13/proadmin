@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/activitycontent_padding">
 
-            <include layout="@layout/form_user_layout"/>
+            <include layout="@layout/form_user_layout_signup"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -62,7 +62,9 @@
                 android:layout_marginTop="@dimen/viewgroup_margintop"
                 android:background="#dda600"
                 android:text="@string/button_save"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize_small"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

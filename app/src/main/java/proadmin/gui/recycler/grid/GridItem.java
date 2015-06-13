@@ -7,7 +7,7 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.proadmin.R;
+import com.android.proadmin.R;
 
 import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.gui.recycler.AbstractRecyclerItem;

@@ -8,8 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.example.proadmin.R;
-
 import proadmin.db.DataManager;
 import proadmin.session.Session;
 

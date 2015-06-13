@@ -64,13 +64,13 @@ class TeacherDAO extends AbstractDAO {
         return teacher;
     }
 
-    public Teacher select(String email, String password) {
+    public Teacher select(String email) {
         Teacher teacher = null;
 
         Cursor cursor = db.rawQuery(
-                "select " + TEACHER_ID + ", " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME
+                "select " + TEACHER_ID + ", " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_PASSWORD
                         + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_EMAIL + " = ? and " + TEACHER_PASSWORD + " = ?", new String[]{email, password});
+                        + " where " + TEACHER_EMAIL + " = ?", new String[]{email});
 
         if (cursor.moveToNext()) {
             teacher = new Teacher();
@@ -78,7 +78,7 @@ class TeacherDAO extends AbstractDAO {
             teacher.setFirstName(cursor.getString(1));
             teacher.setLastName(cursor.getString(2));
             teacher.setEmail(email);
-            teacher.setPassword(password);
+            teacher.setPassword(cursor.getString(3));
         }
         cursor.close();
 

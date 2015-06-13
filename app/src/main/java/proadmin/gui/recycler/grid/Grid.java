@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
-import com.example.proadmin.R;
+import com.android.proadmin.R;
 
 import proadmin.gui.recycler.AbstractRecycler;
 import proadmin.gui.recycler.RecyclerAdapter;

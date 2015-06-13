@@ -104,8 +104,8 @@ public class SQLiteDAO implements DataAccessor {
 		return teacherDAO.select(teacherId);
 	}
 
-	public Teacher selectTeacher(String email, String password) {
-		return teacherDAO.select(email, password);
+	public Teacher selectTeacher(String email) {
+		return teacherDAO.select(email);
 	}
 
     public void deleteYear(Year year) {

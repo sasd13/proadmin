@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.example.proadmin.R;
+import com.android.proadmin.R;
 
 /**
  * Created by Samir on 09/03/2015.

@@ -83,8 +83,10 @@ class ReportDAO extends AbstractDAO {
         }
         cursor.close();
 
-        MapNotes mapNotes = SQLiteDAO.getInstance().selectNotes(reportId);
-        report.setMapNotes(mapNotes);
+        if (report != null) {
+            MapNotes mapNotes = SQLiteDAO.getInstance().selectNotes(reportId);
+            report.setMapNotes(mapNotes);
+        }
 
         return report;
     }
