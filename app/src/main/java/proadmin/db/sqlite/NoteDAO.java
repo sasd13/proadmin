@@ -11,7 +11,7 @@ import proadmin.content.id.StudentId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class NoteDAO extends AbstractDAO {
+class NoteDAO extends AbstractTableDAO {
 
     public static final String NOTE_TABLE_NAME = "notes";
 

@@ -21,4 +21,6 @@ public interface ProjectAccessor {
     Project selectProject(ProjectId projectId);
 
     ListProjects selectProjectsOfYear(Year year);
+
+    Year selectYearCreationOfProject(ProjectId projectId);
 }

@@ -9,7 +9,7 @@ import proadmin.content.id.TeacherId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class TeacherDAO extends AbstractDAO {
+class TeacherDAO extends AbstractTableDAO {
 
     public static final String TEACHER_TABLE_NAME = "teachers";
 

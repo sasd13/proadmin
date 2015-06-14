@@ -20,6 +20,7 @@
         android:gravity="center"
         android:layout_marginTop="@dimen/griditem_verticalmargin_internal"
         android:layout_marginBottom="@dimen/griditem_verticalmargin_external"
+        android:ellipsize="end"
         android:text="@string/griditem_textview"
         android:textStyle="bold"
         android:textSize="@dimen/textsize_medium"

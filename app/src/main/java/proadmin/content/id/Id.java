@@ -5,15 +5,11 @@ package proadmin.content.id;
  */
 public abstract class Id {
 
-    private String value;
+    protected String value;
 
     protected Id() {}
 
     public Id(String value) {
-        this.value = value;
-    }
-
-    protected void setValue(String value) {
         this.value = value;
     }
 

@@ -9,10 +9,11 @@
     <string name="activity_signup_name">Inscription</string>
     <string name="activity_restorepassword_name">A l\'aide!</string>
     <string name="activity_home_name">Accueil</string>
+    <string name="activity_settings_name">Paramètres</string>
     <string name="activity_projects_name">Projects</string>
+    <string name="activity_project_form_name">Projet</string>
     <string name="activity_squads_name">Groupes</string>
     <string name="activity_reports_name">Evaluations</string>
-    <string name="activity_settings_name">Paramètres</string>
 
     <!-- Activity LogIn -->
     <string name="login_textview_signup">Inscription</string>
@@ -31,7 +32,6 @@
 
     <!-- Activity Projects -->
     <string name="projects_spinner_year">Année</string>
-    <string name="projects_button_list">LISTE</string>
     <string name="projects_button_new">NOUVEAU</string>
 
     <!-- Activity Settings -->
@@ -71,11 +71,18 @@
 
     <!-- Form project -->
     <string name="form_project_textview_title">Détails du projet</string>
-    <string name="form_project_textview_year">Année de création</string>
-    <string name="form_project_textview_id">Identifiant du projet</string>
+    <string name="form_project_textview_year">Année</string>
+    <string name="form_project_textview_year_creation">Année de création</string>
+    <string name="form_project_textview_id">Identifiant</string>
     <string name="form_project_edittext_project_title_hint">Titre</string>
     <string name="form_project_textview_description">Description</string>
     <string name="form_project_button_remove_all">TOUT SUPPRIMER</string>
+    <string name="form_project_radiobutton_grade_l1">L1</string>
+    <string name="form_project_radiobutton_grade_l2">L2</string>
+    <string name="form_project_radiobutton_grade_l3">L3</string>
+    <string name="form_project_radiobutton_grade_m1">M1</string>
+    <string name="form_project_radiobutton_grade_m2">M2</string>
+    <string name="form_project_button_migrate">MIGRER</string>
 
     <!-- Form user -->
     <string name="form_user_textview_identity">Identité</string>
@@ -86,10 +93,12 @@
     <string name="search_hint">Rechercher</string>
 
     <!-- Tab -->
-    <string name="tabitem_title_textview_name">NOM</string>
-    <string name="tabitem_title_textview_price">PRIX</string>
-    <string name="tabitem_textview_name">Nom</string>
-    <string name="tabitem_textview_price">Prix</string>
+    <string name="tabitem_project_textview_title">Titre</string>
+    <string name="tabitem_project_textview_grade">Niveau</string>
+    <string name="tabitem_project_textview_nbrsquads">0</string>
+    <string name="tabitem_project_title_textview_title">Titre</string>
+    <string name="tabitem_project_title_textview_grade">Niveau</string>
+    <string name="tabitem_project_title_textview_nbrsquads">Groupes</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

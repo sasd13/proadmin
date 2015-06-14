@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import proadmin.content.id.Id;
 import proadmin.content.id.StudentId;
 
 /**
@@ -12,26 +11,26 @@ import proadmin.content.id.StudentId;
  */
 public class ListStudents implements Iterable, Viewable {
 
-    private List<Student> listStudents;
+    private List<Student> list;
 
     public ListStudents() {
-        this.listStudents = new ArrayList<>();
+        this.list = new ArrayList<>();
     }
 
     public boolean add(Student student) {
-        return this.listStudents.add(student);
+        return this.list.add(student);
     }
 
     public boolean remove(Student student) {
-        return this.listStudents.remove(student);
+        return this.list.remove(student);
     }
 
     public Student get(int index) {
-        return this.listStudents.get(index);
+        return this.list.get(index);
     }
 
     public Student get(StudentId studentId) {
-        for (Student student : this.listStudents) {
+        for (Student student : this.list) {
             if (student.getId().equals(studentId)) {
                 return student;
             }
@@ -41,22 +40,26 @@ public class ListStudents implements Iterable, Viewable {
     }
 
     public int size() {
-        return this.listStudents.size();
+        return this.list.size();
+    }
+
+    public void clear() {
+        this.list.clear();
     }
 
     @Override
     public Iterator iterator() {
-        return this.listStudents.iterator();
+        return this.list.iterator();
     }
 
     @Override
     public List<String> getListSrings() {
-        List<String> list = new ArrayList<>();
+        List<String> listStrings = new ArrayList<>();
 
-        for (Student student : this.listStudents) {
-            list.add(student.getFirstName() + " " + student.getLastName());
+        for (Student student : this.list) {
+            listStrings.add(student.getFirstName() + " " + student.getLastName());
         }
 
-        return list;
+        return listStrings;
     }
 }

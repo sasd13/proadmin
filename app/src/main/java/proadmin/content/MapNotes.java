@@ -9,33 +9,37 @@ import proadmin.content.id.StudentId;
  */
 public class MapNotes {
 
-    private LinkedHashMap<StudentId, Note> mapNotes;
+    private LinkedHashMap<StudentId, Note> map;
 
     public MapNotes() {
-        this.mapNotes = new LinkedHashMap<>();
+        this.map = new LinkedHashMap<>();
     }
 
     public void put(StudentId studentId, Note note) {
-        this.mapNotes.put(studentId, note);
+        this.map.put(studentId, note);
     }
 
     public void remove(StudentId studentId) {
-        this.mapNotes.remove(studentId);
+        this.map.remove(studentId);
     }
 
     public Note get(StudentId studentId) {
-        return this.mapNotes.get(studentId);
+        return this.map.get(studentId);
     }
 
     public Note get(int index) {
-        return this.mapNotes.get(index);
-    }
-
-    public StudentId[] getKeys() {
-        return (StudentId[]) this.mapNotes.keySet().toArray();
+        return this.map.get(index);
     }
 
     public int size() {
-        return this.mapNotes.size();
+        return this.map.size();
+    }
+
+    public void clear() {
+        this.map.clear();
+    }
+
+    public StudentId[] getKeys() {
+        return (StudentId[]) this.map.keySet().toArray();
     }
 }

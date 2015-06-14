@@ -12,8 +12,8 @@ public class FormUserValidator {
     public static void validForm(String firstName,
                                    String lastName,
                                    String email) throws FormException {
-        validName(firstName);
-        validName(lastName);
+        validFirstName(firstName);
+        validLastName(lastName);
         validEmail(email);
     }
 
@@ -28,9 +28,15 @@ public class FormUserValidator {
         validTerms(validCheckbox);
     }
 
-    private static void validName(String name) throws FormException {
+    private static void validFirstName(String name) throws FormException {
         if (name.length() == 0) {
-            throw new FormException("name is empty");
+            throw new FormException("firstname is empty");
+        }
+    }
+
+    private static void validLastName(String name) throws FormException {
+        if (name.length() == 0) {
+            throw new FormException("lastname is empty");
         }
     }
 

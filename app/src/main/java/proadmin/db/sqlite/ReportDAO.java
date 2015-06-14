@@ -3,6 +3,7 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import proadmin.content.ListIds;
 import proadmin.content.ListReports;
 import proadmin.content.MapNotes;
 import proadmin.content.Note;
@@ -14,7 +15,7 @@ import proadmin.content.id.StudentId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class ReportDAO extends AbstractDAO {
+class ReportDAO extends AbstractTableDAO {
 
     public static final String REPORT_TABLE_NAME = "reports";
 
@@ -86,7 +87,7 @@ class ReportDAO extends AbstractDAO {
         }
         cursor.close();
 
-        MapNotes mapNotes = SQLiteDAO.getInstance().selectNotes(reportId);
+        MapNotes mapNotes = SQLiteDAO.getInstance().selectNotesOfReport(reportId);
         try {
             report.setMapNotes(mapNotes);
         } catch (NullPointerException e) {
@@ -99,37 +100,20 @@ class ReportDAO extends AbstractDAO {
     public ListReports selectAllOfSquad(SquadId squadId) {
         ListReports listReports = new ListReports();
 
+        ListIds listIds = new ListIds();
+
         Cursor cursor = db.rawQuery(
-                "select " + REPORT_ID + ", " + REPORT_NUMBER_WEEK
-                        + ", " + REPORT_PLANNING_NOTE + ", " + REPORT_PLANNING_COMMENT
-                        + ", " + REPORT_COMMUNICATION_NOTE + ", " + REPORT_COMMUNICATION_COMMENT
-                        + ", " + REPORT_COMMENT
-                        + ", " + REPORT_STUDENT_ID
+                "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
                         + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
-        Report report;
-
         while (cursor.moveToNext()) {
-            report = new Report();
-            report.setId(new ReportId(cursor.getString(0)));
-            report.setNumberWeek(cursor.getLong(1));
-            report.setPlanningNote(new Note(cursor.getLong(2)));
-            report.setPlanningComment(cursor.getString(3));
-            report.setCommunicationNote(new Note(cursor.getLong(4)));
-            report.setCommunicationComment(cursor.getString(5));
-            report.setComment(cursor.getString(6));
-            report.setSquadId(squadId);
-            report.setProjectLeadId(new StudentId(cursor.getString(7)));
-
-            listReports.add(report);
+            listIds.add(new ReportId(cursor.getString(0)));
         }
         cursor.close();
 
-        MapNotes mapNotes;
-        for (Object report2 : listReports) {
-            mapNotes = SQLiteDAO.getInstance().selectNotes(((Report) report2).getId());
-            ((Report) report2).setMapNotes(mapNotes);
+        for (Object id : listIds) {
+            listReports.add(select((ReportId) id));
         }
 
         return listReports;

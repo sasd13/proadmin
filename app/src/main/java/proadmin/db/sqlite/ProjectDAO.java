@@ -10,7 +10,7 @@ import proadmin.content.id.ProjectId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class ProjectDAO extends AbstractDAO {
+class ProjectDAO extends AbstractTableDAO {
 
     public static final String PROJECT_TABLE_NAME = "projects";
 

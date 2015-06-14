@@ -9,7 +9,7 @@ import proadmin.content.Year;
 /**
  * Created by Samir on 02/04/2015.
  */
-class YearDAO extends AbstractDAO {
+class YearDAO extends AbstractTableDAO {
 
     public static final String YEAR_TABLE_NAME = "years";
 

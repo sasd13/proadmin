@@ -34,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/form_project_linearlayout_activity_title"
-        android:padding="@dimen/activitycontent_padding">
+        android:padding="@dimen/activitycontent_padding"
+        android:scrollbarStyle="outsideOverlay">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,14 +66,14 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/form_project_textview_title_divider"
-                android:weightSum="5">
+                android:weightSum="2">
 
                 <TextView
                     android:id="@+id/form_project_textview_year"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="left|center_vertical"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="#dda600"
                     android:padding="7dp"
                     android:text="@string/form_project_textview_year"
@@ -82,10 +83,43 @@
                     android:id="@+id/form_project_textview_project_year"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:padding="7dp"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form_project_linearlayout_year_creation"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/form_project_linearlayout_year"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/form_project_textview_year_creation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:background="#dda600"
+                    android:padding="7dp"
+                    android:text="@string/form_project_textview_year_creation"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/form_project_textview_project_year_creation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:padding="7dp"
+                    android:background="@color/white"
+                    android:ellipsize="end" />
 
             </LinearLayout>
 
@@ -94,9 +128,9 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_below="@id/form_project_linearlayout_year"
+                android:layout_below="@id/form_project_linearlayout_year_creation"
                 android:layout_marginTop="30dp"
-                android:weightSum="5"
+                android:weightSum="2"
                 android:gravity="center">
 
                 <TextView
@@ -104,7 +138,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="left|center_vertical"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="#dda600"
                     android:padding="7dp"
                     android:text="@string/form_project_textview_id"
@@ -114,10 +148,11 @@
                     android:id="@+id/form_project_textview_project_id"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:padding="7dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
 
@@ -149,36 +184,35 @@
                     android:id="@+id/form_project_radiobutton_project_grade_l1"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="L1" />
+                    android:text="@string/form_project_radiobutton_grade_l1" />
 
                 <RadioButton
                     android:id="@+id/form_project_radiobutton_project_grade_l2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="L2" />
+                    android:text="@string/form_project_radiobutton_grade_l1" />
 
                 <RadioButton
                     android:id="@+id/form_project_radiobutton_project_grade_l3"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="L3" />
+                    android:text="@string/form_project_radiobutton_grade_l3" />
 
                 <RadioButton
                     android:id="@+id/form_project_radiobutton_project_grade_m1"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="M1" />
+                    android:text="@string/form_project_radiobutton_grade_m1" />
 
                 <RadioButton
                     android:id="@+id/form_project_radiobutton_project_grade_m2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="M2" />
+                    android:text="@string/form_project_radiobutton_grade_m2" />
 
             </RadioGroup>
 
@@ -222,40 +256,57 @@
                 android:layout_marginTop="30dp">
 
                 <Button
-                    android:id="@+id/form_project_button_save"
+                    android:id="@+id/form_project_button_migrate"
                     android:layout_width="@dimen/button_width"
                     android:layout_height="@dimen/button_height"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:background="#dda600"
-                    android:text="@string/button_save"
+                    android:text="@string/form_project_button_migrate"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textsize_small"
                     android:textStyle="bold"
                     android:visibility="invisible" />
 
                 <Button
-                    android:id="@+id/form_project_button_remove"
+                    android:id="@+id/form_project_button_save"
                     android:layout_width="@dimen/button_width"
                     android:layout_height="@dimen/button_height"
                     android:layout_alignParentLeft="true"
+                    android:layout_below="@id/form_project_button_migrate"
                     android:background="#dda600"
-                    android:text="@string/button_remove"
+                    android:text="@string/button_save"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textsize_small"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <Button
+                    android:id="@+id/form_project_button_remove"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#dda600"
+                    android:text="@string/button_remove"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_small"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+                <Button
                     android:id="@+id/form_project_button_remove_all"
                     android:layout_width="@dimen/button_width_large"
                     android:layout_height="@dimen/button_height"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@id/form_project_button_remove"
+                    android:layout_marginTop="@dimen/view_margintop_medium"
                     android:background="#dda600"
                     android:text="@string/form_project_button_remove_all"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textsize_small"
                     android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
 
             </RelativeLayout>
 

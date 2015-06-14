@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/tabitem_project_linearlayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tabitem_project_textview_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:paddingLeft="@dimen/activitycontent_padding"
+            android:gravity="left|center_vertical"
+            android:ellipsize="end"
+            android:text="@string/tabitem_project_textview_title"
+            android:textSize="@dimen/textsize_medium" />
+
+        <TextView
+            android:id="@+id/tabitem_project_textview_grade"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:text="@string/tabitem_project_textview_grade"
+            android:textSize="@dimen/textsize_medium"/>
+
+        <TextView
+            android:id="@+id/tabitem_project_textview_nbrsquads"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:text="@string/tabitem_project_textview_nbrsquads"
+            android:textSize="@dimen/textsize_medium"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/draweritem_dividerview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dividerview_height_small"
+        android:layout_below="@id/tabitem_project_linearlayout"
+        android:background="@color/primary_material_light"/>
+
+</RelativeLayout>
+

@@ -11,45 +11,45 @@ import proadmin.content.id.Id;
  */
 public class ListIds implements Iterable, Viewable {
 
-    private List<Id> listIds;
+    private List<Id> list;
 
     public ListIds() {
-        this.listIds = new ArrayList<>();
+        this.list = new ArrayList<>();
     }
 
     public void add(Id id) {
-        this.listIds.add(id);
+        this.list.add(id);
     }
 
     public void remove(Id id) {
-        this.listIds.remove(id);
+        this.list.remove(id);
     }
 
     public Id get(int index) {
-        return this.listIds.get(index);
-    }
-
-    public boolean contains(Id id) {
-        return this.listIds.contains(id);
+        return this.list.get(index);
     }
 
     public int size() {
-        return this.listIds.size();
+        return this.list.size();
+    }
+
+    public void clear() {
+        this.list.clear();
     }
 
     @Override
     public Iterator iterator() {
-        return this.listIds.iterator();
+        return this.list.iterator();
     }
 
     @Override
     public List<String> getListSrings() {
-        List<String> list = new ArrayList<>();
+        List<String> listStrings = new ArrayList<>();
 
-        for (Id id : this.listIds) {
-            list.add(id.toString());
+        for (Id id : this.list) {
+            listStrings.add(id.toString());
         }
 
-        return list;
+        return listStrings;
     }
 }

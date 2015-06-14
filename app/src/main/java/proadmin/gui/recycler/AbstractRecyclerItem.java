@@ -8,24 +8,11 @@ import android.view.ViewStub;
  */
 public abstract class AbstractRecyclerItem {
 
-    private int layoutResource;
-    private View view;
+    protected int layoutResource;
+    protected View view;
 
     protected AbstractRecyclerItem(int layoutResource) {
         this.layoutResource = layoutResource;
-        this.view = null;
-    }
-
-    public int getLayoutResource() {
-        return this.layoutResource;
-    }
-
-    public void setLayoutResource(int layoutResource) {
-        this.layoutResource = layoutResource;
-    }
-
-    protected View getView() {
-        return this.view;
     }
 
     public View inflate(ViewStub viewStub) {
@@ -33,6 +20,10 @@ public abstract class AbstractRecyclerItem {
 
         this.view = viewStub.inflate();
 
+        return this.view;
+    }
+
+    public View getView() {
         return this.view;
     }
 }

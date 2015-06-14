@@ -1,14 +1,14 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/projects_linearlayout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#116389"
-        android:baselineAligned="false" >
+        android:layout_alignParentTop="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,75 +37,39 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:weightSum="3">
+    <Spinner
+        android:id="@+id/projects_spinner_year"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/projects_linearlayout_title"
+        android:layout_marginTop="@dimen/viewgroup_margintop"
+        android:layout_marginLeft="@dimen/activitycontent_padding"
+        android:gravity="center"
+        android:prompt="@string/projects_spinner_year"/>
 
-        <Spinner
-            android:id="@+id/projects_spinner_year"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_margin="7dp"
-            android:background="@drawable/abc_spinner_mtrl_am_alpha"
-            android:gravity="center"
-            android:prompt="@string/projects_spinner_year"/>
+    <Button
+        android:id="@+id/projects_button_new"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/projects_linearlayout_title"
+        android:layout_marginTop="@dimen/viewgroup_margintop"
+        android:layout_marginRight="@dimen/activitycontent_padding"
+        android:background="#dda600"
+        android:gravity="center"
+        android:text="@string/projects_button_new"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_small"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/projects_button_list"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height"
-            android:layout_weight="1"
-            android:layout_margin="7dp"
-            android:background="#dda600"
-            android:gravity="center"
-            android:text="@string/projects_button_list"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_small"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/projects_button_new"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height"
-            android:layout_weight="1"
-            android:layout_margin="7dp"
-            android:background="#dda600"
-            android:gravity="center"
-            android:text="@string/projects_button_new"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_small"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/projects_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center">
+        android:layout_below="@id/projects_spinner_year"
+        android:padding="@dimen/activitycontent_padding"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay" />
 
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/projects_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:padding="@dimen/activitycontent_padding"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            android:visibility="visible"/>-->
-
-        <include
-            android:id="@+id/projects_form_project_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/form_project_layout"
-            android:visibility="visible" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

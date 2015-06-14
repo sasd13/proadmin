@@ -80,10 +80,7 @@ public class GridItem extends AbstractRecyclerItem {
     public GridItem() {
         super(R.layout.griditem);
 
-        this.color = 0;
-        this.image = null;
         this.text = "Item";
-        this.intent = null;
     }
 
     /**
@@ -103,8 +100,10 @@ public class GridItem extends AbstractRecyclerItem {
     public void setColor(int color) {
         this.color = color;
 
-        if(getView() != null) {
-            getView().setBackgroundColor(this.color);
+        try {
+            view.setBackgroundColor(this.color);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -123,8 +122,10 @@ public class GridItem extends AbstractRecyclerItem {
     public void setImage(Drawable image) {
         this.image = image;
 
-        if(this.imageView != null) {
-            imageView.setImageDrawable(this.image);
+        try {
+            this.imageView.setImageDrawable(this.image);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -143,8 +144,10 @@ public class GridItem extends AbstractRecyclerItem {
     public void setText(CharSequence text) {
         this.text = text;
 
-        if(this.textView != null) {
+        try {
             this.textView.setText(this.text);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -182,13 +185,14 @@ public class GridItem extends AbstractRecyclerItem {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(intent != null) {
+                try {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         });
-
         view.setOnTouchListener(new ColorOnTouchListener(this.color));
 
         return view;

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/tabitem_project_title_linearlayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tabitem_project_title_textview_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:paddingLeft="@dimen/activitycontent_padding"
+            android:gravity="left|bottom"
+            android:text="@string/tabitem_project_title_textview_title"
+            android:textSize="@dimen/textsize_medium"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tabitem_project_title_textview_grade"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:text="@string/tabitem_project_title_textview_grade"
+            android:textSize="@dimen/textsize_medium"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tabitem_project_title_textview_nbrsquads"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:text="@string/tabitem_project_title_textview_nbrsquads"
+            android:textSize="@dimen/textsize_medium"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/draweritem_title_dividerview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dividerview_height_medium"
+        android:layout_below="@id/tabitem_project_title_linearlayout"
+        android:layout_marginTop="@dimen/dividerview_margintop"
+        android:background="@color/black"/>
+
+</RelativeLayout>
+

@@ -1,11 +1,14 @@
 package com.android.proadmin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,6 +20,8 @@ import proadmin.content.Grade;
 import proadmin.content.Project;
 import proadmin.content.Year;
 import proadmin.content.id.ProjectId;
+import proadmin.gui.app.KeyboardManager;
+import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormProjectValidator;
@@ -26,11 +31,11 @@ import proadmin.pattern.dao.accessor.DataAccessor;
 public class ProjectFormActivity extends ActionBarActivity {
 
     private class ViewHolder {
-        public TextView textViewYear, textViewId;
+        public TextView textViewYear, textViewYearCreation, textViewId;
         public EditText editTextTitle, editTextDescription;
         public RadioGroup radioGroupGrade;
         public RadioButton radioButtonL1, radioButtonL2, radioButtonL3, radioButtonM1, radioButtonM2;
-        public Button buttonSave, buttonRemove, buttonRemoveAll;
+        public Button buttonSave, buttonMigrate, buttonRemove, buttonRemoveAll;
     }
 
     private ViewHolder formProject;
@@ -47,15 +52,46 @@ public class ProjectFormActivity extends ActionBarActivity {
         this.formProject = new ViewHolder();
 
         this.formProject.textViewYear = (TextView) findViewById(R.id.form_project_textview_project_year);
+        this.formProject.textViewYearCreation = (TextView) findViewById(R.id.form_project_textview_project_year_creation);
         this.formProject.textViewId = (TextView) findViewById(R.id.form_project_textview_project_id);
+
         this.formProject.editTextTitle = (EditText) findViewById(R.id.form_project_edittext_project_title);
         this.formProject.editTextDescription = (EditText) findViewById(R.id.form_project_textview_project_description);
+
+        TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (mode == Extra.MODE_CONSULT && actionId == EditorInfo.IME_ACTION_DONE) {
+                    KeyboardManager.hide(v);
+                    updateProject();
+
+                    return true;
+                }
+
+                return false;
+            }
+        };
+
+        this.formProject.editTextTitle.setOnEditorActionListener(editorActionListener);
+        this.formProject.editTextDescription.setOnEditorActionListener(editorActionListener);
+
         this.formProject.radioGroupGrade = (RadioGroup) findViewById(R.id.form_project_radiogroup_project_grade);
+        this.formProject.radioGroupGrade.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (mode == Extra.MODE_CONSULT) {
+                    updateProject();
+                }
+            }
+        });
+
         this.formProject.radioButtonL1 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_l1);
         this.formProject.radioButtonL2 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_l2);
         this.formProject.radioButtonL3 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_l3);
         this.formProject.radioButtonM1 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m1);
         this.formProject.radioButtonM2 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m2);
+
+        ColorOnTouchListener colorOnTouchListener = new ColorOnTouchListener(getResources().getColor(R.color.customOrange));
 
         this.formProject.buttonSave = (Button) findViewById(R.id.form_project_button_save);
         this.formProject.buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -64,22 +100,61 @@ public class ProjectFormActivity extends ActionBarActivity {
                 addProjectForCurrentYear();
             }
         });
+        this.formProject.buttonSave.setOnTouchListener(colorOnTouchListener);
+
+        this.formProject.buttonMigrate = (Button) findViewById(R.id.form_project_button_migrate);
+        this.formProject.buttonMigrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialog.showYesNoDialog(
+                        ProjectFormActivity.this,
+                        "Project",
+                        "Confirm migration ?",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                migrateProjectForCurrentYear();
+                            }
+                        });
+            }
+        });
+        this.formProject.buttonMigrate.setOnTouchListener(colorOnTouchListener);
 
         this.formProject.buttonRemove = (Button) findViewById(R.id.form_project_button_remove);
         this.formProject.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeProjectForYear();
+                CustomDialog.showYesNoDialog(
+                        ProjectFormActivity.this,
+                        "Project",
+                        "Groups and reports of year will be deleted. Confirm ?",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeProjectForYear();
+                            }
+                        });
             }
         });
+        this.formProject.buttonRemove.setOnTouchListener(colorOnTouchListener);
 
         this.formProject.buttonRemoveAll = (Button) findViewById(R.id.form_project_button_remove_all);
         this.formProject.buttonRemoveAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeProjectForAllYears();
+                CustomDialog.showYesNoDialog(
+                        ProjectFormActivity.this,
+                        "Project",
+                        "Groups and reports of all years will be deleted. Confirm ?",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeProjectForAllYears();
+                            }
+                        });
             }
         });
+        this.formProject.buttonRemoveAll.setOnTouchListener(colorOnTouchListener);
     }
 
     @Override
@@ -88,8 +163,14 @@ public class ProjectFormActivity extends ActionBarActivity {
 
         this.dao = DataManager.getDao();
 
-        if (getIntent().hasExtra(Extra.MODE)) {
-            this.mode = getIntent().getIntExtra(Extra.MODE, 0);
+        this.mode = getIntent().getIntExtra(Extra.MODE, 0);
+        switch (this.mode) {
+            case Extra.MODE_NEW:
+                prepareFormForNewProject();
+                break;
+            case Extra.MODE_CONSULT:
+                prepareFormForConsultProject();
+                break;
         }
     }
 
@@ -109,6 +190,18 @@ public class ProjectFormActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateProject() {
+        try {
+            Project project = validForm();
+
+            this.dao.open();
+            this.dao.updateProject(project);
+            this.dao.close();
+        } catch (FormException e) {
+            CustomDialog.showOkDialog(this, "Form error", e.getMessage());
+        }
+    }
+
     private void addProjectForCurrentYear() {
         try {
             Project project = validForm();
@@ -123,8 +216,22 @@ public class ProjectFormActivity extends ActionBarActivity {
         }
     }
 
+    private void migrateProjectForCurrentYear() {
+        String id = getIntent().getStringExtra(Extra.PROJECT_ID);
+
+        try {
+            this.dao.open();
+            Project project = this.dao.selectProject(new ProjectId(id));
+            this.dao.insertProject(project, new Year());
+            this.dao.close();
+
+            CustomDialog.showOkDialog(this, "Project", "Migration succeded");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Project validForm() throws FormException {
-        String year = this.formProject.textViewYear.getText().toString().trim();
         String title = this.formProject.editTextTitle.getEditableText().toString().trim();
         String description = this.formProject.editTextDescription.getEditableText().toString().trim();
 
@@ -165,23 +272,86 @@ public class ProjectFormActivity extends ActionBarActivity {
         finish();
     }
 
-    private void updateProject() {
-        //TODO
+    private void prepareFormForNewProject() {
+        this.formProject.textViewYear.setText(new Year().toString());
+        this.formProject.textViewYearCreation.setText(new Year().toString());
+        this.formProject.textViewId.setText("");
+        this.formProject.editTextTitle.setText("", TextView.BufferType.EDITABLE);
+        this.formProject.radioButtonL1.setChecked(true);
+        this.formProject.editTextDescription.setText("", TextView.BufferType.EDITABLE);
 
+        this.formProject.buttonSave.setVisibility(View.VISIBLE);
+        this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemove.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemoveAll.setVisibility(View.INVISIBLE);
+    }
+
+    private void prepareFormForConsultProject() {
+        String stringYear = getIntent().getStringExtra(Extra.YEAR);
+        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
+
+        this.dao.open();
+        Project project = this.dao.selectProject(new ProjectId(stringProjectId));
+        Year yearCreation = this.dao.selectYearCreationOfProject(project.getId());
+        this.dao.close();
+
+        try {
+            this.formProject.textViewYear.setText(stringYear);
+            this.formProject.textViewYearCreation.setText(yearCreation.toString());
+            this.formProject.textViewId.setText(project.getId().toString());
+            this.formProject.editTextTitle.setText(project.getTitle(), TextView.BufferType.EDITABLE);
+            this.formProject.editTextDescription.setText(project.getDescription(), TextView.BufferType.EDITABLE);
+
+            switch (project.getGrade()) {
+                case L1:
+                    this.formProject.radioButtonL1.setChecked(true);
+                    break;
+                case L2:
+                    this.formProject.radioButtonL2.setChecked(true);
+                    break;
+                case L3:
+                    this.formProject.radioButtonL3.setChecked(true);
+                    break;
+                case M1:
+                    this.formProject.radioButtonM1.setChecked(true);
+                    break;
+                case M2:
+                    this.formProject.radioButtonM2.setChecked(true);
+                    break;
+            }
+
+            if (yearCreation.equals(new Year())) {
+                this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
+            } else {
+                this.formProject.buttonMigrate.setVisibility(View.VISIBLE);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        this.formProject.buttonSave.setVisibility(View.INVISIBLE);
+        this.formProject.buttonRemove.setVisibility(View.VISIBLE);
+        this.formProject.buttonRemoveAll.setVisibility(View.VISIBLE);
     }
 
     private void removeProjectForYear() {
-        //TODO
+        String stringYear = getIntent().getStringExtra(Extra.YEAR);
+        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
+        this.dao.open();
+        this.dao.deleteProjectFromYear(new ProjectId(stringProjectId), new Year(Long.parseLong(stringYear)));
+        this.dao.close();
+
+        goToProjectsActivity();
     }
 
     private void removeProjectForAllYears() {
-        //TODO
+        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
-    }
+        this.dao.open();
+        this.dao.deleteProject(new ProjectId(stringProjectId));
+        this.dao.close();
 
-    private void loadProject(String projectId) {
-        //TODO
-
+        goToProjectsActivity();
     }
 }

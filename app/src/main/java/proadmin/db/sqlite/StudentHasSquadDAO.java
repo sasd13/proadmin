@@ -10,12 +10,12 @@ import proadmin.content.id.StudentId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class StudentHasSquadDAO extends AbstractDAO {
+class StudentHasSquadDAO extends AbstractTableDAO {
 
     public static final String STUDENT_HAS_SQUAD_TABLE_NAME = "students_have_squads";
 
-    public static final String STUDENT_HAS_SQUAD_STUDENT_ID = "student_id";
-    public static final String STUDENT_HAS_SQUAD_SQUAD_ID = "squad_id";
+    public static final String STUDENT_HAS_SQUAD_STUDENT_ID = StudentDAO.STUDENT_ID;
+    public static final String STUDENT_HAS_SQUAD_SQUAD_ID = SquadDAO.SQUAD_ID;
 
     public long insert(StudentId studentId, SquadId squadId) {
         return db.insert(STUDENT_HAS_SQUAD_TABLE_NAME, null, getContentValues(studentId, squadId));

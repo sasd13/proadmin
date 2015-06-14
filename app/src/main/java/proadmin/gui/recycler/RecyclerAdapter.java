@@ -8,14 +8,12 @@ import android.view.ViewStub;
 
 import com.android.proadmin.R;
 
-import java.util.ArrayList;
-
 /**
  * Created by Samir on 22/03/2015.
  */
 public class RecyclerAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<AbstractRecyclerItem> listAbstractRecyclerItem;
+    private ListAbstractRecyclerItems listAbstractRecyclerItem;
     private int itemStubLayout;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -28,7 +26,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public RecyclerAdapter(ArrayList<AbstractRecyclerItem> listAbstractRecyclerItem, int itemStubLayout) {
+    public RecyclerAdapter(ListAbstractRecyclerItems listAbstractRecyclerItem, int itemStubLayout) {
         this.listAbstractRecyclerItem = listAbstractRecyclerItem;
         this.itemStubLayout = itemStubLayout;
     }
@@ -44,8 +42,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         AbstractRecyclerItem abstractRecyclerItem = this.listAbstractRecyclerItem.get(position);
 
-        if(abstractRecyclerItem.getView() == null) {
+        try {
             abstractRecyclerItem.inflate(((ViewHolder) viewHolder).stub);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

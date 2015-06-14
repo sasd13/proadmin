@@ -14,11 +14,11 @@ import proadmin.session.Session;
 public class SplashScreenActivity extends Activity {
 
     private static final int SPLASH_TIME_OUT = 3000;
-    private Handler handler = new Handler();
+    private Handler handler;
     private Runnable runnable;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splashscreen);
@@ -78,7 +78,7 @@ public class SplashScreenActivity extends Activity {
 
     private void attachActivity(Class<?> activityClass, int timeOut) {
         final Intent intent = new Intent(this, activityClass);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         this.runnable = new Runnable() {
 
@@ -89,12 +89,15 @@ public class SplashScreenActivity extends Activity {
             }
         };
 
+        this.handler = new Handler();
         this.handler.postDelayed(this.runnable, timeOut);
     }
 
     private void detachActivity() {
-        if (this.runnable != null) {
+        try {
             this.handler.removeCallbacks(this.runnable);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import proadmin.constant.Extra;
+import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
 import proadmin.session.Session;
@@ -31,7 +32,7 @@ public class LogInActivity extends ActionBarActivity {
     private ViewHolder formUser;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
@@ -51,6 +52,7 @@ public class LogInActivity extends ActionBarActivity {
                 }
             }
         });
+        this.formUser.buttonLogin.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
 
         //Add underline and link for textViews
         TextView[] textViews = {
@@ -124,14 +126,17 @@ public class LogInActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void logIn() {
+    private void logIn() {
         String login = this.formUser.editTextLogin.getEditableText().toString();
         String password = this.formUser.editTextPassword.getEditableText().toString();
 
         boolean connected = Session.logIn(login, password);
 
         if(!connected) {
-            CustomDialog.showOkDialog(this, R.string.login_alertdialog_login_title_error, R.string.login_alertdialog_login_message_error);
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.login_alertdialog_login_title_error),
+                    getResources().getString(R.string.login_alertdialog_login_message_error));
         } else {
             goToHomeActivity();
         }

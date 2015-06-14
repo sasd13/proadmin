@@ -19,6 +19,7 @@ public class HomeActivity extends Activity {
 
     private static final int LOGOUT_TIME_OUT = 2000;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -53,6 +54,7 @@ public class HomeActivity extends Activity {
 
                 }
 
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         };

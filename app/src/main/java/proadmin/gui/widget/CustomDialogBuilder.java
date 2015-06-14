@@ -41,24 +41,10 @@ public class CustomDialogBuilder extends AlertDialog.Builder {
         return super.create();
     }
 
-    @Override
-    public CustomDialogBuilder setTitle(int titleId) {
-        super.setTitle(titleId);
-
-        return this;
-    }
-
     @NonNull
     @Override
     public CustomDialogBuilder setTitle(CharSequence title) {
         super.setTitle(title);
-
-        return this;
-    }
-
-    @Override
-    public CustomDialogBuilder setMessage(int messageId) {
-        super.setMessage(messageId);
 
         return this;
     }

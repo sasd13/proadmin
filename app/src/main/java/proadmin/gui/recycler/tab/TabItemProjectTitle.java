@@ -10,10 +10,10 @@ import proadmin.gui.recycler.AbstractRecyclerItem;
 /**
  * Created by Samir on 22/03/2015.
  */
-public class TabItemTitle extends AbstractRecyclerItem {
+public class TabItemProjectTitle extends AbstractRecyclerItem {
 
-    public TabItemTitle() {
-        super(R.layout.tabitem_title);
+    public TabItemProjectTitle() {
+        super(R.layout.tabitem_project_title);
     }
 
     @Override

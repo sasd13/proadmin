@@ -18,5 +18,5 @@ public interface ReportAccessor {
 
     Report selectReport(ReportId reportId);
 
-    ListReports selectReports(SquadId squadId);
+    ListReports selectReportsOfSquad(SquadId squadId);
 }

@@ -10,48 +10,39 @@ import android.content.DialogInterface;
 public class CustomDialog {
 
     public static void showOkDialog(Context context, String title, String message) {
-        showDialog(context, title, message, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
+        showOkDialog(context, title, message, null);
     }
 
-    public static void showOkDialog(Context context, int titleId, int messageId) {
-        showDialog(context, titleId, messageId, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
-    }
-
-    public static void showDialog(Context context, String title, String message, int dialogType, DialogInterface.OnClickListener positiveListener) {
+    public static void showOkDialog(Context context, String title, String message, DialogInterface.OnClickListener neutralListener) {
         CustomDialogBuilder builder;
-        switch (dialogType) {
-            case CustomDialogBuilder.TYPE_ONEBUTTON_OK: default:
-                builder = new CustomDialogBuilder(context, CustomDialogBuilder.TYPE_ONEBUTTON_OK);
-                builder.setTitle(title)
-                        .setMessage(message)
-                        .setNeutralButton(null);
-                break;
-            case CustomDialogBuilder.TYPE_TWOBUTTON_OKCANCEL: case CustomDialogBuilder.TYPE_TWOBUTTON_YESNO:
-                builder = new CustomDialogBuilder(context, dialogType);
-                builder.setTitle(title)
-                        .setMessage(message)
-                        .setPositiveButton(positiveListener);
-        }
+        builder = new CustomDialogBuilder(context, CustomDialogBuilder.TYPE_ONEBUTTON_OK);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setNeutralButton(neutralListener);
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    public static void showDialog(Context context, int titleId, int messageId, int dialogType, DialogInterface.OnClickListener positiveListener) {
+    public static void showYesNoDialog(Context context, String title, String message, DialogInterface.OnClickListener positiveListener) {
         CustomDialogBuilder builder;
-        switch (dialogType) {
-            case CustomDialogBuilder.TYPE_ONEBUTTON_OK: default:
-                builder = new CustomDialogBuilder(context, CustomDialogBuilder.TYPE_ONEBUTTON_OK);
-                builder.setTitle(titleId)
-                        .setMessage(messageId)
-                        .setNeutralButton(null);
-                break;
-            case CustomDialogBuilder.TYPE_TWOBUTTON_OKCANCEL: case CustomDialogBuilder.TYPE_TWOBUTTON_YESNO:
-                builder = new CustomDialogBuilder(context, dialogType);
-                builder.setTitle(titleId)
-                        .setMessage(messageId)
-                        .setPositiveButton(positiveListener);
-        }
+        builder = new CustomDialogBuilder(context, CustomDialogBuilder.TYPE_TWOBUTTON_YESNO);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveListener)
+                .setNegativeButton(null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public static void showOkCancelDialog(Context context, String title, String message, DialogInterface.OnClickListener positiveListener) {
+        CustomDialogBuilder builder;
+        builder = new CustomDialogBuilder(context, CustomDialogBuilder.TYPE_TWOBUTTON_OKCANCEL);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveListener)
+                .setNegativeButton(null);
 
         AlertDialog dialog = builder.create();
         dialog.show();

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
 import proadmin.content.id.TeacherId;
+import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
@@ -45,13 +46,12 @@ public class SettingsActivity extends ActionBarActivity {
         this.formUser.editTextLastName = (EditText) findViewById(R.id.form_user_edittext_lastname);
         this.formUser.editTextEmail = (EditText) findViewById(R.id.form_user_edittext_email);
 
-        EditText.OnEditorActionListener listener = new EditText.OnEditorActionListener() {
+        EditText.OnEditorActionListener editorActionListener = new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     KeyboardManager.hide(v);
-
-                    update();
+                    updateTeacher();
 
                     return true;
                 }
@@ -60,9 +60,9 @@ public class SettingsActivity extends ActionBarActivity {
             }
         };
 
-        this.formUser.editTextFirstName.setOnEditorActionListener(listener);
-        this.formUser.editTextLastName.setOnEditorActionListener(listener);
-        this.formUser.editTextEmail.setOnEditorActionListener(listener);
+        this.formUser.editTextFirstName.setOnEditorActionListener(editorActionListener);
+        this.formUser.editTextLastName.setOnEditorActionListener(editorActionListener);
+        this.formUser.editTextEmail.setOnEditorActionListener(editorActionListener);
 
         Button buttonLogout = (Button) findViewById(R.id.settings_button_logout);
         buttonLogout.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +71,7 @@ public class SettingsActivity extends ActionBarActivity {
                 logOut();
             }
         });
+        buttonLogout.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customBlue)));
     }
 
     @Override
@@ -98,32 +99,7 @@ public class SettingsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void logOut() {
-        if (Session.logOut()) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(Extra.EXIT, true);
-
-            startActivity(intent);
-            finish();
-        } else {
-            CustomDialog.showOkDialog(this, "Error logout", "You have not been logged out");
-        }
-    }
-
-    public void loadTeacher() {
-        this.dao.open();
-
-        Teacher teacher = this.dao.selectTeacher(new TeacherId(Session.getSessionId()));
-
-        this.dao.close();
-
-        this.formUser.editTextFirstName.setText(teacher.getFirstName(), EditText.BufferType.EDITABLE);
-        this.formUser.editTextLastName.setText(teacher.getLastName(), EditText.BufferType.EDITABLE);
-        this.formUser.editTextEmail.setText(teacher.getEmail(), EditText.BufferType.EDITABLE);
-    }
-
-    public void update() {
+    private void updateTeacher() {
         try {
             Teacher teacher1 = validForm();
 
@@ -147,5 +123,32 @@ public class SettingsActivity extends ActionBarActivity {
         FormUserValidator.validForm(firstName, lastName, email);
 
         return new Teacher(new TeacherId(Session.getSessionId()), firstName, lastName, email);
+    }
+
+    private void logOut() {
+        if (Session.logOut()) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Extra.EXIT, true);
+
+            startActivity(intent);
+            finish();
+        } else {
+            CustomDialog.showOkDialog(this, "Error logout", "You have not been logged out");
+        }
+    }
+
+    private void loadTeacher() {
+        this.dao.open();
+        Teacher teacher = this.dao.selectTeacher(new TeacherId(Session.getSessionId()));
+        this.dao.close();
+
+        try {
+            this.formUser.editTextFirstName.setText(teacher.getFirstName(), EditText.BufferType.EDITABLE);
+            this.formUser.editTextLastName.setText(teacher.getLastName(), EditText.BufferType.EDITABLE);
+            this.formUser.editTextEmail.setText(teacher.getEmail(), EditText.BufferType.EDITABLE);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

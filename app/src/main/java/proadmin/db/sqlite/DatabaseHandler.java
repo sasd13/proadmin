@@ -25,7 +25,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String YEAR_TABLE_DROP = "DROP TABLE IF EXISTS " + YearDAO.YEAR_TABLE_NAME + ";";
     public static final String YEAR_TABLE_CREATE =
             "CREATE TABLE " + YearDAO.YEAR_TABLE_NAME + " ("
-                    + YearDAO.YEAR_YEAR + " TEXT PRIMARY KEY NOT NULL);";
+                    + YearDAO.YEAR_YEAR + " INTEGER PRIMARY KEY NOT NULL);";
 
     /**
      * Table project
@@ -45,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String PROJECT_HAS_YEAR_TABLE_CREATE =
             "CREATE TABLE " + ProjectHasYearDAO.PROJECT_HAS_YEAR_TABLE_NAME + " ("
                     + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + " TEXT NOT NULL, "
-                    + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR +" TEXT NOT NULL, "
+                    + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR +" INTEGER NOT NULL, "
                     + "FOREIGN KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + ") REFERENCES " + ProjectDAO.PROJECT_TABLE_NAME + "("+ ProjectDAO.PROJECT_ID + "), "
                     + "FOREIGN KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR + ") REFERENCES " + YearDAO.YEAR_TABLE_NAME + "("+ YearDAO.YEAR_YEAR + "), "
                     + "PRIMARY KEY (" + ProjectHasYearDAO.PROJECT_HAS_YEAR_PROJECT_ID + ", " + ProjectHasYearDAO.PROJECT_HAS_YEAR_YEAR_YEAR + "));";
@@ -156,6 +156,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onOpen(SQLiteDatabase db) {
 	    super.onOpen(db);
+
 	    if (!db.isReadOnly()) {	        
 	        db.execSQL("PRAGMA foreign_keys=ON;");
 	    }

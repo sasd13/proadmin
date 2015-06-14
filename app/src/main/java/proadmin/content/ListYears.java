@@ -9,42 +9,42 @@ import java.util.List;
  */
 public class ListYears implements Iterable, Viewable {
 
-    private List<Year> listYears;
+    private List<Year> list;
 
     public ListYears() {
-        this.listYears = new ArrayList<>();
+        this.list = new ArrayList<>();
     }
 
     public void add(Year year) {
-        this.listYears.add(year);
+        this.list.add(year);
     }
 
     public void remove(Year year) {
-        this.listYears.remove(year);
+        this.list.remove(year);
     }
 
     public Year get(int index) {
-        return this.listYears.get(index);
-    }
-
-    public boolean contains(Year year) {
-        return this.listYears.contains(year);
+        return this.list.get(index);
     }
 
     public int size() {
-        return this.listYears.size();
+        return this.list.size();
+    }
+
+    public void clear() {
+        this.list.clear();
     }
 
     @Override
     public Iterator iterator() {
-        return this.listYears.iterator();
+        return this.list.iterator();
     }
 
     @Override
     public List<String> getListSrings() {
         List<String> listStrings = new ArrayList<>();
 
-        for(Year year : this.listYears) {
+        for(Year year : this.list) {
             listStrings.add(year.toString());
         }
 

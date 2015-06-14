@@ -6,7 +6,7 @@ package proadmin.content.id;
 public class ReportId extends Id {
 
     public ReportId(Id squadId, long numberWeek) {
-        setValue(squadId.toString() + getKey() + numberWeek);
+        value = squadId.toString() + getKey() + numberWeek;
     }
 
     public ReportId(String value) {

@@ -11,12 +11,12 @@ import proadmin.content.id.ProjectId;
 /**
  * Created by Samir on 02/04/2015.
  */
-class ProjectHasYearDAO extends AbstractDAO {
+class ProjectHasYearDAO extends AbstractTableDAO {
 
     public static final String PROJECT_HAS_YEAR_TABLE_NAME = "projects_have_years";
 
-    public static final String PROJECT_HAS_YEAR_PROJECT_ID = "project_id";
-    public static final String PROJECT_HAS_YEAR_YEAR_YEAR = "school_year";
+    public static final String PROJECT_HAS_YEAR_PROJECT_ID = ProjectDAO.PROJECT_ID;
+    public static final String PROJECT_HAS_YEAR_YEAR_YEAR = YearDAO.YEAR_YEAR;
 
     public long insert(ProjectId projectId, Year year) {
         return db.insert(PROJECT_HAS_YEAR_TABLE_NAME, null, getContentValues(projectId, year));
@@ -65,7 +65,7 @@ class ProjectHasYearDAO extends AbstractDAO {
         Cursor cursor = db.rawQuery(
                 "select " + PROJECT_HAS_YEAR_YEAR_YEAR
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
-                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ?", new String[]{projectId.toString()});
+                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? order by " + PROJECT_HAS_YEAR_YEAR_YEAR + " desc", new String[]{projectId.toString()});
 
         if (cursor.moveToNext()) {
             listYears.add(new Year(cursor.getLong(0)));

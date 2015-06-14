@@ -3,8 +3,6 @@
     package="com.android.proadmin"
     android:installLocation="auto">
 
-    <uses-sdk android:minSdkVersion="9" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -12,7 +10,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
 
         <activity
-            android:name="com.android.proadmin.SplashScreenActivity"
+            android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
@@ -23,35 +21,35 @@
         </activity>
 
         <activity
-            android:name="com.android.proadmin.LogInActivity"
+            android:name=".LogInActivity"
             android:label="@string/activity_login_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name="com.android.proadmin.SignUpActivity"
+            android:name=".SignUpActivity"
             android:label="@string/activity_signup_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name="com.android.proadmin.RestorePasswordActivity"
+            android:name=".RestorePasswordActivity"
             android:label="@string/activity_restorepassword_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name="com.android.proadmin.HomeActivity"
+            android:name=".HomeActivity"
             android:label="@string/activity_home_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name="com.android.proadmin.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/activity_settings_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
@@ -65,14 +63,21 @@
         </activity>
 
         <activity
-            android:name="com.android.proadmin.SquadsActivity"
+            android:name=".ProjectFormActivity"
+            android:label="@string/activity_project_form_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
+            android:name=".SquadsActivity"
             android:label="@string/activity_squads_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name="com.android.proadmin.ReportsActivity"
+            android:name=".ReportsActivity"
             android:label="@string/activity_reports_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">

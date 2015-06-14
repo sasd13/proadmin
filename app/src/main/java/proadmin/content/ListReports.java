@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import proadmin.content.id.Id;
 import proadmin.content.id.ReportId;
 
 /**
@@ -12,26 +11,26 @@ import proadmin.content.id.ReportId;
  */
 public class ListReports implements Iterable {
 
-    private List<Report> listReports;
+    private List<Report> list;
 
     public ListReports() {
-        this.listReports = new ArrayList<>();
+        this.list = new ArrayList<>();
     }
 
     public boolean add(Report report) {
-        return this.listReports.add(report);
+        return this.list.add(report);
     }
 
     public boolean remove(Report report) {
-        return this.listReports.remove(report);
+        return this.list.remove(report);
     }
 
     public Report get(int index) {
-        return this.listReports.get(index);
+        return this.list.get(index);
     }
 
     public Report get(ReportId reportId) {
-        for (Report report : this.listReports) {
+        for (Report report : this.list) {
             if (report.getId().equals(reportId)) {
                 return report;
             }
@@ -41,11 +40,15 @@ public class ListReports implements Iterable {
     }
 
     public int size() {
-        return this.listReports.size();
+        return this.list.size();
+    }
+
+    public void clear() {
+        this.list.clear();
     }
 
     @Override
     public Iterator iterator() {
-        return this.listReports.iterator();
+        return this.list.iterator();
     }
 }

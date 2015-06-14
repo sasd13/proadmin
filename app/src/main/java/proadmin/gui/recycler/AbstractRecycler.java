@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.android.proadmin.R;
 
-import java.util.ArrayList;
-
 /**
  * <b>AbstractRecycler is a container class for a squad of elements (AbstractRecyclerItem)</b>
  * <p>
@@ -23,61 +21,36 @@ import java.util.ArrayList;
  */
 public abstract class AbstractRecycler {
 
-    private Context context;
-    private ArrayList<AbstractRecyclerItem> listAbstractRecyclerItem;
-    private int itemStubLayout;
+    protected Context context;
+    protected ListAbstractRecyclerItems listAbstractRecyclerItems;
+    protected int itemStubLayout;
 
-    private View view;
+    protected View view;
 
     protected AbstractRecycler(Context context) {
         this.context = context;
-        this.listAbstractRecyclerItem = new ArrayList<>();
+        this.listAbstractRecyclerItems = new ListAbstractRecyclerItems();
         this.itemStubLayout = R.layout.recyclerviewitem;
-        this.view = null;
-    }
-
-    public Context getContext() {
-        return this.context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    protected ArrayList<AbstractRecyclerItem> getListAbstractRecyclerItem() {
-        return this.listAbstractRecyclerItem;
     }
 
     public AbstractRecyclerItem getItem(int index) {
-        return this.listAbstractRecyclerItem.get(index);
+        return this.listAbstractRecyclerItems.get(index);
     }
 
     public boolean addItem(AbstractRecyclerItem abstractRecyclerItem) {
-        return this.listAbstractRecyclerItem.add(abstractRecyclerItem);
+        return this.listAbstractRecyclerItems.add(abstractRecyclerItem);
     }
 
     public AbstractRecyclerItem removeItem(int index) {
-        return this.listAbstractRecyclerItem.remove(index);
+        return this.listAbstractRecyclerItems.remove(index);
+    }
+
+    public void clearItems() {
+        this.listAbstractRecyclerItems.clear();
     }
 
     public int size() {
-        return this.listAbstractRecyclerItem.size();
-    }
-
-    public int getItemStubLayout() {
-        return this.itemStubLayout;
-    }
-
-    public void setItemStubLayout(int itemStubLayout) {
-        this.itemStubLayout = itemStubLayout;
-    }
-
-    protected View getView() {
-        return this.view;
-    }
-
-    protected void setView(View view) {
-        this.view = view;
+        return this.listAbstractRecyclerItems.size();
     }
 
     public abstract void adapt(RecyclerView recyclerView);

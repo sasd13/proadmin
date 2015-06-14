@@ -23,17 +23,17 @@ public class Grid extends AbstractRecycler {
 
     @Override
     public void adapt(RecyclerView gridView) {
-        setView(gridView);
+        view = gridView;
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         gridView.setHasFixedSize(true);
 
         // add spaces item decoration
-        int space = getContext().getResources().getDimensionPixelSize(R.dimen.grid_items_space);
+        int space = context.getResources().getDimensionPixelSize(R.dimen.grid_items_space);
         gridView.addItemDecoration(new SpacesItemDecoration(space));
 
-        int spanCount = getContext().getResources().getInteger(R.integer.grid_numcolumns);
+        int spanCount = context.getResources().getInteger(R.integer.grid_numcolumns);
 
         // use a grid layout manager
         //GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
@@ -43,7 +43,7 @@ public class Grid extends AbstractRecycler {
 
         gridView.setLayoutManager(layoutManager);
 
-        RecyclerAdapter gridAdapter = new RecyclerAdapter(getListAbstractRecyclerItem(), getItemStubLayout());
+        RecyclerAdapter gridAdapter = new RecyclerAdapter(listAbstractRecyclerItems, itemStubLayout);
         gridView.setAdapter(gridAdapter);
     }
 }

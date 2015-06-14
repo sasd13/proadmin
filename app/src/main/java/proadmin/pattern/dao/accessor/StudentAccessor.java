@@ -20,5 +20,5 @@ public interface StudentAccessor {
 
     Student selectStudent(StudentId studentId);
 
-    ListStudents selectStudents(SquadId squadId);
+    ListStudents selectStudentsOfSquad(SquadId squadId);
 }

@@ -4,33 +4,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import proadmin.content.id.ProjectId;
+import proadmin.content.Squad;
+import proadmin.content.id.SquadId;
 
 /**
  * Created by Samir on 05/06/2015.
  */
-public class ListProjects implements Iterable {
+public class ListSquads implements Iterable {
 
-    private List<Project> list;
+    private List<Squad> list;
 
-    public ListProjects() {
+    public ListSquads() {
         this.list = new ArrayList<>();
     }
 
-    public boolean add(Project project) {
+    public boolean add(Squad project) {
         return this.list.add(project);
     }
 
-    public boolean remove(Project project) {
+    public boolean remove(Squad project) {
         return this.list.remove(project);
     }
 
-    public Project get(int index) {
+    public Squad get(int index) {
         return this.list.get(index);
     }
 
-    public Project get(ProjectId projectId) {
-        for (Project project : this.list) {
+    public Squad get(SquadId projectId) {
+        for (Squad project : this.list) {
             if (project.getId().equals(projectId)) {
                 return project;
             }
@@ -41,10 +42,6 @@ public class ListProjects implements Iterable {
 
     public int size() {
         return this.list.size();
-    }
-
-    public void clear() {
-        this.list.clear();
     }
 
     @Override

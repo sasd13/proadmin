@@ -15,5 +15,5 @@ public interface NoteAccessor {
 
     void deleteNotes(StudentId studentId, ReportId reportId);
 
-    MapNotes selectNotes(ReportId reportId);
+    MapNotes selectNotesOfReport(ReportId reportId);
 }

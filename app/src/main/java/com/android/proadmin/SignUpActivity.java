@@ -15,6 +15,7 @@ import android.widget.EditText;
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
 import proadmin.content.id.TeacherId;
+import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
@@ -37,7 +38,7 @@ public class SignUpActivity extends ActionBarActivity {
     private DataAccessor dao;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_signup);
@@ -58,6 +59,7 @@ public class SignUpActivity extends ActionBarActivity {
                 signUp();
             }
         });
+        buttonSave.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
     }
 
     @Override
@@ -83,7 +85,7 @@ public class SignUpActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void signUp() {
+    private void signUp() {
         try {
             Teacher teacher = validForm();
 

@@ -24,13 +24,6 @@ public class Session {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    public static boolean dispose() {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-
-        return editor.commit();
-    }
-
     public static boolean isLogged() {
         return preferences.contains(SESSION_ID);
     }
@@ -57,14 +50,6 @@ public class Session {
     public static boolean logOut() {
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(SESSION_ID);
-
-        return editor.commit();
-    }
-
-    public static boolean update(String teacherId) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(SESSION_ID);
-        editor.putString(SESSION_ID, teacherId);
 
         return editor.commit();
     }
