@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import proadmin.content.id.Id;
+import proadmin.content.id.StudentId;
+
 /**
  * Created by Samir on 05/06/2015.
  */
@@ -27,7 +30,7 @@ public class ListStudents implements Iterable, Viewable {
         return this.listStudents.get(index);
     }
 
-    public Student get(Id studentId) {
+    public Student get(StudentId studentId) {
         for (Student student : this.listStudents) {
             if (student.getId().equals(studentId)) {
                 return student;

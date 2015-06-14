@@ -1,12 +1,12 @@
-package proadmin.db;
+package proadmin.pattern.dao;
 
 import android.content.Context;
 
-import proadmin.db.accessor.DataAccessor;
-import proadmin.db.accessor.DataAccessorException;
-import proadmin.db.accessor.DataAccessorFactory;
-import proadmin.db.accessor.DataAccessorType;
 import proadmin.db.sqlite.SQLiteDAO;
+import proadmin.pattern.dao.accessor.DataAccessor;
+import proadmin.pattern.dao.accessor.DataAccessorException;
+import proadmin.pattern.dao.accessor.DataAccessorFactory;
+import proadmin.pattern.dao.accessor.DataAccessorType;
 
 /**
  * Created by Samir on 11/06/2015.

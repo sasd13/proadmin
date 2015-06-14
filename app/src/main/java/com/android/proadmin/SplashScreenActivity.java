@@ -8,13 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import proadmin.db.DataManager;
+import proadmin.pattern.dao.DataManager;
 import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
 
     private static final int SPLASH_TIME_OUT = 3000;
-    private Handler handler;
+    private Handler handler = new Handler();
     private Runnable runnable;
 
     @Override
@@ -89,12 +89,11 @@ public class SplashScreenActivity extends Activity {
             }
         };
 
-        this.handler = new Handler();
         this.handler.postDelayed(this.runnable, timeOut);
     }
 
     private void detachActivity() {
-        if(this.handler != null && this.runnable != null) {
+        if (this.runnable != null) {
             this.handler.removeCallbacks(this.runnable);
         }
     }

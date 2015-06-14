@@ -3,8 +3,9 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.ListIds;
+import proadmin.content.id.SquadId;
+import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -16,11 +17,11 @@ class StudentHasSquadDAO extends AbstractDAO {
     public static final String STUDENT_HAS_SQUAD_STUDENT_ID = "student_id";
     public static final String STUDENT_HAS_SQUAD_SQUAD_ID = "squad_id";
 
-    public long insert(Id studentId, Id squadId) {
+    public long insert(StudentId studentId, SquadId squadId) {
         return db.insert(STUDENT_HAS_SQUAD_TABLE_NAME, null, getContentValues(studentId, squadId));
     }
 
-    private ContentValues getContentValues(Id studentId, Id squadId) {
+    private ContentValues getContentValues(StudentId studentId, SquadId squadId) {
         ContentValues values = new ContentValues();
 
         values.put(STUDENT_HAS_SQUAD_STUDENT_ID, studentId.toString());
@@ -29,19 +30,19 @@ class StudentHasSquadDAO extends AbstractDAO {
         return values;
     }
 
-    public void deleteAllOfSquad(Id squadId) {
-        db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
+    public long deleteAllOfSquad(SquadId squadId) {
+        return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
-    public void deleteAllOfStudent(Id studentId) {
-        db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
+    public long deleteAllOfStudent(StudentId studentId) {
+        return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
-    public void delete(Id studentId, Id squadId) {
-        db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
+    public long delete(StudentId studentId, SquadId squadId) {
+        return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
     }
 
-    public ListIds selectAllOfSquad(Id squadId) {
+    public ListIds selectAllOfSquad(SquadId squadId) {
         ListIds listIds = new ListIds();
 
         Cursor cursor = db.rawQuery(
@@ -50,14 +51,14 @@ class StudentHasSquadDAO extends AbstractDAO {
                         + " where " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
         if (cursor.moveToNext()) {
-            listIds.add(new Id(cursor.getString(0)));
+            listIds.add(new StudentId(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
     }
 
-    public ListIds selectAllOfStudent(Id studentId) {
+    public ListIds selectAllOfStudent(StudentId studentId) {
         ListIds listIds = new ListIds();
 
         Cursor cursor = db.rawQuery(
@@ -66,26 +67,10 @@ class StudentHasSquadDAO extends AbstractDAO {
                         + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
 
         if (cursor.moveToNext()) {
-            listIds.add(new Id(cursor.getString(0)));
+            listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
-    }
-
-    public boolean contains(Id studentId, Id squadId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + STUDENT_HAS_SQUAD_STUDENT_ID + ", " + STUDENT_HAS_SQUAD_SQUAD_ID
-                        + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
-                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

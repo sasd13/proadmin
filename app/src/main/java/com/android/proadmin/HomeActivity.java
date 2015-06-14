@@ -74,7 +74,7 @@ public class HomeActivity extends Activity {
         } else if (getIntent().hasExtra(Extra.EXIT) && getIntent().getBooleanExtra(Extra.EXIT, false)) {
             getIntent().removeExtra(Extra.EXIT);
 
-            goToLogin();
+            goToLoginActivity();
         }
     }
 
@@ -96,15 +96,13 @@ public class HomeActivity extends Activity {
 
     private void showWelcome() {
         CharSequence firstName = getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME);
-        CustomDialog.showDialog(
+        CustomDialog.showOkDialog(
                 this,
                 getResources().getString(R.string.home_alertdialog_welcome_title),
-                getResources().getString(R.string.home_alertdialog_welcome_message) + " " + firstName + " !",
-                CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                null);
+                getResources().getString(R.string.home_alertdialog_welcome_message) + " " + firstName + " !");
     }
 
-    private void goToLogin() {
+    private void goToLoginActivity() {
         CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
         final AlertDialog dialog = builder.create();
 

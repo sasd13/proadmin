@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import proadmin.content.id.Id;
+
 /**
  * Created by Samir on 09/06/2015.
  */

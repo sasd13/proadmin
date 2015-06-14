@@ -9,6 +9,14 @@ import android.content.DialogInterface;
  */
 public class CustomDialog {
 
+    public static void showOkDialog(Context context, String title, String message) {
+        showDialog(context, title, message, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
+    }
+
+    public static void showOkDialog(Context context, int titleId, int messageId) {
+        showDialog(context, titleId, messageId, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
+    }
+
     public static void showDialog(Context context, String title, String message, int dialogType, DialogInterface.OnClickListener positiveListener) {
         CustomDialogBuilder builder;
         switch (dialogType) {

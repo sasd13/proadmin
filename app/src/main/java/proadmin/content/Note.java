@@ -7,9 +7,7 @@ public class Note {
 
     private long value;
 
-    public Note() {
-        this.value = 0;
-    }
+    public Note() {}
 
     public Note(long value) {
         this.value = value;

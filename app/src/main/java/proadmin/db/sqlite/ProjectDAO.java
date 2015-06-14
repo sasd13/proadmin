@@ -3,9 +3,9 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.Project;
 import proadmin.content.Grade;
+import proadmin.content.id.ProjectId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -34,15 +34,15 @@ class ProjectDAO extends AbstractDAO {
         return values;
     }
 
-    public void update(Project project) {
-        db.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId().toString()});
+    public long update(Project project) {
+        return db.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId().toString()});
     }
 
-    public void delete(Id projectId) {
-        db.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId.toString()});
+    public long delete(ProjectId projectId) {
+        return db.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
-    public Project select(Id projectId) {
+    public Project select(ProjectId projectId) {
         Project project = null;
 
         Cursor cursor = db.rawQuery(
@@ -60,21 +60,5 @@ class ProjectDAO extends AbstractDAO {
         cursor.close();
 
         return project;
-    }
-
-    public boolean contains(Id projectId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + PROJECT_ID
-                        + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

@@ -1,4 +1,4 @@
-package proadmin.db.accessor;
+package proadmin.pattern.dao.accessor;
 
 import proadmin.content.ListYears;
 import proadmin.content.Year;

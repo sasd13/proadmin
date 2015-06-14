@@ -14,11 +14,13 @@ import android.widget.EditText;
 
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
-import proadmin.db.DataManager;
-import proadmin.db.accessor.DataAccessor;
+import proadmin.content.id.TeacherId;
+import proadmin.pattern.dao.DataManager;
+import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
+import proadmin.pattern.dao.accessor.DataAccessor;
 import proadmin.session.Session;
 
 public class SignUpActivity extends ActionBarActivity {
@@ -82,29 +84,21 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     public void signUp() {
-        Teacher teacher = validForm();
+        try {
+            Teacher teacher = validForm();
 
-        if (teacher != null) {
             this.dao.open();
-
-            boolean signed = this.dao.insertTeacher(teacher);
-
+            this.dao.insertTeacher(teacher);
             this.dao.close();
 
-            if(!signed) {
-                CustomDialog.showDialog(this,
-                        R.string.signup_alertdialog_signup_title_error,
-                        R.string.signup_alertdialog_signup_message_error,
-                        CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                        null);
-            } else {
-                goToHome(teacher);
-            }
+            goToHomeActivity(teacher);
+        } catch (FormException e) {
+            CustomDialog.showOkDialog(this, "Form error", e.getMessage());
         }
     }
 
-    private Teacher validForm() {
-        Teacher teacher = null;
+    private Teacher validForm() throws FormException {
+        Teacher teacher;
 
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
@@ -113,18 +107,15 @@ public class SignUpActivity extends ActionBarActivity {
         String confirmPassword = this.formUser.editTextConfirmPassword.getEditableText().toString().trim();
         Boolean checkBoxValid = this.formUser.checkBoxValid.isChecked();
 
-        String message = FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, checkBoxValid);
+        FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, checkBoxValid);
 
-        if (message != null ) {
-            CustomDialog.showDialog(this, "Erreur formulaire", message, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
-        } else {
-            teacher = new Teacher(firstName, lastName, email, password);
-        }
+        teacher = new Teacher(new TeacherId(), firstName, lastName, email);
+        teacher.setPassword(password);
 
         return teacher;
     }
 
-    private void goToHome(Teacher teacher) {
+    private void goToHomeActivity(Teacher teacher) {
         CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
         final AlertDialog dialog = builder.create();
 

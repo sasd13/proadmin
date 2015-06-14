@@ -70,7 +70,7 @@ public class LogInActivity extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(LogInActivity.this, RestorePasswordActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                     });
@@ -80,7 +80,7 @@ public class LogInActivity extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(LogInActivity.this, SignUpActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                     });
@@ -131,18 +131,18 @@ public class LogInActivity extends ActionBarActivity {
         boolean connected = Session.logIn(login, password);
 
         if(!connected) {
-            CustomDialog.showDialog(this, R.string.login_alertdialog_login_title_error, R.string.login_alertdialog_login_message_error, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
+            CustomDialog.showOkDialog(this, R.string.login_alertdialog_login_title_error, R.string.login_alertdialog_login_message_error);
         } else {
-            goToHome();
+            goToHomeActivity();
         }
     }
 
-    private void goToHome() {
+    private void goToHomeActivity() {
         CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
         final AlertDialog dialog = builder.create();
 
         final Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Runnable runnable = new Runnable() {
 
@@ -156,6 +156,7 @@ public class LogInActivity extends ActionBarActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(runnable, LOADING_TIME_OUT);
+
         dialog.show();
     }
 }

@@ -1,27 +1,42 @@
 package proadmin.content;
 
+import proadmin.content.id.ReportId;
+import proadmin.content.id.SquadId;
+import proadmin.content.id.StudentId;
+
 public class Report {
 
-    private Id id, projectLeadId;
+    private ReportId id;
+    private SquadId squadId;
     private long numberWeek;
+    private StudentId projectLeadId;
     private String planningComment, communicationComment, comment;
     private Note planningNote, communicationNote;
     private MapNotes mapNotes;
 
     public Report() {}
 
-    public Report(long numberWeek, Id projectLeadId) {
-        this.id = new Id();
+    public Report(ReportId id, SquadId squadId, long numberWeek, StudentId projectLeadId) {
+        this.id = id;
+        this.squadId = squadId;
         this.numberWeek = numberWeek;
         this.projectLeadId = projectLeadId;
     }
 
-    public Id getId() {
+    public ReportId getId() {
         return this.id;
     }
 
-    public void setId(Id id) {
+    public void setId(ReportId id) {
         this.id = id;
+    }
+
+    public SquadId getSquadId() {
+        return this.squadId;
+    }
+
+    public void setSquadId(SquadId squadId) {
+        this.squadId = squadId;
     }
 
     public long getNumberWeek() {
@@ -32,11 +47,11 @@ public class Report {
         this.numberWeek = numberWeek;
     }
 
-    public Id getProjectLeadId() {
+    public StudentId getProjectLeadId() {
         return this.projectLeadId;
     }
 
-    public void setProjectLeadId(Id projectLeadId) {
+    public void setProjectLeadId(StudentId projectLeadId) {
         this.projectLeadId = projectLeadId;
     }
 

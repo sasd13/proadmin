@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import proadmin.content.Teacher;
-import proadmin.db.accessor.DataAccessor;
-import proadmin.db.DataManager;
+import proadmin.pattern.dao.DataManager;
+import proadmin.pattern.dao.accessor.DataAccessor;
 
 /**
  * Created by Samir on 15/03/2015.
@@ -41,9 +41,7 @@ public class Session {
 
     public static boolean logIn(String email, String password) {
         dao.open();
-
         Teacher teacher = dao.selectTeacher(email);
-
         dao.close();
 
         if(teacher != null && teacher.getPassword().compareTo(password) == 0) {

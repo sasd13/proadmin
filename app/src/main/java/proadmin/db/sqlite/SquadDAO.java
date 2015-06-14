@@ -3,13 +3,15 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.ListReports;
 import proadmin.content.ListStudents;
 import proadmin.content.Squad;
 import proadmin.content.Project;
 import proadmin.content.Teacher;
 import proadmin.content.Year;
+import proadmin.content.id.ProjectId;
+import proadmin.content.id.SquadId;
+import proadmin.content.id.TeacherId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -38,27 +40,27 @@ class SquadDAO extends AbstractDAO {
         return values;
     }
 
-    public void update(Squad squad) {
-        db.update(SQUAD_TABLE_NAME, getContentValues(squad), SQUAD_ID + " = ?", new String[]{squad.getId().toString()});
+    public long update(Squad squad) {
+        return db.update(SQUAD_TABLE_NAME, getContentValues(squad), SQUAD_ID + " = ?", new String[]{squad.getId().toString()});
     }
 
-    public void delete(Id squadId) {
-        db.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId.toString()});
+    public long delete(SquadId squadId) {
+        return db.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
-    public void deleteAllOfYearAndProject(Year year, Id projectId) {
-        db.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
+    public long deleteAllOfYearAndProject(Year year, ProjectId projectId) {
+        return db.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
     }
 
-    public void deleteAllOfProject(Id projectId) {
-        db.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
+    public long deleteAllOfProject(ProjectId projectId) {
+        return db.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
     }
 
-    public void deleteAllOfTeacher(Id teacherId) {
-        db.delete(SQUAD_TABLE_NAME, SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+    public long deleteAllOfTeacher(TeacherId teacherId) {
+        return db.delete(SQUAD_TABLE_NAME, SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
     }
 
-    public Squad select(Id squadId) {
+    public Squad select(SquadId squadId) {
         Squad squad = null;
 
         Cursor cursor = db.rawQuery(
@@ -66,54 +68,35 @@ class SquadDAO extends AbstractDAO {
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
-        Id projectId = null, teacherId = null;
+        ProjectId projectId = null;
+        TeacherId teacherId = null;
 
         if (cursor.moveToNext()) {
             squad = new Squad();
             squad.setId(squadId);
             squad.setYear(new Year(cursor.getLong(0)));
 
-            projectId = new Id(cursor.getString(1));
-            teacherId = new Id(cursor.getString(2));
+            projectId = new ProjectId(cursor.getString(1));
+            teacherId = new TeacherId(cursor.getString(2));
         }
         cursor.close();
 
-        if (projectId != null) {
+        try {
             Project project = SQLiteDAO.getInstance().selectProject(projectId);
             squad.setProject(project);
-        }
 
-        if (teacherId != null) {
             Teacher teacher = SQLiteDAO.getInstance().selectTeacher(teacherId);
             squad.setTeacher(teacher);
-        }
 
-        if (squad != null) {
             ListStudents listStudents = SQLiteDAO.getInstance().selectStudents(squadId);
             squad.setListStudents(listStudents);
-        }
 
-        if (squad != null) {
             ListReports listReports = SQLiteDAO.getInstance().selectReports(squadId);
             squad.setListReports(listReports);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         return squad;
-    }
-
-    public boolean contains(Id squadId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + SQUAD_ID
-                        + " from " + SQUAD_TABLE_NAME
-                        + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

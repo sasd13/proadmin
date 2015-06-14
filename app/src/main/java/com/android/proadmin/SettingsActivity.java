@@ -13,14 +13,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import proadmin.constant.Extra;
-import proadmin.content.Id;
 import proadmin.content.Teacher;
-import proadmin.db.DataManager;
-import proadmin.db.accessor.DataAccessor;
+import proadmin.content.id.TeacherId;
+import proadmin.pattern.dao.DataManager;
+import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
 import proadmin.gui.app.KeyboardManager;
 import proadmin.gui.widget.CustomDialog;
-import proadmin.gui.widget.CustomDialogBuilder;
+import proadmin.pattern.dao.accessor.DataAccessor;
 import proadmin.session.Session;
 
 public class SettingsActivity extends ActionBarActivity {
@@ -107,22 +107,14 @@ public class SettingsActivity extends ActionBarActivity {
             startActivity(intent);
             finish();
         } else {
-            CustomDialog.showDialog(
-                    this,
-                    "Error logout",
-                    "You have not been logged out",
-                    CustomDialogBuilder.TYPE_ONEBUTTON_OK,
-                    null
-            );
+            CustomDialog.showOkDialog(this, "Error logout", "You have not been logged out");
         }
     }
 
     public void loadTeacher() {
-        String teacherId = Session.getSessionId();
-
         this.dao.open();
 
-        Teacher teacher = this.dao.selectTeacher(new Id(teacherId));
+        Teacher teacher = this.dao.selectTeacher(new TeacherId(Session.getSessionId()));
 
         this.dao.close();
 
@@ -132,41 +124,28 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
     public void update() {
-        Teacher teacher1 = validForm();
+        try {
+            Teacher teacher1 = validForm();
 
-        if (teacher1 != null) {
             this.dao.open();
 
-            Teacher teacher2 = this.dao.selectTeacher(new Id(Session.getSessionId()));
+            Teacher teacher2 = this.dao.selectTeacher(teacher1.getId());
+            teacher1.setPassword(teacher2.getPassword());
 
-            teacher2.setFirstName(teacher1.getFirstName());
-            teacher2.setLastName(teacher1.getLastName());
-            teacher2.setEmail(teacher1.getEmail());
-
-            this.dao.updateTeacher(teacher2);
-
+            this.dao.updateTeacher(teacher1);
             this.dao.close();
+        } catch (FormException e) {
+            CustomDialog.showOkDialog(this, "Form error", e.getMessage());
         }
     }
 
-    private Teacher validForm() {
-        Teacher teacher = null;
-
+    private Teacher validForm() throws FormException {
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
 
-        String message = FormUserValidator.validForm(firstName, lastName, email);
+        FormUserValidator.validForm(firstName, lastName, email);
 
-        if (message != null ) {
-            CustomDialog.showDialog(this, "Erreur formulaire", message, CustomDialogBuilder.TYPE_ONEBUTTON_OK, null);
-        } else {
-            teacher = new Teacher();
-            teacher.setFirstName(firstName);
-            teacher.setLastName(lastName);
-            teacher.setEmail(email);
-        }
-
-        return teacher;
+        return new Teacher(new TeacherId(Session.getSessionId()), firstName, lastName, email);
     }
 }

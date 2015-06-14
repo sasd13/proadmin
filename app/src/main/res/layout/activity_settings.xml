@@ -48,55 +48,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"/>
 
-            <TextView
-                android:id="@+id/settings_textview_security"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/viewgroup_margintop"
-                android:layout_below="@id/settings_layout_teacher_edit"
-                android:text="@string/settings_textview_security"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textsize_medium"
-                android:textStyle="bold|italic"/>
-
-            <View
-                android:id="@+id/settings_textview_security_divider"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="@dimen/dividerview_margintop"
-                android:layout_below="@id/settings_textview_security"
-                android:background="@color/black" />
-
-            <RadioGroup
-                android:id="@+id/settings_radiogroup_security"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_textview_security_divider"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/view_margintop_medium"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/settings_radiobutton_security_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes" />
-
-                <RadioButton
-                    android:id="@+id/settings_radiobutton_security_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="No"
-                    android:checked="true"/>
-            </RadioGroup>
-
             <Button
                 android:id="@+id/settings_button_logout"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
-                android:layout_below="@id/settings_radiogroup_security"
+                android:layout_below="@id/settings_layout_teacher_edit"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/viewgroup_margintop"
                 android:layout_gravity="center"

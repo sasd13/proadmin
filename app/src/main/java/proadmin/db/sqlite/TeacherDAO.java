@@ -3,8 +3,8 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.Teacher;
+import proadmin.content.id.TeacherId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -35,15 +35,15 @@ class TeacherDAO extends AbstractDAO {
         return values;
     }
 
-    public void update(Teacher teacher) {
-        db.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId().toString()});
+    public long update(Teacher teacher) {
+        return db.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId().toString()});
     }
 
-    public void delete(Id teacherId) {
-        db.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+    public long delete(TeacherId teacherId) {
+        return db.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId.toString()});
     }
 
-    public Teacher select(Id teacherId) {
+    public Teacher select(TeacherId teacherId) {
         Teacher teacher = null;
 
         Cursor cursor = db.rawQuery(
@@ -74,7 +74,7 @@ class TeacherDAO extends AbstractDAO {
 
         if (cursor.moveToNext()) {
             teacher = new Teacher();
-            teacher.setId(new Id(cursor.getString(0)));
+            teacher.setId(new TeacherId(cursor.getString(0)));
             teacher.setFirstName(cursor.getString(1));
             teacher.setLastName(cursor.getString(2));
             teacher.setEmail(email);
@@ -83,21 +83,5 @@ class TeacherDAO extends AbstractDAO {
         cursor.close();
 
         return teacher;
-    }
-
-    public boolean contains(Id teacherId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_EMAIL + ", " + TEACHER_PASSWORD
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

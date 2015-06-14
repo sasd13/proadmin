@@ -2,26 +2,28 @@ package proadmin.content;
 
 import java.util.LinkedHashMap;
 
+import proadmin.content.id.StudentId;
+
 /**
  * Created by Samir on 05/06/2015.
  */
 public class MapNotes {
 
-    private LinkedHashMap<Id, Note> mapNotes;
+    private LinkedHashMap<StudentId, Note> mapNotes;
 
     public MapNotes() {
         this.mapNotes = new LinkedHashMap<>();
     }
 
-    public void put(Id studentId, Note note) {
+    public void put(StudentId studentId, Note note) {
         this.mapNotes.put(studentId, note);
     }
 
-    public void remove(Id studentId) {
+    public void remove(StudentId studentId) {
         this.mapNotes.remove(studentId);
     }
 
-    public Note get(Id studentId) {
+    public Note get(StudentId studentId) {
         return this.mapNotes.get(studentId);
     }
 
@@ -29,8 +31,8 @@ public class MapNotes {
         return this.mapNotes.get(index);
     }
 
-    public Id[] getKeys() {
-        return (Id[]) this.mapNotes.keySet().toArray();
+    public StudentId[] getKeys() {
+        return (StudentId[]) this.mapNotes.keySet().toArray();
     }
 
     public int size() {

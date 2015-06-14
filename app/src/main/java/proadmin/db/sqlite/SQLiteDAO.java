@@ -3,7 +3,6 @@ package proadmin.db.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
-import proadmin.content.Id;
 import proadmin.content.ListIds;
 import proadmin.content.ListProjects;
 import proadmin.content.ListReports;
@@ -16,8 +15,13 @@ import proadmin.content.Report;
 import proadmin.content.Student;
 import proadmin.content.Teacher;
 import proadmin.content.Year;
-import proadmin.db.accessor.DataAccessor;
-import proadmin.db.accessor.DataAccessorType;
+import proadmin.content.id.ProjectId;
+import proadmin.content.id.ReportId;
+import proadmin.content.id.SquadId;
+import proadmin.content.id.StudentId;
+import proadmin.content.id.TeacherId;
+import proadmin.pattern.dao.accessor.DataAccessor;
+import proadmin.pattern.dao.accessor.DataAccessorType;
 
 public class SQLiteDAO implements DataAccessor {
 
@@ -63,7 +67,7 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     public void open() {
-		db = dbHandler.getWritableDatabase();
+        db = dbHandler.getWritableDatabase();
 
         teacherDAO.setDb(db);
         yearDAO.setDb(db);
@@ -77,7 +81,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 	
 	public void close() {
-		db.close();
+        db.close();
 	}
 
     @Override
@@ -85,22 +89,20 @@ public class SQLiteDAO implements DataAccessor {
         return DataAccessorType.SQLITE;
     }
 
-    public boolean insertTeacher(Teacher teacher) {
-		long rowId = teacherDAO.insert(teacher);
-
-        return rowId > 0;
+    public void insertTeacher(Teacher teacher) {
+        teacherDAO.insert(teacher);
     }
 
 	public void updateTeacher(Teacher teacher) {
 		teacherDAO.update(teacher);
 	}
 
-	public void deleteTeacher(Id teacherId) {
+	public void deleteTeacher(TeacherId teacherId) {
 		squadDAO.deleteAllOfTeacher(teacherId);
 		teacherDAO.delete(teacherId);
 	}
 
-	public Teacher selectTeacher(Id teacherId) {
+	public Teacher selectTeacher(TeacherId teacherId) {
 		return teacherDAO.select(teacherId);
 	}
 
@@ -117,36 +119,28 @@ public class SQLiteDAO implements DataAccessor {
         return yearDAO.selectAll();
     }
 
-	public boolean insertProject(Project project, Year year) {
-        if (!yearDAO.contains(year)) {
-            yearDAO.insert(year);
-        }
-
-		if (!projectDAO.contains(project.getId())) {
-			projectDAO.insert(project);
-		}
-
-		long rowId = projectHasYearDAO.insert(project.getId(), year);
-
-        return rowId > 0;
+	public void insertProject(Project project, Year year) {
+        yearDAO.insert(year);
+        projectDAO.insert(project);
+        projectHasYearDAO.insert(project.getId(), year);
 	}
 
 	public void updateProject(Project project) {
 		projectDAO.update(project);
 	}
 
-	public void deleteProject(Id projectId) {
+	public void deleteProject(ProjectId projectId) {
 		squadDAO.deleteAllOfProject(projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
-	public void deleteProjectFromYear(Id projectId, Year year) {
+	public void deleteProjectFromYear(ProjectId projectId, Year year) {
 		squadDAO.deleteAllOfYearAndProject(year, projectId);
 		projectHasYearDAO.deleteAllOfProject(projectId);
 	}
 
-	public Project selectProject(Id projectId) {
+	public Project selectProject(ProjectId projectId) {
 		return projectDAO.select(projectId);
 	}
 
@@ -155,13 +149,13 @@ public class SQLiteDAO implements DataAccessor {
 
         ListIds listProjectsIds = projectHasYearDAO.selectAllOfYear(year);
         for (Object projectId : listProjectsIds) {
-            listProjects.add(projectDAO.select((Id) projectId));
+            listProjects.add(projectDAO.select((ProjectId) projectId));
         }
 
         return listProjects;
     }
 
-	public boolean insertSquad(Squad squad) {
+	public void insertSquad(Squad squad) {
 		long rowId = squadDAO.insert(squad);
 
 		if (rowId > 0) {
@@ -170,103 +164,99 @@ public class SQLiteDAO implements DataAccessor {
             }
 
             for (Object report : squad.getListReports()) {
-                insertReport((Report) report, squad.getId());
+                insertReport((Report) report);
             }
 		}
-
-        return rowId > 0;
 	}
 
 	public void updateSquad(Squad squad) {
 		squadDAO.update(squad);
+
+        for (Object student : squad.getListStudents()) {
+            updateStudent((Student) student);
+        }
+
+        for (Object report : squad.getListReports()) {
+            updateReport((Report) report);
+        }
 	}
 
-	public void deleteSquad(Id squadId) {
+	public void deleteSquad(SquadId squadId) {
 		reportDAO.deleteAllOfSquad(squadId);
 		studentHasSquadDAO.deleteAllOfSquad(squadId);
 		squadDAO.delete(squadId);
 	}
 
-	public Squad selectSquad(Id squadId) {
+	public Squad selectSquad(SquadId squadId) {
 		return squadDAO.select(squadId);
 	}
 
-	public boolean insertStudent(Student student, Id squadId) {
-		if (!studentDAO.contains(student.getId())) {
-			studentDAO.insert(student);
-		}
-
-		long rowId = studentHasSquadDAO.insert(student.getId(), squadId);
-
-        return rowId > 0;
+	public void insertStudent(Student student, SquadId squadId) {
+		studentDAO.insert(student);
+		studentHasSquadDAO.insert(student.getId(), squadId);
 	}
 
 	public void updateStudent(Student student) {
 		studentDAO.update(student);
 	}
 
-	public void deleteStudent(Id studentId) {
+	public void deleteStudent(StudentId studentId) {
 		studentHasSquadDAO.deleteAllOfStudent(studentId);
 		studentDAO.delete(studentId);
 	}
 
-	public void deleteStudentFromSquad(Id studentId, Id squadId) {
+	public void deleteStudentFromSquad(StudentId studentId, SquadId squadId) {
 		studentHasSquadDAO.delete(studentId, squadId);
 	}
 
-	public Student selectStudent(Id studentId) {
+	public Student selectStudent(StudentId studentId) {
 		return studentDAO.select(studentId);
 	}
 
-    public ListStudents selectStudents(Id squadId) {
+    public ListStudents selectStudents(SquadId squadId) {
         ListStudents listStudents = new ListStudents();
 
         ListIds listIds = studentHasSquadDAO.selectAllOfSquad(squadId);
-
-        Student student;
         for (Object id : listIds) {
-            student = studentDAO.select((Id) id);
-            listStudents.add(student);
+            listStudents.add(studentDAO.select((StudentId) id));
         }
 
         return listStudents;
     }
 
-	public boolean insertReport(Report report, Id squadId) {
-		long rowId = reportDAO.insert(report, squadId);
-
-        return rowId > 0;
+	public void insertReport(Report report) {
+		reportDAO.insert(report);
 	}
 
-	public void updateReport(Report report, Id squadId) {
-		reportDAO.update(report, squadId);
+	public void updateReport(Report report) {
+		reportDAO.update(report);
 	}
 
-	public void deleteReport(Id reportId) {
+	public void deleteReport(ReportId reportId) {
 		reportDAO.delete(reportId);
 	}
 
-	public Report selectReport(Id reportId) {
+	public Report selectReport(ReportId reportId) {
 		return reportDAO.select(reportId);
 	}
 
-    public ListReports selectReports(Id squadId) {
+    public ListReports selectReports(SquadId squadId) {
         return reportDAO.selectAllOfSquad(squadId);
     }
 
-	public void insertNotes(MapNotes mapNotes, Id reportId) {
+	public void insertNotes(MapNotes mapNotes, ReportId reportId) {
 		noteDAO.insert(mapNotes, reportId);
 	}
 
-	public void updateNotes(MapNotes mapNotes, Id reportId) {
+	public void updateNotes(MapNotes mapNotes, ReportId reportId) {
 		noteDAO.update(mapNotes, reportId);
 	}
 
-	public void deleteNotes(Id studentId, Id reportId) {
+	public void deleteNotes(StudentId studentId, ReportId reportId) {
 		noteDAO.delete(studentId, reportId);
 	}
 
-	public MapNotes selectNotes(Id reportId) {
+	public MapNotes selectNotes(ReportId reportId) {
 		return noteDAO.selectAllOfReport(reportId);
 	}
 }

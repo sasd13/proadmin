@@ -15,8 +15,8 @@ class YearDAO extends AbstractDAO {
 
     public static final String YEAR_YEAR = "school_year";
 
-    public void insert(Year year) {
-        db.insert(YEAR_TABLE_NAME, null, getContentValues(year));
+    public long insert(Year year) {
+        return db.insert(YEAR_TABLE_NAME, null, getContentValues(year));
     }
 
     private ContentValues getContentValues(Year year) {
@@ -27,8 +27,8 @@ class YearDAO extends AbstractDAO {
         return values;
     }
 
-    public void delete(Year year) {
-        db.delete(YEAR_TABLE_NAME, YEAR_YEAR + " = ?", new String[]{year.toString()});
+    public long delete(Year year) {
+        return db.delete(YEAR_TABLE_NAME, YEAR_YEAR + " = ?", new String[]{year.toString()});
     }
 
     public ListYears selectAll() {
@@ -44,21 +44,5 @@ class YearDAO extends AbstractDAO {
         cursor.close();
 
         return listYears;
-    }
-
-    public boolean contains(Year year) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + YEAR_YEAR
-                        + " from " + YEAR_TABLE_NAME
-                        + " where " + YEAR_YEAR + " = ?", new String[]{year.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

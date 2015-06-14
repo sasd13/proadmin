@@ -9,9 +9,7 @@ public class Year {
 
     private long value;
 
-    public Year() {
-        this.value = Calendar.getInstance().get(Calendar.YEAR);
-    }
+    public Year() { this.value = Calendar.getInstance().get(Calendar.YEAR); }
 
     public Year(long value) {
         this.value = value;

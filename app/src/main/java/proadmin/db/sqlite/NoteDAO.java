@@ -3,9 +3,10 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.MapNotes;
 import proadmin.content.Note;
+import proadmin.content.id.ReportId;
+import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -18,15 +19,15 @@ class NoteDAO extends AbstractDAO {
     public static final String NOTE_STUDENT_ID = "student_id";
     public static final String NOTE_REPORT_ID = "report_id";
 
-    public void insert(MapNotes mapNotes, Id reportId) {
-        Id[] tabStudentsIds = mapNotes.getKeys();
+    public void insert(MapNotes mapNotes, ReportId reportId) {
+        StudentId[] tabStudentsIds = mapNotes.getKeys();
 
-        for (Id studentId : tabStudentsIds) {
+        for (StudentId studentId : tabStudentsIds) {
             db.insert(NOTE_TABLE_NAME, null, getContentValues(mapNotes.get(studentId), studentId, reportId));
         }
     }
 
-    private ContentValues getContentValues(Note note, Id studentId, Id reportId) {
+    private ContentValues getContentValues(Note note, StudentId studentId, ReportId reportId) {
         ContentValues values = new ContentValues();
 
         values.put(NOTE_NOTE, note.getValue());
@@ -36,28 +37,28 @@ class NoteDAO extends AbstractDAO {
         return values;
     }
 
-    public void update(MapNotes mapNotes, Id reportId) {
-        Id[] tabStudentsIds = mapNotes.getKeys();
+    public void update(MapNotes mapNotes, ReportId reportId) {
+        StudentId[] tabStudentsIds = mapNotes.getKeys();
 
-        for (Id studentId : tabStudentsIds) {
+        for (StudentId studentId : tabStudentsIds) {
             db.update(NOTE_TABLE_NAME, getContentValues(mapNotes.get(studentId), studentId, reportId), NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
         }
     }
 
-    public void delete(Id studentId, Id reportId) {
-        db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
+    public long delete(StudentId studentId, ReportId reportId) {
+        return db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
     }
 
-    public void deleteAllOfStudent(Id studentId) {
-        db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ?", new String[]{studentId.toString()});
+    public long deleteAllOfStudent(StudentId studentId) {
+        return db.delete(NOTE_TABLE_NAME, NOTE_STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
-    public void deleteAllOfReport(Id reportId) {
-        db.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
+    public long deleteAllOfReport(ReportId reportId) {
+        return db.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
     }
 
-    public Long select(Id studentId, Id reportId) {
-        Long note = null;
+    public Note select(StudentId studentId, ReportId reportId) {
+        Note note = null;
 
         Cursor cursor = db.rawQuery(
                 "select " + NOTE_NOTE
@@ -65,14 +66,14 @@ class NoteDAO extends AbstractDAO {
                         + " where " + NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
 
         if (cursor.moveToNext()) {
-            note = cursor.getLong(0);
+            note = new Note(cursor.getLong(0));
         }
         cursor.close();
 
         return note;
     }
 
-    public MapNotes selectAllOfReport(Id reportId) {
+    public MapNotes selectAllOfReport(ReportId reportId) {
         MapNotes mapNotes = new MapNotes();
 
         Cursor cursor = db.rawQuery(
@@ -81,26 +82,10 @@ class NoteDAO extends AbstractDAO {
                         + " where " + NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
 
         while (cursor.moveToNext()) {
-            mapNotes.put(new Id(cursor.getString(1)), new Note(cursor.getLong(0)));
+            mapNotes.put(new StudentId(cursor.getString(1)), new Note(cursor.getLong(0)));
         }
         cursor.close();
 
         return mapNotes;
-    }
-
-    public boolean contains(Id studentId, Id reportId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + NOTE_REPORT_ID + ", " + NOTE_STUDENT_ID
-                        + " from " + NOTE_TABLE_NAME
-                        + " where " + NOTE_STUDENT_ID + " = ? and " + NOTE_REPORT_ID + " = ?", new String[]{studentId.toString(), reportId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

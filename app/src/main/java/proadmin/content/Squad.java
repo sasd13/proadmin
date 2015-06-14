@@ -1,8 +1,10 @@
 package proadmin.content;
 
+import proadmin.content.id.SquadId;
+
 public class Squad {
 
-    private Id id;
+    private SquadId id;
     private Year year;
     private Project project;
     private Teacher teacher;
@@ -11,18 +13,18 @@ public class Squad {
 
     public Squad() {}
 
-    public Squad(Year year, Project project, Teacher teacher) {
-        this.id = new Id();
+    public Squad(SquadId id, Year year, Project project, Teacher teacher) {
+        this.id = id;
         this.year = year;
         this.project = project;
         this.teacher = teacher;
     }
 
-    public Id getId() {
+    public SquadId getId() {
         return this.id;
     }
 
-    public void setId(Id id) {
+    public void setId(SquadId id) {
         this.id = id;
     }
 

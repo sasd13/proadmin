@@ -9,41 +9,23 @@ public class FormUserValidator {
 
     private FormUserValidator() {}
 
-    public static String validForm(String firstName,
+    public static void validForm(String firstName,
                                    String lastName,
-                                   String email) {
-        String message = null;
-
-        try {
-            validName(firstName);
-            validName(lastName);
-            validEmail(email);
-        } catch (FormException e) {
-            message = e.getMessage();
-        }
-
-        return message;
+                                   String email) throws FormException {
+        validName(firstName);
+        validName(lastName);
+        validEmail(email);
     }
 
-    public static String validForm(String firstName,
+    public static void validForm(String firstName,
                                    String lastName,
                                    String email,
                                    String password,
                                    String confirmPassword,
-                                   boolean validCheckbox) {
-        String message = null;
-
-        try {
-            validName(firstName);
-            validName(lastName);
-            validEmail(email);
-            validPassword(password, confirmPassword);
-            validTerms(validCheckbox);
-        } catch (FormException e) {
-            message = e.getMessage();
-        }
-
-        return message;
+                                   boolean validCheckbox) throws FormException {
+        validForm(firstName, lastName, email);
+        validPassword(password, confirmPassword);
+        validTerms(validCheckbox);
     }
 
     private static void validName(String name) throws FormException {

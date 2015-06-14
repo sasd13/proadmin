@@ -3,8 +3,8 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Id;
 import proadmin.content.Student;
+import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -33,15 +33,15 @@ class StudentDAO extends AbstractDAO {
         return values;
     }
 
-    public void update(Student student) {
-        db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
+    public long update(Student student) {
+        return db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
     }
 
-    public void delete(Id studentId) {
-        db.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
+    public long delete(StudentId studentId) {
+        return db.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
-    public Student select(Id studentId) {
+    public Student select(StudentId studentId) {
         Student student = null;
 
         Cursor cursor = db.rawQuery(
@@ -59,21 +59,5 @@ class StudentDAO extends AbstractDAO {
         cursor.close();
 
         return student;
-    }
-
-    public boolean contains(Id studentId) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + STUDENT_ID
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }
