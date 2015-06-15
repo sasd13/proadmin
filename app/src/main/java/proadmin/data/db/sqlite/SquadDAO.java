@@ -1,9 +1,9 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
+import proadmin.content.id.ListIds;
 import proadmin.content.ListReports;
 import proadmin.content.ListStudents;
 import proadmin.content.Squad;
@@ -23,9 +23,9 @@ class SquadDAO extends AbstractTableDAO {
     public static final String SQUAD_TABLE_NAME = "squads";
 
     public static final String SQUAD_ID = "squad_id";
+    public static final String SQUAD_TEACHER_ID = "teacher_id";
     public static final String SQUAD_YEAR = "school_year";
     public static final String SQUAD_PROJECT_ID = "project_id";
-    public static final String SQUAD_TEACHER_ID = "teacher_id";
 
     public long insert(Squad squad) {
         return db.insert(SQUAD_TABLE_NAME, null, getContentValues(squad));
@@ -35,9 +35,9 @@ class SquadDAO extends AbstractTableDAO {
         ContentValues values = new ContentValues();
 
         values.put(SQUAD_ID, squad.getId().toString());
+        values.put(SQUAD_TEACHER_ID, squad.getTeacher().getId().toString());
         values.put(SQUAD_YEAR, squad.getYear().getValue());
         values.put(SQUAD_PROJECT_ID, squad.getProject().getId().toString());
-        values.put(SQUAD_TEACHER_ID, squad.getTeacher().getId().toString());
 
         return values;
     }
@@ -50,23 +50,11 @@ class SquadDAO extends AbstractTableDAO {
         return db.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId.toString()});
     }
 
-    public long deleteAllOfYearAndProject(Year year, ProjectId projectId) {
-        return db.delete(SQUAD_TABLE_NAME, SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
-    }
-
-    public long deleteAllOfProject(ProjectId projectId) {
-        return db.delete(SQUAD_TABLE_NAME, SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
-    }
-
-    public long deleteAllOfTeacher(TeacherId teacherId) {
-        return db.delete(SQUAD_TABLE_NAME, SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
-    }
-
     public Squad select(SquadId squadId) {
         Squad squad = null;
 
         Cursor cursor = db.rawQuery(
-                "select " + SQUAD_YEAR + ", " + SQUAD_PROJECT_ID + ", " + SQUAD_TEACHER_ID
+                "select " + SQUAD_TEACHER_ID + ", " + SQUAD_YEAR + ", " + SQUAD_PROJECT_ID
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
@@ -100,6 +88,28 @@ class SquadDAO extends AbstractTableDAO {
         }
 
         return squad;
+    }
+
+    public ListSquads selectAllOfTeacher(TeacherId teacherId) {
+        ListSquads listSquads = new ListSquads();
+
+        ListIds listIds = new ListIds();
+
+        Cursor cursor = db.rawQuery(
+                "select " + SQUAD_ID
+                        + " from " + SQUAD_TABLE_NAME
+                        + " where " + SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+
+        if (cursor.moveToNext()) {
+            listIds.add(new SquadId(cursor.getString(0)));
+        }
+        cursor.close();
+
+        for (Object id : listIds) {
+            listSquads.add(select((SquadId) id));
+        }
+
+        return listSquads;
     }
 
     public ListSquads selectAllOfYear(Year year) {
@@ -146,7 +156,7 @@ class SquadDAO extends AbstractTableDAO {
         return listSquads;
     }
 
-    public ListSquads selectAllOfTeacher(TeacherId teacherId) {
+    public ListSquads selectAllOfTeacherAndYear(TeacherId teacherId, Year year) {
         ListSquads listSquads = new ListSquads();
 
         ListIds listIds = new ListIds();
@@ -154,7 +164,31 @@ class SquadDAO extends AbstractTableDAO {
         Cursor cursor = db.rawQuery(
                 "select " + SQUAD_ID
                         + " from " + SQUAD_TABLE_NAME
-                        + " where " + SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+                        + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_YEAR + " = ?",
+                new String[]{teacherId.toString(), year.toString()});
+
+        if (cursor.moveToNext()) {
+            listIds.add(new SquadId(cursor.getString(0)));
+        }
+        cursor.close();
+
+        for (Object id : listIds) {
+            listSquads.add(select((SquadId) id));
+        }
+
+        return listSquads;
+    }
+
+    public ListSquads selectAllOfTeacherAndProject(TeacherId teacherId, ProjectId projectId) {
+        ListSquads listSquads = new ListSquads();
+
+        ListIds listIds = new ListIds();
+
+        Cursor cursor = db.rawQuery(
+                "select " + SQUAD_ID
+                        + " from " + SQUAD_TABLE_NAME
+                        + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_PROJECT_ID + " = ?",
+                new String[]{teacherId.toString(), projectId.toString()});
 
         if (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
@@ -190,7 +224,7 @@ class SquadDAO extends AbstractTableDAO {
         return listSquads;
     }
 
-    public ListSquads selectAllOfYearAndTeacher(Year year, TeacherId teacherId) {
+    public ListSquads selectAllOfTeacherAndYearAndProject(TeacherId teacherId, Year year, ProjectId projectId) {
         ListSquads listSquads = new ListSquads();
 
         ListIds listIds = new ListIds();
@@ -198,52 +232,8 @@ class SquadDAO extends AbstractTableDAO {
         Cursor cursor = db.rawQuery(
                 "select " + SQUAD_ID
                         + " from " + SQUAD_TABLE_NAME
-                        + " where " + SQUAD_YEAR + " = ? and " + SQUAD_TEACHER_ID + " = ?", new String[]{year.toString(), teacherId.toString()});
-
-        if (cursor.moveToNext()) {
-            listIds.add(new SquadId(cursor.getString(0)));
-        }
-        cursor.close();
-
-        for (Object id : listIds) {
-            listSquads.add(select((SquadId) id));
-        }
-
-        return listSquads;
-    }
-
-    public ListSquads selectAllOfProjectAndTeacher(ProjectId projectId, TeacherId teacherId) {
-        ListSquads listSquads = new ListSquads();
-
-        ListIds listIds = new ListIds();
-
-        Cursor cursor = db.rawQuery(
-                "select " + SQUAD_ID
-                        + " from " + SQUAD_TABLE_NAME
-                        + " where " + SQUAD_PROJECT_ID + " = ? and " + SQUAD_TEACHER_ID + " = ?", new String[]{projectId.toString(), teacherId.toString()});
-
-        if (cursor.moveToNext()) {
-            listIds.add(new SquadId(cursor.getString(0)));
-        }
-        cursor.close();
-
-        for (Object id : listIds) {
-            listSquads.add(select((SquadId) id));
-        }
-
-        return listSquads;
-    }
-
-    public ListSquads selectAllOfYearAndProjectAndTeacher(Year year, ProjectId projectId, TeacherId teacherId) {
-        ListSquads listSquads = new ListSquads();
-
-        ListIds listIds = new ListIds();
-
-        Cursor cursor = db.rawQuery(
-                "select " + SQUAD_ID
-                        + " from " + SQUAD_TABLE_NAME
-                        + " where " + SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ? and " + SQUAD_TEACHER_ID + " = ?",
-                new String[]{year.toString(), projectId.toString(), teacherId.toString()});
+                        + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?",
+                new String[]{teacherId.toString(), year.toString(), projectId.toString()});
 
         if (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));

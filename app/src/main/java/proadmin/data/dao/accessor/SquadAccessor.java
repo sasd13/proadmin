@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 import proadmin.content.Squad;
 import proadmin.content.Year;
@@ -20,17 +20,17 @@ public interface SquadAccessor {
 
     Squad selectSquad(SquadId squadId);
 
+    ListSquads selectSquadsOfTeacher(TeacherId teacherId);
+
     ListSquads selectSquadsOfYear(Year year);
 
     ListSquads selectSquadsOfProject(ProjectId projectId);
 
-    ListSquads selectSquadsOfTeacher(TeacherId teacherId);
+    ListSquads selectSquadsOfTeacherAndYear(TeacherId teacherId, Year year);
+
+    ListSquads selectSquadsOfTeacherAndProject(TeacherId teacherId, ProjectId projectId);
 
     ListSquads selectSquadsOfYearAndProject(Year year, ProjectId projectId);
 
-    ListSquads selectSquadsOfYearAndTeacher(Year year, TeacherId teacherId);
-
-    ListSquads selectSquadsOfProjectAndTeacher(ProjectId projectId, TeacherId teacherId);
-
-    ListSquads selectSquadsOfYearAndProjectAndTeacher(Year year, ProjectId projectId, TeacherId teacherId);
+    ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(TeacherId teacherId, Year year, ProjectId projectId);
 }

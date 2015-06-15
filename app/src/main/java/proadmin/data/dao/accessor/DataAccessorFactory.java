@@ -1,6 +1,6 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
-import proadmin.db.sqlite.SQLiteDAO;
+import proadmin.data.db.sqlite.SQLiteDAO;
 
 /**
  * Created by Samir on 11/06/2015.

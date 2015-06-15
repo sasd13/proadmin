@@ -8,11 +8,13 @@ import proadmin.util.IdPreferences;
  */
 public class StudentId extends Id {
 
-    private static int count = IdPreferences.getCountId(StudentId.class.getName());
+    private static final String CLASS_NAME = StudentId.class.getName();
+
+    private static int count = IdPreferences.getCountId(CLASS_NAME);
 
     public StudentId() {
         count++;
-        IdPreferences.setCountId(ProjectId.class.getName(), count);
+        IdPreferences.setCountId(CLASS_NAME, count);
 
         value = new Year().toString() + getKey() + count;
     }

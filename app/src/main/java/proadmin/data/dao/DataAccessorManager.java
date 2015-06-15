@@ -1,17 +1,16 @@
-package proadmin.pattern.dao;
+package proadmin.data.dao;
 
 import android.content.Context;
 
-import proadmin.db.sqlite.SQLiteDAO;
-import proadmin.pattern.dao.accessor.DataAccessor;
-import proadmin.pattern.dao.accessor.DataAccessorException;
-import proadmin.pattern.dao.accessor.DataAccessorFactory;
-import proadmin.pattern.dao.accessor.DataAccessorType;
+import proadmin.data.dao.accessor.DataAccessor;
+import proadmin.data.dao.accessor.DataAccessorException;
+import proadmin.data.dao.accessor.DataAccessorFactory;
+import proadmin.data.dao.accessor.DataAccessorType;
 
 /**
  * Created by Samir on 11/06/2015.
  */
-public class DataManager {
+public class DataAccessorManager {
 
     private static DataAccessor dao;
     private static Context context;
@@ -35,7 +34,7 @@ public class DataManager {
     private static void config() {
         switch (dao.getType()) {
             case SQLITE:
-                ((SQLiteDAO) dao).create(context);
+                ((proadmin.data.db.sqlite.SQLiteDAO) dao).create(context);
                 break;
         }
     }

@@ -55,13 +55,13 @@ public class LogInActivity extends ActionBarActivity {
         this.formUser.buttonLogin.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
 
         //Add underline and link for textViews
-        TextView[] textViews = {
+        TextView[] tabTextViews = {
                 (TextView) findViewById(R.id.login_textview_restorepassword),
                 (TextView) findViewById(R.id.login_textview_signup)
         };
 
         SpannableString text;
-        for(TextView textView : textViews) {
+        for(TextView textView : tabTextViews) {
             text = new SpannableString(textView.getText().toString());
             text.setSpan(new UnderlineSpan(), 0, text.length(), 0);
             textView.setText(text);

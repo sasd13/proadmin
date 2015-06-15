@@ -1,9 +1,9 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
+import proadmin.content.id.ListIds;
 import proadmin.content.id.SquadId;
 import proadmin.content.id.StudentId;
 
@@ -30,14 +30,6 @@ class StudentHasSquadDAO extends AbstractTableDAO {
         return values;
     }
 
-    public long deleteAllOfSquad(SquadId squadId) {
-        return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
-    }
-
-    public long deleteAllOfStudent(StudentId studentId) {
-        return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
-    }
-
     public long delete(StudentId studentId, SquadId squadId) {
         return db.delete(STUDENT_HAS_SQUAD_TABLE_NAME, STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{studentId.toString(), squadId.toString()});
     }
@@ -52,22 +44,6 @@ class StudentHasSquadDAO extends AbstractTableDAO {
 
         if (cursor.moveToNext()) {
             listIds.add(new StudentId(cursor.getString(0)));
-        }
-        cursor.close();
-
-        return listIds;
-    }
-
-    public ListIds selectAllOfStudent(StudentId studentId) {
-        ListIds listIds = new ListIds();
-
-        Cursor cursor = db.rawQuery(
-                "select " + STUDENT_HAS_SQUAD_SQUAD_ID
-                        + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
-                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ?", new String[]{studentId.toString()});
-
-        if (cursor.moveToNext()) {
-            listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
 

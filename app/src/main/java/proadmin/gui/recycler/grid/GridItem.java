@@ -172,7 +172,7 @@ public class GridItem extends AbstractRecyclerItem {
         View view = super.inflate(viewStub);
 
         if(this.color == 0) {
-            this.color = view.getContext().getResources().getColor(R.color.customGreenApp);
+            this.color = view.getContext().getResources().getColor(R.color.customOrange);
         }
         view.setBackgroundColor(this.color);
 

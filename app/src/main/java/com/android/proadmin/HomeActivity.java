@@ -49,13 +49,16 @@ public class HomeActivity extends Activity {
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
                         break;
                     default:
-                        intent = new Intent(HomeActivity.this, HomeActivity.class);
+                        intent = null;
                         break;
-
                 }
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                try {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         };
 

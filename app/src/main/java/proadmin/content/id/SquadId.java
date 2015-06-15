@@ -7,11 +7,13 @@ import proadmin.util.IdPreferences;
  */
 public class SquadId extends Id {
 
-    private static int count = IdPreferences.getCountId(SquadId.class.getName());
+    private static final String CLASS_NAME = SquadId.class.getName();
+
+    private static int count = IdPreferences.getCountId(CLASS_NAME);
 
     public SquadId(ProjectId projectId) {
         count++;
-        IdPreferences.setCountId(ProjectId.class.getName(), count);
+        IdPreferences.setCountId(CLASS_NAME, count);
 
         value = projectId.toString() + getKey() + count;
     }

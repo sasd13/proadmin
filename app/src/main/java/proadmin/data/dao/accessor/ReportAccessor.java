@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 import proadmin.content.ListReports;
 import proadmin.content.Report;

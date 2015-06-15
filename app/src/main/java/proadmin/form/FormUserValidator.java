@@ -60,7 +60,7 @@ public class FormUserValidator {
 
     private static void validTerms(boolean checked) throws FormException {
         if (!checked) {
-            throw new FormException("you must valid terms");
+            throw new FormException("terms must be checked");
         }
     }
 }

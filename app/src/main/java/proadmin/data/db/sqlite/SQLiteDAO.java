@@ -1,16 +1,15 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
-import android.util.Log;
 
-import proadmin.content.ListIds;
+import proadmin.content.id.ListIds;
+import proadmin.content.MapNotes;
 import proadmin.content.ListProjects;
 import proadmin.content.ListReports;
 import proadmin.content.ListStudents;
 import proadmin.content.ListYears;
 import proadmin.content.Squad;
-import proadmin.content.MapNotes;
 import proadmin.content.Project;
 import proadmin.content.Report;
 import proadmin.content.Student;
@@ -22,8 +21,8 @@ import proadmin.content.id.ReportId;
 import proadmin.content.id.SquadId;
 import proadmin.content.id.StudentId;
 import proadmin.content.id.TeacherId;
-import proadmin.pattern.dao.accessor.DataAccessor;
-import proadmin.pattern.dao.accessor.DataAccessorType;
+import proadmin.data.dao.accessor.DataAccessor;
+import proadmin.data.dao.accessor.DataAccessorType;
 
 public class SQLiteDAO implements DataAccessor {
 
@@ -105,7 +104,11 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void deleteTeacher(TeacherId teacherId) {
-		squadDAO.deleteAllOfTeacher(teacherId);
+        ListSquads listSquads = selectSquadsOfTeacher(teacherId);
+        for (Object squad : listSquads) {
+            deleteSquad(((Squad) squad).getId());
+        }
+
 		teacherDAO.delete(teacherId);
 	}
 
@@ -121,13 +124,29 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
     public void deleteYear(Year year) {
-        projectHasYearDAO.deleteAllOfYear(year);
+        ListSquads listSquads = selectSquadsOfYear(year);
+        for (Object squad : listSquads) {
+            deleteSquad(((Squad) squad).getId());
+        }
+
+        ListProjects listProjects = selectProjectsOfYear(year);
+        for (Object project : listProjects) {
+            deleteProjectFromYear(((Project) project).getId(), year);
+        }
+
         yearDAO.delete(year);
     }
 
     @Override
     public ListYears selectYears() {
         return yearDAO.selectAll();
+    }
+
+    @Override
+    public Year selectYearCreationOfProject(ProjectId projectId) {
+        ListYears listYears = projectHasYearDAO.selectAllOfProject(projectId);
+
+        return listYears.get(listYears.size() - 1);
     }
 
     @Override
@@ -144,15 +163,23 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void deleteProject(ProjectId projectId) {
-		squadDAO.deleteAllOfProject(projectId);
+		ListSquads listSquads = selectSquadsOfProject(projectId);
+        for (Object squad : listSquads) {
+            deleteSquad(((Squad) squad).getId());
+        }
+
 		projectHasYearDAO.deleteAllOfProject(projectId);
 		projectDAO.delete(projectId);
 	}
 
     @Override
 	public void deleteProjectFromYear(ProjectId projectId, Year year) {
-		squadDAO.deleteAllOfYearAndProject(year, projectId);
-		projectHasYearDAO.deleteAllOfProject(projectId);
+        ListSquads listSquads = selectSquadsOfYearAndProject(year, projectId);
+        for (Object squad : listSquads) {
+            deleteSquad(((Squad) squad).getId());
+        }
+
+		projectHasYearDAO.delete(projectId, year);
 	}
 
     @Override
@@ -170,13 +197,6 @@ public class SQLiteDAO implements DataAccessor {
         }
 
         return listProjects;
-    }
-
-    @Override
-    public Year selectYearCreationOfProject(ProjectId projectId) {
-        ListYears listYears = projectHasYearDAO.selectAllOfProject(projectId);
-
-        return listYears.get(listYears.size() - 1);
     }
 
     @Override
@@ -209,8 +229,16 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void deleteSquad(SquadId squadId) {
-		reportDAO.deleteAllOfSquad(squadId);
-		studentHasSquadDAO.deleteAllOfSquad(squadId);
+        ListReports listReports = selectReportsOfSquad(squadId);
+        for (Object report : listReports) {
+            deleteReport(((Report) report).getId());
+        }
+
+        ListStudents listStudents = selectStudentsOfSquad(squadId);
+        for (Object student : listStudents) {
+            deleteStudentFromSquad(((Student) student).getId(), squadId);
+        }
+
 		squadDAO.delete(squadId);
 	}
 
@@ -219,40 +247,40 @@ public class SQLiteDAO implements DataAccessor {
 		return squadDAO.select(squadId);
 	}
 
-	@Override
-	public ListSquads selectSquadsOfYear(Year year) {
-		return squadDAO.selectAllOfYear(year);
-	}
+    @Override
+    public ListSquads selectSquadsOfTeacher(TeacherId teacherId) {
+        return squadDAO.selectAllOfTeacher(teacherId);
+    }
 
-	@Override
-	public ListSquads selectSquadsOfProject(ProjectId projectId) {
-		return squadDAO.selectAllOfProject(projectId);
-	}
+    @Override
+    public ListSquads selectSquadsOfYear(Year year) {
+        return squadDAO.selectAllOfYear(year);
+    }
 
-	@Override
-	public ListSquads selectSquadsOfTeacher(TeacherId teacherId) {
-		return squadDAO.selectAllOfTeacher(teacherId);
-	}
+    @Override
+    public ListSquads selectSquadsOfProject(ProjectId projectId) {
+        return squadDAO.selectAllOfProject(projectId);
+    }
+
+    @Override
+    public ListSquads selectSquadsOfTeacherAndYear(TeacherId teacherId, Year year) {
+        return squadDAO.selectAllOfTeacherAndYear(teacherId, year);
+    }
+
+    @Override
+    public ListSquads selectSquadsOfTeacherAndProject(TeacherId teacherId, ProjectId projectId) {
+        return squadDAO.selectAllOfTeacherAndProject(teacherId, projectId);
+    }
 
 	@Override
 	public ListSquads selectSquadsOfYearAndProject(Year year, ProjectId projectId) {
 		return squadDAO.selectAllOfYearAndProject(year, projectId);
 	}
 
-	@Override
-	public ListSquads selectSquadsOfYearAndTeacher(Year year, TeacherId teacherId) {
-		return squadDAO.selectAllOfYearAndTeacher(year, teacherId);
-	}
-
-	@Override
-	public ListSquads selectSquadsOfProjectAndTeacher(ProjectId projectId, TeacherId teacherId) {
-		return squadDAO.selectAllOfProjectAndTeacher(projectId, teacherId);
-	}
-
-	@Override
-	public ListSquads selectSquadsOfYearAndProjectAndTeacher(Year year, ProjectId projectId, TeacherId teacherId) {
-		return squadDAO.selectAllOfYearAndProjectAndTeacher(year, projectId, teacherId);
-	}
+    @Override
+    public ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(TeacherId teacherId, Year year, ProjectId projectId) {
+        return squadDAO.selectAllOfTeacherAndYearAndProject(teacherId, year, projectId);
+    }
 
     @Override
 	public void insertStudent(Student student, SquadId squadId) {
@@ -266,13 +294,11 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteStudent(StudentId studentId) {
-		studentHasSquadDAO.deleteAllOfStudent(studentId);
-		studentDAO.delete(studentId);
-	}
-
-    @Override
 	public void deleteStudentFromSquad(StudentId studentId, SquadId squadId) {
+        ListReports listReports = reportDAO.selectAllOfSquadAndStudent(squadId, studentId);
+
+        //TODO
+
 		studentHasSquadDAO.delete(studentId, squadId);
 	}
 
@@ -281,7 +307,12 @@ public class SQLiteDAO implements DataAccessor {
 		return studentDAO.select(studentId);
 	}
 
-	@Override
+    @Override
+    public Student selectStudent(String email) {
+        return studentDAO.select(email);
+    }
+
+    @Override
 	public ListStudents selectStudentsOfSquad(SquadId squadId) {
         ListStudents listStudents = new ListStudents();
 
@@ -305,6 +336,7 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void deleteReport(ReportId reportId) {
+        noteDAO.deleteAllOfReport(reportId);
 		reportDAO.delete(reportId);
 	}
 
@@ -319,21 +351,16 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void insertNotes(MapNotes mapNotes, ReportId reportId) {
-		noteDAO.insert(mapNotes, reportId);
-	}
+    public void insertNotes(MapNotes mapNotes, ReportId reportId) {
+        noteDAO.insert(mapNotes, reportId);
+    }
 
     @Override
-	public void updateNotes(MapNotes mapNotes, ReportId reportId) {
-		noteDAO.update(mapNotes, reportId);
-	}
+    public void updateNotes(MapNotes mapNotes, ReportId reportId) {
+        noteDAO.update(mapNotes, reportId);
+    }
 
     @Override
-	public void deleteNotes(StudentId studentId, ReportId reportId) {
-		noteDAO.delete(studentId, reportId);
-	}
-
-	@Override
 	public MapNotes selectNotesOfReport(ReportId reportId) {
         return noteDAO.selectAllOfReport(reportId);
 	}

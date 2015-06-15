@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 /**
  * Created by Samir on 12/06/2015.

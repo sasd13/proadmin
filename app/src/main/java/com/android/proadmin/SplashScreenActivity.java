@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import proadmin.pattern.dao.DataManager;
+import proadmin.data.dao.DataAccessorManager;
 import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
@@ -31,7 +31,7 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        DataManager.start(this);
+        DataAccessorManager.start(this);
         Session.start(this);
 
         if (Session.isLogged()) {

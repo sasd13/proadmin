@@ -1,4 +1,4 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -35,10 +35,6 @@ class StudentDAO extends AbstractTableDAO {
 
     public long update(Student student) {
         return db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
-    }
-
-    public long delete(StudentId studentId) {
-        return db.delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{studentId.toString()});
     }
 
     public Student select(StudentId studentId) {

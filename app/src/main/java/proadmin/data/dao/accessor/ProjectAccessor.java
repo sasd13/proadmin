@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 import proadmin.content.ListProjects;
 import proadmin.content.Project;
@@ -21,6 +21,4 @@ public interface ProjectAccessor {
     Project selectProject(ProjectId projectId);
 
     ListProjects selectProjectsOfYear(Year year);
-
-    Year selectYearCreationOfProject(ProjectId projectId);
 }

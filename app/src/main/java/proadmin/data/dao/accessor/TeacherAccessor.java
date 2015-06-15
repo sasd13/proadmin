@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 import proadmin.content.Teacher;
 import proadmin.content.id.TeacherId;

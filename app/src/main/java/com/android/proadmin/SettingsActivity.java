@@ -15,13 +15,13 @@ import android.widget.TextView;
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
 import proadmin.content.id.TeacherId;
+import proadmin.data.dao.DataAccessorManager;
+import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
 import proadmin.gui.app.KeyboardManager;
 import proadmin.gui.widget.CustomDialog;
-import proadmin.pattern.dao.accessor.DataAccessor;
 import proadmin.session.Session;
 
 public class SettingsActivity extends ActionBarActivity {
@@ -78,7 +78,7 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        this.dao = DataManager.getDao();
+        this.dao = DataAccessorManager.getDao();
 
         loadTeacher();
     }
@@ -109,20 +109,24 @@ public class SettingsActivity extends ActionBarActivity {
             teacher1.setPassword(teacher2.getPassword());
 
             this.dao.updateTeacher(teacher1);
-            this.dao.close();
         } catch (FormException e) {
             CustomDialog.showOkDialog(this, "Form error", e.getMessage());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
+            this.dao.close();
         }
     }
 
     private Teacher validForm() throws FormException {
+        String id = Session.getSessionId();
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
 
         FormUserValidator.validForm(firstName, lastName, email);
 
-        return new Teacher(new TeacherId(Session.getSessionId()), firstName, lastName, email);
+        return new Teacher(new TeacherId(id), firstName, lastName, email);
     }
 
     private void logOut() {

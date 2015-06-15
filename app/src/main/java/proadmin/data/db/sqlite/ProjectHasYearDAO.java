@@ -1,9 +1,9 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
+import proadmin.content.id.ListIds;
 import proadmin.content.ListYears;
 import proadmin.content.Year;
 import proadmin.content.id.ProjectId;
@@ -29,10 +29,6 @@ class ProjectHasYearDAO extends AbstractTableDAO {
         values.put(PROJECT_HAS_YEAR_YEAR_YEAR, year.getValue());
 
         return values;
-    }
-
-    public long deleteAllOfYear(Year year) {
-        return db.delete(PROJECT_HAS_YEAR_TABLE_NAME, PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
     }
 
     public long deleteAllOfProject(ProjectId projectId) {

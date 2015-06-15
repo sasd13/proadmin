@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import proadmin.content.Teacher;
-import proadmin.pattern.dao.DataManager;
-import proadmin.pattern.dao.accessor.DataAccessor;
+import proadmin.data.dao.DataAccessorManager;
+import proadmin.data.dao.accessor.DataAccessor;
 
 /**
  * Created by Samir on 15/03/2015.
@@ -16,12 +16,13 @@ public class Session {
     private static final String SESSION_ID = "teacher_id";
 
     private static SharedPreferences preferences;
-    private static DataAccessor dao = DataManager.getDao();
+    private static DataAccessor dao;
 
     protected Session() {}
     
     public static void start(Context context) {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
+        dao = DataAccessorManager.getDao();
     }
 
     public static boolean isLogged() {
@@ -37,11 +38,15 @@ public class Session {
         Teacher teacher = dao.selectTeacher(email);
         dao.close();
 
-        if(teacher != null && teacher.getPassword().compareTo(password) == 0) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(SESSION_ID, teacher.getId().toString());
+        try {
+            if(teacher.getPassword().compareTo(password) == 0) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(SESSION_ID, teacher.getId().toString());
 
-            return editor.commit();
+                return editor.commit();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         return false;

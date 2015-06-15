@@ -1,9 +1,9 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
+import proadmin.content.id.ListIds;
 import proadmin.content.ListReports;
 import proadmin.content.MapNotes;
 import proadmin.content.Note;
@@ -57,10 +57,6 @@ class ReportDAO extends AbstractTableDAO {
         return db.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId.toString()});
     }
 
-    public long deleteAllOfSquad(SquadId squadId) {
-        return db.delete(REPORT_TABLE_NAME, REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
-    }
-
     public Report select(ReportId reportId) {
         Report report = null;
 
@@ -106,6 +102,29 @@ class ReportDAO extends AbstractTableDAO {
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
                         + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
+
+        while (cursor.moveToNext()) {
+            listIds.add(new ReportId(cursor.getString(0)));
+        }
+        cursor.close();
+
+        for (Object id : listIds) {
+            listReports.add(select((ReportId) id));
+        }
+
+        return listReports;
+    }
+
+    public ListReports selectAllOfSquadAndStudent(SquadId squadId, StudentId studentId) {
+        ListReports listReports = new ListReports();
+
+        ListIds listIds = new ListIds();
+
+        Cursor cursor = db.rawQuery(
+                "select " + REPORT_ID
+                        + " from " + REPORT_TABLE_NAME
+                        + " where " + REPORT_SQUAD_ID + " = ? and " + REPORT_STUDENT_ID  + " = ?",
+                new String[]{squadId.toString(), studentId.toString()});
 
         while (cursor.moveToNext()) {
             listIds.add(new ReportId(cursor.getString(0)));

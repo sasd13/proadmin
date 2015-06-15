@@ -20,13 +20,13 @@ import proadmin.content.Grade;
 import proadmin.content.Project;
 import proadmin.content.Year;
 import proadmin.content.id.ProjectId;
+import proadmin.data.dao.DataAccessorManager;
+import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.app.KeyboardManager;
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormProjectValidator;
 import proadmin.gui.widget.CustomDialog;
-import proadmin.pattern.dao.accessor.DataAccessor;
 
 public class ProjectFormActivity extends ActionBarActivity {
 
@@ -61,9 +61,12 @@ public class ProjectFormActivity extends ActionBarActivity {
         TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (mode == Extra.MODE_CONSULT && actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     KeyboardManager.hide(v);
-                    updateProject();
+
+                    if (mode == Extra.MODE_CONSULT) {
+                        updateProject();
+                    }
 
                     return true;
                 }
@@ -91,8 +94,6 @@ public class ProjectFormActivity extends ActionBarActivity {
         this.formProject.radioButtonM1 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m1);
         this.formProject.radioButtonM2 = (RadioButton) findViewById(R.id.form_project_radiobutton_project_grade_m2);
 
-        ColorOnTouchListener colorOnTouchListener = new ColorOnTouchListener(getResources().getColor(R.color.customOrange));
-
         this.formProject.buttonSave = (Button) findViewById(R.id.form_project_button_save);
         this.formProject.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +101,6 @@ public class ProjectFormActivity extends ActionBarActivity {
                 addProjectForCurrentYear();
             }
         });
-        this.formProject.buttonSave.setOnTouchListener(colorOnTouchListener);
 
         this.formProject.buttonMigrate = (Button) findViewById(R.id.form_project_button_migrate);
         this.formProject.buttonMigrate.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,6 @@ public class ProjectFormActivity extends ActionBarActivity {
                         });
             }
         });
-        this.formProject.buttonMigrate.setOnTouchListener(colorOnTouchListener);
 
         this.formProject.buttonRemove = (Button) findViewById(R.id.form_project_button_remove);
         this.formProject.buttonRemove.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +135,6 @@ public class ProjectFormActivity extends ActionBarActivity {
                         });
             }
         });
-        this.formProject.buttonRemove.setOnTouchListener(colorOnTouchListener);
 
         this.formProject.buttonRemoveAll = (Button) findViewById(R.id.form_project_button_remove_all);
         this.formProject.buttonRemoveAll.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +152,12 @@ public class ProjectFormActivity extends ActionBarActivity {
                         });
             }
         });
+
+        ColorOnTouchListener colorOnTouchListener = new ColorOnTouchListener(getResources().getColor(R.color.customOrange));
+
+        this.formProject.buttonSave.setOnTouchListener(colorOnTouchListener);
+        this.formProject.buttonMigrate.setOnTouchListener(colorOnTouchListener);
+        this.formProject.buttonRemove.setOnTouchListener(colorOnTouchListener);
         this.formProject.buttonRemoveAll.setOnTouchListener(colorOnTouchListener);
     }
 
@@ -161,7 +165,7 @@ public class ProjectFormActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        this.dao = DataManager.getDao();
+        this.dao = DataAccessorManager.getDao();
 
         this.mode = getIntent().getIntExtra(Extra.MODE, 0);
         switch (this.mode) {
@@ -219,15 +223,17 @@ public class ProjectFormActivity extends ActionBarActivity {
     private void migrateProjectForCurrentYear() {
         String id = getIntent().getStringExtra(Extra.PROJECT_ID);
 
+        this.dao.open();
+        Project project = this.dao.selectProject(new ProjectId(id));
+
         try {
-            this.dao.open();
-            Project project = this.dao.selectProject(new ProjectId(id));
             this.dao.insertProject(project, new Year());
-            this.dao.close();
 
             CustomDialog.showOkDialog(this, "Project", "Migration succeded");
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            this.dao.close();
         }
     }
 

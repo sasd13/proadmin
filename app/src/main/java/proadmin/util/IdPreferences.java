@@ -14,14 +14,10 @@ public class IdPreferences {
     }
 
     public static int getCountId(String className) {
-        Preferences preferences = getPreferences(className);
-
-        return preferences.getInt(KEY_COUNT_ID, 0);
+        return getPreferences(className).getInt(KEY_COUNT_ID, 0);
     }
 
     public static void setCountId(String className, int countId) {
-        Preferences preferences = getPreferences(className);
-
-        preferences.putInt(KEY_COUNT_ID, countId);
+        getPreferences(className).putInt(KEY_COUNT_ID, countId);
     }
 }

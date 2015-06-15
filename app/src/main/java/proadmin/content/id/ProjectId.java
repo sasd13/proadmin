@@ -9,11 +9,13 @@ import proadmin.util.IdPreferences;
  */
 public class ProjectId extends Id {
 
-    private static int count = IdPreferences.getCountId(ProjectId.class.getName());
+    private static final String CLASS_NAME = ProjectId.class.getName();
+
+    private static int count = IdPreferences.getCountId(CLASS_NAME);
 
     public ProjectId(Grade grade) {
         count++;
-        IdPreferences.setCountId(ProjectId.class.getName(), count);
+        IdPreferences.setCountId(CLASS_NAME, count);
 
         value = new Year().toString() + getKey() + grade.toString() + count;
     }

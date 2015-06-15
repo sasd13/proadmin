@@ -17,13 +17,13 @@ import proadmin.content.ListYears;
 import proadmin.content.Project;
 import proadmin.content.Year;
 import proadmin.content.ListSquads;
+import proadmin.data.dao.DataAccessorManager;
+import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.gui.recycler.tab.Tab;
 import proadmin.gui.recycler.tab.TabItemProject;
 import proadmin.gui.recycler.tab.TabItemProjectTitle;
-import proadmin.pattern.dao.DataManager;
 import proadmin.gui.widget.SpinnerAdapter;
-import proadmin.pattern.dao.accessor.DataAccessor;
 
 public class ProjectsActivity extends ActionBarActivity {
 
@@ -60,7 +60,6 @@ public class ProjectsActivity extends ActionBarActivity {
                 intent.putExtra(Extra.MODE, Extra.MODE_NEW);
 
                 startActivity(intent);
-                finish();
             }
         });
         buttonNew.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
@@ -74,7 +73,7 @@ public class ProjectsActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        this.dao = DataManager.getDao();
+        this.dao = DataAccessorManager.getDao();
 
         int spinnerSize = addYearsInSpinner();
         if (spinnerSize > 0) {

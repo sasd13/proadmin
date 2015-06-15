@@ -1,4 +1,4 @@
-package proadmin.pattern.dao.accessor;
+package proadmin.data.dao.accessor;
 
 import proadmin.content.ListStudents;
 import proadmin.content.Student;
@@ -14,11 +14,11 @@ public interface StudentAccessor {
 
     void updateStudent(Student student);
 
-    void deleteStudent(StudentId studentId);
-
     void deleteStudentFromSquad(StudentId studentId, SquadId squadId);
 
     Student selectStudent(StudentId studentId);
+
+    Student selectStudent(String email);
 
     ListStudents selectStudentsOfSquad(SquadId squadId);
 }

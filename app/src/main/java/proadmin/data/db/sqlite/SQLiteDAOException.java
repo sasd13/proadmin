@@ -1,6 +1,6 @@
-package proadmin.db.sqlite;
+package proadmin.data.db.sqlite;
 
-import proadmin.pattern.dao.accessor.DataAccessorException;
+import proadmin.data.dao.accessor.DataAccessorException;
 
 /**
  * Created by Samir on 13/06/2015.

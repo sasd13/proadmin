@@ -15,13 +15,13 @@ import android.widget.EditText;
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
 import proadmin.content.id.TeacherId;
+import proadmin.data.dao.DataAccessorManager;
+import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.pattern.dao.DataManager;
 import proadmin.form.FormException;
 import proadmin.form.FormUserValidator;
 import proadmin.gui.widget.CustomDialog;
 import proadmin.gui.widget.CustomDialogBuilder;
-import proadmin.pattern.dao.accessor.DataAccessor;
 import proadmin.session.Session;
 
 public class SignUpActivity extends ActionBarActivity {
@@ -66,7 +66,7 @@ public class SignUpActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        this.dao = DataManager.getDao();
+        this.dao = DataAccessorManager.getDao();
     }
 
     @Override

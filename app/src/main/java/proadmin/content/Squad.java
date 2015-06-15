@@ -5,9 +5,9 @@ import proadmin.content.id.SquadId;
 public class Squad {
 
     private SquadId id;
+    private Teacher teacher;
     private Year year;
     private Project project;
-    private Teacher teacher;
     private ListStudents listStudents;
     private ListReports listReports;
 
@@ -15,9 +15,9 @@ public class Squad {
 
     public Squad(SquadId id, Year year, Project project, Teacher teacher) {
         this.id = id;
+        this.teacher = teacher;
         this.year = year;
         this.project = project;
-        this.teacher = teacher;
     }
 
     public SquadId getId() {
@@ -26,6 +26,14 @@ public class Squad {
 
     public void setId(SquadId id) {
         this.id = id;
+    }
+
+    public Teacher getTeacher() {
+        return this.teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public Year getYear() {
@@ -42,14 +50,6 @@ public class Squad {
 
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public Teacher getTeacher() {
-        return this.teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
     }
 
     public ListStudents getListStudents() {
