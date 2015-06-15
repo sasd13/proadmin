@@ -33,6 +33,8 @@ public class SQLiteDAO implements DataAccessor {
 	private SQLiteDatabase db = null;
 	private DatabaseHandler dbHandler = null;
 
+    private Context mContext;
+
 	private TeacherDAO teacherDAO;
     private YearDAO yearDAO;
 	private ProjectDAO projectDAO;
@@ -64,7 +66,9 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     public void create(Context context) {
-        dbHandler = new DatabaseHandler(context, NOM, null, VERSION);
+        mContext = context;
+
+        dbHandler = new DatabaseHandler(mContext, NOM, null, VERSION);
     }
 
 	@Override
@@ -94,12 +98,17 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
     public void insertTeacher(Teacher teacher) {
-        teacherDAO.insert(teacher);
+        if (!teacherDAO.contains(teacher.getId()) && !teacherDAO.contains(teacher.getEmail())) {
+            teacherDAO.insert(teacher);
+        }
     }
 
     @Override
 	public void updateTeacher(Teacher teacher) {
-		teacherDAO.update(teacher);
+        Teacher teacher2 = selectTeacher(teacher.getEmail());
+        if (teacher2.getId().equals(teacher.getId())) {
+            teacherDAO.update(teacher);
+        }
 	}
 
     @Override
@@ -151,9 +160,17 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void insertProject(Project project, Year year) {
-        long rowId1 = yearDAO.insert(year);
-        long rowId2 = projectDAO.insert(project);
-        long rowId3 = projectHasYearDAO.insert(project.getId(), year);
+        if (!yearDAO.contains(year)) {
+            yearDAO.insert(year);
+        }
+
+        if (!projectDAO.contains(project.getId())) {
+            projectDAO.insert(project);
+        }
+
+        if (!projectHasYearDAO.contains(project.getId(), year)) {
+            projectHasYearDAO.insert(project.getId(), year);
+        }
 	}
 
     @Override
@@ -201,17 +218,19 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void insertSquad(Squad squad) {
-		long rowId = squadDAO.insert(squad);
+        if (!squadDAO.contains(squad.getId())) {
+            long rowId = squadDAO.insert(squad);
 
-		if (rowId > 0) {
-            for (Object student : squad.getListStudents()) {
-                insertStudent((Student) student, squad.getId());
-            }
+            if (rowId > 0) {
+                for (Object student : squad.getListStudents()) {
+                    insertStudent((Student) student, squad.getId());
+                }
 
-            for (Object report : squad.getListReports()) {
-                insertReport((Report) report);
+                for (Object report : squad.getListReports()) {
+                    insertReport((Report) report);
+                }
             }
-		}
+        }
 	}
 
     @Override
@@ -284,13 +303,21 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void insertStudent(Student student, SquadId squadId) {
-		studentDAO.insert(student);
-		studentHasSquadDAO.insert(student.getId(), squadId);
+        if (!studentDAO.contains(student.getId()) && !studentDAO.contains(student.getEmail())) {
+            studentDAO.insert(student);
+        }
+
+        if (!studentHasSquadDAO.contains(student.getId(), squadId)) {
+            studentHasSquadDAO.insert(student.getId(), squadId);
+        }
 	}
 
     @Override
 	public void updateStudent(Student student) {
-		studentDAO.update(student);
+        Student student2 = selectStudent(student.getEmail());
+        if (student2.getId().equals(student.getId())) {
+            studentDAO.update(student);
+        }
 	}
 
     @Override
@@ -326,7 +353,9 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
 	public void insertReport(Report report) {
-		reportDAO.insert(report);
+        if (!reportDAO.contains(report.getId())) {
+            reportDAO.insert(report);
+        }
 	}
 
     @Override
@@ -352,12 +381,20 @@ public class SQLiteDAO implements DataAccessor {
 
     @Override
     public void insertNotes(MapNotes mapNotes, ReportId reportId) {
-        noteDAO.insert(mapNotes, reportId);
+        StudentId[] tabStudentsIds = mapNotes.getKeys();
+        for (StudentId studentId : tabStudentsIds) {
+            if (!noteDAO.contains(reportId, studentId)) {
+                noteDAO.insert(mapNotes.get(studentId), reportId, studentId);
+            }
+        }
     }
 
     @Override
     public void updateNotes(MapNotes mapNotes, ReportId reportId) {
-        noteDAO.update(mapNotes, reportId);
+        StudentId[] tabStudentsIds = mapNotes.getKeys();
+        for (StudentId studentId : tabStudentsIds) {
+            noteDAO.update(mapNotes.get(studentId), reportId, studentId);
+        }
     }
 
     @Override

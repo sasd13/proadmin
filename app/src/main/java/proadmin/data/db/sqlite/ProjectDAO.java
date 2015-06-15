@@ -61,4 +61,20 @@ class ProjectDAO extends AbstractTableDAO {
 
         return project;
     }
+
+    public boolean contains(ProjectId projectId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + PROJECT_ID
+                        + " from " + PROJECT_TABLE_NAME
+                        + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
 }

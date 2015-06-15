@@ -46,6 +46,7 @@
         android:layout_marginTop="@dimen/viewgroup_margintop"
         android:layout_marginLeft="@dimen/activitycontent_padding"
         android:gravity="center"
+        android:background="@drawable/spinner_default_holo_light"
         android:prompt="@string/projects_spinner_year"/>
 
     <Button
@@ -68,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/projects_spinner_year"
+        android:layout_marginTop="@dimen/view_margintop_medium"
         android:padding="@dimen/activitycontent_padding"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay" />

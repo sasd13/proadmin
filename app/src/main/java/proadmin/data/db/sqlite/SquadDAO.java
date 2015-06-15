@@ -100,7 +100,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_TEACHER_ID + " = ?", new String[]{teacherId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -122,7 +122,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_YEAR + " = ?", new String[]{year.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -144,7 +144,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_PROJECT_ID + " = ?", new String[]{projectId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -167,7 +167,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_YEAR + " = ?",
                 new String[]{teacherId.toString(), year.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -190,7 +190,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_PROJECT_ID + " = ?",
                 new String[]{teacherId.toString(), projectId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -212,7 +212,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " from " + SQUAD_TABLE_NAME
                         + " where " + SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?", new String[]{year.toString(), projectId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -235,7 +235,7 @@ class SquadDAO extends AbstractTableDAO {
                         + " where " + SQUAD_TEACHER_ID + " = ? and " + SQUAD_YEAR + " = ? and " + SQUAD_PROJECT_ID + " = ?",
                 new String[]{teacherId.toString(), year.toString(), projectId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new SquadId(cursor.getString(0)));
         }
         cursor.close();
@@ -245,5 +245,21 @@ class SquadDAO extends AbstractTableDAO {
         }
 
         return listSquads;
+    }
+
+    public boolean contains(SquadId squadId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + SQUAD_ID
+                        + " from " + SQUAD_TABLE_NAME
+                        + " where " + SQUAD_ID + " = ?", new String[]{squadId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
     }
 }

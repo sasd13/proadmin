@@ -1,4 +1,4 @@
-package proadmin.gui.recycler.grid;
+package proadmin.gui.widget.recycler.grid;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package proadmin.gui.recycler.grid;
+package proadmin.gui.widget.recycler.grid;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.android.proadmin.R;
 
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.recycler.AbstractRecyclerItem;
+import proadmin.gui.widget.recycler.AbstractRecyclerItem;
 
 /**
  * <b>GridItem is the class to manage basic items of a Grid</b>
@@ -101,7 +101,7 @@ public class GridItem extends AbstractRecyclerItem {
         this.color = color;
 
         try {
-            view.setBackgroundColor(this.color);
+            this.view.setBackgroundColor(this.color);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -168,21 +168,21 @@ public class GridItem extends AbstractRecyclerItem {
     }
 
     @Override
-    public View inflate(ViewStub viewStub) {
-        View view = super.inflate(viewStub);
+    public void inflate(ViewStub viewStub) {
+        super.inflate(viewStub);
 
         if(this.color == 0) {
-            this.color = view.getContext().getResources().getColor(R.color.customOrange);
+            this.color = this.view.getContext().getResources().getColor(R.color.customOrange);
         }
-        view.setBackgroundColor(this.color);
+        this.view.setBackgroundColor(this.color);
 
-        this.imageView = (ImageView) view.findViewById(R.id.griditem_imageview);
+        this.imageView = (ImageView) this.view.findViewById(R.id.griditem_imageview);
         this.imageView.setImageDrawable(this.image);
 
-        this.textView = (TextView) view.findViewById(R.id.griditem_textview);
+        this.textView = (TextView) this.view.findViewById(R.id.griditem_textview);
         this.textView.setText(this.text);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        this.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -193,8 +193,6 @@ public class GridItem extends AbstractRecyclerItem {
                 }
             }
         });
-        view.setOnTouchListener(new ColorOnTouchListener(this.color));
-
-        return view;
+        this.view.setOnTouchListener(new ColorOnTouchListener(this.color));
     }
 }

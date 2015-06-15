@@ -76,4 +76,36 @@ class StudentDAO extends AbstractTableDAO {
 
         return student;
     }
+
+    public boolean contains(StudentId studentId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + STUDENT_ID
+                        + " from " + STUDENT_TABLE_NAME
+                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
+
+    public boolean contains(String email) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + STUDENT_ID
+                        + " from " + STUDENT_TABLE_NAME
+                        + " where " + STUDENT_EMAIL + " = ?", new String[]{email});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
 }

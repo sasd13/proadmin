@@ -1,4 +1,4 @@
-package proadmin.gui.recycler.tab;
+package proadmin.gui.widget.recycler.tab;
 
 import android.content.Intent;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.android.proadmin.R;
 
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.recycler.AbstractRecyclerItem;
+import proadmin.gui.widget.recycler.AbstractRecyclerItem;
 
 /**
  * <p>
@@ -82,16 +82,16 @@ public class TabItemProject extends AbstractRecyclerItem {
     }
 
     @Override
-    public View inflate(ViewStub viewStub) {
-        View view = super.inflate(viewStub);
+    public void inflate(ViewStub viewStub) {
+        super.inflate(viewStub);
 
-        this.textViewTitle = (TextView) view.findViewById(R.id.tabitem_project_textview_title);
+        this.textViewTitle = (TextView) this.view.findViewById(R.id.tabitem_project_textview_title);
         this.textViewTitle.setText(this.title);
 
-        this.textViewGrade = (TextView) view.findViewById(R.id.tabitem_project_textview_grade);
+        this.textViewGrade = (TextView) this.view.findViewById(R.id.tabitem_project_textview_grade);
         this.textViewGrade.setText(this.grade);
 
-        this.textViewNbrSquads = (TextView) view.findViewById(R.id.tabitem_project_textview_nbrsquads);
+        this.textViewNbrSquads = (TextView) this.view.findViewById(R.id.tabitem_project_textview_nbrsquads);
         this.textViewNbrSquads.setText(Integer.toString(this.nbrSquads));
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +106,6 @@ public class TabItemProject extends AbstractRecyclerItem {
             }
         });
         int color = view.getContext().getResources().getColor(R.color.background_material_light);
-        view.setOnTouchListener(new ColorOnTouchListener(color));
-
-        return view;
+        this.view.setOnTouchListener(new ColorOnTouchListener(color));
     }
 }

@@ -1,4 +1,4 @@
-package proadmin.gui.recycler;
+package proadmin.gui.widget.recycler;
 
 import java.util.ArrayList;
 import java.util.Iterator;

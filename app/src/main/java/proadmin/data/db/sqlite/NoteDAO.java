@@ -19,11 +19,8 @@ class NoteDAO extends AbstractTableDAO {
     public static final String NOTE_REPORT_ID = "report_id";
     public static final String NOTE_STUDENT_ID = "student_id";
 
-    public void insert(MapNotes mapNotes, ReportId reportId) {
-        StudentId[] tabStudentsIds = mapNotes.getKeys();
-        for (StudentId studentId : tabStudentsIds) {
-            db.insert(NOTE_TABLE_NAME, null, getContentValues(mapNotes.get(studentId), reportId, studentId));
-        }
+    public void insert(Note note, ReportId reportId, StudentId studentId) {
+        db.insert(NOTE_TABLE_NAME, null, getContentValues(note, reportId, studentId));
     }
 
     private ContentValues getContentValues(Note note, ReportId reportId, StudentId studentId) {
@@ -36,12 +33,9 @@ class NoteDAO extends AbstractTableDAO {
         return values;
     }
 
-    public void update(MapNotes mapNotes, ReportId reportId) {
-        StudentId[] tabStudentsIds = mapNotes.getKeys();
-        for (StudentId studentId : tabStudentsIds) {
-            db.update(NOTE_TABLE_NAME, getContentValues(mapNotes.get(studentId), reportId, studentId), NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
-                    new String[]{reportId.toString(), studentId.toString()});
-        }
+    public void update(Note note, ReportId reportId, StudentId studentId) {
+        db.update(NOTE_TABLE_NAME, getContentValues(note, reportId, studentId), NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
+                new String[]{reportId.toString(), studentId.toString()});
     }
 
     public long deleteAllOfReport(ReportId reportId) {
@@ -62,5 +56,22 @@ class NoteDAO extends AbstractTableDAO {
         cursor.close();
 
         return mapNotes;
+    }
+
+    public boolean contains(ReportId reportId, StudentId studentId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + NOTE_REPORT_ID + ", " + NOTE_STUDENT_ID
+                        + " from " + NOTE_TABLE_NAME
+                        + " where " + NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
+                new String[]{reportId.toString(), studentId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
     }
 }

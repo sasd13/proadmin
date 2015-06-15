@@ -326,7 +326,7 @@ public class ProjectFormActivity extends ActionBarActivity {
                     break;
             }
 
-            if (yearCreation.equals(new Year())) {
+            if (yearCreation.getValue() == new Year().getValue()) {
                 this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
             } else {
                 this.formProject.buttonMigrate.setVisibility(View.VISIBLE);

@@ -1,4 +1,4 @@
-package proadmin.gui.recycler;
+package proadmin.gui.widget.recycler;
 
 import android.view.View;
 import android.view.ViewStub;
@@ -15,15 +15,9 @@ public abstract class AbstractRecyclerItem {
         this.layoutResource = layoutResource;
     }
 
-    public View inflate(ViewStub viewStub) {
+    public void inflate(ViewStub viewStub) {
         viewStub.setLayoutResource(this.layoutResource);
 
         this.view = viewStub.inflate();
-
-        return this.view;
-    }
-
-    public View getView() {
-        return this.view;
     }
 }

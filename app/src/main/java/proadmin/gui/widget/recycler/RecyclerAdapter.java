@@ -1,4 +1,4 @@
-package proadmin.gui.recycler;
+package proadmin.gui.widget.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

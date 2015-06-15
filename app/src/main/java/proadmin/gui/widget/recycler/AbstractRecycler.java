@@ -1,8 +1,7 @@
-package proadmin.gui.recycler;
+package proadmin.gui.widget.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.android.proadmin.R;
 
@@ -25,16 +24,10 @@ public abstract class AbstractRecycler {
     protected ListAbstractRecyclerItems listAbstractRecyclerItems;
     protected int itemStubLayout;
 
-    protected View view;
-
     protected AbstractRecycler(Context context) {
         this.context = context;
         this.listAbstractRecyclerItems = new ListAbstractRecyclerItems();
         this.itemStubLayout = R.layout.recyclerviewitem;
-    }
-
-    public AbstractRecyclerItem getItem(int index) {
-        return this.listAbstractRecyclerItems.get(index);
     }
 
     public boolean addItem(AbstractRecyclerItem abstractRecyclerItem) {
@@ -45,12 +38,12 @@ public abstract class AbstractRecycler {
         return this.listAbstractRecyclerItems.remove(index);
     }
 
-    public void clearItems() {
-        this.listAbstractRecyclerItems.clear();
+    public AbstractRecyclerItem getItem(int index) {
+        return this.listAbstractRecyclerItems.get(index);
     }
 
-    public int size() {
-        return this.listAbstractRecyclerItems.size();
+    public void clearItems() {
+        this.listAbstractRecyclerItems.clear();
     }
 
     public abstract void adapt(RecyclerView recyclerView);

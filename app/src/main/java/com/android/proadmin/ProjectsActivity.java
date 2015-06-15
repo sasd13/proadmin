@@ -20,14 +20,14 @@ import proadmin.content.ListSquads;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.recycler.tab.Tab;
-import proadmin.gui.recycler.tab.TabItemProject;
-import proadmin.gui.recycler.tab.TabItemProjectTitle;
-import proadmin.gui.widget.SpinnerAdapter;
+import proadmin.gui.widget.recycler.tab.Tab;
+import proadmin.gui.widget.recycler.tab.TabItemProject;
+import proadmin.gui.widget.recycler.tab.TabItemProjectTitle;
+import proadmin.gui.widget.spin.Spin;
 
 public class ProjectsActivity extends ActionBarActivity {
 
-    private Spinner spinnerYears;
+    private Spin spin;
     private Tab tab;
 
     private DataAccessor dao;
@@ -38,8 +38,9 @@ public class ProjectsActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_projects);
 
-        this.spinnerYears = (Spinner) findViewById(R.id.projects_spinner_year);
-        this.spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner spinnerYears = (Spinner) findViewById(R.id.projects_spinner_year);
+
+        AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 loadProjectsOfSelectedYear();
@@ -49,7 +50,10 @@ public class ProjectsActivity extends ActionBarActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        };
+
+        this.spin = new Spin(this);
+        this.spin.adapt(spinnerYears, onItemSelectedListener);
 
         Button buttonNew = (Button) findViewById(R.id.projects_button_new);
         buttonNew.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +69,7 @@ public class ProjectsActivity extends ActionBarActivity {
         buttonNew.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
 
         RecyclerView recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
+
         this.tab = new Tab(this);
         this.tab.adapt(recyclerViewProjects);
     }
@@ -75,11 +80,12 @@ public class ProjectsActivity extends ActionBarActivity {
 
         this.dao = DataAccessorManager.getDao();
 
-        int spinnerSize = addYearsInSpinner();
-        if (spinnerSize > 0) {
-            this.spinnerYears.setVisibility(View.VISIBLE);
-        } else {
-            this.spinnerYears.setVisibility(View.INVISIBLE);
+        this.tab.clearItems();
+        this.tab.addItem(new TabItemProjectTitle());
+
+        int sizeSpinner = addYearsInSpinner();
+        if (sizeSpinner > 0) {
+            loadProjectsOfSelectedYear();
         }
     }
 
@@ -100,18 +106,23 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private int addYearsInSpinner() {
+        this.spin.clear();
+
         this.dao.open();
         ListYears listYears = this.dao.selectYears();
         this.dao.close();
 
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, listYears);
-        this.spinnerYears.setAdapter(spinnerAdapter.getAdapter());
+        for (Object year : listYears) {
+            this.spin.addItem(year.toString());
+        }
+
+        this.spin.validate();
 
         return listYears.size();
     }
 
     private void loadProjectsOfSelectedYear() {
-        String selectedYear = (String) this.spinnerYears.getSelectedItem();
+        String selectedYear = this.spin.getItem(this.spin.getSelectedItemPosition());
         Year year = new Year(Long.parseLong(selectedYear));
 
         this.dao.open();
@@ -123,9 +134,7 @@ public class ProjectsActivity extends ActionBarActivity {
 
     private void createTabForListProjects(Year year, ListProjects listProjects) {
         this.tab.clearItems();
-
-        TabItemProjectTitle itemProjectTitle = new TabItemProjectTitle();
-        this.tab.addItem(itemProjectTitle);
+        this.tab.addItem(new TabItemProjectTitle());
 
         TabItemProject itemProject;
         ListSquads listSquads;

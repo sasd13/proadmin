@@ -137,4 +137,20 @@ class ReportDAO extends AbstractTableDAO {
 
         return listReports;
     }
+
+    public boolean contains(ReportId reportId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + REPORT_ID
+                        + " from " + REPORT_TABLE_NAME
+                        + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
 }

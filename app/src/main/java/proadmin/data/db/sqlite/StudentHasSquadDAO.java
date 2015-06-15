@@ -42,11 +42,28 @@ class StudentHasSquadDAO extends AbstractTableDAO {
                         + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
                         + " where " + STUDENT_HAS_SQUAD_SQUAD_ID + " = ?", new String[]{squadId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new StudentId(cursor.getString(0)));
         }
         cursor.close();
 
         return listIds;
+    }
+
+    public boolean contains(StudentId studentId, SquadId squadId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + STUDENT_HAS_SQUAD_STUDENT_ID + ", " + STUDENT_HAS_SQUAD_SQUAD_ID
+                        + " from " + STUDENT_HAS_SQUAD_TABLE_NAME
+                        + " where " + STUDENT_HAS_SQUAD_STUDENT_ID + " = ? and " + STUDENT_HAS_SQUAD_SQUAD_ID,
+                new String[]{studentId.toString(), squadId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
     }
 }

@@ -84,4 +84,36 @@ class TeacherDAO extends AbstractTableDAO {
 
         return teacher;
     }
+
+    public boolean contains(TeacherId teacherId) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + TEACHER_ID
+                        + " from " + TEACHER_TABLE_NAME
+                        + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
+
+    public boolean contains(String email) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + TEACHER_ID
+                        + " from " + TEACHER_TABLE_NAME
+                        + " where " + TEACHER_EMAIL + " = ?", new String[]{email});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
 }

@@ -47,7 +47,7 @@ class ProjectHasYearDAO extends AbstractTableDAO {
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
                         + " where " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?", new String[]{year.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listIds.add(new ProjectId(cursor.getString(0)));
         }
         cursor.close();
@@ -63,11 +63,28 @@ class ProjectHasYearDAO extends AbstractTableDAO {
                         + " from " + PROJECT_HAS_YEAR_TABLE_NAME
                         + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? order by " + PROJECT_HAS_YEAR_YEAR_YEAR + " desc", new String[]{projectId.toString()});
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             listYears.add(new Year(cursor.getLong(0)));
         }
         cursor.close();
 
         return listYears;
+    }
+
+    public boolean contains(ProjectId projectId, Year year) {
+        boolean contains = false;
+
+        Cursor cursor = db.rawQuery(
+                "select " + PROJECT_HAS_YEAR_PROJECT_ID + ", " + PROJECT_HAS_YEAR_YEAR_YEAR
+                        + " from " + PROJECT_HAS_YEAR_TABLE_NAME
+                        + " where " + PROJECT_HAS_YEAR_PROJECT_ID + " = ? and " + PROJECT_HAS_YEAR_YEAR_YEAR + " = ?",
+                new String[]{projectId.toString(), year.toString()});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
     }
 }

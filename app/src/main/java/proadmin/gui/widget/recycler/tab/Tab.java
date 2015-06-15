@@ -1,11 +1,11 @@
-package proadmin.gui.recycler.tab;
+package proadmin.gui.widget.recycler.tab;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import proadmin.gui.recycler.AbstractRecycler;
-import proadmin.gui.recycler.RecyclerAdapter;
+import proadmin.gui.widget.recycler.AbstractRecycler;
+import proadmin.gui.widget.recycler.RecyclerAdapter;
 
 /**
  * <p>
@@ -21,8 +21,6 @@ public class Tab extends AbstractRecycler {
 
     @Override
     public void adapt(RecyclerView recyclerView) {
-        view = recyclerView;
-
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
