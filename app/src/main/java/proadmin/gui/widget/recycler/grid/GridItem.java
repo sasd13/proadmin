@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.android.proadmin.R;
 
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.widget.recycler.AbstractRecyclerItem;
+import proadmin.gui.widget.recycler.RecyclerItem;
 
 /**
  * <b>GridItem is the class to manage basic items of a Grid</b>
@@ -27,7 +27,7 @@ import proadmin.gui.widget.recycler.AbstractRecyclerItem;
  * @version 2.0
  * @since   13/03/2015
  */
-public class GridItem extends AbstractRecyclerItem {
+public class GridItem extends RecyclerItem {
 
     /**
      * GridItem color
@@ -186,7 +186,7 @@ public class GridItem extends AbstractRecyclerItem {
             @Override
             public void onClick(View view) {
                 try {
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
                 } catch (NullPointerException e) {
                     e.printStackTrace();

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewStub;
 
 import com.android.proadmin.R;
@@ -13,10 +14,13 @@ import com.android.proadmin.R;
  */
 public class RecyclerAdapter extends RecyclerView.Adapter {
 
-    private ListAbstractRecyclerItems listAbstractRecyclerItem;
-    private int itemStubLayout;
+    private ListRecyclerItems listRecyclerItems;
+    private int itemLayout;
+
+    private View view;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         public ViewStub stub;
 
         public ViewHolder(View view) {
@@ -26,31 +30,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public RecyclerAdapter(ListAbstractRecyclerItems listAbstractRecyclerItem, int itemStubLayout) {
-        this.listAbstractRecyclerItem = listAbstractRecyclerItem;
-        this.itemStubLayout = itemStubLayout;
+    public RecyclerAdapter(ListRecyclerItems listRecyclerItems, int itemLayout) {
+        this.listRecyclerItems = listRecyclerItems;
+        this.itemLayout = itemLayout;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(this.itemStubLayout, parent, false);
+        this.view = LayoutInflater.from(parent.getContext()).inflate(this.itemLayout, parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(this.view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        AbstractRecyclerItem abstractRecyclerItem = this.listAbstractRecyclerItem.get(position);
+        ViewParent viewParent = ((ViewHolder) viewHolder).stub.getParent();
+
+        if (viewParent == null) {
+
+        }
 
         try {
-            abstractRecyclerItem.inflate(((ViewHolder) viewHolder).stub);
-        } catch (NullPointerException e) {
+            this.listRecyclerItems.get(position).inflate(((ViewHolder) viewHolder).stub);
+        } catch (NullPointerException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public int getItemCount() {
-        return this.listAbstractRecyclerItem.size();
+        return this.listRecyclerItems.size();
     }
 }

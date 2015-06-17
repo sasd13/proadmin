@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import proadmin.constant.Extra;
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.widget.CustomDialog;
-import proadmin.gui.widget.CustomDialogBuilder;
+import proadmin.gui.widget.dialog.CustomDialog;
+import proadmin.gui.widget.dialog.CustomDialogBuilder;
 import proadmin.session.Session;
 
 public class LogInActivity extends ActionBarActivity {

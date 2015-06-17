@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import proadmin.constant.Extra;
-import proadmin.gui.widget.CustomDialog;
-import proadmin.gui.widget.CustomDialogBuilder;
+import proadmin.gui.widget.dialog.CustomDialog;
+import proadmin.gui.widget.dialog.CustomDialogBuilder;
 
 public class HomeActivity extends Activity {
 

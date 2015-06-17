@@ -28,12 +28,14 @@ import proadmin.gui.widget.spin.Spin;
 public class ProjectsActivity extends ActionBarActivity {
 
     private Spin spin;
+
+    private RecyclerView recyclerView;
     private Tab tab;
 
     private DataAccessor dao;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
@@ -44,6 +46,7 @@ public class ProjectsActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 loadProjectsOfSelectedYear();
+                recyclerView.postInvalidate();
             }
 
             @Override
@@ -68,10 +71,10 @@ public class ProjectsActivity extends ActionBarActivity {
         });
         buttonNew.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
 
-        RecyclerView recyclerViewProjects = (RecyclerView) findViewById(R.id.projects_recyclerview);
+        this.recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
         this.tab = new Tab(this);
-        this.tab.adapt(recyclerViewProjects);
+        this.tab.adapt(this.recyclerView);
     }
 
     @Override

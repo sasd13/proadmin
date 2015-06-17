@@ -6,8 +6,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.android.proadmin.R;
 
-import proadmin.gui.widget.recycler.AbstractRecycler;
-import proadmin.gui.widget.recycler.RecyclerAdapter;
+import proadmin.gui.widget.recycler.Recycler;
 
 /**
  * <p>
@@ -15,7 +14,7 @@ import proadmin.gui.widget.recycler.RecyclerAdapter;
  * </p>
  * Created by Samir on 13/03/2015.
  */
-public class Grid extends AbstractRecycler {
+public class Grid extends Recycler {
 
     public Grid(Context context) {
         super(context);
@@ -34,13 +33,11 @@ public class Grid extends AbstractRecycler {
         int spanCount = context.getResources().getInteger(R.integer.grid_numcolumns);
 
         // use a grid layout manager
-        //GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+        //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
 
         // use a staggered grid layout manager
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL));
 
-        RecyclerAdapter gridAdapter = new RecyclerAdapter(listAbstractRecyclerItems, itemStubLayout);
-        recyclerView.setAdapter(gridAdapter);
+        super.adapt(recyclerView);
     }
 }

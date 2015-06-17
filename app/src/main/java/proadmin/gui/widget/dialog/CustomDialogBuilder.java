@@ -1,4 +1,4 @@
-package proadmin.gui.widget;
+package proadmin.gui.widget.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;

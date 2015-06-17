@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.android.proadmin.R;
 
 import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.widget.recycler.AbstractRecyclerItem;
+import proadmin.gui.widget.recycler.RecyclerItem;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import proadmin.gui.widget.recycler.AbstractRecyclerItem;
  * </p>
  * Created by Samir on 22/03/2015.
  */
-public class TabItemProject extends AbstractRecyclerItem {
+public class TabItemProject extends RecyclerItem {
 
     private CharSequence title, grade;
     private int nbrSquads;

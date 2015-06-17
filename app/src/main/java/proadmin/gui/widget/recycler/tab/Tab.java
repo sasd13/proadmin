@@ -4,8 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import proadmin.gui.widget.recycler.AbstractRecycler;
-import proadmin.gui.widget.recycler.RecyclerAdapter;
+import proadmin.gui.widget.recycler.Recycler;
 
 /**
  * <p>
@@ -13,7 +12,7 @@ import proadmin.gui.widget.recycler.RecyclerAdapter;
  * </p>
  * Created by Samir on 22/05/2015.
  */
-public class Tab extends AbstractRecycler {
+public class Tab extends Recycler {
 
     public Tab(Context context) {
         super(context);
@@ -23,13 +22,11 @@ public class Tab extends AbstractRecycler {
     public void adapt(RecyclerView recyclerView) {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
         // use a linear layout manager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        RecyclerAdapter drawerAdapter = new RecyclerAdapter(listAbstractRecyclerItems, itemStubLayout);
-        recyclerView.setAdapter(drawerAdapter);
+        super.adapt(recyclerView);
     }
 }

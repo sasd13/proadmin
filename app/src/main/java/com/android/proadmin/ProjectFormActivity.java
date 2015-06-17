@@ -26,7 +26,7 @@ import proadmin.gui.app.KeyboardManager;
 import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.form.FormException;
 import proadmin.form.FormProjectValidator;
-import proadmin.gui.widget.CustomDialog;
+import proadmin.gui.widget.dialog.CustomDialog;
 
 public class ProjectFormActivity extends ActionBarActivity {
 
