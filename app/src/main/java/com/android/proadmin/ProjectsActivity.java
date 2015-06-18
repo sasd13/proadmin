@@ -27,26 +27,30 @@ import proadmin.gui.widget.spin.Spin;
 
 public class ProjectsActivity extends ActionBarActivity {
 
-    private Spin spin;
-
-    private RecyclerView recyclerView;
-    private Tab tab;
-
     private DataAccessor dao;
+    private Tab tab;
+    private Spin spin;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.dao = DataAccessorManager.getDao();
+
         setContentView(R.layout.activity_projects);
 
-        Spinner spinnerYears = (Spinner) findViewById(R.id.projects_spinner_year);
+        this.tab = new Tab(this);
 
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
+        this.tab.adapt(recyclerView);
+
+        this.spin = new Spin(this);
+
+        Spinner spinnerYears = (Spinner) findViewById(R.id.projects_spinner_year);
         AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 loadProjectsOfSelectedYear();
-                recyclerView.postInvalidate();
             }
 
             @Override
@@ -54,8 +58,6 @@ public class ProjectsActivity extends ActionBarActivity {
 
             }
         };
-
-        this.spin = new Spin(this);
         this.spin.adapt(spinnerYears, onItemSelectedListener);
 
         Button buttonNew = (Button) findViewById(R.id.projects_button_new);
@@ -71,25 +73,7 @@ public class ProjectsActivity extends ActionBarActivity {
         });
         buttonNew.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
 
-        this.recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
-
-        this.tab = new Tab(this);
-        this.tab.adapt(this.recyclerView);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        this.dao = DataAccessorManager.getDao();
-
-        this.tab.clearItems();
-        this.tab.addItem(new TabItemProjectTitle());
-
-        int sizeSpinner = addYearsInSpinner();
-        if (sizeSpinner > 0) {
-            loadProjectsOfSelectedYear();
-        }
+        initialize();
     }
 
     @Override
@@ -108,8 +92,20 @@ public class ProjectsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private int addYearsInSpinner() {
-        this.spin.clear();
+    private void initialize() {
+        addYearsInSpinner();
+
+        if (this.spin.size() > 0) {
+            this.spin.setVisible(true);
+
+            loadProjectsOfSelectedYear();
+        } else {
+            this.spin.setVisible(false);
+        }
+    }
+
+    private void addYearsInSpinner() {
+        this.spin.clearItems();
 
         this.dao.open();
         ListYears listYears = this.dao.selectYears();
@@ -120,12 +116,10 @@ public class ProjectsActivity extends ActionBarActivity {
         }
 
         this.spin.validate();
-
-        return listYears.size();
     }
 
     private void loadProjectsOfSelectedYear() {
-        String selectedYear = this.spin.getItem(this.spin.getSelectedItemPosition());
+        String selectedYear = this.spin.getSelectedItem();
         Year year = new Year(Long.parseLong(selectedYear));
 
         this.dao.open();

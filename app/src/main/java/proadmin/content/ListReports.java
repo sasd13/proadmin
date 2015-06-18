@@ -39,6 +39,10 @@ public class ListReports implements Iterable {
         return null;
     }
 
+    public boolean contains(ReportId reportId) {
+        return this.list.contains(reportId);
+    }
+
     public int size() {
         return this.list.size();
     }

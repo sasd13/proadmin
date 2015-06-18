@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import proadmin.constant.Extra;
 import proadmin.content.Grade;
+import proadmin.content.ListYears;
 import proadmin.content.Project;
 import proadmin.content.Year;
 import proadmin.content.id.ProjectId;
@@ -38,14 +39,15 @@ public class ProjectFormActivity extends ActionBarActivity {
         public Button buttonSave, buttonMigrate, buttonRemove, buttonRemoveAll;
     }
 
-    private ViewHolder formProject;
-
     private DataAccessor dao;
+    private ViewHolder formProject;
     private int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_project_form);
 
@@ -109,7 +111,7 @@ public class ProjectFormActivity extends ActionBarActivity {
                 CustomDialog.showYesNoDialog(
                         ProjectFormActivity.this,
                         "Project",
-                        "Confirm migration ?",
+                        "Confirm migration for actual year ?",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -126,7 +128,7 @@ public class ProjectFormActivity extends ActionBarActivity {
                 CustomDialog.showYesNoDialog(
                         ProjectFormActivity.this,
                         "Project",
-                        "Groups and reports of year will be deleted. Confirm ?",
+                        "Groups and reports of its current year will be deleted. Confirm ?",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -164,8 +166,6 @@ public class ProjectFormActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        this.dao = DataAccessorManager.getDao();
 
         this.mode = getIntent().getIntExtra(Extra.MODE, 0);
         switch (this.mode) {
@@ -229,7 +229,7 @@ public class ProjectFormActivity extends ActionBarActivity {
         try {
             this.dao.insertProject(project, new Year());
 
-            CustomDialog.showOkDialog(this, "Project", "Migration succeded");
+            goToProjectsActivity();
         } catch (NullPointerException e) {
             e.printStackTrace();
         } finally {
@@ -238,6 +238,8 @@ public class ProjectFormActivity extends ActionBarActivity {
     }
 
     private Project validForm() throws FormException {
+        Project project;
+
         String title = this.formProject.editTextTitle.getEditableText().toString().trim();
         String description = this.formProject.editTextDescription.getEditableText().toString().trim();
 
@@ -267,7 +269,13 @@ public class ProjectFormActivity extends ActionBarActivity {
 
         FormProjectValidator.validForm(title, description);
 
-        return new Project(projectId, title, grade, description);
+        project = new Project();
+        project.setId(projectId);
+        project.setTitle(title);
+        project.setGrade(grade);
+        project.setDescription(description);
+
+        return project;
     }
 
     private void goToProjectsActivity() {
@@ -281,10 +289,7 @@ public class ProjectFormActivity extends ActionBarActivity {
     private void prepareFormForNewProject() {
         this.formProject.textViewYear.setText(new Year().toString());
         this.formProject.textViewYearCreation.setText(new Year().toString());
-        this.formProject.textViewId.setText("");
-        this.formProject.editTextTitle.setText("", TextView.BufferType.EDITABLE);
         this.formProject.radioButtonL1.setChecked(true);
-        this.formProject.editTextDescription.setText("", TextView.BufferType.EDITABLE);
 
         this.formProject.buttonSave.setVisibility(View.VISIBLE);
         this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
@@ -297,11 +302,12 @@ public class ProjectFormActivity extends ActionBarActivity {
         String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
         this.dao.open();
-        Project project = this.dao.selectProject(new ProjectId(stringProjectId));
-        Year yearCreation = this.dao.selectYearCreationOfProject(project.getId());
-        this.dao.close();
 
         try {
+            Project project = this.dao.selectProject(new ProjectId(stringProjectId));
+            ListYears listYearsOfProject = this.dao.selectYearsOfProjectByDesc(project.getId());
+            Year yearCreation = listYearsOfProject.get(listYearsOfProject.size() - 1);
+
             this.formProject.textViewYear.setText(stringYear);
             this.formProject.textViewYearCreation.setText(yearCreation.toString());
             this.formProject.textViewId.setText(project.getId().toString());
@@ -326,13 +332,15 @@ public class ProjectFormActivity extends ActionBarActivity {
                     break;
             }
 
-            if (yearCreation.getValue() == new Year().getValue()) {
-                this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
-            } else {
+            if (!listYearsOfProject.contains(new Year())) {
                 this.formProject.buttonMigrate.setVisibility(View.VISIBLE);
+            } else {
+                this.formProject.buttonMigrate.setVisibility(View.INVISIBLE);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            this.dao.close();
         }
 
         this.formProject.buttonSave.setVisibility(View.INVISIBLE);

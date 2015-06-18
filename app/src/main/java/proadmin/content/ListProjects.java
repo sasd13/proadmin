@@ -39,6 +39,10 @@ public class ListProjects implements Iterable {
         return null;
     }
 
+    public boolean contains(ProjectId projectId) {
+        return this.list.contains(projectId);
+    }
+
     public int size() {
         return this.list.size();
     }

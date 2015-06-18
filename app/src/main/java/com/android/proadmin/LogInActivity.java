@@ -22,12 +22,12 @@ import proadmin.session.Session;
 
 public class LogInActivity extends ActionBarActivity {
 
-    private static final int LOADING_TIME_OUT = 2000;
-
     private class ViewHolder {
         public EditText editTextLogin, editTextPassword;
         public Button buttonLogin;
     }
+
+    private static final int LOADING_TIME_OUT = 2000;
 
     private ViewHolder formUser;
 

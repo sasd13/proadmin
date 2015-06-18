@@ -27,4 +27,15 @@ public class Year {
     public String toString() {
         return Long.toString(this.value);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Year) {
+            if (((Year) o).getValue() == this.value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

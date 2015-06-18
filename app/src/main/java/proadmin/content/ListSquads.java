@@ -39,6 +39,10 @@ public class ListSquads implements Iterable {
         return null;
     }
 
+    public boolean contains(SquadId squadId) {
+        return this.list.contains(squadId);
+    }
+
     public int size() {
         return this.list.size();
     }

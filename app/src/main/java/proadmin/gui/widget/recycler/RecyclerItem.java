@@ -8,7 +8,7 @@ import android.view.ViewStub;
  */
 public abstract class RecyclerItem {
 
-    protected int layoutResource;
+    private int layoutResource;
     protected View view;
 
     protected RecyclerItem(int layoutResource) {

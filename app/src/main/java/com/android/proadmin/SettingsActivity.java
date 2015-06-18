@@ -30,13 +30,14 @@ public class SettingsActivity extends ActionBarActivity {
         public EditText editTextFirstName, editTextLastName, editTextEmail;
     }
 
-    private ViewHolder formUser;
-
     private DataAccessor dao;
+    private ViewHolder formUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_settings);
 
@@ -72,15 +73,8 @@ public class SettingsActivity extends ActionBarActivity {
             }
         });
         buttonLogout.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customBlue)));
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        this.dao = DataAccessorManager.getDao();
-
-        loadTeacher();
+        initialize();
     }
 
     @Override
@@ -97,6 +91,10 @@ public class SettingsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initialize() {
+        loadTeacher();
     }
 
     private void updateTeacher() {
@@ -119,14 +117,22 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
     private Teacher validForm() throws FormException {
-        String id = Session.getSessionId();
+        Teacher teacher;
+
+        String stringId = Session.getSessionId();
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
 
         FormUserValidator.validForm(firstName, lastName, email);
 
-        return new Teacher(new TeacherId(id), firstName, lastName, email);
+        teacher = new Teacher();
+        teacher.setId(new TeacherId(stringId));
+        teacher.setFirstName(firstName);
+        teacher.setLastName(lastName);
+        teacher.setEmail(email);
+
+        return teacher;
     }
 
     private void logOut() {

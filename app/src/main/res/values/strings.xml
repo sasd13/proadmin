@@ -71,7 +71,7 @@
 
     <!-- Form project -->
     <string name="form_project_textview_title">Détails du projet</string>
-    <string name="form_project_textview_year">Année</string>
+    <string name="form_project_textview_year">Année courante</string>
     <string name="form_project_textview_year_creation">Année de création</string>
     <string name="form_project_textview_id">Identifiant</string>
     <string name="form_project_edittext_project_title_hint">Titre</string>

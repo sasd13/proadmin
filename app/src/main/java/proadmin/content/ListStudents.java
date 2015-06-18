@@ -39,6 +39,10 @@ public class ListStudents implements Iterable, Viewable {
         return null;
     }
 
+    public boolean contains(StudentId studentId) {
+        return this.list.contains(studentId);
+    }
+
     public int size() {
         return this.list.size();
     }

@@ -31,6 +31,10 @@ public class MapNotes {
         return this.map.get(index);
     }
 
+    public boolean contains(StudentId studentId) {
+        return this.map.containsKey(studentId);
+    }
+
     public int size() {
         return this.map.size();
     }

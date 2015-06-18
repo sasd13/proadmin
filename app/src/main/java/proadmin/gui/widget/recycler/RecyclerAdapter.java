@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.ViewStub;
 
 import com.android.proadmin.R;
@@ -15,9 +14,7 @@ import com.android.proadmin.R;
 public class RecyclerAdapter extends RecyclerView.Adapter {
 
     private ListRecyclerItems listRecyclerItems;
-    private int itemLayout;
-
-    private View view;
+    private int recyclerItemLayout;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -30,29 +27,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public RecyclerAdapter(ListRecyclerItems listRecyclerItems, int itemLayout) {
+    public RecyclerAdapter(ListRecyclerItems listRecyclerItems, int recyclerItemLayout) {
         this.listRecyclerItems = listRecyclerItems;
-        this.itemLayout = itemLayout;
+        this.recyclerItemLayout = recyclerItemLayout;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        this.view = LayoutInflater.from(parent.getContext()).inflate(this.itemLayout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(this.recyclerItemLayout, parent, false);
 
-        return new ViewHolder(this.view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        ViewParent viewParent = ((ViewHolder) viewHolder).stub.getParent();
-
-        if (viewParent == null) {
-
-        }
+        ViewStub viewStub = ((ViewHolder) viewHolder).stub;
 
         try {
-            this.listRecyclerItems.get(position).inflate(((ViewHolder) viewHolder).stub);
-        } catch (NullPointerException | IllegalStateException e) {
+            this.listRecyclerItems.get(position).inflate(viewStub);
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }

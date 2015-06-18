@@ -13,8 +13,8 @@ public class Squad {
 
     public Squad() {}
 
-    public Squad(SquadId id, Year year, Project project, Teacher teacher) {
-        this.id = id;
+    public Squad(Year year, Project project, Teacher teacher) {
+        this.id = new SquadId(project.getId());
         this.teacher = teacher;
         this.year = year;
         this.project = project;

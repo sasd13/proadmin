@@ -19,4 +19,15 @@ public abstract class Id {
     public String toString() {
         return this.value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Id) {
+            if (o.toString().compareTo(this.value) == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

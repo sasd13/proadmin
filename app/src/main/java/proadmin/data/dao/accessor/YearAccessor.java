@@ -13,5 +13,7 @@ public interface YearAccessor {
 
     ListYears selectYears();
 
+    ListYears selectYearsOfProjectByDesc(ProjectId projectId);
+
     Year selectYearCreationOfProject(ProjectId projectId);
 }

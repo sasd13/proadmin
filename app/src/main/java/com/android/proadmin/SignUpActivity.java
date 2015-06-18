@@ -14,7 +14,6 @@ import android.widget.EditText;
 
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
-import proadmin.content.id.TeacherId;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
@@ -26,20 +25,21 @@ import proadmin.session.Session;
 
 public class SignUpActivity extends ActionBarActivity {
 
-    private static final int SIGNUP_TIME_OUT = 2000;
-
     private class ViewHolder {
         public EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
         public CheckBox checkBoxValid;
     }
 
-    private ViewHolder formUser;
+    private static final int SIGNUP_TIME_OUT = 2000;
 
     private DataAccessor dao;
+    private ViewHolder formUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_signup);
 
@@ -60,13 +60,6 @@ public class SignUpActivity extends ActionBarActivity {
             }
         });
         buttonSave.setOnTouchListener(new ColorOnTouchListener(getResources().getColor(R.color.customOrange)));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        this.dao = DataAccessorManager.getDao();
     }
 
     @Override
@@ -111,7 +104,7 @@ public class SignUpActivity extends ActionBarActivity {
 
         FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, checkBoxValid);
 
-        teacher = new Teacher(new TeacherId(), firstName, lastName, email);
+        teacher = new Teacher(firstName, lastName, email);
         teacher.setPassword(password);
 
         return teacher;

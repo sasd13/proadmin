@@ -55,7 +55,7 @@ class ProjectHasYearDAO extends AbstractTableDAO {
         return listIds;
     }
 
-    public ListYears selectAllOfProject(ProjectId projectId) {
+    public ListYears selectAllOfProjectByDesc(ProjectId projectId) {
         ListYears listYears = new ListYears();
 
         Cursor cursor = db.rawQuery(

@@ -33,8 +33,6 @@ public class SQLiteDAO implements DataAccessor {
 	private SQLiteDatabase db = null;
 	private DatabaseHandler dbHandler = null;
 
-    private Context mContext;
-
 	private TeacherDAO teacherDAO;
     private YearDAO yearDAO;
 	private ProjectDAO projectDAO;
@@ -66,9 +64,7 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     public void create(Context context) {
-        mContext = context;
-
-        dbHandler = new DatabaseHandler(mContext, NOM, null, VERSION);
+        dbHandler = new DatabaseHandler(context, NOM, null, VERSION);
     }
 
 	@Override
@@ -152,8 +148,13 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
+    public ListYears selectYearsOfProjectByDesc(ProjectId projectId) {
+        return projectHasYearDAO.selectAllOfProjectByDesc(projectId);
+    }
+
+    @Override
     public Year selectYearCreationOfProject(ProjectId projectId) {
-        ListYears listYears = projectHasYearDAO.selectAllOfProject(projectId);
+        ListYears listYears = projectHasYearDAO.selectAllOfProjectByDesc(projectId);
 
         return listYears.get(listYears.size() - 1);
     }

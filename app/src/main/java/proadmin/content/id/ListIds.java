@@ -29,6 +29,10 @@ public class ListIds implements Iterable, Viewable {
         return this.list.get(index);
     }
 
+    public boolean contains(Id id) {
+        return this.list.contains(id);
+    }
+
     public int size() {
         return this.list.size();
     }

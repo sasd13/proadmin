@@ -27,6 +27,16 @@ public class ListYears implements Iterable, Viewable {
         return this.list.get(index);
     }
 
+    public boolean contains(Year year) {
+        for (Year mYear : this.list) {
+            if (mYear.equals(year)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int size() {
         return this.list.size();
     }

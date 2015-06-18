@@ -16,8 +16,8 @@ public class Report {
 
     public Report() {}
 
-    public Report(ReportId id, SquadId squadId, long numberWeek, StudentId projectLeadId) {
-        this.id = id;
+    public Report(SquadId squadId, long numberWeek, StudentId projectLeadId) {
+        this.id = new ReportId(squadId, numberWeek);
         this.squadId = squadId;
         this.numberWeek = numberWeek;
         this.projectLeadId = projectLeadId;

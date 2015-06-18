@@ -21,17 +21,17 @@ import com.android.proadmin.R;
 public abstract class Recycler {
 
     protected Context context;
-    protected ListRecyclerItems listRecyclerItems;
-    protected int itemLayout;
+    private ListRecyclerItems listRecyclerItems;
+    private int recyclerItemLayout;
 
-    protected RecyclerView recyclerView;
-    protected RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapter recyclerAdapter;
 
     protected Recycler(Context context) {
         this.context = context;
         this.listRecyclerItems = new ListRecyclerItems();
-        this.itemLayout = R.layout.recyclerviewitem;
-        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, this.itemLayout);
+        this.recyclerItemLayout = R.layout.recyclerviewitem;
+
+        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, this.recyclerItemLayout);
     }
 
     public boolean addItem(RecyclerItem recyclerItem) {
@@ -74,6 +74,10 @@ public abstract class Recycler {
         return this.listRecyclerItems.get(index);
     }
 
+    public int size() {
+        return this.listRecyclerItems.size();
+    }
+
     public void clearItems() {
         this.listRecyclerItems.clear();
 
@@ -85,9 +89,7 @@ public abstract class Recycler {
     }
 
     public void adapt(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-
-        this.recyclerAdapter.registerAdapterDataObserver(new RecyclerAdapterDataObserver(this.recyclerView));
-        this.recyclerView.setAdapter(this.recyclerAdapter);
+        this.recyclerAdapter.registerAdapterDataObserver(new RecyclerAdapterDataObserver(recyclerView));
+        recyclerView.setAdapter(this.recyclerAdapter);
     }
 }

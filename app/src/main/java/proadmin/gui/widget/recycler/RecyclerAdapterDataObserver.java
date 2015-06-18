@@ -17,6 +17,7 @@ public class RecyclerAdapterDataObserver extends RecyclerView.AdapterDataObserve
     public void onChanged() {
         super.onChanged();
 
+        this.recyclerView.removeAllViews();
         this.recyclerView.postInvalidate();
     }
 }

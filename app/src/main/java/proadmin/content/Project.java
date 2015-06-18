@@ -5,13 +5,15 @@ import proadmin.content.id.ProjectId;
 public class Project {
 
     private ProjectId id;
+    private Year yearCreation;
     private String title, description;
     private Grade grade;
 
     public Project() {}
 	
-	public Project(ProjectId id, String title, Grade grade, String description) {
-        this.id = id;
+	public Project(Year yearCreation, String title, Grade grade, String description) {
+        this.id = new ProjectId(grade);
+        this.yearCreation = yearCreation;
         this.title = title;
         this.grade = grade;
         this.description = description;
