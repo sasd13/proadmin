@@ -30,14 +30,12 @@ public class SettingsActivity extends ActionBarActivity {
         public EditText editTextFirstName, editTextLastName, editTextEmail;
     }
 
-    private DataAccessor dao;
+    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_settings);
 
@@ -119,7 +117,7 @@ public class SettingsActivity extends ActionBarActivity {
     private Teacher validForm() throws FormException {
         Teacher teacher;
 
-        String stringId = Session.getSessionId();
+        String stringTeacherId = Session.getSessionId();
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
@@ -127,7 +125,7 @@ public class SettingsActivity extends ActionBarActivity {
         FormUserValidator.validForm(firstName, lastName, email);
 
         teacher = new Teacher();
-        teacher.setId(new TeacherId(stringId));
+        teacher.setId(new TeacherId(stringTeacherId));
         teacher.setFirstName(firstName);
         teacher.setLastName(lastName);
         teacher.setEmail(email);

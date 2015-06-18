@@ -32,14 +32,12 @@ public class SignUpActivity extends ActionBarActivity {
 
     private static final int SIGNUP_TIME_OUT = 2000;
 
-    private DataAccessor dao;
+    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_signup);
 

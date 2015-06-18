@@ -27,15 +27,13 @@ import proadmin.gui.widget.spin.Spin;
 
 public class ProjectsActivity extends ActionBarActivity {
 
-    private DataAccessor dao;
+    private DataAccessor dao = DataAccessorManager.getDao();
     private Tab tab;
     private Spin spin;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_projects);
 
@@ -119,8 +117,8 @@ public class ProjectsActivity extends ActionBarActivity {
     }
 
     private void loadProjectsOfSelectedYear() {
-        String selectedYear = this.spin.getSelectedItem();
-        Year year = new Year(Long.parseLong(selectedYear));
+        String stringYear = this.spin.getSelectedItem();
+        Year year = new Year(Long.parseLong(stringYear));
 
         this.dao.open();
         ListProjects listProjects = this.dao.selectProjectsOfYear(year);

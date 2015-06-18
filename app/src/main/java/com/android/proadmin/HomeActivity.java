@@ -33,7 +33,7 @@ public class HomeActivity extends Activity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
+                Intent intent = null;
 
                 switch (v.getId()) {
                     case R.id.imageview_calendar:
@@ -47,9 +47,6 @@ public class HomeActivity extends Activity {
                         break;
                     case R.id.imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
-                        break;
-                    default:
-                        intent = null;
                         break;
                 }
 
@@ -100,7 +97,7 @@ public class HomeActivity extends Activity {
     }
 
     private void showWelcome() {
-        CharSequence firstName = getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME);
+        String firstName = getIntent().getStringExtra(Extra.TEACHER_FIRSTNAME);
         CustomDialog.showOkDialog(
                 this,
                 getResources().getString(R.string.home_alertdialog_welcome_title),

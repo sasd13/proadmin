@@ -39,15 +39,13 @@ public class ProjectFormActivity extends ActionBarActivity {
         public Button buttonSave, buttonMigrate, buttonRemove, buttonRemoveAll;
     }
 
-    private DataAccessor dao;
+    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formProject;
-    private int mode;
+    private int mode = Extra.MODE_NEW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.dao = DataAccessorManager.getDao();
 
         setContentView(R.layout.activity_project_form);
 
@@ -100,7 +98,7 @@ public class ProjectFormActivity extends ActionBarActivity {
         this.formProject.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addProjectForCurrentYear();
+                addProject();
             }
         });
 
@@ -115,7 +113,7 @@ public class ProjectFormActivity extends ActionBarActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                migrateProjectForCurrentYear();
+                                migrateProjectToActualYear();
                             }
                         });
             }
@@ -206,7 +204,7 @@ public class ProjectFormActivity extends ActionBarActivity {
         }
     }
 
-    private void addProjectForCurrentYear() {
+    private void addProject() {
         try {
             Project project = validForm();
 
@@ -220,11 +218,11 @@ public class ProjectFormActivity extends ActionBarActivity {
         }
     }
 
-    private void migrateProjectForCurrentYear() {
-        String id = getIntent().getStringExtra(Extra.PROJECT_ID);
+    private void migrateProjectToActualYear() {
+        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
         this.dao.open();
-        Project project = this.dao.selectProject(new ProjectId(id));
+        Project project = this.dao.selectProject(new ProjectId(stringProjectId));
 
         try {
             this.dao.insertProject(project, new Year());
@@ -258,11 +256,11 @@ public class ProjectFormActivity extends ActionBarActivity {
             grade = Grade.L1;
         }
 
-        String id = this.formProject.textViewId.getText().toString().trim();
+        String stringProjectId = this.formProject.textViewId.getText().toString().trim();
 
         ProjectId projectId;
         if (this.mode == Extra.MODE_CONSULT) {
-            projectId = new ProjectId(id);
+            projectId = new ProjectId(stringProjectId);
         } else {
             projectId = new ProjectId(grade);
         }

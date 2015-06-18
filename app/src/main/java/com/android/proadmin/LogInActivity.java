@@ -94,14 +94,14 @@ public class LogInActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
-        if(getIntent().hasExtra(Extra.CLOSE) && getIntent().getBooleanExtra(Extra.CLOSE, false)) {
+        if (getIntent().hasExtra(Extra.CLOSE) && getIntent().getBooleanExtra(Extra.CLOSE, false)) {
             getIntent().removeExtra(Extra.CLOSE);
 
-            if(getIntent().hasExtra(Extra.TEACHER_FIRSTNAME)) {
+            if (getIntent().hasExtra(Extra.TEACHER_FIRSTNAME)) {
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Extra.WELCOME, true);
-                intent.putExtra(Extra.TEACHER_FIRSTNAME, getIntent().getCharSequenceExtra(Extra.TEACHER_FIRSTNAME));
+                intent.putExtra(Extra.TEACHER_FIRSTNAME, getIntent().getStringExtra(Extra.TEACHER_FIRSTNAME));
 
                 startActivity(intent);
             }
@@ -130,15 +130,13 @@ public class LogInActivity extends ActionBarActivity {
         String login = this.formUser.editTextLogin.getEditableText().toString();
         String password = this.formUser.editTextPassword.getEditableText().toString();
 
-        boolean connected = Session.logIn(login, password);
-
-        if(!connected) {
+        if (Session.logIn(login, password)) {
+            goToHomeActivity();
+        } else {
             CustomDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.login_alertdialog_login_title_error),
                     getResources().getString(R.string.login_alertdialog_login_message_error));
-        } else {
-            goToHomeActivity();
         }
     }
 
