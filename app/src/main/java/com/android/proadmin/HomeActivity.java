@@ -1,6 +1,7 @@
 package com.android.proadmin;
 
 import android.app.AlertDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -25,10 +26,17 @@ public class HomeActivity extends Activity {
 
         setContentView(R.layout.activity_home);
 
-        ImageView imageViewSquad = (ImageView) findViewById(R.id.imageview_squad);
-        ImageView imageViewProject = (ImageView) findViewById(R.id.imageview_project);
-        ImageView imageViewReport = (ImageView) findViewById(R.id.imageview_report);
         ImageView imageViewCalendar = (ImageView) findViewById(R.id.imageview_calendar);
+        ImageView imageViewProject = (ImageView) findViewById(R.id.imageview_project);
+        ImageView imageViewSquad = (ImageView) findViewById(R.id.imageview_squad);
+        ImageView imageViewReport = (ImageView) findViewById(R.id.imageview_report);
+
+        Resources resources = getResources();
+
+        imageViewCalendar.setImageDrawable(resources.getDrawable(R.drawable.imageview_calendar));
+        imageViewProject.setImageDrawable(resources.getDrawable(R.drawable.imageview_project));
+        imageViewSquad.setImageDrawable(resources.getDrawable(R.drawable.imageview_squad));
+        imageViewReport.setImageDrawable(resources.getDrawable(R.drawable.imageview_report));
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -59,10 +67,10 @@ public class HomeActivity extends Activity {
             }
         };
 
+        imageViewCalendar.setOnClickListener(listener);
         imageViewSquad.setOnClickListener(listener);
         imageViewProject.setOnClickListener(listener);
         imageViewReport.setOnClickListener(listener);
-        imageViewCalendar.setOnClickListener(listener);
     }
 
     @Override

@@ -32,8 +32,9 @@ public class SignUpActivity extends ActionBarActivity {
 
     private static final int SIGNUP_TIME_OUT = 2000;
 
-    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formUser;
+
+    private DataAccessor dao = DataAccessorManager.getDao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

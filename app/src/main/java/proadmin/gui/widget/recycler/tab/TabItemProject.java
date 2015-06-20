@@ -18,17 +18,13 @@ import proadmin.gui.widget.recycler.RecyclerItem;
  */
 public class TabItemProject extends RecyclerItem {
 
-    private CharSequence title, grade;
-    private int nbrSquads;
+    private CharSequence title, grade, nbrSquads;
     private Intent intent;
 
     private TextView textViewTitle, textViewGrade, textViewNbrSquads;
 
     public TabItemProject() {
         super(R.layout.tabitem_project);
-
-        this.title = "Title";
-        this.grade = "Grade";
     }
 
     public CharSequence getTitle() {
@@ -59,15 +55,15 @@ public class TabItemProject extends RecyclerItem {
         }
     }
 
-    public int getNbrSquads() {
+    public CharSequence getNbrSquads() {
         return this.nbrSquads;
     }
 
-    public void setNbrSquads(int nbrSquads) {
+    public void setNbrSquads(CharSequence nbrSquads) {
         this.nbrSquads = nbrSquads;
 
         try {
-            this.textViewNbrSquads.setText(Integer.toString(this.nbrSquads));
+            this.textViewNbrSquads.setText(this.nbrSquads);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -92,7 +88,7 @@ public class TabItemProject extends RecyclerItem {
         this.textViewGrade.setText(this.grade);
 
         this.textViewNbrSquads = (TextView) this.view.findViewById(R.id.tabitem_project_textview_nbrsquads);
-        this.textViewNbrSquads.setText(Integer.toString(this.nbrSquads));
+        this.textViewNbrSquads.setText(this.nbrSquads);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -16,18 +16,21 @@ public class ColorOnTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            view.setBackgroundColor(ColorBrightness.colorDarker(this.color));
-            return true;
-        } else if(event.getAction() == MotionEvent.ACTION_UP) {
-            view.setBackgroundColor(this.color);
-            view.performClick();
-            return true;
-        } else if(event.getAction() == MotionEvent.ACTION_CANCEL) {
-            view.setBackgroundColor(this.color);
-            return true;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                view.setBackgroundColor(ColorBrightness.colorDarker(this.color));
+                break;
+            case MotionEvent.ACTION_UP:
+                view.setBackgroundColor(this.color);
+                view.performClick();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                view.setBackgroundColor(this.color);
+                break;
+            default:
+                return false;
         }
 
-        return false;
+        return true;
     }
 }

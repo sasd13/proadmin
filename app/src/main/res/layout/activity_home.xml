@@ -42,8 +42,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="80dp"
-            android:clickable="true"
-            android:src="@drawable/imageview_report" />
+            android:clickable="true" />
 
         <ImageView
             android:id="@+id/imageview_project"
@@ -53,8 +52,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="43dp"
             android:layout_marginTop="45dp"
-            android:clickable="true"
-            android:src="@drawable/imageview_project" />
+            android:clickable="true" />
 
         <View
             android:id="@+id/trait_nouveau"
@@ -82,8 +80,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="43dp"
             android:layout_marginBottom="43dp"
-            android:clickable="true"
-            android:src="@drawable/imageview_squad" />
+            android:clickable="true" />
 
         <View
             android:id="@+id/trait_creer_squads"
@@ -114,8 +111,7 @@
             android:animation="@anim/anim1"
             android:clickable="true"
             android:layoutAnimation="@anim/animation_home"
-            android:persistentDrawingCache="animation|scrolling"
-            android:src="@drawable/imageview_calendar" />
+            android:persistentDrawingCache="animation|scrolling" />
 
     </RelativeLayout>
 

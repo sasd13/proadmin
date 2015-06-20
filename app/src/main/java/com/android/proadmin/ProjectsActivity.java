@@ -143,7 +143,7 @@ public class ProjectsActivity extends ActionBarActivity {
             itemProject.setGrade(((Project) project).getGrade().toString());
 
             listSquads = this.dao.selectSquadsOfYearAndProject(year, ((Project) project).getId());
-            itemProject.setNbrSquads(listSquads.size());
+            itemProject.setNbrSquads(Integer.toString(listSquads.size()));
 
             intent = new Intent(this, ProjectFormActivity.class);
             intent.putExtra(Extra.MODE, Extra.MODE_CONSULT);

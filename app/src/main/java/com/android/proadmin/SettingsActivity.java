@@ -30,8 +30,9 @@ public class SettingsActivity extends ActionBarActivity {
         public EditText editTextFirstName, editTextLastName, editTextEmail;
     }
 
-    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formUser;
+
+    private DataAccessor dao = DataAccessorManager.getDao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

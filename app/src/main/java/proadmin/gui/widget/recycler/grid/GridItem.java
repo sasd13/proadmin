@@ -79,8 +79,6 @@ public class GridItem extends RecyclerItem {
      */
     public GridItem() {
         super(R.layout.griditem);
-
-        this.text = "Item";
     }
 
     /**

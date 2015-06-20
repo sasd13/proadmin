@@ -39,9 +39,11 @@ public class ProjectFormActivity extends ActionBarActivity {
         public Button buttonSave, buttonMigrate, buttonRemove, buttonRemoveAll;
     }
 
-    private DataAccessor dao = DataAccessorManager.getDao();
     private ViewHolder formProject;
+
     private int mode = Extra.MODE_NEW;
+
+    private DataAccessor dao = DataAccessorManager.getDao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
