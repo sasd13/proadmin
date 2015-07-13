@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import proadmin.content.Student;
-import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -25,7 +24,7 @@ class StudentDAO extends AbstractTableDAO {
     private ContentValues getContentValues(Student student) {
         ContentValues values = new ContentValues();
 
-        values.put(STUDENT_ID, student.getId().toString());
+        values.put(STUDENT_ID, student.getId());
         values.put(STUDENT_FIRSTNAME, student.getFirstName());
         values.put(STUDENT_LASTNAME, student.getLastName());
         values.put(STUDENT_EMAIL, student.getEmail());
@@ -34,72 +33,36 @@ class StudentDAO extends AbstractTableDAO {
     }
 
     public long update(Student student) {
-        return db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId().toString()});
+        return db.update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{student.getId()});
     }
 
-    public Student select(StudentId studentId) {
+    public Student select(String studentIdOrEmail) {
         Student student = null;
 
         Cursor cursor = db.rawQuery(
-                "select " + STUDENT_FIRSTNAME + ", " + STUDENT_LASTNAME + ", " + STUDENT_EMAIL
+                "select " + STUDENT_ID + ", " + STUDENT_FIRSTNAME + ", " + STUDENT_LASTNAME + ", " + STUDENT_EMAIL
                         + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
+                        + " where " + STUDENT_ID + " = ? or " + STUDENT_EMAIL + " = ?", new String[]{studentIdOrEmail, studentIdOrEmail});
 
         if (cursor.moveToNext()) {
             student = new Student();
-            student.setId(studentId);
-            student.setFirstName(cursor.getString(0));
-            student.setLastName(cursor.getString(1));
-            student.setEmail(cursor.getString(2));
+            student.setId(cursor.getString(0));
+            student.setFirstName(cursor.getString(1));
+            student.setLastName(cursor.getString(2));
+            student.setEmail(cursor.getString(3));
         }
         cursor.close();
 
         return student;
     }
 
-    public Student select(String email) {
-        Student student = null;
-
-        Cursor cursor = db.rawQuery(
-                "select " + STUDENT_ID + ", " + STUDENT_FIRSTNAME + ", " + STUDENT_LASTNAME
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_EMAIL + " = ?", new String[]{email});
-
-        if (cursor.moveToNext()) {
-            student = new Student();
-            student.setId(new StudentId(cursor.getString(0)));
-            student.setFirstName(cursor.getString(0));
-            student.setLastName(cursor.getString(1));
-            student.setEmail(email);
-        }
-        cursor.close();
-
-        return student;
-    }
-
-    public boolean contains(StudentId studentId) {
+    public boolean contains(String studentIdOrEmail) {
         boolean contains = false;
 
         Cursor cursor = db.rawQuery(
                 "select " + STUDENT_ID
                         + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{studentId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
-    }
-
-    public boolean contains(String email) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + STUDENT_ID
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_EMAIL + " = ?", new String[]{email});
+                        + " where " + STUDENT_ID + " = ? or " + STUDENT_EMAIL + " = ?", new String[]{studentIdOrEmail, studentIdOrEmail});
 
         if (cursor.moveToNext()) {
             contains = true;

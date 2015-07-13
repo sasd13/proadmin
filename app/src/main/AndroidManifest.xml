@@ -77,6 +77,13 @@
         </activity>
 
         <activity
+            android:name=".SquadFormActivity"
+            android:label="@string/activity_squad_form_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
             android:name=".ReportsActivity"
             android:label="@string/activity_reports_name"
             android:screenOrientation="portrait"

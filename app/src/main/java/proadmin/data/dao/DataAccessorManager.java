@@ -5,7 +5,6 @@ import android.content.Context;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.data.dao.accessor.DataAccessorException;
 import proadmin.data.dao.accessor.DataAccessorFactory;
-import proadmin.data.dao.accessor.DataAccessorType;
 
 /**
  * Created by Samir on 11/06/2015.
@@ -15,11 +14,13 @@ public class DataAccessorManager {
     private static DataAccessor dao;
     private static Context context;
 
+    public static final String DAOTYPE_SQLITE = "SQLITE";
+
     public static void start(Context context) {
-        start(context, DataAccessorType.SQLITE);
+        start(context, DAOTYPE_SQLITE);
     }
 
-    public static void start(Context mContext, DataAccessorType type) {
+    public static void start(Context mContext, String type) {
         context = mContext;
 
         try {
@@ -33,7 +34,7 @@ public class DataAccessorManager {
 
     private static void config() {
         switch (dao.getType()) {
-            case SQLITE:
+            case DAOTYPE_SQLITE:
                 ((proadmin.data.db.sqlite.SQLiteDAO) dao).create(context);
                 break;
         }

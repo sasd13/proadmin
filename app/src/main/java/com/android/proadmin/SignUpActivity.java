@@ -22,6 +22,7 @@ import proadmin.form.FormUserValidator;
 import proadmin.gui.widget.dialog.CustomDialog;
 import proadmin.gui.widget.dialog.CustomDialogBuilder;
 import proadmin.session.Session;
+import proadmin.util.IdGenerator;
 
 public class SignUpActivity extends ActionBarActivity {
 
@@ -94,6 +95,7 @@ public class SignUpActivity extends ActionBarActivity {
     private Teacher validForm() throws FormException {
         Teacher teacher;
 
+        String teacherId = IdGenerator.get(this, IdGenerator.TYPE_TEACHER);
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
@@ -103,7 +105,7 @@ public class SignUpActivity extends ActionBarActivity {
 
         FormUserValidator.validForm(firstName, lastName, email, password, confirmPassword, checkBoxValid);
 
-        teacher = new Teacher(firstName, lastName, email);
+        teacher = new Teacher(teacherId, firstName, lastName, email);
         teacher.setPassword(password);
 
         return teacher;

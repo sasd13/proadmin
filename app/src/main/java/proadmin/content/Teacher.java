@@ -1,26 +1,24 @@
 package proadmin.content;
 
-import proadmin.content.id.TeacherId;
-
 public class Teacher extends Person {
 
-    private TeacherId id;
+    private String id;
     private String email, password;
 
     public Teacher() {}
 	
-	public Teacher(String firstName, String lastName, String email) {
+	public Teacher(String id, String firstName, String lastName, String email) {
         super(firstName, lastName);
 
-        this.id = new TeacherId();
+        this.id = id;
         this.email = email;
     }
 
-    public TeacherId getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(TeacherId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

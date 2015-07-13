@@ -3,7 +3,7 @@ package proadmin.data.db.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
-import proadmin.content.id.ListIds;
+import proadmin.content.ListIds;
 import proadmin.content.MapNotes;
 import proadmin.content.ListProjects;
 import proadmin.content.ListReports;
@@ -16,13 +16,7 @@ import proadmin.content.Student;
 import proadmin.content.Teacher;
 import proadmin.content.Year;
 import proadmin.content.ListSquads;
-import proadmin.content.id.ProjectId;
-import proadmin.content.id.ReportId;
-import proadmin.content.id.SquadId;
-import proadmin.content.id.StudentId;
-import proadmin.content.id.TeacherId;
 import proadmin.data.dao.accessor.DataAccessor;
-import proadmin.data.dao.accessor.DataAccessorType;
 
 public class SQLiteDAO implements DataAccessor {
 
@@ -88,8 +82,8 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-    public DataAccessorType getType() {
-        return DataAccessorType.SQLITE;
+    public String getType() {
+        return "SQLITE";
     }
 
     @Override
@@ -108,7 +102,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteTeacher(TeacherId teacherId) {
+	public void deleteTeacher(String teacherId) {
         ListSquads listSquads = selectSquadsOfTeacher(teacherId);
         for (Object squad : listSquads) {
             deleteSquad(((Squad) squad).getId());
@@ -118,13 +112,8 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public Teacher selectTeacher(TeacherId teacherId) {
-		return teacherDAO.select(teacherId);
-	}
-
-    @Override
-	public Teacher selectTeacher(String email) {
-		return teacherDAO.select(email);
+	public Teacher selectTeacher(String teacherIdOrEmail) {
+		return teacherDAO.select(teacherIdOrEmail);
 	}
 
     @Override
@@ -148,12 +137,12 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public ListYears selectYearsOfProjectByDesc(ProjectId projectId) {
+    public ListYears selectYearsOfProjectByDesc(String projectId) {
         return projectHasYearDAO.selectAllOfProjectByDesc(projectId);
     }
 
     @Override
-    public Year selectYearCreationOfProject(ProjectId projectId) {
+    public Year selectYearCreationOfProject(String projectId) {
         ListYears listYears = projectHasYearDAO.selectAllOfProjectByDesc(projectId);
 
         return listYears.get(listYears.size() - 1);
@@ -180,7 +169,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteProject(ProjectId projectId) {
+	public void deleteProject(String projectId) {
 		ListSquads listSquads = selectSquadsOfProject(projectId);
         for (Object squad : listSquads) {
             deleteSquad(((Squad) squad).getId());
@@ -191,7 +180,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteProjectFromYear(ProjectId projectId, Year year) {
+	public void deleteProjectFromYear(String projectId, Year year) {
         ListSquads listSquads = selectSquadsOfYearAndProject(year, projectId);
         for (Object squad : listSquads) {
             deleteSquad(((Squad) squad).getId());
@@ -201,7 +190,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public Project selectProject(ProjectId projectId) {
+	public Project selectProject(String projectId) {
 		return projectDAO.select(projectId);
 	}
 
@@ -211,7 +200,7 @@ public class SQLiteDAO implements DataAccessor {
 
         ListIds listProjectsIds = projectHasYearDAO.selectAllOfYear(year);
         for (Object projectId : listProjectsIds) {
-            listProjects.add(projectDAO.select((ProjectId) projectId));
+            listProjects.add(projectDAO.select((String) projectId));
         }
 
         return listProjects;
@@ -248,7 +237,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteSquad(SquadId squadId) {
+	public void deleteSquad(String squadId) {
         ListReports listReports = selectReportsOfSquad(squadId);
         for (Object report : listReports) {
             deleteReport(((Report) report).getId());
@@ -263,12 +252,12 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public Squad selectSquad(SquadId squadId) {
+	public Squad selectSquad(String squadId) {
 		return squadDAO.select(squadId);
 	}
 
     @Override
-    public ListSquads selectSquadsOfTeacher(TeacherId teacherId) {
+    public ListSquads selectSquadsOfTeacher(String teacherId) {
         return squadDAO.selectAllOfTeacher(teacherId);
     }
 
@@ -278,32 +267,32 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public ListSquads selectSquadsOfProject(ProjectId projectId) {
+    public ListSquads selectSquadsOfProject(String projectId) {
         return squadDAO.selectAllOfProject(projectId);
     }
 
     @Override
-    public ListSquads selectSquadsOfTeacherAndYear(TeacherId teacherId, Year year) {
+    public ListSquads selectSquadsOfTeacherAndYear(String teacherId, Year year) {
         return squadDAO.selectAllOfTeacherAndYear(teacherId, year);
     }
 
     @Override
-    public ListSquads selectSquadsOfTeacherAndProject(TeacherId teacherId, ProjectId projectId) {
+    public ListSquads selectSquadsOfTeacherAndProject(String teacherId, String projectId) {
         return squadDAO.selectAllOfTeacherAndProject(teacherId, projectId);
     }
 
 	@Override
-	public ListSquads selectSquadsOfYearAndProject(Year year, ProjectId projectId) {
+	public ListSquads selectSquadsOfYearAndProject(Year year, String projectId) {
 		return squadDAO.selectAllOfYearAndProject(year, projectId);
 	}
 
     @Override
-    public ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(TeacherId teacherId, Year year, ProjectId projectId) {
+    public ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(String teacherId, Year year, String projectId) {
         return squadDAO.selectAllOfTeacherAndYearAndProject(teacherId, year, projectId);
     }
 
     @Override
-	public void insertStudent(Student student, SquadId squadId) {
+	public void insertStudent(Student student, String squadId) {
         if (!studentDAO.contains(student.getId()) && !studentDAO.contains(student.getEmail())) {
             studentDAO.insert(student);
         }
@@ -322,7 +311,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteStudentFromSquad(StudentId studentId, SquadId squadId) {
+	public void deleteStudentFromSquad(String studentId, String squadId) {
         ListReports listReports = reportDAO.selectAllOfSquadAndStudent(squadId, studentId);
 
         //TODO
@@ -331,22 +320,17 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public Student selectStudent(StudentId studentId) {
-		return studentDAO.select(studentId);
+	public Student selectStudent(String studentIdOrEmail) {
+		return studentDAO.select(studentIdOrEmail);
 	}
 
     @Override
-    public Student selectStudent(String email) {
-        return studentDAO.select(email);
-    }
-
-    @Override
-	public ListStudents selectStudentsOfSquad(SquadId squadId) {
+	public ListStudents selectStudentsOfSquad(String squadId) {
         ListStudents listStudents = new ListStudents();
 
         ListIds listIds = studentHasSquadDAO.selectAllOfSquad(squadId);
         for (Object id : listIds) {
-            listStudents.add(studentDAO.select((StudentId) id));
+            listStudents.add(studentDAO.select((String) id));
         }
 
         return listStudents;
@@ -365,25 +349,25 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void deleteReport(ReportId reportId) {
+	public void deleteReport(String reportId) {
         noteDAO.deleteAllOfReport(reportId);
 		reportDAO.delete(reportId);
 	}
 
     @Override
-	public Report selectReport(ReportId reportId) {
+	public Report selectReport(String reportId) {
 		return reportDAO.select(reportId);
 	}
 
 	@Override
-	public ListReports selectReportsOfSquad(SquadId squadId) {
+	public ListReports selectReportsOfSquad(String squadId) {
         return reportDAO.selectAllOfSquad(squadId);
 	}
 
     @Override
-    public void insertNotes(MapNotes mapNotes, ReportId reportId) {
-        StudentId[] tabStudentsIds = mapNotes.getKeys();
-        for (StudentId studentId : tabStudentsIds) {
+    public void insertNotes(MapNotes mapNotes, String reportId) {
+        String[] tabStudentsIds = mapNotes.getKeys();
+        for (String studentId : tabStudentsIds) {
             if (!noteDAO.contains(reportId, studentId)) {
                 noteDAO.insert(mapNotes.get(studentId), reportId, studentId);
             }
@@ -391,15 +375,15 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public void updateNotes(MapNotes mapNotes, ReportId reportId) {
-        StudentId[] tabStudentsIds = mapNotes.getKeys();
-        for (StudentId studentId : tabStudentsIds) {
+    public void updateNotes(MapNotes mapNotes, String reportId) {
+        String[] tabStudentsIds = mapNotes.getKeys();
+        for (String studentId : tabStudentsIds) {
             noteDAO.update(mapNotes.get(studentId), reportId, studentId);
         }
     }
 
     @Override
-	public MapNotes selectNotesOfReport(ReportId reportId) {
+	public MapNotes selectNotesOfReport(String reportId) {
         return noteDAO.selectAllOfReport(reportId);
 	}
 }

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import proadmin.content.id.SquadId;
-
 /**
  * Created by Samir on 05/06/2015.
  */
@@ -29,7 +27,7 @@ public class ListSquads implements Iterable {
         return this.list.get(index);
     }
 
-    public Squad get(SquadId projectId) {
+    public Squad get(String projectId) {
         for (Squad project : this.list) {
             if (project.getId().equals(projectId)) {
                 return project;
@@ -39,7 +37,7 @@ public class ListSquads implements Iterable {
         return null;
     }
 
-    public boolean contains(SquadId squadId) {
+    public boolean contains(String squadId) {
         return this.list.contains(squadId);
     }
 

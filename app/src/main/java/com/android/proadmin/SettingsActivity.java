@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import proadmin.constant.Extra;
 import proadmin.content.Teacher;
-import proadmin.content.id.TeacherId;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
@@ -118,7 +117,7 @@ public class SettingsActivity extends ActionBarActivity {
     private Teacher validForm() throws FormException {
         Teacher teacher;
 
-        String stringTeacherId = Session.getSessionId();
+        String teacherId = Session.getSessionId();
         String firstName = this.formUser.editTextFirstName.getEditableText().toString().trim();
         String lastName = this.formUser.editTextLastName.getEditableText().toString().trim();
         String email = this.formUser.editTextEmail.getEditableText().toString().trim();
@@ -126,7 +125,7 @@ public class SettingsActivity extends ActionBarActivity {
         FormUserValidator.validForm(firstName, lastName, email);
 
         teacher = new Teacher();
-        teacher.setId(new TeacherId(stringTeacherId));
+        teacher.setId(teacherId);
         teacher.setFirstName(firstName);
         teacher.setLastName(lastName);
         teacher.setEmail(email);
@@ -149,7 +148,7 @@ public class SettingsActivity extends ActionBarActivity {
 
     private void loadTeacher() {
         this.dao.open();
-        Teacher teacher = this.dao.selectTeacher(new TeacherId(Session.getSessionId()));
+        Teacher teacher = this.dao.selectTeacher(Session.getSessionId());
         this.dao.close();
 
         try {

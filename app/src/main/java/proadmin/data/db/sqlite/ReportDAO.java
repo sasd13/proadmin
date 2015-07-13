@@ -3,14 +3,11 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.id.ListIds;
+import proadmin.content.ListIds;
 import proadmin.content.ListReports;
 import proadmin.content.MapNotes;
 import proadmin.content.Note;
 import proadmin.content.Report;
-import proadmin.content.id.ReportId;
-import proadmin.content.id.SquadId;
-import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -36,28 +33,28 @@ class ReportDAO extends AbstractTableDAO {
     private ContentValues getContentValues(Report report) {
         ContentValues values = new ContentValues();
 
-        values.put(REPORT_ID, report.getId().toString());
+        values.put(REPORT_ID, report.getId());
         values.put(REPORT_NUMBER_WEEK, report.getNumberWeek());
         values.put(REPORT_PLANNING_NOTE, report.getPlanningNote().getValue());
         values.put(REPORT_PLANNING_COMMENT, report.getPlanningComment());
         values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationNote().getValue());
         values.put(REPORT_COMMUNICATION_COMMENT, report.getCommunicationComment());
         values.put(REPORT_COMMENT, report.getComment());
-        values.put(REPORT_SQUAD_ID, report.getSquadId().toString());
-        values.put(REPORT_STUDENT_ID, report.getProjectLeadId().toString());
+        values.put(REPORT_SQUAD_ID, report.getSquadId());
+        values.put(REPORT_STUDENT_ID, report.getProjectLeadId());
 
         return values;
     }
 
     public long update(Report report) {
-        return db.update(REPORT_TABLE_NAME, getContentValues(report), REPORT_ID + " = ?", new String[]{report.getId().toString()});
+        return db.update(REPORT_TABLE_NAME, getContentValues(report), REPORT_ID + " = ?", new String[]{report.getId()});
     }
 
-    public long delete(ReportId reportId) {
-        return db.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId.toString()});
+    public long delete(String reportId) {
+        return db.delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{reportId});
     }
 
-    public Report select(ReportId reportId) {
+    public Report select(String reportId) {
         Report report = null;
 
         Cursor cursor = db.rawQuery(
@@ -67,7 +64,7 @@ class ReportDAO extends AbstractTableDAO {
                         + ", " + REPORT_COMMENT
                         + ", " + REPORT_SQUAD_ID + ", " + REPORT_STUDENT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});
+                        + " where " + REPORT_ID + " = ?", new String[]{reportId});
 
         if (cursor.moveToNext()) {
             report = new Report();
@@ -78,8 +75,8 @@ class ReportDAO extends AbstractTableDAO {
             report.setCommunicationNote(new Note(cursor.getLong(3)));
             report.setCommunicationComment(cursor.getString(4));
             report.setComment(cursor.getString(5));
-            report.setSquadId(new SquadId(cursor.getString(6)));
-            report.setProjectLeadId(new StudentId(cursor.getString(7)));
+            report.setSquadId(cursor.getString(6));
+            report.setProjectLeadId(cursor.getString(7));
         }
         cursor.close();
 
@@ -93,7 +90,7 @@ class ReportDAO extends AbstractTableDAO {
         return report;
     }
 
-    public ListReports selectAllOfSquad(SquadId squadId) {
+    public ListReports selectAllOfSquad(String squadId) {
         ListReports listReports = new ListReports();
 
         ListIds listIds = new ListIds();
@@ -101,21 +98,21 @@ class ReportDAO extends AbstractTableDAO {
         Cursor cursor = db.rawQuery(
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId.toString()});
+                        + " where " + REPORT_SQUAD_ID + " = ?", new String[]{squadId});
 
         while (cursor.moveToNext()) {
-            listIds.add(new ReportId(cursor.getString(0)));
+            listIds.add(new String(cursor.getString(0)));
         }
         cursor.close();
 
         for (Object id : listIds) {
-            listReports.add(select((ReportId) id));
+            listReports.add(select((String) id));
         }
 
         return listReports;
     }
 
-    public ListReports selectAllOfSquadAndStudent(SquadId squadId, StudentId studentId) {
+    public ListReports selectAllOfSquadAndStudent(String squadId, String studentId) {
         ListReports listReports = new ListReports();
 
         ListIds listIds = new ListIds();
@@ -124,27 +121,27 @@ class ReportDAO extends AbstractTableDAO {
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
                         + " where " + REPORT_SQUAD_ID + " = ? and " + REPORT_STUDENT_ID  + " = ?",
-                new String[]{squadId.toString(), studentId.toString()});
+                new String[]{squadId, studentId});
 
         while (cursor.moveToNext()) {
-            listIds.add(new ReportId(cursor.getString(0)));
+            listIds.add(new String(cursor.getString(0)));
         }
         cursor.close();
 
         for (Object id : listIds) {
-            listReports.add(select((ReportId) id));
+            listReports.add(select((String) id));
         }
 
         return listReports;
     }
 
-    public boolean contains(ReportId reportId) {
+    public boolean contains(String reportId) {
         boolean contains = false;
 
         Cursor cursor = db.rawQuery(
                 "select " + REPORT_ID
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{reportId.toString()});
+                        + " where " + REPORT_ID + " = ?", new String[]{reportId});
 
         if (cursor.moveToNext()) {
             contains = true;

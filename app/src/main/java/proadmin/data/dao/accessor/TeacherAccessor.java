@@ -1,7 +1,6 @@
 package proadmin.data.dao.accessor;
 
 import proadmin.content.Teacher;
-import proadmin.content.id.TeacherId;
 
 /**
  * Created by Samir on 11/06/2015.
@@ -12,9 +11,7 @@ public interface TeacherAccessor {
 
     void updateTeacher(Teacher teacher);
 
-    void deleteTeacher(TeacherId teacherId);
+    void deleteTeacher(String teacherId);
 
-    Teacher selectTeacher(TeacherId teacherId);
-
-    Teacher selectTeacher(String email);
+    Teacher selectTeacher(String teacherIdOrEmail);
 }

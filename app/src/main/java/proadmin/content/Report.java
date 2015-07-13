@@ -1,41 +1,35 @@
 package proadmin.content;
 
-import proadmin.content.id.ReportId;
-import proadmin.content.id.SquadId;
-import proadmin.content.id.StudentId;
-
 public class Report {
 
-    private ReportId id;
-    private SquadId squadId;
+    private String id, squadId, projectLeadId;
     private long numberWeek;
-    private StudentId projectLeadId;
     private String planningComment, communicationComment, comment;
     private Note planningNote, communicationNote;
     private MapNotes mapNotes;
 
     public Report() {}
 
-    public Report(SquadId squadId, long numberWeek, StudentId projectLeadId) {
-        this.id = new ReportId(squadId, numberWeek);
+    public Report(String id, String squadId, long numberWeek, String projectLeadId) {
+        this.id = id;
         this.squadId = squadId;
         this.numberWeek = numberWeek;
         this.projectLeadId = projectLeadId;
     }
 
-    public ReportId getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(ReportId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public SquadId getSquadId() {
+    public String getSquadId() {
         return this.squadId;
     }
 
-    public void setSquadId(SquadId squadId) {
+    public void setSquadId(String squadId) {
         this.squadId = squadId;
     }
 
@@ -47,11 +41,11 @@ public class Report {
         this.numberWeek = numberWeek;
     }
 
-    public StudentId getProjectLeadId() {
+    public String getProjectLeadId() {
         return this.projectLeadId;
     }
 
-    public void setProjectLeadId(StudentId projectLeadId) {
+    public void setProjectLeadId(String projectLeadId) {
         this.projectLeadId = projectLeadId;
     }
 

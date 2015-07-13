@@ -20,7 +20,6 @@ import proadmin.content.Grade;
 import proadmin.content.ListYears;
 import proadmin.content.Project;
 import proadmin.content.Year;
-import proadmin.content.id.ProjectId;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.app.KeyboardManager;
@@ -28,6 +27,7 @@ import proadmin.gui.color.ColorOnTouchListener;
 import proadmin.form.FormException;
 import proadmin.form.FormProjectValidator;
 import proadmin.gui.widget.dialog.CustomDialog;
+import proadmin.util.IdGenerator;
 
 public class ProjectFormActivity extends ActionBarActivity {
 
@@ -196,7 +196,7 @@ public class ProjectFormActivity extends ActionBarActivity {
 
     private void updateProject() {
         try {
-            Project project = validForm();
+            Project project = getProjectFromFormProject();
 
             this.dao.open();
             this.dao.updateProject(project);
@@ -206,42 +206,13 @@ public class ProjectFormActivity extends ActionBarActivity {
         }
     }
 
-    private void addProject() {
-        try {
-            Project project = validForm();
-
-            this.dao.open();
-            this.dao.insertProject(project, new Year());
-            this.dao.close();
-
-            goToProjectsActivity();
-        } catch (FormException e) {
-            CustomDialog.showOkDialog(this, "Form error", e.getMessage());
-        }
-    }
-
-    private void migrateProjectToActualYear() {
-        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
-
-        this.dao.open();
-        Project project = this.dao.selectProject(new ProjectId(stringProjectId));
-
-        try {
-            this.dao.insertProject(project, new Year());
-
-            goToProjectsActivity();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } finally {
-            this.dao.close();
-        }
-    }
-
-    private Project validForm() throws FormException {
+    private Project getProjectFromFormProject() throws FormException {
         Project project;
 
         String title = this.formProject.editTextTitle.getEditableText().toString().trim();
         String description = this.formProject.editTextDescription.getEditableText().toString().trim();
+
+        FormProjectValidator.validForm(title, description);
 
         Grade grade;
 
@@ -258,16 +229,10 @@ public class ProjectFormActivity extends ActionBarActivity {
             grade = Grade.L1;
         }
 
-        String stringProjectId = this.formProject.textViewId.getText().toString().trim();
-
-        ProjectId projectId;
-        if (this.mode == Extra.MODE_CONSULT) {
-            projectId = new ProjectId(stringProjectId);
-        } else {
-            projectId = new ProjectId(grade);
+        String projectId = this.formProject.textViewId.getText().toString().trim();
+        if (this.mode == Extra.MODE_NEW) {
+            projectId = IdGenerator.get(this, IdGenerator.TYPE_PROJECT);
         }
-
-        FormProjectValidator.validForm(title, description);
 
         project = new Project();
         project.setId(projectId);
@@ -276,6 +241,37 @@ public class ProjectFormActivity extends ActionBarActivity {
         project.setDescription(description);
 
         return project;
+    }
+
+    private void addProject() {
+        try {
+            Project project = getProjectFromFormProject();
+
+            this.dao.open();
+            this.dao.insertProject(project, new Year());
+            this.dao.close();
+
+            goToProjectsActivity();
+        } catch (FormException e) {
+            CustomDialog.showOkDialog(this, "Form error", e.getMessage());
+        }
+    }
+
+    private void migrateProjectToActualYear() {
+        String projectId = getIntent().getStringExtra(Extra.PROJECT_ID);
+
+        this.dao.open();
+        Project project = this.dao.selectProject(projectId);
+
+        try {
+            this.dao.insertProject(project, new Year());
+
+            goToProjectsActivity();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
+            this.dao.close();
+        }
     }
 
     private void goToProjectsActivity() {
@@ -299,18 +295,18 @@ public class ProjectFormActivity extends ActionBarActivity {
 
     private void prepareFormForConsultProject() {
         String stringYear = getIntent().getStringExtra(Extra.YEAR);
-        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
+        String projectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
         this.dao.open();
 
         try {
-            Project project = this.dao.selectProject(new ProjectId(stringProjectId));
+            Project project = this.dao.selectProject(projectId);
             ListYears listYearsOfProject = this.dao.selectYearsOfProjectByDesc(project.getId());
             Year yearCreation = listYearsOfProject.get(listYearsOfProject.size() - 1);
 
             this.formProject.textViewYear.setText(stringYear);
             this.formProject.textViewYearCreation.setText(yearCreation.toString());
-            this.formProject.textViewId.setText(project.getId().toString());
+            this.formProject.textViewId.setText(project.getId());
             this.formProject.editTextTitle.setText(project.getTitle(), TextView.BufferType.EDITABLE);
             this.formProject.editTextDescription.setText(project.getDescription(), TextView.BufferType.EDITABLE);
 
@@ -350,20 +346,20 @@ public class ProjectFormActivity extends ActionBarActivity {
 
     private void removeProjectForYear() {
         String stringYear = getIntent().getStringExtra(Extra.YEAR);
-        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
+        String projectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
         this.dao.open();
-        this.dao.deleteProjectFromYear(new ProjectId(stringProjectId), new Year(Long.parseLong(stringYear)));
+        this.dao.deleteProjectFromYear(projectId, new Year(Long.parseLong(stringYear)));
         this.dao.close();
 
         goToProjectsActivity();
     }
 
     private void removeProjectForAllYears() {
-        String stringProjectId = getIntent().getStringExtra(Extra.PROJECT_ID);
+        String projectId = getIntent().getStringExtra(Extra.PROJECT_ID);
 
         this.dao.open();
-        this.dao.deleteProject(new ProjectId(stringProjectId));
+        this.dao.deleteProject(projectId);
         this.dao.close();
 
         goToProjectsActivity();

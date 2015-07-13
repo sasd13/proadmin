@@ -7,14 +7,13 @@ import proadmin.data.db.sqlite.SQLiteDAO;
  */
 public class DataAccessorFactory {
 
-    private DataAccessorFactory() {}
+    protected DataAccessorFactory() {}
 
-    public static DataAccessor get(DataAccessorType type) throws DataAccessorException {
-        switch (type) {
-            case SQLITE:
-                return SQLiteDAO.getInstance();
-            default:
-                throw new DataAccessorException("Data accessor not found");
+    public static DataAccessor get(String type) throws DataAccessorException {
+        if (type.equalsIgnoreCase("SQLITE")) {
+            return SQLiteDAO.getInstance();
+        } else {
+            throw new DataAccessorException("Data accessor not found");
         }
     }
 }

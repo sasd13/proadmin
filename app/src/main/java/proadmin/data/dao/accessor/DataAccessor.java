@@ -7,5 +7,5 @@ public interface DataAccessor extends TeacherAccessor, YearAccessor, ProjectAcce
 
     void open();
     void close();
-    DataAccessorType getType();
+    String getType();
 }

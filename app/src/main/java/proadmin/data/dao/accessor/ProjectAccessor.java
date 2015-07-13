@@ -3,7 +3,6 @@ package proadmin.data.dao.accessor;
 import proadmin.content.ListProjects;
 import proadmin.content.Project;
 import proadmin.content.Year;
-import proadmin.content.id.ProjectId;
 
 /**
  * Created by Samir on 11/06/2015.
@@ -14,11 +13,11 @@ public interface ProjectAccessor {
 
     void updateProject(Project project);
 
-    void deleteProject(ProjectId projectId);
+    void deleteProject(String projectId);
 
-    void deleteProjectFromYear(ProjectId projectId, Year year);
+    void deleteProjectFromYear(String projectId, Year year);
 
-    Project selectProject(ProjectId projectId);
+    Project selectProject(String projectId);
 
     ListProjects selectProjectsOfYear(Year year);
 }

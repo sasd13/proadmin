@@ -148,7 +148,7 @@ public class ProjectsActivity extends ActionBarActivity {
             intent = new Intent(this, ProjectFormActivity.class);
             intent.putExtra(Extra.MODE, Extra.MODE_CONSULT);
             intent.putExtra(Extra.YEAR, year.toString());
-            intent.putExtra(Extra.PROJECT_ID, ((Project) project).getId().toString());
+            intent.putExtra(Extra.PROJECT_ID, ((Project) project).getId());
             itemProject.setIntent(intent);
 
             this.tab.addItem(itemProject);

@@ -5,7 +5,6 @@ import android.database.Cursor;
 
 import proadmin.content.Project;
 import proadmin.content.Grade;
-import proadmin.content.id.ProjectId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -26,7 +25,7 @@ class ProjectDAO extends AbstractTableDAO {
     private ContentValues getContentValues(Project project) {
         ContentValues values = new ContentValues();
 
-        values.put(PROJECT_ID, project.getId().toString());
+        values.put(PROJECT_ID, project.getId());
         values.put(PROJECT_TITLE, project.getTitle());
         values.put(PROJECT_GRADE, project.getGrade().toString());
         values.put(PROJECT_DESCRIPTION, project.getDescription());
@@ -35,20 +34,20 @@ class ProjectDAO extends AbstractTableDAO {
     }
 
     public long update(Project project) {
-        return db.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId().toString()});
+        return db.update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{project.getId()});
     }
 
-    public long delete(ProjectId projectId) {
-        return db.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId.toString()});
+    public long delete(String projectId) {
+        return db.delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{projectId});
     }
 
-    public Project select(ProjectId projectId) {
+    public Project select(String projectId) {
         Project project = null;
 
         Cursor cursor = db.rawQuery(
                 "select " + PROJECT_TITLE + ", " + PROJECT_GRADE + ", " + PROJECT_DESCRIPTION
                         + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});
+                        + " where " + PROJECT_ID + " = ?", new String[]{projectId});
 
         if (cursor.moveToNext()) {
             project = new Project();
@@ -62,13 +61,13 @@ class ProjectDAO extends AbstractTableDAO {
         return project;
     }
 
-    public boolean contains(ProjectId projectId) {
+    public boolean contains(String projectId) {
         boolean contains = false;
 
         Cursor cursor = db.rawQuery(
                 "select " + PROJECT_ID
                         + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{projectId.toString()});
+                        + " where " + PROJECT_ID + " = ?", new String[]{projectId});
 
         if (cursor.moveToNext()) {
             contains = true;

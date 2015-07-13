@@ -1,36 +1,40 @@
-package proadmin.content.id;
+package proadmin.content;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import proadmin.content.Viewable;
 
 /**
  * Created by Samir on 09/06/2015.
  */
 public class ListIds implements Iterable, Viewable {
 
-    private List<Id> list;
+    private List<String> list;
 
     public ListIds() {
         this.list = new ArrayList<>();
     }
 
-    public void add(Id id) {
+    public void add(String id) {
         this.list.add(id);
     }
 
-    public void remove(Id id) {
+    public void remove(String id) {
         this.list.remove(id);
     }
 
-    public Id get(int index) {
+    public String get(int index) {
         return this.list.get(index);
     }
 
-    public boolean contains(Id id) {
-        return this.list.contains(id);
+    public boolean contains(String id) {
+        for (String mString : this.list) {
+            if (mString.equals(id)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public int size() {
@@ -50,7 +54,7 @@ public class ListIds implements Iterable, Viewable {
     public List<String> getListSrings() {
         List<String> listStrings = new ArrayList<>();
 
-        for (Id id : this.list) {
+        for(String id : this.list) {
             listStrings.add(id.toString());
         }
 

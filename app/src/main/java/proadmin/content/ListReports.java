@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import proadmin.content.id.ReportId;
-
 /**
  * Created by Samir on 05/06/2015.
  */
@@ -29,7 +27,7 @@ public class ListReports implements Iterable {
         return this.list.get(index);
     }
 
-    public Report get(ReportId reportId) {
+    public Report get(String reportId) {
         for (Report report : this.list) {
             if (report.getId().equals(reportId)) {
                 return report;
@@ -39,7 +37,7 @@ public class ListReports implements Iterable {
         return null;
     }
 
-    public boolean contains(ReportId reportId) {
+    public boolean contains(String reportId) {
         return this.list.contains(reportId);
     }
 

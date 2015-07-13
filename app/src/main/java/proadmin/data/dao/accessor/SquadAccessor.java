@@ -3,9 +3,6 @@ package proadmin.data.dao.accessor;
 import proadmin.content.Squad;
 import proadmin.content.Year;
 import proadmin.content.ListSquads;
-import proadmin.content.id.ProjectId;
-import proadmin.content.id.SquadId;
-import proadmin.content.id.TeacherId;
 
 /**
  * Created by Samir on 11/06/2015.
@@ -16,21 +13,21 @@ public interface SquadAccessor {
 
     void updateSquad(Squad squad);
 
-    void deleteSquad(SquadId squadId);
+    void deleteSquad(String squadId);
 
-    Squad selectSquad(SquadId squadId);
+    Squad selectSquad(String squadId);
 
-    ListSquads selectSquadsOfTeacher(TeacherId teacherId);
+    ListSquads selectSquadsOfTeacher(String teacherId);
 
     ListSquads selectSquadsOfYear(Year year);
 
-    ListSquads selectSquadsOfProject(ProjectId projectId);
+    ListSquads selectSquadsOfProject(String projectId);
 
-    ListSquads selectSquadsOfTeacherAndYear(TeacherId teacherId, Year year);
+    ListSquads selectSquadsOfTeacherAndYear(String teacherId, Year year);
 
-    ListSquads selectSquadsOfTeacherAndProject(TeacherId teacherId, ProjectId projectId);
+    ListSquads selectSquadsOfTeacherAndProject(String teacherId, String projectId);
 
-    ListSquads selectSquadsOfYearAndProject(Year year, ProjectId projectId);
+    ListSquads selectSquadsOfYearAndProject(Year year, String projectId);
 
-    ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(TeacherId teacherId, Year year, ProjectId projectId);
+    ListSquads selectSquadsOfTeacherAndYearAndProjectAndYear(String teacherId, Year year, String projectId);
 }

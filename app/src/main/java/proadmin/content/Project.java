@@ -1,30 +1,36 @@
 package proadmin.content;
 
-import proadmin.content.id.ProjectId;
-
 public class Project {
 
-    private ProjectId id;
+    private String id;
     private Year yearCreation;
     private String title, description;
     private Grade grade;
 
     public Project() {}
 	
-	public Project(Year yearCreation, String title, Grade grade, String description) {
-        this.id = new ProjectId(grade);
+	public Project(String id, Year yearCreation, String title, Grade grade, String description) {
+        this.id = id;
         this.yearCreation = yearCreation;
         this.title = title;
         this.grade = grade;
         this.description = description;
     }
 
-    public ProjectId getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(ProjectId id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Year getYearCreation() {
+        return this.yearCreation;
+    }
+
+    public void setYearCreation(Year yearCreation) {
+        this.yearCreation = yearCreation;
     }
 
     public String getTitle() {

@@ -5,8 +5,6 @@ import android.database.Cursor;
 
 import proadmin.content.MapNotes;
 import proadmin.content.Note;
-import proadmin.content.id.ReportId;
-import proadmin.content.id.StudentId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -19,53 +17,53 @@ class NoteDAO extends AbstractTableDAO {
     public static final String NOTE_REPORT_ID = "report_id";
     public static final String NOTE_STUDENT_ID = "student_id";
 
-    public void insert(Note note, ReportId reportId, StudentId studentId) {
+    public void insert(Note note, String reportId, String studentId) {
         db.insert(NOTE_TABLE_NAME, null, getContentValues(note, reportId, studentId));
     }
 
-    private ContentValues getContentValues(Note note, ReportId reportId, StudentId studentId) {
+    private ContentValues getContentValues(Note note, String reportId, String studentId) {
         ContentValues values = new ContentValues();
 
         values.put(NOTE_NOTE, note.getValue());
-        values.put(NOTE_REPORT_ID, reportId.toString());
-        values.put(NOTE_STUDENT_ID, studentId.toString());
+        values.put(NOTE_REPORT_ID, reportId);
+        values.put(NOTE_STUDENT_ID, studentId);
 
         return values;
     }
 
-    public void update(Note note, ReportId reportId, StudentId studentId) {
+    public void update(Note note, String reportId, String studentId) {
         db.update(NOTE_TABLE_NAME, getContentValues(note, reportId, studentId), NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
-                new String[]{reportId.toString(), studentId.toString()});
+                new String[]{reportId, studentId});
     }
 
-    public long deleteAllOfReport(ReportId reportId) {
-        return db.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
+    public long deleteAllOfReport(String reportId) {
+        return db.delete(NOTE_TABLE_NAME, NOTE_REPORT_ID + " = ?", new String[]{reportId});
     }
 
-    public MapNotes selectAllOfReport(ReportId reportId) {
+    public MapNotes selectAllOfReport(String reportId) {
         MapNotes mapNotes = new MapNotes();
 
         Cursor cursor = db.rawQuery(
                 "select " + NOTE_NOTE + ", " + NOTE_STUDENT_ID
                         + " from " + NOTE_TABLE_NAME
-                        + " where " + NOTE_REPORT_ID + " = ?", new String[]{reportId.toString()});
+                        + " where " + NOTE_REPORT_ID + " = ?", new String[]{reportId});
 
         while (cursor.moveToNext()) {
-            mapNotes.put(new StudentId(cursor.getString(1)), new Note(cursor.getLong(0)));
+            mapNotes.put(new String(cursor.getString(1)), new Note(cursor.getLong(0)));
         }
         cursor.close();
 
         return mapNotes;
     }
 
-    public boolean contains(ReportId reportId, StudentId studentId) {
+    public boolean contains(String reportId, String studentId) {
         boolean contains = false;
 
         Cursor cursor = db.rawQuery(
                 "select " + NOTE_REPORT_ID + ", " + NOTE_STUDENT_ID
                         + " from " + NOTE_TABLE_NAME
                         + " where " + NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
-                new String[]{reportId.toString(), studentId.toString()});
+                new String[]{reportId, studentId});
 
         if (cursor.moveToNext()) {
             contains = true;

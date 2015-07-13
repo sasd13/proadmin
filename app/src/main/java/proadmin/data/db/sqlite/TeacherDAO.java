@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import proadmin.content.Teacher;
-import proadmin.content.id.TeacherId;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -26,7 +25,7 @@ class TeacherDAO extends AbstractTableDAO {
     private ContentValues getContentValues(Teacher teacher) {
         ContentValues values = new ContentValues();
 
-        values.put(TEACHER_ID, teacher.getId().toString());
+        values.put(TEACHER_ID, teacher.getId());
         values.put(TEACHER_FIRSTNAME, teacher.getFirstName());
         values.put(TEACHER_LASTNAME, teacher.getLastName());
         values.put(TEACHER_EMAIL, teacher.getEmail());
@@ -36,78 +35,41 @@ class TeacherDAO extends AbstractTableDAO {
     }
 
     public long update(Teacher teacher) {
-        return db.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId().toString()});
+        return db.update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{teacher.getId()});
     }
 
-    public long delete(TeacherId teacherId) {
-        return db.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+    public long delete(String teacherId) {
+        return db.delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{teacherId});
     }
 
-    public Teacher select(TeacherId teacherId) {
+    public Teacher select(String teacherIdOrEmail) {
         Teacher teacher = null;
 
         Cursor cursor = db.rawQuery(
-                "select " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_EMAIL + ", " + TEACHER_PASSWORD
+                "select " + TEACHER_ID + ", " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_EMAIL + ", " + TEACHER_PASSWORD
                         + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
+                        + " where " + TEACHER_ID + " = ? or " + TEACHER_EMAIL + " = ?", new String[]{teacherIdOrEmail, teacherIdOrEmail});
 
         if (cursor.moveToNext()) {
             teacher = new Teacher();
-            teacher.setId(teacherId);
-            teacher.setFirstName(cursor.getString(0));
-            teacher.setLastName(cursor.getString(1));
-            teacher.setEmail(cursor.getString(2));
-            teacher.setPassword(cursor.getString(3));
-        }
-        cursor.close();
-
-        return teacher;
-    }
-
-    public Teacher select(String email) {
-        Teacher teacher = null;
-
-        Cursor cursor = db.rawQuery(
-                "select " + TEACHER_ID + ", " + TEACHER_FIRSTNAME + ", " + TEACHER_LASTNAME + ", " + TEACHER_PASSWORD
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_EMAIL + " = ?", new String[]{email});
-
-        if (cursor.moveToNext()) {
-            teacher = new Teacher();
-            teacher.setId(new TeacherId(cursor.getString(0)));
+            teacher.setId(cursor.getString(0));
             teacher.setFirstName(cursor.getString(1));
             teacher.setLastName(cursor.getString(2));
-            teacher.setEmail(email);
-            teacher.setPassword(cursor.getString(3));
+            teacher.setEmail(cursor.getString(3));
+            teacher.setPassword(cursor.getString(4));
         }
         cursor.close();
 
         return teacher;
     }
 
-    public boolean contains(TeacherId teacherId) {
+    public boolean contains(String teacherIdOrEmail) {
         boolean contains = false;
 
         Cursor cursor = db.rawQuery(
                 "select " + TEACHER_ID
                         + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_ID + " = ?", new String[]{teacherId.toString()});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
-    }
-
-    public boolean contains(String email) {
-        boolean contains = false;
-
-        Cursor cursor = db.rawQuery(
-                "select " + TEACHER_ID
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_EMAIL + " = ?", new String[]{email});
+                        + " where " + TEACHER_ID + " = ? or " + TEACHER_EMAIL + " = ?", new String[]{teacherIdOrEmail, teacherIdOrEmail});
 
         if (cursor.moveToNext()) {
             contains = true;

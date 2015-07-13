@@ -1,16 +1,15 @@
 package proadmin.data.dao.accessor;
 
 import proadmin.content.MapNotes;
-import proadmin.content.id.ReportId;
 
 /**
  * Created by Samir on 11/06/2015.
  */
 public interface NoteAccessor {
 
-    void insertNotes(MapNotes mapNotes, ReportId reportId);
+    void insertNotes(MapNotes mapNotes, String reportId);
 
-    void updateNotes(MapNotes mapNotes, ReportId reportId);
+    void updateNotes(MapNotes mapNotes, String reportId);
 
-    MapNotes selectNotesOfReport(ReportId reportId);
+    MapNotes selectNotesOfReport(String reportId);
 }

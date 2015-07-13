@@ -2,8 +2,6 @@ package proadmin.data.dao.accessor;
 
 import proadmin.content.ListReports;
 import proadmin.content.Report;
-import proadmin.content.id.ReportId;
-import proadmin.content.id.SquadId;
 
 /**
  * Created by Samir on 11/06/2015.
@@ -14,9 +12,9 @@ public interface ReportAccessor {
 
     void updateReport(Report report);
 
-    void deleteReport(ReportId reportId);
+    void deleteReport(String reportId);
 
-    Report selectReport(ReportId reportId);
+    Report selectReport(String reportId);
 
-    ListReports selectReportsOfSquad(SquadId squadId);
+    ListReports selectReportsOfSquad(String squadId);
 }
