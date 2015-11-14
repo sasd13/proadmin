@@ -6,7 +6,7 @@ import proadmin.beans.Project;
 
 public interface ProjectTableAccessor {
 
-    String TABLE_NAME = "projects";
+    String PROJECT_TABLE_NAME = "projects";
 
     String PROJECT_ID = "project_id";
     String PROJECT_CODE = "project_code";

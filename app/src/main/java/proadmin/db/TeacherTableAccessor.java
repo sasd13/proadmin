@@ -4,7 +4,7 @@ import proadmin.beans.Teacher;
 
 public interface TeacherTableAccessor {
 
-    String TABLE_NAME = "teachers";
+    String TEACHER_TABLE_NAME = "teachers";
 
     String TEACHER_ID = "teacher_id";
     String TEACHER_FIRSTNAME = "teacher_firstname";
@@ -16,7 +16,7 @@ public interface TeacherTableAccessor {
 
     void update(Teacher teacher);
 
-    Teacher select(String id);
+    Teacher select(long id);
 
     Teacher selectByEmail(String email);
 }

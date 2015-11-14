@@ -22,8 +22,6 @@ public class SQLiteDAO implements DataAccessor {
     private SQLiteDBHandler dbHandler;
     private SQLiteDatabase db;
 
-    //TODO
-
     private SQLiteDAO() {}
 
     public static synchronized SQLiteDAO getInstance() {
@@ -67,7 +65,7 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public Teacher selectTeacher(String id) {
+    public Teacher selectTeacher(long id) {
         return null;
     }
 
@@ -147,7 +145,12 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public Student selectStudent(String id) {
+    public Student selectStudent(long id) {
+        return null;
+    }
+
+    @Override
+    public Student selectStudentByNumber(String number) {
         return null;
     }
 
@@ -157,7 +160,7 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-    public void insertReport(Report report, Teacher teacher, Project project, Team team) {
+    public void insertReport(Report report) {
 
     }
 

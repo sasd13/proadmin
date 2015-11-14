@@ -7,16 +7,16 @@ import proadmin.beans.Team;
 
 public interface StudentTeamTableAccessor {
 
-    String TABLE_NAME = "studentteams";
+    String STUDENTTEAM_TABLE_NAME = "studentteams";
 
-    String STUDENTS_STUDENT_ID = "students_student_id";
     String TEAMS_TEAM_ID = "teams_team_id";
+    String STUDENTS_STUDENT_ID = "students_student_id";
 
-    void insert(Student student, Team team);
+    void insertStudentInTeam(Student student, Team team);
 
-    void delete(Team team);
+    void deleteStudentFromTeam(Student student, Team team);
 
-    void deleteFromTeam(Student student, Team team);
+    void deleteTeam(Team team);
 
     List<Student> selectByTeam(Team team);
 }

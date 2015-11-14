@@ -2,11 +2,20 @@ package proadmin.beans;
 
 public class LeadEvaluation {
 
+    private long id;
     private double planningMark, communicationMark;
     private String planningComment, communicationComment;
     private Student student;
 
     public LeadEvaluation() {}
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public double getPlanningMark() {
         return this.planningMark;

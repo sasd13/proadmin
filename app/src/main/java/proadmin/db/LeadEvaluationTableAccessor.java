@@ -8,7 +8,7 @@ import proadmin.beans.Student;
 
 public interface LeadEvaluationTableAccessor {
 
-    String TABLE_NAME = "leadevaluations";
+    String LEADEVALUATION_TABLE_NAME = "leadevaluations";
 
     String LEADEVALUATION_ID = "leadevaluation_id";
     String LEADEVALUATION_PLANNINGMARK = "leadevaluation_planningmark";
@@ -18,7 +18,7 @@ public interface LeadEvaluationTableAccessor {
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
-    void insert(LeadEvaluation leadevaluation, Student student, Report report);
+    void insert(LeadEvaluation leadevaluation, Report report);
 
     void update(LeadEvaluation leadevaluation);
 

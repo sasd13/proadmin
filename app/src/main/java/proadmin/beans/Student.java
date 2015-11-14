@@ -2,17 +2,17 @@ package proadmin.beans;
 
 public class Student extends AcademicMember {
 
-    private String id;
+    private String number;
     private AcademicLevel academicLevel;
 
     public Student() { super(); }
 
-    public String getId() {
-        return this.id;
+    public String getNumber() {
+        return this.number;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public AcademicLevel getAcademicLevel() {

@@ -6,7 +6,7 @@ import proadmin.beans.Team;
 
 public interface TeamTableAccessor {
 
-    String TABLE_NAME = "teams";
+    String TEAM_TABLE_NAME = "teams";
 
     String TEAM_ID = "team_id";
     String TEAM_RUNNINGYEAR = "team_runningyear";

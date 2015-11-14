@@ -9,7 +9,7 @@ import proadmin.beans.Team;
 
 public interface ReportTableAccessor {
 
-    String TABLE_NAME = "reports";
+    String REPORT_TABLE_NAME = "reports";
 
     String REPORT_ID = "report_id";
     String REPORT_DATEMEETING = "report_datemeeting";
@@ -20,7 +20,7 @@ public interface ReportTableAccessor {
     String PROJECTS_PROJECT_ID = "project_project_id";
     String TEAMS_TEAM_ID = "teams_team_id";
 
-    void insert(Report report, Teacher teacher, Project project, Team team);
+    void insert(Report report);
 
     void update(Report report);
 

@@ -2,17 +2,9 @@ package proadmin.beans;
 
 public class Teacher extends AcademicMember {
 
-    private String id, password;
+    private String password;
 
     public Teacher() { super(); }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getPassword() {
         return this.password;

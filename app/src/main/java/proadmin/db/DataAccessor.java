@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import proadmin.beans.LeadEvaluation;
 import proadmin.beans.Project;
 import proadmin.beans.Report;
 import proadmin.beans.Student;
@@ -20,7 +21,7 @@ public interface DataAccessor {
 
     void updateTeacher(Teacher teacher);
 
-    Teacher selectTeacher(String id);
+    Teacher selectTeacher(long id);
 
     Teacher selectTeacherByEmail(String email);
 
@@ -52,11 +53,13 @@ public interface DataAccessor {
 
     void deleteStudentFromTeam(Student student, Team team);
 
-    Student selectStudent(String id);
+    Student selectStudent(long id);
+
+    Student selectStudentByNumber(String number);
 
     List<Student> selectStudentsByTeam(Team team);
 
-    void insertReport(Report report, Teacher teacher, Project project, Team team);
+    void insertReport(Report report);
 
     void updateReport(Report report);
 

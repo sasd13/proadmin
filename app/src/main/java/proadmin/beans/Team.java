@@ -4,12 +4,20 @@ import java.util.List;
 
 public class Team {
 
-    private long runningYear;
+    private long id, runningYear;
     private String code;
     private List<Student> listStudents;
     private List<Report> listReports;
 
     public Team() {}
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getRunningYear() {
         return this.runningYear;
