@@ -22,8 +22,8 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
     }
 
     @Override
-    public void insert(Report report) {
-
+    public long insert(Report report) {
+        return 0;
     }
 
     @Override

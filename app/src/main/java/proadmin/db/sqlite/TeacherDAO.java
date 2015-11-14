@@ -19,8 +19,8 @@ public class TeacherDAO extends SQLiteTableDAO<Teacher> implements TeacherTableA
     }
 
     @Override
-    public void insert(Teacher teacher) {
-
+    public long insert(Teacher teacher) {
+        return 0;
     }
 
     @Override

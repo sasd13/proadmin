@@ -21,8 +21,8 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
     }
 
     @Override
-    public void insert(Team team) {
-
+    public long insert(Team team) {
+        return 0;
     }
 
     @Override

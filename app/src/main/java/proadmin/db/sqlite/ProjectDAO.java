@@ -12,7 +12,16 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
 
     @Override
     protected ContentValues getContentValues(Project project) {
-        return null;
+        ContentValues values = new ContentValues();
+
+        //values.put(PROJECT_ID, project.getId()); //autoincrement
+        values.put(PROJECT_CODE, project.getCode());
+        values.put(PROJECT_ACADEMICLEVEL, String.valueOf(project.getAcademicLevel()));
+        values.put(PROJECT_TITLE, leadEvaluation.getCommunicationMark());
+        values.put(LEADEVALUATION_COMMUNICATIONCOMMENT, leadEvaluation.getCommunicationComment());
+        values.put(STUDENTS_STUDENT_ID, leadEvaluation.getStudent().getId());
+
+        return values;
     }
 
     @Override
@@ -21,8 +30,8 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
     }
 
     @Override
-    public void insert(Project project) {
-
+    public long insert(Project project) {
+        return 0;
     }
 
     @Override
