@@ -7,11 +7,6 @@ public class IndividualEvaluation {
 
     public IndividualEvaluation() {}
 
-    public IndividualEvaluation(Student student, double mark) {
-        this.student = student;
-        this.mark = mark;
-    }
-
     public double getMark() {
         return this.mark;
     }

@@ -1,11 +1,13 @@
 package proadmin.beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Report {
 
-    private long id, runninYear, weekNumber;
+    private long id, weekNumber;
+    private Timestamp dateMeeting;
     private String teamComment;
     private Teacher teacher;
     private Project project;
@@ -13,15 +15,7 @@ public class Report {
     private LeadEvaluation leadEvaluation;
     private List<IndividualEvaluation> listIndividualEvaluations;
 
-    public Report() {}
-
-    public Report(long id, long runninYear, long weekNumber, Teacher teacher, Project project, Team team) {
-        this.id = id;
-        this.runninYear = runninYear;
-        this.weekNumber = weekNumber;
-        this.teacher = teacher;
-        this.project = project;
-        this.team = team;
+    public Report() {
         this.leadEvaluation = new LeadEvaluation();
         this.listIndividualEvaluations = new ArrayList<>();
     }
@@ -34,12 +28,12 @@ public class Report {
         this.id = id;
     }
 
-    public long getRunninYear() {
-        return this.runninYear;
+    public Timestamp getDateMeeting() {
+        return this.dateMeeting;
     }
 
-    public void setRunninYear(long runninYear) {
-        this.runninYear = runninYear;
+    public void setDateMeeting(Timestamp dateMeeting) {
+        this.dateMeeting = dateMeeting;
     }
 
     public long getWeekNumber() {

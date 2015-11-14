@@ -4,16 +4,19 @@ import java.util.List;
 
 public class Team {
 
+    private long runningYear;
     private String code;
     private List<Student> listStudents;
     private List<Report> listReports;
 
     public Team() {}
 
-    public Team(String code, List<Student> listStudents, List<Report> listReports) {
-        this.code = code;
-        this.listStudents = listStudents;
-        this.listReports = listReports;
+    public long getRunningYear() {
+        return this.runningYear;
+    }
+
+    public void setRunningYear(long runningYear) {
+        this.runningYear = runningYear;
     }
 
     public String getCode() {

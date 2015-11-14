@@ -6,12 +6,6 @@ public abstract class AcademicMember {
 
     protected AcademicMember() {}
 
-    protected AcademicMember(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
     public String getFirstName() {
         return this.firstName;
     }

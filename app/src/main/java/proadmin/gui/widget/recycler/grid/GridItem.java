@@ -7,10 +7,10 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.proadmin.R;
+import com.example.flousy.R;
 
-import proadmin.gui.color.ColorOnTouchListener;
-import proadmin.gui.widget.recycler.RecyclerItem;
+import flousy.gui.color.ColorOnTouchListener;
+import flousy.gui.widget.recycler.RecyclerItem;
 
 /**
  * <b>GridItem is the class to manage basic items of a Grid</b>
@@ -99,7 +99,7 @@ public class GridItem extends RecyclerItem {
         this.color = color;
 
         try {
-            this.view.setBackgroundColor(this.color);
+            getView().setBackgroundColor(this.color);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -163,34 +163,35 @@ public class GridItem extends RecyclerItem {
      */
     public void setIntent(Intent intent) {
         this.intent = intent;
+        this.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override
     public void inflate(ViewStub viewStub) {
         super.inflate(viewStub);
 
-        if(this.color == 0) {
-            this.color = this.view.getContext().getResources().getColor(R.color.customOrange);
+        if (this.color == 0) {
+            this.color = getView().getContext().getResources().getColor(R.color.customOrange);
         }
-        this.view.setBackgroundColor(this.color);
+        getView().setBackgroundColor(this.color);
 
-        this.imageView = (ImageView) this.view.findViewById(R.id.griditem_imageview);
+        this.imageView = (ImageView) getView().findViewById(R.id.griditem_imageview);
         this.imageView.setImageDrawable(this.image);
 
-        this.textView = (TextView) this.view.findViewById(R.id.griditem_textview);
+        this.textView = (TextView) getView().findViewById(R.id.griditem_textview);
         this.textView.setText(this.text);
 
-        this.view.setOnClickListener(new View.OnClickListener() {
+        getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
             }
         });
-        this.view.setOnTouchListener(new ColorOnTouchListener(this.color));
+
+        getView().setOnTouchListener(new ColorOnTouchListener(this.color));
     }
 }

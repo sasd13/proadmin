@@ -3,10 +3,13 @@ package proadmin.gui.widget.recycler;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.android.proadmin.R;
+import com.example.flousy.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <b>AbstractRecycler is a container class for a squad of elements (AbstractRecyclerItem)</b>
+ * <b>AbstractRecycler is a container class for a squad of elements (RecyclerItem)</b>
  * <p>
  * A container has :
  * <ul>
@@ -21,54 +24,34 @@ import com.android.proadmin.R;
 public abstract class Recycler {
 
     protected Context context;
-    private ListRecyclerItems listRecyclerItems;
-    private int recyclerItemLayout;
-
-    protected RecyclerView recyclerView;
+    private List<RecyclerItem> listRecyclerItems;
     private RecyclerAdapter recyclerAdapter;
+    private RecyclerView recyclerView;
 
     protected Recycler(Context context) {
         this.context = context;
-        this.listRecyclerItems = new ListRecyclerItems();
-        this.recyclerItemLayout = R.layout.recyclerviewitem;
-
-        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, this.recyclerItemLayout);
+        this.listRecyclerItems = new ArrayList<>();
+        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, R.layout.recyclerviewitem);
     }
 
-    public boolean addItem(RecyclerItem recyclerItem) {
-        boolean added = this.listRecyclerItems.add(recyclerItem);
+    public void addItem(RecyclerItem recyclerItem) {
+        this.listRecyclerItems.add(recyclerItem);
 
         try {
             this.recyclerAdapter.notifyDataSetChanged();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        return added;
     }
 
-    public boolean removeItem(RecyclerItem recyclerItem) {
-        boolean removed = this.listRecyclerItems.remove(recyclerItem);
+    public void removeItem(RecyclerItem recyclerItem) {
+        this.listRecyclerItems.remove(recyclerItem);
 
         try {
             this.recyclerAdapter.notifyDataSetChanged();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        return removed;
-    }
-
-    public RecyclerItem removeItem(int index) {
-        RecyclerItem recyclerItem = this.listRecyclerItems.remove(index);
-
-        try {
-            this.recyclerAdapter.notifyDataSetChanged();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return recyclerItem;
     }
 
     public RecyclerItem getItem(int index) {
@@ -89,10 +72,18 @@ public abstract class Recycler {
         }
     }
 
+    public RecyclerView getRecyclerView() {
+        return this.recyclerView;
+    }
+
     public void adapt(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
 
-        this.recyclerAdapter.registerAdapterDataObserver(new RecyclerAdapterDataObserver(this.recyclerView));
-        this.recyclerView.setAdapter(this.recyclerAdapter);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(false);
+
+        this.recyclerAdapter.registerAdapterDataObserver(new RecyclerAdapterDataObserver(recyclerView));
+        recyclerView.setAdapter(this.recyclerAdapter);
     }
 }

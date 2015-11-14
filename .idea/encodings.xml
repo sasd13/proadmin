@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/proadmin/db/DataAccessor.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/proadmin/db/DataAccessorFactory.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/proadmin/db/sqlite/SQLiteDAO.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/proadmin/db/sqlite/SQLiteDBHandler.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/proadmin/db/sqlite/SQLiteTableDAO.java" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

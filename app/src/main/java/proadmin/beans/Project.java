@@ -6,13 +6,6 @@ public class Project {
     private AcademicLevel academicLevel;
 
     public Project() {}
-	
-	public Project(String code, AcademicLevel academicLevel, String title, String description) {
-        this.code = code;
-        this.academicLevel = academicLevel;
-        this.title = title;
-        this.description = description;
-    }
 
     public String getCode() {
         return this.code;

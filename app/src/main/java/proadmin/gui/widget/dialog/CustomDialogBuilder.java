@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
-import android.view.View;
 
-import com.android.proadmin.R;
+import com.example.flousy.R;
 
-/**
- * Created by Samir on 09/03/2015.
- */
 public class CustomDialogBuilder extends AlertDialog.Builder {
 
     public static final int TYPE_LOAD = 0;
@@ -32,7 +28,7 @@ public class CustomDialogBuilder extends AlertDialog.Builder {
     @NonNull
     @Override
     public AlertDialog create() {
-        if(this.dialogType == TYPE_LOAD) {
+        if (this.dialogType == TYPE_LOAD) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             setView(inflater.inflate(R.layout.customdialog_load, null));
         }
@@ -77,10 +73,10 @@ public class CustomDialogBuilder extends AlertDialog.Builder {
 
     public CustomDialogBuilder setNegativeButton(DialogInterface.OnClickListener listener) {
         switch (this.dialogType) {
-            case TYPE_TWOBUTTON_YESNO :
+            case TYPE_TWOBUTTON_YESNO:
                 super.setNegativeButton(R.string.alertdialog_button_no, listener);
                 break;
-            case TYPE_TWOBUTTON_OKCANCEL :
+            case TYPE_TWOBUTTON_OKCANCEL:
                 super.setNegativeButton(R.string.alertdialog_button_cancel, listener);
                 break;
         }

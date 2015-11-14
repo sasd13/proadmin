@@ -8,12 +8,6 @@ public class LeadEvaluation {
 
     public LeadEvaluation() {}
 
-    public LeadEvaluation(Student student, double planningMark, double communicationMark) {
-        this.student = student;
-        this.planningMark = planningMark;
-        this.communicationMark = communicationMark;
-    }
-
     public double getPlanningMark() {
         return this.planningMark;
     }

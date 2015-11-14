@@ -6,9 +6,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-/**
- * Created by Samir on 15/06/2015.
- */
 public class Spin {
 
     private Spinner spinner;
@@ -35,22 +32,8 @@ public class Spin {
         return getItem(getSelectedItemPosition());
     }
 
-    public void setSelectedItem(String item) {
-        int position = this.spinAdapter.getPosition(item);
-
-        if (position < 0) {
-            position = 0;
-        }
-
-        setSelectedItemPosition(position);
-    }
-
     public int getSelectedItemPosition() {
         return this.spinner.getSelectedItemPosition();
-    }
-
-    public void setSelectedItemPosition(int position) {
-        this.spinner.setSelection(position, false);
     }
 
     public int size() {

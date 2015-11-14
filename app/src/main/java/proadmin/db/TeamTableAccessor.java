@@ -1,0 +1,25 @@
+package proadmin.db;
+
+import java.util.List;
+
+import proadmin.beans.Team;
+
+public interface TeamTableAccessor {
+
+    String TABLE_NAME = "teams";
+
+    String TEAM_ID = "team_id";
+    String TEAM_RUNNINGYEAR = "team_runningyear";
+    String TEAM_CODE = "team_code";
+    String TEAM_DELETED = "team_deleted";
+
+    void insert(Team team);
+
+    void update(Team team);
+
+    void delete(Team team);
+
+    Team select(long id);
+
+    List<Team> selectByRunningYear(long runningYear);
+}
