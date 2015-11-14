@@ -13,7 +13,7 @@ public interface StudentTableAccessor {
     String STUDENT_EMAIL = "student_email";
     String STUDENT_ACADEMICLEVEL = "student_academiclevel";
 
-    void insert(Student student);
+    long insert(Student student);
 
     void update(Student student);
 

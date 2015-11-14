@@ -20,7 +20,7 @@ public interface ReportTableAccessor {
     String PROJECTS_PROJECT_ID = "project_project_id";
     String TEAMS_TEAM_ID = "teams_team_id";
 
-    void insert(Report report);
+    long insert(Report report);
 
     void update(Report report);
 

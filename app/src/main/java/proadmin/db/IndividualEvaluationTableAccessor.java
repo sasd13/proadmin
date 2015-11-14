@@ -15,7 +15,7 @@ public interface IndividualEvaluationTableAccessor {
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
-    void insert(IndividualEvaluation individualevaluation, Report report);
+    long insert(IndividualEvaluation individualevaluation, Report report);
 
     void update(IndividualEvaluation individualevaluation);
 

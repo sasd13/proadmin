@@ -12,7 +12,7 @@ public interface TeacherTableAccessor {
     String TEACHER_EMAIL = "teacher_email";
     String TEACHER_PASSWORD = "teacher_password";
 
-    void insert(Teacher teacher);
+    long insert(Teacher teacher);
 
     void update(Teacher teacher);
 

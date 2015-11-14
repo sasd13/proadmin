@@ -13,7 +13,7 @@ public interface TeamTableAccessor {
     String TEAM_CODE = "team_code";
     String TEAM_DELETED = "team_deleted";
 
-    void insert(Team team);
+    long insert(Team team);
 
     void update(Team team);
 

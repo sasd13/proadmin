@@ -15,7 +15,7 @@ public interface ProjectTableAccessor {
     String PROJECT_DESCRIPTION = "project_description";
     String PROJECT_DELETED = "project_deleted";
 
-    void insert(Project project);
+    long insert(Project project);
 
     void update(Project project);
 
