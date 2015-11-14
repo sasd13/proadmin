@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Report {
 
-    private long runninYear, weekNumber;
+    private long id, runninYear, weekNumber;
     private String teamComment;
     private Teacher teacher;
     private Project project;
@@ -15,7 +15,8 @@ public class Report {
 
     public Report() {}
 
-    public Report(long runninYear, long weekNumber, Teacher teacher, Project project, Team team) {
+    public Report(long id, long runninYear, long weekNumber, Teacher teacher, Project project, Team team) {
+        this.id = id;
         this.runninYear = runninYear;
         this.weekNumber = weekNumber;
         this.teacher = teacher;
@@ -23,6 +24,14 @@ public class Report {
         this.team = team;
         this.leadEvaluation = new LeadEvaluation();
         this.listIndividualEvaluations = new ArrayList<>();
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getRunninYear() {

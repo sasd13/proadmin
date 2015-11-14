@@ -2,15 +2,24 @@ package proadmin.beans;
 
 public class Project {
 
+    private String code, title, description;
     private AcademicLevel academicLevel;
-    private String title, description;
 
     public Project() {}
 	
-	public Project(AcademicLevel academicLevel, String title, String description) {
+	public Project(String code, AcademicLevel academicLevel, String title, String description) {
+        this.code = code;
         this.academicLevel = academicLevel;
         this.title = title;
         this.description = description;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public AcademicLevel getAcademicLevel() {
