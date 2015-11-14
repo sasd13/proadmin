@@ -3,8 +3,8 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.Project;
-import proadmin.content.Grade;
+import proadmin.beans.Project;
+import proadmin.beans.AcademicLevel;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -27,7 +27,7 @@ class ProjectDAO extends AbstractTableDAO {
 
         values.put(PROJECT_ID, project.getId());
         values.put(PROJECT_TITLE, project.getTitle());
-        values.put(PROJECT_GRADE, project.getGrade().toString());
+        values.put(PROJECT_GRADE, project.getAcademicLevel().toString());
         values.put(PROJECT_DESCRIPTION, project.getDescription());
 
         return values;
@@ -53,7 +53,7 @@ class ProjectDAO extends AbstractTableDAO {
             project = new Project();
             project.setId(projectId);
             project.setTitle(cursor.getString(0));
-            project.setGrade(Grade.valueOf(cursor.getString(1)));
+            project.setAcademicLevel(AcademicLevel.valueOf(cursor.getString(1)));
             project.setDescription(cursor.getString(2));
         }
         cursor.close();

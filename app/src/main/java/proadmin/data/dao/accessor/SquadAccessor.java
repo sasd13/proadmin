@@ -1,21 +1,20 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.Squad;
+import proadmin.beans.Team;
 import proadmin.content.Year;
-import proadmin.content.ListSquads;
 
 /**
  * Created by Samir on 11/06/2015.
  */
 public interface SquadAccessor {
 
-    void insertSquad(Squad squad);
+    void insertSquad(Team team);
 
-    void updateSquad(Squad squad);
+    void updateSquad(Team team);
 
     void deleteSquad(String squadId);
 
-    Squad selectSquad(String squadId);
+    Team selectSquad(String squadId);
 
     ListSquads selectSquadsOfTeacher(String teacherId);
 

@@ -1,6 +1,5 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.ListYears;
 import proadmin.content.Year;
 
 /**

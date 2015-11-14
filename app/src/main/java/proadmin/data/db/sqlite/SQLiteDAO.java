@@ -3,19 +3,12 @@ package proadmin.data.db.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
-import proadmin.content.ListIds;
-import proadmin.content.MapNotes;
-import proadmin.content.ListProjects;
-import proadmin.content.ListReports;
-import proadmin.content.ListStudents;
-import proadmin.content.ListYears;
-import proadmin.content.Squad;
-import proadmin.content.Project;
-import proadmin.content.Report;
-import proadmin.content.Student;
-import proadmin.content.Teacher;
+import proadmin.beans.Team;
+import proadmin.beans.Project;
+import proadmin.beans.Report;
+import proadmin.beans.Student;
+import proadmin.beans.Teacher;
 import proadmin.content.Year;
-import proadmin.content.ListSquads;
 import proadmin.data.dao.accessor.DataAccessor;
 
 public class SQLiteDAO implements DataAccessor {
@@ -105,7 +98,7 @@ public class SQLiteDAO implements DataAccessor {
 	public void deleteTeacher(String teacherId) {
         ListSquads listSquads = selectSquadsOfTeacher(teacherId);
         for (Object squad : listSquads) {
-            deleteSquad(((Squad) squad).getId());
+            deleteSquad(((Team) squad).getId());
         }
 
 		teacherDAO.delete(teacherId);
@@ -120,7 +113,7 @@ public class SQLiteDAO implements DataAccessor {
     public void deleteYear(Year year) {
         ListSquads listSquads = selectSquadsOfYear(year);
         for (Object squad : listSquads) {
-            deleteSquad(((Squad) squad).getId());
+            deleteSquad(((Team) squad).getId());
         }
 
         ListProjects listProjects = selectProjectsOfYear(year);
@@ -172,7 +165,7 @@ public class SQLiteDAO implements DataAccessor {
 	public void deleteProject(String projectId) {
 		ListSquads listSquads = selectSquadsOfProject(projectId);
         for (Object squad : listSquads) {
-            deleteSquad(((Squad) squad).getId());
+            deleteSquad(((Team) squad).getId());
         }
 
 		projectHasYearDAO.deleteAllOfProject(projectId);
@@ -183,7 +176,7 @@ public class SQLiteDAO implements DataAccessor {
 	public void deleteProjectFromYear(String projectId, Year year) {
         ListSquads listSquads = selectSquadsOfYearAndProject(year, projectId);
         for (Object squad : listSquads) {
-            deleteSquad(((Squad) squad).getId());
+            deleteSquad(((Team) squad).getId());
         }
 
 		projectHasYearDAO.delete(projectId, year);
@@ -207,16 +200,16 @@ public class SQLiteDAO implements DataAccessor {
     }
 
     @Override
-	public void insertSquad(Squad squad) {
-        if (!squadDAO.contains(squad.getId())) {
-            long rowId = squadDAO.insert(squad);
+	public void insertSquad(Team team) {
+        if (!squadDAO.contains(team.getId())) {
+            long rowId = squadDAO.insert(team);
 
             if (rowId > 0) {
-                for (Object student : squad.getListStudents()) {
-                    insertStudent((Student) student, squad.getId());
+                for (Object student : team.getListStudents()) {
+                    insertStudent((Student) student, team.getId());
                 }
 
-                for (Object report : squad.getListReports()) {
+                for (Object report : team.getListReports()) {
                     insertReport((Report) report);
                 }
             }
@@ -224,14 +217,14 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public void updateSquad(Squad squad) {
-		squadDAO.update(squad);
+	public void updateSquad(Team team) {
+		squadDAO.update(team);
 
-        for (Object student : squad.getListStudents()) {
+        for (Object student : team.getListStudents()) {
             updateStudent((Student) student);
         }
 
-        for (Object report : squad.getListReports()) {
+        for (Object report : team.getListReports()) {
             updateReport((Report) report);
         }
 	}
@@ -252,7 +245,7 @@ public class SQLiteDAO implements DataAccessor {
 	}
 
     @Override
-	public Squad selectSquad(String squadId) {
+	public Team selectSquad(String squadId) {
 		return squadDAO.select(squadId);
 	}
 

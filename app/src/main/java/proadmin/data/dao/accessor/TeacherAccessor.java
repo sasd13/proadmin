@@ -1,6 +1,6 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.Teacher;
+import proadmin.beans.Teacher;
 
 /**
  * Created by Samir on 11/06/2015.

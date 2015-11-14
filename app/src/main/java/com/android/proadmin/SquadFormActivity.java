@@ -16,9 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import proadmin.constant.Extra;
-import proadmin.content.Project;
-import proadmin.content.Squad;
-import proadmin.content.Teacher;
+import proadmin.beans.Project;
+import proadmin.beans.Team;
+import proadmin.beans.Teacher;
 import proadmin.content.Year;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
@@ -173,14 +173,14 @@ public class SquadFormActivity extends ActionBarActivity {
 
     private void updateSquad() {
         try {
-            Squad squad = getSquadFromFormSquad();
+            Team team = getSquadFromFormSquad();
 
             this.dao.open();
 
             Teacher teacher = this.dao.selectTeacher(Session.getSessionId());
-            squad.setTeacher(teacher);
+            team.setTeacher(teacher);
 
-            this.dao.updateSquad(squad);
+            this.dao.updateSquad(team);
             this.dao.close();
         } catch (FormException e) {
             CustomDialog.showOkDialog(this, "Form error", e.getMessage());
@@ -189,14 +189,14 @@ public class SquadFormActivity extends ActionBarActivity {
 
     private void addSquad() {
         try {
-            Squad squad = getSquadFromFormSquad();
+            Team team = getSquadFromFormSquad();
 
             this.dao.open();
 
             Teacher teacher = this.dao.selectTeacher(Session.getSessionId());
-            squad.setTeacher(teacher);
+            team.setTeacher(teacher);
 
-            this.dao.insertSquad(squad);
+            this.dao.insertSquad(team);
             this.dao.close();
 
             goToSquadsActivity();
@@ -205,8 +205,8 @@ public class SquadFormActivity extends ActionBarActivity {
         }
     }
 
-    private Squad getSquadFromFormSquad() throws FormException {
-        Squad squad;
+    private Team getSquadFromFormSquad() throws FormException {
+        Team team;
 
         String name = this.formSquad.editTextName.getEditableText().toString().trim();
 
@@ -223,13 +223,13 @@ public class SquadFormActivity extends ActionBarActivity {
         Project project = this.dao.selectProject(projectId);
         this.dao.close();
 
-        squad = new Squad();
-        squad.setId(squadId);
-        squad.setName(name);
-        squad.setYear(new Year());
-        squad.setProject(project);
+        team = new Team();
+        team.setId(squadId);
+        team.setName(name);
+        team.setYear(new Year());
+        team.setProject(project);
 
-        return squad;
+        return team;
     }
 
     private void goToSquadsActivity() {
@@ -261,14 +261,14 @@ public class SquadFormActivity extends ActionBarActivity {
         this.dao.open();
 
         try {
-            Squad squad = this.dao.selectSquad(squadId);
+            Team team = this.dao.selectSquad(squadId);
 
             this.formSquad.textViewYear.setText(stringYear);
-            this.formSquad.textViewId.setText(squad.getId());
-            this.formSquad.editTextName.setText(squad.getName(), TextView.BufferType.EDITABLE);
+            this.formSquad.textViewId.setText(team.getId());
+            this.formSquad.editTextName.setText(team.getName(), TextView.BufferType.EDITABLE);
 
             addProjectsIdsInSpinnerProjects();
-            selectProjectIdForSquadInSpinnerProjects(squad.getProject());
+            selectProjectIdForSquadInSpinnerProjects(team.getProject());
         } catch (NullPointerException e) {
             e.printStackTrace();
         } finally {

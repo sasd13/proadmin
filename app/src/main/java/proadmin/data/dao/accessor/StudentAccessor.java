@@ -1,7 +1,6 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.ListStudents;
-import proadmin.content.Student;
+import proadmin.beans.Student;
 
 /**
  * Created by Samir on 11/06/2015.

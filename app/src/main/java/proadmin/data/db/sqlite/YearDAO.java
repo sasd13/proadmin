@@ -3,7 +3,6 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListYears;
 import proadmin.content.Year;
 
 /**

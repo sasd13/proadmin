@@ -3,14 +3,10 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
-import proadmin.content.ListReports;
-import proadmin.content.ListStudents;
-import proadmin.content.Squad;
-import proadmin.content.Project;
-import proadmin.content.Teacher;
+import proadmin.beans.Team;
+import proadmin.beans.Project;
+import proadmin.beans.Teacher;
 import proadmin.content.Year;
-import proadmin.content.ListSquads;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -24,31 +20,31 @@ class SquadDAO extends AbstractTableDAO {
     public static final String SQUAD_YEAR = "school_year";
     public static final String SQUAD_PROJECT_ID = "project_id";
 
-    public long insert(Squad squad) {
-        return db.insert(SQUAD_TABLE_NAME, null, getContentValues(squad));
+    public long insert(Team team) {
+        return db.insert(SQUAD_TABLE_NAME, null, getContentValues(team));
     }
 
-    private ContentValues getContentValues(Squad squad) {
+    private ContentValues getContentValues(Team team) {
         ContentValues values = new ContentValues();
 
-        values.put(SQUAD_ID, squad.getId());
-        values.put(SQUAD_TEACHER_ID, squad.getTeacher().getId());
-        values.put(SQUAD_YEAR, squad.getYear().getValue());
-        values.put(SQUAD_PROJECT_ID, squad.getProject().getId());
+        values.put(SQUAD_ID, team.getId());
+        values.put(SQUAD_TEACHER_ID, team.getTeacher().getId());
+        values.put(SQUAD_YEAR, team.getYear().getValue());
+        values.put(SQUAD_PROJECT_ID, team.getProject().getId());
 
         return values;
     }
 
-    public long update(Squad squad) {
-        return db.update(SQUAD_TABLE_NAME, getContentValues(squad), SQUAD_ID + " = ?", new String[]{squad.getId()});
+    public long update(Team team) {
+        return db.update(SQUAD_TABLE_NAME, getContentValues(team), SQUAD_ID + " = ?", new String[]{team.getId()});
     }
 
     public long delete(String squadId) {
         return db.delete(SQUAD_TABLE_NAME, SQUAD_ID + " = ?", new String[]{squadId});
     }
 
-    public Squad select(String squadId) {
-        Squad squad = null;
+    public Team select(String squadId) {
+        Team team = null;
 
         Cursor cursor = db.rawQuery(
                 "select " + SQUAD_TEACHER_ID + ", " + SQUAD_YEAR + ", " + SQUAD_PROJECT_ID
@@ -59,9 +55,9 @@ class SquadDAO extends AbstractTableDAO {
         String teacherId = null;
 
         if (cursor.moveToNext()) {
-            squad = new Squad();
-            squad.setId(squadId);
-            squad.setYear(new Year(cursor.getLong(0)));
+            team = new Team();
+            team.setId(squadId);
+            team.setYear(new Year(cursor.getLong(0)));
 
             projectId = new String(cursor.getString(1));
             teacherId = new String(cursor.getString(2));
@@ -70,21 +66,21 @@ class SquadDAO extends AbstractTableDAO {
 
         try {
             Project project = SQLiteDAO.getInstance().selectProject(projectId);
-            squad.setProject(project);
+            team.setProject(project);
 
             Teacher teacher = SQLiteDAO.getInstance().selectTeacher(teacherId);
-            squad.setTeacher(teacher);
+            team.setTeacher(teacher);
 
             ListStudents listStudents = SQLiteDAO.getInstance().selectStudentsOfSquad(squadId);
-            squad.setListStudents(listStudents);
+            team.setListStudents(listStudents);
 
             ListReports listReports = SQLiteDAO.getInstance().selectReportsOfSquad(squadId);
-            squad.setListReports(listReports);
+            team.setListReports(listReports);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        return squad;
+        return team;
     }
 
     public ListSquads selectAllOfTeacher(String teacherId) {

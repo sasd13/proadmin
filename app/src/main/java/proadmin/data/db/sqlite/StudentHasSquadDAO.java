@@ -3,8 +3,6 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
-
 /**
  * Created by Samir on 02/04/2015.
  */

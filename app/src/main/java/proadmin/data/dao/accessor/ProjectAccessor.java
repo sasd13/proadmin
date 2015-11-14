@@ -1,7 +1,6 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.ListProjects;
-import proadmin.content.Project;
+import proadmin.beans.Project;
 import proadmin.content.Year;
 
 /**

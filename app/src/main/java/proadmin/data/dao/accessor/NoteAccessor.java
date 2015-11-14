@@ -1,7 +1,5 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.content.MapNotes;
-
 /**
  * Created by Samir on 11/06/2015.
  */

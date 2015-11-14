@@ -3,8 +3,7 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.MapNotes;
-import proadmin.content.Note;
+import proadmin.beans.IndividualEvaluation;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -17,22 +16,22 @@ class NoteDAO extends AbstractTableDAO {
     public static final String NOTE_REPORT_ID = "report_id";
     public static final String NOTE_STUDENT_ID = "student_id";
 
-    public void insert(Note note, String reportId, String studentId) {
-        db.insert(NOTE_TABLE_NAME, null, getContentValues(note, reportId, studentId));
+    public void insert(IndividualEvaluation individualEvaluation, String reportId, String studentId) {
+        db.insert(NOTE_TABLE_NAME, null, getContentValues(individualEvaluation, reportId, studentId));
     }
 
-    private ContentValues getContentValues(Note note, String reportId, String studentId) {
+    private ContentValues getContentValues(IndividualEvaluation individualEvaluation, String reportId, String studentId) {
         ContentValues values = new ContentValues();
 
-        values.put(NOTE_NOTE, note.getValue());
+        values.put(NOTE_NOTE, individualEvaluation.getValue());
         values.put(NOTE_REPORT_ID, reportId);
         values.put(NOTE_STUDENT_ID, studentId);
 
         return values;
     }
 
-    public void update(Note note, String reportId, String studentId) {
-        db.update(NOTE_TABLE_NAME, getContentValues(note, reportId, studentId), NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
+    public void update(IndividualEvaluation individualEvaluation, String reportId, String studentId) {
+        db.update(NOTE_TABLE_NAME, getContentValues(individualEvaluation, reportId, studentId), NOTE_REPORT_ID + " = ? and " + NOTE_STUDENT_ID + " = ?",
                 new String[]{reportId, studentId});
     }
 
@@ -49,7 +48,7 @@ class NoteDAO extends AbstractTableDAO {
                         + " where " + NOTE_REPORT_ID + " = ?", new String[]{reportId});
 
         while (cursor.moveToNext()) {
-            mapNotes.put(new String(cursor.getString(1)), new Note(cursor.getLong(0)));
+            mapNotes.put(new String(cursor.getString(1)), new IndividualEvaluation(cursor.getLong(0)));
         }
         cursor.close();
 

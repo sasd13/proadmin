@@ -16,9 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import proadmin.constant.Extra;
-import proadmin.content.Grade;
-import proadmin.content.ListYears;
-import proadmin.content.Project;
+import proadmin.beans.AcademicLevel;
+import proadmin.beans.Project;
 import proadmin.content.Year;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
@@ -214,19 +213,19 @@ public class ProjectFormActivity extends ActionBarActivity {
 
         FormProjectValidator.validForm(title, description);
 
-        Grade grade;
+        AcademicLevel academicLevel;
 
         int checkedRadioButtonId = this.formProject.radioGroupGrade.getCheckedRadioButtonId();
         if (checkedRadioButtonId == this.formProject.radioButtonM2.getId()) {
-            grade = Grade.M2;
+            academicLevel = AcademicLevel.M2;
         } else if (checkedRadioButtonId == this.formProject.radioButtonM1.getId()) {
-            grade = Grade.M1;
+            academicLevel = AcademicLevel.M1;
         } else if (checkedRadioButtonId == this.formProject.radioButtonL3.getId()) {
-            grade = Grade.L3;
+            academicLevel = AcademicLevel.L3;
         } else if (checkedRadioButtonId == this.formProject.radioButtonL2.getId()) {
-            grade = Grade.L2;
+            academicLevel = AcademicLevel.L2;
         } else {
-            grade = Grade.L1;
+            academicLevel = AcademicLevel.L1;
         }
 
         String projectId = this.formProject.textViewId.getText().toString().trim();
@@ -237,7 +236,7 @@ public class ProjectFormActivity extends ActionBarActivity {
         project = new Project();
         project.setId(projectId);
         project.setTitle(title);
-        project.setGrade(grade);
+        project.setAcademicLevel(academicLevel);
         project.setDescription(description);
 
         return project;
@@ -310,7 +309,7 @@ public class ProjectFormActivity extends ActionBarActivity {
             this.formProject.editTextTitle.setText(project.getTitle(), TextView.BufferType.EDITABLE);
             this.formProject.editTextDescription.setText(project.getDescription(), TextView.BufferType.EDITABLE);
 
-            switch (project.getGrade()) {
+            switch (project.getAcademicLevel()) {
                 case L1:
                     this.formProject.radioButtonL1.setChecked(true);
                     break;

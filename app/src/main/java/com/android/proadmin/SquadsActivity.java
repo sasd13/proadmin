@@ -12,9 +12,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import proadmin.constant.Extra;
-import proadmin.content.ListSquads;
-import proadmin.content.ListYears;
-import proadmin.content.Squad;
+import proadmin.beans.Team;
 import proadmin.content.Year;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
@@ -137,13 +135,13 @@ public class SquadsActivity extends ActionBarActivity {
 
         for (Object squad : listSquads) {
             itemSquad = new TabItemSquad();
-            itemSquad.setName(((Squad) squad).getName());
-            itemSquad.setProjectTitle(((Squad) squad).getProject().getTitle());
+            itemSquad.setName(((Team) squad).getName());
+            itemSquad.setProjectTitle(((Team) squad).getProject().getTitle());
 
             intent = new Intent(this, SquadFormActivity.class);
             intent.putExtra(Extra.MODE, Extra.MODE_CONSULT);
             intent.putExtra(Extra.YEAR, year.toString());
-            intent.putExtra(Extra.SQUAD_ID, ((Squad) squad).getId());
+            intent.putExtra(Extra.SQUAD_ID, ((Team) squad).getId());
             itemSquad.setIntent(intent);
 
             this.tab.addItem(itemSquad);

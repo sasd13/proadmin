@@ -3,11 +3,8 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.content.ListIds;
-import proadmin.content.ListReports;
-import proadmin.content.MapNotes;
-import proadmin.content.Note;
-import proadmin.content.Report;
+import proadmin.beans.IndividualEvaluation;
+import proadmin.beans.Report;
 
 /**
  * Created by Samir on 02/04/2015.
@@ -35,9 +32,9 @@ class ReportDAO extends AbstractTableDAO {
 
         values.put(REPORT_ID, report.getId());
         values.put(REPORT_NUMBER_WEEK, report.getNumberWeek());
-        values.put(REPORT_PLANNING_NOTE, report.getPlanningNote().getValue());
+        values.put(REPORT_PLANNING_NOTE, report.getPlanningIndividualEvaluation().getValue());
         values.put(REPORT_PLANNING_COMMENT, report.getPlanningComment());
-        values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationNote().getValue());
+        values.put(REPORT_COMMUNICATION_NOTE, report.getCommunicationIndividualEvaluation().getValue());
         values.put(REPORT_COMMUNICATION_COMMENT, report.getCommunicationComment());
         values.put(REPORT_COMMENT, report.getComment());
         values.put(REPORT_SQUAD_ID, report.getSquadId());
@@ -70,9 +67,9 @@ class ReportDAO extends AbstractTableDAO {
             report = new Report();
             report.setId(reportId);
             report.setNumberWeek(cursor.getLong(0));
-            report.setPlanningNote(new Note(cursor.getLong(1)));
+            report.setPlanningIndividualEvaluation(new IndividualEvaluation(cursor.getLong(1)));
             report.setPlanningComment(cursor.getString(2));
-            report.setCommunicationNote(new Note(cursor.getLong(3)));
+            report.setCommunicationIndividualEvaluation(new IndividualEvaluation(cursor.getLong(3)));
             report.setCommunicationComment(cursor.getString(4));
             report.setComment(cursor.getString(5));
             report.setSquadId(cursor.getString(6));

@@ -12,11 +12,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import proadmin.constant.Extra;
-import proadmin.content.ListProjects;
-import proadmin.content.ListYears;
-import proadmin.content.Project;
+import proadmin.beans.Project;
 import proadmin.content.Year;
-import proadmin.content.ListSquads;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;
@@ -140,7 +137,7 @@ public class ProjectsActivity extends ActionBarActivity {
         for (Object project : listProjects) {
             itemProject = new TabItemProject();
             itemProject.setTitle(((Project) project).getTitle());
-            itemProject.setGrade(((Project) project).getGrade().toString());
+            itemProject.setGrade(((Project) project).getAcademicLevel().toString());
 
             listSquads = this.dao.selectSquadsOfYearAndProject(year, ((Project) project).getId());
             itemProject.setNbrSquads(Integer.toString(listSquads.size()));

@@ -1,17 +1,15 @@
-package proadmin.content;
+package proadmin.beans;
 
-/**
- * Created by Samir on 05/06/2015.
- */
-public class Person {
+public abstract class AcademicMember {
 
-    private String firstName, lastName;
+    private String firstName, lastName, email;
 
-    public Person() {}
+    protected AcademicMember() {}
 
-    public Person(String firstName, String lastName) {
+    protected AcademicMember(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -28,5 +26,13 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
