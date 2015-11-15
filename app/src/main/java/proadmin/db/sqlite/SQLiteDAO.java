@@ -330,8 +330,8 @@ public class SQLiteDAO implements DataAccessor {
         if (id > 0) {
             report.setId(id);
 
-            insertLeadEvaluation(report.getLeadEvaluation());
-            insertIndividualEvaluations(report.getIndividualEvaluations());
+            insertLeadEvaluation(report.getLeadEvaluation(), id);
+            insertIndividualEvaluations(report.getIndividualEvaluations(), id);
         }
 
         close();
@@ -367,27 +367,7 @@ public class SQLiteDAO implements DataAccessor {
 
         open();
 
-        report = reportDAO.select(id);
-
-        try {
-            Teacher teacher = teacherDAO.select(report.getTeacher().getId());
-            report.setTeacher(teacher);
-
-            Project project = projectDAO.select(report.getProject().getId());
-            report.setProject(project);
-
-            Team team = teamDAO.select(report.getTeam().getId());
-            report.setTeam(team);
-
-            bindLeadEvaluation(id, report.getLeadEvaluation());
-
-            List<IndividualEvaluation> list = selectIndividualEvaluationsByReport(id);
-            for (IndividualEvaluation individualEvaluation : list) {
-                report.addIndividualEvaluation(individualEvaluation);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        report = performSelectReportWithDependencies(id);
 
         close();
 
@@ -401,14 +381,17 @@ public class SQLiteDAO implements DataAccessor {
         open();
 
         list = reportDAO.selectByTeam(teamId);
+        for (Report report : list) {
+            list.set(list.indexOf(report), performSelectReportWithDependencies(report.getId()));
+        }
 
         close();
 
         return list;
     }
 
-    private void insertLeadEvaluation(LeadEvaluation leadEvaluation) {
-        long id = leadEvaluationDAO.insert(leadEvaluation);
+    private void insertLeadEvaluation(LeadEvaluation leadEvaluation, long reportId) {
+        long id = leadEvaluationDAO.insert(leadEvaluation, reportId);
         if (id > 0) {
             leadEvaluation.setId(id);
         }
@@ -422,11 +405,10 @@ public class SQLiteDAO implements DataAccessor {
         leadEvaluationDAO.deleteByReport(reportId);
     }
 
-    private void insertIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
+    private void insertIndividualEvaluations(IndividualEvaluation[] individualEvaluations, long reportId) {
         long id;
-
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-            id = individualEvaluationDAO.insert(individualEvaluation);
+            id = individualEvaluationDAO.insert(individualEvaluation, reportId);
             if (id > 0) {
                 individualEvaluation.setId(id);
             }
@@ -443,27 +425,60 @@ public class SQLiteDAO implements DataAccessor {
         individualEvaluationDAO.deleteByReport(reportId);
     }
 
-    private void bindLeadEvaluation(long reportId, LeadEvaluation leadEvaluationToBind) {
-        LeadEvaluation leadEvaluation = leadEvaluationDAO.selectByReport(reportId);
+    private Report performSelectReportWithDependencies(long id) {
+        Report report = reportDAO.select(id);
 
-        leadEvaluationToBind.setId(leadEvaluation.getId());
-        leadEvaluationToBind.setPlanningMark(leadEvaluation.getPlanningMark());
-        leadEvaluationToBind.setPlanningComment(leadEvaluation.getPlanningComment());
-        leadEvaluationToBind.setCommunicationMark(leadEvaluation.getCommunicationMark());
-        leadEvaluationToBind.setCommunicationComment(leadEvaluation.getCommunicationComment());
-        leadEvaluationToBind.setStudent(studentDAO.select(leadEvaluation.getStudent().getId()));
-    }
+        try {
+            setTeacherForReport(report);
+            setProjectForReport(report);
+            setTeamForReport(report);
 
-    private List<IndividualEvaluation> selectIndividualEvaluationsByReport(long reportId) {
-        List<IndividualEvaluation> list = individualEvaluationDAO.selectByReport(reportId);
-        for (IndividualEvaluation individualEvaluation : list) {
-            Student student = individualEvaluation.getStudent();
-            individualEvaluation.setStudent(studentDAO.select(student.getId()));
-
-            Report report = individualEvaluation.getReport();
-            individualEvaluation.setReport(reportDAO.select(report.getId()));
+            bindLeadEvaluationForReport(report);
+            addIndividualEvaluationsForReport(report);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        return list;
+        return report;
+    }
+
+    private void setTeacherForReport(Report report) {
+        Teacher teacher = teacherDAO.select(report.getTeacher().getId());
+        report.setTeacher(teacher);
+    }
+
+    private void setProjectForReport(Report report) {
+        Project project = projectDAO.select(report.getProject().getId());
+        report.setProject(project);
+    }
+
+    private void setTeamForReport(Report report) {
+        Team team = teamDAO.select(report.getTeam().getId());
+        report.setTeam(team);
+    }
+
+    private void bindLeadEvaluationForReport(Report report) {
+        LeadEvaluation leadEvaluationToBind = leadEvaluationDAO.selectByReport(report.getId());
+
+        LeadEvaluation leadEvaluation = report.getLeadEvaluation();
+
+        leadEvaluation.setId(leadEvaluationToBind.getId());
+        leadEvaluation.setPlanningMark(leadEvaluationToBind.getPlanningMark());
+        leadEvaluation.setPlanningComment(leadEvaluationToBind.getPlanningComment());
+        leadEvaluation.setCommunicationMark(leadEvaluationToBind.getCommunicationMark());
+        leadEvaluation.setCommunicationComment(leadEvaluationToBind.getCommunicationComment());
+        leadEvaluation.setStudent(studentDAO.select(leadEvaluationToBind.getStudent().getId()));
+    }
+
+    private void addIndividualEvaluationsForReport(Report report) {
+        List<IndividualEvaluation> list = individualEvaluationDAO.selectByReport(report.getId());
+
+        Student student;
+        for (IndividualEvaluation individualEvaluation : list) {
+            student = individualEvaluation.getStudent();
+            individualEvaluation.setStudent(studentDAO.select(student.getId()));
+
+            report.addIndividualEvaluation(individualEvaluation);
+        }
     }
 }

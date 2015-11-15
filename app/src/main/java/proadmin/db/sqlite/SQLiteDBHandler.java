@@ -25,8 +25,9 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                     + TeacherTableAccessor.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + TeacherTableAccessor.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
                     + TeacherTableAccessor.TEACHER_LASTNAME + " TEXT NOT NULL, "
-                    + TeacherTableAccessor.TEACHER_EMAIL + " TEXT NOT NULL UNIQUE, "
-                    + TeacherTableAccessor.TEACHER_PASSWORD + " TEXT NOT NULL);";
+                    + TeacherTableAccessor.TEACHER_EMAIL + " TEXT NOT NULL, "
+                    + TeacherTableAccessor.TEACHER_PASSWORD + " TEXT NOT NULL, "
+                    + TeacherTableAccessor.TEACHER_DELETED + " INTEGER NOT NULL);";
 
     /**
      * Table projects

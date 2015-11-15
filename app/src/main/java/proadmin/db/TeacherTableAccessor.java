@@ -11,10 +11,13 @@ public interface TeacherTableAccessor {
     String TEACHER_LASTNAME = "teacher_lastname";
     String TEACHER_EMAIL = "teacher_email";
     String TEACHER_PASSWORD = "teacher_password";
+    String TEACHER_DELETED = "teacher_deleted";
 
     long insert(Teacher teacher);
 
     void update(Teacher teacher);
+
+    void delete(long id);
 
     Teacher select(long id);
 

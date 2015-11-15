@@ -6,8 +6,6 @@ import java.util.List;
 
 import proadmin.bean.AcademicLevel;
 import proadmin.bean.project.Project;
-import proadmin.bean.running.IndividualEvaluation;
-import proadmin.bean.running.LeadEvaluation;
 import proadmin.bean.running.Report;
 import proadmin.bean.member.Student;
 import proadmin.bean.member.Teacher;

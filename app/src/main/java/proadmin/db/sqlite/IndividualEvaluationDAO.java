@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import proadmin.bean.running.IndividualEvaluation;
-import proadmin.bean.running.Report;
 import proadmin.bean.member.Student;
 import proadmin.db.IndividualEvaluationTableAccessor;
 
@@ -20,7 +19,6 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
         //values.put(INDIVIDUALEVALUATION_ID, individualEvaluation.getId()); //autoincrement
         values.put(INDIVIDUALEVALUATION_MARK, individualEvaluation.getMark());
         values.put(STUDENTS_STUDENT_ID, individualEvaluation.getStudent().getId());
-        values.put(REPORTS_REPORT_ID, individualEvaluation.getReport().getId());
 
         return values;
     }
@@ -36,19 +34,16 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
         student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
         individualEvaluation.setStudent(student);
 
-        Report report = new Report();
-        report.setId(cursor.getLong(cursor.getColumnIndex(REPORTS_REPORT_ID)));
-        individualEvaluation.setReport(report);
-
         return individualEvaluation;
     }
 
     @Override
-    public long insert(IndividualEvaluation individualEvaluation) {
+    public long insert(IndividualEvaluation individualEvaluation, long reportId) {
         ContentValues values = getContentValues(individualEvaluation);
         values.put(INDIVIDUALEVALUATION_DELETED, false);
+        values.put(REPORTS_REPORT_ID, reportId);
 
-        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualEvaluation));
+        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, values);
     }
 
     @Override
@@ -60,8 +55,9 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
     public void deleteByReport(long reportId) {
         List<IndividualEvaluation> list = selectByReport(reportId);
 
+        ContentValues values;
         for (IndividualEvaluation individualEvaluation : list) {
-            ContentValues values = getContentValues(individualEvaluation);
+            values = getContentValues(individualEvaluation);
             values.put(INDIVIDUALEVALUATION_DELETED, true);
 
             getDB().update(INDIVIDUALEVALUATION_TABLE_NAME, values, INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(individualEvaluation.getId())});
@@ -70,12 +66,16 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
 
     @Override
     public IndividualEvaluation select(long id) {
+        return select(id, false);
+    }
+
+    public IndividualEvaluation select(long id, boolean includeDeleted) {
         IndividualEvaluation individualEvaluation = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                        + " where " + INDIVIDUALEVALUATION_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
+                        + " where " + INDIVIDUALEVALUATION_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             individualEvaluation = getCursorValues(cursor);
@@ -85,18 +85,22 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
         return individualEvaluation;
     }
 
-    private String getConditionDeleted() {
-        return " and " + INDIVIDUALEVALUATION_DELETED + " = false";
+    private String getConditionDeleted(boolean includeDeleted) {
+        return (includeDeleted) ? "" : " and " + INDIVIDUALEVALUATION_DELETED + " = 0";
     }
 
     @Override
     public List<IndividualEvaluation> selectByReport(long reportId) {
+        return selectByReport(reportId, false);
+    }
+
+    public List<IndividualEvaluation> selectByReport(long reportId, boolean includeDeleted) {
         List<IndividualEvaluation> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(reportId)});
+                        + " where " + REPORTS_REPORT_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(reportId)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

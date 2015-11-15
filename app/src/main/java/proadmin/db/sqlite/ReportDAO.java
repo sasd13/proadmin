@@ -83,12 +83,16 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
 
     @Override
     public Report select(long id) {
+        return select(id, false);
+    }
+
+    public Report select(long id, boolean includeDeleted) {
         Report report = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
+                        + " where " + REPORT_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             report = getCursorValues(cursor);
@@ -98,18 +102,22 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
         return report;
     }
 
-    private String getConditionDeleted() {
-        return " and " + REPORT_DELETED + " = false";
+    private String getConditionDeleted(boolean includeDeleted) {
+        return (includeDeleted) ? "" : " and " + REPORT_DELETED + " = 0";
     }
 
     @Override
     public List<Report> selectByTeam(long teamId) {
+        return selectByTeam(teamId, false);
+    }
+
+    public List<Report> selectByTeam(long teamId, boolean includeDeleted) {
         List<Report> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + TEAMS_TEAM_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(teamId)});
+                        + " where " + TEAMS_TEAM_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(teamId)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

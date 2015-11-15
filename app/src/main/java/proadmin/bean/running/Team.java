@@ -7,7 +7,6 @@ public class Team {
     private long id, runningYear;
     private String code;
     private Student[] students;
-    private Report[] reports;
 
     public Team() {}
 
@@ -41,13 +40,5 @@ public class Team {
 
     public void setStudents(Student[] students) {
         this.students = students;
-    }
-
-    public Report[] getReports() {
-        return this.reports;
-    }
-
-    public void setReports(Report[] reports) {
-        this.reports = reports;
     }
 }

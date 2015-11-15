@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import proadmin.bean.running.LeadEvaluation;
-import proadmin.bean.running.Report;
 import proadmin.bean.member.Student;
 import proadmin.db.LeadEvaluationTableAccessor;
 
@@ -20,7 +19,6 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         values.put(LEADEVALUATION_COMMUNICATIONMARK, leadEvaluation.getCommunicationMark());
         values.put(LEADEVALUATION_COMMUNICATIONCOMMENT, leadEvaluation.getCommunicationComment());
         values.put(STUDENTS_STUDENT_ID, leadEvaluation.getStudent().getId());
-        values.put(REPORTS_REPORT_ID, leadEvaluation.getReport().getId());
 
         return values;
     }
@@ -39,17 +37,14 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
         leadEvaluation.setStudent(student);
 
-        Report report = new Report();
-        report.setId(cursor.getLong(cursor.getColumnIndex(REPORTS_REPORT_ID)));
-        leadEvaluation.setReport(report);
-
         return leadEvaluation;
     }
 
     @Override
-    public long insert(LeadEvaluation leadEvaluation) {
+    public long insert(LeadEvaluation leadEvaluation, long reportId) {
         ContentValues values = getContentValues(leadEvaluation);
         values.put(LEADEVALUATION_DELETED, false);
+        values.put(REPORTS_REPORT_ID, reportId);
 
         return getDB().insert(LEADEVALUATION_TABLE_NAME, null, values);
     }
@@ -75,12 +70,16 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
 
     @Override
     public LeadEvaluation select(long id) {
+        return select(id, false);
+    }
+
+    public LeadEvaluation select(long id, boolean includeDeleted) {
         LeadEvaluation leadEvaluation = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + LEADEVALUATION_TABLE_NAME
-                        + " where " + LEADEVALUATION_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
+                        + " where " + LEADEVALUATION_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             leadEvaluation = getCursorValues(cursor);
@@ -90,18 +89,22 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         return leadEvaluation;
     }
 
-    private String getConditionDeleted() {
-        return " and " + LEADEVALUATION_DELETED + " = false";
+    private String getConditionDeleted(boolean includeDeleted) {
+        return (includeDeleted) ? "" : " and " + LEADEVALUATION_DELETED + " = 0";
     }
 
     @Override
     public LeadEvaluation selectByReport(long reportId) {
+        return selectByReport(reportId, false);
+    }
+
+    public LeadEvaluation selectByReport(long reportId, boolean includeDeleted) {
         LeadEvaluation leadEvaluation = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + LEADEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(reportId)});
+                        + " where " + REPORTS_REPORT_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(reportId)});
 
         if (cursor.moveToNext()) {
             leadEvaluation = getCursorValues(cursor);

@@ -62,12 +62,16 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
 
     @Override
     public Team select(long id) {
+        return select(id, false);
+    }
+
+    public Team select(long id, boolean includeDeleted) {
         Team team = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
+                        + " where " + TEAM_ID + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             team = getCursorValues(cursor);
@@ -77,18 +81,22 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
         return team;
     }
 
-    private String getConditionDeleted() {
-        return " and " + TEAM_DELETED + " = false";
+    private String getConditionDeleted(boolean includeDeleted) {
+        return (includeDeleted) ? "" : " and " + TEAM_DELETED + " = 0";
     }
 
     @Override
     public List<Team> selectByRunningYear(long runningYear) {
+        return selectByRunningYear(runningYear, false);
+    }
+
+    public List<Team> selectByRunningYear(long runningYear, boolean includeDeleted) {
         List<Team> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_RUNNINGYEAR + " = ?" + getConditionDeleted(), new String[]{String.valueOf(runningYear)});
+                        + " where " + TEAM_RUNNINGYEAR + " = ?" + getConditionDeleted(includeDeleted), new String[]{String.valueOf(runningYear)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

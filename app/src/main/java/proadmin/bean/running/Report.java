@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.bean.member.Student;
 import proadmin.bean.member.Teacher;
 import proadmin.bean.project.Project;
 
@@ -22,8 +21,6 @@ public class Report {
     public Report() {
         this.leadEvaluation = new LeadEvaluation();
         this.listIndividualEvaluations = new ArrayList<>();
-
-        this.leadEvaluation.setReport(this);
     }
 
     public long getId() {
@@ -87,23 +84,11 @@ public class Report {
     }
 
     public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        individualEvaluation.setReport(this);
-
         this.listIndividualEvaluations.add(individualEvaluation);
     }
 
     public void removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
         this.listIndividualEvaluations.remove(individualEvaluation);
-    }
-
-    public IndividualEvaluation getIndividualEvaluation(Student student) {
-        for (IndividualEvaluation individualEvaluation : this.listIndividualEvaluations) {
-            if (individualEvaluation.getStudent().getId() == student.getId()) {
-                return individualEvaluation;
-            }
-        }
-
-        return null;
     }
 
     public IndividualEvaluation[] getIndividualEvaluations() {
