@@ -1,6 +1,6 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.beans.running.Report;
+import proadmin.bean.running.Report;
 
 /**
  * Created by Samir on 11/06/2015.

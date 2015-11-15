@@ -4,14 +4,14 @@ import android.content.Context;
 
 import java.util.List;
 
-import proadmin.beans.AcademicLevel;
-import proadmin.beans.projects.Project;
-import proadmin.beans.running.IndividualEvaluation;
-import proadmin.beans.running.LeadEvaluation;
-import proadmin.beans.running.Report;
-import proadmin.beans.members.Student;
-import proadmin.beans.members.Teacher;
-import proadmin.beans.running.Team;
+import proadmin.bean.AcademicLevel;
+import proadmin.bean.project.Project;
+import proadmin.bean.running.IndividualEvaluation;
+import proadmin.bean.running.LeadEvaluation;
+import proadmin.bean.running.Report;
+import proadmin.bean.member.Student;
+import proadmin.bean.member.Teacher;
+import proadmin.bean.running.Team;
 
 public interface DataAccessor {
 
@@ -49,13 +49,9 @@ public interface DataAccessor {
 
     void insertStudent(Student student, long teamId);
 
-    void insertStudents(Student[] students, long teamId);
-
     void updateStudent(Student student);
 
     void deleteStudentFromTeam(long studentId, long teamId);
-
-    void deleteStudentsFromTeam(long teamId);
 
     Student selectStudent(long id);
 
@@ -72,26 +68,4 @@ public interface DataAccessor {
     Report selectReport(long id);
 
     List<Report> selectReportsByTeam(long teamId);
-
-    void insertLeadEvaluation(LeadEvaluation leadEvaluation);
-
-    void updateLeadEvaluation(LeadEvaluation leadEvaluation);
-
-    void deleteLeadEvaluation(long id);
-
-    LeadEvaluation selectLeadEvaluation(long id);
-
-    LeadEvaluation selectLeadEvaluationByReport(long reportId);
-
-    void insertIndividualEvaluation(IndividualEvaluation individualEvaluation);
-
-    void insertIndividualEvaluations(IndividualEvaluation[] tabIndividualEvaluations);
-
-    void updateIndividualEvaluation(IndividualEvaluation individualEvaluation);
-
-    void deleteIndividualEvaluation(long id);
-
-    IndividualEvaluation selectIndividualEvaluation(long id);
-
-    List<IndividualEvaluation> selectIndividualEvaluationsByReport(long reportId);
 }

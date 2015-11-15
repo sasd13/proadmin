@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import proadmin.constant.Extra;
-import proadmin.beans.members.Teacher;
+import proadmin.bean.member.Teacher;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;
 import proadmin.gui.color.ColorOnTouchListener;

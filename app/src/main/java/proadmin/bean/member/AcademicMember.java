@@ -1,4 +1,4 @@
-package proadmin.beans.members;
+package proadmin.bean.member;
 
 public abstract class AcademicMember {
 

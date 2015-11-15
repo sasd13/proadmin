@@ -2,8 +2,8 @@ package proadmin.db;
 
 import java.util.List;
 
-import proadmin.beans.AcademicLevel;
-import proadmin.beans.projects.Project;
+import proadmin.bean.AcademicLevel;
+import proadmin.bean.project.Project;
 
 public interface ProjectTableAccessor {
 

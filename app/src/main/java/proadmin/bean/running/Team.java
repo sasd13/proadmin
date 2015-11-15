@@ -1,6 +1,6 @@
-package proadmin.beans.running;
+package proadmin.bean.running;
 
-import proadmin.beans.members.Student;
+import proadmin.bean.member.Student;
 
 public class Team {
 

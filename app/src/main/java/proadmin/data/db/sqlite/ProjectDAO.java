@@ -3,8 +3,8 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.beans.projects.Project;
-import proadmin.beans.AcademicLevel;
+import proadmin.bean.project.Project;
+import proadmin.bean.AcademicLevel;
 
 /**
  * Created by Samir on 02/04/2015.

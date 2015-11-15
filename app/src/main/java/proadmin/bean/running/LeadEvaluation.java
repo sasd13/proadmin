@@ -1,24 +1,11 @@
-package proadmin.beans.running;
+package proadmin.bean.running;
 
-import proadmin.beans.members.Student;
+public class LeadEvaluation extends Evaluation {
 
-public class LeadEvaluation {
-
-    private long id;
     private double planningMark, communicationMark;
     private String planningComment, communicationComment;
-    private Student student;
-    private Report report;
 
-    public LeadEvaluation() {}
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    public LeadEvaluation() { super(); }
 
     public double getPlanningMark() {
         return this.planningMark;
@@ -50,21 +37,5 @@ public class LeadEvaluation {
 
     public void setCommunicationComment(String communicationComment) {
         this.communicationComment = communicationComment;
-    }
-
-    public Student getStudent() {
-        return this.student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Report getReport() {
-        return this.report;
-    }
-
-    public void setReport(Report report) {
-        this.report = report;
     }
 }

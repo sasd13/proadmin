@@ -6,7 +6,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.running.Team;
+import proadmin.bean.running.Team;
 import proadmin.db.TeamTableAccessor;
 
 public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
@@ -48,7 +48,16 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
 
     @Override
     public void delete(long id) {
-        getDB().delete(TEAM_TABLE_NAME, TEAM_ID + " = ?", new String[]{String.valueOf(id)});
+        Team team = select(id);
+
+        try {
+            ContentValues values = getContentValues(team);
+            values.put(TEAM_DELETED, true);
+
+            getDB().update(TEAM_TABLE_NAME, values, TEAM_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -58,7 +67,7 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_ID + " = ?", new String[]{String.valueOf(id)});
+                        + " where " + TEAM_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             team = getCursorValues(cursor);
@@ -68,6 +77,10 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
         return team;
     }
 
+    private String getConditionDeleted() {
+        return " and " + TEAM_DELETED + " = false";
+    }
+
     @Override
     public List<Team> selectByRunningYear(long runningYear) {
         List<Team> list = new ArrayList<>();
@@ -75,7 +88,7 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_RUNNINGYEAR + " = ?", new String[]{String.valueOf(runningYear)});
+                        + " where " + TEAM_RUNNINGYEAR + " = ?" + getConditionDeleted(), new String[]{String.valueOf(runningYear)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

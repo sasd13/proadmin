@@ -7,10 +7,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.projects.Project;
-import proadmin.beans.running.Report;
-import proadmin.beans.members.Teacher;
-import proadmin.beans.running.Team;
+import proadmin.bean.project.Project;
+import proadmin.bean.running.Report;
+import proadmin.bean.member.Teacher;
+import proadmin.bean.running.Team;
 import proadmin.db.ReportTableAccessor;
 
 public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAccessor {
@@ -69,7 +69,16 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
 
     @Override
     public void delete(long id) {
-        getDB().delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{String.valueOf(id)});
+        Report report = select(id);
+
+        try {
+            ContentValues values = getContentValues(report);
+            values.put(REPORT_DELETED, true);
+
+            getDB().update(REPORT_TABLE_NAME, values, REPORT_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -79,7 +88,7 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{String.valueOf(id)});
+                        + " where " + REPORT_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             report = getCursorValues(cursor);
@@ -89,6 +98,10 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
         return report;
     }
 
+    private String getConditionDeleted() {
+        return " and " + REPORT_DELETED + " = false";
+    }
+
     @Override
     public List<Report> selectByTeam(long teamId) {
         List<Report> list = new ArrayList<>();
@@ -96,7 +109,7 @@ public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAcce
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + REPORT_TABLE_NAME
-                        + " where " + TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(teamId)});
+                        + " where " + TEAMS_TEAM_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(teamId)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

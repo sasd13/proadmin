@@ -3,9 +3,9 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.beans.running.Team;
-import proadmin.beans.projects.Project;
-import proadmin.beans.members.Teacher;
+import proadmin.bean.running.Team;
+import proadmin.bean.project.Project;
+import proadmin.bean.member.Teacher;
 import proadmin.content.Year;
 
 /**

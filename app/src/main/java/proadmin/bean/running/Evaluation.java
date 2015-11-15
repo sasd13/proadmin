@@ -1,15 +1,14 @@
-package proadmin.beans.running;
+package proadmin.bean.running;
 
-import proadmin.beans.members.Student;
+import proadmin.bean.member.Student;
 
-public class IndividualEvaluation {
+public abstract class Evaluation {
 
     private long id;
-    private double mark;
     private Student student;
     private Report report;
 
-    public IndividualEvaluation() {}
+    protected Evaluation() {}
 
     public long getId() {
         return this.id;
@@ -17,14 +16,6 @@ public class IndividualEvaluation {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public double getMark() {
-        return this.mark;
-    }
-
-    public void setMark(double mark) {
-        this.mark = mark;
     }
 
     public Student getStudent() {

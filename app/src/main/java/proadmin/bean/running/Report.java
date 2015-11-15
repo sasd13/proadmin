@@ -1,12 +1,12 @@
-package proadmin.beans.running;
+package proadmin.bean.running;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.members.Student;
-import proadmin.beans.members.Teacher;
-import proadmin.beans.projects.Project;
+import proadmin.bean.member.Student;
+import proadmin.bean.member.Teacher;
+import proadmin.bean.project.Project;
 
 public class Report {
 

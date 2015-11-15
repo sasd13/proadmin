@@ -1,4 +1,4 @@
-package proadmin.beans;
+package proadmin.bean;
 
 public enum AcademicLevel {
     YEAR1,

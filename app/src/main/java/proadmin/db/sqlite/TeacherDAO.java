@@ -3,7 +3,7 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.beans.members.Teacher;
+import proadmin.bean.member.Teacher;
 import proadmin.db.TeacherTableAccessor;
 
 public class TeacherDAO extends SQLiteTableDAO<Teacher> implements TeacherTableAccessor {

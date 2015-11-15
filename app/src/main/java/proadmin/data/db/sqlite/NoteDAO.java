@@ -3,7 +3,7 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.beans.running.IndividualEvaluation;
+import proadmin.bean.running.IndividualEvaluation;
 
 /**
  * Created by Samir on 02/04/2015.

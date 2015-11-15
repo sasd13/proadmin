@@ -13,7 +13,5 @@ public interface StudentTeamTableAccessor {
 
     void deleteStudentFromTeam(long studentId, long teamId);
 
-    void deleteStudentsFromTeam(long teamId);
-
     List<Long> selectByTeam(long teamId);
 }

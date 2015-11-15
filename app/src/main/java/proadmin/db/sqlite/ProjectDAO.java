@@ -6,8 +6,8 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.AcademicLevel;
-import proadmin.beans.projects.Project;
+import proadmin.bean.AcademicLevel;
+import proadmin.bean.project.Project;
 import proadmin.db.ProjectTableAccessor;
 
 public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableAccessor {
@@ -53,7 +53,16 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
 
     @Override
     public void delete(long id) {
-        getDB().delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
+        Project project = select(id);
+
+        try {
+            ContentValues values = getContentValues(project);
+            values.put(PROJECT_DELETED, true);
+
+            getDB().update(PROJECT_TABLE_NAME, values, PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
+                        + " where " + PROJECT_ID + " = ?" + getConditionDeleted(), new String[]{String.valueOf(id)});
 
         if (cursor.moveToNext()) {
             project = getCursorValues(cursor);
@@ -73,6 +82,10 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
         return project;
     }
 
+    private String getConditionDeleted() {
+        return " and " + PROJECT_DELETED + " = false";
+    }
+
     @Override
     public List<Project> selectByCode(String code) {
         List<Project> list = new ArrayList<>();
@@ -80,7 +93,7 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_CODE + " = ?", new String[]{String.valueOf(code)});
+                        + " where " + PROJECT_CODE + " = ?" + getConditionDeleted(), new String[]{String.valueOf(code)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
@@ -97,7 +110,7 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ACADEMICLEVEL + " = ?", new String[]{String.valueOf(academicLevel)});
+                        + " where " + PROJECT_ACADEMICLEVEL + " = ?" + getConditionDeleted(), new String[]{String.valueOf(academicLevel)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

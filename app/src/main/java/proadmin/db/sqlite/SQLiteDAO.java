@@ -6,14 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.AcademicLevel;
-import proadmin.beans.projects.Project;
-import proadmin.beans.running.IndividualEvaluation;
-import proadmin.beans.running.LeadEvaluation;
-import proadmin.beans.running.Report;
-import proadmin.beans.members.Student;
-import proadmin.beans.members.Teacher;
-import proadmin.beans.running.Team;
+import proadmin.bean.AcademicLevel;
+import proadmin.bean.project.Project;
+import proadmin.bean.running.IndividualEvaluation;
+import proadmin.bean.running.LeadEvaluation;
+import proadmin.bean.running.Report;
+import proadmin.bean.member.Student;
+import proadmin.bean.member.Teacher;
+import proadmin.bean.running.Team;
 import proadmin.db.DataAccessor;
 
 public class SQLiteDAO implements DataAccessor {
@@ -252,26 +252,11 @@ public class SQLiteDAO implements DataAccessor {
     public void insertStudent(Student student, long teamId) {
         open();
 
-        executeInsertStudent(student, teamId);
-
-        close();
-    }
-
-    private void executeInsertStudent(Student student, long teamId) {
         long id = studentDAO.insert(student);
         if (id > 0) {
             student.setId(id);
 
             studentTeamDAO.insertStudentInTeam(id, teamId);
-        }
-    }
-
-    @Override
-    public void insertStudents(Student[] students, long teamId) {
-        open();
-
-        for (Student student : students) {
-            executeInsertStudent(student, teamId);
         }
 
         close();
@@ -291,15 +276,6 @@ public class SQLiteDAO implements DataAccessor {
         open();
 
         studentTeamDAO.deleteStudentFromTeam(studentId, teamId);
-
-        close();
-    }
-
-    @Override
-    public void deleteStudentsFromTeam(long teamId) {
-        open();
-
-        studentTeamDAO.deleteStudentsFromTeam(teamId);
 
         close();
     }
@@ -338,8 +314,10 @@ public class SQLiteDAO implements DataAccessor {
 
         List<Long> listStudentIds = studentTeamDAO.selectByTeam(teamId);
         for (long studentId : listStudentIds) {
-            list.add(selectStudent(studentId));
+            list.add(studentDAO.select(studentId));
         }
+
+        close();
 
         return list;
     }
@@ -351,6 +329,9 @@ public class SQLiteDAO implements DataAccessor {
         long id = reportDAO.insert(report);
         if (id > 0) {
             report.setId(id);
+
+            insertLeadEvaluation(report.getLeadEvaluation());
+            insertIndividualEvaluations(report.getIndividualEvaluations());
         }
 
         close();
@@ -362,12 +343,18 @@ public class SQLiteDAO implements DataAccessor {
 
         reportDAO.update(report);
 
+        updateLeadEvaluation(report.getLeadEvaluation());
+        updateIndividualEvaluations(report.getIndividualEvaluations());
+
         close();
     }
 
     @Override
     public void deleteReport(long id) {
         open();
+
+        deleteLeadEvaluation(id);
+        deleteIndividualEvaluations(id);
 
         reportDAO.delete(id);
 
@@ -381,6 +368,26 @@ public class SQLiteDAO implements DataAccessor {
         open();
 
         report = reportDAO.select(id);
+
+        try {
+            Teacher teacher = teacherDAO.select(report.getTeacher().getId());
+            report.setTeacher(teacher);
+
+            Project project = projectDAO.select(report.getProject().getId());
+            report.setProject(project);
+
+            Team team = teamDAO.select(report.getTeam().getId());
+            report.setTeam(team);
+
+            bindLeadEvaluation(id, report.getLeadEvaluation());
+
+            List<IndividualEvaluation> list = selectIndividualEvaluationsByReport(id);
+            for (IndividualEvaluation individualEvaluation : list) {
+                report.addIndividualEvaluation(individualEvaluation);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         close();
 
@@ -400,129 +407,62 @@ public class SQLiteDAO implements DataAccessor {
         return list;
     }
 
-    @Override
-    public void insertLeadEvaluation(LeadEvaluation leadEvaluation) {
-        open();
-
+    private void insertLeadEvaluation(LeadEvaluation leadEvaluation) {
         long id = leadEvaluationDAO.insert(leadEvaluation);
         if (id > 0) {
             leadEvaluation.setId(id);
         }
-
-        close();
     }
 
-    @Override
-    public void updateLeadEvaluation(LeadEvaluation leadEvaluation) {
-        open();
-
+    private void updateLeadEvaluation(LeadEvaluation leadEvaluation) {
         leadEvaluationDAO.update(leadEvaluation);
-
-        close();
     }
 
-    @Override
-    public void deleteLeadEvaluation(long id) {
-        open();
-
-        leadEvaluationDAO.delete(id);
-
-        close();
+    private void deleteLeadEvaluation(long reportId) {
+        leadEvaluationDAO.deleteByReport(reportId);
     }
 
-    @Override
-    public LeadEvaluation selectLeadEvaluation(long id) {
-        LeadEvaluation leadEvaluation;
+    private void insertIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
+        long id;
 
-        open();
-
-        leadEvaluation = leadEvaluationDAO.select(id);
-
-        close();
-
-        return leadEvaluation;
-    }
-
-    @Override
-    public LeadEvaluation selectLeadEvaluationByReport(long reportId) {
-        LeadEvaluation leadEvaluation;
-
-        open();
-
-        leadEvaluation = leadEvaluationDAO.selectByReport(reportId);
-
-        close();
-
-        return leadEvaluation;
-    }
-
-    @Override
-    public void insertIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        open();
-
-        executeInsertIndividualEvaluation(individualEvaluation);
-
-        close();
-    }
-
-    private void executeInsertIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        long id = individualEvaluationDAO.insert(individualEvaluation);
-        if (id > 0) {
-            individualEvaluation.setId(id);
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            id = individualEvaluationDAO.insert(individualEvaluation);
+            if (id > 0) {
+                individualEvaluation.setId(id);
+            }
         }
     }
 
-    @Override
-    public void insertIndividualEvaluations(IndividualEvaluation[] tabIndividualEvaluations) {
-        open();
-
-        for (IndividualEvaluation individualEvaluation : tabIndividualEvaluations) {
-            executeInsertIndividualEvaluation(individualEvaluation);
+    private void updateIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            individualEvaluationDAO.update(individualEvaluation);
         }
-
-        close();
     }
 
-    @Override
-    public void updateIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        open();
-
-        individualEvaluationDAO.update(individualEvaluation);
-
-        close();
+    private void deleteIndividualEvaluations(long reportId) {
+        individualEvaluationDAO.deleteByReport(reportId);
     }
 
-    @Override
-    public void deleteIndividualEvaluation(long id) {
-        open();
+    private void bindLeadEvaluation(long reportId, LeadEvaluation leadEvaluationToBind) {
+        LeadEvaluation leadEvaluation = leadEvaluationDAO.selectByReport(reportId);
 
-        individualEvaluationDAO.delete(id);
-
-        close();
+        leadEvaluationToBind.setId(leadEvaluation.getId());
+        leadEvaluationToBind.setPlanningMark(leadEvaluation.getPlanningMark());
+        leadEvaluationToBind.setPlanningComment(leadEvaluation.getPlanningComment());
+        leadEvaluationToBind.setCommunicationMark(leadEvaluation.getCommunicationMark());
+        leadEvaluationToBind.setCommunicationComment(leadEvaluation.getCommunicationComment());
+        leadEvaluationToBind.setStudent(studentDAO.select(leadEvaluation.getStudent().getId()));
     }
 
-    @Override
-    public IndividualEvaluation selectIndividualEvaluation(long id) {
-        IndividualEvaluation individualEvaluation;
+    private List<IndividualEvaluation> selectIndividualEvaluationsByReport(long reportId) {
+        List<IndividualEvaluation> list = individualEvaluationDAO.selectByReport(reportId);
+        for (IndividualEvaluation individualEvaluation : list) {
+            Student student = individualEvaluation.getStudent();
+            individualEvaluation.setStudent(studentDAO.select(student.getId()));
 
-        open();
-
-        individualEvaluation = individualEvaluationDAO.select(id);
-
-        close();
-
-        return individualEvaluation;
-    }
-
-    @Override
-    public List<IndividualEvaluation> selectIndividualEvaluationsByReport(long reportId) {
-        List<IndividualEvaluation> list;
-
-        open();
-
-        list = individualEvaluationDAO.selectByReport(reportId);
-
-        close();
+            Report report = individualEvaluation.getReport();
+            individualEvaluation.setReport(reportDAO.select(report.getId()));
+        }
 
         return list;
     }

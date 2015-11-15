@@ -35,11 +35,6 @@ public class StudentTeamDAO implements StudentTeamTableAccessor {
     }
 
     @Override
-    public void deleteTeam(long teamId) {
-        db.delete(STUDENTTEAM_TABLE_NAME, TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(teamId)});
-    }
-
-    @Override
     public List<Long> selectByTeam(long teamId) {
         List<Long> list = new ArrayList<>();
 

@@ -1,6 +1,6 @@
 package proadmin.db;
 
-import proadmin.beans.running.LeadEvaluation;
+import proadmin.bean.running.LeadEvaluation;
 
 public interface LeadEvaluationTableAccessor {
 
@@ -11,6 +11,7 @@ public interface LeadEvaluationTableAccessor {
     String LEADEVALUATION_PLANNINGCOMMENT = "leadevaluation_planningcomment";
     String LEADEVALUATION_COMMUNICATIONMARK = "leadevaluation_communicationmark";
     String LEADEVALUATION_COMMUNICATIONCOMMENT = "leadevaluation_communicationcomment";
+    String LEADEVALUATION_DELETED = "leadevaluation_deleted";
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
@@ -18,7 +19,7 @@ public interface LeadEvaluationTableAccessor {
 
     void update(LeadEvaluation leadEvaluation);
 
-    void delete(long id);
+    void deleteByReport(long reportId);
 
     LeadEvaluation select(long id);
 
