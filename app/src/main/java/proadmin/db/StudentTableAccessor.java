@@ -1,6 +1,6 @@
 package proadmin.db;
 
-import proadmin.beans.Student;
+import proadmin.beans.members.Student;
 
 public interface StudentTableAccessor {
 
@@ -8,10 +8,10 @@ public interface StudentTableAccessor {
 
     String STUDENT_ID = "student_id";
     String STUDENT_NUMBER = "student_number";
+    String STUDENT_ACADEMICLEVEL = "student_academiclevel";
     String STUDENT_FIRSTNAME = "student_firstname";
     String STUDENT_LASTNAME = "student_lastname";
     String STUDENT_EMAIL = "student_email";
-    String STUDENT_ACADEMICLEVEL = "student_academiclevel";
 
     long insert(Student student);
 

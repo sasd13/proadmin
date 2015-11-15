@@ -60,10 +60,10 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             "CREATE TABLE " + StudentTableAccessor.STUDENT_TABLE_NAME + " ("
                     + StudentTableAccessor.STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + StudentTableAccessor.STUDENT_NUMBER + " TEXT NOT NULL UNIQUE, "
+                    + StudentTableAccessor.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL, "
                     + StudentTableAccessor.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
                     + StudentTableAccessor.STUDENT_LASTNAME + " TEXT NOT NULL, "
-                    + StudentTableAccessor.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE, "
-                    + StudentTableAccessor.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL);";
+                    + StudentTableAccessor.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE);";
 
     /**
      * Table studentteams

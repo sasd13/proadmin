@@ -1,4 +1,4 @@
-package proadmin.beans;
+package proadmin.beans.members;
 
 public class Teacher extends AcademicMember {
 

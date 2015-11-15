@@ -2,10 +2,7 @@ package proadmin.db;
 
 import java.util.List;
 
-import proadmin.beans.Project;
-import proadmin.beans.Report;
-import proadmin.beans.Teacher;
-import proadmin.beans.Team;
+import proadmin.beans.running.Report;
 
 public interface ReportTableAccessor {
 

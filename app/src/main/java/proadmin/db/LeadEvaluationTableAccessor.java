@@ -1,10 +1,6 @@
 package proadmin.db;
 
-import java.util.List;
-
-import proadmin.beans.LeadEvaluation;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
+import proadmin.beans.running.LeadEvaluation;
 
 public interface LeadEvaluationTableAccessor {
 
@@ -18,11 +14,13 @@ public interface LeadEvaluationTableAccessor {
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
-    long insert(LeadEvaluation leadevaluation);
+    long insert(LeadEvaluation leadEvaluation);
 
-    void update(LeadEvaluation leadevaluation);
+    void update(LeadEvaluation leadEvaluation);
+
+    void delete(long id);
 
     LeadEvaluation select(long id);
 
-    List<LeadEvaluation> selectByReport(long reportId);
+    LeadEvaluation selectByReport(long reportId);
 }

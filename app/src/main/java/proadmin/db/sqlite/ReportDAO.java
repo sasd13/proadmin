@@ -7,10 +7,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.Project;
-import proadmin.beans.Report;
-import proadmin.beans.Teacher;
-import proadmin.beans.Team;
+import proadmin.beans.projects.Project;
+import proadmin.beans.running.Report;
+import proadmin.beans.members.Teacher;
+import proadmin.beans.running.Team;
 import proadmin.db.ReportTableAccessor;
 
 public class ReportDAO extends SQLiteTableDAO<Report> implements ReportTableAccessor {

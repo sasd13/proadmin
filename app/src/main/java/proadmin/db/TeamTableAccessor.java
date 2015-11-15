@@ -2,7 +2,7 @@ package proadmin.db;
 
 import java.util.List;
 
-import proadmin.beans.Team;
+import proadmin.beans.running.Team;
 
 public interface TeamTableAccessor {
 

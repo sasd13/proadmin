@@ -3,12 +3,9 @@ package proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import proadmin.beans.LeadEvaluation;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
+import proadmin.beans.running.LeadEvaluation;
+import proadmin.beans.running.Report;
+import proadmin.beans.members.Student;
 import proadmin.db.LeadEvaluationTableAccessor;
 
 public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements LeadEvaluationTableAccessor {
@@ -35,7 +32,7 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         leadEvaluation.setId(cursor.getLong(cursor.getColumnIndex(LEADEVALUATION_ID)));
         leadEvaluation.setPlanningMark(cursor.getDouble(cursor.getColumnIndex(LEADEVALUATION_PLANNINGMARK)));
         leadEvaluation.setPlanningComment(cursor.getString(cursor.getColumnIndex(LEADEVALUATION_PLANNINGCOMMENT)));
-        leadEvaluation.setCommunicationMark(cursor.getLong(cursor.getColumnIndex(LEADEVALUATION_PLANNINGMARK)));
+        leadEvaluation.setCommunicationMark(cursor.getDouble(cursor.getColumnIndex(LEADEVALUATION_COMMUNICATIONMARK)));
         leadEvaluation.setCommunicationComment(cursor.getString(cursor.getColumnIndex(LEADEVALUATION_COMMUNICATIONCOMMENT)));
 
         Student student = new Student();
@@ -50,13 +47,18 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
     }
 
     @Override
-    public long insert(LeadEvaluation leadevaluation) {
-        return getDB().insert(LEADEVALUATION_TABLE_NAME, null, getContentValues(leadevaluation));
+    public long insert(LeadEvaluation leadEvaluation) {
+        return getDB().insert(LEADEVALUATION_TABLE_NAME, null, getContentValues(leadEvaluation));
     }
 
     @Override
-    public void update(LeadEvaluation leadevaluation) {
-        getDB().update(LEADEVALUATION_TABLE_NAME, getContentValues(leadevaluation), LEADEVALUATION_ID + " = ?", new String[]{String.valueOf(leadevaluation.getId())});
+    public void update(LeadEvaluation leadEvaluation) {
+        getDB().update(LEADEVALUATION_TABLE_NAME, getContentValues(leadEvaluation), LEADEVALUATION_ID + " = ?", new String[]{String.valueOf(leadEvaluation.getId())});
+    }
+
+    @Override
+    public void delete(long id) {
+        getDB().delete(LEADEVALUATION_TABLE_NAME, LEADEVALUATION_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     @Override
@@ -77,19 +79,19 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
     }
 
     @Override
-    public List<LeadEvaluation> selectByReport(long reportId) {
-        List<LeadEvaluation> list = new ArrayList<>();
+    public LeadEvaluation selectByReport(long reportId) {
+        LeadEvaluation leadEvaluation = null;
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + LEADEVALUATION_TABLE_NAME
                         + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
+        if (cursor.moveToNext()) {
+            leadEvaluation = getCursorValues(cursor);
         }
         cursor.close();
 
-        return list;
+        return leadEvaluation;
     }
 }

@@ -3,7 +3,7 @@ package proadmin.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import proadmin.beans.Teacher;
+import proadmin.beans.members.Teacher;
 import proadmin.db.DataAccessor;
 import proadmin.db.DataAccessorFactory;
 

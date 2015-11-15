@@ -1,4 +1,6 @@
-package proadmin.beans;
+package proadmin.beans.members;
+
+import proadmin.beans.AcademicLevel;
 
 public class Student extends AcademicMember {
 

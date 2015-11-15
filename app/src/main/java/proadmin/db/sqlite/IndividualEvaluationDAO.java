@@ -6,9 +6,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import proadmin.beans.IndividualEvaluation;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
+import proadmin.beans.running.IndividualEvaluation;
+import proadmin.beans.running.Report;
+import proadmin.beans.members.Student;
 import proadmin.db.IndividualEvaluationTableAccessor;
 
 public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation> implements IndividualEvaluationTableAccessor {
@@ -44,13 +44,18 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
     }
 
     @Override
-    public long insert(IndividualEvaluation individualevaluation) {
-        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualevaluation));
+    public long insert(IndividualEvaluation individualEvaluation) {
+        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualEvaluation));
     }
 
     @Override
-    public void update(IndividualEvaluation individualevaluation) {
-        getDB().update(INDIVIDUALEVALUATION_TABLE_NAME, getContentValues(individualevaluation), INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(individualevaluation.getId())});
+    public void update(IndividualEvaluation individualEvaluation) {
+        getDB().update(INDIVIDUALEVALUATION_TABLE_NAME, getContentValues(individualEvaluation), INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(individualEvaluation.getId())});
+    }
+
+    @Override
+    public void delete(long id) {
+        getDB().delete(INDIVIDUALEVALUATION_TABLE_NAME, INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     @Override

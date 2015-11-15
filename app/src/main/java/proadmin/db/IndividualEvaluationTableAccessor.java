@@ -2,9 +2,7 @@ package proadmin.db;
 
 import java.util.List;
 
-import proadmin.beans.IndividualEvaluation;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
+import proadmin.beans.running.IndividualEvaluation;
 
 public interface IndividualEvaluationTableAccessor {
 
@@ -15,9 +13,11 @@ public interface IndividualEvaluationTableAccessor {
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
-    long insert(IndividualEvaluation individualevaluation);
+    long insert(IndividualEvaluation individualEvaluation);
 
-    void update(IndividualEvaluation individualevaluation);
+    void update(IndividualEvaluation individualEvaluation);
+
+    void delete(long id);
 
     IndividualEvaluation select(long id);
 

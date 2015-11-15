@@ -9,7 +9,7 @@ public interface StudentTeamTableAccessor {
     String TEAMS_TEAM_ID = "teams_team_id";
     String STUDENTS_STUDENT_ID = "students_student_id";
 
-    void insertStudentInTeam(long studentId, long teamId);
+    long insertStudentInTeam(long studentId, long teamId);
 
     void deleteStudentFromTeam(long studentId, long teamId);
 

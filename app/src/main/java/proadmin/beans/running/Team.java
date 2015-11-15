@@ -1,13 +1,13 @@
-package proadmin.beans;
+package proadmin.beans.running;
 
-import java.util.List;
+import proadmin.beans.members.Student;
 
 public class Team {
 
     private long id, runningYear;
     private String code;
-    private List<Student> listStudents;
-    private List<Report> listReports;
+    private Student[] students;
+    private Report[] reports;
 
     public Team() {}
 
@@ -35,19 +35,19 @@ public class Team {
         this.code = code;
     }
 
-    public List<Student> getListStudents() {
-        return this.listStudents;
+    public Student[] getStudents() {
+        return this.students;
     }
 
-    public void setListStudents(List<Student> listStudents) {
-        this.listStudents = listStudents;
+    public void setStudents(Student[] students) {
+        this.students = students;
     }
 
-    public List<Report> getListReports() {
-        return this.listReports;
+    public Report[] getReports() {
+        return this.reports;
     }
 
-    public void setListReports(List<Report> listReports) {
-        this.listReports = listReports;
+    public void setReports(Report[] reports) {
+        this.reports = reports;
     }
 }

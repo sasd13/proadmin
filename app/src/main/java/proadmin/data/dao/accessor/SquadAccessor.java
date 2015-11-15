@@ -1,6 +1,6 @@
 package proadmin.data.dao.accessor;
 
-import proadmin.beans.Team;
+import proadmin.beans.running.Team;
 import proadmin.content.Year;
 
 /**

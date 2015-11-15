@@ -1,6 +1,6 @@
 package proadmin.db;
 
-import proadmin.beans.Teacher;
+import proadmin.beans.members.Teacher;
 
 public interface TeacherTableAccessor {
 

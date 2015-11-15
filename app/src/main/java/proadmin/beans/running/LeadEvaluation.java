@@ -1,4 +1,6 @@
-package proadmin.beans;
+package proadmin.beans.running;
+
+import proadmin.beans.members.Student;
 
 public class LeadEvaluation {
 

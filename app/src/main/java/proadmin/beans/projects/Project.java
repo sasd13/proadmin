@@ -1,4 +1,6 @@
-package proadmin.beans;
+package proadmin.beans.projects;
+
+import proadmin.beans.AcademicLevel;
 
 public class Project {
 

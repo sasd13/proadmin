@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import proadmin.constant.Extra;
-import proadmin.beans.Team;
+import proadmin.beans.running.Team;
 import proadmin.content.Year;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;

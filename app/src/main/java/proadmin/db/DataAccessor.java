@@ -4,16 +4,16 @@ import android.content.Context;
 
 import java.util.List;
 
-import proadmin.beans.LeadEvaluation;
-import proadmin.beans.Project;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
-import proadmin.beans.Teacher;
-import proadmin.beans.Team;
+import proadmin.beans.AcademicLevel;
+import proadmin.beans.projects.Project;
+import proadmin.beans.running.IndividualEvaluation;
+import proadmin.beans.running.LeadEvaluation;
+import proadmin.beans.running.Report;
+import proadmin.beans.members.Student;
+import proadmin.beans.members.Teacher;
+import proadmin.beans.running.Team;
 
 public interface DataAccessor {
-
-    String getDBType();
 
     void init(Context context);
 
@@ -29,43 +29,65 @@ public interface DataAccessor {
 
     void updateProject(Project project);
 
-    void deleteProject(Project project);
+    void deleteProject(long id);
 
     Project selectProject(long id);
 
     List<Project> selectProjectsByCode(String code);
 
-    List<Project> selectProjectsByAcademicLevel(String academicLevel);
+    List<Project> selectProjectsByAcademicLevel(AcademicLevel academicLevel);
 
     void insertTeam(Team team);
 
     void updateTeam(Team team);
 
-    void deleteTeam(Team team);
+    void deleteTeam(long id);
 
     Team selectTeam(long id);
 
     List<Team> selectTeamsByRunningYear(long runningYear);
 
-    void insertStudent(Student student, Team team);
+    void insertStudent(Student student, long teamId);
 
     void updateStudent(Student student);
 
-    void deleteStudentFromTeam(Student student, Team team);
+    void deleteStudentFromTeam(long studentId, long teamId);
 
     Student selectStudent(long id);
 
     Student selectStudentByNumber(String number);
 
-    List<Student> selectStudentsByTeam(Team team);
+    List<Student> selectStudentsByTeam(long teamId);
 
     void insertReport(Report report);
 
     void updateReport(Report report);
 
-    void deleteReport(Report report);
+    void deleteReport(long id);
 
     Report selectReport(long id);
 
-    List<Report> selectReportsByTeam(Team team);
+    List<Report> selectReportsByTeam(long teamId);
+
+    void insertLeadEvaluation(LeadEvaluation leadEvaluation);
+
+    void updateLeadEvaluation(LeadEvaluation leadEvaluation);
+
+    void deleteLeadEvaluation(long id);
+
+    LeadEvaluation selectLeadEvaluation(long id);
+
+    LeadEvaluation selectLeadEvaluationByReport(long reportId);
+
+    void insertIndividualEvaluation(IndividualEvaluation individualEvaluation);
+
+    void insertIndividualEvaluations(IndividualEvaluation[] tabIndividualEvaluations);
+
+    void updateIndividualEvaluation(IndividualEvaluation individualEvaluation);
+
+    void deleteIndividualEvaluation(long id);
+
+    IndividualEvaluation selectIndividualEvaluation(long id);
+
+    List<IndividualEvaluation> selectIndividualEvaluationsByReport(long reportId);
 }

@@ -3,11 +3,11 @@ package proadmin.data.db.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 
-import proadmin.beans.Team;
-import proadmin.beans.Project;
-import proadmin.beans.Report;
-import proadmin.beans.Student;
-import proadmin.beans.Teacher;
+import proadmin.beans.running.Team;
+import proadmin.beans.projects.Project;
+import proadmin.beans.running.Report;
+import proadmin.beans.members.Student;
+import proadmin.beans.members.Teacher;
 import proadmin.content.Year;
 import proadmin.data.dao.accessor.DataAccessor;
 

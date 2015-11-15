@@ -16,9 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import proadmin.constant.Extra;
-import proadmin.beans.Project;
-import proadmin.beans.Team;
-import proadmin.beans.Teacher;
+import proadmin.beans.projects.Project;
+import proadmin.beans.running.Team;
+import proadmin.beans.members.Teacher;
 import proadmin.content.Year;
 import proadmin.data.dao.DataAccessorManager;
 import proadmin.data.dao.accessor.DataAccessor;

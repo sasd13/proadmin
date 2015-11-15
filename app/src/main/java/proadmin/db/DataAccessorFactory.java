@@ -7,14 +7,10 @@ public class DataAccessorFactory {
     private DataAccessorFactory() {}
 
     public static DataAccessor get() {
-        return get("SQLITE");
+        return get(SQLiteDAO.class);
     }
 
-    public static DataAccessor get(String dbType) {
-        if ("SQLITE".equalsIgnoreCase(dbType)) {
-            return SQLiteDAO.getInstance();
-        }
-
-        return null;
+    public static DataAccessor get(Class daoClass) {
+        return SQLiteDAO.getInstance();
     }
 }

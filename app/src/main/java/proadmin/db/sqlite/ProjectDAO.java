@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import proadmin.beans.AcademicLevel;
-import proadmin.beans.Project;
+import proadmin.beans.projects.Project;
 import proadmin.db.ProjectTableAccessor;
 
 public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableAccessor {
@@ -91,7 +91,7 @@ public class ProjectDAO extends SQLiteTableDAO<Project> implements ProjectTableA
     }
 
     @Override
-    public List<Project> selectByAcademicLevel(String academicLevel) {
+    public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
         List<Project> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(

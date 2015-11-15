@@ -1,8 +1,12 @@
-package proadmin.beans;
+package proadmin.beans.running;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import proadmin.beans.members.Student;
+import proadmin.beans.members.Teacher;
+import proadmin.beans.projects.Project;
 
 public class Report {
 
@@ -18,6 +22,8 @@ public class Report {
     public Report() {
         this.leadEvaluation = new LeadEvaluation();
         this.listIndividualEvaluations = new ArrayList<>();
+
+        this.leadEvaluation.setReport(this);
     }
 
     public long getId() {
@@ -81,6 +87,8 @@ public class Report {
     }
 
     public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
+        individualEvaluation.setReport(this);
+
         this.listIndividualEvaluations.add(individualEvaluation);
     }
 
@@ -99,6 +107,6 @@ public class Report {
     }
 
     public IndividualEvaluation[] getIndividualEvaluations() {
-        return this.listIndividualEvaluations.toArray(new IndividualEvaluation[0]);
+        return this.listIndividualEvaluations.toArray(new IndividualEvaluation[this.listIndividualEvaluations.size()]);
     }
 }

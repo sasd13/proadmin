@@ -3,7 +3,7 @@ package proadmin.data.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadmin.beans.Project;
+import proadmin.beans.projects.Project;
 import proadmin.beans.AcademicLevel;
 
 /**

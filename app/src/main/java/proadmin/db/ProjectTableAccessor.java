@@ -2,7 +2,8 @@ package proadmin.db;
 
 import java.util.List;
 
-import proadmin.beans.Project;
+import proadmin.beans.AcademicLevel;
+import proadmin.beans.projects.Project;
 
 public interface ProjectTableAccessor {
 
@@ -25,5 +26,5 @@ public interface ProjectTableAccessor {
 
     List<Project> selectByCode(String code);
 
-    List<Project> selectByAcademicLevel(String academicLevel);
+    List<Project> selectByAcademicLevel(AcademicLevel academicLevel);
 }
