@@ -252,9 +252,26 @@ public class SQLiteDAO implements DataAccessor {
     public void insertStudent(Student student, long teamId) {
         open();
 
+        executeInsertStudent(student, teamId);
+
+        close();
+    }
+
+    private void executeInsertStudent(Student student, long teamId) {
         long id = studentDAO.insert(student);
         if (id > 0) {
             student.setId(id);
+
+            studentTeamDAO.insertStudentInTeam(id, teamId);
+        }
+    }
+
+    @Override
+    public void insertStudents(Student[] students, long teamId) {
+        open();
+
+        for (Student student : students) {
+            executeInsertStudent(student, teamId);
         }
 
         close();
@@ -274,6 +291,15 @@ public class SQLiteDAO implements DataAccessor {
         open();
 
         studentTeamDAO.deleteStudentFromTeam(studentId, teamId);
+
+        close();
+    }
+
+    @Override
+    public void deleteStudentsFromTeam(long teamId) {
+        open();
+
+        studentTeamDAO.deleteStudentsFromTeam(teamId);
 
         close();
     }

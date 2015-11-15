@@ -49,9 +49,13 @@ public interface DataAccessor {
 
     void insertStudent(Student student, long teamId);
 
+    void insertStudents(Student[] students, long teamId);
+
     void updateStudent(Student student);
 
     void deleteStudentFromTeam(long studentId, long teamId);
+
+    void deleteStudentsFromTeam(long teamId);
 
     Student selectStudent(long id);
 
