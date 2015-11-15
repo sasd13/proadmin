@@ -6,6 +6,7 @@ public class LeadEvaluation {
     private double planningMark, communicationMark;
     private String planningComment, communicationComment;
     private Student student;
+    private Report report;
 
     public LeadEvaluation() {}
 
@@ -55,5 +56,13 @@ public class LeadEvaluation {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Report getReport() {
+        return this.report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

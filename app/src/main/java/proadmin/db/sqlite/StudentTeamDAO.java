@@ -17,22 +17,22 @@ public class StudentTeamDAO implements StudentTeamTableAccessor {
     public void setDB(SQLiteDatabase db) { this.db = db; }
 
     @Override
-    public void insertStudentInTeam(Student student, Team team) {
+    public void insertStudentInTeam(long studentId, long teamId) {
 
     }
 
     @Override
-    public void deleteStudentFromTeam(Student student, Team team) {
+    public void deleteStudentFromTeam(long studentId, long teamId) {
 
     }
 
     @Override
-    public void deleteTeam(Team team) {
+    public void deleteTeam(long teamId) {
 
     }
 
     @Override
-    public List<Student> selectByTeam(Team team) {
+    public List<Long> selectByTeam(long teamId) {
         return null;
     }
 }

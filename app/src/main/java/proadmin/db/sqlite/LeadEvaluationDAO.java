@@ -23,6 +23,7 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         values.put(LEADEVALUATION_COMMUNICATIONMARK, leadEvaluation.getCommunicationMark());
         values.put(LEADEVALUATION_COMMUNICATIONCOMMENT, leadEvaluation.getCommunicationComment());
         values.put(STUDENTS_STUDENT_ID, leadEvaluation.getStudent().getId());
+        values.put(REPORTS_REPORT_ID, leadEvaluation.getReport().getId());
 
         return values;
     }
@@ -41,15 +42,16 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
         student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
         leadEvaluation.setStudent(student);
 
+        Report report = new Report();
+        report.setId(cursor.getLong(cursor.getColumnIndex(REPORTS_REPORT_ID)));
+        leadEvaluation.setReport(report);
+
         return leadEvaluation;
     }
 
     @Override
-    public long insert(LeadEvaluation leadevaluation, Report report) {
-        ContentValues values = getContentValues(leadevaluation);
-        values.put(REPORTS_REPORT_ID, report.getId());
-
-        return getDB().insert(LEADEVALUATION_TABLE_NAME, null, values);
+    public long insert(LeadEvaluation leadevaluation) {
+        return getDB().insert(LEADEVALUATION_TABLE_NAME, null, getContentValues(leadevaluation));
     }
 
     @Override
@@ -75,13 +77,13 @@ public class LeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements
     }
 
     @Override
-    public List<LeadEvaluation> selectByReport(Report report) {
+    public List<LeadEvaluation> selectByReport(long reportId) {
         List<LeadEvaluation> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + LEADEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(report.getId())});
+                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

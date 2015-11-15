@@ -24,9 +24,9 @@ public interface ReportTableAccessor {
 
     void update(Report report);
 
-    void delete(Report report);
+    void delete(long id);
 
     Report select(long id);
 
-    List<Report> selectByTeam(Team team);
+    List<Report> selectByTeam(long teamId);
 }

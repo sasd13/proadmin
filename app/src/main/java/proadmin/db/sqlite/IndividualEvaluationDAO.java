@@ -20,6 +20,7 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
         //values.put(INDIVIDUALEVALUATION_ID, individualEvaluation.getId()); //autoincrement
         values.put(INDIVIDUALEVALUATION_MARK, individualEvaluation.getMark());
         values.put(STUDENTS_STUDENT_ID, individualEvaluation.getStudent().getId());
+        values.put(REPORTS_REPORT_ID, individualEvaluation.getReport().getId());
 
         return values;
     }
@@ -35,15 +36,16 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
         student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
         individualEvaluation.setStudent(student);
 
+        Report report = new Report();
+        report.setId(cursor.getLong(cursor.getColumnIndex(REPORTS_REPORT_ID)));
+        individualEvaluation.setReport(report);
+
         return individualEvaluation;
     }
 
     @Override
-    public long insert(IndividualEvaluation individualevaluation, Report report) {
-        ContentValues values = getContentValues(individualevaluation);
-        values.put(REPORTS_REPORT_ID, report.getId());
-
-        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, values);
+    public long insert(IndividualEvaluation individualevaluation) {
+        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualevaluation));
     }
 
     @Override
@@ -69,13 +71,13 @@ public class IndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation
     }
 
     @Override
-    public List<IndividualEvaluation> selectByReport(Report report) {
+    public List<IndividualEvaluation> selectByReport(long reportId) {
         List<IndividualEvaluation> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(report.getId())});
+                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

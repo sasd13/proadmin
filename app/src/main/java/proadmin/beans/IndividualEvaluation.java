@@ -5,6 +5,7 @@ public class IndividualEvaluation {
     private long id;
     private double mark;
     private Student student;
+    private Report report;
 
     public IndividualEvaluation() {}
 
@@ -30,5 +31,13 @@ public class IndividualEvaluation {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Report getReport() {
+        return this.report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

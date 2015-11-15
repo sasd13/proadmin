@@ -31,7 +31,7 @@ public class TeamDAO extends SQLiteTableDAO<Team> implements TeamTableAccessor {
     }
 
     @Override
-    public void delete(Team team) {
+    public void delete(long id) {
 
     }
 

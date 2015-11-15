@@ -17,7 +17,7 @@ public interface TeamTableAccessor {
 
     void update(Team team);
 
-    void delete(Team team);
+    void delete(long id);
 
     Team select(long id);
 

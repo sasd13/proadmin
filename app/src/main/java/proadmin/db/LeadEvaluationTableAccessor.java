@@ -18,11 +18,11 @@ public interface LeadEvaluationTableAccessor {
     String STUDENTS_STUDENT_ID = "students_student_id";
     String REPORTS_REPORT_ID = "reports_report_id";
 
-    long insert(LeadEvaluation leadevaluation, Report report);
+    long insert(LeadEvaluation leadevaluation);
 
     void update(LeadEvaluation leadevaluation);
 
     LeadEvaluation select(long id);
 
-    List<LeadEvaluation> selectByReport(Report report);
+    List<LeadEvaluation> selectByReport(long reportId);
 }

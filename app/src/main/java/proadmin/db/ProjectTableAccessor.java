@@ -19,7 +19,7 @@ public interface ProjectTableAccessor {
 
     void update(Project project);
 
-    void delete(Project project);
+    void delete(long id);
 
     Project select(long id);
 
