@@ -8,8 +8,6 @@ public class Project {
     private String code, title, description;
     private AcademicLevel academicLevel;
 
-    public Project() {}
-
     public long getId() {
         return this.id;
     }
@@ -43,10 +41,10 @@ public class Project {
     }
 
     public String getDescription() {
-		return this.description;
-	}
+        return this.description;
+    }
 	
 	public void setDescription(String description) {
-		this.description = description;
-	}
+        this.description = description;
+    }
 }

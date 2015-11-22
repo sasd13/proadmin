@@ -4,8 +4,6 @@ public class IndividualEvaluation extends Evaluation {
 
     private double mark;
 
-    public IndividualEvaluation() { super(); }
-
     public double getMark() {
         return this.mark;
     }

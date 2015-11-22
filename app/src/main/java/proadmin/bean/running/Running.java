@@ -53,8 +53,6 @@ public class Running {
 
     public void addTeam(Team team) {
         this.teams.add(team);
-
-        team.setRunning(this);
     }
 
     public void removeTeam(Team team) {

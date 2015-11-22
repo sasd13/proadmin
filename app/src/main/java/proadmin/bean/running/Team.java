@@ -49,8 +49,6 @@ public class Team {
 
     public void addReport(Report report) {
         this.reports.add(report);
-
-        report.setTeam(this);
     }
 
     public void removeReport(Report report) {

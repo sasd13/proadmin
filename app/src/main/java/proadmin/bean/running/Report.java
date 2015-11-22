@@ -66,8 +66,6 @@ public class Report {
 
     public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
         this.individualEvaluations.add(individualEvaluation);
-
-        individualEvaluation.setReport(this);
     }
 
     public void removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {

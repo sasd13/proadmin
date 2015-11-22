@@ -5,8 +5,6 @@ public class LeadEvaluation extends Evaluation {
     private double planningMark, communicationMark;
     private String planningComment, communicationComment;
 
-    public LeadEvaluation() { super(); }
-
     public double getPlanningMark() {
         return this.planningMark;
     }

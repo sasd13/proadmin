@@ -380,7 +380,7 @@ public abstract class DAO {
 
         open();
 
-        report = performSelectReportWithDependencies(id);
+        report = performSelectReportWithEvaluations(id);
 
         close();
 
@@ -394,7 +394,7 @@ public abstract class DAO {
 
         list = reportDAO.selectByTeam(teamId);
         for (Report report : list) {
-            list.set(list.indexOf(report), performSelectReportWithDependencies(report.getId()));
+            list.set(list.indexOf(report), performSelectReportWithEvaluations(report.getId()));
         }
 
         close();
@@ -437,7 +437,7 @@ public abstract class DAO {
         individualEvaluationDAO.deleteByReport(reportId);
     }
 
-    private Report performSelectReportWithDependencies(long id) {
+    private Report performSelectReportWithEvaluations(long id) {
         Report report = reportDAO.select(id);
 
         try {
