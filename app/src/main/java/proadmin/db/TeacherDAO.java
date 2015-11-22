@@ -7,6 +7,7 @@ public interface TeacherDAO {
     String TEACHER_TABLE_NAME = "teachers";
 
     String TEACHER_ID = "teacher_id";
+    String TEACHER_NUMBER = "teacher_number";
     String TEACHER_FIRSTNAME = "teacher_firstname";
     String TEACHER_LASTNAME = "teacher_lastname";
     String TEACHER_EMAIL = "teacher_email";
@@ -18,5 +19,11 @@ public interface TeacherDAO {
 
     Teacher select(long id);
 
+    Teacher selectByNumber(String number);
+
     Teacher selectByEmail(String email);
+
+    boolean containsByNumber(String number);
+
+    boolean containsByEmail(String email);
 }

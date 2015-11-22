@@ -5,7 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import flousy.gui.widget.recycler.Recycler;
+import proadmin.gui.widget.recycler.Recycler;
 
 /**
  * <p>

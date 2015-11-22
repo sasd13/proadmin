@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
 public class CustomDialogBuilder extends AlertDialog.Builder {
 

@@ -4,79 +4,61 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 
-import proadmin.data.dao.DataAccessorManager;
+import proadmin.db.DAOFactory;
 import proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
 
-    private static final int SPLASH_TIME_OUT = 3000;
+    private static final int SPLASHSCREEN_TIMEOUT = 3000;
+
     private Handler handler;
     private Runnable runnable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splashscreen);
 
-        ImageView imageView = (ImageView) findViewById(R.id.splashscreen_imageview_logo);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
+        createLogo();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        DataAccessorManager.start(this);
+        DAOFactory.get().init(this);
         Session.start(this);
 
-        if (Session.isLogged()) {
-            attachActivity(HomeActivity.class, SPLASH_TIME_OUT);
+        if (Session.isStarted()) {
+            goToActivity(HomeActivity.class, SPLASHSCREEN_TIMEOUT);
         } else {
-            attachActivity(LogInActivity.class, SPLASH_TIME_OUT);
+            goToActivity(LogActivity.class, SPLASHSCREEN_TIMEOUT);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Stop calling post delayed activity on user action
-     */
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
 
-        detachActivity();
-        finish();
+        stopGoToActivity();
     }
 
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
 
-        detachActivity();
-        finish();
+        stopGoToActivity();
     }
 
-    private void attachActivity(Class<?> activityClass, int timeOut) {
+    private void createLogo() {
+        ImageView imageViewLogo = (ImageView) findViewById(R.id.splashscreen_imageview_logo);
+        imageViewLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
+    }
+
+    private void goToActivity(Class<?> activityClass, int timeOut) {
         final Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -85,7 +67,6 @@ public class SplashScreenActivity extends Activity {
             @Override
             public void run() {
                 startActivity(intent);
-                finish();
             }
         };
 
@@ -93,7 +74,7 @@ public class SplashScreenActivity extends Activity {
         this.handler.postDelayed(this.runnable, timeOut);
     }
 
-    private void detachActivity() {
+    private void stopGoToActivity() {
         try {
             this.handler.removeCallbacks(this.runnable);
         } catch (NullPointerException e) {

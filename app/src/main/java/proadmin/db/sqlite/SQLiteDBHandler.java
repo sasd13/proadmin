@@ -24,6 +24,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String TEACHER_TABLE_CREATE =
             "CREATE TABLE " + TeacherDAO.TEACHER_TABLE_NAME + " ("
                     + TeacherDAO.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + TeacherDAO.TEACHER_NUMBER + " TEXT NOT NULL UNIQUE, "
                     + TeacherDAO.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
                     + TeacherDAO.TEACHER_LASTNAME + " TEXT NOT NULL, "
                     + TeacherDAO.TEACHER_EMAIL + " TEXT NOT NULL, "
@@ -76,7 +77,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                     + StudentDAO.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL, "
                     + StudentDAO.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
                     + StudentDAO.STUDENT_LASTNAME + " TEXT NOT NULL, "
-                    + StudentDAO.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE);";
+                    + StudentDAO.STUDENT_EMAIL + " TEXT NOT NULL);";
 
     /**
      * Table studentteams

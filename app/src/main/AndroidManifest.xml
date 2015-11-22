@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.proadmin"
     android:installLocation="auto">
 
@@ -7,13 +8,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".SplashScreenActivity"
-            android:label="@string/app_name"
+            android:label="@string/activity_splashscreen_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:noHistory="true">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,24 +24,19 @@
         </activity>
 
         <activity
-            android:name=".LogInActivity"
-            android:label="@string/activity_login_name"
+            android:name=".LogActivity"
+            android:label="@string/activity_log_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:noHistory="true">
         </activity>
 
         <activity
-            android:name=".SignUpActivity"
-            android:label="@string/activity_signup_name"
+            android:name=".SignActivity"
+            android:label="@string/activity_sign_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".RestorePasswordActivity"
-            android:label="@string/activity_restorepassword_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:noHistory="true">
         </activity>
 
         <activity
@@ -49,45 +47,15 @@
         </activity>
 
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/activity_settings_name"
+            android:name=".SettingActivity"
+            android:label="@string/activity_setting_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".ProjectsActivity"
-            android:label="@string/activity_projects_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".ProjectFormActivity"
-            android:label="@string/activity_project_form_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".SquadsActivity"
-            android:label="@string/activity_squads_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".SquadFormActivity"
-            android:label="@string/activity_squad_form_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <activity
-            android:name=".ReportsActivity"
-            android:label="@string/activity_reports_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".HomeActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
         </activity>
 
     </application>

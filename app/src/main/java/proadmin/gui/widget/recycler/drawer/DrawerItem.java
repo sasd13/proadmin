@@ -3,9 +3,9 @@ package proadmin.gui.widget.recycler.drawer;
 import android.view.ViewStub;
 import android.widget.TextView;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
-import flousy.gui.widget.recycler.RecyclerItem;
+import proadmin.gui.widget.recycler.RecyclerItem;
 
 /**
  * <p>
@@ -17,6 +17,8 @@ public class DrawerItem extends RecyclerItem {
 
     private CharSequence text;
     private TextView textView;
+
+    public DrawerItem() { super(R.layout.draweritem); }
 
     public DrawerItem(int layoutResource) {
         super(layoutResource);

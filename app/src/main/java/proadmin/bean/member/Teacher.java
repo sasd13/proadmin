@@ -4,8 +4,6 @@ public class Teacher extends AcademicMember {
 
     private String password;
 
-    public Teacher() { super(); }
-
     public String getPassword() {
         return this.password;
     }

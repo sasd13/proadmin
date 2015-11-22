@@ -11,11 +11,11 @@ public class Report {
     private String teamComment;
     private Team team;
     private LeadEvaluation leadEvaluation;
-    private List<IndividualEvaluation> listIndividualEvaluations;
+    private List<IndividualEvaluation> individualEvaluations;
 
     public Report() {
         this.leadEvaluation = new LeadEvaluation();
-        this.listIndividualEvaluations = new ArrayList<>();
+        this.individualEvaluations = new ArrayList<>();
 
         this.leadEvaluation.setReport(this);
     }
@@ -65,16 +65,16 @@ public class Report {
     }
 
     public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        this.listIndividualEvaluations.add(individualEvaluation);
+        this.individualEvaluations.add(individualEvaluation);
 
         individualEvaluation.setReport(this);
     }
 
     public void removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-        this.listIndividualEvaluations.remove(individualEvaluation);
+        this.individualEvaluations.remove(individualEvaluation);
     }
 
     public IndividualEvaluation[] getIndividualEvaluations() {
-        return this.listIndividualEvaluations.toArray(new IndividualEvaluation[this.listIndividualEvaluations.size()]);
+        return this.individualEvaluations.toArray(new IndividualEvaluation[this.individualEvaluations.size()]);
     }
 }

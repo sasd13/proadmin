@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import proadmin.bean.member.Teacher;
-import proadmin.db.DAO;
 import proadmin.db.DAOFactory;
 
 public class Session {
@@ -15,7 +14,7 @@ public class Session {
     private static SharedPreferences preferences;
 
     protected Session() {}
-
+    
     public static void start(Context context) {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
     }
@@ -24,19 +23,17 @@ public class Session {
         return preferences.contains(SESSION_TEACHER_ID);
     }
 
-    public static String getTeacherId() {
-        return preferences.getString(SESSION_TEACHER_ID, null);
+    public static long getTeacherId() {
+        return preferences.getLong(SESSION_TEACHER_ID, 0);
     }
 
-    public static boolean logIn(String email, String password) {
-        DAO dao = DAOFactory.get();
-
-        Teacher teacher = dao.selectTeacherByEmail(email);
+    public static boolean logIn(String number, String password) {
+        Teacher teacher = DAOFactory.get().selectTeacherByNumber(number);
 
         try {
             if (teacher.getPassword().equals(password)) {
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(SESSION_TEACHER_ID, teacher.getId());
+                editor.putLong(SESSION_TEACHER_ID, teacher.getId());
 
                 return editor.commit();
             }

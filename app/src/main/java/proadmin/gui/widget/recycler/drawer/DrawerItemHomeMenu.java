@@ -3,7 +3,7 @@ package proadmin.gui.widget.recycler.drawer;
 import android.view.View;
 import android.view.ViewStub;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
 public class DrawerItemHomeMenu extends DrawerItemIntentable {
 
@@ -11,7 +11,7 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
     private View colorView;
 
     public DrawerItemHomeMenu() {
-        super(R.layout.draweritem_menu);
+        super(R.layout.draweritem_homemenu);
     }
 
     public int getColor() {

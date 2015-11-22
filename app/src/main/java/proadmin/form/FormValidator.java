@@ -15,7 +15,9 @@ public class FormValidator {
 
     public FormValidator() { this.mapErrors = new HashMap<>(); }
 
-    public String[] getErrors() { return this.mapErrors.values().toArray(new String[0]); }
+    public String[] getErrors() {
+        return this.mapErrors.values().toArray(new String[this.mapErrors.size()]);
+    }
 
     public void validName(String name, String errorKey) {
         try {
@@ -55,6 +57,16 @@ public class FormValidator {
         try {
             if (!password.equals(confirmPassword)) {
                 this.mapErrors.put(errorKey, "password is not confirmed");
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void validText(String text, String errorKey) {
+        try {
+            if (text.length() == 0) {
+                this.mapErrors.put(errorKey, errorKey + " is empty");
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

@@ -3,7 +3,7 @@ package proadmin.gui.widget.recycler;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,10 @@ public abstract class Recycler {
 
     public RecyclerItem getItem(int index) {
         return this.listRecyclerItems.get(index);
+    }
+
+    public RecyclerItem[] getItems() {
+        return this.listRecyclerItems.toArray(new RecyclerItem[size()]);
     }
 
     public int size() {

@@ -4,16 +4,16 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewStub;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
-import flousy.gui.color.ColorOnTouchListener;
+import proadmin.gui.color.ColorOnTouchListener;
 
 public class DrawerItemIntentable extends DrawerItem {
 
     private Intent intent;
 
     public DrawerItemIntentable() {
-        super(R.layout.draweritem);
+        super();
     }
 
     public DrawerItemIntentable(int layoutResource) {

@@ -1,6 +1,6 @@
 package proadmin.gui.widget.recycler.drawer;
 
-import com.example.flousy.R;
+import com.android.proadmin.R;
 
 public class DrawerItemTitle extends DrawerItem {
 

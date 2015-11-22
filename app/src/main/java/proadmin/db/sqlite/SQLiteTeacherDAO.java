@@ -12,6 +12,7 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements proadmi
         ContentValues values = new ContentValues();
 
         //values.put(TEACHER_ID, teacher.getId()); //autoincrement
+        values.put(TEACHER_NUMBER, teacher.getNumber());
         values.put(TEACHER_FIRSTNAME, teacher.getFirstName());
         values.put(TEACHER_LASTNAME, teacher.getLastName());
         values.put(TEACHER_EMAIL, teacher.getEmail());
@@ -25,6 +26,7 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements proadmi
         Teacher teacher = new Teacher();
 
         teacher.setId(cursor.getLong(cursor.getColumnIndex(TEACHER_ID)));
+        teacher.setNumber(cursor.getString(cursor.getColumnIndex(TEACHER_NUMBER)));
         teacher.setFirstName(cursor.getString(cursor.getColumnIndex(TEACHER_FIRSTNAME)));
         teacher.setLastName(cursor.getString(cursor.getColumnIndex(TEACHER_LASTNAME)));
         teacher.setEmail(cursor.getString(cursor.getColumnIndex(TEACHER_EMAIL)));
@@ -61,6 +63,23 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements proadmi
     }
 
     @Override
+    public Teacher selectByNumber(String number) {
+        Teacher teacher = null;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEACHER_TABLE_NAME
+                        + " where " + TEACHER_NUMBER + " = ?", new String[]{String.valueOf(number)});
+
+        if (cursor.moveToNext()) {
+            teacher = getCursorValues(cursor);
+        }
+        cursor.close();
+
+        return teacher;
+    }
+
+    @Override
     public Teacher selectByEmail(String email) {
         Teacher teacher = null;
 
@@ -75,5 +94,39 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements proadmi
         cursor.close();
 
         return teacher;
+    }
+
+    @Override
+    public boolean containsByNumber(String number) {
+        boolean contains = false;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEACHER_TABLE_NAME
+                        + " where " + TEACHER_NUMBER + " = ?", new String[]{String.valueOf(number)});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
+
+    @Override
+    public boolean containsByEmail(String email) {
+        boolean contains = false;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEACHER_TABLE_NAME
+                        + " where " + TEACHER_EMAIL + " = ?", new String[]{String.valueOf(email)});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
     }
 }

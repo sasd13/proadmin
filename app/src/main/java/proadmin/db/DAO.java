@@ -70,6 +70,18 @@ public abstract class DAO {
         return teacher;
     }
 
+    public Teacher selectTeacherByNumber(String number) {
+        Teacher teacher;
+
+        open();
+
+        teacher = teacherDAO.selectByNumber(number);
+
+        close();
+
+        return teacher;
+    }
+
     public Teacher selectTeacherByEmail(String email) {
         Teacher teacher;
 
@@ -80,6 +92,30 @@ public abstract class DAO {
         close();
 
         return teacher;
+    }
+
+    public boolean containsTeacherByNumber(String number) {
+        boolean contains;
+
+        open();
+
+        contains = teacherDAO.containsByNumber(number);
+
+        close();
+
+        return contains;
+    }
+
+    public boolean containsTeacherByEmail(String email) {
+        boolean contains;
+
+        open();
+
+        contains = teacherDAO.containsByEmail(email);
+
+        close();
+
+        return contains;
     }
 
     public long insertProject(Project project) {
