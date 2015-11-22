@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import proadmin.bean.member.Teacher;
-import proadmin.db.DataAccessor;
-import proadmin.db.DataAccessorFactory;
+import proadmin.db.DAO;
+import proadmin.db.DAOFactory;
 
 public class Session {
 
@@ -29,7 +29,7 @@ public class Session {
     }
 
     public static boolean logIn(String email, String password) {
-        DataAccessor dao = DataAccessorFactory.get();
+        DAO dao = DAOFactory.get();
 
         Teacher teacher = dao.selectTeacherByEmail(email);
 

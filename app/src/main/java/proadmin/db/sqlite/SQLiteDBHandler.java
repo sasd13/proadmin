@@ -5,127 +5,132 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import proadmin.db.IndividualEvaluationTableAccessor;
-import proadmin.db.LeadEvaluationTableAccessor;
-import proadmin.db.ProjectTableAccessor;
-import proadmin.db.ReportTableAccessor;
-import proadmin.db.StudentTableAccessor;
-import proadmin.db.StudentTeamTableAccessor;
-import proadmin.db.TeacherTableAccessor;
-import proadmin.db.TeamTableAccessor;
+import proadmin.db.IndividualEvaluationDAO;
+import proadmin.db.LeadEvaluationDAO;
+import proadmin.db.ProjectDAO;
+import proadmin.db.ReportDAO;
+import proadmin.db.RunningDAO;
+import proadmin.db.StudentDAO;
+import proadmin.db.StudentTeamDAO;
+import proadmin.db.TeacherDAO;
+import proadmin.db.TeamDAO;
 
 public class SQLiteDBHandler extends SQLiteOpenHelper {
 
     /**
      * Table teachers
      */
-    public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherTableAccessor.TEACHER_TABLE_NAME + ";";
+    public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherDAO.TEACHER_TABLE_NAME + ";";
     public static final String TEACHER_TABLE_CREATE =
-            "CREATE TABLE " + TeacherTableAccessor.TEACHER_TABLE_NAME + " ("
-                    + TeacherTableAccessor.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + TeacherTableAccessor.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
-                    + TeacherTableAccessor.TEACHER_LASTNAME + " TEXT NOT NULL, "
-                    + TeacherTableAccessor.TEACHER_EMAIL + " TEXT NOT NULL, "
-                    + TeacherTableAccessor.TEACHER_PASSWORD + " TEXT NOT NULL, "
-                    + TeacherTableAccessor.TEACHER_DELETED + " INTEGER NOT NULL);";
+            "CREATE TABLE " + TeacherDAO.TEACHER_TABLE_NAME + " ("
+                    + TeacherDAO.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + TeacherDAO.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
+                    + TeacherDAO.TEACHER_LASTNAME + " TEXT NOT NULL, "
+                    + TeacherDAO.TEACHER_EMAIL + " TEXT NOT NULL, "
+                    + TeacherDAO.TEACHER_PASSWORD + " TEXT NOT NULL);";
 
     /**
      * Table projects
      */
-    public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectTableAccessor.PROJECT_TABLE_NAME + ";";
+    public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.PROJECT_TABLE_NAME + ";";
     public static final String PROJECT_TABLE_CREATE =
-            "CREATE TABLE " + ProjectTableAccessor.PROJECT_TABLE_NAME + " ("
-                    + ProjectTableAccessor.PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + ProjectTableAccessor.PROJECT_CODE + " TEXT NOT NULL, "
-                    + ProjectTableAccessor.PROJECT_ACADEMICLEVEL + " TEXT NOT NULL, "
-                    + ProjectTableAccessor.PROJECT_TITLE + " TEXT NOT NULL, "
-                    + ProjectTableAccessor.PROJECT_DESCRIPTION + " TEXT NOT NULL, "
-                    + ProjectTableAccessor.PROJECT_DELETED + " INTEGER NOT NULL);";
+            "CREATE TABLE " + ProjectDAO.PROJECT_TABLE_NAME + " ("
+                    + ProjectDAO.PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + ProjectDAO.PROJECT_CODE + " TEXT NOT NULL, "
+                    + ProjectDAO.PROJECT_ACADEMICLEVEL + " TEXT NOT NULL, "
+                    + ProjectDAO.PROJECT_TITLE + " TEXT NOT NULL, "
+                    + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL);";
+
+    /**
+     * Table runnings
+     */
+    public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.RUNNING_TABLE_NAME + ";";
+    public static final String RUNNING_TABLE_CREATE =
+            "CREATE TABLE " + RunningDAO.RUNNING_TABLE_NAME + " ("
+                    + RunningDAO.RUNNING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + RunningDAO.RUNNING_YEAR + " INTEGER NOT NULL, "
+                    + RunningDAO.TEACHERS_TEACHER_ID + " INTEGER NOT NULL, "
+                    + RunningDAO.PROJECTS_PROJECT_ID + " INTEGER NOT NULL, "
+                    + " FOREIGN KEY (" + RunningDAO.TEACHERS_TEACHER_ID + ") REFERENCES " + TeacherDAO.TEACHER_TABLE_NAME + "("+ TeacherDAO.TEACHER_ID + "), "
+                    + " FOREIGN KEY (" + RunningDAO.PROJECTS_PROJECT_ID + ") REFERENCES " + ProjectDAO.PROJECT_TABLE_NAME + "("+ ProjectDAO.PROJECT_ID + "));";
 
     /**
      * Table teams
      */
-    public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamTableAccessor.TEAM_TABLE_NAME + ";";
+    public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TEAM_TABLE_NAME + ";";
     public static final String TEAM_TABLE_CREATE =
-            "CREATE TABLE " + TeamTableAccessor.TEAM_TABLE_NAME + " ("
-                    + TeamTableAccessor.TEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + TeamTableAccessor.TEAM_RUNNINGYEAR + " INTEGER NOT NULL, "
-                    + TeamTableAccessor.TEAM_CODE + " TEXT NOT NULL, "
-                    + TeamTableAccessor.TEAM_DELETED + " INTEGER NOT NULL);";
+            "CREATE TABLE " + TeamDAO.TEAM_TABLE_NAME + " ("
+                    + TeamDAO.TEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + TeamDAO.TEAM_CODE + " TEXT NOT NULL, "
+                    + TeamDAO.RUNNINGS_RUNNING_ID + " INTEGER NOT NULL, "
+                    + " FOREIGN KEY (" + TeamDAO.RUNNINGS_RUNNING_ID + ") REFERENCES " + RunningDAO.RUNNING_TABLE_NAME + "("+ RunningDAO.RUNNING_ID + "));";
 
     /**
      * Table students
      */
-    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTableAccessor.STUDENT_TABLE_NAME + ";";
+    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.STUDENT_TABLE_NAME + ";";
     public static final String STUDENT_TABLE_CREATE =
-            "CREATE TABLE " + StudentTableAccessor.STUDENT_TABLE_NAME + " ("
-                    + StudentTableAccessor.STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + StudentTableAccessor.STUDENT_NUMBER + " TEXT NOT NULL UNIQUE, "
-                    + StudentTableAccessor.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL, "
-                    + StudentTableAccessor.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
-                    + StudentTableAccessor.STUDENT_LASTNAME + " TEXT NOT NULL, "
-                    + StudentTableAccessor.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE);";
+            "CREATE TABLE " + StudentDAO.STUDENT_TABLE_NAME + " ("
+                    + StudentDAO.STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + StudentDAO.STUDENT_NUMBER + " TEXT NOT NULL UNIQUE, "
+                    + StudentDAO.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL, "
+                    + StudentDAO.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
+                    + StudentDAO.STUDENT_LASTNAME + " TEXT NOT NULL, "
+                    + StudentDAO.STUDENT_EMAIL + " TEXT NOT NULL UNIQUE);";
 
     /**
      * Table studentteams
      */
-    public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamTableAccessor.STUDENTTEAM_TABLE_NAME + ";";
+    public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME + ";";
     public static final String STUDENTTEAM_TABLE_CREATE =
-            "CREATE TABLE " + StudentTeamTableAccessor.STUDENTTEAM_TABLE_NAME + " ("
-                    + StudentTeamTableAccessor.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
-                    + StudentTeamTableAccessor.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                    + " PRIMARY KEY (" + StudentTeamTableAccessor.TEAMS_TEAM_ID + ", " + StudentTeamTableAccessor.STUDENTS_STUDENT_ID + "), "
-                    + " FOREIGN KEY (" + StudentTeamTableAccessor.TEAMS_TEAM_ID + ") REFERENCES " + TeamTableAccessor.TEAM_TABLE_NAME + "("+ TeamTableAccessor.TEAM_ID + "), "
-                    + " FOREIGN KEY (" + StudentTeamTableAccessor.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentTableAccessor.STUDENT_TABLE_NAME + "("+ StudentTableAccessor.STUDENT_ID + "));";
+            "CREATE TABLE " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME + " ("
+                    + StudentTeamDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
+                    + StudentTeamDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
+                    + " PRIMARY KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ", " + StudentTeamDAO.STUDENTS_STUDENT_ID + "), "
+                    + " FOREIGN KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + "), "
+                    + " FOREIGN KEY (" + StudentTeamDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "));";
 
     /**
      * Table reports
      */
-    public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportTableAccessor.REPORT_TABLE_NAME + ";";
+    public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.REPORT_TABLE_NAME + ";";
     public static final String REPORT_TABLE_CREATE =
-            "CREATE TABLE " + ReportTableAccessor.REPORT_TABLE_NAME + " ("
-                    + ReportTableAccessor.REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + ReportTableAccessor.REPORT_DATEMEETING + " TEXT NOT NULL, "
-                    + ReportTableAccessor.REPORT_WEEKNUMBER + " INTEGER NOT NULL, "
-                    + ReportTableAccessor.REPORT_TEAMCOMMENT + " TEXT, "
-                    + ReportTableAccessor.REPORT_DELETED + " INTEGER NOT NULL, "
-                    + ReportTableAccessor.TEACHERS_TEACHER_ID + " INTEGER NOT NULL, "
-                    + ReportTableAccessor.PROJECTS_PROJECT_ID + " INTEGER NOT NULL, "
-                    + ReportTableAccessor.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY (" + ReportTableAccessor.TEACHERS_TEACHER_ID + ") REFERENCES " + TeacherTableAccessor.TEACHER_TABLE_NAME + "("+ TeacherTableAccessor.TEACHER_ID + "), "
-                    + " FOREIGN KEY (" + ReportTableAccessor.PROJECTS_PROJECT_ID + ") REFERENCES " + ProjectTableAccessor.PROJECT_TABLE_NAME + "("+ ProjectTableAccessor.PROJECT_ID + "), "
-                    + " FOREIGN KEY (" + ReportTableAccessor.TEAMS_TEAM_ID + ") REFERENCES " + TeamTableAccessor.TEAM_TABLE_NAME + "("+ TeamTableAccessor.TEAM_ID + "));";
+            "CREATE TABLE " + ReportDAO.REPORT_TABLE_NAME + " ("
+                    + ReportDAO.REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + ReportDAO.REPORT_DATEMEETING + " TEXT NOT NULL, "
+                    + ReportDAO.REPORT_WEEKNUMBER + " INTEGER NOT NULL, "
+                    + ReportDAO.REPORT_TEAMCOMMENT + " TEXT, "
+                    + ReportDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
+                    + " FOREIGN KEY (" + ReportDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + "));";
 
     /**
      * Table leadevaluations
      */
-    public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationTableAccessor.LEADEVALUATION_TABLE_NAME + ";";
+    public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationDAO.LEADEVALUATION_TABLE_NAME + ";";
     public static final String LEADEVALUATION_TABLE_CREATE =
-            "CREATE TABLE " + LeadEvaluationTableAccessor.LEADEVALUATION_TABLE_NAME + " ("
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_PLANNINGMARK + " REAL NOT NULL, "
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_PLANNINGCOMMENT + " TEXT, "
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_COMMUNICATIONMARK + " REAL NOT NULL, "
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_COMMUNICATIONCOMMENT + " TEXT, "
-                    + LeadEvaluationTableAccessor.LEADEVALUATION_DELETED + " INTEGER NOT NULL, "
-                    + LeadEvaluationTableAccessor.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                    + LeadEvaluationTableAccessor.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY (" + LeadEvaluationTableAccessor.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentTableAccessor.STUDENT_TABLE_NAME + "("+ StudentTableAccessor.STUDENT_ID + "), "
-                    + " FOREIGN KEY (" + LeadEvaluationTableAccessor.REPORTS_REPORT_ID + ") REFERENCES " + ReportTableAccessor.REPORT_TABLE_NAME + "("+ ReportTableAccessor.REPORT_ID + "));";
+            "CREATE TABLE " + LeadEvaluationDAO.LEADEVALUATION_TABLE_NAME + " ("
+                    + LeadEvaluationDAO.LEADEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + LeadEvaluationDAO.LEADEVALUATION_PLANNINGMARK + " REAL NOT NULL, "
+                    + LeadEvaluationDAO.LEADEVALUATION_PLANNINGCOMMENT + " TEXT, "
+                    + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONMARK + " REAL NOT NULL, "
+                    + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONCOMMENT + " TEXT, "
+                    + LeadEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
+                    + LeadEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
+                    + " FOREIGN KEY (" + LeadEvaluationDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "), "
+                    + " FOREIGN KEY (" + LeadEvaluationDAO.REPORTS_REPORT_ID + ") REFERENCES " + ReportDAO.REPORT_TABLE_NAME + "("+ ReportDAO.REPORT_ID + "));";
 
     /**
      * Table individualevaluations
      */
-    public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationTableAccessor.INDIVIDUALEVALUATION_TABLE_NAME + ";";
+    public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationDAO.INDIVIDUALEVALUATION_TABLE_NAME + ";";
     public static final String INDIVIDUALEVALUATION_TABLE_CREATE =
-            "CREATE TABLE " + IndividualEvaluationTableAccessor.INDIVIDUALEVALUATION_TABLE_NAME + " ("
-                    + IndividualEvaluationTableAccessor.INDIVIDUALEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + IndividualEvaluationTableAccessor.INDIVIDUALEVALUATION_MARK + " REAL NOT NULL, "
-                    + IndividualEvaluationTableAccessor.INDIVIDUALEVALUATION_DELETED + " INTEGER NOT NULL, "
-                    + LeadEvaluationTableAccessor.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                    + LeadEvaluationTableAccessor.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY (" + LeadEvaluationTableAccessor.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentTableAccessor.STUDENT_TABLE_NAME + "("+ StudentTableAccessor.STUDENT_ID + "), "
-                    + " FOREIGN KEY (" + LeadEvaluationTableAccessor.REPORTS_REPORT_ID + ") REFERENCES " + ReportTableAccessor.REPORT_TABLE_NAME + "("+ ReportTableAccessor.REPORT_ID + "));";
+            "CREATE TABLE " + IndividualEvaluationDAO.INDIVIDUALEVALUATION_TABLE_NAME + " ("
+                    + IndividualEvaluationDAO.INDIVIDUALEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + IndividualEvaluationDAO.INDIVIDUALEVALUATION_MARK + " REAL NOT NULL, "
+                    + LeadEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
+                    + LeadEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
+                    + " FOREIGN KEY (" + LeadEvaluationDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "), "
+                    + " FOREIGN KEY (" + LeadEvaluationDAO.REPORTS_REPORT_ID + ") REFERENCES " + ReportDAO.REPORT_TABLE_NAME + "("+ ReportDAO.REPORT_ID + "));";
 
 
     public SQLiteDBHandler(Context context, String name, CursorFactory factory, int version) {
@@ -136,6 +141,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
         db.execSQL(TEACHER_TABLE_CREATE);
         db.execSQL(PROJECT_TABLE_CREATE);
+        db.execSQL(RUNNING_TABLE_CREATE);
         db.execSQL(TEAM_TABLE_CREATE);
         db.execSQL(STUDENT_TABLE_CREATE);
         db.execSQL(STUDENTTEAM_TABLE_CREATE);
@@ -152,7 +158,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
         db.execSQL(STUDENTTEAM_TABLE_DROP);
         db.execSQL(STUDENT_TABLE_DROP);
         db.execSQL(TEAM_TABLE_DROP);
-        db.execSQL(STUDENTTEAM_TABLE_DROP);
+        db.execSQL(RUNNING_TABLE_DROP);
         db.execSQL(PROJECT_TABLE_DROP);
         db.execSQL(TEACHER_TABLE_DROP);
 

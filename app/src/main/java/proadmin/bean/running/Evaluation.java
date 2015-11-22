@@ -6,6 +6,7 @@ public abstract class Evaluation {
 
     private long id;
     private Student student;
+    private Report report;
 
     protected Evaluation() {}
 
@@ -23,5 +24,13 @@ public abstract class Evaluation {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Report getReport() {
+        return this.report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }
