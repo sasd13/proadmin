@@ -73,7 +73,7 @@
             android:background="#dda600" />
 
         <ImageView
-            android:id="@+id/imageview_squad"
+            android:id="@+id/imageview_team"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
@@ -83,7 +83,7 @@
             android:clickable="true" />
 
         <View
-            android:id="@+id/trait_creer_squads"
+            android:id="@+id/trait_creer_teams"
             android:layout_width="1dp"
             android:layout_height="80dp"
             android:layout_alignParentLeft="true"
@@ -92,7 +92,7 @@
             android:background="#659025" />
 
         <View
-            android:id="@+id/trait_liste_squads"
+            android:id="@+id/trait_liste_teams"
             android:layout_width="80dp"
             android:layout_height="1dp"
             android:layout_alignParentLeft="true"
