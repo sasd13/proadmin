@@ -31,7 +31,7 @@ public abstract class Recycler {
     protected Recycler(Context context) {
         this.context = context;
         this.listRecyclerItems = new ArrayList<>();
-        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, R.layout.recyclerviewitem);
+        this.recyclerAdapter = new RecyclerAdapter(this.listRecyclerItems, R.layout.recycleritem);
     }
 
     public void addItem(RecyclerItem recyclerItem) {

@@ -47,6 +47,30 @@
         </activity>
 
         <activity
+            android:name=".ProjectsActivity"
+            android:label="@string/activity_projects_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".HomeActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".ProjectActivity"
+            android:label="@string/activity_project_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".ProjectsActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
+
+        <activity
             android:name=".SettingActivity"
             android:label="@string/activity_setting_name"
             android:screenOrientation="portrait"

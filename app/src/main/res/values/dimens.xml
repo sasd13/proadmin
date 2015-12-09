@@ -32,8 +32,8 @@
     <dimen name="drawer_width">240dp</dimen>
     <dimen name="drawer_padding">10dp</dimen>
     <dimen name="draweritem_textview_height">60dp</dimen>
-    <dimen name="draweritem_menu_colorview_width">16dp</dimen>
-    <dimen name="draweritem_menu_colorview_height">42dp</dimen>
+    <dimen name="draweritem_homemenu_colorview_width">16dp</dimen>
+    <dimen name="draweritem_homemenu_colorview_height">42dp</dimen>
     <dimen name="draweritem_title_textview_paddingtop">30dp</dimen>
 
     <!-- Form user -->
@@ -62,4 +62,5 @@
     <dimen name="dividerview_height_small">1dp</dimen>
     <dimen name="dividerview_height_medium">2dp</dimen>
     <dimen name="dividerview_height_large">3dp</dimen>
+
 </resources>

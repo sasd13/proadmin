@@ -54,13 +54,13 @@ public class HomeActivity extends MotherActivity {
                     case R.id.imageview_calendar:
                         intent = new Intent(HomeActivity.this, SettingActivity.class);
                         break;
-                    /*case R.id.imageview_project:
+                    case R.id.imageview_project:
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
                         break;
-                    case R.id.imageview_team:
+                    /*case R.id.imageview_team:
                         intent = new Intent(HomeActivity.this, TeamsActivity.class);
-                        break;
-                    case R.id.imageview_report:
+                        break;*/
+                    /*case R.id.imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
                         break;*/
                 }
