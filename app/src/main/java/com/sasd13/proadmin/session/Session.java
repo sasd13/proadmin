@@ -3,7 +3,7 @@ package com.sasd13.proadmin.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.db.DAOFactory;
 
 public class Session {

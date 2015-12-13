@@ -2,7 +2,7 @@ package com.sasd13.proadmin.db;
 
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.wsprovider.proadmin.bean.running.IndividualEvaluation;
 
 public interface IndividualEvaluationDAO {
 

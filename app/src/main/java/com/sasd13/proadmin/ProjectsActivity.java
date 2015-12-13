@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;

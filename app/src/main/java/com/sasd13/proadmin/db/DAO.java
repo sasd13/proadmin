@@ -5,15 +5,15 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.Team;
+import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
+import com.sasd13.wsprovider.proadmin.bean.member.Student;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.wsprovider.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.wsprovider.proadmin.bean.running.Report;
+import com.sasd13.wsprovider.proadmin.bean.running.Running;
+import com.sasd13.wsprovider.proadmin.bean.running.Team;
 
 public abstract class DAO {
 

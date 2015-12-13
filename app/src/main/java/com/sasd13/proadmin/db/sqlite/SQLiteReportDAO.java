@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Team;
+import com.sasd13.wsprovider.proadmin.bean.running.Report;
+import com.sasd13.wsprovider.proadmin.bean.running.Team;
 import com.sasd13.proadmin.db.ReportDAO;
 
 public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO {

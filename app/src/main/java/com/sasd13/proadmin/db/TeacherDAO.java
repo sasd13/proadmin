@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.db;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 
 public interface TeacherDAO {
 

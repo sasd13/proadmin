@@ -6,9 +6,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.wsprovider.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.wsprovider.proadmin.bean.member.Student;
+import com.sasd13.wsprovider.proadmin.bean.running.Report;
 import com.sasd13.proadmin.db.IndividualEvaluationDAO;
 
 public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation> implements IndividualEvaluationDAO {

@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.db;
 
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.wsprovider.proadmin.bean.running.LeadEvaluation;
 
 public interface LeadEvaluationDAO {
 

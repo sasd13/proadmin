@@ -26,8 +26,8 @@
     <string name="home_alertdialog_message_welcome">Salut</string>
 
     <!-- Activity Projects -->
-    <string name="projects_textview_academiclevels">ACADEMIC LEVEL :</string>
-    <string name="projects_textview_projects">PROJECTS</string>
+    <string name="projects_textview_academiclevels">NIVEAU ACADEMIQUE :</string>
+    <string name="projects_textview_projects">PROJETS</string>
 
     <!-- Activity Project -->
 
@@ -85,6 +85,6 @@
 
     <!-- Toast -->
     <string name="toast_saved">Enregistré</string>
-    <string name="toast_updated">Mis à jour</string>
+    <string name="toast_updated">Actualisé</string>
 
 </resources>

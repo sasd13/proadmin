@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.db;
 
-import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.wsprovider.proadmin.bean.member.Student;
 
 public interface StudentDAO {
 

@@ -6,8 +6,8 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.Team;
+import com.sasd13.wsprovider.proadmin.bean.running.Running;
+import com.sasd13.wsprovider.proadmin.bean.running.Team;
 import com.sasd13.proadmin.db.TeamDAO;
 
 public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {

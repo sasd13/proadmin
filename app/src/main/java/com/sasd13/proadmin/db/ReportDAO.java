@@ -2,7 +2,7 @@ package com.sasd13.proadmin.db;
 
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.wsprovider.proadmin.bean.running.Report;
 
 public interface ReportDAO {
 

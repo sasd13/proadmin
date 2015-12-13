@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.db;
 
-import java.util.List;
+import com.sasd13.wsprovider.proadmin.bean.running.Team;
 
-import com.sasd13.proadmin.bean.running.Team;
+import java.util.List;
 
 public interface TeamDAO {
 

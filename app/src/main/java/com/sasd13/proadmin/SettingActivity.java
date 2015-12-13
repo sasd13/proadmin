@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.form.FormValidator;

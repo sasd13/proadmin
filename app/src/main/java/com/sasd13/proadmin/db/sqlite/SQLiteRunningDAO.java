@@ -6,9 +6,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.bean.running.Running;
 import com.sasd13.proadmin.db.RunningDAO;
 
 public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements RunningDAO {

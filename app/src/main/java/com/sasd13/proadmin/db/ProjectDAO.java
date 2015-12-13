@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.db;
 
-import java.util.List;
+import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.project.Project;
+import java.util.List;
 
 public interface ProjectDAO {
 

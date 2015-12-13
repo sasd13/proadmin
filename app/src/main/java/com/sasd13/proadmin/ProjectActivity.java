@@ -5,17 +5,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;
-import com.sasd13.proadmin.gui.widget.spin.Spin;
 import com.sasd13.proadmin.ws.WebServiceProviderFactory;
 
 public class ProjectActivity extends MotherActivity {
-
-    private Spin spin;
-    private Tab tab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

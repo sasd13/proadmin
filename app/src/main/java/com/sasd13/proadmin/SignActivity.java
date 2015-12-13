@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
