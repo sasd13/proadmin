@@ -5,8 +5,6 @@ public abstract class AcademicMember {
     private long id;
     private String number, firstName, lastName, email;
 
-    protected AcademicMember() {}
-
     public long getId() {
         return this.id;
     }

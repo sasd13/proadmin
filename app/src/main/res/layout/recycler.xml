@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/recycler_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="@dimen/activitycontent_padding"
+        android:padding="@dimen/activity_padding"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay"/>
 

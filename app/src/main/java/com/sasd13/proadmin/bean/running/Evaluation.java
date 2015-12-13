@@ -8,8 +8,6 @@ public abstract class Evaluation {
     private Student student;
     private Report report;
 
-    protected Evaluation() {}
-
     public long getId() {
         return this.id;
     }

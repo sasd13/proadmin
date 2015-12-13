@@ -17,7 +17,7 @@ public class HomeMenuItems {
         this.tab = new HomeMenuItem[SIZE];
 
         this.tab[0] = new HomeMenuItem(
-                context.getResources().getString(R.string.activity_setting_name),
+                context.getResources().getString(R.string.activity_setting),
                 context.getResources().getDrawable(R.drawable.ic_setting_small),
                 context.getResources().getColor(R.color.customBrown),
                 new Intent(context, SettingActivity.class)

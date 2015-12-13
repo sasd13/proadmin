@@ -17,7 +17,7 @@ public class TabItemProject extends RecyclerItem {
     private TextView textViewCode, textViewTitle, textViewDescription;
 
     public TabItemProject() {
-        super(R.layout.tabitem_project);
+        super(R.layout.tabitemproject);
     }
 
     public void setCode(CharSequence code) {
@@ -74,8 +74,19 @@ public class TabItemProject extends RecyclerItem {
     public void inflate(ViewStub viewStub) {
         super.inflate(viewStub);
 
+        findViews();
+        bindViews();
+    }
+
+    private void findViews() {
         this.textViewCode = (TextView) getView().findViewById(R.id.tabitemproject_textview_code);
         this.textViewTitle = (TextView) getView().findViewById(R.id.tabitemproject_textview_title);
         this.textViewDescription = (TextView) getView().findViewById(R.id.tabitemproject_textview_description);
+    }
+
+    private void bindViews() {
+        setCode(this.code);
+        setTitle(this.title);
+        setDescription(this.description);
     }
 }

@@ -27,8 +27,6 @@ public abstract class DAO {
     protected LeadEvaluationDAO leadEvaluationDAO;
     protected IndividualEvaluationDAO individualEvaluationDAO;
 
-    protected DAO() {}
-
     public abstract void init(Context context);
 
     protected abstract void open();

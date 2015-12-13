@@ -22,7 +22,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         public ViewHolder(View view) {
             super(view);
 
-            stub = (ViewStub) view.findViewById(R.id.recyclerviewitem_viewstub);
+            stub = (ViewStub) view.findViewById(R.id.recycleritem_viewstub);
         }
     }
 

@@ -10,7 +10,7 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;
 import com.sasd13.proadmin.gui.widget.spin.Spin;
-import com.sasd13.proadmin.ws.WebServiceFactory;
+import com.sasd13.proadmin.ws.WebServiceProviderFactory;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -35,7 +35,7 @@ public class ProjectActivity extends MotherActivity {
         super.onStart();
 
         try {
-            Project project = (Project) WebServiceFactory.get("PROJECT").get(getProjectIdFromIntent());
+            Project project = (Project) WebServiceProviderFactory.get("PROJECT").get(getProjectIdFromIntent());
 
             fillPresentationProject(project);
         } catch (NullPointerException e) {

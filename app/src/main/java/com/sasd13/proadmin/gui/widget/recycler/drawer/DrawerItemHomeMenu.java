@@ -8,21 +8,17 @@ import com.sasd13.proadmin.R;
 public class DrawerItemHomeMenu extends DrawerItemIntentable {
 
     private int color;
-    private View colorView;
+    private View viewColor;
 
     public DrawerItemHomeMenu() {
-        super(R.layout.draweritem_homemenu);
-    }
-
-    public int getColor() {
-        return this.color;
+        super(R.layout.draweritemhomemenu);
     }
 
     public void setColor(int color) {
         this.color = color;
 
         try {
-            this.colorView.setBackgroundColor(this.color);
+            this.viewColor.setBackgroundColor(this.color);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -32,10 +28,18 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
     public void inflate(ViewStub viewStub) {
         super.inflate(viewStub);
 
-        this.colorView = getView().findViewById(R.id.draweritem_menu_colorview);
+        findViews();
+        bindViews();
+    }
+
+    private void findViews() {
+        this.viewColor = getView().findViewById(R.id.draweritemhomemenu_view_color);
+    }
+
+    private void bindViews() {
         if (this.color == 0) {
             this.color = getView().getContext().getResources().getColor(R.color.customGreenApp);
         }
-        this.colorView.setBackgroundColor(this.color);
+        setColor(this.color);
     }
 }

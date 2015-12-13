@@ -26,10 +26,10 @@ public class HomeActivity extends MotherActivity {
     }
 
     private void createHomeMenus() {
-        this.imageViewProject = (ImageView) findViewById(R.id.imageview_project);
-        this.imageViewTeam = (ImageView) findViewById(R.id.imageview_team);
-        this.imageViewReport = (ImageView) findViewById(R.id.imageview_report);
-        this.imageViewCalendar = (ImageView) findViewById(R.id.imageview_calendar);
+        this.imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
+        this.imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
+        this.imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
+        this.imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
         addDrawableToImageViews();
         addListenerToImageViews();
@@ -51,16 +51,16 @@ public class HomeActivity extends MotherActivity {
                 Intent intent = null;
 
                 switch (v.getId()) {
-                    case R.id.imageview_calendar:
+                    case R.id.home_imageview_calendar:
                         intent = new Intent(HomeActivity.this, SettingActivity.class);
                         break;
-                    case R.id.imageview_project:
+                    case R.id.home_imageview_project:
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
                         break;
-                    /*case R.id.imageview_team:
+                    /*case R.id.home_imageview_team:
                         intent = new Intent(HomeActivity.this, TeamsActivity.class);
                         break;*/
-                    /*case R.id.imageview_report:
+                    /*case R.id.home_imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
                         break;*/
                 }

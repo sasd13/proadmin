@@ -2,12 +2,14 @@ package com.sasd13.proadmin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
@@ -16,8 +18,8 @@ import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.gui.widget.spin.Spin;
-import com.sasd13.proadmin.util.CollectionSorter;
-import com.sasd13.proadmin.ws.WebServiceFactory;
+import com.sasd13.proadmin.util.CollectionUtil;
+import com.sasd13.proadmin.ws.WebServiceProviderFactory;
 
 import java.util.List;
 
@@ -25,25 +27,26 @@ public class ProjectsActivity extends MotherActivity {
 
     private Spin spin;
     private Tab tab;
+    private List<Project> projects;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_project);
+        setContentView(R.layout.activity_projects);
 
         createSpinAcademicLevels();
         createTabProjects();
     }
 
     private void createSpinAcademicLevels() {
-        Spinner spinner = (Spinner) findViewById(R.id.projects_spinner_academiclevels);
+        Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
 
-        this.spin = new Spin(this);
-        this.spin.adapt(spinner, new AdapterView.OnItemSelectedListener() {
+        this.spin = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
             }
 
             @Override
@@ -54,7 +57,9 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void createTabProjects() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
+        this.tab = new Tab(this, recyclerView);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class ProjectsActivity extends MotherActivity {
         fillSpinAcademicLevels();
 
         try {
-            refresh();
+            fillTabProjects();
         } catch (NullPointerException e) {
             CustomDialog.showOkDialog(this, "Error", "Service not found");
         }
@@ -76,24 +81,20 @@ public class ProjectsActivity extends MotherActivity {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
             this.spin.addItem(String.valueOf(academicLevel));
         }
-
-        this.spin.validate();
     }
 
-    private void refresh() {
-        List<Project> projects = WebServiceFactory.get("PROJECT").get();
+    private void fillTabProjects() {
+        this.projects = WebServiceProviderFactory.get("PROJECT").get();
 
-        fillTabProjects(projects);
+        this.spin.resetPosition();
+
+        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(this.spin.getSelectedItem()));
     }
 
-    private void fillTabProjects(List<Project> list) {
+    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
         this.tab.clearItems();
 
-        this.tab.addItem(new TabItemProjectTitle());
-
-        CollectionSorter.sortProjectsByAcademicLevel(list);
-
-        addProjectsToTab(list);
+        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(this.projects, academicLevel));
     }
 
     private void addProjectsToTab(List<Project> list) {
@@ -134,5 +135,11 @@ public class ProjectsActivity extends MotherActivity {
         }
 
         return true;
+    }
+
+    private void refresh() {
+        fillTabProjects();
+
+        Toast.makeText(this, R.string.toast_updated, Toast.LENGTH_SHORT).show();
     }
 }
