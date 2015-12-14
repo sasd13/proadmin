@@ -6,7 +6,7 @@ import com.sasd13.wsprovider.proadmin.bean.project.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectWebServiceProvider implements WebServiceProvider<Project> {
+public class ProjectWSConsumer implements WSConsumer<Project> {
 
     @Override
     public Project get(long id) {

@@ -19,7 +19,7 @@ import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.gui.widget.spin.Spin;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.WebServiceProviderFactory;
+import com.sasd13.proadmin.ws.WSConsumerFactory;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void fillTabProjects() {
-        this.projects = WebServiceProviderFactory.get("PROJECT").get();
+        this.projects = WSConsumerFactory.make("PROJECT").get();
 
         this.spin.resetPosition();
 

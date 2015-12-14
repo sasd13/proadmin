@@ -28,7 +28,7 @@ public class Session {
     }
 
     public static boolean logIn(String number, String password) {
-        Teacher teacher = DAOFactory.get().selectTeacherByNumber(number);
+        Teacher teacher = DAOFactory.make().selectTeacherByNumber(number);
 
         try {
             if (teacher.getPassword().equals(password)) {

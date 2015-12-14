@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws;
 
 import java.util.List;
 
-public interface WebServiceProvider<T> {
+public interface WSConsumer<T> {
 
     T get(long id);
 

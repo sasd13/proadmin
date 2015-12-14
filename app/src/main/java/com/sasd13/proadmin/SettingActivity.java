@@ -46,7 +46,7 @@ public class SettingActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        Teacher teacher = DAOFactory.get().selectTeacher(Session.getTeacherId());
+        Teacher teacher = DAOFactory.make().selectTeacher(Session.getTeacherId());
 
         fillFormTeacher(teacher);
     }
@@ -106,7 +106,7 @@ public class SettingActivity extends MotherActivity {
     private void tryToPerformUpdateTeacher() {
         String email = this.formTeacher.editTextEmail.getText().toString().trim();
 
-        DAO dao = DAOFactory.get();
+        DAO dao = DAOFactory.make();
 
         if (!dao.containsTeacherByEmail(email)) {
             Teacher teacher = dao.selectTeacher(Session.getTeacherId());

@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.ws.WebServiceProviderFactory;
+import com.sasd13.proadmin.ws.WSConsumerFactory;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -30,7 +30,7 @@ public class ProjectActivity extends MotherActivity {
         super.onStart();
 
         try {
-            Project project = (Project) WebServiceProviderFactory.get("PROJECT").get(getProjectIdFromIntent());
+            Project project = (Project) WSConsumerFactory.make("PROJECT").get(getProjectIdFromIntent());
 
             fillPresentationProject(project);
         } catch (NullPointerException e) {

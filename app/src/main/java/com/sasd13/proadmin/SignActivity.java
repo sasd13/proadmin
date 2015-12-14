@@ -108,7 +108,7 @@ public class SignActivity extends ActionBarActivity {
     private void tryToPerformSignUp() {
         Teacher teacher = getTeacherFromForm();
 
-        DAO dao = DAOFactory.get();
+        DAO dao = DAOFactory.make();
 
         if (!dao.containsTeacherByNumber(teacher.getNumber())) {
             if (!dao.containsTeacherByEmail(teacher.getEmail())) {
