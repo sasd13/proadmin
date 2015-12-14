@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.ws;
 
+import com.sasd13.androidx.ws.WSConsumer;
 import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
 

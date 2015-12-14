@@ -31,11 +31,11 @@ public class HomeActivity extends MotherActivity {
         this.imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         this.imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawableToImageViews();
-        addListenerToImageViews();
+        addDrawablesToImageViews();
+        addListenersToImageViews();
     }
 
-    private void addDrawableToImageViews() {
+    private void addDrawablesToImageViews() {
         Resources resources = getResources();
 
         this.imageViewCalendar.setImageDrawable(resources.getDrawable(R.drawable.imageview_calendar));
@@ -44,16 +44,13 @@ public class HomeActivity extends MotherActivity {
         this.imageViewReport.setImageDrawable(resources.getDrawable(R.drawable.imageview_report));
     }
 
-    private void addListenerToImageViews() {
+    private void addListenersToImageViews() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = null;
 
                 switch (v.getId()) {
-                    case R.id.home_imageview_calendar:
-                        intent = new Intent(HomeActivity.this, SettingActivity.class);
-                        break;
                     case R.id.home_imageview_project:
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
                         break;
@@ -63,6 +60,9 @@ public class HomeActivity extends MotherActivity {
                     /*case R.id.home_imageview_report:
                         intent = new Intent(HomeActivity.this, ReportsActivity.class);
                         break;*/
+                    case R.id.home_imageview_calendar:
+                        intent = new Intent(HomeActivity.this, SettingActivity.class);
+                        break;
                 }
 
                 try {

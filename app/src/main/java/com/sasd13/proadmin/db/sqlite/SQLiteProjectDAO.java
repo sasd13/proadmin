@@ -81,4 +81,37 @@ public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements Project
 
         return list;
     }
+
+    @Override
+    public List<Project> selectAll() {
+        List<Project> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + PROJECT_TABLE_NAME, null);
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public boolean contains(long id) {
+        boolean contains = false;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + PROJECT_TABLE_NAME
+                        + " where " + PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
+
+        if (cursor.moveToNext()) {
+            contains = true;
+        }
+        cursor.close();
+
+        return contains;
+    }
 }

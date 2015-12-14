@@ -1,14 +1,10 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.ws.WSConsumerFactory;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -30,11 +26,11 @@ public class ProjectActivity extends MotherActivity {
         super.onStart();
 
         try {
-            Project project = (Project) WSConsumerFactory.make("PROJECT").get(getProjectIdFromIntent());
+            Project project = DAOFactory.make().selectProject(getProjectIdFromIntent());
 
             fillPresentationProject(project);
         } catch (NullPointerException e) {
-            CustomDialog.showOkDialog(this, "Error", "Service not found");
+            e.printStackTrace();
         }
     }
 
@@ -44,26 +40,5 @@ public class ProjectActivity extends MotherActivity {
 
     private void fillPresentationProject(Project project) {
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_home_action_logout:
-                logOut();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
     }
 }

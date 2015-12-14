@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.sasd13.androidx.gui.color.ColorOnTouchListener;
+import com.sasd13.androidx.gui.widget.recycler.RecyclerItem;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.gui.color.ColorOnTouchListener;
-import com.sasd13.proadmin.gui.widget.recycler.RecyclerItem;
 
 public class TabItemProject extends RecyclerItem {
 
@@ -52,19 +52,16 @@ public class TabItemProject extends RecyclerItem {
 
     public void setIntent(Intent intent) {
         this.intent = intent;
+        this.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         try {
             getView().setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
-                    if (TabItemProject.this.intent != null) {
-                        TabItemProject.this.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        view.getContext().startActivity(TabItemProject.this.intent);
-                    }
+                    view.getContext().startActivity(TabItemProject.this.intent);
                 }
             });
-            int color = getView().getContext().getResources().getColor(R.color.background_material_light);
-            getView().setOnTouchListener(new ColorOnTouchListener(color));
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -76,6 +73,7 @@ public class TabItemProject extends RecyclerItem {
 
         findViews();
         bindViews();
+        setOnTouchListener();
     }
 
     private void findViews() {
@@ -88,5 +86,11 @@ public class TabItemProject extends RecyclerItem {
         setCode(this.code);
         setTitle(this.title);
         setDescription(this.description);
+        setIntent(this.intent);
+    }
+
+    private void setOnTouchListener() {
+        int color = getView().getContext().getResources().getColor(R.color.background_material_light);
+        getView().setOnTouchListener(new ColorOnTouchListener(color));
     }
 }

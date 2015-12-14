@@ -11,15 +11,16 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.androidx.gui.widget.recycler.tab.Tab;
+import com.sasd13.androidx.gui.widget.spin.Spin;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.gui.widget.recycler.tab.Tab;
+import com.sasd13.proadmin.db.DAO;
+import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
-import com.sasd13.proadmin.gui.widget.spin.Spin;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.WSConsumerFactory;
+import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
+import com.sasd13.wsprovider.proadmin.bean.project.Project;
 
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class ProjectsActivity extends MotherActivity {
 
         createSpinAcademicLevels();
         createTabProjects();
+
+        fillSpinAcademicLevels();
+        fillTabProjects();
     }
 
     private void createSpinAcademicLevels() {
@@ -62,29 +66,14 @@ public class ProjectsActivity extends MotherActivity {
         this.tab = new Tab(this, recyclerView);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        fillSpinAcademicLevels();
-
-        try {
-            fillTabProjects();
-        } catch (NullPointerException e) {
-            CustomDialog.showOkDialog(this, "Error", "Service not found");
-        }
-    }
-
     private void fillSpinAcademicLevels() {
-        this.spin.clearItems();
-
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
             this.spin.addItem(String.valueOf(academicLevel));
         }
     }
 
     private void fillTabProjects() {
-        this.projects = WSConsumerFactory.make("PROJECT").get();
+        this.projects = DAOFactory.make().selectAllProjects();
 
         this.spin.resetPosition();
 
@@ -94,7 +83,7 @@ public class ProjectsActivity extends MotherActivity {
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
         this.tab.clearItems();
 
-        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(this.projects, academicLevel));
+        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
     }
 
     private void addProjectsToTab(List<Project> list) {
@@ -138,8 +127,23 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void refresh() {
+        pullProjectsFromWebService();
+
         fillTabProjects();
 
         Toast.makeText(this, R.string.toast_updated, Toast.LENGTH_SHORT).show();
+    }
+
+    private void pullProjectsFromWebService() {
+        List<Project> list = WSConsumerFactory.make("PROJECT").get();
+
+        persistPulledProjects(list);
+    }
+
+    private void persistPulledProjects(List<Project> list) {
+        DAO dao = DAOFactory.make();
+        for (Project project : list) {
+            dao.persistProject(project);
+        }
     }
 }

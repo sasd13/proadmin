@@ -11,14 +11,14 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
+import com.sasd13.androidx.form.FormValidator;
+import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidx.gui.widget.dialog.CustomDialogBuilder;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
-import com.sasd13.proadmin.form.FormValidator;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialogBuilder;
 import com.sasd13.proadmin.session.Session;
+import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 
 public class SignActivity extends ActionBarActivity {
 

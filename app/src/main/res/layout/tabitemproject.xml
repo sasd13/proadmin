@@ -47,8 +47,7 @@
             android:gravity="left|center_vertical"
             android:text="@string/tabitem_project_textview_description"
             android:textSize="@dimen/textsize_medium"
-            android:minLines="1"
-            android:maxLines="3"
+            android:singleLine="true"
             android:ellipsize="end"/>
 
     </RelativeLayout>

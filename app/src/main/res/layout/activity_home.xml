@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/home_textview_title_verticalmargin"
             android:layout_marginBottom="@dimen/home_textview_title_verticalmargin"
             android:paddingRight="@dimen/home_textview_title_paddingright"
-            android:text="@string/app"
+            android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_small" />

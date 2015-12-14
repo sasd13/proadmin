@@ -116,6 +116,18 @@ public abstract class DAO {
         return contains;
     }
 
+    public void persistProject(Project project) {
+        open();
+
+        if (!projectDAO.contains(project.getId())) {
+            insertProject(project);
+        } else {
+            updateProject(project);
+        }
+
+        close();
+    }
+
     public long insertProject(Project project) {
         long id;
 
@@ -157,6 +169,18 @@ public abstract class DAO {
         open();
 
         list = projectDAO.selectByAcademicLevel(academicLevel);
+
+        close();
+
+        return list;
+    }
+
+    public List<Project> selectAllProjects() {
+        List<Project> list;
+
+        open();
+
+        list = projectDAO.selectAll();
 
         close();
 

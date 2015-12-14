@@ -13,8 +13,6 @@ public class Session {
 
     private static SharedPreferences preferences;
 
-    protected Session() {}
-    
     public static void start(Context context) {
         preferences = context.getSharedPreferences(SESSION_PREFERENCES, Context.MODE_PRIVATE);
     }

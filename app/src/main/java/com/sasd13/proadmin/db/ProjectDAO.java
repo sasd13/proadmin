@@ -22,4 +22,8 @@ public interface ProjectDAO {
     Project select(long id);
 
     List<Project> selectByAcademicLevel(AcademicLevel academicLevel);
+
+    List<Project> selectAll();
+
+    boolean contains(long id);
 }

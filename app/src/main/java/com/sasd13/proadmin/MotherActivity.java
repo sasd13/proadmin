@@ -7,18 +7,16 @@ import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewStub;
 
+import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidx.gui.widget.dialog.CustomDialogBuilder;
+import com.sasd13.androidx.gui.widget.recycler.drawer.Drawer;
+import com.sasd13.androidx.gui.widget.recycler.drawer.DrawerItemTitle;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.content.HomeMenuItem;
-import com.sasd13.proadmin.gui.content.HomeMenuItems;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.gui.widget.dialog.CustomDialogBuilder;
-import com.sasd13.proadmin.gui.widget.recycler.drawer.Drawer;
+import com.sasd13.proadmin.gui.content.homemenu.HomeMenuItem;
+import com.sasd13.proadmin.gui.content.homemenu.HomeMenu;
 import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemHomeMenu;
-import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemTitle;
 import com.sasd13.proadmin.session.Session;
 
 public abstract class MotherActivity extends ActionBarActivity {
@@ -60,10 +58,10 @@ public abstract class MotherActivity extends ActionBarActivity {
     }
 
     private void addHomeMenuItemsToDrawer() {
-        HomeMenuItems homeMenuItems = HomeMenuItems.getInstance(this);
+        HomeMenu homeMenu = HomeMenu.getInstance(this);
 
         DrawerItemHomeMenu drawerItemHomeMenu;
-        for (HomeMenuItem homeMenuItem : homeMenuItems.getItems()) {
+        for (HomeMenuItem homeMenuItem : homeMenu.getItems()) {
             drawerItemHomeMenu = new DrawerItemHomeMenu();
 
             drawerItemHomeMenu.setColor(homeMenuItem.getColor());
@@ -79,19 +77,6 @@ public abstract class MotherActivity extends ActionBarActivity {
         super.onPause();
 
         this.drawer.setOpened(false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public void logOut() {

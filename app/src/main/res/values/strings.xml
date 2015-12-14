@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Activity -->
-    <string name="activity_splashscreen">@string/app</string>
+    <string name="activity_splashscreen">@string/app_name</string>
     <string name="activity_log">Connexion</string>
     <string name="activity_sign">Inscription</string>
     <string name="activity_home">Menu</string>
@@ -12,7 +12,7 @@
 
     <!-- Activity Log -->
     <string name="log_button_connect">Connexion</string>
-    <string name="log_textview_sign">Inscription sur @string/app</string>
+    <string name="log_textview_sign">Inscription sur Proadmin</string>
     <string name="log_textview_restorepassword">Mot de passe oublié ?</string>
     <string name="log_alertdialog_title_error_log">Erreur connexion</string>
     <string name="log_alertdialog_message_error_log">Identifiants invalides</string>
@@ -32,59 +32,17 @@
     <!-- Activity Project -->
 
     <!-- Application -->
-    <string name="app">Proadmin</string>
-
-    <!-- Button -->
-    <string name="button_save">Enregistrer</string>
-
-    <!-- Dialog -->
-    <string name="alertdialog_title_careful">Attention</string>
-    <string name="alertdialog_title_error">Erreur</string>
-    <string name="alertdialog_message_confirm">Confirmer ?</string>
-    <string name="alertdialog_message_error">Une erreur est survenue</string>
-    <string name="alertdialog_button_yes">Oui</string>
-    <string name="alertdialog_button_no">Non</string>
-    <string name="alertdialog_button_ok">OK</string>
-    <string name="alertdialog_button_cancel">Annuler</string>
-
-    <!-- Drawer -->
-    <string name="draweritem_textview_item">Item</string>
-    <string name="draweritemtitle_textview_title">Title</string>
+    <string name="app_name">Proadmin</string>
 
     <!-- EditText -->
-    <string name="edittext_hint_firstname">Prénom</string>
-    <string name="edittext_hint_lastname">Nom</string>
-    <string name="edittext_hint_email">Adresse email</string>
     <string name="edittext_hint_number">Matricule</string>
-    <string name="edittext_hint_password">Mot de passe</string>
-    <string name="edittext_hint_confirmpassword">Confirmer</string>
-
-    <!-- Grid -->
-    <string name="griditem_textview">Item</string>
 
     <!-- Form -->
     <string name="form_textview_title_number">MATRICULE</string>
-    <string name="form_textview_title_email">EMAIL</string>
-    <string name="form_textview_identity">IDENTITE</string>
-    <string name="form_textview_connection">CONNEXION</string>
-    <string name="form_textview_password">MOT DE PASSE</string>
-    <string name="form_textview_terms">J\'atteste avoir lu le contrat d\'utilisation</string>
-
-    <!-- Menu -->
-    <string name="menuitem_action_accept">Valider</string>
-    <string name="menuitem_action_logout">Déconnecter</string>
-    <string name="menuitem_action_new">Nouveau</string>
-    <string name="menuitem_action_edit">Modifier</string>
-    <string name="menuitem_action_discard">Supprimer</string>
-    <string name="menuitem_action_refresh">Rafraîchir</string>
 
     <!-- Tab -->
     <string name="tabitem_project_textview_title">Title</string>
     <string name="tabitem_project_textview_code">Code</string>
     <string name="tabitem_project_textview_description">Description</string>
-
-    <!-- Toast -->
-    <string name="toast_saved">Enregistré</string>
-    <string name="toast_updated">Actualisé</string>
 
 </resources>
