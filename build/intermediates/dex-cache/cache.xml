@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-b3b4fddec72fece6a868f7c66b62add754b1ae07.jar" />
-    </item>
-    <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.sasd13.androidx\androidx\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="487fe64d3a1c49ba814515ae836cdcf7c579245f">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-962d815b73b8b23f77589b766639f44f0c585dac.jar" />
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-5bb6f634b7121e28369d592fcdb3abc6638fa417.jar" />
     </item>
     <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\app\libs\wsprovider-1.0.jar"
@@ -23,11 +16,11 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\wsprovider-1.0-319e59b915d82e70c69497f723c6a583c853447d.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-b1ee4714a45c71dbbb81be9a40648a51da82ccca.jar" />
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-b3b4fddec72fece6a868f7c66b62add754b1ae07.jar" />
     </item>
     <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
@@ -44,18 +37,25 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-f77da84c532f15e57e9a106360fbed2f12dcba7f.jar" />
     </item>
     <item
+        jar="C:\Users\Samir\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-b1ee4714a45c71dbbb81be9a40648a51da82ccca.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.sasd13.androidx\androidx\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="19e2ede79a21721264deb8f9d8c1746eccd689fe">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-962d815b73b8b23f77589b766639f44f0c585dac.jar" />
+    </item>
+    <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-e9b074a335e084cbddc39d6ed5ee6d01f03a09eb.jar" />
-    </item>
-    <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\classes-5bb6f634b7121e28369d592fcdb3abc6638fa417.jar" />
     </item>
 
 </items>

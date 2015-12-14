@@ -18,386 +18,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d2751b1-c55a-4cae-9607-3fb59e6de496" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/androidx_.xml" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\form\FormValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\color\ColorBrightness.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\color\ColorOnTouchListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\dialog\CustomDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\dialog\CustomDialogBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\Recycler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\RecyclerAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\RecyclerAdapterDataObserver.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\RecyclerItem.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\drawer\Drawer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\drawer\DrawerItem.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\drawer\DrawerItemIntentable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\drawer\DrawerItemTitle.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\recycler\tab\Tab.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\widget\spin\Spin.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\ws\WSConsumer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-hdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-mdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-hdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-mdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-sw600dp-xhdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xhdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_check_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_off_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_off_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_off_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_off_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_off_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_on_disabled_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_on_disabled_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_on_focused_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_on_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\btn_radio_on_pressed_holo_light.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\drawer_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_accept.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_calendar.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_discard.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_drawer.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_edit.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_logout.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_new.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\ic_action_select_all.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\spinner_default_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\spinner_disabled_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\spinner_focused_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\spinner_pressed_holo_light_am.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_multiline_activated_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_multiline_default_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_multiline_disabled_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_multiline_disabled_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable-xxhdpi\textfield_multiline_focused_holo_light.9.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\btn_check_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\btn_radio_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\edit_text_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\ratingbar_active.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\spinner_default_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\spinner_disabled_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\spinner_focused_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\drawable\spinner_pressed_holo_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\layout\customdialog_load.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\layout\draweritem.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\layout\draweritemtitle.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\layout\recycler.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\layout\recycleritem.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\mipmap-hdpi\Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\mipmap-mdpi\Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\mipmap-xhdpi\Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\mipmap-xxhdpi\Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\values-ldpi\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\res\values\colors.xml" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\content\HomeMenuItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenuItem.java" />
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\app\src\main\java\com\sasd13\proadmin\gui\content\HomeMenuItems.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/androidx.aar" afterPath="$PROJECT_DIR$/app/libs/androidx.aar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/DAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/DAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/drawer/DrawerItemHomeMenu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/drawer/DrawerItemHomeMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LogActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LogActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/MotherActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/MotherActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/ProjectDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/ProjectDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/ProjectWSConsumer.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/ProjectWSConsumer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/sqlite/SQLiteProjectDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/sqlite/SQLiteProjectDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/session/Session.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/session/Session.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SettingActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SettingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SignActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SignActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemProject.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemProject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/WSConsumerFactory.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/WSConsumerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/draweritemhomemenu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/draweritemhomemenu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tabitemproject.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tabitemproject.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="proadmin.iws" />
@@ -1924,7 +1552,7 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1942,14 +1570,10 @@
               <option name="myItemId" value="proadmin" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -2177,7 +1801,6 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.49697885" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -2197,6 +1820,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2252,7 +1876,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13246754">
           <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2260,9 +1883,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2270,7 +1890,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2278,7 +1897,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2286,9 +1904,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37649062">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2296,7 +1911,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42078364">
           <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2304,9 +1918,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.04940375">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2314,7 +1925,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4633731">
           <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2322,7 +1932,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11584327">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2330,7 +1939,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6950596">
           <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2338,9 +1946,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.44974446">
           <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2351,7 +1956,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.259259">
           <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2359,7 +1963,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2367,7 +1970,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2375,7 +1977,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2383,7 +1984,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.51944447">
           <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2391,7 +1991,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.54448396">
           <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2410,7 +2009,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18214285">
           <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2418,7 +2016,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.057921637">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2426,9 +2023,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23168655">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2436,9 +2030,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="93" column="62" selection-start-line="93" selection-start-column="62" selection-end-line="93" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2446,7 +2037,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="52" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2454,7 +2044,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26064736">
           <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2462,7 +2051,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="67" column="21" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2470,7 +2058,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2478,7 +2065,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2486,7 +2072,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2494,7 +2079,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2502,7 +2086,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2510,9 +2093,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2520,9 +2100,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="58" selection-start-line="20" selection-start-column="58" selection-end-line="20" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2530,7 +2107,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8398637">
           <caret line="36" column="25" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2538,7 +2114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42348754">
           <caret line="14" column="61" selection-start-line="14" selection-start-column="61" selection-end-line="14" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2546,7 +2121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2554,7 +2128,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.637138">
           <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2573,7 +2146,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48392856">
           <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
