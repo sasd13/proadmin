@@ -11,9 +11,9 @@ import android.widget.Toast;
 import com.sasd13.androidx.form.FormValidator;
 import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.db.DAOFactory;
+import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.session.Session;
-import proadminlib.bean.member.Teacher;
-import proadminlib.db.DAO;
 
 public class SettingActivity extends MotherActivity {
 

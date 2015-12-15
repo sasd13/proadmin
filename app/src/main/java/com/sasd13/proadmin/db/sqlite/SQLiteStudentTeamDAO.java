@@ -4,10 +4,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.sasd13.proadmin.core.db.StudentTeamDAO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.db.StudentTeamDAO;
 
 public class SQLiteStudentTeamDAO implements StudentTeamDAO {
 

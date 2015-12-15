@@ -3,13 +3,13 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.proadmin.core.bean.running.Report;
+import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.db.ReportDAO;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.bean.running.Report;
-import proadminlib.bean.running.Team;
-import proadminlib.db.ReportDAO;
 
 public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO {
 

@@ -2,7 +2,7 @@ package com.sasd13.proadmin.db;
 
 import android.content.Context;
 
-import proadminlib.db.DAO;
+import com.sasd13.proadmin.core.db.DAO;
 
 /**
  * Created by Samir on 15/12/2015.

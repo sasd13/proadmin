@@ -3,13 +3,13 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.core.bean.project.Project;
+import com.sasd13.proadmin.core.bean.running.Running;
+import com.sasd13.proadmin.core.db.RunningDAO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.bean.member.Teacher;
-import proadminlib.bean.project.Project;
-import proadminlib.bean.running.Running;
-import proadminlib.db.RunningDAO;
 
 public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements RunningDAO {
 

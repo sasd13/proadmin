@@ -3,13 +3,13 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.proadmin.core.bean.member.Student;
+import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.core.bean.running.Report;
+import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.bean.member.Student;
-import proadminlib.bean.running.IndividualEvaluation;
-import proadminlib.bean.running.Report;
-import proadminlib.db.IndividualEvaluationDAO;
 
 public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 

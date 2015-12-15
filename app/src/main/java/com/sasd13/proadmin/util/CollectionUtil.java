@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import proadminlib.bean.AcademicLevel;
-import proadminlib.bean.project.Project;
+import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.sasd13.proadmin.core.bean.project.Project;
 
 public class CollectionUtil {
 

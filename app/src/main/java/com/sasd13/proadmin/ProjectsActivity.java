@@ -14,16 +14,15 @@ import android.widget.Toast;
 import com.sasd13.androidx.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidx.gui.widget.spin.Spin;
 import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.sasd13.proadmin.core.bean.project.Project;
+import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.RestWebServiceClientFactory;
+import com.sasd13.proadmin.wsclient.RestWebServiceClientFactory;
 
 import java.util.List;
-
-import proadminlib.bean.AcademicLevel;
-import proadminlib.bean.project.Project;
-import proadminlib.db.DAO;
 
 public class ProjectsActivity extends MotherActivity {
 

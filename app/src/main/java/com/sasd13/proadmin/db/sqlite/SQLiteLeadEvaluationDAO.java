@@ -3,10 +3,10 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import proadminlib.bean.running.LeadEvaluation;
-import proadminlib.bean.member.Student;
-import proadminlib.bean.running.Report;
-import proadminlib.db.LeadEvaluationDAO;
+import com.sasd13.proadmin.core.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.core.bean.member.Student;
+import com.sasd13.proadmin.core.bean.running.Report;
+import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
 
 public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements LeadEvaluationDAO {
 

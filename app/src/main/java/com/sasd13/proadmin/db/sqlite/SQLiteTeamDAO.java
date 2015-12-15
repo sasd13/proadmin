@@ -3,12 +3,12 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.proadmin.core.bean.running.Running;
+import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.db.TeamDAO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.bean.running.Running;
-import proadminlib.bean.running.Team;
-import proadminlib.db.TeamDAO;
 
 public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
 

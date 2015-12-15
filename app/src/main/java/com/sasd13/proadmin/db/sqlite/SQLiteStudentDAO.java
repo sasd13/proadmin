@@ -3,12 +3,12 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.sasd13.proadmin.core.bean.member.Student;
+import com.sasd13.proadmin.core.db.StudentDAO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import proadminlib.bean.AcademicLevel;
-import proadminlib.bean.member.Student;
-import proadminlib.db.StudentDAO;
 
 public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements StudentDAO {
 
