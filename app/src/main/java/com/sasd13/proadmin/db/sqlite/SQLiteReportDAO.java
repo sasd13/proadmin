@@ -7,9 +7,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.wsprovider.proadmin.bean.running.Report;
-import com.sasd13.wsprovider.proadmin.bean.running.Team;
-import com.sasd13.wsprovider.proadmin.db.ReportDAO;
+import proadminlib.bean.running.Report;
+import proadminlib.bean.running.Team;
+import proadminlib.db.ReportDAO;
 
 public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO {
 
@@ -81,6 +81,22 @@ public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO
                 "select *"
                         + " from " + REPORT_TABLE_NAME
                         + " where " + TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(teamId)});
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public List<Report> selectAll() {
+        List<Report> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + REPORT_TABLE_NAME, null);
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

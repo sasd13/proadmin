@@ -5,15 +5,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sasd13.wsprovider.proadmin.db.IndividualEvaluationDAO;
-import com.sasd13.wsprovider.proadmin.db.LeadEvaluationDAO;
-import com.sasd13.wsprovider.proadmin.db.ProjectDAO;
-import com.sasd13.wsprovider.proadmin.db.ReportDAO;
-import com.sasd13.wsprovider.proadmin.db.RunningDAO;
-import com.sasd13.wsprovider.proadmin.db.StudentDAO;
-import com.sasd13.wsprovider.proadmin.db.StudentTeamDAO;
-import com.sasd13.wsprovider.proadmin.db.TeacherDAO;
-import com.sasd13.wsprovider.proadmin.db.TeamDAO;
+import proadminlib.db.IndividualEvaluationDAO;
+import proadminlib.db.LeadEvaluationDAO;
+import proadminlib.db.ProjectDAO;
+import proadminlib.db.ReportDAO;
+import proadminlib.db.RunningDAO;
+import proadminlib.db.StudentDAO;
+import proadminlib.db.StudentTeamDAO;
+import proadminlib.db.TeacherDAO;
+import proadminlib.db.TeamDAO;
 
 public class SQLiteDBHandler extends SQLiteOpenHelper {
 

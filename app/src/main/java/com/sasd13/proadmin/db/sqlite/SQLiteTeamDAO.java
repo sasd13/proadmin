@@ -6,9 +6,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.wsprovider.proadmin.bean.running.Running;
-import com.sasd13.wsprovider.proadmin.bean.running.Team;
-import com.sasd13.wsprovider.proadmin.db.TeamDAO;
+import proadminlib.bean.running.Running;
+import proadminlib.bean.running.Team;
+import proadminlib.db.TeamDAO;
 
 public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
 
@@ -78,6 +78,22 @@ public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
                         + " where " + RUNNINGS_RUNNING_ID + " = ?", new String[]{String.valueOf(runningId)});
 
         while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public List<Team> selectAll() {
+        List<Team> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEAM_TABLE_NAME, null);
+
+        if (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }
         cursor.close();

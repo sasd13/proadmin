@@ -4,8 +4,9 @@ import android.os.Bundle;
 
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
-import com.sasd13.wsprovider.proadmin.db.DAO;
+
+import proadminlib.bean.project.Project;
+import proadminlib.db.DAO;
 
 public class ProjectActivity extends MotherActivity {
 

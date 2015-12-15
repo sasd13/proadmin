@@ -6,9 +6,9 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
-import com.sasd13.wsprovider.proadmin.db.ProjectDAO;
+import proadminlib.bean.AcademicLevel;
+import proadminlib.bean.project.Project;
+import proadminlib.db.ProjectDAO;
 
 public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements ProjectDAO {
 

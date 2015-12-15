@@ -17,12 +17,13 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.WSConsumerFactory;
-import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
-import com.sasd13.wsprovider.proadmin.db.DAO;
+import com.sasd13.proadmin.ws.RestWebServiceClientFactory;
 
 import java.util.List;
+
+import proadminlib.bean.AcademicLevel;
+import proadminlib.bean.project.Project;
+import proadminlib.db.DAO;
 
 public class ProjectsActivity extends MotherActivity {
 
@@ -139,7 +140,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void pullProjectsFromWebService() {
-        List<Project> list = WSConsumerFactory.make("PROJECT").get();
+        List<Project> list = RestWebServiceClientFactory.make("PROJECT").get();
 
         persistPulledProjects(list);
     }

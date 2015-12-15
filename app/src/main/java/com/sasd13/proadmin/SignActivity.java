@@ -17,8 +17,9 @@ import com.sasd13.androidx.gui.widget.dialog.CustomDialogBuilder;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.session.Session;
-import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
-import com.sasd13.wsprovider.proadmin.db.DAO;
+
+import proadminlib.bean.member.Teacher;
+import proadminlib.db.DAO;
 
 public class SignActivity extends ActionBarActivity {
 

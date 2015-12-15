@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sasd13.proadmin.db.LocalDAO;
-import com.sasd13.wsprovider.proadmin.db.DAO;
 
 public class SQLiteDAO extends LocalDAO {
 

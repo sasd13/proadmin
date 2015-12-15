@@ -3,9 +3,12 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
-import com.sasd13.wsprovider.proadmin.bean.member.Student;
-import com.sasd13.wsprovider.proadmin.db.StudentDAO;
+import java.util.ArrayList;
+import java.util.List;
+
+import proadminlib.bean.AcademicLevel;
+import proadminlib.bean.member.Student;
+import proadminlib.db.StudentDAO;
 
 public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements StudentDAO {
 
@@ -47,6 +50,11 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
     }
 
     @Override
+    public void delete(long id) {
+        getDB().delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    @Override
     public Student select(long id) {
         Student student = null;
 
@@ -78,5 +86,21 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
         cursor.close();
 
         return student;
+    }
+
+    @Override
+    public List<Student> selectAll() {
+        List<Student> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + STUDENT_TABLE_NAME, null);
+
+        if (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
     }
 }

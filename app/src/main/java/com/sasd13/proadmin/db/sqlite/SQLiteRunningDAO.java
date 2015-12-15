@@ -6,10 +6,10 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
-import com.sasd13.wsprovider.proadmin.bean.running.Running;
-import com.sasd13.wsprovider.proadmin.db.RunningDAO;
+import proadminlib.bean.member.Teacher;
+import proadminlib.bean.project.Project;
+import proadminlib.bean.running.Running;
+import proadminlib.db.RunningDAO;
 
 public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements RunningDAO {
 
@@ -81,6 +81,22 @@ public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements Running
                 "select *"
                         + " from " + RUNNING_TABLE_NAME
                         + " where " + TEACHERS_TEACHER_ID + " = ?", new String[]{String.valueOf(teacherId)});
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public List<Running> selectAll() {
+        List<Running> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + RUNNING_TABLE_NAME, null);
 
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));

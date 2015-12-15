@@ -1,12 +1,12 @@
 package com.sasd13.proadmin.util;
 
-import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
-import com.sasd13.wsprovider.proadmin.bean.project.Project;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import proadminlib.bean.AcademicLevel;
+import proadminlib.bean.project.Project;
 
 public class CollectionUtil {
 

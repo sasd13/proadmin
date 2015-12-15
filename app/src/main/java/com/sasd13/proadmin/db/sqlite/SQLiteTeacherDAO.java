@@ -3,8 +3,11 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
-import com.sasd13.wsprovider.proadmin.db.TeacherDAO;
+import java.util.ArrayList;
+import java.util.List;
+
+import proadminlib.bean.member.Teacher;
+import proadminlib.db.TeacherDAO;
 
 public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements TeacherDAO {
 
@@ -99,5 +102,21 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
         cursor.close();
 
         return teacher;
+    }
+
+    @Override
+    public List<Teacher> selectAll() {
+        List<Teacher> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEACHER_TABLE_NAME, null);
+
+        if (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
     }
 }
