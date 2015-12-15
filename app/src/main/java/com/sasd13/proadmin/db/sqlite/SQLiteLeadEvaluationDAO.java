@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.sasd13.wsprovider.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.wsprovider.proadmin.bean.member.Student;
 import com.sasd13.wsprovider.proadmin.bean.running.Report;
-import com.sasd13.proadmin.db.LeadEvaluationDAO;
+import com.sasd13.wsprovider.proadmin.db.LeadEvaluationDAO;
 
 public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements LeadEvaluationDAO {
 
@@ -14,7 +14,6 @@ public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> impl
     protected ContentValues getContentValues(LeadEvaluation leadEvaluation) {
         ContentValues values = new ContentValues();
 
-        //values.put(LEADEVALUATION_ID, leadEvaluation.getId()); //autoincrement
         values.put(LEADEVALUATION_PLANNINGMARK, leadEvaluation.getPlanningMark());
         values.put(LEADEVALUATION_PLANNINGCOMMENT, leadEvaluation.getPlanningComment());
         values.put(LEADEVALUATION_COMMUNICATIONMARK, leadEvaluation.getCommunicationMark());
@@ -30,9 +29,9 @@ public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> impl
         LeadEvaluation leadEvaluation = new LeadEvaluation();
 
         leadEvaluation.setId(cursor.getLong(cursor.getColumnIndex(LEADEVALUATION_ID)));
-        leadEvaluation.setPlanningMark(cursor.getDouble(cursor.getColumnIndex(LEADEVALUATION_PLANNINGMARK)));
+        leadEvaluation.setPlanningMark(cursor.getFloat(cursor.getColumnIndex(LEADEVALUATION_PLANNINGMARK)));
         leadEvaluation.setPlanningComment(cursor.getString(cursor.getColumnIndex(LEADEVALUATION_PLANNINGCOMMENT)));
-        leadEvaluation.setCommunicationMark(cursor.getDouble(cursor.getColumnIndex(LEADEVALUATION_COMMUNICATIONMARK)));
+        leadEvaluation.setCommunicationMark(cursor.getFloat(cursor.getColumnIndex(LEADEVALUATION_COMMUNICATIONMARK)));
         leadEvaluation.setCommunicationComment(cursor.getString(cursor.getColumnIndex(LEADEVALUATION_COMMUNICATIONCOMMENT)));
 
         Student student = new Student();

@@ -4,11 +4,11 @@ import com.sasd13.proadmin.db.sqlite.SQLiteDAO;
 
 public class DAOFactory {
 
-    public static DAO make() {
+    public static LocalDAO make() {
         return make(SQLiteDAO.class);
     }
 
-    public static DAO make(Class daoClass) {
+    public static LocalDAO make(Class dao) {
         return SQLiteDAO.getInstance();
     }
 }

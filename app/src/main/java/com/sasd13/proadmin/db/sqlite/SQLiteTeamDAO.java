@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.sasd13.wsprovider.proadmin.bean.running.Running;
 import com.sasd13.wsprovider.proadmin.bean.running.Team;
-import com.sasd13.proadmin.db.TeamDAO;
+import com.sasd13.wsprovider.proadmin.db.TeamDAO;
 
 public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
 
@@ -16,7 +16,6 @@ public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
     protected ContentValues getContentValues(Team team) {
         ContentValues values = new ContentValues();
 
-        //values.put(TEAM_ID, team.getId()); //autoincrement
         values.put(TEAM_CODE, team.getCode());
         values.put(RUNNINGS_RUNNING_ID, team.getRunning().getId());
 

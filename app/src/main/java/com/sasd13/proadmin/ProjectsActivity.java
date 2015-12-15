@@ -14,13 +14,13 @@ import android.widget.Toast;
 import com.sasd13.androidx.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidx.gui.widget.spin.Spin;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.WSConsumerFactory;
 import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
 import java.util.List;
 
@@ -73,7 +73,11 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void fillTabProjects() {
-        this.projects = DAOFactory.make().selectAllProjects();
+        DAO dao = DAOFactory.make();
+
+        dao.open();
+        this.projects = dao.selectAllProjects();
+        dao.close();
 
         this.spin.resetPosition();
 
@@ -142,8 +146,11 @@ public class ProjectsActivity extends MotherActivity {
 
     private void persistPulledProjects(List<Project> list) {
         DAO dao = DAOFactory.make();
+
+        dao.open();
         for (Project project : list) {
             dao.persistProject(project);
         }
+        dao.close();
     }
 }

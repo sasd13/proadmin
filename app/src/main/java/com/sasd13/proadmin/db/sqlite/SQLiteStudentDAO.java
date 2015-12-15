@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
 import com.sasd13.wsprovider.proadmin.bean.member.Student;
-import com.sasd13.proadmin.db.StudentDAO;
+import com.sasd13.wsprovider.proadmin.db.StudentDAO;
 
 public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements StudentDAO {
 
@@ -13,7 +13,6 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
     protected ContentValues getContentValues(Student student) {
         ContentValues values = new ContentValues();
 
-        //values.put(STUDENT_ID, student.getId()); //autoincrement
         values.put(STUDENT_NUMBER, student.getNumber());
         values.put(STUDENT_ACADEMICLEVEL, String.valueOf(student.getAcademicLevel()));
         values.put(STUDENT_FIRSTNAME, student.getFirstName());

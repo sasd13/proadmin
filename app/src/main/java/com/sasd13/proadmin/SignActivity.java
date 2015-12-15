@@ -15,10 +15,10 @@ import com.sasd13.androidx.form.FormValidator;
 import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidx.gui.widget.dialog.CustomDialogBuilder;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.session.Session;
 import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
 public class SignActivity extends ActionBarActivity {
 
@@ -110,8 +110,10 @@ public class SignActivity extends ActionBarActivity {
 
         DAO dao = DAOFactory.make();
 
-        if (!dao.containsTeacherByNumber(teacher.getNumber())) {
-            if (!dao.containsTeacherByEmail(teacher.getEmail())) {
+        dao.open();
+
+        if (dao.selectTeacherByNumber(teacher.getNumber()) == null) {
+            if (dao.selectTeacherByEmail(teacher.getEmail()) == null) {
                 performSignUp(teacher, dao);
 
                 Session.logIn(teacher.getNumber(), teacher.getPassword());
@@ -123,6 +125,8 @@ public class SignActivity extends ActionBarActivity {
         } else {
             CustomDialog.showOkDialog(this, "Error sign", "Number (" + teacher.getNumber() + ") already exists");
         }
+
+        dao.close();
     }
 
     private Teacher getTeacherFromForm() {

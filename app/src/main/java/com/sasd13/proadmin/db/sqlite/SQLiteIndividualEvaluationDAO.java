@@ -9,7 +9,7 @@ import java.util.List;
 import com.sasd13.wsprovider.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.wsprovider.proadmin.bean.member.Student;
 import com.sasd13.wsprovider.proadmin.bean.running.Report;
-import com.sasd13.proadmin.db.IndividualEvaluationDAO;
+import com.sasd13.wsprovider.proadmin.db.IndividualEvaluationDAO;
 
 public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 
@@ -17,7 +17,6 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEval
     protected ContentValues getContentValues(IndividualEvaluation individualEvaluation) {
         ContentValues values = new ContentValues();
 
-        //values.put(INDIVIDUALEVALUATION_ID, individualEvaluation.getId()); //autoincrement
         values.put(INDIVIDUALEVALUATION_MARK, individualEvaluation.getMark());
         values.put(STUDENTS_STUDENT_ID, individualEvaluation.getStudent().getId());
         values.put(REPORTS_REPORT_ID, individualEvaluation.getReport().getId());
@@ -30,7 +29,7 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEval
         IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 
         individualEvaluation.setId(cursor.getLong(cursor.getColumnIndex(INDIVIDUALEVALUATION_ID)));
-        individualEvaluation.setMark(cursor.getDouble(cursor.getColumnIndex(INDIVIDUALEVALUATION_MARK)));
+        individualEvaluation.setMark(cursor.getFloat(cursor.getColumnIndex(INDIVIDUALEVALUATION_MARK)));
 
         Student student = new Student();
         student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -26,7 +27,11 @@ public class ProjectActivity extends MotherActivity {
         super.onStart();
 
         try {
-            Project project = DAOFactory.make().selectProject(getProjectIdFromIntent());
+            DAO dao = DAOFactory.make();
+
+            dao.open();
+            Project project = dao.selectProject(getProjectIdFromIntent());
+            dao.close();
 
             fillPresentationProject(project);
         } catch (NullPointerException e) {

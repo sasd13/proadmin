@@ -9,7 +9,7 @@ import java.util.List;
 import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
 import com.sasd13.wsprovider.proadmin.bean.running.Running;
-import com.sasd13.proadmin.db.RunningDAO;
+import com.sasd13.wsprovider.proadmin.db.RunningDAO;
 
 public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements RunningDAO {
 
@@ -17,7 +17,6 @@ public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements Running
     protected ContentValues getContentValues(Running running) {
         ContentValues values = new ContentValues();
 
-        //values.put(RUNNING_ID, running.getId()); //autoincrement
         values.put(RUNNING_YEAR, running.getYear());
         values.put(TEACHERS_TEACHER_ID, running.getTeacher().getId());
         values.put(PROJECTS_PROJECT_ID, running.getProject().getId());

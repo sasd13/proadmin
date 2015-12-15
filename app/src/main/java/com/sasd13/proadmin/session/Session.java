@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.db.DAOFactory;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
 public class Session {
 
@@ -26,7 +27,11 @@ public class Session {
     }
 
     public static boolean logIn(String number, String password) {
-        Teacher teacher = DAOFactory.make().selectTeacherByNumber(number);
+        DAO dao = DAOFactory.make();
+
+        dao.open();
+        Teacher teacher = dao.selectTeacherByNumber(number);
+        dao.close();
 
         try {
             if (teacher.getPassword().equals(password)) {

@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import com.sasd13.androidx.form.FormValidator;
 import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.session.Session;
 import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
 public class SettingActivity extends MotherActivity {
 
@@ -46,7 +46,11 @@ public class SettingActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        Teacher teacher = DAOFactory.make().selectTeacher(Session.getTeacherId());
+        DAO dao = DAOFactory.make();
+
+        dao.open();
+        Teacher teacher = dao.selectTeacher(Session.getTeacherId());
+        dao.close();
 
         fillFormTeacher(teacher);
     }
@@ -108,23 +112,27 @@ public class SettingActivity extends MotherActivity {
 
         DAO dao = DAOFactory.make();
 
-        if (!dao.containsTeacherByEmail(email)) {
-            Teacher teacher = dao.selectTeacher(Session.getTeacherId());
+        dao.open();
+        Teacher teacher = dao.selectTeacherByEmail(email);
+
+        if (teacher == null) {
+            teacher = dao.selectTeacher(Session.getTeacherId());
 
             performUpdateTeacher(teacher, dao);
         } else {
-            Teacher teacher = dao.selectTeacherByEmail(email);
-
             if (teacher.getId() == Session.getTeacherId()) {
                 performUpdateTeacher(teacher, dao);
             } else {
                 CustomDialog.showOkDialog(this, "Error update", "Email (" + email + ") already exists");
             }
         }
+
+        dao.close();
     }
 
     private void performUpdateTeacher(Teacher teacher, DAO dao) {
         editTeacherWithForm(teacher);
+
         dao.updateTeacher(teacher);
 
         Toast.makeText(this, R.string.toast_saved, Toast.LENGTH_SHORT).show();

@@ -5,15 +5,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sasd13.proadmin.db.IndividualEvaluationDAO;
-import com.sasd13.proadmin.db.LeadEvaluationDAO;
-import com.sasd13.proadmin.db.ProjectDAO;
-import com.sasd13.proadmin.db.ReportDAO;
-import com.sasd13.proadmin.db.RunningDAO;
-import com.sasd13.proadmin.db.StudentDAO;
-import com.sasd13.proadmin.db.StudentTeamDAO;
-import com.sasd13.proadmin.db.TeacherDAO;
-import com.sasd13.proadmin.db.TeamDAO;
+import com.sasd13.wsprovider.proadmin.db.IndividualEvaluationDAO;
+import com.sasd13.wsprovider.proadmin.db.LeadEvaluationDAO;
+import com.sasd13.wsprovider.proadmin.db.ProjectDAO;
+import com.sasd13.wsprovider.proadmin.db.ReportDAO;
+import com.sasd13.wsprovider.proadmin.db.RunningDAO;
+import com.sasd13.wsprovider.proadmin.db.StudentDAO;
+import com.sasd13.wsprovider.proadmin.db.StudentTeamDAO;
+import com.sasd13.wsprovider.proadmin.db.TeacherDAO;
+import com.sasd13.wsprovider.proadmin.db.TeamDAO;
 
 public class SQLiteDBHandler extends SQLiteOpenHelper {
 
@@ -24,11 +24,11 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String TEACHER_TABLE_CREATE =
             "CREATE TABLE " + TeacherDAO.TEACHER_TABLE_NAME + " ("
                     + TeacherDAO.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + TeacherDAO.TEACHER_NUMBER + " TEXT NOT NULL UNIQUE, "
-                    + TeacherDAO.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
-                    + TeacherDAO.TEACHER_LASTNAME + " TEXT NOT NULL, "
-                    + TeacherDAO.TEACHER_EMAIL + " TEXT NOT NULL, "
-                    + TeacherDAO.TEACHER_PASSWORD + " TEXT NOT NULL);";
+                    + TeacherDAO.TEACHER_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+                    + TeacherDAO.TEACHER_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+                    + TeacherDAO.TEACHER_LASTNAME + " VARCHAR(255) NOT NULL, "
+                    + TeacherDAO.TEACHER_EMAIL + " VARCHAR(255) NOT NULL, "
+                    + TeacherDAO.TEACHER_PASSWORD + " VARCHAR(255) NOT NULL);";
 
     /**
      * Table projects
@@ -37,9 +37,9 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String PROJECT_TABLE_CREATE =
             "CREATE TABLE " + ProjectDAO.PROJECT_TABLE_NAME + " ("
                     + ProjectDAO.PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + ProjectDAO.PROJECT_CODE + " TEXT NOT NULL, "
-                    + ProjectDAO.PROJECT_ACADEMICLEVEL + " TEXT NOT NULL, "
-                    + ProjectDAO.PROJECT_TITLE + " TEXT NOT NULL, "
+                    + ProjectDAO.PROJECT_CODE + " VARCHAR(255) NOT NULL, "
+                    + ProjectDAO.PROJECT_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                    + ProjectDAO.PROJECT_TITLE + " VARCHAR(255) NOT NULL, "
                     + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL);";
 
     /**
@@ -49,7 +49,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String RUNNING_TABLE_CREATE =
             "CREATE TABLE " + RunningDAO.RUNNING_TABLE_NAME + " ("
                     + RunningDAO.RUNNING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + RunningDAO.RUNNING_YEAR + " INTEGER NOT NULL, "
+                    + RunningDAO.RUNNING_YEAR + " INT NOT NULL, "
                     + RunningDAO.TEACHERS_TEACHER_ID + " INTEGER NOT NULL, "
                     + RunningDAO.PROJECTS_PROJECT_ID + " INTEGER NOT NULL, "
                     + " FOREIGN KEY (" + RunningDAO.TEACHERS_TEACHER_ID + ") REFERENCES " + TeacherDAO.TEACHER_TABLE_NAME + "("+ TeacherDAO.TEACHER_ID + "), "
@@ -62,7 +62,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String TEAM_TABLE_CREATE =
             "CREATE TABLE " + TeamDAO.TEAM_TABLE_NAME + " ("
                     + TeamDAO.TEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + TeamDAO.TEAM_CODE + " TEXT NOT NULL, "
+                    + TeamDAO.TEAM_CODE + " VARCHAR(255) NOT NULL, "
                     + TeamDAO.RUNNINGS_RUNNING_ID + " INTEGER NOT NULL, "
                     + " FOREIGN KEY (" + TeamDAO.RUNNINGS_RUNNING_ID + ") REFERENCES " + RunningDAO.RUNNING_TABLE_NAME + "("+ RunningDAO.RUNNING_ID + "));";
 
@@ -73,11 +73,11 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String STUDENT_TABLE_CREATE =
             "CREATE TABLE " + StudentDAO.STUDENT_TABLE_NAME + " ("
                     + StudentDAO.STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + StudentDAO.STUDENT_NUMBER + " TEXT NOT NULL UNIQUE, "
-                    + StudentDAO.STUDENT_ACADEMICLEVEL + " INTEGER NOT NULL, "
-                    + StudentDAO.STUDENT_FIRSTNAME + " TEXT NOT NULL, "
-                    + StudentDAO.STUDENT_LASTNAME + " TEXT NOT NULL, "
-                    + StudentDAO.STUDENT_EMAIL + " TEXT NOT NULL);";
+                    + StudentDAO.STUDENT_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+                    + StudentDAO.STUDENT_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                    + StudentDAO.STUDENT_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+                    + StudentDAO.STUDENT_LASTNAME + " VARCHAR(255) NOT NULL, "
+                    + StudentDAO.STUDENT_EMAIL + " VARCHAR(255) NOT NULL);";
 
     /**
      * Table studentteams
@@ -98,8 +98,8 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String REPORT_TABLE_CREATE =
             "CREATE TABLE " + ReportDAO.REPORT_TABLE_NAME + " ("
                     + ReportDAO.REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + ReportDAO.REPORT_DATEMEETING + " TEXT NOT NULL, "
-                    + ReportDAO.REPORT_WEEKNUMBER + " INTEGER NOT NULL, "
+                    + ReportDAO.REPORT_DATEMEETING + " VARCHAR(255) NOT NULL, "
+                    + ReportDAO.REPORT_WEEKNUMBER + " INT NOT NULL, "
                     + ReportDAO.REPORT_TEAMCOMMENT + " TEXT, "
                     + ReportDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
                     + " FOREIGN KEY (" + ReportDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + "));";
@@ -111,9 +111,9 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String LEADEVALUATION_TABLE_CREATE =
             "CREATE TABLE " + LeadEvaluationDAO.LEADEVALUATION_TABLE_NAME + " ("
                     + LeadEvaluationDAO.LEADEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + LeadEvaluationDAO.LEADEVALUATION_PLANNINGMARK + " REAL NOT NULL, "
+                    + LeadEvaluationDAO.LEADEVALUATION_PLANNINGMARK + " FLOAT NOT NULL, "
                     + LeadEvaluationDAO.LEADEVALUATION_PLANNINGCOMMENT + " TEXT, "
-                    + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONMARK + " REAL NOT NULL, "
+                    + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONMARK + " FLOAT NOT NULL, "
                     + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONCOMMENT + " TEXT, "
                     + LeadEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
                     + LeadEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
@@ -127,7 +127,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String INDIVIDUALEVALUATION_TABLE_CREATE =
             "CREATE TABLE " + IndividualEvaluationDAO.INDIVIDUALEVALUATION_TABLE_NAME + " ("
                     + IndividualEvaluationDAO.INDIVIDUALEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + IndividualEvaluationDAO.INDIVIDUALEVALUATION_MARK + " REAL NOT NULL, "
+                    + IndividualEvaluationDAO.INDIVIDUALEVALUATION_MARK + " FLOAT NOT NULL, "
                     + LeadEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
                     + LeadEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
                     + " FOREIGN KEY (" + LeadEvaluationDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + "), "

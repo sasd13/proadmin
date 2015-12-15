@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.sasd13.wsprovider.proadmin.bean.AcademicLevel;
 import com.sasd13.wsprovider.proadmin.bean.project.Project;
-import com.sasd13.proadmin.db.ProjectDAO;
+import com.sasd13.wsprovider.proadmin.db.ProjectDAO;
 
 public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements ProjectDAO {
 
@@ -16,7 +16,6 @@ public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements Project
     protected ContentValues getContentValues(Project project) {
         ContentValues values = new ContentValues();
 
-        //values.put(PROJECT_ID, project.getId()); //autoincrement
         values.put(PROJECT_CODE, project.getCode());
         values.put(PROJECT_ACADEMICLEVEL, String.valueOf(project.getAcademicLevel()));
         values.put(PROJECT_TITLE, project.getTitle());
@@ -46,6 +45,11 @@ public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements Project
     @Override
     public void update(Project project) {
         getDB().update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{String.valueOf(project.getId())});
+    }
+
+    @Override
+    public void delete(long id) {
+        getDB().delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     @Override
@@ -96,22 +100,5 @@ public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements Project
         cursor.close();
 
         return list;
-    }
-
-    @Override
-    public boolean contains(long id) {
-        boolean contains = false;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

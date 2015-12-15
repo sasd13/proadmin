@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.sasd13.wsprovider.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.db.TeacherDAO;
+import com.sasd13.wsprovider.proadmin.db.TeacherDAO;
 
 public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements TeacherDAO {
 
@@ -12,7 +12,6 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
     protected ContentValues getContentValues(Teacher teacher) {
         ContentValues values = new ContentValues();
 
-        //values.put(TEACHER_ID, teacher.getId()); //autoincrement
         values.put(TEACHER_NUMBER, teacher.getNumber());
         values.put(TEACHER_FIRSTNAME, teacher.getFirstName());
         values.put(TEACHER_LASTNAME, teacher.getLastName());
@@ -44,6 +43,11 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
     @Override
     public void update(Teacher teacher) {
         getDB().update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{String.valueOf(teacher.getId())});
+    }
+
+    @Override
+    public void delete(long id) {
+        getDB().delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     @Override
@@ -95,39 +99,5 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
         cursor.close();
 
         return teacher;
-    }
-
-    @Override
-    public boolean containsByNumber(String number) {
-        boolean contains = false;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_NUMBER + " = ?", new String[]{String.valueOf(number)});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
-    }
-
-    @Override
-    public boolean containsByEmail(String email) {
-        boolean contains = false;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_EMAIL + " = ?", new String[]{String.valueOf(email)});
-
-        if (cursor.moveToNext()) {
-            contains = true;
-        }
-        cursor.close();
-
-        return contains;
     }
 }

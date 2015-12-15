@@ -3,9 +3,10 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sasd13.proadmin.db.DAO;
+import com.sasd13.proadmin.db.LocalDAO;
+import com.sasd13.wsprovider.proadmin.db.DAO;
 
-public class SQLiteDAO extends DAO {
+public class SQLiteDAO extends LocalDAO {
 
     private static final int VERSION = 1;
     private static final String NOM = "database.db";
@@ -14,6 +15,18 @@ public class SQLiteDAO extends DAO {
 
     private SQLiteDBHandler dbHandler;
     private SQLiteDatabase db;
+
+    private SQLiteDAO() {
+        teacherDAO = new SQLiteTeacherDAO();
+        projectDAO = new SQLiteProjectDAO();
+        runningDAO = new SQLiteRunningDAO();
+        teamDAO = new SQLiteTeamDAO();
+        studentDAO = new SQLiteStudentDAO();
+        studentTeamDAO = new SQLiteStudentTeamDAO();
+        reportDAO = new SQLiteReportDAO();
+        leadEvaluationDAO = new SQLiteLeadEvaluationDAO();
+        individualEvaluationDAO = new SQLiteIndividualEvaluationDAO();
+    }
 
     public static synchronized SQLiteDAO getInstance() {
         if (instance == null) {
@@ -26,20 +39,10 @@ public class SQLiteDAO extends DAO {
     @Override
     public void init(Context context) {
         dbHandler = new SQLiteDBHandler(context, NOM, null, VERSION);
-
-        teacherDAO = new SQLiteTeacherDAO();
-        projectDAO = new SQLiteProjectDAO();
-        runningDAO = new SQLiteRunningDAO();
-        teamDAO = new SQLiteTeamDAO();
-        studentDAO = new SQLiteStudentDAO();
-        studentTeamDAO = new SQLiteStudentTeamDAO();
-        reportDAO = new SQLiteReportDAO();
-        leadEvaluationDAO = new SQLiteLeadEvaluationDAO();
-        individualEvaluationDAO = new SQLiteIndividualEvaluationDAO();
     }
 
     @Override
-    protected void open() {
+    public void open() {
         db = dbHandler.getWritableDatabase();
 
         ((SQLiteTeacherDAO) teacherDAO).setDB(db);
@@ -54,7 +57,7 @@ public class SQLiteDAO extends DAO {
     }
 
     @Override
-    protected void close() {
+    public void close() {
         db.close();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.sasd13.wsprovider.proadmin.bean.running.Report;
 import com.sasd13.wsprovider.proadmin.bean.running.Team;
-import com.sasd13.proadmin.db.ReportDAO;
+import com.sasd13.wsprovider.proadmin.db.ReportDAO;
 
 public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO {
 
@@ -17,7 +17,6 @@ public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO
     protected ContentValues getContentValues(Report report) {
         ContentValues values = new ContentValues();
 
-        //values.put(REPORT_ID, report.getId()); //autoincrement
         values.put(REPORT_DATEMEETING, String.valueOf(report.getDateMeeting()));
         values.put(REPORT_WEEKNUMBER, report.getWeekNumber());
         values.put(REPORT_TEAMCOMMENT, report.getTeamComment());
@@ -32,7 +31,7 @@ public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO
 
         report.setId(cursor.getLong(cursor.getColumnIndex(REPORT_ID)));
         report.setDateMeeting(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(REPORT_DATEMEETING))));
-        report.setWeekNumber(cursor.getLong(cursor.getColumnIndex(REPORT_WEEKNUMBER)));
+        report.setWeekNumber(cursor.getInt(cursor.getColumnIndex(REPORT_WEEKNUMBER)));
         report.setTeamComment(cursor.getString(cursor.getColumnIndex(REPORT_TEAMCOMMENT)));
 
         Team team = new Team();
