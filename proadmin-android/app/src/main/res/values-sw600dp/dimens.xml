@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Activity SplashScreen -->
+    <dimen name="splashscreen_progressbar_margin">27dp</dimen>
+
+    <!-- Activity Log -->
+    <dimen name="log_textview_restorepassword_padding">9dp</dimen>
+    <dimen name="log_textview_sign_padding">9dp</dimen>
+
+    <!-- Drawer -->
+    <dimen name="draweritemhomemenu_view_color_width">21dp</dimen>
+    <dimen name="draweritemhomemenu_view_color_height">56dp</dimen>
+
+    <!-- Form user -->
+    <dimen name="form_user_checkbox_horizontalmargin">9dp</dimen>
+
+</resources>

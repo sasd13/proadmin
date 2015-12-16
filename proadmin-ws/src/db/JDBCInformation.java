@@ -9,12 +9,12 @@ package db;
  *
  * @author Samir
  */
-public class JDBCInformation {
+public interface JDBCInformation {
     
-    public static final String DRIVER = "com.mysql.jdbc.Driver";
-    public static final String HOST = "localhost:3306";
-    public static final String DB ="proadmin";
-    public static final String URL = "jdbc:mysql://" + HOST + "/" + DB;
-    public static final String USER ="root"; 
-    public static final String PASSWORD ="";
+    String DRIVER = "com.mysql.jdbc.Driver";
+    String HOST = "localhost:3306";
+    String DB ="proadmin";
+    String URL = "jdbc:mysql://" + HOST + "/" + DB;
+    String USER ="root"; 
+    String PASSWORD ="";
 }

@@ -10,9 +10,9 @@ package com.sasd13.proadmin.core.bean;
  * @author Samir
  */
 public enum AcademicLevel {
-    YEAR1,
-    YEAR2,
-    YEAR3,
-    YEAR4,
-    YEAR5
+	L1,
+	L2,
+	L3,
+    M1,
+    M2
 }

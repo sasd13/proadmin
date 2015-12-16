@@ -10,7 +10,7 @@ import com.sasd13.proadmin.core.db.StudentTeamDAO;
 import com.sasd13.proadmin.core.db.TeacherDAO;
 import com.sasd13.proadmin.core.db.TeamDAO;
 
-public class DBHandler {
+public interface DBHandler {
 
     /**
      * Table teachers
@@ -33,7 +33,7 @@ public class DBHandler {
             "CREATE TABLE " + ProjectDAO.PROJECT_TABLE_NAME + " ("
                     + ProjectDAO.PROJECT_ID + " BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
                     + ProjectDAO.PROJECT_CODE + " VARCHAR(255) NOT NULL, "
-                    + ProjectDAO.PROJECT_ACADEMICLEVEL + " VARCHAR(255)NOT NULL, "
+                    + ProjectDAO.PROJECT_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
                     + ProjectDAO.PROJECT_TITLE + " VARCHAR(255) NOT NULL, "
                     + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL);";
 

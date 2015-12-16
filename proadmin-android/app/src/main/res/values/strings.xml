@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Activity -->
+    <string name="activity_splashscreen">@string/app_name</string>
+    <string name="activity_log">Connexion</string>
+    <string name="activity_sign">Inscription</string>
+    <string name="activity_home">Menu</string>
+    <string name="activity_projects">Projets</string>
+    <string name="activity_project">Projet</string>
+    <string name="activity_setting">Options</string>
+
+    <!-- Activity Log -->
+    <string name="log_button_connect">Connexion</string>
+    <string name="log_textview_sign">Inscription sur Proadmin</string>
+    <string name="log_textview_restorepassword">Mot de passe oublié ?</string>
+    <string name="log_alertdialog_title_error_log">Erreur connexion</string>
+    <string name="log_alertdialog_message_error_log">Identifiants invalides</string>
+
+    <!-- Activity Sign -->
+    <string name="sign_alertdialog_title_error_sign">Erreur inscription</string>
+    <string name="sign_alertdialog_message_error_sign">Remplir le formulaire d\'inscription</string>
+
+    <!-- Activity Home -->
+    <string name="home_alertdialog_title_welcome">Bienvenue</string>
+    <string name="home_alertdialog_message_welcome">Salut</string>
+
+    <!-- Activity Projects -->
+    <string name="projects_textview_academiclevels">NIVEAU ACADEMIQUE :</string>
+    <string name="projects_textview_projects">PROJETS</string>
+
+    <!-- Activity Project -->
+
+    <!-- Application -->
+    <string name="app_name">Proadmin</string>
+
+    <!-- EditText -->
+    <string name="edittext_hint_number">Matricule</string>
+
+    <!-- Form -->
+    <string name="form_textview_title_number">MATRICULE</string>
+
+    <!-- Tab -->
+    <string name="tabitem_project_textview_title">Title</string>
+    <string name="tabitem_project_textview_code">Code</string>
+    <string name="tabitem_project_textview_description">Description</string>
+
+</resources>
