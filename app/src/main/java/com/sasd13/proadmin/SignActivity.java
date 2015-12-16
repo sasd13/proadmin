@@ -10,13 +10,13 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.sasd13.androidx.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.androidx.form.FormValidator;
 import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.gui.widget.dialog.progress.LoadDialog;
 import com.sasd13.proadmin.session.Session;
 
 public class SignActivity extends AppCompatActivity {
@@ -151,7 +151,7 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private void goToHomeActivityWithWelcome() {
-        final LoadDialog loadDialog = new LoadDialog(this);
+        final WaitDialog waitDialog = new WaitDialog(this);
 
         final Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -162,13 +162,13 @@ public class SignActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(intent);
-                loadDialog.dismiss();
+                waitDialog.dismiss();
             }
         };
 
         Handler handler = new Handler();
         handler.postDelayed(runnable, SIGNUP_TIMEOUT);
 
-        loadDialog.show();
+        waitDialog.show();
     }
 }

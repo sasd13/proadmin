@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import com.sasd13.proadmin.db.DAOFactory;
+import com.sasd13.proadmin.db.sqlite.SQLiteDAO;
 import com.sasd13.proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {
@@ -34,7 +34,7 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        DAOFactory.make().init(this);
+        SQLiteDAO.getInstance().init(this);
         Session.start(this);
 
         if (Session.isStarted()) {

@@ -1,16 +1,15 @@
 package com.sasd13.proadmin;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewStub;
 
 import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidx.gui.widget.dialog.CustomDialogBuilder;
+import com.sasd13.androidx.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidx.gui.widget.recycler.drawer.Drawer;
 import com.sasd13.androidx.gui.widget.recycler.drawer.DrawerItemTitle;
 import com.sasd13.proadmin.constant.Extra;
@@ -19,7 +18,7 @@ import com.sasd13.proadmin.gui.content.homemenu.HomeMenuItem;
 import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemHomeMenu;
 import com.sasd13.proadmin.session.Session;
 
-public abstract class MotherActivity extends ActionBarActivity {
+public abstract class MotherActivity extends AppCompatActivity {
 
     private static final int LOGOUT_TIMEOUT = 2000;
 
@@ -88,8 +87,7 @@ public abstract class MotherActivity extends ActionBarActivity {
     }
 
     private void goToHomeActivityAndExit() {
-        CustomDialogBuilder builder = new CustomDialogBuilder(this, CustomDialogBuilder.TYPE_LOAD);
-        final AlertDialog dialog = builder.create();
+        final WaitDialog waitDialog = new WaitDialog(this);
 
         final Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -100,7 +98,7 @@ public abstract class MotherActivity extends ActionBarActivity {
             @Override
             public void run() {
                 startActivity(intent);
-                dialog.dismiss();
+                waitDialog.dismiss();
                 finish();
             }
         };
@@ -108,6 +106,6 @@ public abstract class MotherActivity extends ActionBarActivity {
         Handler handler = new Handler();
         handler.postDelayed(runnable, LOGOUT_TIMEOUT);
 
-        dialog.show();
+        waitDialog.show();
     }
 }

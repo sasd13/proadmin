@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ws.db.DAOFactory;
+import ws.db.JDBCDAO;
 
 /**
  *
@@ -37,7 +37,7 @@ public class StudentsRestWebService extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         String jsonData;
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         
@@ -66,7 +66,7 @@ public class StudentsRestWebService extends HttpServlet {
         Student student = gson.fromJson(jsonStudent, Student.class);
         Team team = gson.fromJson(jsonTeam, Team.class);
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();        
         long id = dao.insertStudent(student, team.getId());
@@ -82,7 +82,7 @@ public class StudentsRestWebService extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         Student student = gson.fromJson(jsonStudent, Student.class);
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         dao.updateStudent(student);
@@ -93,7 +93,7 @@ public class StudentsRestWebService extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String paramsId = req.getParameter("id");
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         

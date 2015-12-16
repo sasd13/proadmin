@@ -25,5 +25,7 @@ public interface StudentDAO {
 
     Student selectByNumber(String number);
     
+    Student selectByEmail(String email);
+    
     List<Student> selectAll();
 }

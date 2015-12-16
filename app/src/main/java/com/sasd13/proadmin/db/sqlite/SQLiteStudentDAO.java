@@ -89,6 +89,23 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
     }
 
     @Override
+    public Student selectByEmail(String email) {
+        Student student = null;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + STUDENT_TABLE_NAME
+                        + " where " + STUDENT_EMAIL + " = ?", new String[]{String.valueOf(email)});
+
+        if (cursor.moveToNext()) {
+            student = getCursorValues(cursor);
+        }
+        cursor.close();
+
+        return student;
+    }
+
+    @Override
     public List<Student> selectAll() {
         List<Student> list = new ArrayList<>();
 

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ws.db.DAOFactory;
+import ws.db.JDBCDAO;
 
 /**
  *
@@ -36,7 +36,7 @@ public class TeamsRestWebService extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         String jsonData;
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         
@@ -63,7 +63,7 @@ public class TeamsRestWebService extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         Team team = gson.fromJson(jsonTeam, Team.class);
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();        
         long id = dao.insertTeam(team);
@@ -79,7 +79,7 @@ public class TeamsRestWebService extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         Team team = gson.fromJson(jsonTeam, Team.class);
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         dao.updateTeam(team);
@@ -90,7 +90,7 @@ public class TeamsRestWebService extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String paramsId = req.getParameter("id");
         
-        DAO dao = DAOFactory.make();
+        DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         
