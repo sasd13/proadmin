@@ -2,27 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Samir\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0_5e17c539b15f67eae3ec5c5f5640b23c5044912f.jar" />
-    </item>
-    <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0_82278bc954dc144f58433f00e30157ecb0a68d6a.jar" />
-    </item>
-    <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\libs\proadmin-core-0.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="7d29ed95ff41f3256e11740328b5294444509e40">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\proadmin-core-0.1_683a1744bacb46369a48d7cf0324bf0ca463560a.jar" />
-    </item>
-    <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -37,6 +16,20 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\exploded-aar-com.sasd13.androidx-androidx_962d815b73b8b23f77589b766639f44f0c585dac.jar" />
     </item>
     <item
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\libs\proadmin-core-0.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7d29ed95ff41f3256e11740328b5294444509e40">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\proadmin-core-0.1_683a1744bacb46369a48d7cf0324bf0ca463560a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0_82278bc954dc144f58433f00e30157ecb0a68d6a.jar" />
+    </item>
+    <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -49,6 +42,13 @@
         revision="23.0.2"
         sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.0_3aece6652c22905df4815fb067208567e0112561.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0_5e17c539b15f67eae3ec5c5f5640b23c5044912f.jar" />
     </item>
 
 </items>

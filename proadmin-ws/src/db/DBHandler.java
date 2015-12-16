@@ -1,4 +1,4 @@
-package ws.db;
+package db;
 
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;

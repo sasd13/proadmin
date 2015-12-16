@@ -93,7 +93,7 @@ public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
                 "select *"
                         + " from " + TEAM_TABLE_NAME, null);
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }
         cursor.close();

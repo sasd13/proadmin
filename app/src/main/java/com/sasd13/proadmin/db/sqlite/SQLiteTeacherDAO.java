@@ -112,7 +112,7 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
                 "select *"
                         + " from " + TEACHER_TABLE_NAME, null);
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }
         cursor.close();

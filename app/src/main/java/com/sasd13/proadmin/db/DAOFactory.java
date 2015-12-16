@@ -6,10 +6,14 @@ import com.sasd13.proadmin.db.sqlite.SQLiteDAO;
 public class DAOFactory {
 
     public static DAO make() {
-        return make(SQLiteDAO.class);
+        return make("SQLITE");
     }
 
-    public static DAO make(Class dao) {
-        return SQLiteDAO.getInstance();
+    public static DAO make(String dao) {
+        if ("SQLITE".equalsIgnoreCase(dao)) {
+            return SQLiteDAO.getInstance();
+        }
+
+        return null;
     }
 }

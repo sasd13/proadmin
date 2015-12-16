@@ -113,7 +113,7 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
                 "select *"
                         + " from " + STUDENT_TABLE_NAME, null);
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }
         cursor.close();

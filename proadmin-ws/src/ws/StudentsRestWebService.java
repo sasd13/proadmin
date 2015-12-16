@@ -7,10 +7,11 @@ package ws;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.DAO;
+
+import db.JDBCDAO;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +21,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import ws.db.JDBCDAO;
 
 /**
  *

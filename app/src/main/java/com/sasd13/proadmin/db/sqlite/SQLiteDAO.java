@@ -8,8 +8,8 @@ import com.sasd13.proadmin.core.db.DAO;
 
 public class SQLiteDAO extends DAO implements LocalSQLiteDB {
 
+    private static final String DB = "database.db";
     private static final int VERSION = 1;
-    private static final String NOM = "database.db";
 
     private static SQLiteDAO instance = null;
 
@@ -38,7 +38,7 @@ public class SQLiteDAO extends DAO implements LocalSQLiteDB {
 
     @Override
     public void init(Context context) {
-        dbHandler = new SQLiteDBHandler(context, NOM, null, VERSION);
+        dbHandler = new SQLiteDBHandler(context, DB, null, VERSION);
     }
 
     @Override
