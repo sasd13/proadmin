@@ -1,2 +1,2 @@
 # proadmin
-Android application for project administration
+Application for projects management
