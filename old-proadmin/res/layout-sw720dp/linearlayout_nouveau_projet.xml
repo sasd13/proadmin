@@ -1,0 +1,202 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="600dp"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal|clip_vertical"
+    android:background="#ffffff"
+    android:orientation="vertical" >  
+
+		<TextView
+            android:id="@+id/projet_libelle_creationProjet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:text="@string/libelle_creation_projet"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#dda600"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        
+        <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="2dp"
+		    android:background="#dda600" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#dda600"
+                android:padding="10dp"          
+                android:text="@string/annee_creation_gestion"
+                android:textColor="#FFFFFF" />
+
+            <Spinner
+                android:id="@+id/projet_spinner_annee_creation_gestion"
+                android:layout_width="185dp"
+                android:layout_height="match_parent"
+                android:background="#eff1f2"
+                android:entries="@array/table_annees"
+                android:gravity="center"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center|center_horizontal|center_vertical"
+		    android:orientation="vertical" >
+        	
+		    <LinearLayout
+            	android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_marginTop="30dp"
+            	android:layout_marginBottom="20dp" >
+
+            	<TextView
+            	    android:id="@+id/textViewIdProjet"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:layout_marginLeft="10dp"
+            	    android:layout_marginRight="20dp"
+            	    android:text="@string/idProjet" />
+
+           		<EditText
+            	    android:id="@+id/projet_editText_idProjet"
+            	    android:layout_width="match_parent"
+            	    android:layout_height="wrap_content"
+            	    android:hint="@string/hint_idProjet"
+            	    android:ems="10"
+            	    android:imeOptions="actionDone"
+            	    android:inputType="textCapCharacters">
+           		    
+           		    <requestFocus />
+           		</EditText>
+
+        	</LinearLayout>
+        	
+		    <LinearLayout
+            	android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:layout_marginTop="30dp"
+            	android:layout_marginBottom="20dp" >
+
+            	<TextView
+            		android:id="@+id/textView3"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:layout_marginLeft="10dp"
+            	    android:layout_marginRight="30dp"
+            	    android:text="@string/nom_projet" />
+
+           	 	<EditText
+		        	android:id="@+id/projet_editText_nomProjet"
+		        	android:layout_width="match_parent"
+		        	android:layout_height="wrap_content"
+		        	android:ems="10"
+		        	android:inputType="text"
+		        	android:imeOptions="actionDone"
+		        	android:hint="@string/libelle_nom_projet" />
+
+        	</LinearLayout>
+        	
+		   	<RadioGroup
+		   	    android:id="@+id/projet_radioGroup_niveaux"
+		   	    android:layout_width="match_parent"
+		   	    android:layout_height="wrap_content"
+		   	    android:layout_marginTop="20dp"
+		   	    android:background="#eff1f2"
+		   	    android:orientation="horizontal"
+		   	    android:padding="20dp" >
+		       	 	
+        		<RadioButton
+                	android:id="@+id/projet_radioButton_licence1"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:layout_marginRight="5dp"
+                	android:checked="true"
+                	android:text="@string/libelle_licence1" />
+
+            	<RadioButton
+                	android:id="@+id/projet_radioButton_licence2"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:layout_marginRight="5dp"
+                	android:text="@string/libelle_licence2" />
+
+            	<RadioButton
+                	android:id="@+id/projet_radioButton_licence3"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:layout_marginRight="5dp"
+               		android:text="@string/libelle_licence3" />
+            		
+        	   	<RadioButton
+                	android:id="@+id/projet_radioButton_master1"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:layout_marginRight="5dp"
+                	android:text="@string/libelle_master1" />
+
+            	<RadioButton
+                	android:id="@+id/projet_radioButton_master2"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:layout_marginRight="5dp"
+                	android:text="@string/libelle_master2" />
+
+           	</RadioGroup>
+
+		    <TextView
+		        android:id="@+id/textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="50dp"
+		        android:padding="5dp"
+		        android:text="@string/libelle_description_projet" />
+
+		    <View
+		        android:layout_width="590dp"
+		        android:layout_height="2dp"
+		        android:background="#8a8a8a" />
+
+		    <EditText
+		        android:id="@+id/projet_editText_description"
+		        android:layout_width="590dp"
+		        android:layout_height="150dp"
+		        android:layout_marginTop="5dp"
+		        android:background="#f9f9f9"
+		        android:ems="10"
+		        android:gravity="left|top"
+		        android:hint="@string/description"
+		        android:imeOptions="actionDone"
+		        android:inputType="textMultiLine" />
+
+		    <Button
+		        android:id="@+id/projet_bouton_supprimer"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:onClick="ButtonOnclick"
+		        android:layout_marginTop="30dp"
+		        android:padding="7dp"
+		        android:background="#dda600"
+		        android:textColor="#ffffff"
+		        android:textSize="17sp"
+		        android:textStyle="bold"
+		        android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:text="@string/libelle_supprimer_projet"
+		        android:layout_gravity="right" />
+
+		</LinearLayout>
+
+</LinearLayout>

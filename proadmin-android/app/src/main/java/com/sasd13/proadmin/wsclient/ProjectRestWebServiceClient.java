@@ -1,55 +1,54 @@
 package com.sasd13.proadmin.wsclient;
 
-import com.sasd13.androidx.wsclient.RestWebServiceClient;
-import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sasd13.javaex.wsclient.RestWebServiceClient;
 import com.sasd13.proadmin.core.bean.project.Project;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class ProjectRestWebServiceClient implements RestWebServiceClient<Project> {
 
+    private static final String URL = "http://192.168.1.9:8080/proadmin-ws/projects";
+
+    private Gson gson = new GsonBuilder().create();
+
     @Override
     public Project get(long id) {
-        return null;
+        Project project = null;
+
+        HttpGet httpGet = new HttpGet();
+        String urlParams = "?id=" + id;
+
+        try {
+            httpGet.execute(new URL(URL + urlParams));
+            String jsonData = httpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
+
+            project = this.gson.fromJson(jsonData, Project.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return project;
     }
 
     @Override
-    public List<Project> get() {
-        List<Project> list = new ArrayList<>();
+    public Project[] getAll() {
+        Project[] projects = new Project[0];
 
-        //TEST
-        Project project;
+        HttpGet httpGet = new HttpGet();
 
-        project = new Project();
-        project.setId(1);
-        project.setAcademicLevel(AcademicLevel.YEAR1);
-        project.setCode("L1A");
-        project.setTitle("Projet A");
-        project.setDescription("Description du projet A");
+        try {
+            httpGet.execute(new URL(URL));
+            String jsonData = httpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
 
-        list.add(project);
+            projects = this.gson.fromJson(jsonData, Project[].class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        project = new Project();
-        project.setId(2);
-        project.setAcademicLevel(AcademicLevel.YEAR2);
-        project.setCode("L2B");
-        project.setTitle("Projet B");
-        project.setDescription("Description du projet B");
-
-        list.add(project);
-
-        project = new Project();
-        project.setId(3);
-        project.setAcademicLevel(AcademicLevel.YEAR2);
-        project.setCode("L2C");
-        project.setTitle("Projet C");
-        project.setDescription("Description du projet C");
-
-        list.add(project);
-        //FIN DE TEST
-
-        return list;
+        return projects;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ProjectRestWebServiceClient implements RestWebServiceClient<Project
     }
 
     @Override
-    public void put(List<Project> list) {
+    public void putAll(Project[] list) {
 
     }
 
@@ -73,7 +72,7 @@ public class ProjectRestWebServiceClient implements RestWebServiceClient<Project
     }
 
     @Override
-    public void delete() {
+    public void deleteAll() {
 
     }
 }

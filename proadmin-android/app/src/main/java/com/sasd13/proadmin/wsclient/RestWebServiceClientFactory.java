@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.wsclient;
 
-import com.sasd13.androidx.wsclient.RestWebServiceClient;
+import com.sasd13.javaex.wsclient.RestWebServiceClient;
 
 /**
  * Created by Samir on 09/12/2015.

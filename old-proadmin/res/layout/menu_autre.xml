@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+	<item android:id="@+id/fiche" 
+	     android:title="Evaluation"
+	      />
+	<item android:id="@+id/projets" 
+	     android:title="Projets"
+	      />
+	<item android:id="@+id/groupes" 
+	     android:title="Groupes"
+	      />
+	<item android:id="@+id/planning" 
+	     android:title="Planning"
+	      />
+	<item android:id="@+id/bilan" 
+	     android:title="Bilan"
+	      />
+	
+	
+	<item android:id="@+id/plus" 
+	      android:title="Plus"
+	      android:icon="@android:drawable/ic_menu_more">
+	 
+	     <menu android:id="@+id/sousmenu">
+	         
+	         <item android:id="@+id/config"
+			       android:title="Configurations"  />
+	         
+			 <item android:id="@+id/accueil"
+			       android:title="Accueil"  />
+			 
+			  <item android:id="@+id/quitter"
+			       android:title="Quitter"   />	
+	     </menu>
+	</item>
+
+</menu>

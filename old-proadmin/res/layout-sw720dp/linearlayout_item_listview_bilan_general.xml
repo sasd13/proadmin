@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#000000"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="horizontal" >
+        
+    <TextView 
+        android:id="@+id/listViewBilanGeneral_nom"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:background="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="BROU"
+        android:textSize="15sp" />
+        
+    <TextView 
+        android:id="@+id/listViewBilanGeneral_prenom"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:background="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Jean-Philippe"
+        android:textSize="15sp" />
+      
+    <TextView 
+        android:id="@+id/listViewBilanGeneral_abscence"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:background="#ffffff"
+        android:text="2"
+        android:textSize="15sp" />
+       
+    <TextView 
+        android:id="@+id/listViewBilanGeneral_moyenne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_margin="1dp"
+        android:background="#ffffff"
+        android:text="20 / 20"
+        android:textSize="15sp" />
+
+</LinearLayout>

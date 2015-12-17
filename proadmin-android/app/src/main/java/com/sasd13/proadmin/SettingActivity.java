@@ -8,8 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sasd13.androidx.form.FormValidator;
-import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
@@ -86,7 +85,7 @@ public class SettingActivity extends MotherActivity {
     private void updateTeacher() {
         String[] tabFormErrors = validFormTeacher();
 
-        if (tabFormErrors.length == 0) {
+        if (true) {
             tryToPerformUpdateTeacher();
         } else {
             CustomDialog.showOkDialog(this, "Error form", tabFormErrors[0]);
@@ -94,17 +93,9 @@ public class SettingActivity extends MotherActivity {
     }
 
     private String[] validFormTeacher() {
-        FormValidator formValidator = new FormValidator();
+        //TODO
 
-        String firstName = this.formTeacher.editTextFirstName.getText().toString().trim();
-        String lastName = this.formTeacher.editTextLastName.getText().toString().trim();
-        String email = this.formTeacher.editTextEmail.getText().toString().trim();
-
-        formValidator.validName(firstName, "firstname");
-        formValidator.validName(lastName, "lastname");
-        formValidator.validEmail(email, "email");
-
-        return formValidator.getErrors();
+        return null;
     }
 
     private void tryToPerformUpdateTeacher() {

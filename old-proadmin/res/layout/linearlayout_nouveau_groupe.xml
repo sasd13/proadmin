@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal|clip_vertical"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/groupe_libelle_creationGroupes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="10dp"
+        android:text="@string/libelle_creation_groupe"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#659025"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#659025" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+
+            <LinearLayout
+                android:layout_width="192dp"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="#659025"
+                    android:padding="3dp"
+                    android:text="@string/annee_creation"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/groupe_spinner_annee_creation"
+                    android:layout_width="104dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#eff1f2"
+                    android:entries="@array/table_annees"
+                    android:gravity="center"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#659025"
+                    android:padding="3dp"
+                    android:text="Projet :"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/groupe_spinner_projet"
+                    android:layout_width="185dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#eff1f2"
+                    android:ellipsize="end"
+                    android:entries="@array/table_projets"
+                    android:gravity="center"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8a8a8a" />
+
+            <EditText
+                android:id="@+id/groupe_editText_idGroupe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Identifiant groupe (ex:L3D1)"
+                android:imeOptions="actionDone"
+                android:inputType="textCapCharacters"
+                android:maxLines="1"
+                android:textSize="12sp" >
+
+                <requestFocus />
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8a8a8a" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#8a8a8a" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#f0f0f0"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/cochez_etudiant_groupe"
+            android:textSize="12sp" />
+
+        <ListView
+            android:id="@+id/listViewEtudiant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="@string/etudiants_groupe"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/groupe_bouton_ajouterEtudiant"
+                android:layout_width="35dp"
+                android:layout_height="20dp"
+                android:background="#659025"
+                android:onClick="ButtonOnclick"
+                android:text="+"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/groupe_bouton_supprimerEtudiant"
+                android:layout_width="35dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="#659025"
+                android:onClick="ButtonOnclick"
+                android:text="-"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/groupe_bouton_supprimer"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#659025"
+                android:onClick="ButtonOnclick"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/libelle_supprimer_groupe"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

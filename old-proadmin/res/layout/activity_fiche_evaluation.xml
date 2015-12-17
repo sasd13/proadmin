@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:scrollbars="horizontal"
+    tools:context=".FicheEvaluation" >
+
+    <include
+        android:id="@+id/include_linearlayout_liste_fiches"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top"
+        layout="@layout/linearlayout_listview_fiches"
+        android:visibility="visible" />
+    
+    <include
+        android:id="@+id/include_linearlayout_nouveau_fiche"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top"
+        android:layout_marginTop="30dp"
+        layout="@layout/linearlayout_nouveau_fiche"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sasd13.androidx.gui.widget.recycler.tab.Tab;
-import com.sasd13.androidx.gui.widget.spin.Spin;
+import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
+import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -139,16 +139,16 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void pullProjectsFromWebService() {
-        List<Project> list = RestWebServiceClientFactory.make("PROJECT").get();
+        Project[] projects  = (Project[]) RestWebServiceClientFactory.make("PROJECT").getAll();
 
-        persistPulledProjects(list);
+        persistPulledProjects(projects);
     }
 
-    private void persistPulledProjects(List<Project> list) {
+    private void persistPulledProjects(Project[] projects) {
         DAO dao = DAOFactory.make();
 
         dao.open();
-        for (Project project : list) {
+        for (Project project : projects) {
             dao.persistProject(project);
         }
         dao.close();

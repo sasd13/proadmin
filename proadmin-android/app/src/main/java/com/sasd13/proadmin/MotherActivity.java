@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewStub;
 
-import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidx.gui.widget.dialog.WaitDialog;
-import com.sasd13.androidx.gui.widget.recycler.drawer.Drawer;
-import com.sasd13.androidx.gui.widget.recycler.drawer.DrawerItemTitle;
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
+import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemTitle;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.content.homemenu.HomeMenu;
 import com.sasd13.proadmin.gui.content.homemenu.HomeMenuItem;

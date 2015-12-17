@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="600dp"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="#ffffff"
+    android:gravity="center_horizontal|clip_vertical"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/projet_libelle_mesProjets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:text="@string/libelle_mes_projets"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#dda600"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        
+        <View
+			android:layout_width="fill_parent"
+			android:layout_height="2dp"
+			android:background="#dda600" />
+
+    </LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/projet_bouton_importer_projet"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/importer"
+            android:onClick="ButtonOnclick"
+            android:background="#dda600"
+		    android:textColor="#ffffff"
+		    android:textSize="15sp"
+		    android:textStyle="bold"
+		    android:padding="7dp"
+		    android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewProjet"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#000000"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="horizontal" >
+        
+    <TextView 
+        android:id="@+id/listViewBilanIndividuel_semaine"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:background="#ffffff"
+        android:text="Semaine"
+        android:textSize="15sp" />
+        
+    <TextView 
+        android:id="@+id/listViewBilanIndividuel_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:background="#ffffff"
+        android:text="20 / 20"
+        android:textSize="15sp" />
+
+</LinearLayout>

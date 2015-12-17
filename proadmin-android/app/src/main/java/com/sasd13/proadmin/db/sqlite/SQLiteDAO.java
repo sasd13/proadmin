@@ -3,7 +3,7 @@ package com.sasd13.proadmin.db.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sasd13.androidx.db.LocalSQLiteDB;
+import com.sasd13.androidex.db.LocalSQLiteDB;
 import com.sasd13.proadmin.core.db.DAO;
 
 public class SQLiteDAO extends DAO implements LocalSQLiteDB {

@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|clip_vertical"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+    	<TextView
+    	    android:id="@+id/groupe_libelle_mesGroupes"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginTop="5dp"
+    	    android:gravity="right"
+    	    android:text="@string/libelle_mes_groupes"
+    	    android:textAppearance="?android:attr/textAppearanceLarge"
+    	    android:textColor="#659025"
+    	    android:textSize="12sp"
+    	    android:textStyle="bold" />
+
+    	<View
+    	    android:layout_width="match_parent"
+    	    android:layout_height="2dp"
+    	    android:background="#659025" />
+    
+    </LinearLayout>
+    
+   	<ListView
+        android:id="@+id/listViewGroupe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>

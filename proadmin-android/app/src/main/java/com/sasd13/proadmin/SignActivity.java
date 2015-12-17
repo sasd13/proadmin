@@ -10,13 +10,12 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.sasd13.androidx.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
-import com.sasd13.androidx.form.FormValidator;
-import com.sasd13.androidx.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.proadmin.session.Session;
 
 public class SignActivity extends AppCompatActivity {
@@ -75,7 +74,7 @@ public class SignActivity extends AppCompatActivity {
     private void signUp() {
         String[] tabFormErrors = validFormTeacher();
 
-        if (tabFormErrors.length == 0) {
+        if (true) {
             tryToPerformSignUp();
         } else {
             CustomDialog.showOkDialog(this, "Error form", tabFormErrors[0]);
@@ -83,25 +82,9 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private String[] validFormTeacher() {
-        FormValidator formValidator = new FormValidator();
+        //TODO
 
-        String firstName = this.formTeacher.editTextFirstName.getText().toString().trim();
-        String lastName = this.formTeacher.editTextLastName.getText().toString().trim();
-        String email = this.formTeacher.editTextEmail.getText().toString().trim();
-        String number = this.formTeacher.editTextNumber.getText().toString().trim();
-        String password = this.formTeacher.editTextPassword.getText().toString().trim();
-        String confirmPassword = this.formTeacher.editTextConfirmPassword.getText().toString().trim();
-        Boolean validTerms = this.formTeacher.checkBoxValidTerms.isChecked();
-
-        formValidator.validName(firstName, "firstname");
-        formValidator.validName(lastName, "lastname");
-        formValidator.validEmail(email, "email");
-        formValidator.validText(number, "number");
-        formValidator.validPassword(password, "password");
-        formValidator.validConfirmPassword(password, confirmPassword, "confirmpassword");
-        formValidator.validCheckBox(validTerms, "terms");
-
-        return formValidator.getErrors();
+        return null;
     }
 
     private void tryToPerformSignUp() {
