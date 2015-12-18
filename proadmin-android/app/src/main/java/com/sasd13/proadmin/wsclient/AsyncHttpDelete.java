@@ -10,7 +10,8 @@ public class AsyncHttpDelete extends AsyncTask<URL, Integer, Void> {
 
     @Override
     protected Void doInBackground(URL... urls) {
-        new HttpDelete().execute(urls[0]);
+        HttpDelete httpDelete = new HttpDelete(urls[0]);
+        httpDelete.execute();
 
         return null;
     }
