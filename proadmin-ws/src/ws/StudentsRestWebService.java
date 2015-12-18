@@ -8,11 +8,11 @@ package ws;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sasd13.proadmin.core.bean.member.Student;
-import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,13 +32,18 @@ public class StudentsRestWebService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String paramsId = req.getParameter("id");
+        String jsonData = read(paramsId);
         
-        Gson gson = new GsonBuilder().create();
-        String jsonData;
-        
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();
+        resp.getWriter().write(jsonData);
+    }
+
+	private String read(String paramsId) {
+		String jsonData;
+		
+		Gson gson = new GsonBuilder().create();
+		DAO dao = JDBCDAO.getInstance();
+		
+		dao.open();
         
         if (paramsId != null) {
             long id = Long.valueOf(paramsId);
@@ -53,59 +58,51 @@ public class StudentsRestWebService extends HttpServlet {
         
         dao.close();
         
-        resp.getWriter().write(jsonData);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonStudent = req.getParameter("student");
-        String jsonTeam = req.getParameter("team");
-        
-        Gson gson = new GsonBuilder().create();
-        Student student = gson.fromJson(jsonStudent, Student.class);
-        Team team = gson.fromJson(jsonTeam, Team.class);
-        
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();        
-        long id = dao.insertStudent(student, team.getId());
-        dao.close();
-        
-        resp.getWriter().write(gson.toJson(id));
-    }
+		return jsonData;
+	}
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonStudent = req.getParameter("student");
+        String jsonData = getData(req);
         
-        Gson gson = new GsonBuilder().create();
-        Student student = gson.fromJson(jsonStudent, Student.class);
+        update(jsonData);
+    }
+    
+    private String getData(HttpServletRequest req) {
+    	StringBuilder sBuilder = new StringBuilder();
+    	
+    	try {
+    		BufferedReader reader = req.getReader();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                sBuilder.append(line);
+            }
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
         
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();
-        dao.updateStudent(student);
-        dao.close();
+        return sBuilder.toString().trim();
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String paramsId = req.getParameter("id");
-        
-        DAO dao = JDBCDAO.getInstance();
+	private void update(String jsonData) {
+		Gson gson = new GsonBuilder().create();
+    	DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         
-        if (paramsId != null) {
-            long id = Long.valueOf(paramsId);
-            dao.deleteStudent(id);
-        } else {
-            List<Student> students = dao.selectAllStudents();
-            for (Student student : students) {
-                dao.deleteStudent(student.getId());
-            }
+        if (jsonData.startsWith("{") && jsonData.endsWith("}")) {
+        	Student student = gson.fromJson(jsonData, Student.class);
+        	
+        	dao.updateStudent(student);
+        } else if (jsonData.startsWith("[") && jsonData.endsWith("]")) {
+        	Student[] students = gson.fromJson(jsonData, Student[].class);
+        	
+        	for (Student student : students) {
+        		dao.updateStudent(student);
+        	}
         }
         
-        dao.close();
-    }
+    	dao.close();
+	}
 }

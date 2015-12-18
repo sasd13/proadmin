@@ -56,11 +56,6 @@ public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> impl
     }
 
     @Override
-    public void deleteByReport(long reportId) {
-        getDB().delete(LEADEVALUATION_TABLE_NAME, REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
-    }
-
-    @Override
     public LeadEvaluation select(long id) {
         LeadEvaluation leadEvaluation = null;
 

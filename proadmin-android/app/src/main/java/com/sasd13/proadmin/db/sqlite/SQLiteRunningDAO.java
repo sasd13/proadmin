@@ -91,6 +91,23 @@ public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements Running
     }
 
     @Override
+    public List<Running> selectByProject(long projectId) {
+        List<Running> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + RUNNING_TABLE_NAME
+                        + " where " + PROJECTS_PROJECT_ID + " = ?", new String[]{String.valueOf(projectId)});
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
     public List<Running> selectAll() {
         List<Running> list = new ArrayList<>();
 

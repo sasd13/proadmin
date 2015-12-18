@@ -173,6 +173,32 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
         
         return list;
     }
+    
+    @Override
+    public List<Running> selectByProject(long projectId) {
+    	List<Running> list = new ArrayList<>();
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + RUNNING_TABLE_NAME
+                    + " WHERE "
+                        + PROJECTS_PROJECT_ID + " = ?";
+            
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, projectId);
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+            	list.add(getResultSetValues(resultSet));
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+    }
 
     @Override
     public List<Running> selectAll() {

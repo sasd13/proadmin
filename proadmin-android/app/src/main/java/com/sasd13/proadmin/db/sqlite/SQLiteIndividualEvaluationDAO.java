@@ -53,11 +53,6 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEval
     }
 
     @Override
-    public void deleteByReport(long reportId) {
-        getDB().delete(INDIVIDUALEVALUATION_TABLE_NAME, REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
-    }
-
-    @Override
     public IndividualEvaluation select(long id) {
         IndividualEvaluation individualEvaluation = null;
 

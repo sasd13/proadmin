@@ -105,24 +105,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
     }
 
     @Override
-    public void deleteByReport(long reportId) {
-        try {
-            String query = "DELTE FROM " 
-                    + INDIVIDUALEVALUATION_TABLE_NAME
-                    + " WHERE "
-                    	+ REPORTS_REPORT_ID + " = ?";
-            
-            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-            preparedStatement.setLong(1, reportId);
-            
-            preparedStatement.executeUpdate();
-            preparedStatement.close();            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public IndividualEvaluation select(long id) {
         IndividualEvaluation individualEvaluation = null;
         

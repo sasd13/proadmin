@@ -23,5 +23,7 @@ public interface RunningDAO {
 
     List<Running> selectByTeacher(long teacherId);
     
+    List<Running> selectByProject(long projectId);
+    
     List<Running> selectAll();
 }

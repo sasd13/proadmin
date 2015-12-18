@@ -18,8 +18,6 @@ public interface LeadEvaluationDAO {
 
     void update(LeadEvaluation leadEvaluation);
 
-    void deleteByReport(long reportId);
-
     LeadEvaluation select(long id);
 
     LeadEvaluation selectByReport(long reportId);

@@ -18,12 +18,12 @@ public class ProjectRestWebServiceClient implements RestWebServiceClient<Project
     public Project get(long id) {
         Project project = null;
 
-        HttpGet httpGet = new HttpGet();
+        AsyncHttpGet asyncHttpGet = new AsyncHttpGet();
         String urlParams = "?id=" + id;
 
         try {
-            httpGet.execute(new URL(URL + urlParams));
-            String jsonData = httpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
+            asyncHttpGet.execute(new URL(URL + urlParams));
+            String jsonData = asyncHttpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
 
             project = this.gson.fromJson(jsonData, Project.class);
         } catch (Exception e) {
@@ -37,11 +37,11 @@ public class ProjectRestWebServiceClient implements RestWebServiceClient<Project
     public Project[] getAll() {
         Project[] projects = new Project[0];
 
-        HttpGet httpGet = new HttpGet();
+        AsyncHttpGet asyncHttpGet = new AsyncHttpGet();
 
         try {
-            httpGet.execute(new URL(URL));
-            String jsonData = httpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
+            asyncHttpGet.execute(new URL(URL));
+            String jsonData = asyncHttpGet.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
 
             projects = this.gson.fromJson(jsonData, Project[].class);
         } catch (Exception e) {
@@ -52,27 +52,19 @@ public class ProjectRestWebServiceClient implements RestWebServiceClient<Project
     }
 
     @Override
-    public boolean post(Project project) {
-        return false;
+    public long post(Project project) {
+        return 0;
     }
 
     @Override
-    public void put(Project project) {
-
-    }
+    public void put(Project project) {}
 
     @Override
-    public void putAll(Project[] list) {
-
-    }
+    public void putAll(Project[] projects) {}
 
     @Override
-    public void delete(long id) {
-
-    }
+    public void delete(long l) {}
 
     @Override
-    public void deleteAll() {
-
-    }
+    public void deleteAll() {}
 }

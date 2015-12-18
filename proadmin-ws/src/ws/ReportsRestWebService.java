@@ -12,6 +12,7 @@ import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,13 +32,18 @@ public class ReportsRestWebService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String paramsId = req.getParameter("id");
+        String jsonData = read(paramsId);
         
-        Gson gson = new GsonBuilder().create();
-        String jsonData;
-        
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();
+        resp.getWriter().write(jsonData);
+    }
+
+	private String read(String paramsId) {
+		String jsonData;
+		
+		Gson gson = new GsonBuilder().create();
+		DAO dao = JDBCDAO.getInstance();
+		
+		dao.open();
         
         if (paramsId != null) {
             long id = Long.valueOf(paramsId);
@@ -52,44 +58,89 @@ public class ReportsRestWebService extends HttpServlet {
         
         dao.close();
         
-        resp.getWriter().write(jsonData);
-    }
+		return jsonData;
+	}
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonReport = req.getParameter("report");
-        
-        Gson gson = new GsonBuilder().create();
-        Report report = gson.fromJson(jsonReport, Report.class);
-        
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();        
-        long id = dao.insertReport(report);
-        dao.close();
+    	Gson gson = new GsonBuilder().create();
+    	
+    	String jsonData = getData(req);
+        long id = create(gson, jsonData);
         
         resp.getWriter().write(gson.toJson(id));
+    }
+    
+    private String getData(HttpServletRequest req) {
+    	StringBuilder sBuilder = new StringBuilder();
+    	
+    	try {
+    		BufferedReader reader = req.getReader();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                sBuilder.append(line);
+            }
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+        
+        return sBuilder.toString().trim();
+    }
+    
+    private long create(Gson gson, String jsonData) {
+    	long id = 0;
+        
+        if (jsonData.startsWith("{") && jsonData.endsWith("}")) {
+        	Report report = gson.fromJson(jsonData, Report.class);
+        	
+        	DAO dao = JDBCDAO.getInstance();
+            
+            dao.open();
+        	id = dao.insertReport(report);
+        	dao.close();
+        }
+        
+        return id;
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonReport = req.getParameter("report");
+        String jsonData = getData(req);
         
-        Gson gson = new GsonBuilder().create();
-        Report report = gson.fromJson(jsonReport, Report.class);
-        
-        DAO dao = JDBCDAO.getInstance();
-        
-        dao.open();
-        dao.updateReport(report);
-        dao.close();
+        update(jsonData);
     }
 
+	private void update(String jsonData) {
+		Gson gson = new GsonBuilder().create();
+    	DAO dao = JDBCDAO.getInstance();
+        
+        dao.open();
+        
+        if (jsonData.startsWith("{") && jsonData.endsWith("}")) {
+        	Report report = gson.fromJson(jsonData, Report.class);
+        	
+        	dao.updateReport(report);
+        } else if (jsonData.startsWith("[") && jsonData.endsWith("]")) {
+        	Report[] reports = gson.fromJson(jsonData, Report[].class);
+        	
+        	for (Report report : reports) {
+        		dao.updateReport(report);
+        	}
+        }
+        
+    	dao.close();
+	}
+
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {    	
         String paramsId = req.getParameter("id");
         
-        DAO dao = JDBCDAO.getInstance();
+        delete(paramsId);
+    }
+
+	private void delete(String paramsId) {
+		DAO dao = JDBCDAO.getInstance();
         
         dao.open();
         
@@ -104,5 +155,5 @@ public class ReportsRestWebService extends HttpServlet {
         }
         
         dao.close();
-    }
+	}
 }

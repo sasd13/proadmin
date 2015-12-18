@@ -17,8 +17,6 @@ public interface IndividualEvaluationDAO {
 
     void update(IndividualEvaluation individualEvaluation);
 
-    void deleteByReport(long reportId);
-
     IndividualEvaluation select(long id);
 
     List<IndividualEvaluation> selectByReport(long reportId);

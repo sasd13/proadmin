@@ -193,6 +193,10 @@ public abstract class DAO {
         long id = teamDAO.insert(team);
         if (id > 0) {
             team.setId(id);
+            
+            for (Student student : team.getStudents()) {
+            	persistStudent(student, id);
+            }
         }
 
         return id;
@@ -200,6 +204,10 @@ public abstract class DAO {
 
     public void updateTeam(Team team) {
         teamDAO.update(team);
+        
+        for (Student student : team.getStudents()) {
+        	persistStudent(student, team.getId());
+        }
     }
 
     public void deleteTeam(long id) {
@@ -232,7 +240,7 @@ public abstract class DAO {
         return list;
     }
     
-    public long persistStudent(Student student, long teamId) {
+    private long persistStudent(Student student, long teamId) {
         long id = 0;
         
         if (selectStudent(student.getId()) == null) {
@@ -246,7 +254,7 @@ public abstract class DAO {
         return id;
     }
 
-    public long insertStudent(Student student, long teamId) {
+    private long insertStudent(Student student, long teamId) {
         long id = studentDAO.insert(student);
         if (id > 0) {
             student.setId(id);
@@ -259,10 +267,6 @@ public abstract class DAO {
 
     public void updateStudent(Student student) {
         studentDAO.update(student);
-    }
-    
-    public void deleteStudent(long id) {
-        studentDAO.delete(id);
     }
 
     public void deleteStudentFromTeam(long studentId, long teamId) {
@@ -326,9 +330,6 @@ public abstract class DAO {
     }
 
     public void deleteReport(long id) {
-        deleteLeadEvaluation(id);
-        deleteIndividualEvaluations(id);
-
         reportDAO.delete(id);
     }
 
@@ -378,10 +379,6 @@ public abstract class DAO {
         leadEvaluationDAO.update(leadEvaluation);
     }
 
-    private void deleteLeadEvaluation(long reportId) {
-        leadEvaluationDAO.deleteByReport(reportId);
-    }
-
     private void insertIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
         long id;
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
@@ -396,10 +393,6 @@ public abstract class DAO {
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
             individualEvaluationDAO.update(individualEvaluation);
         }
-    }
-
-    private void deleteIndividualEvaluations(long reportId) {
-        individualEvaluationDAO.deleteByReport(reportId);
     }
 
     private void setTeamForReport(Report report) {
