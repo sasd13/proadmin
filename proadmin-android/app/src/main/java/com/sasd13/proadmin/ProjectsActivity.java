@@ -11,8 +11,10 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
+import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -20,7 +22,7 @@ import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.wsclient.RestWebServiceClientFactory;
+import com.sasd13.proadmin.wsclient.AsyncRequestProjectsWebService;
 
 import java.util.List;
 
@@ -72,7 +74,7 @@ public class ProjectsActivity extends MotherActivity {
         }
     }
 
-    private void fillTabProjects() {
+    public void fillTabProjects() {
         DAO dao = DAOFactory.make();
 
         dao.open();
@@ -131,17 +133,35 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void refresh() {
-        pullProjectsFromWebService();
+        if (ConnectivityChecker.isOnline(this)) {
+            AsyncRequestProjectsWebService service = new AsyncRequestProjectsWebService(this);
+            service.execute();
 
-        fillTabProjects();
+            try {
+                Project[] projects = service.get();
 
-        Toast.makeText(this, R.string.toast_updated, Toast.LENGTH_SHORT).show();
-    }
+                if (projects == null || projects.length == 0) {
+                    CustomDialog.showOkDialog(
+                            this,
+                            this.getResources().getString(com.sasd13.androidex.R.string.alertdialog_title_error),
+                            "Echec de la mise à jour"
+                    );
+                } else {
+                    persistPulledProjects(projects);
+                    fillTabProjects();
 
-    private void pullProjectsFromWebService() {
-        Project[] projects  = (Project[]) RestWebServiceClientFactory.make("PROJECT").getAll();
-
-        persistPulledProjects(projects);
+                    Toast.makeText(this, R.string.toast_updated, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.alertdialog_title_error),
+                    "Activer la connexion"
+            );
+        }
     }
 
     private void persistPulledProjects(Project[] projects) {
