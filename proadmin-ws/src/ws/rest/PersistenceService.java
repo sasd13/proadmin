@@ -23,14 +23,14 @@ public class PersistenceService {
 		PersistenceService.mClass = mClass;
 	}
 	
-	public static String create(Object object) {		
+	public static long create(Object object) {		
 		long id = 0;
 		
 		dao.open();
-		performCreate(object);
+		id = performCreate(object);
     	dao.close();
 		
-		return String.valueOf(id);
+		return id;
 	}
 	
 	private static long performCreate(Object object) {
@@ -108,7 +108,7 @@ public class PersistenceService {
 		}
 	}
 	
-	public void update(Object object) {
+	public static void update(Object object) {
 		dao.open();
 		
 		try {

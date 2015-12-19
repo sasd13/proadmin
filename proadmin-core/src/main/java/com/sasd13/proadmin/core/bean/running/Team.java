@@ -1,13 +1,14 @@
 package com.sasd13.proadmin.core.bean.running;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.sasd13.proadmin.core.bean.member.Student;
 
 public class Team {
 
-    private long id;
+	private long id;
     private String code;
     private Running running;
     private Student[] students;
@@ -58,4 +59,19 @@ public class Team {
     public Report[] getReports() {
         return this.reports.toArray(new Report[this.reports.size()]);
     }
+    
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Team [");
+		builder.append("id=" + getId());
+		builder.append(", code=" + getCode());
+		builder.append(", running=" + getRunning());
+		builder.append(", students=" + Arrays.toString(getStudents()));
+		builder.append(", reports=" + Arrays.toString(getReports()));
+		builder.append("]");
+		
+		return builder.toString();
+	}
 }

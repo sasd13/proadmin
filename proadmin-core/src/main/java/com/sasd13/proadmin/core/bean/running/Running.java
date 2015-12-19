@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.core.bean.running;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import com.sasd13.proadmin.core.bean.project.Project;
 
 public class Running {
 
-    private long id;
+	private long id;
     private int year;
     private Teacher teacher;
     private Project project;
@@ -63,4 +64,19 @@ public class Running {
     public Team[] getTeams() {
         return this.teams.toArray(new Team[this.teams.size()]);
     }
+    
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Running [");
+		builder.append("id=" + getId());
+		builder.append(", year=" + getYear());
+		builder.append(", teacher=" + getTeacher());
+		builder.append(", project=" + getProject());
+		builder.append(", teams=" + Arrays.toString(getTeams()));
+		builder.append("]");
+		
+		return builder.toString();
+	}
 }

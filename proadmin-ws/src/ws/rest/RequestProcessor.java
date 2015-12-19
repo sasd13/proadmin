@@ -11,18 +11,17 @@ import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.ws.rest.MimeType;
 import com.sasd13.javaex.ws.rest.MimeTypeParser;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings("rawtypes")
 public class RequestProcessor {
 	
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		PersistenceService.setBeanClass(mClass);
-		
 		Object respData = (mapParameters.isEmpty())
 				? PersistenceService.readAll()
         		: PersistenceService.read(mapParameters);
-				
+		
 		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
 		String sRespData = DataParser.encode(respData, mimeType);
         
@@ -31,32 +30,30 @@ public class RequestProcessor {
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
     	String reqData = ContentIO.read(req.getReader());
-    	
-    	PersistenceService.setBeanClass(mClass);
-    	
-    	
+    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	Object object = DataParser.decode(reqData, mimeType, mClass);
     	
-    	String respData = PersistenceService.create(reqData, mimeType);
+    	PersistenceService.setBeanClass(mClass);
+    	long id = PersistenceService.create(object);
+    	
+    	String respData = DataParser.encode(id, mimeType);
         
         ContentIO.write(resp.getWriter(), respData);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req.getReader());
+		String reqData = ContentIO.read(req.getReader());
+    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
+    	Object object = DataParser.decode(reqData, mimeType, mClass);
     	
     	PersistenceService.setBeanClass(mClass);
-    	
-    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-    	
-    	PersistenceService.update(reqData, mimeType);
+    	PersistenceService.update(object);
     }
 	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		PersistenceService.setBeanClass(mClass);
-        
 		if (!mapParameters.isEmpty()) {
 			PersistenceService.delete(mapParameters);
 		}

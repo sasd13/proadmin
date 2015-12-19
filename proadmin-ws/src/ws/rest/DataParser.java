@@ -16,6 +16,8 @@ public class DataParser {
 			sData = gson.toJson(object);
 		} else if (mimeType == MimeType.XML) {
 			//TODO
+		} else {
+			sData = object.toString();
 		}
 		
 		return sData;
@@ -37,6 +39,8 @@ public class DataParser {
 			}
 		} else if (mimeType == MimeType.XML) {
 			//TODO
+		} else {
+			
 		}
 		
 		return object;

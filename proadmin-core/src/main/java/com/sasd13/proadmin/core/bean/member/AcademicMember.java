@@ -15,7 +15,7 @@ public abstract class AcademicMember {
     private String number, firstName, lastName, email;
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(long id) {
@@ -23,7 +23,7 @@ public abstract class AcademicMember {
     }
 
     public String getNumber() {
-        return this.number;
+        return number;
     }
 
     public void setNumber(String number) {
@@ -31,7 +31,7 @@ public abstract class AcademicMember {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -39,7 +39,7 @@ public abstract class AcademicMember {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -47,7 +47,7 @@ public abstract class AcademicMember {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {

@@ -2,11 +2,12 @@ package com.sasd13.proadmin.core.bean.running;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Report {
 
-    private long id;
+	private long id;
     private Timestamp dateMeeting;
     private int weekNumber;
     private String teamComment;
@@ -76,4 +77,20 @@ public class Report {
     public IndividualEvaluation[] getIndividualEvaluations() {
         return this.individualEvaluations.toArray(new IndividualEvaluation[this.individualEvaluations.size()]);
     }
+    
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Report [");
+		builder.append("id=" + getId());
+		builder.append(", dateMeeting=" + getDateMeeting());
+		builder.append(", teamComment=" + getTeamComment());
+		builder.append(", team="+ getTeam());
+		builder.append(", leadEvaluation=" + getLeadEvaluation());
+		builder.append(", individualEvaluations=" + Arrays.toString(getIndividualEvaluations()));
+		builder.append("]");
+		
+		return builder.toString();
+	}
 }

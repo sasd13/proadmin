@@ -20,4 +20,18 @@ public class IndividualEvaluation extends Evaluation {
     public void setMark(float mark) {
         this.mark = mark;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("IndividualEvaluation [");
+		builder.append("id=" + getId());
+		builder.append(", mark=" + getMark());
+		builder.append(", student=" + getStudent());
+		builder.append(", report=" + getReport());
+		builder.append("]");
+		
+		return builder.toString();
+	}
 }
