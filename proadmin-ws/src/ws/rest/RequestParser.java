@@ -67,10 +67,10 @@ public class RequestParser<T> {
 		String respData = null;
 		
 		dao.open();
-		
+		/*
 		Object object = select(Long.parseLong(paramId));
 		respData = gson.toJson(object);
-		
+		*/
 		dao.close();
 		
 		return respData;
@@ -163,7 +163,9 @@ public class RequestParser<T> {
 	
 	public void delete(String[] params) {
 		dao.open();
+		/*
 		delete(Long.parseLong(paramId));
+		*/
 		dao.close();
 	}
 	

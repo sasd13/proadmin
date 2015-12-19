@@ -13,16 +13,13 @@ import com.sasd13.javaex.ws.rest.MimeTypeParser;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class RequestProcessor {
-
+	
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
-        Map<String, String[]> mapParameters = req.getParameterMap();
-        
-        String respData;
-        if (!mapParameters.isEmpty()) {
-            respData = persistanceService.read(mapParameters);
-        } else {
-            respData = persistanceService.readAll();
-        }
+		Map<String, String[]> mapParameters = req.getParameterMap();
+		
+		String respData = (mapParameters.isEmpty())
+        		? persistanceService.readAll()
+        		: persistanceService.read(mapParameters);
         
         ContentIO.write(resp.getWriter(), respData);
     }
@@ -35,8 +32,8 @@ public class RequestProcessor {
     	String respData = persistanceService.create(reqData, mimeType);
         
         ContentIO.write(resp.getWriter(), respData);
-    }
-
+	}
+	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
     	String reqData = ContentIO.read(req.getReader());
     	
@@ -44,14 +41,12 @@ public class RequestProcessor {
     	
     	persistanceService.update(reqData, mimeType);
     }
-
+	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
         
-        if (!mapParameters.isEmpty()) {
-            persistanceService.delete(mapParameters);
-        } else {
-            persistanceService.readAll();
-        }
+		if (!mapParameters.isEmpty()) {
+			persistanceService.delete(mapParameters);
+		}
     }
 }
