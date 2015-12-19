@@ -30,8 +30,8 @@ public class SQLiteStudentTeamDAO implements StudentTeamDAO {
     }
 
     @Override
-    public void deleteStudentFromTeam(long studentId, long teamId) {
-        db.delete(STUDENTTEAM_TABLE_NAME, STUDENTS_STUDENT_ID + " = ? and" + TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(studentId), String.valueOf(teamId)});
+    public void deleteByTeam(long id) {
+        db.delete(STUDENTTEAM_TABLE_NAME, TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     @Override
@@ -42,6 +42,23 @@ public class SQLiteStudentTeamDAO implements StudentTeamDAO {
                 "select *"
                         + " from " + STUDENTS_STUDENT_ID
                         + " where " + TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(teamId)});
+
+        while (cursor.moveToNext()) {
+            list.add(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public List<Long> selectByStudent(long studentId) {
+        List<Long> list = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "select *"
+                        + " from " + STUDENTS_STUDENT_ID
+                        + " where " + STUDENTS_STUDENT_ID + " = ?", new String[]{String.valueOf(studentId)});
 
         while (cursor.moveToNext()) {
             list.add(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));

@@ -1,7 +1,10 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
@@ -22,7 +24,8 @@ import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.wsclient.AsyncRequestProjectsWebService;
+import com.sasd13.proadmin.wsclient.ProjectsWebServiceAsyncTask;
+import com.sasd13.proadmin.wsclient.TaskCanceler;
 
 import java.util.List;
 
@@ -134,43 +137,27 @@ public class ProjectsActivity extends MotherActivity {
 
     private void refresh() {
         if (ConnectivityChecker.isOnline(this)) {
-            AsyncRequestProjectsWebService service = new AsyncRequestProjectsWebService(this);
-            service.execute();
-
-            try {
-                Project[] projects = service.get();
-
-                if (projects == null || projects.length == 0) {
-                    CustomDialog.showOkDialog(
-                            this,
-                            this.getResources().getString(com.sasd13.androidex.R.string.alertdialog_title_error),
-                            "Echec de la mise à jour"
-                    );
-                } else {
-                    persistPulledProjects(projects);
-                    fillTabProjects();
-
-                    Toast.makeText(this, R.string.toast_updated, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            tryToPerformRefresh();
         } else {
             CustomDialog.showOkDialog(
                     this,
-                    getResources().getString(R.string.alertdialog_title_error),
-                    "Activer la connexion"
+                    getResources().getString(R.string.title_error),
+                    getResources().getString(R.string.message_error_connectivity)
             );
         }
     }
 
-    private void persistPulledProjects(Project[] projects) {
-        DAO dao = DAOFactory.make();
+    private void tryToPerformRefresh() {
+        ProjectsWebServiceAsyncTask projectsTask = new ProjectsWebServiceAsyncTask(this);
+        TaskCanceler taskCanceler = new TaskCanceler(projectsTask);
 
-        dao.open();
-        for (Project project : projects) {
-            dao.persistProject(project);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(taskCanceler, 30000);
+
+        projectsTask.execute();
+
+        if (projectsTask.getStatus() == AsyncTask.Status.FINISHED) {
+            fillTabProjects();
         }
-        dao.close();
     }
 }

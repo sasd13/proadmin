@@ -70,6 +70,23 @@ public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements Project
     }
 
     @Override
+    public Project selectByCode(String code) {
+        Project project = null;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + PROJECT_TABLE_NAME
+                        + " where " + PROJECT_CODE + " = ?", new String[]{String.valueOf(code)});
+
+        if (cursor.moveToNext()) {
+            project = getCursorValues(cursor);
+        }
+        cursor.close();
+
+        return project;
+    }
+
+    @Override
     public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
         List<Project> list = new ArrayList<>();
 

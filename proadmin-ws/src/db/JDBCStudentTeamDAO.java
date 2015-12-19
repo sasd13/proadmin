@@ -64,26 +64,50 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
         
         return id;
     }
-
-    @Override
-    public void deleteStudentFromTeam(long studentId, long teamId) {
+    
+	@Override
+	public void deleteByTeam(long teamId) {
         try {
             String query = "DELTE FROM " 
                     + STUDENTTEAM_TABLE_NAME
                     + " WHERE "
-                    	+ STUDENTS_STUDENT_ID + " = ? AND "
-                        + TEAMS_TEAM_ID + " = ?";
+                    	+ TEAMS_TEAM_ID + " = ?";
             
             PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setLong(1, studentId);
-            preparedStatement.setLong(2, teamId);
+            preparedStatement.setLong(1, teamId);
             
             preparedStatement.executeUpdate();
             preparedStatement.close();            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+	}
+
+	@Override
+	public List<Long> selectByStudent(long studentId) {
+        List<Long> list = new ArrayList<>();
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + STUDENTTEAM_TABLE_NAME
+                    + " WHERE "
+                        + STUDENTS_STUDENT_ID + " = ?";
+            
+            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+            preparedStatement.setLong(1, studentId);
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+            	list.add(resultSet.getLong(STUDENTS_STUDENT_ID));
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+	}
 
     @Override
     public List<Long> selectByTeam(long teamId) {

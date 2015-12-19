@@ -89,20 +89,37 @@ public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements Student
     }
 
     @Override
-    public Student selectByEmail(String email) {
-        Student student = null;
+    public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
+        List<Student> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + STUDENT_TABLE_NAME
+                        + " where " + STUDENT_ACADEMICLEVEL + " = ?", new String[]{String.valueOf(academicLevel)});
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
+    public List<Student> selectByEmail(String email) {
+        List<Student> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + STUDENT_TABLE_NAME
                         + " where " + STUDENT_EMAIL + " = ?", new String[]{String.valueOf(email)});
 
-        if (cursor.moveToNext()) {
-            student = getCursorValues(cursor);
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
         }
         cursor.close();
 
-        return student;
+        return list;
     }
 
     @Override

@@ -82,7 +82,11 @@ public abstract class MotherActivity extends AppCompatActivity {
         if (Session.logOut()) {
             goToHomeActivityAndExit();
         } else {
-            CustomDialog.showOkDialog(this, "Error logout", "You have not been logged out");
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    getResources().getString(R.string.message_error_logout)
+            );
         }
     }
 

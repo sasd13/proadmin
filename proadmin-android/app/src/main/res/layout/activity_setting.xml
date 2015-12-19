@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/setting_form_user_textview_number"
             android:layout_marginTop="@dimen/viewgroup_margin"
-            android:text="@string/form_textview_identity"
+            android:text="@string/form_textview_title_identity"
             android:textColor="@color/customOrange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"/>

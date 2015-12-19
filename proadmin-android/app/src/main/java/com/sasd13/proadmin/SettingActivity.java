@@ -88,7 +88,10 @@ public class SettingActivity extends MotherActivity {
         if (true) {
             tryToPerformUpdateTeacher();
         } else {
-            CustomDialog.showOkDialog(this, "Error form", tabFormErrors[0]);
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    tabFormErrors[0]);
         }
     }
 
@@ -104,7 +107,8 @@ public class SettingActivity extends MotherActivity {
         DAO dao = DAOFactory.make();
 
         dao.open();
-        Teacher teacher = dao.selectTeacherByEmail(email);
+        Teacher teacher = null;
+        //Teacher teacher = dao.selectTeacherByEmail(email);
 
         if (teacher == null) {
             teacher = dao.selectTeacher(Session.getTeacherId());
@@ -114,7 +118,10 @@ public class SettingActivity extends MotherActivity {
             if (teacher.getId() == Session.getTeacherId()) {
                 performUpdateTeacher(teacher, dao);
             } else {
-                CustomDialog.showOkDialog(this, "Error update", "Email (" + email + ") already exists");
+                CustomDialog.showOkDialog(
+                        this,
+                        getResources().getString(R.string.title_error),
+                        "Email (" + email + ") already exists");
             }
         }
 
@@ -126,7 +133,7 @@ public class SettingActivity extends MotherActivity {
 
         dao.updateTeacher(teacher);
 
-        Toast.makeText(this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
     private void editTeacherWithForm(Teacher teacher) {

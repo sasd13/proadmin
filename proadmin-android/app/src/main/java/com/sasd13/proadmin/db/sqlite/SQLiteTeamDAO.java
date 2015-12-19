@@ -69,6 +69,23 @@ public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
     }
 
     @Override
+    public Team selectByCode(String code) {
+        Team team = null;
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + TEAM_TABLE_NAME
+                        + " where " + TEAM_CODE + " = ?", new String[]{String.valueOf(code)});
+
+        if (cursor.moveToNext()) {
+            team = getCursorValues(cursor);
+        }
+        cursor.close();
+
+        return team;
+    }
+
+    @Override
     public List<Team> selectByRunning(long runningId) {
         List<Team> list = new ArrayList<>();
 

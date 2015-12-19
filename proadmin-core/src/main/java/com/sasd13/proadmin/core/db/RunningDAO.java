@@ -20,6 +20,8 @@ public interface RunningDAO {
     void delete(long id);
 
     Running select(long id);
+    
+    List<Running> selectByYear(int year);
 
     List<Running> selectByTeacher(long teacherId);
     

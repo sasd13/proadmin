@@ -25,7 +25,7 @@ public interface TeacherDAO {
 
     Teacher selectByNumber(String number);
 
-    Teacher selectByEmail(String email);
+    List<Teacher> selectByEmail(String email);
     
     List<Teacher> selectAll();
 }

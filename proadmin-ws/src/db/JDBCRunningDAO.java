@@ -147,6 +147,32 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
         
         return running;
     }
+    
+    @Override
+	public List<Running> selectByYear(int year) {
+        List<Running> list = new ArrayList<>();
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + RUNNING_TABLE_NAME
+                    + " WHERE "
+                        + RUNNING_YEAR + " = ?";
+            
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, year);
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+            	list.add(getResultSetValues(resultSet));
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+	}
 
     @Override
     public List<Running> selectByTeacher(long teacherId) {

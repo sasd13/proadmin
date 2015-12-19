@@ -139,6 +139,32 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
         
         return team;
     }
+    
+    @Override
+	public Team selectByCode(String code) {
+        Team team = null;
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + TEAM_TABLE_NAME
+                    + " WHERE "
+                        + TEAM_CODE + " = ?";
+            
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setString(1, code);
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	team = getResultSetValues(resultSet);
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return team;
+	}
 
     @Override
     public List<Team> selectByRunning(long runningId) {

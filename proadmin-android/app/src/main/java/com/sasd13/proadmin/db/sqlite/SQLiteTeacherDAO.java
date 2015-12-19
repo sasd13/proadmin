@@ -88,20 +88,20 @@ public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements Teacher
     }
 
     @Override
-    public Teacher selectByEmail(String email) {
-        Teacher teacher = null;
+    public List<Teacher> selectByEmail(String email) {
+        List<Teacher> list = new ArrayList<>();
 
         Cursor cursor = getDB().rawQuery(
                 "select *"
                         + " from " + TEACHER_TABLE_NAME
                         + " where " + TEACHER_EMAIL + " = ?", new String[]{String.valueOf(email)});
 
-        if (cursor.moveToNext()) {
-            teacher = getCursorValues(cursor);
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
         }
         cursor.close();
 
-        return teacher;
+        return list;
     }
 
     @Override

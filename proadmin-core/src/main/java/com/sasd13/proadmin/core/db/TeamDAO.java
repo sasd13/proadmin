@@ -19,6 +19,8 @@ public interface TeamDAO {
     void delete(long id);
 
     Team select(long id);
+    
+    Team selectByCode(String code);
 
     List<Team> selectByRunning(long runningId);
     

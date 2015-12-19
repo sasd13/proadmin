@@ -144,6 +144,32 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
         
         return project;
     }
+    
+    @Override
+	public Project selectByCode(String code) {
+    	Project project = null;
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + PROJECT_TABLE_NAME
+                    + " WHERE "
+                        + PROJECT_CODE + " = ?";
+            
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setString(1, code);
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	project = getResultSetValues(resultSet);
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return project;
+	}
 
     @Override
     public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {

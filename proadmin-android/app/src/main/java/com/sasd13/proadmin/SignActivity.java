@@ -77,7 +77,10 @@ public class SignActivity extends AppCompatActivity {
         if (true) {
             tryToPerformSignUp();
         } else {
-            CustomDialog.showOkDialog(this, "Error form", tabFormErrors[0]);
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    tabFormErrors[0]);
         }
     }
 
@@ -102,10 +105,16 @@ public class SignActivity extends AppCompatActivity {
 
                 goToHomeActivityWithWelcome();
             } else {
-                CustomDialog.showOkDialog(this, "Error sign", "Email (" + teacher.getNumber() + ") already exists");
+                CustomDialog.showOkDialog(
+                        this,
+                        getResources().getString(R.string.title_error),
+                        "Email (" + teacher.getNumber() + ") already exists");
             }
         } else {
-            CustomDialog.showOkDialog(this, "Error sign", "Number (" + teacher.getNumber() + ") already exists");
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Number (" + teacher.getNumber() + ") already exists");
         }
 
         dao.close();

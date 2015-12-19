@@ -175,8 +175,8 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
     }
 
     @Override
-    public Teacher selectByEmail(String email) {
-        Teacher teacher = null;
+    public List<Teacher> selectByEmail(String email) {
+        List<Teacher> list = new ArrayList<>();
         
         try {			
             String query = "SELECT * FROM " 
@@ -188,8 +188,8 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
             preparedStatement.setString(1, email);
         
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-            	teacher = getResultSetValues(resultSet);
+            while (resultSet.next()) {
+            	list.add(getResultSetValues(resultSet));
             }
 			
             preparedStatement.close();
@@ -197,7 +197,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
             e.printStackTrace();
         }
         
-        return teacher;
+        return list;
     }
     
     @Override

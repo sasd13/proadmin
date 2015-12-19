@@ -35,9 +35,9 @@ public abstract class DAO {
         if (selectTeacher(teacher.getId()) == null) {
             id = insertTeacher(teacher);
         } else {
+        	id = teacher.getId();
+        	
             updateTeacher(teacher);
-            
-            id = teacher.getId();
         }
         
         return id;
@@ -68,7 +68,7 @@ public abstract class DAO {
         return teacherDAO.selectByNumber(number);
     }
 
-    public Teacher selectTeacherByEmail(String email) {
+    public List<Teacher> selectTeacherByEmail(String email) {
         return teacherDAO.selectByEmail(email);
     }
     
@@ -82,9 +82,9 @@ public abstract class DAO {
         if (selectProject(project.getId()) == null) {
             id = insertProject(project);
         } else {
-            updateProject(project);
-            
             id = project.getId();
+            
+            updateProject(project);
         }
         
         return id;
@@ -110,6 +110,10 @@ public abstract class DAO {
     public Project selectProject(long id) {
         return projectDAO.select(id);
     }
+    
+    public Project selectProjectByCode(String code) {
+        return projectDAO.selectByCode(code);
+    }
 
     public List<Project> selectProjectsByAcademicLevel(AcademicLevel academicLevel) {
         return projectDAO.selectByAcademicLevel(academicLevel);
@@ -124,10 +128,10 @@ public abstract class DAO {
         
         if (selectRunning(running.getId()) == null) {
             id = insertRunning(running);
-        } else {
-            updateRunning(running);
-            
+        } else {            
             id = running.getId();
+            
+            updateRunning(running);
         }
         
         return id;
@@ -153,26 +157,36 @@ public abstract class DAO {
     public Running selectRunning(long id) {
         Running running = runningDAO.select(id);
         
-        if (running != null) {
-            running.setTeacher(selectTeacher(running.getTeacher().getId()));
+        try {
+        	running.setTeacher(selectTeacher(running.getTeacher().getId()));
             running.setProject(selectProject(running.getProject().getId()));
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
         }
         
         return running;
     }
 
+    public List<Running> selectRunningsByYear(int year) {
+        return runningDAO.selectByYear(year);
+    }
+    
     public List<Running> selectRunningsByTeacher(long teacherId) {
         return runningDAO.selectByTeacher(teacherId);
     }
     
+    public List<Running> selectRunningsByProject(long projectId) {
+        return runningDAO.selectByProject(projectId);
+    }
+    
     public List<Running> selectAllRunnings() {
-        List<Running> list = runningDAO.selectAll();
+        List<Running> runnings = runningDAO.selectAll();
         
-        for (Running running : list) {
-            list.set(list.indexOf(running), selectRunning(running.getId()));
+        for (Running running : runnings) {
+        	runnings.set(runnings.indexOf(running), selectRunning(running.getId()));
         }
         
-        return list;
+        return runnings;
     }
     
     public long persistTeam(Team team) {
@@ -181,9 +195,9 @@ public abstract class DAO {
         if (selectTeam(team.getId()) == null) {
             id = insertTeam(team);
         } else {
-            updateTeam(team);
-            
             id = team.getId();
+            
+            updateTeam(team);
         }
         
         return id;
@@ -194,19 +208,27 @@ public abstract class DAO {
         if (id > 0) {
             team.setId(id);
             
-            for (Student student : team.getStudents()) {
-            	persistStudent(student, id);
-            }
+            insertStudentsInTeam(team);
         }
 
         return id;
     }
 
+	private void insertStudentsInTeam(Team team) {
+		for (Student student : team.getStudents()) {
+			studentTeamDAO.insertStudentInTeam(student.getId(), team.getId());
+		}
+	}
+
     public void updateTeam(Team team) {
         teamDAO.update(team);
         
-        for (Student student : team.getStudents()) {
-        	persistStudent(student, team.getId());
+        try {
+        	studentTeamDAO.deleteByTeam(team.getId());
+            
+        	insertStudentsInTeam(team);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
         }
     }
 
@@ -217,49 +239,64 @@ public abstract class DAO {
     public Team selectTeam(long id) {
         Team team = teamDAO.select(id);
         
-        if (team != null) {
-            List<Student> list = selectStudentsByTeam(team.getId());
+        try {
+        	List<Student> students = selectStudentsByTeam(team.getId());
             
-            team.setStudents(list.toArray(new Student[list.size()]));
+            team.setStudents(students.toArray(new Student[students.size()]));
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
         }
         
         return team;
     }
 
+    public Team selectTeamsByCode(String code) {
+        return teamDAO.selectByCode(code);
+    }
+    
     public List<Team> selectTeamsByRunning(long runningId) {
         return teamDAO.selectByRunning(runningId);
     }
     
-    public List<Team> selectAllTeams() {
-        List<Team> list = teamDAO.selectAll();
-        
-        for (Team team : list) {
-            list.set(list.indexOf(team), selectTeam(team.getId()));
+    public List<Team> selectTeamsByStudent(long studentId) {
+        List<Team> teams = new ArrayList<>();
+
+        List<Long> teamIds = studentTeamDAO.selectByStudent(studentId);
+        for (long teamId : teamIds) {
+        	teams.add(selectTeam(teamId));
         }
-        
-        return list;
+
+        return teams;
     }
     
-    private long persistStudent(Student student, long teamId) {
+    public List<Team> selectAllTeams() {
+        List<Team> teams = teamDAO.selectAll();
+        
+        for (Team team : teams) {
+        	teams.set(teams.indexOf(team), selectTeam(team.getId()));
+        }
+        
+        return teams;
+    }
+    
+    public long persistStudent(Student student) {
         long id = 0;
         
         if (selectStudent(student.getId()) == null) {
-            id = insertStudent(student, teamId);
+            id = insertStudent(student);
         } else {
-            updateStudent(student);
-            
             id = student.getId();
+            
+            updateStudent(student);
         }
         
         return id;
     }
 
-    private long insertStudent(Student student, long teamId) {
+    public long insertStudent(Student student) {
         long id = studentDAO.insert(student);
         if (id > 0) {
             student.setId(id);
-
-            studentTeamDAO.insertStudentInTeam(id, teamId);
         }
 
         return id;
@@ -268,9 +305,9 @@ public abstract class DAO {
     public void updateStudent(Student student) {
         studentDAO.update(student);
     }
-
-    public void deleteStudentFromTeam(long studentId, long teamId) {
-        studentTeamDAO.deleteStudentFromTeam(studentId, teamId);
+    
+    public void deleteStudent(long id) {
+        studentDAO.delete(id);
     }
 
     public Student selectStudent(long id) {
@@ -280,16 +317,24 @@ public abstract class DAO {
     public Student selectStudentByNumber(String number) {
         return studentDAO.selectByNumber(number);
     }
+    
+    public List<Student> selectStudentsByAcademicLevel(AcademicLevel academicLevel) {
+        return studentDAO.selectByAcademicLevel(academicLevel);
+    }
+    
+    public List<Student> selectStudentsByEmail(String email) {
+        return studentDAO.selectByEmail(email);
+    }
 
     public List<Student> selectStudentsByTeam(long teamId) {
-        List<Student> list = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
 
-        List<Long> listStudentIds = studentTeamDAO.selectByTeam(teamId);
-        for (long studentId : listStudentIds) {
-            list.add(studentDAO.select(studentId));
+        List<Long> studentIds = studentTeamDAO.selectByTeam(teamId);
+        for (long studentId : studentIds) {
+        	students.add(selectStudent(studentId));
         }
 
-        return list;
+        return students;
     }
     
     public List<Student> selectAllStudents() {
@@ -302,9 +347,9 @@ public abstract class DAO {
         if (selectReport(report.getId()) == null) {
             id = insertReport(report);
         } else {
-            updateReport(report);
-            
             id = report.getId();
+            
+            updateReport(report);
         }
         
         return id;
@@ -337,7 +382,7 @@ public abstract class DAO {
         Report report = reportDAO.select(id);
 
         try {
-            setTeamForReport(report);
+        	report.setTeam(selectTeam(report.getTeam().getId()));
 
             bindLeadEvaluationForReport(report);
             addIndividualEvaluationsForReport(report);
@@ -349,23 +394,23 @@ public abstract class DAO {
     }
 
     public List<Report> selectReportsByTeam(long teamId) {
-        List<Report> list = reportDAO.selectByTeam(teamId);
+        List<Report> reports = reportDAO.selectByTeam(teamId);
         
-        for (Report report : list) {
-            list.set(list.indexOf(report), selectReport(report.getId()));
+        for (Report report : reports) {
+        	reports.set(reports.indexOf(report), selectReport(report.getId()));
         }
 
-        return list;
+        return reports;
     }
     
     public List<Report> selectAllReports() {
-        List<Report> list = reportDAO.selectAll();
+        List<Report> reports = reportDAO.selectAll();
         
-        for (Report report : list) {
-            list.set(list.indexOf(report), selectReport(report.getId()));
+        for (Report report : reports) {
+        	reports.set(reports.indexOf(report), selectReport(report.getId()));
         }
         
-        return list;
+        return reports;
     }
 
     private void insertLeadEvaluation(LeadEvaluation leadEvaluation) {
@@ -395,11 +440,6 @@ public abstract class DAO {
         }
     }
 
-    private void setTeamForReport(Report report) {
-        Team team = teamDAO.select(report.getTeam().getId());
-        report.setTeam(team);
-    }
-
     private void bindLeadEvaluationForReport(Report report) {
         LeadEvaluation leadEvaluationToBind = leadEvaluationDAO.selectByReport(report.getId());
 
@@ -410,16 +450,16 @@ public abstract class DAO {
         leadEvaluation.setPlanningComment(leadEvaluationToBind.getPlanningComment());
         leadEvaluation.setCommunicationMark(leadEvaluationToBind.getCommunicationMark());
         leadEvaluation.setCommunicationComment(leadEvaluationToBind.getCommunicationComment());
-        leadEvaluation.setStudent(studentDAO.select(leadEvaluationToBind.getStudent().getId()));
+        leadEvaluation.setStudent(selectStudent(leadEvaluationToBind.getStudent().getId()));
     }
 
     private void addIndividualEvaluationsForReport(Report report) {
-        List<IndividualEvaluation> list = individualEvaluationDAO.selectByReport(report.getId());
+        List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.selectByReport(report.getId());
 
         Student student;
-        for (IndividualEvaluation individualEvaluation : list) {
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
             student = individualEvaluation.getStudent();
-            individualEvaluation.setStudent(studentDAO.select(student.getId()));
+            individualEvaluation.setStudent(selectStudent(student.getId()));
 
             report.addIndividualEvaluation(individualEvaluation);
         }

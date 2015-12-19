@@ -10,8 +10,10 @@ public interface StudentTeamDAO {
     String STUDENTS_STUDENT_ID = "students_student_id";
 
     long insertStudentInTeam(long studentId, long teamId);
-
-    void deleteStudentFromTeam(long studentId, long teamId);
+    
+    void deleteByTeam(long teamId);
 
     List<Long> selectByTeam(long teamId);
+    
+    List<Long> selectByStudent(long studentId);
 }

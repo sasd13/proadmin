@@ -176,8 +176,34 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
     }
     
     @Override
-	public Student selectByEmail(String email) {
-    	Student student = null;
+	public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
+    	List<Student> list = new ArrayList<>();
+        
+        try {			
+            String query = "SELECT * FROM " 
+                    + STUDENT_TABLE_NAME
+                    + " WHERE "
+                        + STUDENT_ACADEMICLEVEL + " = ?";
+            
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setString(1, String.valueOf(academicLevel));
+        
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+            	list.add(getResultSetValues(resultSet));
+            }
+			
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
+	}
+
+	@Override
+	public List<Student> selectByEmail(String email) {
+    	List<Student> list = new ArrayList<>();
         
         try {			
             String query = "SELECT * FROM " 
@@ -189,8 +215,8 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
             preparedStatement.setString(1, email);
         
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-            	student = getResultSetValues(resultSet);
+            while (resultSet.next()) {
+            	list.add(getResultSetValues(resultSet));
             }
 			
             preparedStatement.close();
@@ -198,8 +224,8 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
             e.printStackTrace();
         }
         
-        return student;
-    }
+        return list;
+	}
 
     @Override
     public List<Student> selectAll() {

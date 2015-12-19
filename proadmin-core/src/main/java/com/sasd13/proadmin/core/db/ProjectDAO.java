@@ -22,6 +22,8 @@ public interface ProjectDAO {
     void delete(long id);
 
     Project select(long id);
+    
+    Project selectByCode(String code);
 
     List<Project> selectByAcademicLevel(AcademicLevel academicLevel);
 

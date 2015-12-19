@@ -74,6 +74,23 @@ public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements Running
     }
 
     @Override
+    public List<Running> selectByYear(int year) {
+        List<Running> list = new ArrayList<>();
+
+        Cursor cursor = getDB().rawQuery(
+                "select *"
+                        + " from " + RUNNING_TABLE_NAME
+                        + " where " + RUNNING_YEAR + " = ?", new String[]{String.valueOf(year)});
+
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    @Override
     public List<Running> selectByTeacher(long teacherId) {
         List<Running> list = new ArrayList<>();
 
