@@ -98,18 +98,11 @@ public class SignActivity extends AppCompatActivity {
         dao.open();
 
         if (dao.selectTeacherByNumber(teacher.getNumber()) == null) {
-            if (dao.selectTeacherByEmail(teacher.getEmail()) == null) {
-                performSignUp(teacher, dao);
+            performSignUp(teacher, dao);
 
-                Session.logIn(teacher.getNumber(), teacher.getPassword());
+            Session.logIn(teacher.getNumber(), teacher.getPassword());
 
-                goToHomeActivityWithWelcome();
-            } else {
-                CustomDialog.showOkDialog(
-                        this,
-                        getResources().getString(R.string.title_error),
-                        "Email (" + teacher.getNumber() + ") already exists");
-            }
+            goToHomeActivityWithWelcome();
         } else {
             CustomDialog.showOkDialog(
                     this,

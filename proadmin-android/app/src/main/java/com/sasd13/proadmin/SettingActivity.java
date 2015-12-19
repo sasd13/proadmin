@@ -102,28 +102,12 @@ public class SettingActivity extends MotherActivity {
     }
 
     private void tryToPerformUpdateTeacher() {
-        String email = this.formTeacher.editTextEmail.getText().toString().trim();
-
         DAO dao = DAOFactory.make();
 
         dao.open();
-        Teacher teacher = null;
-        //Teacher teacher = dao.selectTeacherByEmail(email);
+        Teacher teacher = dao.selectTeacher(Session.getTeacherId());
 
-        if (teacher == null) {
-            teacher = dao.selectTeacher(Session.getTeacherId());
-
-            performUpdateTeacher(teacher, dao);
-        } else {
-            if (teacher.getId() == Session.getTeacherId()) {
-                performUpdateTeacher(teacher, dao);
-            } else {
-                CustomDialog.showOkDialog(
-                        this,
-                        getResources().getString(R.string.title_error),
-                        "Email (" + email + ") already exists");
-            }
-        }
+        performUpdateTeacher(teacher, dao);
 
         dao.close();
     }

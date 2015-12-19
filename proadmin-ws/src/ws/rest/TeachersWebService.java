@@ -5,8 +5,7 @@
  */
 package ws.rest;
 
-import com.sasd13.javaex.ws.rest.MimeType;
-import com.sasd13.javaex.ws.rest.MimeTypeParser;
+import com.sasd13.proadmin.core.bean.member.Teacher;
 
 import java.io.IOException;
 
@@ -16,61 +15,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ws.ContentIO;
-import ws.rest.persistence.TeachersPersistenceService;
-
 /**
  *
  * @author Samir
  */
 @WebServlet("/teachers")
 public class TeachersWebService extends HttpServlet {
+	
+	private PersistenceService<Teacher> persistanceService = new PersistenceService<>(Teacher.class, Teacher[].class);
 
-    @Override
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String paramsId = req.getParameter("id");
-        
-        String respData;
-        if (paramsId != null) {
-            respData = TeachersPersistenceService.read(paramsId);
-        } else {
-            respData = TeachersPersistenceService.readAll();
-        }
-        
-        ContentIO.write(resp, respData);
+        RestProcessor.doGet(req, resp, persistanceService);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req);
-    	
-    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-    	
-    	String respData = TeachersPersistenceService.create(reqData, mimeType);
-        
-        ContentIO.write(resp, respData);
+    	RestProcessor.doPost(req, resp, persistanceService);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req);
-    	
-    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-    	
-    	TeachersPersistenceService.update(reqData, mimeType);
+    	RestProcessor.doPut(req, resp, persistanceService);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	String paramsId = req.getParameter("id");
-        
-        String respData;
-        if (paramsId != null) {
-            respData = TeachersPersistenceService.read(paramsId);
-        } else {
-            respData = TeachersPersistenceService.readAll();
-        }
-        
-        ContentIO.write(resp, respData);
+    	RestProcessor.doDelete(req, resp, persistanceService);
     }
 }
