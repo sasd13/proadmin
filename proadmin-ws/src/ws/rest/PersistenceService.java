@@ -1,10 +1,8 @@
 package ws.rest;
 
+import java.lang.reflect.Array;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sasd13.javaex.ws.rest.MimeType;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -15,57 +13,45 @@ import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class PersistenceService<T> {
+@SuppressWarnings("rawtypes")
+public class PersistenceService {
 
-	private Class mClass, mTabClass;
-	private Gson gson;
-	private DAO dao;
+	private static Class mClass;
+	private static DAO dao = JDBCDAO.getInstance();
 	
-	public PersistenceService(Class mClass, Class mTabClass) {
-		this.mClass = mClass;
-		this.mTabClass = mTabClass;
-		this.gson = new GsonBuilder().create();
-		this.dao = JDBCDAO.getInstance();
+	public static void setBeanClass(Class mClass) {
+		PersistenceService.mClass = mClass;
 	}
 	
-	public String create(String reqData, MimeType mimeType) {		
-		T t = null;
-		
-		if (mimeType == MimeType.JSON) {
-			t = (T) gson.fromJson(reqData, this.mClass);
-		}
-		
+	public static String create(Object object) {		
 		long id = 0;
 		
-		if (t != null) {
-			dao.open();
-			insert(t);
-	    	dao.close();
-		}
+		dao.open();
+		performCreate(object);
+    	dao.close();
 		
 		return String.valueOf(id);
 	}
 	
-	private long insert(T t) {
-		if ("Project".equals(this.mClass.getSimpleName())) {
-			return dao.insertProject((Project) t);
-		} else if ("Report".equals(this.mClass.getSimpleName())) {
-			return dao.insertReport((Report) t);
-		} else if ("Running".equals(this.mClass.getSimpleName())) {
-			return dao.insertRunning((Running) t);
-		} else if ("Student".equals(this.mClass.getSimpleName())) {
-			return dao.insertStudent((Student) t);
-		} else if ("Teacher".equals(this.mClass.getSimpleName())) {
-			return dao.insertTeacher((Teacher) t);
-		} else if ("Team".equals(this.mClass.getSimpleName())) {
-			return dao.insertTeam((Team) t);
+	private static long performCreate(Object object) {
+		if ("Project".equals(mClass.getSimpleName())) {
+			return dao.insertProject((Project) object);
+		} else if ("Report".equals(mClass.getSimpleName())) {
+			return dao.insertReport((Report) object);
+		} else if ("Running".equals(mClass.getSimpleName())) {
+			return dao.insertRunning((Running) object);
+		} else if ("Student".equals(mClass.getSimpleName())) {
+			return dao.insertStudent((Student) object);
+		} else if ("Teacher".equals(mClass.getSimpleName())) {
+			return dao.insertTeacher((Teacher) object);
+		} else if ("Team".equals(mClass.getSimpleName())) {
+			return dao.insertTeam((Team) object);
 		} else {
 			return 0;
 		}
 	}
 	
-	public String read(Map<String, String[]> mapParameters) {
+	public static String read(Map<String, String[]> mapParameters) {
 		String respData = null;
 		
 		dao.open();
@@ -78,92 +64,85 @@ public class PersistenceService<T> {
 		return respData;
 	}
 	
-	private Object select(long id) {
-		if ("Project".equals(this.mClass.getSimpleName())) {
+	private static Object performRead(long id) {
+		if ("Project".equals(mClass.getSimpleName())) {
 			return dao.selectProject(id);
-		} else if ("Report".equals(this.mClass.getSimpleName())) {
+		} else if ("Report".equals(mClass.getSimpleName())) {
 			return dao.selectReport(id);
-		} else if ("Running".equals(this.mClass.getSimpleName())) {
+		} else if ("Running".equals(mClass.getSimpleName())) {
 			return dao.selectRunning(id);
-		} else if ("Student".equals(this.mClass.getSimpleName())) {
+		} else if ("Student".equals(mClass.getSimpleName())) {
 			return dao.selectStudent(id);
-		} else if ("Teacher".equals(this.mClass.getSimpleName())) {
+		} else if ("Teacher".equals(mClass.getSimpleName())) {
 			return dao.selectTeacher(id);
-		} else if ("Team".equals(this.mClass.getSimpleName())) {
+		} else if ("Team".equals(mClass.getSimpleName())) {
 			return dao.selectTeam(id);
 		} else {
 			return null;
 		}
 	}
 	
-	public String readAll() {
+	public static Object readAll() {
 		dao.open();
-		Object objects = selectAll();
+		Object objects = performReadAll();
 		dao.close();
-        
-        return gson.toJson(objects);
+		
+		return objects;
 	}
 	
-	private Object selectAll() {
-		if ("Project".equals(this.mClass.getSimpleName())) {
+	private static Object performReadAll() {
+		if ("Project".equals(mClass.getSimpleName())) {
 			return dao.selectAllProjects();
-		} else if ("Report".equals(this.mClass.getSimpleName())) {
+		} else if ("Report".equals(mClass.getSimpleName())) {
 			return dao.selectAllReports();
-		} else if ("Running".equals(this.mClass.getSimpleName())) {
+		} else if ("Running".equals(mClass.getSimpleName())) {
 			return dao.selectAllRunnings();
-		} else if ("Student".equals(this.mClass.getSimpleName())) {
+		} else if ("Student".equals(mClass.getSimpleName())) {
 			return dao.selectAllStudents();
-		} else if ("Teacher".equals(this.mClass.getSimpleName())) {
+		} else if ("Teacher".equals(mClass.getSimpleName())) {
 			return dao.selectAllTeachers();
-		} else if ("Team".equals(this.mClass.getSimpleName())) {
+		} else if ("Team".equals(mClass.getSimpleName())) {
 			return dao.selectAllTeams();
 		} else {
 			return null;
 		}
 	}
 	
-	public void update(String reqData, MimeType mimeType) {
-		T t = null;
-		T[] ts = null;
+	public void update(Object object) {
+		dao.open();
 		
-		if (mimeType == MimeType.JSON) {
-			if (reqData.startsWith("{") && reqData.endsWith("}")) {
-				t = (T) gson.fromJson(reqData, this.mClass);
-			} else if (reqData.startsWith("[") && reqData.endsWith("]")) {
-				ts = (T[]) gson.fromJson(reqData, this.mTabClass);
-			}
-		}
-		
-		if (t != null || t != null) {
-			dao.open();
-			if (t != null) {
-				update(t);
-			} else {
-				for (T o : ts) {
-					update(o);
+		try {
+			if (object.getClass().isArray()) {
+				for (int i=0; i<Array.getLength(object); i++) {
+					performUpdate(Array.get(object, i));
 				}
+			} else {
+				performUpdate(object);
 			}
-			dao.close();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+		dao.close();
+	}
+	
+	private static void performUpdate(Object object) {
+		if ("Project".equals(mClass.getSimpleName())) {
+			dao.updateProject((Project) object);
+		} else if ("Report".equals(mClass.getSimpleName())) {
+			dao.updateReport((Report) object);
+		} else if ("Running".equals(mClass.getSimpleName())) {
+			dao.updateRunning((Running) object);
+		} else if ("Student".equals(mClass.getSimpleName())) {
+			dao.updateStudent((Student) object);
+		} else if ("Teacher".equals(mClass.getSimpleName())) {
+			dao.updateTeacher((Teacher) object);
+		} else if ("Team".equals(mClass.getSimpleName())) {
+			dao.updateTeam((Team) object);
 		}
 	}
 	
-	private void update(T t) {
-		if ("Project".equals(this.mClass.getSimpleName())) {
-			dao.updateProject((Project) t);
-		} else if ("Report".equals(this.mClass.getSimpleName())) {
-			dao.updateReport((Report) t);
-		} else if ("Running".equals(this.mClass.getSimpleName())) {
-			dao.updateRunning((Running) t);
-		} else if ("Student".equals(this.mClass.getSimpleName())) {
-			dao.updateStudent((Student) t);
-		} else if ("Teacher".equals(this.mClass.getSimpleName())) {
-			dao.updateTeacher((Teacher) t);
-		} else if ("Team".equals(this.mClass.getSimpleName())) {
-			dao.updateTeam((Team) t);
-		}
-	}
-	
-	public void delete(Map<String, String[]> mapParameters) {
+	public static void delete(Map<String, String[]> mapParameters) {
 		dao.open();
 		/*
 		delete(Long.parseLong(paramId));
@@ -171,18 +150,18 @@ public class PersistenceService<T> {
 		dao.close();
 	}
 	
-	private void delete(long id) {
-		if ("Project".equals(this.mClass.getSimpleName())) {
+	private static void performDelete(long id) {
+		if ("Project".equals(mClass.getSimpleName())) {
 			dao.deleteProject(id);
-		} else if ("Report".equals(this.mClass.getSimpleName())) {
+		} else if ("Report".equals(mClass.getSimpleName())) {
 			dao.deleteReport(id);
-		} else if ("Running".equals(this.mClass.getSimpleName())) {
+		} else if ("Running".equals(mClass.getSimpleName())) {
 			dao.deleteRunning(id);
-		} else if ("Student".equals(this.mClass.getSimpleName())) {
+		} else if ("Student".equals(mClass.getSimpleName())) {
 			dao.deleteStudent(id);
-		} else if ("Teacher".equals(this.mClass.getSimpleName())) {
+		} else if ("Teacher".equals(mClass.getSimpleName())) {
 			dao.deleteTeacher(id);
-		} else if ("Team".equals(this.mClass.getSimpleName())) {
+		} else if ("Team".equals(mClass.getSimpleName())) {
 			dao.deleteTeam(id);
 		}
 	}

@@ -20,27 +20,28 @@ import javax.servlet.http.HttpServletResponse;
  * @author Samir
  */
 @WebServlet("/projects")
+@SuppressWarnings("rawtypes")
 public class ProjectsWebService extends HttpServlet {
 	
-	private PersistenceService<Project> persistanceService = new PersistenceService<>(Project.class, Project[].class);
+	private Class mClass = Project.class;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestProcessor.doGet(req, resp, persistanceService);
+        RequestProcessor.doGet(req, resp, mClass);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doPost(req, resp, persistanceService);
+    	RequestProcessor.doPost(req, resp, mClass);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doPut(req, resp, persistanceService);
+    	RequestProcessor.doPut(req, resp, mClass);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doDelete(req, resp, persistanceService);
+    	RequestProcessor.doDelete(req, resp, mClass);
     }
 }
