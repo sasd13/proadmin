@@ -1,44 +1,44 @@
 package ws.rest;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.ws.rest.MimeType;
 import com.sasd13.javaex.ws.rest.MimeTypeParser;
 
-import ws.ContentIO;
-
-@SuppressWarnings("rawtypes")
-public class RestProcessor {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class RequestProcessor {
 
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
-        String paramsId = req.getParameter("id");
+        Map<String, String[]> mapParameters = req.getParameterMap();
         
         String respData;
-        if (paramsId != null) {
-            respData = persistanceService.read(paramsId);
+        if (!mapParameters.isEmpty()) {
+            respData = persistanceService.read(mapParameters);
         } else {
             respData = persistanceService.readAll();
         }
         
-        ContentIO.write(resp, respData);
+        ContentIO.write(resp.getWriter(), respData);
     }
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req);
+    	String reqData = ContentIO.read(req.getReader());
     	
     	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	
     	String respData = persistanceService.create(reqData, mimeType);
         
-        ContentIO.write(resp, respData);
+        ContentIO.write(resp.getWriter(), respData);
     }
 
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req);
+    	String reqData = ContentIO.read(req.getReader());
     	
     	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	
@@ -46,15 +46,12 @@ public class RestProcessor {
     }
 
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, PersistenceService persistanceService) throws ServletException, IOException {
-    	String paramsId = req.getParameter("id");
+		Map<String, String[]> mapParameters = req.getParameterMap();
         
-        String respData;
-        if (paramsId != null) {
-            respData = persistanceService.read(paramsId);
+        if (!mapParameters.isEmpty()) {
+            persistanceService.delete(mapParameters);
         } else {
-            respData = persistanceService.readAll();
+            persistanceService.readAll();
         }
-        
-        ContentIO.write(resp, respData);
     }
 }

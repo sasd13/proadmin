@@ -26,21 +26,21 @@ public class ReportsWebService extends HttpServlet {
 
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RestProcessor.doGet(req, resp, persistanceService);
+        RequestProcessor.doGet(req, resp, persistanceService);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RestProcessor.doPost(req, resp, persistanceService);
+    	RequestProcessor.doPost(req, resp, persistanceService);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RestProcessor.doPut(req, resp, persistanceService);
+    	RequestProcessor.doPut(req, resp, persistanceService);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RestProcessor.doDelete(req, resp, persistanceService);
+    	RequestProcessor.doDelete(req, resp, persistanceService);
     }
 }

@@ -1,7 +1,5 @@
 package ws.rest;
 
-import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sasd13.javaex.ws.rest.MimeType;
@@ -16,13 +14,13 @@ import com.sasd13.proadmin.core.db.DAO;
 import db.JDBCDAO;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class PersistenceService<T> {
+public class RequestParser<T> {
 
 	private Class mClass, mTabClass;
 	private Gson gson;
 	private DAO dao;
 	
-	public PersistenceService(Class mClass, Class mTabClass) {
+	public RequestParser(Class mClass, Class mTabClass) {
 		this.mClass = mClass;
 		this.mTabClass = mTabClass;
 		this.gson = new GsonBuilder().create();
@@ -65,14 +63,14 @@ public class PersistenceService<T> {
 		}
 	}
 	
-	public String read(Map<String, String[]> mapParameters) {
+	public String read(String[] params) {
 		String respData = null;
 		
 		dao.open();
-		/*
+		
 		Object object = select(Long.parseLong(paramId));
 		respData = gson.toJson(object);
-		*/
+		
 		dao.close();
 		
 		return respData;
@@ -163,11 +161,9 @@ public class PersistenceService<T> {
 		}
 	}
 	
-	public void delete(Map<String, String[]> mapParameters) {
+	public void delete(String[] params) {
 		dao.open();
-		/*
 		delete(Long.parseLong(paramId));
-		*/
 		dao.close();
 	}
 	
