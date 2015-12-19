@@ -19,7 +19,7 @@ public class PersistenceService {
 	private static Class mClass;
 	private static DAO dao = JDBCDAO.getInstance();
 	
-	public static void setBeanClass(Class mClass) {
+	public static void setEntityClass(Class mClass) {
 		PersistenceService.mClass = mClass;
 	}
 	

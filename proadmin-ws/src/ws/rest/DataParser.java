@@ -39,8 +39,6 @@ public class DataParser {
 			}
 		} else if (mimeType == MimeType.XML) {
 			//TODO
-		} else {
-			
 		}
 		
 		return object;

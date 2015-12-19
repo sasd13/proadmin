@@ -17,10 +17,13 @@ public class RequestProcessor {
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
-		PersistenceService.setBeanClass(mClass);
-		Object respData = (mapParameters.isEmpty())
-				? PersistenceService.readAll()
-        		: PersistenceService.read(mapParameters);
+		PersistenceService.setEntityClass(mClass);		
+		Object respData = PersistenceService.readAll();
+		
+		if (!mapParameters.isEmpty()) {
+			DataFilterService.setEntityClass(mClass);
+			respData = DataFilterService.filter(respData, mapParameters);
+		}
 		
 		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
 		String sRespData = DataParser.encode(respData, mimeType);
@@ -33,7 +36,7 @@ public class RequestProcessor {
     	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	Object object = DataParser.decode(reqData, mimeType, mClass);
     	
-    	PersistenceService.setBeanClass(mClass);
+    	PersistenceService.setEntityClass(mClass);
     	long id = PersistenceService.create(object);
     	
     	String respData = DataParser.encode(id, mimeType);
@@ -46,16 +49,22 @@ public class RequestProcessor {
     	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	Object object = DataParser.decode(reqData, mimeType, mClass);
     	
-    	PersistenceService.setBeanClass(mClass);
+    	PersistenceService.setEntityClass(mClass);
     	PersistenceService.update(object);
     }
 	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
-		PersistenceService.setBeanClass(mClass);
+		PersistenceService.setEntityClass(mClass);		
+		Object respData = PersistenceService.readAll();
+		
 		if (!mapParameters.isEmpty()) {
-			PersistenceService.delete(mapParameters);
+			DataFilterService.setEntityClass(mClass);
+			respData = DataFilterService.filter(respData, mapParameters);
 		}
+		
+		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
+		String sRespData = DataParser.encode(respData, mimeType);
     }
 }
