@@ -1,7 +1,8 @@
-package ws.rest;
+package ws.persistence;
 
 import java.lang.reflect.Array;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.member.Teacher;
@@ -14,21 +15,27 @@ import com.sasd13.proadmin.core.db.DAO;
 import db.JDBCDAO;
 
 @SuppressWarnings("rawtypes")
-public class PersistenceService {
+public class DataPersistenceService {
 
 	private static Class mClass;
 	private static DAO dao = JDBCDAO.getInstance();
 	
 	public static void setEntityClass(Class mClass) {
-		PersistenceService.mClass = mClass;
+		DataPersistenceService.mClass = mClass;
 	}
 	
 	public static long create(Object object) {		
 		long id = 0;
 		
-		dao.open();
-		id = performCreate(object);
-    	dao.close();
+		try {
+			if (!object.getClass().isArray()) {
+				dao.open();
+				id = performCreate(object);
+				dao.close();
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		
 		return id;
 	}
@@ -51,17 +58,14 @@ public class PersistenceService {
 		}
 	}
 	
-	public static String read(Map<String, String[]> mapParameters) {
-		String respData = null;
+	public static Object read(long id) {
+		Object object = null;
 		
 		dao.open();
-		/*
-		Object object = select(Long.parseLong(paramId));
-		respData = gson.toJson(object);
-		*/
+		object = performRead(id);
 		dao.close();
 		
-		return respData;
+		return object;
 	}
 	
 	private static Object performRead(long id) {
@@ -82,15 +86,17 @@ public class PersistenceService {
 		}
 	}
 	
-	public static Object readAll() {
+	public static List readAll() {
+		List list = null;
+		
 		dao.open();
-		Object objects = performReadAll();
+		list = performReadAll();
 		dao.close();
 		
-		return objects;
+		return list;
 	}
 	
-	private static Object performReadAll() {
+	private static List performReadAll() {
 		if ("Project".equals(mClass.getSimpleName())) {
 			return dao.selectAllProjects();
 		} else if ("Report".equals(mClass.getSimpleName())) {
@@ -104,7 +110,7 @@ public class PersistenceService {
 		} else if ("Team".equals(mClass.getSimpleName())) {
 			return dao.selectAllTeams();
 		} else {
-			return null;
+			return new ArrayList<>();
 		}
 	}
 	
@@ -142,11 +148,9 @@ public class PersistenceService {
 		}
 	}
 	
-	public static void delete(Map<String, String[]> mapParameters) {
+	public static void delete(long id) {
 		dao.open();
-		/*
-		delete(Long.parseLong(paramId));
-		*/
+		performDelete(id);
 		dao.close();
 	}
 	
