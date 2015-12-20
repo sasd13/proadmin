@@ -2,6 +2,7 @@ package ws.filter;
 
 import java.util.Map;
 
+import com.sasd13.javaex.net.Filter;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;

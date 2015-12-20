@@ -2,6 +2,7 @@ package ws.filter;
 
 import java.util.Map;
 
+import com.sasd13.javaex.net.Filter;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.filter.member.EmailCriteria;
 

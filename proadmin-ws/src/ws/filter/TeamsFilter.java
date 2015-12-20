@@ -2,6 +2,7 @@ package ws.filter;
 
 import java.util.Map;
 
+import com.sasd13.javaex.net.Filter;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.filter.running.RunningCriteria;
 
