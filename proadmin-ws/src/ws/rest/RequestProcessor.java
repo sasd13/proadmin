@@ -12,9 +12,7 @@ import ws.filter.DataFilterService;
 import ws.persistence.DataPersistenceService;
 
 import com.sasd13.javaex.io.ContentIO;
-import com.sasd13.javaex.parser.DataParser;
-import com.sasd13.javaex.ws.rest.MimeType;
-import com.sasd13.javaex.ws.rest.MimeTypeParser;
+import com.sasd13.javaex.net.parser.DataParser;
 
 @SuppressWarnings("rawtypes")
 public class RequestProcessor {
@@ -33,8 +31,7 @@ public class RequestProcessor {
 			}
 		}
 		
-		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-		String sRespData = DataParser.encode(respData, mimeType);
+		String sRespData = DataParser.encode(req.getContentType(), respData);
 		
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
@@ -42,12 +39,11 @@ public class RequestProcessor {
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		String reqData = ContentIO.read(req.getReader());
 		
-		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-		Object object = DataParser.decode(reqData, mimeType, mClass);
+		Object object = DataParser.decode(reqData, req.getContentType(), mClass);
 		
 		long id = DataPersistenceService.create(object);
 		
-		String respData = DataParser.encode(id, mimeType);
+		String respData = DataParser.encode(req.getContentType(), id);
 		
 		ContentIO.write(resp.getWriter(), respData);
 	}
@@ -55,11 +51,10 @@ public class RequestProcessor {
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		String reqData = ContentIO.read(req.getReader());
 		
-    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-    	Object object = DataParser.decode(reqData, mimeType, mClass);
-    	
-    	DataPersistenceService.update(object);
-    }
+		Object object = DataParser.decode(req.getContentType(), reqData, mClass);
+		
+		DataPersistenceService.update(object);
+	}
 	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();

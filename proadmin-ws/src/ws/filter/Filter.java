@@ -6,7 +6,7 @@ import java.util.Map;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
 
 public abstract class Filter<T> {
-
+	
 	protected Map<String, String[]> mapParameters;
 	protected MultiAndCriteria<T> multiAndCriteria;
 	

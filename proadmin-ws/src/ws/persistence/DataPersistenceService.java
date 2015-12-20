@@ -19,7 +19,7 @@ public class DataPersistenceService {
 	
 	private static DAO dao = JDBCDAO.getInstance();
 	
-	public static long create(Object object) {		
+	public static long create(Object object) {
 		long id = 0;
 		
 		dao.open();
@@ -114,7 +114,7 @@ public class DataPersistenceService {
 		
 		try {
 			if (object.getClass().isArray()) {
-				for (int i=0; i<Array.getLength(object); i++) {
+				for (int i = 0; i < Array.getLength(object); i++) {
 					performUpdate(Array.get(object, i));
 				}
 			} else if (object instanceof Iterable) {

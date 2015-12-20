@@ -10,20 +10,20 @@ package com.sasd13.proadmin.core.bean.member;
  * @author Samir
  */
 public class Teacher extends AcademicMember {
-
+	
 	private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@Override
 	public String toString() {
-    	StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Teacher [");
 		builder.append("id=" + getId());

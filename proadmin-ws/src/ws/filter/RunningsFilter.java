@@ -8,7 +8,7 @@ import com.sasd13.proadmin.core.filter.running.TeacherCriteria;
 import com.sasd13.proadmin.core.filter.running.YearCriteria;
 
 public class RunningsFilter extends Filter<Running> {
-
+	
 	public RunningsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		

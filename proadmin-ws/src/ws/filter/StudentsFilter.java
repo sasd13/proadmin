@@ -8,7 +8,7 @@ import com.sasd13.proadmin.core.filter.member.AcademicLevelCriteria;
 import com.sasd13.proadmin.core.filter.member.EmailCriteria;
 
 public class StudentsFilter extends Filter<Student> {
-
+	
 	public StudentsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		

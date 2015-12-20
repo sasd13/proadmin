@@ -12,17 +12,17 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
  * @author Samir
  */
 public class Student extends AcademicMember {
-    
-    private AcademicLevel academicLevel;
-
-    public AcademicLevel getAcademicLevel() {
-        return academicLevel;
-    }
-
-    public void setAcademicLevel(AcademicLevel academicLevel) {
-        this.academicLevel = academicLevel;
-    }
-
+	
+	private AcademicLevel academicLevel;
+	
+	public AcademicLevel getAcademicLevel() {
+		return academicLevel;
+	}
+	
+	public void setAcademicLevel(AcademicLevel academicLevel) {
+		this.academicLevel = academicLevel;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

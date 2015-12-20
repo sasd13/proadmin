@@ -10,11 +10,11 @@ package db;
  * @author Samir
  */
 public interface JDBCInformation {
-    
-    String DRIVER = "com.mysql.jdbc.Driver";
-    String HOST = "localhost:3306";
-    String DB ="proadmin";
-    String URL = "jdbc:mysql://" + HOST + "/" + DB;
-    String USER ="root"; 
-    String PASSWORD ="";
+	
+	String DRIVER = "com.mysql.jdbc.Driver";
+	String HOST = "localhost:3306";
+	String DB = "proadmin";
+	String URL = "jdbc:mysql://" + HOST + "/" + DB;
+	String USER = "root";
+	String PASSWORD = "";
 }

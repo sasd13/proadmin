@@ -6,7 +6,7 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.filter.member.EmailCriteria;
 
 public class TeachersFilter extends Filter<Teacher> {
-
+	
 	public TeachersFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		

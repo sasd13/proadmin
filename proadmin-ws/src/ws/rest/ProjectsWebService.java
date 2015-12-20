@@ -24,24 +24,24 @@ import javax.servlet.http.HttpServletResponse;
 public class ProjectsWebService extends HttpServlet {
 	
 	private Class mClass = Project.class;
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestProcessor.doGet(req, resp, mClass);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doPost(req, resp, mClass);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doPut(req, resp, mClass);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestProcessor.doDelete(req, resp, mClass);
-    }
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestProcessor.doGet(req, resp, mClass);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestProcessor.doPost(req, resp, mClass);
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestProcessor.doPut(req, resp, mClass);
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestProcessor.doDelete(req, resp, mClass);
+	}
 }

@@ -7,7 +7,7 @@ import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;
 
 public class ProjectsFilter extends Filter<Project> {
-
+	
 	public ProjectsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		
