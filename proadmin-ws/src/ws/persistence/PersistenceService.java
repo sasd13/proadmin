@@ -15,7 +15,7 @@ import com.sasd13.proadmin.core.db.DAO;
 import db.JDBCDAO;
 
 @SuppressWarnings("rawtypes")
-public class DataPersistenceService {
+public class PersistenceService {
 	
 	private static DAO dao = JDBCDAO.getInstance();
 	

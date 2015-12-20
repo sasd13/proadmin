@@ -8,8 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ws.filter.DataFilterService;
-import ws.persistence.DataPersistenceService;
+import ws.filter.FilterService;
+import ws.persistence.PersistenceService;
 
 import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.parser.DataParser;
@@ -22,12 +22,12 @@ public class RequestProcessor {
 		
 		Object respData;
 		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			respData = DataPersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
+			respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
 		} else {
-			respData = DataPersistenceService.readAll(mClass);
+			respData = PersistenceService.readAll(mClass);
 			
 			if (!mapParameters.isEmpty()) {
-				respData = DataFilterService.filter((List) respData, mapParameters, mClass);
+				respData = FilterService.filter((List) respData, mapParameters, mClass);
 			}
 		}
 		
@@ -41,7 +41,7 @@ public class RequestProcessor {
 		
 		Object object = DataParser.decode(reqData, req.getContentType(), mClass);
 		
-		long id = DataPersistenceService.create(object);
+		long id = PersistenceService.create(object);
 		
 		String respData = DataParser.encode(req.getContentType(), id);
 		
@@ -53,14 +53,14 @@ public class RequestProcessor {
 		
 		Object object = DataParser.decode(req.getContentType(), reqData, mClass);
 		
-		DataPersistenceService.update(object);
+		PersistenceService.update(object);
 	}
 	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			DataPersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
+			PersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
 		}
 	}
 }

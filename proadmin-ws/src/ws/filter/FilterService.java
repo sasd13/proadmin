@@ -11,7 +11,7 @@ import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class DataFilterService {
+public class FilterService {
 	
 	public static Object filter(List list, Map<String, String[]> mapParameters, Class mClass) {
 		List result = null;
