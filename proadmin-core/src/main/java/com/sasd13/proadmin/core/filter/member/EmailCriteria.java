@@ -6,25 +6,24 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.core.bean.member.AcademicMember;
 
-public class EmailCriteria<T> implements Criteria<AcademicMember> {
-
+public class EmailCriteria<T extends AcademicMember> implements Criteria<T> {
+	
 	private String email;
 	
 	public EmailCriteria(String email) {
 		this.email = email;
 	}
-
+	
 	@Override
-	public List<AcademicMember> meetCriteria(List<AcademicMember> entities) {
-		List<AcademicMember> result = new ArrayList<AcademicMember>();
+	public List<T> meetCriteria(List<T> entities) {
+		List<T> result = new ArrayList<>();
 		
-		for (AcademicMember academicMember : entities) {
-			if (email.equals(academicMember.getEmail())) {
-				result.add(academicMember);
+		for (T t : entities) {
+			if (email.equals(t.getEmail())) {
+				result.add(t);
 			}
 		}
 		
 		return result;
 	}
-
 }

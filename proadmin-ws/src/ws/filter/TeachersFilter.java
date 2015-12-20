@@ -13,7 +13,7 @@ public class TeachersFilter extends Filter<Teacher> {
 		for (String key : mapParameters.keySet()) {
 			if ("email".equalsIgnoreCase(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new EmailCriteria(value));
+					multiAndCriteria.addCriteria(new EmailCriteria<Teacher>(value));
 				}
 			}
 		}

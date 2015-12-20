@@ -21,7 +21,7 @@ public class StudentsFilter extends Filter<Student> {
 			
 			if ("email".equalsIgnoreCase(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new EmailCriteria(value));
+					multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
 				}
 			}
 		}

@@ -55,17 +55,17 @@ public class JDBCDAO extends DAO {
 	@Override
 	public void open() {
 		try {
-			this.connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USER, JDBCInformation.PASSWORD);
+			connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USER, JDBCInformation.PASSWORD);
 			
-			((JDBCTeacherDAO) teacherDAO).setConnection(this.connection);
-			((JDBCProjectDAO) projectDAO).setConnection(this.connection);
-			((JDBCRunningDAO) runningDAO).setConnection(this.connection);
-			((JDBCTeamDAO) teamDAO).setConnection(this.connection);
-			((JDBCStudentDAO) studentDAO).setConnection(this.connection);
-			((JDBCStudentTeamDAO) studentTeamDAO).setConnection(this.connection);
-			((JDBCReportDAO) reportDAO).setConnection(this.connection);
-			((JDBCLeadEvaluationDAO) leadEvaluationDAO).setConnection(this.connection);
-			((JDBCIndividualEvaluationDAO) individualEvaluationDAO).setConnection(this.connection);
+			((JDBCTeacherDAO) teacherDAO).setConnection(connection);
+			((JDBCProjectDAO) projectDAO).setConnection(connection);
+			((JDBCRunningDAO) runningDAO).setConnection(connection);
+			((JDBCTeamDAO) teamDAO).setConnection(connection);
+			((JDBCStudentDAO) studentDAO).setConnection(connection);
+			((JDBCStudentTeamDAO) studentTeamDAO).setConnection(connection);
+			((JDBCReportDAO) reportDAO).setConnection(connection);
+			((JDBCLeadEvaluationDAO) leadEvaluationDAO).setConnection(connection);
+			((JDBCIndividualEvaluationDAO) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -74,7 +74,7 @@ public class JDBCDAO extends DAO {
 	@Override
 	public void close() {
 		try {
-			this.connection.close();
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -82,7 +82,7 @@ public class JDBCDAO extends DAO {
 	
 	private void createTablesIfNotExist() {
 		try {
-			Statement statement = this.connection.createStatement();
+			Statement statement = connection.createStatement();
 			
 			statement.executeUpdate(DBHandler.TEACHER_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.PROJECT_TABLE_CREATE);
