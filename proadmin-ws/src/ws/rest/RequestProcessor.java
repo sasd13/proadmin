@@ -12,6 +12,7 @@ import ws.filter.FilterService;
 import ws.persistence.PersistenceService;
 
 import com.sasd13.javaex.io.ContentIO;
+import com.sasd13.javaex.net.MimeType;
 import com.sasd13.javaex.net.parser.DataParser;
 
 @SuppressWarnings("rawtypes")
@@ -33,7 +34,8 @@ public class RequestProcessor {
 			}
 		}
 		
-		String sRespData = DataParser.encode(req.getContentType(), respData);
+		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, respData);
+		resp.setContentType(MimeType.APPLICATION_JSON);
 		
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
@@ -45,9 +47,10 @@ public class RequestProcessor {
 		
 		long id = PersistenceService.create(object);
 		
-		String respData = DataParser.encode(req.getContentType(), id);
+		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, id);
+		resp.setContentType(MimeType.APPLICATION_JSON);
 		
-		ContentIO.write(resp.getWriter(), respData);
+		ContentIO.write(resp.getWriter(), sRespData);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {

@@ -1,10 +1,7 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +22,6 @@ import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.rest.ProjectsWebServiceAsyncTask;
-import com.sasd13.proadmin.util.TaskCanceler;
 
 import java.util.List;
 
@@ -149,15 +145,6 @@ public class ProjectsActivity extends MotherActivity {
 
     private void tryToPerformRefresh() {
         ProjectsWebServiceAsyncTask projectsTask = new ProjectsWebServiceAsyncTask(this);
-        TaskCanceler taskCanceler = new TaskCanceler(projectsTask);
-
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(taskCanceler, 30000);
-
         projectsTask.execute();
-
-        if (projectsTask.getStatus() == AsyncTask.Status.FINISHED) {
-            fillTabProjects();
-        }
     }
 }

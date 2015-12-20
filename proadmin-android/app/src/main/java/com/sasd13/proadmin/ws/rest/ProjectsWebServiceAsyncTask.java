@@ -1,38 +1,40 @@
 package com.sasd13.proadmin.ws.rest;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
-import com.sasd13.proadmin.ws.rest.ProjectsWebServiceClient;
 
 public class ProjectsWebServiceAsyncTask extends AsyncTask<Void, Integer, Project[]> {
 
-    private Context context;
+    private ProjectsActivity projectsActivity;
     private ProjectsWebServiceClient service;
     private WaitDialog waitDialog;
 
-    public ProjectsWebServiceAsyncTask(Context context) {
-        this.context = context;
-        this.service = new ProjectsWebServiceClient();
-        this.waitDialog = new WaitDialog(this.context, this.context.getResources().getString(R.string.dialog_title_request));
+    public ProjectsWebServiceAsyncTask(final ProjectsActivity projectsActivity) {
+        this.projectsActivity = projectsActivity;
+        service = new ProjectsWebServiceClient();
+        waitDialog = new WaitDialog(projectsActivity, projectsActivity.getResources().getString(R.string.dialog_title_request));
 
-        this.waitDialog.setCancelable(true);
-        this.waitDialog.setButton(
+        waitDialog.setCancelable(true);
+        waitDialog.setButton(
                 DialogInterface.BUTTON_NEGATIVE,
-                this.context.getResources().getString(R.string.button_cancel),
+                projectsActivity.getResources().getString(R.string.button_cancel),
                 new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        waitDialog.dismiss();
                         cancel(true);
+
+                        waitDialog.dismiss();
+
+                        Toast.makeText(projectsActivity, R.string.dialog_message_error_request_canceled, Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -42,35 +44,32 @@ public class ProjectsWebServiceAsyncTask extends AsyncTask<Void, Integer, Projec
     protected void onPreExecute() {
         super.onPreExecute();
 
-        this.waitDialog.show();
+        waitDialog.show();
     }
 
     @Override
     protected Project[] doInBackground(Void... aVoid) {
-        while (!isCancelled()) {
-            return this.service.getAll();
+        Project[] projects = null;
+
+        if (!isCancelled()) {
+            projects = service.getAll();
         }
 
-        return null;
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-
-        Toast.makeText(this.context, R.string.dialog_message_error_request_canceled, Toast.LENGTH_SHORT).show();
+        return projects;
     }
 
     @Override
     protected void onPostExecute(Project[] projects) {
         super.onPostExecute(projects);
 
-        this.waitDialog.dismiss();
+        waitDialog.dismiss();
 
         try {
             persistPulledProjects(projects);
 
-            Toast.makeText(this.context, R.string.message_updated, Toast.LENGTH_SHORT).show();
+            projectsActivity.fillTabProjects();
+
+            Toast.makeText(projectsActivity, R.string.message_updated, Toast.LENGTH_SHORT).show();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

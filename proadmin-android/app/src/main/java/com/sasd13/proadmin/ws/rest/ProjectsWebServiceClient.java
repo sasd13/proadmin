@@ -1,9 +1,8 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sasd13.javaex.ws.rest.HttpRequest;
-import com.sasd13.javaex.ws.rest.WebServiceClient;
+import com.sasd13.javaex.net.HttpRequest;
+import com.sasd13.javaex.net.parser.DataParser;
+import com.sasd13.javaex.net.ws.rest.WebServiceClient;
 import com.sasd13.proadmin.core.bean.project.Project;
 
 import java.net.MalformedURLException;
@@ -14,11 +13,6 @@ public class ProjectsWebServiceClient implements WebServiceClient<Project> {
     private static final String URL = "http://192.168.1.9:8080/proadmin-ws/projects";
 
     private HttpRequest httpRequest;
-    private Gson gson;
-
-    public ProjectsWebServiceClient() {
-        this.gson = new GsonBuilder().create();
-    }
 
     @Override
     public Project get(long id) {
@@ -27,14 +21,15 @@ public class ProjectsWebServiceClient implements WebServiceClient<Project> {
         String urlParams = "?id=" + id;
 
         try {
-            this.httpRequest = new HttpRequest(new URL(URL + urlParams));
-            this.httpRequest.hasReponseData(true);
-            this.httpRequest.execute();
+            httpRequest = new HttpRequest(new URL(URL + urlParams));
+            httpRequest.hasReponseData(true);
+            httpRequest.execute();
 
-            String jsonData = httpRequest.getResponseData();
+            String respData = httpRequest.getResponseData();
+            String mimeType = httpRequest.getResponseContentType();
 
-            project = this.gson.fromJson(jsonData, Project.class);
-        } catch (MalformedURLException | NullPointerException e) {
+            project = (Project) DataParser.decode(mimeType, respData, Project.class);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
@@ -46,14 +41,15 @@ public class ProjectsWebServiceClient implements WebServiceClient<Project> {
         Project[] projects = null;
 
         try {
-            this.httpRequest = new HttpRequest(new URL(URL));
-            this.httpRequest.hasReponseData(true);
-            this.httpRequest.execute();
+            httpRequest = new HttpRequest(new URL(URL));
+            httpRequest.hasReponseData(true);
+            httpRequest.execute();
 
-            String jsonData = this.httpRequest.getResponseData();
+            String respData = httpRequest.getResponseData();
+            String mimeType = httpRequest.getResponseContentType();
 
-            projects = this.gson.fromJson(jsonData, Project[].class);
-        } catch (MalformedURLException | NullPointerException e) {
+            projects = (Project[]) DataParser.decode(mimeType, respData, Project.class);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
