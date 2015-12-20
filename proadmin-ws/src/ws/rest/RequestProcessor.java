@@ -20,9 +20,11 @@ public class RequestProcessor {
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
-		Object respData;
-		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
+		Object respData = null;
+		if (mapParameters.containsKey("id")) {
+			if (mapParameters.get("id").length == 1) {
+				respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
+			}
 		} else {
 			respData = PersistenceService.readAll(mClass);
 			

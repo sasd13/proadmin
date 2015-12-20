@@ -13,7 +13,7 @@ public class ProjectsFilter extends Filter<Project> {
 		super(mapParameters);
 		
 		for (String key : mapParameters.keySet()) {
-			if ("academicLevel".equalsIgnoreCase(key)) {
+			if ("academiclevel".equals(key)) {
 				for (String value : mapParameters.get(key)) {
 					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
 				}
