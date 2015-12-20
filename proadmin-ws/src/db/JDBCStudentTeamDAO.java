@@ -67,20 +67,20 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
     
 	@Override
 	public void deleteByTeam(long teamId) {
-        try {
-            String query = "DELTE FROM " 
-                    + STUDENTTEAM_TABLE_NAME
-                    + " WHERE "
-                    	+ TEAMS_TEAM_ID + " = ?";
-            
-            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setLong(1, teamId);
-            
-            preparedStatement.executeUpdate();
-            preparedStatement.close();            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		try {
+			String query = "DELTE FROM " 
+					+ STUDENTTEAM_TABLE_NAME
+					+ " WHERE "
+						+ TEAMS_TEAM_ID + " = ?";
+			
+			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+			preparedStatement.setLong(1, teamId);
+			
+			preparedStatement.executeUpdate();
+			preparedStatement.close();            
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

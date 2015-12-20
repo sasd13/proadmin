@@ -22,38 +22,34 @@ public class RequestProcessor {
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
-		DataPersistenceService.setEntityClass(mClass);
-		
 		Object respData;
 		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			respData = DataPersistenceService.read(Long.parseLong(req.getParameter("id")));
+			respData = DataPersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
 		} else {
-			respData = DataPersistenceService.readAll();
+			respData = DataPersistenceService.readAll(mClass);
 			
 			if (!mapParameters.isEmpty()) {
-				DataFilterService.setEntityClass(mClass);
-				respData = DataFilterService.filter((List) respData, mapParameters);
+				respData = DataFilterService.filter((List) respData, mapParameters, mClass);
 			}
 		}
 		
 		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
 		String sRespData = DataParser.encode(respData, mimeType);
-        
-        ContentIO.write(resp.getWriter(), sRespData);
-    }
+		
+		ContentIO.write(resp.getWriter(), sRespData);
+	}
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-    	String reqData = ContentIO.read(req.getReader());
-    	
-    	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
-    	Object object = DataParser.decode(reqData, mimeType, mClass);
-    	
-    	DataPersistenceService.setEntityClass(mClass);
-    	long id = DataPersistenceService.create(object);
-    	
-    	String respData = DataParser.encode(id, mimeType);
-        
-        ContentIO.write(resp.getWriter(), respData);
+		String reqData = ContentIO.read(req.getReader());
+		
+		MimeType mimeType = MimeTypeParser.decode(req.getContentType());
+		Object object = DataParser.decode(reqData, mimeType, mClass);
+		
+		long id = DataPersistenceService.create(object);
+		
+		String respData = DataParser.encode(id, mimeType);
+		
+		ContentIO.write(resp.getWriter(), respData);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
@@ -62,7 +58,6 @@ public class RequestProcessor {
     	MimeType mimeType = MimeTypeParser.decode(req.getContentType());
     	Object object = DataParser.decode(reqData, mimeType, mClass);
     	
-    	DataPersistenceService.setEntityClass(mClass);
     	DataPersistenceService.update(object);
     }
 	
@@ -70,8 +65,7 @@ public class RequestProcessor {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			DataPersistenceService.setEntityClass(mClass);
-			DataPersistenceService.delete(Long.parseLong(req.getParameter("id")));
+			DataPersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
 		}
-    }
+	}
 }

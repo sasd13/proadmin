@@ -16,22 +16,35 @@ import db.JDBCDAO;
 
 @SuppressWarnings("rawtypes")
 public class DataPersistenceService {
-
-	private static Class mClass;
-	private static DAO dao = JDBCDAO.getInstance();
 	
-	public static void setEntityClass(Class mClass) {
-		DataPersistenceService.mClass = mClass;
-	}
+	private static DAO dao = JDBCDAO.getInstance();
 	
 	public static long create(Object object) {		
 		long id = 0;
 		
+		dao.open();
+		id = performCreate(object);
+		dao.close();
+		
+		return id;
+	}
+	
+	private static long performCreate(Object object) {
+		long id = 0;
+		
 		try {
-			if (!object.getClass().isArray()) {
-				dao.open();
-				id = performCreate(object);
-				dao.close();
+			if ("Project".equals(object.getClass().getSimpleName())) {
+				return dao.insertProject((Project) object);
+			} else if ("Report".equals(object.getClass().getSimpleName())) {
+				return dao.insertReport((Report) object);
+			} else if ("Running".equals(object.getClass().getSimpleName())) {
+				return dao.insertRunning((Running) object);
+			} else if ("Student".equals(object.getClass().getSimpleName())) {
+				return dao.insertStudent((Student) object);
+			} else if ("Teacher".equals(object.getClass().getSimpleName())) {
+				return dao.insertTeacher((Teacher) object);
+			} else if ("Team".equals(object.getClass().getSimpleName())) {
+				return dao.insertTeam((Team) object);
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -40,35 +53,17 @@ public class DataPersistenceService {
 		return id;
 	}
 	
-	private static long performCreate(Object object) {
-		if ("Project".equals(mClass.getSimpleName())) {
-			return dao.insertProject((Project) object);
-		} else if ("Report".equals(mClass.getSimpleName())) {
-			return dao.insertReport((Report) object);
-		} else if ("Running".equals(mClass.getSimpleName())) {
-			return dao.insertRunning((Running) object);
-		} else if ("Student".equals(mClass.getSimpleName())) {
-			return dao.insertStudent((Student) object);
-		} else if ("Teacher".equals(mClass.getSimpleName())) {
-			return dao.insertTeacher((Teacher) object);
-		} else if ("Team".equals(mClass.getSimpleName())) {
-			return dao.insertTeam((Team) object);
-		} else {
-			return 0;
-		}
-	}
-	
-	public static Object read(long id) {
+	public static Object read(long id, Class mClass) {
 		Object object = null;
 		
 		dao.open();
-		object = performRead(id);
+		object = performRead(id, mClass);
 		dao.close();
 		
 		return object;
 	}
 	
-	private static Object performRead(long id) {
+	private static Object performRead(long id, Class mClass) {
 		if ("Project".equals(mClass.getSimpleName())) {
 			return dao.selectProject(id);
 		} else if ("Report".equals(mClass.getSimpleName())) {
@@ -86,17 +81,17 @@ public class DataPersistenceService {
 		}
 	}
 	
-	public static List readAll() {
+	public static List readAll(Class mClass) {
 		List list = null;
 		
 		dao.open();
-		list = performReadAll();
+		list = performReadAll(mClass);
 		dao.close();
 		
 		return list;
 	}
 	
-	private static List performReadAll() {
+	private static List performReadAll(Class mClass) {
 		if ("Project".equals(mClass.getSimpleName())) {
 			return dao.selectAllProjects();
 		} else if ("Report".equals(mClass.getSimpleName())) {
@@ -122,6 +117,10 @@ public class DataPersistenceService {
 				for (int i=0; i<Array.getLength(object); i++) {
 					performUpdate(Array.get(object, i));
 				}
+			} else if (object instanceof Iterable) {
+				for (Object o : (Iterable) object) {
+					performUpdate(o);
+				}
 			} else {
 				performUpdate(object);
 			}
@@ -133,28 +132,32 @@ public class DataPersistenceService {
 	}
 	
 	private static void performUpdate(Object object) {
-		if ("Project".equals(mClass.getSimpleName())) {
-			dao.updateProject((Project) object);
-		} else if ("Report".equals(mClass.getSimpleName())) {
-			dao.updateReport((Report) object);
-		} else if ("Running".equals(mClass.getSimpleName())) {
-			dao.updateRunning((Running) object);
-		} else if ("Student".equals(mClass.getSimpleName())) {
-			dao.updateStudent((Student) object);
-		} else if ("Teacher".equals(mClass.getSimpleName())) {
-			dao.updateTeacher((Teacher) object);
-		} else if ("Team".equals(mClass.getSimpleName())) {
-			dao.updateTeam((Team) object);
+		try {
+			if ("Project".equals(object.getClass().getSimpleName())) {
+				dao.updateProject((Project) object);
+			} else if ("Report".equals(object.getClass().getSimpleName())) {
+				dao.updateReport((Report) object);
+			} else if ("Running".equals(object.getClass().getSimpleName())) {
+				dao.updateRunning((Running) object);
+			} else if ("Student".equals(object.getClass().getSimpleName())) {
+				dao.updateStudent((Student) object);
+			} else if ("Teacher".equals(object.getClass().getSimpleName())) {
+				dao.updateTeacher((Teacher) object);
+			} else if ("Team".equals(object.getClass().getSimpleName())) {
+				dao.updateTeam((Team) object);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	public static void delete(long id) {
+	public static void delete(long id, Class mClass) {
 		dao.open();
-		performDelete(id);
+		performDelete(id, mClass);
 		dao.close();
 	}
 	
-	private static void performDelete(long id) {
+	private static void performDelete(long id, Class mClass) {
 		if ("Project".equals(mClass.getSimpleName())) {
 			dao.deleteProject(id);
 		} else if ("Report".equals(mClass.getSimpleName())) {

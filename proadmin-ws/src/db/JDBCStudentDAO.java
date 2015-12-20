@@ -148,31 +148,31 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
         
         return student;
     }
-
+    
     @Override
     public Student selectByNumber(String number) {
-        Student student = null;
-        
-        try {			
-            String query = "SELECT * FROM " 
-                    + STUDENT_TABLE_NAME
-                    + " WHERE "
-                        + STUDENT_NUMBER + " = ?";
-            
-            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-            preparedStatement.setString(1, number);
-        
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-            	student = getResultSetValues(resultSet);
-            }
-			
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return student;
+    	Student student = null;
+    	
+    	try {
+    		String query = "SELECT * FROM "
+    				+ STUDENT_TABLE_NAME
+    				+ " WHERE "
+    					+ STUDENT_NUMBER + " = ?";
+    		
+    		PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+    		preparedStatement.setString(1, number);
+    		
+    		ResultSet resultSet = preparedStatement.executeQuery();
+    		if (resultSet.next()) {
+    			student = getResultSetValues(resultSet);
+    		}
+    		
+    		preparedStatement.close();
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return student;
     }
     
     @Override

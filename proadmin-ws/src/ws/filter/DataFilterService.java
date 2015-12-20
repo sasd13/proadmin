@@ -7,14 +7,8 @@ import com.sasd13.proadmin.core.bean.project.Project;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataFilterService {
-
-	private static Class mClass;
 	
-	public static void setEntityClass(Class mClass) {
-		DataFilterService.mClass = mClass;
-	}
-	
-	public static Object filter(List list, Map<String, String[]> mapParameters) {
+	public static Object filter(List list, Map<String, String[]> mapParameters, Class mClass) {
 		List result = null;
 		
 		if ("Project".equals(mClass.getSimpleName())) {
