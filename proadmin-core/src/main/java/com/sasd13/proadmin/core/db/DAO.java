@@ -30,30 +30,44 @@ public abstract class DAO {
 	public abstract void close();
 	
 	public long persistTeacher(Teacher teacher) {
-		long id;
+		long id = 0;
 		
-		if (selectTeacher(teacher.getId()) == null) {
-			id = insertTeacher(teacher);
-		} else {
-			id = teacher.getId();
-			
-			updateTeacher(teacher);
+		try {
+			if (selectTeacher(teacher.getId()) == null) {
+				id = insertTeacher(teacher);
+			} else {
+				id = teacher.getId();
+				
+				updateTeacher(teacher);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertTeacher(Teacher teacher) {
-		long id = teacherDAO.insert(teacher);
-		if (id > 0) {
-			teacher.setId(id);
+		long id = 0;
+		
+		try {
+			id = teacherDAO.insert(teacher);
+			if (id > 0) {
+				teacher.setId(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public void updateTeacher(Teacher teacher) {
-		teacherDAO.update(teacher);
+		try {
+			teacherDAO.update(teacher);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteTeacher(long id) {
@@ -77,30 +91,44 @@ public abstract class DAO {
 	}
 	
 	public long persistProject(Project project) {
-		long id;
+		long id = 0;
 		
-		if (selectProject(project.getId()) == null) {
-			id = insertProject(project);
-		} else {
-			id = project.getId();
-			
-			updateProject(project);
+		try {
+			if (selectProject(project.getId()) == null) {
+				id = insertProject(project);
+			} else {
+				id = project.getId();
+				
+				updateProject(project);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertProject(Project project) {
-		long id = projectDAO.insert(project);
-		if (id > 0) {
-			project.setId(id);
+		long id = 0;
+		
+		try {
+			id = projectDAO.insert(project);
+			if (id > 0) {
+				project.setId(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public void updateProject(Project project) {
-		projectDAO.update(project);
+		try {
+			projectDAO.update(project);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteProject(long id) {
@@ -124,30 +152,44 @@ public abstract class DAO {
 	}
 	
 	public long persistRunning(Running running) {
-		long id;
+		long id = 0;
 		
-		if (selectRunning(running.getId()) == null) {
-			id = insertRunning(running);
-		} else {
-			id = running.getId();
-			
-			updateRunning(running);
+		try {
+			if (selectRunning(running.getId()) == null) {
+				id = insertRunning(running);
+			} else {
+				id = running.getId();
+				
+				updateRunning(running);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertRunning(Running running) {
-		long id = runningDAO.insert(running);
-		if (id > 0) {
-			running.setId(id);
+		long id = 0;
+		
+		try {
+			id = runningDAO.insert(running);
+			if (id > 0) {
+				running.setId(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public void updateRunning(Running running) {
-		runningDAO.update(running);
+		try {
+			runningDAO.update(running);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteRunning(long id) {
@@ -190,44 +232,58 @@ public abstract class DAO {
 	}
 	
 	public long persistTeam(Team team) {
-		long id;
+		long id = 0;
 		
-		if (selectTeam(team.getId()) == null) {
-			id = insertTeam(team);
-		} else {
-			id = team.getId();
-			
-			updateTeam(team);
+		try {
+			if (selectTeam(team.getId()) == null) {
+				id = insertTeam(team);
+			} else {
+				id = team.getId();
+				
+				updateTeam(team);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertTeam(Team team) {
-		long id = teamDAO.insert(team);
-		if (id > 0) {
-			team.setId(id);
-			
-			insertStudentsInTeam(team);
+		long id = 0;
+		
+		try {
+			id = teamDAO.insert(team);
+			if (id > 0) {
+				team.setId(id);
+				
+				insertStudentsInTeam(team);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	private void insertStudentsInTeam(Team team) {
-		for (Student student : team.getStudents()) {
-			studentTeamDAO.insertStudentInTeam(student.getId(), team.getId());
+		try {
+			for (Student student : team.getStudents()) {
+				studentTeamDAO.insertStudentInTeam(student.getId(), team.getId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void updateTeam(Team team) {
-		teamDAO.update(team);
-		
 		try {
+			teamDAO.update(team);
+			
 			studentTeamDAO.deleteByTeam(team.getId());
 			
 			insertStudentsInTeam(team);
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -282,28 +338,42 @@ public abstract class DAO {
 	public long persistStudent(Student student) {
 		long id = 0;
 		
-		if (selectStudent(student.getId()) == null) {
-			id = insertStudent(student);
-		} else {
-			id = student.getId();
-			
-			updateStudent(student);
+		try {
+			if (selectStudent(student.getId()) == null) {
+				id = insertStudent(student);
+			} else {
+				id = student.getId();
+				
+				updateStudent(student);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertStudent(Student student) {
-		long id = studentDAO.insert(student);
-		if (id > 0) {
-			student.setId(id);
+		long id = 0;
+		
+		try {
+			id = studentDAO.insert(student);
+			if (id > 0) {
+				student.setId(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public void updateStudent(Student student) {
-		studentDAO.update(student);
+		try {
+			studentDAO.update(student);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteStudent(long id) {
@@ -344,34 +414,48 @@ public abstract class DAO {
 	public long persistReport(Report report) {
 		long id = 0;
 		
-		if (selectReport(report.getId()) == null) {
-			id = insertReport(report);
-		} else {
-			id = report.getId();
-			
-			updateReport(report);
+		try {
+			if (selectReport(report.getId()) == null) {
+				id = insertReport(report);
+			} else {
+				id = report.getId();
+				
+				updateReport(report);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public long insertReport(Report report) {
-		long id = reportDAO.insert(report);
-		if (id > 0) {
-			report.setId(id);
-			
-			insertLeadEvaluation(report.getLeadEvaluation());
-			insertIndividualEvaluations(report.getIndividualEvaluations());
+		long id = 0;
+		
+		try {
+			id = reportDAO.insert(report);
+			if (id > 0) {
+				report.setId(id);
+				
+				insertLeadEvaluation(report.getLeadEvaluation());
+				insertIndividualEvaluations(report.getIndividualEvaluations());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return id;
 	}
 	
 	public void updateReport(Report report) {
-		reportDAO.update(report);
-		
-		updateLeadEvaluation(report.getLeadEvaluation());
-		updateIndividualEvaluations(report.getIndividualEvaluations());
+		try {
+			reportDAO.update(report);
+			
+			updateLeadEvaluation(report.getLeadEvaluation());
+			updateIndividualEvaluations(report.getIndividualEvaluations());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteReport(long id) {
@@ -414,29 +498,45 @@ public abstract class DAO {
 	}
 	
 	private void insertLeadEvaluation(LeadEvaluation leadEvaluation) {
-		long id = leadEvaluationDAO.insert(leadEvaluation);
-		if (id > 0) {
-			leadEvaluation.setId(id);
+		try {
+			long id = leadEvaluationDAO.insert(leadEvaluation);
+			if (id > 0) {
+				leadEvaluation.setId(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
 	private void updateLeadEvaluation(LeadEvaluation leadEvaluation) {
-		leadEvaluationDAO.update(leadEvaluation);
+		try {
+			leadEvaluationDAO.update(leadEvaluation);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void insertIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
-		long id;
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			id = individualEvaluationDAO.insert(individualEvaluation);
-			if (id > 0) {
-				individualEvaluation.setId(id);
+		try {
+			long id;
+			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+				id = individualEvaluationDAO.insert(individualEvaluation);
+				if (id > 0) {
+					individualEvaluation.setId(id);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
 	private void updateIndividualEvaluations(IndividualEvaluation[] individualEvaluations) {
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			individualEvaluationDAO.update(individualEvaluation);
+		try {
+			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+				individualEvaluationDAO.update(individualEvaluation);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

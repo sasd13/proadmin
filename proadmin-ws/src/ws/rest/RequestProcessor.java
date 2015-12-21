@@ -22,9 +22,11 @@ public class RequestProcessor {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		Object respData = null;
-		if (mapParameters.containsKey("id")) {
-			if (mapParameters.get("id").length == 1) {
+		if (mapParameters.size() == 1 && mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
+			try {
 				respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		} else {
 			respData = PersistenceService.readAll(mClass);
@@ -34,29 +36,33 @@ public class RequestProcessor {
 			}
 		}
 		
+		parseAndWriteDataToResponse(resp, respData);
+	}
+	
+	private static void parseAndWriteDataToResponse(HttpServletResponse resp, Object respData) throws IOException {
 		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, respData);
+		
 		resp.setContentType(MimeType.APPLICATION_JSON);
 		
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
+		Object object = readAndParseDataFromRequest(req, mClass);
+		
+		long respData = PersistenceService.create(object);
+		
+		parseAndWriteDataToResponse(resp, respData);
+	}
+	
+	private static Object readAndParseDataFromRequest(HttpServletRequest req, Class mClass) throws IOException {
 		String reqData = ContentIO.read(req.getReader());
 		
-		Object object = DataParser.decode(reqData, req.getContentType(), mClass);
-		
-		long id = PersistenceService.create(object);
-		
-		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, id);
-		resp.setContentType(MimeType.APPLICATION_JSON);
-		
-		ContentIO.write(resp.getWriter(), sRespData);
+		return DataParser.decode(req.getContentType(), reqData, mClass);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		String reqData = ContentIO.read(req.getReader());
-		
-		Object object = DataParser.decode(req.getContentType(), reqData, mClass);
+		Object object = readAndParseDataFromRequest(req, mClass);
 		
 		PersistenceService.update(object);
 	}
@@ -64,8 +70,12 @@ public class RequestProcessor {
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
-		if (mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
-			PersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
+		if (mapParameters.size() == 1 && mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
+			try {
+				PersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
