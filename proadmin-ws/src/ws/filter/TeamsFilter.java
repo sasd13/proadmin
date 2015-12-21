@@ -14,7 +14,11 @@ public class TeamsFilter extends Filter<Team> {
 		for (String key : mapParameters.keySet()) {
 			if ("running".equalsIgnoreCase(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+					try {
+						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

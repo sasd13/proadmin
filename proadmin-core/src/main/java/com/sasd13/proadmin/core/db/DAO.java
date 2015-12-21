@@ -17,7 +17,7 @@ public abstract class DAO {
 	public abstract void close();
 	
 	@SuppressWarnings("rawtypes")
-	public TableDAO getDAO(Class mClass) {
+	public EntityDAO getEntityDAO(Class mClass) {
 		if ("Teacher".equals(mClass.getSimpleName())) {
 			return teacherDAO;
 		} else if ("Project".equals(mClass.getSimpleName())) {

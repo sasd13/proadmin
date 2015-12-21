@@ -16,7 +16,11 @@ public class StudentsFilter extends Filter<Student> {
 		for (String key : mapParameters.keySet()) {
 			if ("academiclevel".equalsIgnoreCase(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					try {
+						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			

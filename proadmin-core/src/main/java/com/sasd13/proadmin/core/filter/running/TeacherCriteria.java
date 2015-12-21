@@ -7,7 +7,7 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.core.bean.running.Running;
 
 public class TeacherCriteria implements Criteria<Running> {
-
+	
 	private long id;
 	
 	public TeacherCriteria(long id) {
@@ -26,5 +26,5 @@ public class TeacherCriteria implements Criteria<Running> {
 		
 		return result;
 	}
-
+	
 }

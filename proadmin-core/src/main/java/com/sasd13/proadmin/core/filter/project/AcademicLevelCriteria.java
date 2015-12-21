@@ -14,7 +14,7 @@ public class AcademicLevelCriteria implements Criteria<Project> {
 	public AcademicLevelCriteria(AcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
-
+	
 	@Override
 	public List<Project> meetCriteria(List<Project> entities) {
 		List<Project> result = new ArrayList<Project>();

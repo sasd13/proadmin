@@ -55,7 +55,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 					+ RUNNINGS_RUNNING_ID 
 				+ ") VALUES (?, ?)";
 		
-		try {			
+		try {
 			id = executeInsert(query, team);
 			team.setId(id);
 		} catch (SQLException e) {
@@ -74,7 +74,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ TEAM_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, team);
 			preparedStatement.setLong(3, team.getId());
 			
@@ -87,13 +87,13 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + TEAM_TABLE_NAME
+		String query = "UPDATE " + TEAM_TABLE_NAME 
 				+ " SET " 
 					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ TEAM_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ TEAM_ID + " = ?";
 		
-		try {			
+		try {
 			team = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,7 +123,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 		
 		String query = "SELECT * FROM " + TEAM_TABLE_NAME;
 		
-		try {			
+		try {
 			list = executeSelectAll(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -140,7 +140,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ TEAM_CODE + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, code);
 			
@@ -160,7 +160,7 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ RUNNINGS_RUNNING_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, runningId);
 			

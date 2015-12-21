@@ -8,7 +8,7 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.member.Student;
 
 public class AcademicLevelCriteria implements Criteria<Student> {
-
+	
 	private AcademicLevel academicLevel;
 	
 	public AcademicLevelCriteria(AcademicLevel academicLevel) {
@@ -27,5 +27,5 @@ public class AcademicLevelCriteria implements Criteria<Student> {
 		
 		return result;
 	}
-
+	
 }

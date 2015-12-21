@@ -15,7 +15,11 @@ public class ProjectsFilter extends Filter<Project> {
 		for (String key : mapParameters.keySet()) {
 			if ("academiclevel".equals(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					try {
+						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

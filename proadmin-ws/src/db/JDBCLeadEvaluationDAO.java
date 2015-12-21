@@ -67,7 +67,7 @@ public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implemen
 					+ LEADEVALUATION_PLANNINGCOMMENT + ", " 
 					+ LEADEVALUATION_COMMUNICATIONMARK + ", " 
 					+ LEADEVALUATION_COMMUNICATIONCOMMENT + ", " 
-					+ STUDENTS_STUDENT_ID + ", "
+					+ STUDENTS_STUDENT_ID + ", " 
 					+ REPORTS_REPORT_ID 
 				+ ") VALUES (?, ?, ?, ?, ?, ?)";
 		
@@ -94,7 +94,7 @@ public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implemen
 				+ " WHERE " 
 					+ LEADEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, leadEvaluation);
 			preparedStatement.setLong(7, leadEvaluation.getId());
 			
@@ -109,11 +109,11 @@ public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implemen
 	public void delete(long id) {
 		String query = "UPDATE " + LEADEVALUATION_TABLE_NAME 
 				+ " SET " 
-					+ DELETED + " = ?"
+					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ LEADEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implemen
 				+ " WHERE " 
 					+ LEADEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			leadEvaluation = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,7 +160,7 @@ public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implemen
 				+ " WHERE " 
 					+ STUDENTS_STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, studentId);
 			

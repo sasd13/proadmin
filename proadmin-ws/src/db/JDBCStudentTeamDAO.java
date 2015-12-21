@@ -45,7 +45,7 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 					+ TEAMS_TEAM_ID 
 				+ ") VALUES (?, ?)";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, studentId, teamId);
 			
 			long affectedRows = preparedStatement.executeUpdate();
@@ -70,7 +70,7 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 		try {
 			String query = "DELTE FROM " + STUDENTTEAM_TABLE_NAME 
 					+ " WHERE " 
-						+ STUDENTS_STUDENT_ID + " = ? AND"
+						+ STUDENTS_STUDENT_ID + " = ? AND" 
 						+ TEAMS_TEAM_ID + " = ?";
 			
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
@@ -92,7 +92,7 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 				+ " WHERE " 
 					+ STUDENTS_STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
 			preparedStatement.setLong(1, studentId);
 			
@@ -117,7 +117,7 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 				+ " WHERE " 
 					+ TEAMS_TEAM_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
 			preparedStatement.setLong(1, teamId);
 			

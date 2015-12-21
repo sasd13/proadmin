@@ -14,7 +14,11 @@ public class ReportsFilter extends Filter<Report> {
 		for (String key : mapParameters.keySet()) {
 			if ("team".equalsIgnoreCase(key)) {
 				for (String value : mapParameters.get(key)) {
-					multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
+					try {
+						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

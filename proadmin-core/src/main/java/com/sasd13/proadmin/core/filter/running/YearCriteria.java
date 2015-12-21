@@ -7,7 +7,7 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.core.bean.running.Running;
 
 public class YearCriteria implements Criteria<Running> {
-
+	
 	private int year;
 	
 	public YearCriteria(int year) {
@@ -26,5 +26,5 @@ public class YearCriteria implements Criteria<Running> {
 		
 		return result;
 	}
-
+	
 }

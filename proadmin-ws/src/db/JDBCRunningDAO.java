@@ -62,7 +62,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 					+ PROJECTS_PROJECT_ID 
 				+ ") VALUES (?, ?, ?)";
 		
-		try {			
+		try {
 			id = executeInsert(query, running);
 			running.setId(id);
 		} catch (SQLException e) {
@@ -82,7 +82,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 				+ " WHERE " 
 					+ RUNNING_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, running);
 			preparedStatement.setLong(4, running.getId());
 			
@@ -95,13 +95,13 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + RUNNING_TABLE_NAME
+		String query = "UPDATE " + RUNNING_TABLE_NAME 
 				+ " SET " 
 					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ RUNNING_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 				+ " WHERE " 
 					+ RUNNING_ID + " = ?";
 		
-		try {			
+		try {
 			running = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,7 +131,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 		
 		String query = "SELECT * FROM " + RUNNING_TABLE_NAME;
 		
-		try {			
+		try {
 			list = executeSelectAll(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -148,7 +148,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 				+ " WHERE " 
 					+ RUNNING_YEAR + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, year);
 			
@@ -168,7 +168,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 				+ " WHERE " 
 					+ TEACHERS_TEACHER_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, teacherId);
 			
@@ -188,7 +188,7 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 				+ " WHERE " 
 					+ PROJECTS_PROJECT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, projectId);
 			

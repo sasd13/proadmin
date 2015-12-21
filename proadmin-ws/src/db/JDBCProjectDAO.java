@@ -54,7 +54,7 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 				+ "(" 
 					+ PROJECT_CODE + ", " 
 					+ PROJECT_ACADEMICLEVEL + ", " 
-					+ PROJECT_TITLE + ", "
+					+ PROJECT_TITLE + ", " 
 					+ PROJECT_DESCRIPTION 
 				+ ") VALUES (?, ?, ?, ?)";
 		
@@ -79,7 +79,7 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 				+ " WHERE " 
 					+ PROJECT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, project);
 			preparedStatement.setLong(5, project.getId());
 			

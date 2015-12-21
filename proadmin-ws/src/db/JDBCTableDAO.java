@@ -17,19 +17,19 @@ import java.util.List;
  * @author Samir
  */
 public abstract class JDBCTableDAO<T> {
-    
-    protected Connection connection;
-    
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-    
-    protected PreparedStatement getPreparedStatement(String query, T t) throws SQLException {
-        return (query.startsWith("INSERT") || query.startsWith("insert"))
-                ? connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)
-                : connection.prepareStatement(query);
-    }
-    
+	
+	protected Connection connection;
+	
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+	
+	protected PreparedStatement getPreparedStatement(String query, T t) throws SQLException {
+		return (query.startsWith("INSERT") || query.startsWith("insert")) 
+				? connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS) 
+				: connection.prepareStatement(query);
+	}
+	
 	protected long executeInsert(String query, T t) throws SQLException {
 		long id = 0;
 		
@@ -48,7 +48,7 @@ public abstract class JDBCTableDAO<T> {
 		
 		return id;
 	}
-    
+	
 	protected void executeDelete(String query, long id) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setBoolean(1, true);
@@ -77,19 +77,13 @@ public abstract class JDBCTableDAO<T> {
 	}
 	
 	protected List<T> executeSelectAll(String query) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-		
-		return executeSelectMultiResult(preparedStatement);
+		return executeSelectMultiResult(connection.prepareStatement(query));
 	}
-    
-    protected T executeSelectSingleResult(PreparedStatement preparedStatement) throws SQLException {
-    	T t = null;
-    	
+	
+	protected T executeSelectSingleResult(PreparedStatement preparedStatement) throws SQLException {
 		List<T> list = executeSelectMultiResult(preparedStatement);
 		
-		t = list.isEmpty() ? null : list.get(0);
-		
-		return t;
+		return list.isEmpty() ? null : list.get(0);
 	}
 	
 	protected List<T> executeSelectMultiResult(PreparedStatement preparedStatement) throws SQLException {
@@ -106,6 +100,6 @@ public abstract class JDBCTableDAO<T> {
 		
 		return list;
 	}
-    
-    protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
+	
+	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
 }

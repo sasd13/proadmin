@@ -61,7 +61,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 					+ STUDENT_EMAIL 
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
-		try {			
+		try {
 			id = executeInsert(query, student);
 			student.setId(id);
 		} catch (SQLException e) {
@@ -83,7 +83,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 				+ " WHERE " 
 					+ STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, student);
 			preparedStatement.setLong(6, student.getId());
 			
@@ -96,13 +96,13 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + STUDENT_TABLE_NAME
+		String query = "UPDATE " + STUDENT_TABLE_NAME 
 				+ " SET " 
 					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,7 +117,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 				+ " WHERE " 
 					+ STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			student = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,7 +149,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 				+ " WHERE " 
 					+ STUDENT_NUMBER + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, number);
 			
@@ -169,7 +169,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 				+ " WHERE " 
 					+ STUDENT_ACADEMICLEVEL + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, String.valueOf(academicLevel));
 			
@@ -189,7 +189,7 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 				+ " WHERE " 
 					+ STUDENT_EMAIL + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
 			

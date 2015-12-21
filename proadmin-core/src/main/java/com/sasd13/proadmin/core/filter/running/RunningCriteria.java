@@ -7,7 +7,7 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.core.bean.running.Team;
 
 public class RunningCriteria implements Criteria<Team> {
-
+	
 	private long id;
 	
 	public RunningCriteria(long id) {

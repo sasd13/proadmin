@@ -83,7 +83,7 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 				+ " WHERE " 
 					+ REPORT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, report);
 			preparedStatement.setLong(5, report.getId());
 			
@@ -96,7 +96,7 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + REPORT_TABLE_NAME
+		String query = "UPDATE " + REPORT_TABLE_NAME 
 				+ " SET " 
 					+ DELETED + " = ?" 
 				+ " WHERE " 
@@ -132,7 +132,7 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 		
 		String query = "SELECT * FROM " + REPORT_TABLE_NAME;
 		
-		try {			
+		try {
 			list = executeSelectAll(query);
 		} catch (SQLException e) {
 			e.printStackTrace();

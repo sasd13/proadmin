@@ -7,7 +7,7 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.core.bean.running.Running;
 
 public class ProjectCriteria implements Criteria<Running> {
-
+	
 	private long id;
 	
 	public ProjectCriteria(long id) {
@@ -26,5 +26,5 @@ public class ProjectCriteria implements Criteria<Running> {
 		
 		return result;
 	}
-
+	
 }

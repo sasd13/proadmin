@@ -1,13 +1,12 @@
 package ws.persistence;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class PersistenceService {
 	
 	private static DAO dao = JDBCDAO.getInstance();
@@ -18,7 +17,7 @@ public class PersistenceService {
 		dao.open();
 		
 		try {
-			id = dao.getDAO(object.getClass()).insert(object);
+			id = dao.getEntityDAO(object.getClass()).insert(object);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -34,7 +33,7 @@ public class PersistenceService {
 		dao.open();
 		
 		try {
-			object = dao.getDAO(mClass).select(id);
+			object = dao.getEntityDAO(mClass).select(id);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +49,7 @@ public class PersistenceService {
 		dao.open();
 		
 		try {
-			list = dao.getDAO(mClass).selectAll();
+			list = dao.getEntityDAO(mClass).selectAll();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -65,8 +64,8 @@ public class PersistenceService {
 		
 		try {
 			if (object.getClass().isArray()) {
-				for (int i = 0; i < Array.getLength(object); i++) {
-					performUpdate(Array.get(object, i));
+				for (Object o : (Object[]) object) {
+					performUpdate(o);
 				}
 			} else if (object instanceof Iterable) {
 				for (Object o : (Iterable) object) {
@@ -84,7 +83,7 @@ public class PersistenceService {
 	
 	private static void performUpdate(Object object) {
 		try {
-			dao.getDAO(object.getClass()).update(object);
+			dao.getEntityDAO(object.getClass()).update(object);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -94,7 +93,7 @@ public class PersistenceService {
 		dao.open();
 		
 		try {
-			dao.getDAO(mClass).delete(id);
+			dao.getEntityDAO(mClass).delete(id);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}

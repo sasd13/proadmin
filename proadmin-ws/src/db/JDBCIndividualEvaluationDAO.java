@@ -58,7 +58,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 		String query = "INSERT INTO " + INDIVIDUALEVALUATION_TABLE_NAME 
 				+ "(" 
 					+ INDIVIDUALEVALUATION_MARK + ", " 
-					+ STUDENTS_STUDENT_ID + ", "
+					+ STUDENTS_STUDENT_ID + ", " 
 					+ REPORTS_REPORT_ID 
 				+ ") VALUES (?, ?, ?)";
 		
@@ -79,9 +79,10 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 					+ INDIVIDUALEVALUATION_MARK + " = ?, " 
 					+ STUDENTS_STUDENT_ID + " = ?, " 
 					+ REPORTS_REPORT_ID + " = ?, " 
-				+ " WHERE " + INDIVIDUALEVALUATION_ID + " = ?";
+				+ " WHERE " 
+					+ INDIVIDUALEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, individualEvaluation);
 			preparedStatement.setLong(4, individualEvaluation.getId());
 			
@@ -96,11 +97,11 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 	public void delete(long id) {
 		String query = "UPDATE " + INDIVIDUALEVALUATION_TABLE_NAME 
 				+ " SET " 
-					+ DELETED + " = ?"
+					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ INDIVIDUALEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,7 +116,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 				+ " WHERE " 
 					+ INDIVIDUALEVALUATION_ID + " = ?";
 		
-		try {			
+		try {
 			individualEvaluation = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,7 +139,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 		
 		return list;
 	}
-
+	
 	@Override
 	public List<IndividualEvaluation> selectByStudent(long studentId) {
 		List<IndividualEvaluation> list = new ArrayList<>();
@@ -147,7 +148,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 				+ " WHERE " 
 					+ STUDENTS_STUDENT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, studentId);
 			
@@ -167,7 +168,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 				+ " WHERE " 
 					+ REPORTS_REPORT_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, reportId);
 			

@@ -60,7 +60,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 					+ TEACHER_PASSWORD 
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
-		try {			
+		try {
 			id = executeInsert(query, teacher);
 			teacher.setId(id);
 		} catch (SQLException e) {
@@ -82,7 +82,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 				+ " WHERE " 
 					+ TEACHER_ID + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, teacher);
 			preparedStatement.setLong(6, teacher.getId());
 			
@@ -95,13 +95,13 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + TEACHER_TABLE_NAME
+		String query = "UPDATE " + TEACHER_TABLE_NAME 
 				+ " SET " 
 					+ DELETED + " = ?" 
 				+ " WHERE " 
 					+ TEACHER_ID + " = ?";
 		
-		try {			
+		try {
 			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 				+ " WHERE " 
 					+ TEACHER_ID + " = ?";
 		
-		try {			
+		try {
 			teacher = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -148,7 +148,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 				+ " WHERE " 
 					+ TEACHER_NUMBER + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, number);
 			
@@ -168,7 +168,7 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 				+ " WHERE " 
 					+ TEACHER_EMAIL + " = ?";
 		
-		try {			
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
 			
