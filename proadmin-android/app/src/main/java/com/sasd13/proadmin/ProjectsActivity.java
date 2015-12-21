@@ -21,7 +21,7 @@ import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.rest.ProjectsWebServiceAsyncTask;
+import com.sasd13.proadmin.ws.task.ProjectsWebServiceAsyncTask;
 
 import java.util.List;
 

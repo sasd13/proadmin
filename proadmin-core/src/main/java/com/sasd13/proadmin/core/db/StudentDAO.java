@@ -5,7 +5,7 @@ import java.util.List;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.member.Student;
 
-public interface StudentDAO {
+public interface StudentDAO extends TableDAO<Student> {
 
     String STUDENT_TABLE_NAME = "students";
 
@@ -16,19 +16,9 @@ public interface StudentDAO {
     String STUDENT_LASTNAME = "student_lastname";
     String STUDENT_EMAIL = "student_email";
 
-    long insert(Student student);
-
-    void update(Student student);
-    
-    void delete(long id);
-
-    Student select(long id);
-
     Student selectByNumber(String number);
     
     List<Student> selectByAcademicLevel(AcademicLevel academicLevel);
     
     List<Student> selectByEmail(String email);
-    
-    List<Student> selectAll();
 }

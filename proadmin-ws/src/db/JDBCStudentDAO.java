@@ -52,28 +52,18 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	public long insert(Student student) {
 		long id = 0;
 		
-		try {
-			String query = "INSERT INTO " 
-					+ STUDENT_TABLE_NAME + "(" 
-						+ STUDENT_NUMBER + ", " 
-						+ STUDENT_ACADEMICLEVEL + ", " 
-						+ STUDENT_FIRSTNAME + ", " 
-						+ STUDENT_LASTNAME + ", " 
-						+ STUDENT_EMAIL 
-					+ ") VALUES (?, ?, ?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, student);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+		String query = "INSERT INTO " + STUDENT_TABLE_NAME 
+				+ "(" 
+					+ STUDENT_NUMBER + ", " 
+					+ STUDENT_ACADEMICLEVEL + ", " 
+					+ STUDENT_FIRSTNAME + ", " 
+					+ STUDENT_LASTNAME + ", " 
+					+ STUDENT_EMAIL 
+				+ ") VALUES (?, ?, ?, ?, ?)";
+		
+		try {			
+			id = executeInsert(query, student);
+			student.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -83,18 +73,17 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	
 	@Override
 	public void update(Student student) {
-		try {
-			String query = "UPDATE " 
-					+ STUDENT_TABLE_NAME 
-					+ " SET " 
-						+ STUDENT_NUMBER + " = ?, " 
-						+ STUDENT_ACADEMICLEVEL + " = ?, " 
-						+ STUDENT_FIRSTNAME + " = ?, " 
-						+ STUDENT_LASTNAME + " = ?, " 
-						+ STUDENT_EMAIL + " = ?, " 
-					+ " WHERE " 
-						+ STUDENT_ID + " = ?";
-			
+		String query = "UPDATE " + STUDENT_TABLE_NAME 
+				+ " SET " 
+					+ STUDENT_NUMBER + " = ?, " 
+					+ STUDENT_ACADEMICLEVEL + " = ?, " 
+					+ STUDENT_FIRSTNAME + " = ?, " 
+					+ STUDENT_LASTNAME + " = ?, " 
+					+ STUDENT_EMAIL + " = ?, " 
+				+ " WHERE " 
+					+ STUDENT_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, student);
 			preparedStatement.setLong(6, student.getId());
 			
@@ -107,17 +96,14 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	
 	@Override
 	public void delete(long id) {
-		try {
-			String query = "DELETE FROM " 
-					+ STUDENT_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+		String query = "UPDATE " + STUDENT_TABLE_NAME
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ STUDENT_ID + " = ?";
+		
+		try {			
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -127,21 +113,12 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	public Student select(long id) {
 		Student student = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENT_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				student = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + STUDENT_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENT_ID + " = ?";
+		
+		try {			
+			student = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -150,24 +127,33 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	}
 	
 	@Override
+	public List<Student> selectAll() {
+		List<Student> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + STUDENT_TABLE_NAME;
+		
+		try {
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public Student selectByNumber(String number) {
 		Student student = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENT_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENT_NUMBER + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + STUDENT_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENT_NUMBER + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, number);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				student = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			student = executeSelectSingleResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -179,21 +165,15 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
 		List<Student> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENT_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENT_ACADEMICLEVEL + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + STUDENT_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENT_ACADEMICLEVEL + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, String.valueOf(academicLevel));
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -205,43 +185,15 @@ public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO 
 	public List<Student> selectByEmail(String email) {
 		List<Student> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENT_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENT_EMAIL + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + STUDENT_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENT_EMAIL + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Student> selectAll() {
-		List<Student> list = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM " + STUDENT_TABLE_NAME;
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

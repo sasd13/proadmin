@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
 
-public interface TeacherDAO {
+public interface TeacherDAO extends TableDAO<Teacher> {
 
     String TEACHER_TABLE_NAME = "teachers";
 
@@ -15,17 +15,7 @@ public interface TeacherDAO {
     String TEACHER_EMAIL = "teacher_email";
     String TEACHER_PASSWORD = "teacher_password";
 
-    long insert(Teacher teacher);
-
-    void update(Teacher teacher);
-    
-    void delete(long id);
-
-    Teacher select(long id);
-
     Teacher selectByNumber(String number);
 
     List<Teacher> selectByEmail(String email);
-    
-    List<Teacher> selectAll();
 }

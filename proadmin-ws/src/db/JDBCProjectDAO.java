@@ -50,27 +50,17 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	public long insert(Project project) {
 		long id = 0;
 		
+		String query = "INSERT INTO " + PROJECT_TABLE_NAME 
+				+ "(" 
+					+ PROJECT_CODE + ", " 
+					+ PROJECT_ACADEMICLEVEL + ", " 
+					+ PROJECT_TITLE + ", "
+					+ PROJECT_DESCRIPTION 
+				+ ") VALUES (?, ?, ?, ?)";
+		
 		try {
-			String query = "INSERT INTO " 
-					+ PROJECT_TABLE_NAME + "(" 
-						+ PROJECT_CODE + ", " 
-						+ PROJECT_ACADEMICLEVEL + ", " 
-						+ PROJECT_TITLE + ", "
-						+ PROJECT_DESCRIPTION 
-					+ ") VALUES (?, ?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, project);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+			id = executeInsert(query, project);
+			project.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,17 +70,16 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	
 	@Override
 	public void update(Project project) {
-		try {
-			String query = "UPDATE " 
-					+ PROJECT_TABLE_NAME 
-					+ " SET " 
-						+ PROJECT_CODE + " = ?, " 
-						+ PROJECT_ACADEMICLEVEL + " = ?, " 
-						+ PROJECT_TITLE + " = ?, " 
-						+ PROJECT_DESCRIPTION + " = ?, " 
-					+ " WHERE " 
-						+ PROJECT_ID + " = ?";
-			
+		String query = "UPDATE " + PROJECT_TABLE_NAME 
+				+ " SET " 
+					+ PROJECT_CODE + " = ?, " 
+					+ PROJECT_ACADEMICLEVEL + " = ?, " 
+					+ PROJECT_TITLE + " = ?, " 
+					+ PROJECT_DESCRIPTION + " = ?, " 
+				+ " WHERE " 
+					+ PROJECT_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, project);
 			preparedStatement.setLong(5, project.getId());
 			
@@ -103,17 +92,14 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	
 	@Override
 	public void delete(long id) {
+		String query = "UPDATE " + PROJECT_TABLE_NAME 
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ PROJECT_ID + " = ?";
+		
 		try {
-			String query = "DELTE FROM " 
-					+ PROJECT_TABLE_NAME 
-					+ " WHERE " 
-						+ PROJECT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -123,21 +109,12 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	public Project select(long id) {
 		Project project = null;
 		
+		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
+				+ " WHERE " 
+					+ PROJECT_ID + " = ?";
+		
 		try {
-			String query = "SELECT * FROM " 
-					+ PROJECT_TABLE_NAME 
-					+ " WHERE " 
-						+ PROJECT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				project = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			project = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -146,24 +123,33 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	}
 	
 	@Override
+	public List<Project> selectAll() {
+		List<Project> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + PROJECT_TABLE_NAME;
+		
+		try {
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public Project selectByCode(String code) {
 		Project project = null;
 		
+		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
+				+ " WHERE " 
+					+ PROJECT_CODE + " = ?";
+		
 		try {
-			String query = "SELECT * FROM " 
-					+ PROJECT_TABLE_NAME 
-					+ " WHERE " 
-						+ PROJECT_CODE + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, code);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				project = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			project = executeSelectSingleResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -175,43 +161,15 @@ public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO 
 	public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
 		List<Project> list = new ArrayList<>();
 		
+		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
+				+ " WHERE " 
+					+ PROJECT_ACADEMICLEVEL + " = ?";
+		
 		try {
-			String query = "SELECT * FROM " 
-					+ PROJECT_TABLE_NAME 
-					+ " WHERE " 
-						+ PROJECT_ACADEMICLEVEL + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, String.valueOf(academicLevel));
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Project> selectAll() {
-		List<Project> list = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM " + PROJECT_TABLE_NAME;
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

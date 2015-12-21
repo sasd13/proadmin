@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sasd13.proadmin.core.bean.running.Team;
 
-public interface TeamDAO {
+public interface TeamDAO extends TableDAO<Team> {
 
     String TEAM_TABLE_NAME = "teams";
 
@@ -12,17 +12,7 @@ public interface TeamDAO {
     String TEAM_CODE = "team_code";
     String RUNNINGS_RUNNING_ID = "runnings_running_id";
 
-    long insert(Team team);
-
-    void update(Team team);
-
-    void delete(long id);
-
-    Team select(long id);
-    
     Team selectByCode(String code);
 
     List<Team> selectByRunning(long runningId);
-    
-    List<Team> selectAll();
 }

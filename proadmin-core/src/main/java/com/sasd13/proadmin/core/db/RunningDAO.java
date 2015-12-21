@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sasd13.proadmin.core.bean.running.Running;
 
-public interface RunningDAO {
+public interface RunningDAO extends TableDAO<Running> {
 
     String RUNNING_TABLE_NAME = "runnings";
 
@@ -13,19 +13,9 @@ public interface RunningDAO {
     String TEACHERS_TEACHER_ID = "teachers_teacher_id";
     String PROJECTS_PROJECT_ID = "projects_project_id";
 
-    long insert(Running running);
-
-    void update(Running running);
-
-    void delete(long id);
-
-    Running select(long id);
-    
     List<Running> selectByYear(int year);
 
     List<Running> selectByTeacher(long teacherId);
     
     List<Running> selectByProject(long projectId);
-    
-    List<Running> selectAll();
 }

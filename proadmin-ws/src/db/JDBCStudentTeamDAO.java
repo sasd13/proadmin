@@ -36,16 +36,16 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	}
 	
 	@Override
-	public long insertStudentInTeam(long studentId, long teamId) {
+	public long insert(long studentId, long teamId) {
 		long id = 0;
 		
-		try {
-			String query = "INSERT INTO " 
-					+ STUDENTTEAM_TABLE_NAME + "(" 
-						+ STUDENTS_STUDENT_ID + ", " 
-						+ TEAMS_TEAM_ID 
-					+ ") VALUES (?, ?)";
-			
+		String query = "INSERT INTO " + STUDENTTEAM_TABLE_NAME 
+				+ "(" 
+					+ STUDENTS_STUDENT_ID + ", " 
+					+ TEAMS_TEAM_ID 
+				+ ") VALUES (?, ?)";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, studentId, teamId);
 			
 			long affectedRows = preparedStatement.executeUpdate();
@@ -66,15 +66,16 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	}
 	
 	@Override
-	public void deleteByTeam(long teamId) {
+	public void delete(long studentId, long teamId) {
 		try {
-			String query = "DELTE FROM " 
-					+ STUDENTTEAM_TABLE_NAME 
+			String query = "DELTE FROM " + STUDENTTEAM_TABLE_NAME 
 					+ " WHERE " 
+						+ STUDENTS_STUDENT_ID + " = ? AND"
 						+ TEAMS_TEAM_ID + " = ?";
 			
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-			preparedStatement.setLong(1, teamId);
+			preparedStatement.setLong(1, studentId);
+			preparedStatement.setLong(2, teamId);
 			
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -87,18 +88,17 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	public List<Long> selectByStudent(long studentId) {
 		List<Long> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENTTEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENTS_STUDENT_ID + " = ?";
-			
+		String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENTS_STUDENT_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
 			preparedStatement.setLong(1, studentId);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				list.add(resultSet.getLong(STUDENTS_STUDENT_ID));
+				list.add(resultSet.getLong(TEAMS_TEAM_ID));
 			}
 			
 			preparedStatement.close();
@@ -113,12 +113,11 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	public List<Long> selectByTeam(long teamId) {
 		List<Long> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ STUDENTTEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ TEAMS_TEAM_ID + " = ?";
-			
+		String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ TEAMS_TEAM_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
 			preparedStatement.setLong(1, teamId);
 			

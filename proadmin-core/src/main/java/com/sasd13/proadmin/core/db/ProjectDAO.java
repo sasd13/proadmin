@@ -5,7 +5,7 @@ import java.util.List;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 
-public interface ProjectDAO {
+public interface ProjectDAO extends TableDAO<Project> {
 
     String PROJECT_TABLE_NAME = "projects";
 
@@ -15,17 +15,7 @@ public interface ProjectDAO {
     String PROJECT_TITLE = "project_title";
     String PROJECT_DESCRIPTION = "project_description";
 
-    long insert(Project project);
-
-    void update(Project project);
-    
-    void delete(long id);
-
-    Project select(long id);
-    
     Project selectByCode(String code);
 
     List<Project> selectByAcademicLevel(AcademicLevel academicLevel);
-
-    List<Project> selectAll();
 }

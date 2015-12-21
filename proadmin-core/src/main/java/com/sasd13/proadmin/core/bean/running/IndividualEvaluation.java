@@ -10,17 +10,17 @@ package com.sasd13.proadmin.core.bean.running;
  * @author Samir
  */
 public class IndividualEvaluation extends Evaluation {
-
-    private float mark;
-
-    public float getMark() {
-        return this.mark;
-    }
-
-    public void setMark(float mark) {
-        this.mark = mark;
-    }
-
+	
+	private float mark;
+	
+	public float getMark() {
+		return this.mark;
+	}
+	
+	public void setMark(float mark) {
+		this.mark = mark;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

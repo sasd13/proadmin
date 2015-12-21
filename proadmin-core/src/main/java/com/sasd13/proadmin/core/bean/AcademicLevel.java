@@ -10,9 +10,5 @@ package com.sasd13.proadmin.core.bean;
  * @author Samir
  */
 public enum AcademicLevel {
-	L1, 
-	L2, 
-	L3, 
-	M1, 
-	M2
+	L1, L2, L3, M1, M2
 }

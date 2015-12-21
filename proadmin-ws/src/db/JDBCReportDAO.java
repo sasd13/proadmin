@@ -54,27 +54,17 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	public long insert(Report report) {
 		long id = 0;
 		
+		String query = "INSERT INTO " + REPORT_TABLE_NAME 
+				+ "(" 
+					+ REPORT_DATEMEETING + ", " 
+					+ REPORT_WEEKNUMBER + ", " 
+					+ REPORT_TEAMCOMMENT + ", " 
+					+ TEAMS_TEAM_ID 
+				+ ") VALUES (?, ?, ?, ?)";
+		
 		try {
-			String query = "INSERT INTO " 
-					+ REPORT_TABLE_NAME + "(" 
-						+ REPORT_DATEMEETING + ", " 
-						+ REPORT_WEEKNUMBER + ", " 
-						+ REPORT_TEAMCOMMENT + ", " 
-						+ TEAMS_TEAM_ID 
-					+ ") VALUES (?, ?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, report);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+			id = executeInsert(query, report);
+			report.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,17 +74,16 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	
 	@Override
 	public void update(Report report) {
-		try {
-			String query = "UPDATE " 
-					+ REPORT_TABLE_NAME 
-					+ " SET " 
-						+ REPORT_DATEMEETING + " = ?, " 
-						+ REPORT_WEEKNUMBER + " = ?, " 
-						+ REPORT_TEAMCOMMENT + " = ?, " 
-						+ TEAMS_TEAM_ID + " = ?, " 
-					+ " WHERE " 
-						+ REPORT_ID + " = ?";
-			
+		String query = "UPDATE " + REPORT_TABLE_NAME 
+				+ " SET " 
+					+ REPORT_DATEMEETING + " = ?, " 
+					+ REPORT_WEEKNUMBER + " = ?, " 
+					+ REPORT_TEAMCOMMENT + " = ?, " 
+					+ TEAMS_TEAM_ID + " = ?, " 
+				+ " WHERE " 
+					+ REPORT_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, report);
 			preparedStatement.setLong(5, report.getId());
 			
@@ -107,17 +96,14 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	
 	@Override
 	public void delete(long id) {
+		String query = "UPDATE " + REPORT_TABLE_NAME
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ REPORT_ID + " = ?";
+		
 		try {
-			String query = "DELTE FROM " 
-					+ REPORT_TABLE_NAME 
-					+ " WHERE " 
-						+ REPORT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -127,21 +113,12 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	public Report select(long id) {
 		Report report = null;
 		
+		String query = "SELECT * FROM " + REPORT_TABLE_NAME 
+				+ " WHERE " 
+					+ REPORT_ID + " = ?";
+		
 		try {
-			String query = "SELECT * FROM " 
-					+ REPORT_TABLE_NAME 
-					+ " WHERE " 
-						+ REPORT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				report = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			report = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -150,24 +127,13 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	}
 	
 	@Override
-	public List<Report> selectByTeam(long teamId) {
+	public List<Report> selectAll() {
 		List<Report> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ REPORT_TABLE_NAME 
-					+ " WHERE " 
-						+ TEAMS_TEAM_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, teamId);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + REPORT_TABLE_NAME;
+		
+		try {			
+			list = executeSelectAll(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -176,20 +142,18 @@ public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
 	}
 	
 	@Override
-	public List<Report> selectAll() {
+	public List<Report> selectByTeam(long teamId) {
 		List<Report> list = new ArrayList<>();
 		
+		String query = "SELECT * FROM " + REPORT_TABLE_NAME 
+				+ " WHERE " 
+					+ TEAMS_TEAM_ID + " = ?";
+		
 		try {
-			String query = "SELECT * FROM " + REPORT_TABLE_NAME;
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, teamId);
 			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

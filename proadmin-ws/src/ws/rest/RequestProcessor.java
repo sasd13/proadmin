@@ -29,17 +29,19 @@ public class RequestProcessor {
 				e.printStackTrace();
 			}
 		} else {
-			respData = PersistenceService.readAll(mClass);
-			
-			if (!mapParameters.isEmpty()) {
-				respData = FilterService.filter((List) respData, mapParameters, mClass);
+			if (!mapParameters.containsKey("id")) {
+				respData = PersistenceService.readAll(mClass);
+				
+				if (!mapParameters.isEmpty()) {
+					respData = FilterService.filter((List) respData, mapParameters, mClass);
+				}
 			}
 		}
 		
-		parseAndWriteDataToResponse(resp, respData);
+		encodeAndWriteDataToResponse(resp, respData);
 	}
 	
-	private static void parseAndWriteDataToResponse(HttpServletResponse resp, Object respData) throws IOException {
+	private static void encodeAndWriteDataToResponse(HttpServletResponse resp, Object respData) throws IOException {
 		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, respData);
 		
 		resp.setContentType(MimeType.APPLICATION_JSON);
@@ -48,21 +50,21 @@ public class RequestProcessor {
 	}
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Object object = readAndParseDataFromRequest(req, mClass);
+		Object object = readAndDecodeDataFromRequest(req, mClass);
 		
 		long respData = PersistenceService.create(object);
 		
-		parseAndWriteDataToResponse(resp, respData);
+		encodeAndWriteDataToResponse(resp, respData);
 	}
 	
-	private static Object readAndParseDataFromRequest(HttpServletRequest req, Class mClass) throws IOException {
+	private static Object readAndDecodeDataFromRequest(HttpServletRequest req, Class mClass) throws IOException {
 		String reqData = ContentIO.read(req.getReader());
 		
 		return DataParser.decode(req.getContentType(), reqData, mClass);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Object object = readAndParseDataFromRequest(req, mClass);
+		Object object = readAndDecodeDataFromRequest(req, mClass);
 		
 		PersistenceService.update(object);
 	}

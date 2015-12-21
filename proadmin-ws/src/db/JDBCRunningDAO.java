@@ -55,26 +55,16 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	public long insert(Running running) {
 		long id = 0;
 		
-		try {
-			String query = "INSERT INTO " 
-					+ RUNNING_TABLE_NAME + "(" 
-						+ RUNNING_YEAR + ", " 
-						+ TEACHERS_TEACHER_ID + ", " 
-						+ PROJECTS_PROJECT_ID 
-					+ ") VALUES (?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, running);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+		String query = "INSERT INTO " + RUNNING_TABLE_NAME 
+				+ "(" 
+					+ RUNNING_YEAR + ", " 
+					+ TEACHERS_TEACHER_ID + ", " 
+					+ PROJECTS_PROJECT_ID 
+				+ ") VALUES (?, ?, ?)";
+		
+		try {			
+			id = executeInsert(query, running);
+			running.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,16 +74,15 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	
 	@Override
 	public void update(Running running) {
-		try {
-			String query = "UPDATE " 
-					+ RUNNING_TABLE_NAME 
-					+ " SET " 
-						+ RUNNING_YEAR + " = ?, " 
-						+ TEACHERS_TEACHER_ID + " = ?, " 
-						+ PROJECTS_PROJECT_ID + " = ?, " 
-					+ " WHERE " 
-						+ RUNNING_ID + " = ?";
-			
+		String query = "UPDATE " + RUNNING_TABLE_NAME 
+				+ " SET " 
+					+ RUNNING_YEAR + " = ?, " 
+					+ TEACHERS_TEACHER_ID + " = ?, " 
+					+ PROJECTS_PROJECT_ID + " = ?, " 
+				+ " WHERE " 
+					+ RUNNING_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, running);
 			preparedStatement.setLong(4, running.getId());
 			
@@ -106,17 +95,14 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	
 	@Override
 	public void delete(long id) {
-		try {
-			String query = "DELTE FROM " 
-					+ RUNNING_TABLE_NAME 
-					+ " WHERE " 
-						+ RUNNING_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+		String query = "UPDATE " + RUNNING_TABLE_NAME
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ RUNNING_ID + " = ?";
+		
+		try {			
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -126,21 +112,12 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	public Running select(long id) {
 		Running running = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ RUNNING_TABLE_NAME 
-					+ " WHERE " 
-						+ RUNNING_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				running = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
+				+ " WHERE " 
+					+ RUNNING_ID + " = ?";
+		
+		try {			
+			running = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -149,24 +126,33 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	}
 	
 	@Override
+	public List<Running> selectAll() {
+		List<Running> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + RUNNING_TABLE_NAME;
+		
+		try {			
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public List<Running> selectByYear(int year) {
 		List<Running> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ RUNNING_TABLE_NAME 
-					+ " WHERE " 
-						+ RUNNING_YEAR + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
+				+ " WHERE " 
+					+ RUNNING_YEAR + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, year);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -178,21 +164,15 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	public List<Running> selectByTeacher(long teacherId) {
 		List<Running> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ RUNNING_TABLE_NAME 
-					+ " WHERE " 
-						+ TEACHERS_TEACHER_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
+				+ " WHERE " 
+					+ TEACHERS_TEACHER_ID + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, teacherId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -204,43 +184,15 @@ public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO 
 	public List<Running> selectByProject(long projectId) {
 		List<Running> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ RUNNING_TABLE_NAME 
-					+ " WHERE " 
-						+ PROJECTS_PROJECT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
+				+ " WHERE " 
+					+ PROJECTS_PROJECT_ID + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, projectId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Running> selectAll() {
-		List<Running> list = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM " + RUNNING_TABLE_NAME;
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

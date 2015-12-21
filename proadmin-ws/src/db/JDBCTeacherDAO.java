@@ -51,28 +51,18 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	public long insert(Teacher teacher) {
 		long id = 0;
 		
-		try {
-			String query = "INSERT INTO " 
-					+ TEACHER_TABLE_NAME + "(" 
-						+ TEACHER_NUMBER + ", " 
-						+ TEACHER_FIRSTNAME + ", " 
-						+ TEACHER_LASTNAME + ", " 
-						+ TEACHER_EMAIL + ", " 
-						+ TEACHER_PASSWORD 
-					+ ") VALUES (?, ?, ?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, teacher);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+		String query = "INSERT INTO " + TEACHER_TABLE_NAME 
+				+ "(" 
+					+ TEACHER_NUMBER + ", " 
+					+ TEACHER_FIRSTNAME + ", " 
+					+ TEACHER_LASTNAME + ", " 
+					+ TEACHER_EMAIL + ", " 
+					+ TEACHER_PASSWORD 
+				+ ") VALUES (?, ?, ?, ?, ?)";
+		
+		try {			
+			id = executeInsert(query, teacher);
+			teacher.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -82,18 +72,17 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	
 	@Override
 	public void update(Teacher teacher) {
-		try {
-			String query = "UPDATE " 
-					+ TEACHER_TABLE_NAME 
-					+ " SET " 
-						+ TEACHER_NUMBER + " = ?, " 
-						+ TEACHER_FIRSTNAME + " = ?, " 
-						+ TEACHER_LASTNAME + " = ?, " 
-						+ TEACHER_EMAIL + " = ?, " 
-						+ TEACHER_PASSWORD + " = ?, " 
-					+ " WHERE " 
-						+ TEACHER_ID + " = ?";
-			
+		String query = "UPDATE " + TEACHER_TABLE_NAME 
+				+ " SET " 
+					+ TEACHER_NUMBER + " = ?, " 
+					+ TEACHER_FIRSTNAME + " = ?, " 
+					+ TEACHER_LASTNAME + " = ?, " 
+					+ TEACHER_EMAIL + " = ?, " 
+					+ TEACHER_PASSWORD + " = ?, " 
+				+ " WHERE " 
+					+ TEACHER_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, teacher);
 			preparedStatement.setLong(6, teacher.getId());
 			
@@ -106,17 +95,14 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	
 	@Override
 	public void delete(long id) {
-		try {
-			String query = "DELETE FROM " 
-					+ TEACHER_TABLE_NAME 
-					+ " WHERE " 
-						+ TEACHER_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+		String query = "UPDATE " + TEACHER_TABLE_NAME
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ TEACHER_ID + " = ?";
+		
+		try {			
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -126,21 +112,12 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	public Teacher select(long id) {
 		Teacher teacher = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEACHER_TABLE_NAME 
-					+ " WHERE " 
-						+ TEACHER_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				teacher = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + TEACHER_TABLE_NAME 
+				+ " WHERE " 
+					+ TEACHER_ID + " = ?";
+		
+		try {			
+			teacher = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -149,24 +126,33 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	}
 	
 	@Override
+	public List<Teacher> selectAll() {
+		List<Teacher> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + TEACHER_TABLE_NAME;
+		
+		try {
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public Teacher selectByNumber(String number) {
 		Teacher teacher = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEACHER_TABLE_NAME 
-					+ " WHERE " 
-						+ TEACHER_NUMBER + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + TEACHER_TABLE_NAME 
+				+ " WHERE " 
+					+ TEACHER_NUMBER + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, number);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				teacher = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			teacher = executeSelectSingleResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -178,43 +164,15 @@ public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO 
 	public List<Teacher> selectByEmail(String email) {
 		List<Teacher> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEACHER_TABLE_NAME 
-					+ " WHERE " 
-						+ TEACHER_EMAIL + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + TEACHER_TABLE_NAME 
+				+ " WHERE " 
+					+ TEACHER_EMAIL + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Teacher> selectAll() {
-		List<Teacher> list = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM " + TEACHER_TABLE_NAME;
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

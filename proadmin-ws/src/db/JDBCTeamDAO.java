@@ -49,25 +49,15 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	public long insert(Team team) {
 		long id = 0;
 		
-		try {
-			String query = "INSERT INTO " 
-					+ TEAM_TABLE_NAME + "(" 
-						+ TEAM_CODE + ", " 
-						+ RUNNINGS_RUNNING_ID 
-					+ ") VALUES (?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, team);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+		String query = "INSERT INTO " + TEAM_TABLE_NAME 
+				+ "(" 
+					+ TEAM_CODE + ", " 
+					+ RUNNINGS_RUNNING_ID 
+				+ ") VALUES (?, ?)";
+		
+		try {			
+			id = executeInsert(query, team);
+			team.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -77,15 +67,14 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	
 	@Override
 	public void update(Team team) {
-		try {
-			String query = "UPDATE " 
-					+ TEAM_TABLE_NAME 
-					+ " SET " 
-						+ TEAM_CODE + " = ?, " 
-						+ RUNNINGS_RUNNING_ID + " = ?, " 
-					+ " WHERE " 
-						+ TEAM_ID + " = ?";
-			
+		String query = "UPDATE " + TEAM_TABLE_NAME 
+				+ " SET " 
+					+ TEAM_CODE + " = ?, " 
+					+ RUNNINGS_RUNNING_ID + " = ?, " 
+				+ " WHERE " 
+					+ TEAM_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, team);
 			preparedStatement.setLong(3, team.getId());
 			
@@ -98,17 +87,14 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	
 	@Override
 	public void delete(long id) {
-		try {
-			String query = "DELTE FROM " 
-					+ TEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ TEAM_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+		String query = "UPDATE " + TEAM_TABLE_NAME
+				+ " SET " 
+					+ DELETED + " = ?" 
+				+ " WHERE " 
+					+ TEAM_ID + " = ?";
+		
+		try {			
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -118,21 +104,12 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	public Team select(long id) {
 		Team team = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ TEAM_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				team = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + TEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ TEAM_ID + " = ?";
+		
+		try {			
+			team = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -141,24 +118,33 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	}
 	
 	@Override
+	public List<Team> selectAll() {
+		List<Team> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + TEAM_TABLE_NAME;
+		
+		try {			
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public Team selectByCode(String code) {
 		Team team = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ TEAM_CODE + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + TEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ TEAM_CODE + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, code);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				team = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+			team = executeSelectSingleResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -170,43 +156,15 @@ public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
 	public List<Team> selectByRunning(long runningId) {
 		List<Team> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ TEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ RUNNINGS_RUNNING_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + TEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ RUNNINGS_RUNNING_ID + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, runningId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Team> selectAll() {
-		List<Team> list = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM " + TEAM_TABLE_NAME;
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

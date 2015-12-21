@@ -12,50 +12,50 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
  * @author Samir
  */
 public class Project {
-    
-    private long id;
+	
+	private long id;
 	private String code, title, description;
-    private AcademicLevel academicLevel;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public AcademicLevel getAcademicLevel() {
-        return academicLevel;
-    }
-
-    public void setAcademicLevel(AcademicLevel academicLevel) {
-        this.academicLevel = academicLevel;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+	private AcademicLevel academicLevel;
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public AcademicLevel getAcademicLevel() {
+		return academicLevel;
+	}
+	
+	public void setAcademicLevel(AcademicLevel academicLevel) {
+		this.academicLevel = academicLevel;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
 	
 	public void setDescription(String description) {
-        this.description = description;
-    }
+		this.description = description;
+	}
 	
 	@Override
 	public String toString() {

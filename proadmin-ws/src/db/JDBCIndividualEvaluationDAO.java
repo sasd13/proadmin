@@ -55,26 +55,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 	public long insert(IndividualEvaluation individualEvaluation) {
 		long id = 0;
 		
+		String query = "INSERT INTO " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ "(" 
+					+ INDIVIDUALEVALUATION_MARK + ", " 
+					+ STUDENTS_STUDENT_ID + ", "
+					+ REPORTS_REPORT_ID 
+				+ ") VALUES (?, ?, ?)";
+		
 		try {
-			String query = "INSERT INTO " 
-					+ INDIVIDUALEVALUATION_TABLE_NAME + "(" 
-						+ INDIVIDUALEVALUATION_MARK + ", " 
-						+ STUDENTS_STUDENT_ID + ", "
-						+ REPORTS_REPORT_ID 
-					+ ") VALUES (?, ?, ?)";
-			
-			PreparedStatement preparedStatement = getPreparedStatement(query, individualEvaluation);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+			id = executeInsert(query, individualEvaluation);
+			individualEvaluation.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,15 +74,14 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 	
 	@Override
 	public void update(IndividualEvaluation individualEvaluation) {
-		try {
-			String query = "UPDATE " 
-					+ INDIVIDUALEVALUATION_TABLE_NAME 
-					+ " SET " 
-						+ INDIVIDUALEVALUATION_MARK + " = ?, " 
-						+ STUDENTS_STUDENT_ID + " = ?, " 
-						+ REPORTS_REPORT_ID + " = ?, " 
-					+ " WHERE " + INDIVIDUALEVALUATION_ID + " = ?";
-			
+		String query = "UPDATE " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ " SET " 
+					+ INDIVIDUALEVALUATION_MARK + " = ?, " 
+					+ STUDENTS_STUDENT_ID + " = ?, " 
+					+ REPORTS_REPORT_ID + " = ?, " 
+				+ " WHERE " + INDIVIDUALEVALUATION_ID + " = ?";
+		
+		try {			
 			PreparedStatement preparedStatement = getPreparedStatement(query, individualEvaluation);
 			preparedStatement.setLong(4, individualEvaluation.getId());
 			
@@ -104,24 +93,30 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 	}
 	
 	@Override
+	public void delete(long id) {
+		String query = "UPDATE " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ " SET " 
+					+ DELETED + " = ?"
+				+ " WHERE " 
+					+ INDIVIDUALEVALUATION_ID + " = ?";
+		
+		try {			
+			executeDelete(query, id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
 	public IndividualEvaluation select(long id) {
 		IndividualEvaluation individualEvaluation = null;
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ INDIVIDUALEVALUATION_TABLE_NAME 
-					+ " WHERE " 
-						+ INDIVIDUALEVALUATION_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-			preparedStatement.setLong(1, id);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				individualEvaluation = getResultSetValues(resultSet);
-			}
-			
-			preparedStatement.close();
+		String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ " WHERE " 
+					+ INDIVIDUALEVALUATION_ID + " = ?";
+		
+		try {			
+			individualEvaluation = executeSelectById(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -130,24 +125,53 @@ public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluati
 	}
 	
 	@Override
+	public List<IndividualEvaluation> selectAll() {
+		List<IndividualEvaluation> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME;
+		
+		try {
+			list = executeSelectAll(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<IndividualEvaluation> selectByStudent(long studentId) {
+		List<IndividualEvaluation> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENTS_STUDENT_ID + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, studentId);
+			
+			list = executeSelectMultiResult(preparedStatement);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
 	public List<IndividualEvaluation> selectByReport(long reportId) {
 		List<IndividualEvaluation> list = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM " 
-					+ INDIVIDUALEVALUATION_TABLE_NAME 
-					+ " WHERE " 
-						+ REPORTS_REPORT_ID + " = ?";
-			
-			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+		String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME 
+				+ " WHERE " 
+					+ REPORTS_REPORT_ID + " = ?";
+		
+		try {			
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, reportId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

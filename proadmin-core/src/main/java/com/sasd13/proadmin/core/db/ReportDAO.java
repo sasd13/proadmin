@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sasd13.proadmin.core.bean.running.Report;
 
-public interface ReportDAO {
+public interface ReportDAO extends TableDAO<Report> {
 
     String REPORT_TABLE_NAME = "reports";
 
@@ -14,15 +14,5 @@ public interface ReportDAO {
     String REPORT_TEAMCOMMENT = "report_teamcomment";
     String TEAMS_TEAM_ID = "teams_team_id";
 
-    long insert(Report report);
-
-    void update(Report report);
-
-    void delete(long id);
-
-    Report select(long id);
-
     List<Report> selectByTeam(long teamId);
-    
-    List<Report> selectAll();
 }
