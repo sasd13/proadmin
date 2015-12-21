@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import com.sasd13.proadmin.db.sqlite.SQLiteDAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.session.Session;
 
 public class SplashScreenActivity extends Activity {

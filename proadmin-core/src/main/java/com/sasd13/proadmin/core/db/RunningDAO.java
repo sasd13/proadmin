@@ -2,6 +2,7 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.core.bean.running.Running;
 
 public interface RunningDAO extends EntityDAO<Running> {

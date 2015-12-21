@@ -2,7 +2,6 @@ package com.sasd13.proadmin;
 
 import android.os.Bundle;
 
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;

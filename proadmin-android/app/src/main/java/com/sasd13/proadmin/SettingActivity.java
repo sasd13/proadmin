@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.session.Session;

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db.sqlite;
+package com.sasd13.proadmin.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;

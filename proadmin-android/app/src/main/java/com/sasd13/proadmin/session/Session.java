@@ -3,7 +3,6 @@ package com.sasd13.proadmin.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 

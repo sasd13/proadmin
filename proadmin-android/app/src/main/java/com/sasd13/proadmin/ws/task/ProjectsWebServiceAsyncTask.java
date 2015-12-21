@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.ws.rest.ProjectsWebServiceClient;
 
 public class ProjectsWebServiceAsyncTask extends AsyncTask<Long, Integer, Project[]> {
@@ -30,8 +29,6 @@ public class ProjectsWebServiceAsyncTask extends AsyncTask<Long, Integer, Projec
                 }
             }
         }
-
-        System.out.println("Hello");
 
         return projects;
     }

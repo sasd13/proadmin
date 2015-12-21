@@ -9,7 +9,6 @@ import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.ws.rest.ProjectsWebServiceClient;
 
 public class ProjectsWebServiceAsyncTask2 extends AsyncTask<Long, Integer, Project[]> {

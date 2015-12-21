@@ -38,9 +38,10 @@ public class JDBCDAO extends DAO {
 			
 			open();
 			createTablesIfNotExist();
-			close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 	}
 	

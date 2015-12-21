@@ -18,7 +18,6 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.db.DAOFactory;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.ProjectsWebServiceAsyncTask;

@@ -34,10 +34,6 @@ public class FilterService {
 	}
 	
 	private static Object trim(List result) {
-		if (result != null && result.size() == 1) {
-			return result.get(0);
-		} else {
-			return result;
-		}
+		return (result != null && result.size() == 1) ? result.get(0) : result;
 	}
 }
