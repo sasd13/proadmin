@@ -7,7 +7,6 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.ProjectDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements ProjectDAO {
@@ -39,83 +38,58 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public long insert(Project project) {
-        return getDB().insert(PROJECT_TABLE_NAME, null, getContentValues(project));
+        long id = executeInsert(PROJECT_TABLE_NAME, project);
+
+        project.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Project project) {
-        getDB().update(PROJECT_TABLE_NAME, getContentValues(project), PROJECT_ID + " = ?", new String[]{String.valueOf(project.getId())});
+        executeUpdate(PROJECT_TABLE_NAME, project, PROJECT_ID, project.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(PROJECT_TABLE_NAME, PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(PROJECT_TABLE_NAME, PROJECT_ID, id);
     }
 
     @Override
     public Project select(long id) {
-        Project project = null;
+        String query = "select * from " + PROJECT_TABLE_NAME
+                + " where "
+                    + PROJECT_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            project = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return project;
-    }
-
-    @Override
-    public Project selectByCode(String code) {
-        Project project = null;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_CODE + " = ?", new String[]{String.valueOf(code)});
-
-        if (cursor.moveToNext()) {
-            project = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return project;
-    }
-
-    @Override
-    public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
-        List<Project> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + PROJECT_TABLE_NAME
-                        + " where " + PROJECT_ACADEMICLEVEL + " = ?", new String[]{String.valueOf(academicLevel)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Project> selectAll() {
-        List<Project> list = new ArrayList<>();
+        String query = "select * from " + PROJECT_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + PROJECT_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public Project selectByCode(String code) {
+        String query = "select * from " + PROJECT_TABLE_NAME
+                + " where "
+                    + PROJECT_CODE + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(code)});
+
+        return executeSelectSingleResult(cursor);
+    }
+
+    @Override
+    public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
+        String query = "select * from " + PROJECT_TABLE_NAME
+                + " where "
+                    + PROJECT_ACADEMICLEVEL + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(academicLevel)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

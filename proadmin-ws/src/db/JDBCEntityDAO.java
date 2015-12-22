@@ -32,6 +32,8 @@ public abstract class JDBCEntityDAO<T> implements EntityDAO<T> {
 				: connection.prepareStatement(query);
 	}
 	
+	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
+	
 	protected long executeInsert(String query, T t) throws SQLException {
 		long id = 0;
 		
@@ -61,23 +63,16 @@ public abstract class JDBCEntityDAO<T> implements EntityDAO<T> {
 	}
 	
 	protected T executeSelectById(String query, long id) throws SQLException {
-		T t = null;
-		
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setLong(1, id);
 		
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if (resultSet.next()) {
-			t = getResultSetValues(resultSet);
-		}
-		
-		preparedStatement.close();
-		
-		return t;
+		return executeSelectSingleResult(preparedStatement);
 	}
 	
 	protected List<T> executeSelectAll(String query) throws SQLException {
-		return executeSelectMultiResult(connection.prepareStatement(query));
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		
+		return executeSelectMultiResult(preparedStatement);
 	}
 	
 	protected T executeSelectSingleResult(PreparedStatement preparedStatement) throws SQLException {
@@ -98,6 +93,4 @@ public abstract class JDBCEntityDAO<T> implements EntityDAO<T> {
 		
 		return list;
 	}
-	
-	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
 }

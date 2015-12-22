@@ -95,11 +95,12 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME + ";";
     public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME
             + " ("
+                + StudentTeamDAO.STUDENTTEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + StudentTeamDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
                 + StudentTeamDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                + "PRIMARY KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ", " + StudentTeamDAO.STUDENTS_STUDENT_ID + "), "
-                + ", FOREIGN KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + ")"
+                + "FOREIGN KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + ")"
                 + ", FOREIGN KEY (" + StudentTeamDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + ")"
+                + ", CONSTRAINT UC_STUDENTTEAMID UNIQUE (" + StudentTeamDAO.TEAMS_TEAM_ID + ", " + StudentTeamDAO.STUDENTS_STUDENT_ID + ")"
             + ");";
 
     /**

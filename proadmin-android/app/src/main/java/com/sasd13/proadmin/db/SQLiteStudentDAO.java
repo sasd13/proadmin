@@ -7,7 +7,6 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.db.StudentDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements StudentDAO {
@@ -41,100 +40,69 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public long insert(Student student) {
-        return getDB().insert(STUDENT_TABLE_NAME, null, getContentValues(student));
+        long id = executeInsert(STUDENT_TABLE_NAME, student);
+
+        student.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Student student) {
-        getDB().update(STUDENT_TABLE_NAME, getContentValues(student), STUDENT_ID + " = ?", new String[]{String.valueOf(student.getId())});
+        executeUpdate(STUDENT_TABLE_NAME, student, STUDENT_ID, student.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(STUDENT_TABLE_NAME, STUDENT_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(STUDENT_TABLE_NAME, STUDENT_ID, id);
     }
 
     @Override
     public Student select(long id) {
-        Student student = null;
+        String query = "select * from " + STUDENT_TABLE_NAME
+                + " where "
+                    + STUDENT_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            student = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return student;
-    }
-
-    @Override
-    public Student selectByNumber(String number) {
-        Student student = null;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_NUMBER + " = ?", new String[]{String.valueOf(number)});
-
-        if (cursor.moveToNext()) {
-            student = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return student;
-    }
-
-    @Override
-    public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
-        List<Student> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_ACADEMICLEVEL + " = ?", new String[]{String.valueOf(academicLevel)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
-    }
-
-    @Override
-    public List<Student> selectByEmail(String email) {
-        List<Student> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + STUDENT_TABLE_NAME
-                        + " where " + STUDENT_EMAIL + " = ?", new String[]{String.valueOf(email)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Student> selectAll() {
-        List<Student> list = new ArrayList<>();
+        String query = "select * from " + STUDENT_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + STUDENT_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public Student selectByNumber(String number) {
+        String query = "select * from " + STUDENT_TABLE_NAME
+                + " where "
+                    + STUDENT_NUMBER + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(number)});
+
+        return executeSelectSingleResult(cursor);
+    }
+
+    @Override
+    public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
+        String query = "select * from " + STUDENT_TABLE_NAME
+                + " where "
+                    + STUDENT_ACADEMICLEVEL + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(academicLevel)});
+
+        return executeSelectMultiResult(cursor);
+    }
+
+    @Override
+    public List<Student> selectByEmail(String email) {
+        String query = "select * from " + STUDENT_TABLE_NAME
+                + " where "
+                    + STUDENT_EMAIL + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(email)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.TeacherDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements TeacherDAO {
@@ -40,83 +39,58 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public long insert(Teacher teacher) {
-        return getDB().insert(TEACHER_TABLE_NAME, null, getContentValues(teacher));
+        long id = executeInsert(TEACHER_TABLE_NAME, teacher);
+
+        teacher.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Teacher teacher) {
-        getDB().update(TEACHER_TABLE_NAME, getContentValues(teacher), TEACHER_ID + " = ?", new String[]{String.valueOf(teacher.getId())});
+        executeUpdate(TEACHER_TABLE_NAME, teacher, TEACHER_ID, teacher.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(TEACHER_TABLE_NAME, TEACHER_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(TEACHER_TABLE_NAME, TEACHER_ID, id);
     }
 
     @Override
     public Teacher select(long id) {
-        Teacher teacher = null;
+        String query = "select * from " + TEACHER_TABLE_NAME
+                + " where "
+                    + TEACHER_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            teacher = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return teacher;
-    }
-
-    @Override
-    public Teacher selectByNumber(String number) {
-        Teacher teacher = null;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_NUMBER + " = ?", new String[]{String.valueOf(number)});
-
-        if (cursor.moveToNext()) {
-            teacher = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return teacher;
-    }
-
-    @Override
-    public List<Teacher> selectByEmail(String email) {
-        List<Teacher> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME
-                        + " where " + TEACHER_EMAIL + " = ?", new String[]{String.valueOf(email)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Teacher> selectAll() {
-        List<Teacher> list = new ArrayList<>();
+        String query = "select * from " + TEACHER_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEACHER_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public Teacher selectByNumber(String number) {
+        String query = "select * from " + TEACHER_TABLE_NAME
+                + " where "
+                    + TEACHER_NUMBER + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(number)});
+
+        return executeSelectSingleResult(cursor);
+    }
+
+    @Override
+    public List<Teacher> selectByEmail(String email) {
+        String query = "select * from " + TEACHER_TABLE_NAME
+                + " where "
+                    + TEACHER_EMAIL + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(email)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

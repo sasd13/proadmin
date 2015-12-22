@@ -8,6 +8,8 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
 
+import java.util.List;
+
 public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 
     @Override
@@ -47,45 +49,58 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public long insert(LeadEvaluation leadEvaluation) {
-        return getDB().insert(LEADEVALUATION_TABLE_NAME, null, getContentValues(leadEvaluation));
+        long id = executeInsert(LEADEVALUATION_TABLE_NAME, leadEvaluation);
+
+        leadEvaluation.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(LeadEvaluation leadEvaluation) {
-        getDB().update(LEADEVALUATION_TABLE_NAME, getContentValues(leadEvaluation), LEADEVALUATION_ID + " = ?", new String[]{String.valueOf(leadEvaluation.getId())});
+        executeUpdate(LEADEVALUATION_TABLE_NAME, leadEvaluation, LEADEVALUATION_ID, leadEvaluation.getId());
+    }
+
+    @Override
+    public void delete(long id) {
+        executeDelete(LEADEVALUATION_TABLE_NAME, LEADEVALUATION_ID, id);
     }
 
     @Override
     public LeadEvaluation select(long id) {
-        LeadEvaluation leadEvaluation = null;
+        String query = "select * from " + LEADEVALUATION_TABLE_NAME
+                + " where "
+                    + LEADEVALUATION_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + LEADEVALUATION_TABLE_NAME
-                        + " where " + LEADEVALUATION_ID + " = ?", new String[]{String.valueOf(id)});
+        return executeSelectById(query, id);
+    }
 
-        if (cursor.moveToNext()) {
-            leadEvaluation = getCursorValues(cursor);
-        }
-        cursor.close();
+    @Override
+    public List<LeadEvaluation> selectAll() {
+        String query = "select * from " + LEADEVALUATION_TABLE_NAME;
 
-        return leadEvaluation;
+        return executeSelectAll(query);
+    }
+
+    @Override
+    public List<LeadEvaluation> selectByStudent(long studentId) {
+        String query = "select * from " + LEADEVALUATION_TABLE_NAME
+                + " where "
+                    + STUDENTS_STUDENT_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(studentId)});
+
+        return executeSelectMultiResult(cursor);
     }
 
     @Override
     public LeadEvaluation selectByReport(long reportId) {
-        LeadEvaluation leadEvaluation = null;
+        String query = "select * from " + LEADEVALUATION_TABLE_NAME
+                + " where "
+                    + REPORTS_REPORT_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + LEADEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reportId)});
 
-        if (cursor.moveToNext()) {
-            leadEvaluation = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return leadEvaluation;
+        return executeSelectSingleResult(cursor);
     }
 }

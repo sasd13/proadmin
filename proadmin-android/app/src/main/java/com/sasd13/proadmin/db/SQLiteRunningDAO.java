@@ -8,7 +8,6 @@ import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.db.RunningDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements RunningDAO {
@@ -43,100 +42,69 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public long insert(Running running) {
-        return getDB().insert(RUNNING_TABLE_NAME, null, getContentValues(running));
+        long id = executeInsert(RUNNING_TABLE_NAME, running);
+
+        running.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Running running) {
-        getDB().update(RUNNING_TABLE_NAME, getContentValues(running), RUNNING_ID + " = ?", new String[]{String.valueOf(running.getId())});
+        executeUpdate(RUNNING_TABLE_NAME, running, RUNNING_ID, running.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(RUNNING_TABLE_NAME, RUNNING_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(RUNNING_TABLE_NAME, RUNNING_ID, id);
     }
 
     @Override
     public Running select(long id) {
-        Running running = null;
+        String query = "select * from " + RUNNING_TABLE_NAME
+                + " where "
+                    + RUNNING_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + RUNNING_TABLE_NAME
-                        + " where " + RUNNING_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            running = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return running;
-    }
-
-    @Override
-    public List<Running> selectByYear(int year) {
-        List<Running> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + RUNNING_TABLE_NAME
-                        + " where " + RUNNING_YEAR + " = ?", new String[]{String.valueOf(year)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
-    }
-
-    @Override
-    public List<Running> selectByTeacher(long teacherId) {
-        List<Running> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + RUNNING_TABLE_NAME
-                        + " where " + TEACHERS_TEACHER_ID + " = ?", new String[]{String.valueOf(teacherId)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
-    }
-
-    @Override
-    public List<Running> selectByProject(long projectId) {
-        List<Running> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + RUNNING_TABLE_NAME
-                        + " where " + PROJECTS_PROJECT_ID + " = ?", new String[]{String.valueOf(projectId)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Running> selectAll() {
-        List<Running> list = new ArrayList<>();
+        String query = "select * from " + RUNNING_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + RUNNING_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public List<Running> selectByYear(int year) {
+        String query = "select * from " + RUNNING_TABLE_NAME
+                + " where "
+                    + RUNNING_YEAR + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(year)});
+
+        return executeSelectMultiResult(cursor);
+    }
+
+    @Override
+    public List<Running> selectByTeacher(long teacherId) {
+        String query = "select * from " + RUNNING_TABLE_NAME
+                + " where "
+                    + TEACHERS_TEACHER_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teacherId)});
+
+        return executeSelectMultiResult(cursor);
+    }
+
+    @Override
+    public List<Running> selectByProject(long projectId) {
+        String query = "select * from " + RUNNING_TABLE_NAME
+                + " where "
+                    + PROJECTS_PROJECT_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(projectId)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

@@ -8,7 +8,6 @@ import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
@@ -44,62 +43,58 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public long insert(IndividualEvaluation individualEvaluation) {
-        long id = db.insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualEvaluation));
+        long id = executeInsert(INDIVIDUALEVALUATION_TABLE_NAME, individualEvaluation);
 
+        individualEvaluation.setId(id);
 
+        return id;
     }
 
     @Override
     public void update(IndividualEvaluation individualEvaluation) {
-        getDB().update(INDIVIDUALEVALUATION_TABLE_NAME, getContentValues(individualEvaluation), INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(individualEvaluation.getId())});
+        executeUpdate(INDIVIDUALEVALUATION_TABLE_NAME, individualEvaluation, INDIVIDUALEVALUATION_ID, individualEvaluation.getId());
     }
 
     @Override
     public void delete(long id) {
-
+        executeDelete(INDIVIDUALEVALUATION_TABLE_NAME, INDIVIDUALEVALUATION_ID, id);
     }
 
     @Override
     public IndividualEvaluation select(long id) {
-        IndividualEvaluation individualEvaluation = null;
+        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " where "
+                    + INDIVIDUALEVALUATION_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                        + " where " + INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            individualEvaluation = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return individualEvaluation;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<IndividualEvaluation> selectAll() {
-        return null;
+        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME;
+
+        return executeSelectAll(query);
     }
 
     @Override
     public List<IndividualEvaluation> selectByStudent(long id) {
-        return null;
+        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " where "
+                    + STUDENTS_STUDENT_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        return executeSelectMultiResult(cursor);
     }
 
     @Override
     public List<IndividualEvaluation> selectByReport(long reportId) {
-        List<IndividualEvaluation> list = new ArrayList<>();
+        String query = "select *" + " from " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " where "
+                    + REPORTS_REPORT_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                        + " where " + REPORTS_REPORT_ID + " = ?", new String[]{String.valueOf(reportId)});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reportId)});
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectMultiResult(cursor);
     }
 }

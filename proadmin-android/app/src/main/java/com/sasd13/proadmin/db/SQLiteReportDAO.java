@@ -8,7 +8,6 @@ import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.ReportDAO;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDAO {
@@ -43,66 +42,47 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public long insert(Report report) {
-        return getDB().insert(REPORT_TABLE_NAME, null, getContentValues(report));
+        long id = executeInsert(REPORT_TABLE_NAME, report);
+
+        report.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Report report) {
-        getDB().update(REPORT_TABLE_NAME, getContentValues(report), REPORT_ID + " = ?", new String[]{String.valueOf(report.getId())});
+        executeUpdate(REPORT_TABLE_NAME, report, REPORT_ID, report.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(REPORT_TABLE_NAME, REPORT_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(REPORT_TABLE_NAME, REPORT_ID, id);
     }
 
     @Override
     public Report select(long id) {
-        Report report = null;
+        String query = "select * from " + REPORT_TABLE_NAME
+                + " where "
+                    + REPORT_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + REPORT_TABLE_NAME
-                        + " where " + REPORT_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            report = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return report;
-    }
-
-    @Override
-    public List<Report> selectByTeam(long teamId) {
-        List<Report> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + REPORT_TABLE_NAME
-                        + " where " + TEAMS_TEAM_ID + " = ?", new String[]{String.valueOf(teamId)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Report> selectAll() {
-        List<Report> list = new ArrayList<>();
+        String query = "select * from " + REPORT_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + REPORT_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public List<Report> selectByTeam(long teamId) {
+        String query = "select * from " + REPORT_TABLE_NAME
+                + " where "
+                    + TEAMS_TEAM_ID + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teamId)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

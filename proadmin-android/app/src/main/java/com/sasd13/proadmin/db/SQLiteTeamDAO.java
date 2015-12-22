@@ -7,7 +7,6 @@ import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.TeamDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
@@ -38,83 +37,58 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public long insert(Team team) {
-        return getDB().insert(TEAM_TABLE_NAME, null, getContentValues(team));
+        long id = executeInsert(TEAM_TABLE_NAME, team);
+
+        team.setId(id);
+
+        return id;
     }
 
     @Override
     public void update(Team team) {
-        getDB().update(TEAM_TABLE_NAME, getContentValues(team), TEAM_ID + " = ?", new String[]{String.valueOf(team.getId())});
+        executeUpdate(TEAM_TABLE_NAME, team, TEAM_ID, team.getId());
     }
 
     @Override
     public void delete(long id) {
-        getDB().delete(TEAM_TABLE_NAME, TEAM_ID + " = ?", new String[]{String.valueOf(id)});
+        executeDelete(TEAM_TABLE_NAME, TEAM_ID, id);
     }
 
     @Override
     public Team select(long id) {
-        Team team = null;
+        String query = "select * from " + TEAM_TABLE_NAME
+                + " where "
+                    + TEAM_ID + " = ?";
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_ID + " = ?", new String[]{String.valueOf(id)});
-
-        if (cursor.moveToNext()) {
-            team = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return team;
-    }
-
-    @Override
-    public Team selectByCode(String code) {
-        Team team = null;
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEAM_TABLE_NAME
-                        + " where " + TEAM_CODE + " = ?", new String[]{String.valueOf(code)});
-
-        if (cursor.moveToNext()) {
-            team = getCursorValues(cursor);
-        }
-        cursor.close();
-
-        return team;
-    }
-
-    @Override
-    public List<Team> selectByRunning(long runningId) {
-        List<Team> list = new ArrayList<>();
-
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEAM_TABLE_NAME
-                        + " where " + RUNNINGS_RUNNING_ID + " = ?", new String[]{String.valueOf(runningId)});
-
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
-
-        return list;
+        return executeSelectById(query, id);
     }
 
     @Override
     public List<Team> selectAll() {
-        List<Team> list = new ArrayList<>();
+        String query = "select * from " + TEAM_TABLE_NAME;
 
-        Cursor cursor = getDB().rawQuery(
-                "select *"
-                        + " from " + TEAM_TABLE_NAME, null);
+        return executeSelectAll(query);
+    }
 
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
-        cursor.close();
+    @Override
+    public Team selectByCode(String code) {
+        String query = "select * from " + TEAM_TABLE_NAME
+                + " where "
+                    + TEAM_CODE + " = ?";
 
-        return list;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(code)});
+
+        return executeSelectSingleResult(cursor);
+    }
+
+    @Override
+    public List<Team> selectByRunning(long runningId) {
+        String query = "select * from " + TEAM_TABLE_NAME
+                + " where "
+                    + RUNNINGS_RUNNING_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(runningId)});
+
+        return executeSelectMultiResult(cursor);
     }
 }

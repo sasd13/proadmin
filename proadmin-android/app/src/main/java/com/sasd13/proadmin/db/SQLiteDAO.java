@@ -45,15 +45,15 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
     public void open() {
         db = dbHandler.getWritableDatabase();
 
-        ((SQLiteTeacherDAO) teacherDAO).setDB(db);
-        ((SQLiteProjectDAO) projectDAO).setDB(db);
-        ((SQLiteRunningDAO) runningDAO).setDB(db);
-        ((SQLiteTeamDAO) teamDAO).setDB(db);
-        ((SQLiteStudentDAO) studentDAO).setDB(db);
-        ((SQLiteStudentTeamDAO) studentTeamDAO).setDB(db);
-        ((SQLiteReportDAO) reportDAO).setDB(db);
-        ((SQLiteLeadEvaluationDAO) leadEvaluationDAO).setDB(db);
-        ((SQLiteIndividualEvaluationDAO) individualEvaluationDAO).setDB(db);
+        ((SQLiteEntityDAO) teacherDAO).setDB(db);
+        ((SQLiteEntityDAO) projectDAO).setDB(db);
+        ((SQLiteEntityDAO) runningDAO).setDB(db);
+        ((SQLiteEntityDAO) teamDAO).setDB(db);
+        ((SQLiteEntityDAO) studentDAO).setDB(db);
+        ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
+        ((SQLiteEntityDAO) reportDAO).setDB(db);
+        ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
+        ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
     }
 
     @Override
