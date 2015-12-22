@@ -53,20 +53,21 @@ public class JDBCDAO extends DAO {
 		return instance;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void open() {
 		try {
 			connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USER, JDBCInformation.PASSWORD);
 			
-			((JDBCTeacherDAO) teacherDAO).setConnection(connection);
-			((JDBCProjectDAO) projectDAO).setConnection(connection);
-			((JDBCRunningDAO) runningDAO).setConnection(connection);
-			((JDBCTeamDAO) teamDAO).setConnection(connection);
-			((JDBCStudentDAO) studentDAO).setConnection(connection);
-			((JDBCStudentTeamDAO) studentTeamDAO).setConnection(connection);
-			((JDBCReportDAO) reportDAO).setConnection(connection);
-			((JDBCLeadEvaluationDAO) leadEvaluationDAO).setConnection(connection);
-			((JDBCIndividualEvaluationDAO) individualEvaluationDAO).setConnection(connection);
+			((JDBCEntityDAO) teacherDAO).setConnection(connection);
+			((JDBCEntityDAO) projectDAO).setConnection(connection);
+			((JDBCEntityDAO) runningDAO).setConnection(connection);
+			((JDBCEntityDAO) teamDAO).setConnection(connection);
+			((JDBCEntityDAO) studentDAO).setConnection(connection);
+			((JDBCEntityDAO) studentTeamDAO).setConnection(connection);
+			((JDBCEntityDAO) reportDAO).setConnection(connection);
+			((JDBCEntityDAO) leadEvaluationDAO).setConnection(connection);
+			((JDBCEntityDAO) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

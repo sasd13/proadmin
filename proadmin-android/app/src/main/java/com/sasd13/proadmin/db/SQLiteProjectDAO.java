@@ -10,7 +10,7 @@ import com.sasd13.proadmin.core.db.ProjectDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteProjectDAO extends SQLiteTableDAO<Project> implements ProjectDAO {
+public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements ProjectDAO {
 
     @Override
     protected ContentValues getContentValues(Project project) {

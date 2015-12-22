@@ -23,7 +23,7 @@ public class Report {
 	}
 	
 	public long getId() {
-		return this.id;
+		return id;
 	}
 	
 	public void setId(long id) {
@@ -83,7 +83,7 @@ public class Report {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Report [");
-		builder.append("id=" + getId());
+		builder.append(", id=" + getId());
 		builder.append(", dateMeeting=" + getDateMeeting());
 		builder.append(", teamComment=" + getTeamComment());
 		builder.append(", team=" + getTeam());

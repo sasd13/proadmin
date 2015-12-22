@@ -2,18 +2,18 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-public interface StudentTeamDAO {
+import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.proadmin.core.bean.running.StudentTeam;
+
+public interface StudentTeamDAO extends EntityDAO<StudentTeam> {
 	
 	String STUDENTTEAM_TABLE_NAME = "studentteams";
 	
+	String STUDENTTEAM_ID = "studentteam_id";
 	String TEAMS_TEAM_ID = "teams_team_id";
 	String STUDENTS_STUDENT_ID = "students_student_id";
 	
-	long insert(long studentId, long teamId);
+	List<StudentTeam> selectByTeam(long teamId);
 	
-	void delete(long studentId, long teamId);
-	
-	List<Long> selectByTeam(long teamId);
-	
-	List<Long> selectByStudent(long studentId);
+	List<StudentTeam> selectByStudent(long studentId);
 }

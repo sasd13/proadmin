@@ -3,10 +3,10 @@ package com.sasd13.proadmin.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sasd13.androidex.db.LocalSQLiteDB;
+import com.sasd13.androidex.db.ISQLiteDAO;
 import com.sasd13.proadmin.core.db.DAO;
 
-public class SQLiteDAO extends DAO implements LocalSQLiteDB {
+public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     private static final String DB = "database.db";
     private static final int VERSION = 1;

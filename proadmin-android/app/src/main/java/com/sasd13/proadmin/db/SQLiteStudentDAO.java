@@ -10,7 +10,7 @@ import com.sasd13.proadmin.core.db.StudentDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteStudentDAO extends SQLiteTableDAO<Student> implements StudentDAO {
+public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements StudentDAO {
 
     @Override
     protected ContentValues getContentValues(Student student) {

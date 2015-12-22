@@ -62,7 +62,7 @@ public class Project {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Project [");
-		builder.append("id=" + getId());
+		builder.append(", id=" + getId());
 		builder.append(", code=" + getCode());
 		builder.append(", academicLevel=" + getAcademicLevel());
 		builder.append(", title=" + getTitle());

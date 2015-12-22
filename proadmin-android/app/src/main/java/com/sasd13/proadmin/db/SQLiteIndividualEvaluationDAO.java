@@ -11,7 +11,7 @@ import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
+public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 
     @Override
     protected ContentValues getContentValues(IndividualEvaluation individualEvaluation) {
@@ -44,12 +44,19 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEval
 
     @Override
     public long insert(IndividualEvaluation individualEvaluation) {
-        return getDB().insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualEvaluation));
+        long id = db.insert(INDIVIDUALEVALUATION_TABLE_NAME, null, getContentValues(individualEvaluation));
+
+
     }
 
     @Override
     public void update(IndividualEvaluation individualEvaluation) {
         getDB().update(INDIVIDUALEVALUATION_TABLE_NAME, getContentValues(individualEvaluation), INDIVIDUALEVALUATION_ID + " = ?", new String[]{String.valueOf(individualEvaluation.getId())});
+    }
+
+    @Override
+    public void delete(long id) {
+
     }
 
     @Override
@@ -67,6 +74,16 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteTableDAO<IndividualEval
         cursor.close();
 
         return individualEvaluation;
+    }
+
+    @Override
+    public List<IndividualEvaluation> selectAll() {
+        return null;
+    }
+
+    @Override
+    public List<IndividualEvaluation> selectByStudent(long id) {
+        return null;
     }
 
     @Override

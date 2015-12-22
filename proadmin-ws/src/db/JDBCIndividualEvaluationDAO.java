@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCIndividualEvaluationDAO extends JDBCTableDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
+public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, IndividualEvaluation individualEvaluation) throws SQLException {

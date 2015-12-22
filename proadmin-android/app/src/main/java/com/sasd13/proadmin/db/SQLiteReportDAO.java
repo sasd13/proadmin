@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteReportDAO extends SQLiteTableDAO<Report> implements ReportDAO {
+public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDAO {
 
     @Override
     protected ContentValues getContentValues(Report report) {

@@ -9,7 +9,7 @@ import com.sasd13.proadmin.core.db.TeacherDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteTeacherDAO extends SQLiteTableDAO<Teacher> implements TeacherDAO {
+public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements TeacherDAO {
 
     @Override
     protected ContentValues getContentValues(Teacher teacher) {

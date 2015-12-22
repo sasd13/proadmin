@@ -10,7 +10,7 @@ import com.sasd13.proadmin.core.db.TeamDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteTeamDAO extends SQLiteTableDAO<Team> implements TeamDAO {
+public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     protected ContentValues getContentValues(Team team) {

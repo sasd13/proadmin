@@ -28,6 +28,8 @@ public abstract class DAO implements IDAO {
 			return teamDAO;
 		} else if ("Student".equals(mClass.getSimpleName())) {
 			return studentDAO;
+		} else if ("StudentTeam".equals(mClass.getSimpleName())) {
+			return studentTeamDAO;
 		} else if ("Report".equals(mClass.getSimpleName())) {
 			return reportDAO;
 		} else if ("LeadEvaluation".equals(mClass.getSimpleName())) {
@@ -37,9 +39,5 @@ public abstract class DAO implements IDAO {
 		} else {
 			return null;
 		}
-	}
-	
-	public StudentTeamDAO getStudentTeamDAO() {
-		return studentTeamDAO;
 	}
 }

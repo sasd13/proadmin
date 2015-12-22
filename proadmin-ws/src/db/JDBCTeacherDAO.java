@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCTeacherDAO extends JDBCTableDAO<Teacher> implements TeacherDAO {
+public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Teacher teacher) throws SQLException {

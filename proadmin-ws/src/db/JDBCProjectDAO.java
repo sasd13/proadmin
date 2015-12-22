@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCProjectDAO extends JDBCTableDAO<Project> implements ProjectDAO {
+public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Project project) throws SQLException {

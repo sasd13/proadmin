@@ -5,9 +5,11 @@
  */
 package db;
 
+import com.sasd13.proadmin.core.bean.member.Student;
+import com.sasd13.proadmin.core.bean.running.StudentTeam;
+import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.StudentTeamDAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,25 +20,37 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCStudentTeamDAO implements StudentTeamDAO {
+public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements StudentTeamDAO {
 	
-	private Connection connection;
-	
-	public void setConnection(Connection connection) {
-		this.connection = connection;
-	}
-	
-	protected PreparedStatement getPreparedStatement(String query, long studentId, long teamId) throws SQLException {
-		PreparedStatement preparedStatement = this.connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+	@Override
+	protected PreparedStatement getPreparedStatement(String query, StudentTeam studentTeam) throws SQLException {
+		PreparedStatement preparedStatement = super.getPreparedStatement(query, studentTeam);
 		
-		preparedStatement.setLong(1, studentId);
-		preparedStatement.setLong(2, teamId);
+		preparedStatement.setLong(1, studentTeam.getStudent().getId());
+		preparedStatement.setLong(2, studentTeam.getTeam().getId());
 		
 		return preparedStatement;
 	}
 	
 	@Override
-	public long insert(long studentId, long teamId) {
+	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		StudentTeam studentTeam = new StudentTeam();
+		
+		studentTeam.setId(resultSet.getLong(STUDENTTEAM_ID));
+		
+		Student student = new Student();
+		student.setId(resultSet.getLong(STUDENTS_STUDENT_ID));
+		studentTeam.setStudent(student);
+		
+		Team team = new Team();
+		team.setId(resultSet.getLong(TEAMS_TEAM_ID));
+		studentTeam.setTeam(team);
+		
+		return studentTeam;
+	}
+	
+	@Override
+	public long insert(StudentTeam studentTeam) {
 		long id = 0;
 		
 		String query = "INSERT INTO " + STUDENTTEAM_TABLE_NAME 
@@ -46,18 +60,8 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 				+ ") VALUES (?, ?)";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, studentId, teamId);
-			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
-			
-			preparedStatement.close();
+			id = executeInsert(query, studentTeam);
+			studentTeam.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,42 +70,59 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	}
 	
 	@Override
-	public void delete(long studentId, long teamId) {
+	public void update(StudentTeam arg0) {
+		//Do nothing
+	}
+	
+	@Override
+	public void delete(long id) {
+		String query = "DELTE FROM " + STUDENTTEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENTTEAM_ID + " = ?";
+		
 		try {
-			String query = "DELTE FROM " + STUDENTTEAM_TABLE_NAME 
-					+ " WHERE " 
-						+ STUDENTS_STUDENT_ID + " = ? AND" 
-						+ TEAMS_TEAM_ID + " = ?";
-			
-			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-			preparedStatement.setLong(1, studentId);
-			preparedStatement.setLong(2, teamId);
-			
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			executeDelete(query, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public List<Long> selectByStudent(long studentId) {
-		List<Long> list = new ArrayList<>();
+	public StudentTeam select(long id) {
+		StudentTeam studentTeam = null;
+		
+		String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME 
+				+ " WHERE " 
+					+ STUDENTTEAM_ID + " = ?";
+		
+		try {
+			studentTeam = executeSelectById(query, id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return studentTeam;
+	}
+	
+	@Override
+	public List<StudentTeam> selectAll() {
+		//Do nothing
+		return null;
+	}
+	
+	@Override
+	public List<StudentTeam> selectByStudent(long studentId) {
+		List<StudentTeam> list = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME 
 				+ " WHERE " 
 					+ STUDENTS_STUDENT_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, studentId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(resultSet.getLong(TEAMS_TEAM_ID));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,23 +131,18 @@ public class JDBCStudentTeamDAO implements StudentTeamDAO {
 	}
 	
 	@Override
-	public List<Long> selectByTeam(long teamId) {
-		List<Long> list = new ArrayList<>();
+	public List<StudentTeam> selectByTeam(long teamId) {
+		List<StudentTeam> list = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME 
 				+ " WHERE " 
 					+ TEAMS_TEAM_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, teamId);
 			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				list.add(resultSet.getLong(STUDENTS_STUDENT_ID));
-			}
-			
-			preparedStatement.close();
+			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

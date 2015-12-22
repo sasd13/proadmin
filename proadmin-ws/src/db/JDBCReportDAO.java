@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCReportDAO extends JDBCTableDAO<Report> implements ReportDAO {
+public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Report report) throws SQLException {

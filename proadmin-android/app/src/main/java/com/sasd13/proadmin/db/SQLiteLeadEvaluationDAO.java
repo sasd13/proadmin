@@ -8,7 +8,7 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
 
-public class SQLiteLeadEvaluationDAO extends SQLiteTableDAO<LeadEvaluation> implements LeadEvaluationDAO {
+public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 
     @Override
     protected ContentValues getContentValues(LeadEvaluation leadEvaluation) {

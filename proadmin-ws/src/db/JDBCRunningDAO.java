@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCRunningDAO extends JDBCTableDAO<Running> implements RunningDAO {
+public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Running running) throws SQLException {

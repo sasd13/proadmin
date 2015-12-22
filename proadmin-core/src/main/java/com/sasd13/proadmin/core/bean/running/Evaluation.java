@@ -18,7 +18,7 @@ public abstract class Evaluation {
 	private Report report;
 	
 	public long getId() {
-		return this.id;
+		return id;
 	}
 	
 	public void setId(long id) {

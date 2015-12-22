@@ -26,7 +26,7 @@ public class IndividualEvaluation extends Evaluation {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("IndividualEvaluation [");
-		builder.append("id=" + getId());
+		builder.append(", id=" + getId());
 		builder.append(", mark=" + getMark());
 		builder.append(", student=" + getStudent());
 		builder.append(", report=" + getReport());

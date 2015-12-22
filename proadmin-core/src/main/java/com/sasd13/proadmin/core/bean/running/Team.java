@@ -19,7 +19,7 @@ public class Team {
 	}
 	
 	public long getId() {
-		return this.id;
+		return id;
 	}
 	
 	public void setId(long id) {
@@ -67,7 +67,7 @@ public class Team {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Team [");
-		builder.append("id=" + getId());
+		builder.append(", id=" + getId());
 		builder.append(", code=" + getCode());
 		builder.append(", running=" + getRunning());
 		builder.append(", students=" + Arrays.toString(getStudents().toArray(new Student[getStudents().size()])));

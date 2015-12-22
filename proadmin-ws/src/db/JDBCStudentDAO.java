@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCStudentDAO extends JDBCTableDAO<Student> implements StudentDAO {
+public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Student student) throws SQLException {

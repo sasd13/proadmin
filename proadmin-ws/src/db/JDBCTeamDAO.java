@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCTeamDAO extends JDBCTableDAO<Team> implements TeamDAO {
+public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, Team team) throws SQLException {

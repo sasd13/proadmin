@@ -11,7 +11,7 @@ import com.sasd13.proadmin.core.db.RunningDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteRunningDAO extends SQLiteTableDAO<Running> implements RunningDAO {
+public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements RunningDAO {
 
     @Override
     protected ContentValues getContentValues(Running running) {

@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Samir
  */
-public class JDBCLeadEvaluationDAO extends JDBCTableDAO<LeadEvaluation> implements LeadEvaluationDAO {
+public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 	
 	@Override
 	protected PreparedStatement getPreparedStatement(String query, LeadEvaluation leadEvaluation) throws SQLException {

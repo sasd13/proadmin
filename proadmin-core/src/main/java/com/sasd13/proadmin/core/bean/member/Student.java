@@ -28,7 +28,7 @@ public class Student extends AcademicMember {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Student [");
-		builder.append("id=" + getId());
+		builder.append(", id=" + getId());
 		builder.append(", number=" + getNumber());
 		builder.append(", firstName=" + getFirstName());
 		builder.append(", lastName=" + getLastName());
