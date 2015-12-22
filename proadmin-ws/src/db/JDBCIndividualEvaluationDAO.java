@@ -34,7 +34,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	@Override
-	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {		
 		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 		
 		individualEvaluation.setId(resultSet.getLong(INDIVIDUALEVALUATION_ID));

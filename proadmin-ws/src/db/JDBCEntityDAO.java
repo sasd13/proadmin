@@ -12,11 +12,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sasd13.javaex.db.EntityDAO;
+
 /**
  *
  * @author Samir
  */
-public abstract class JDBCEntityDAO<T> {
+public abstract class JDBCEntityDAO<T> implements EntityDAO<T> {
 	
 	protected Connection connection;
 	
