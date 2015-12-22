@@ -9,8 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.session.Session;
 
 public class SettingActivity extends MotherActivity {
@@ -44,10 +46,13 @@ public class SettingActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
-        Teacher teacher = dao.selectTeacher(Session.getTeacherId());
+
+        EntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
+        Teacher teacher = (Teacher) entityDAO.select(Session.getTeacherId());
+
         dao.close();
 
         fillFormTeacher(teacher);
@@ -101,20 +106,22 @@ public class SettingActivity extends MotherActivity {
     }
 
     private void tryToPerformUpdateTeacher() {
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
-        Teacher teacher = dao.selectTeacher(Session.getTeacherId());
 
-        performUpdateTeacher(teacher, dao);
+        EntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
+        Teacher teacher = (Teacher) entityDAO.select(Session.getTeacherId());
+
+        performUpdateTeacher(teacher, entityDAO);
 
         dao.close();
     }
 
-    private void performUpdateTeacher(Teacher teacher, DAO dao) {
+    private void performUpdateTeacher(Teacher teacher, EntityDAO entityDAO) {
         editTeacherWithForm(teacher);
 
-        dao.updateTeacher(teacher);
+        entityDAO.update(teacher);
 
         Toast.makeText(this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }

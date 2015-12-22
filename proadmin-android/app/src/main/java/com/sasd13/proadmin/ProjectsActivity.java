@@ -14,10 +14,12 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.ProjectsWebServiceAsyncTask;
@@ -73,10 +75,13 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void fillTabProjects() {
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
-        this.projects = dao.selectAllProjects();
+
+        EntityDAO entityDAO = dao.getEntityDAO(Project.class);
+        this.projects = entityDAO.selectAll();
+
         dao.close();
 
         this.spin.resetPosition();
@@ -143,7 +148,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void tryToPerformRefresh() {
-        ProjectsWebServiceAsyncTask projectsTask = new ProjectsWebServiceAsyncTask(this);
+        ProjectsWebServiceAsyncTask projectsTask = new ProjectsWebServiceAsyncTask();
         projectsTask.execute();
     }
 }

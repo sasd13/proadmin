@@ -61,8 +61,8 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public Running select(long id) {
-        String query = "select * from " + RUNNING_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + RUNNING_TABLE_NAME
+                + " WHERE "
                     + RUNNING_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -70,15 +70,15 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public List<Running> selectAll() {
-        String query = "select * from " + RUNNING_TABLE_NAME;
+        String query = "SELECT * FROM " + RUNNING_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public List<Running> selectByYear(int year) {
-        String query = "select * from " + RUNNING_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + RUNNING_TABLE_NAME
+                + " WHERE "
                     + RUNNING_YEAR + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(year)});
@@ -88,8 +88,8 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public List<Running> selectByTeacher(long teacherId) {
-        String query = "select * from " + RUNNING_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + RUNNING_TABLE_NAME
+                + " WHERE "
                     + TEACHERS_TEACHER_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teacherId)});
@@ -99,8 +99,8 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public List<Running> selectByProject(long projectId) {
-        String query = "select * from " + RUNNING_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + RUNNING_TABLE_NAME
+                + " WHERE "
                     + PROJECTS_PROJECT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(projectId)});

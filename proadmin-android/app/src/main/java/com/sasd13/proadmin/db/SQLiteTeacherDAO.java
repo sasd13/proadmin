@@ -58,8 +58,8 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public Teacher select(long id) {
-        String query = "select * from " + TEACHER_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEACHER_TABLE_NAME
+                + " WHERE "
                     + TEACHER_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -67,15 +67,15 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public List<Teacher> selectAll() {
-        String query = "select * from " + TEACHER_TABLE_NAME;
+        String query = "SELECT * FROM " + TEACHER_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public Teacher selectByNumber(String number) {
-        String query = "select * from " + TEACHER_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEACHER_TABLE_NAME
+                + " WHERE "
                     + TEACHER_NUMBER + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(number)});
@@ -85,8 +85,8 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public List<Teacher> selectByEmail(String email) {
-        String query = "select * from " + TEACHER_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEACHER_TABLE_NAME
+                + " WHERE "
                     + TEACHER_EMAIL + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(email)});

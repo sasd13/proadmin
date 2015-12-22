@@ -61,8 +61,8 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public Report select(long id) {
-        String query = "select * from " + REPORT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + REPORT_TABLE_NAME
+                + " WHERE "
                     + REPORT_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -70,15 +70,15 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public List<Report> selectAll() {
-        String query = "select * from " + REPORT_TABLE_NAME;
+        String query = "SELECT * FROM " + REPORT_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public List<Report> selectByTeam(long teamId) {
-        String query = "select * from " + REPORT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + REPORT_TABLE_NAME
+                + " WHERE "
                     + TEAMS_TEAM_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teamId)});

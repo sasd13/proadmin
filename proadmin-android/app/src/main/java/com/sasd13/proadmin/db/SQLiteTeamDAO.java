@@ -56,8 +56,8 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public Team select(long id) {
-        String query = "select * from " + TEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEAM_TABLE_NAME
+                + " WHERE "
                     + TEAM_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -65,15 +65,15 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public List<Team> selectAll() {
-        String query = "select * from " + TEAM_TABLE_NAME;
+        String query = "SELECT * FROM " + TEAM_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public Team selectByCode(String code) {
-        String query = "select * from " + TEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEAM_TABLE_NAME
+                + " WHERE "
                     + TEAM_CODE + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(code)});
@@ -83,8 +83,8 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public List<Team> selectByRunning(long runningId) {
-        String query = "select * from " + TEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + TEAM_TABLE_NAME
+                + " WHERE "
                     + RUNNINGS_RUNNING_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(runningId)});

@@ -62,8 +62,8 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public IndividualEvaluation select(long id) {
-        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " WHERE "
                     + INDIVIDUALEVALUATION_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -71,15 +71,15 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public List<IndividualEvaluation> selectAll() {
-        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME;
+        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public List<IndividualEvaluation> selectByStudent(long id) {
-        String query = "select * from " + INDIVIDUALEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " WHERE "
                     + STUDENTS_STUDENT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
@@ -89,8 +89,8 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public List<IndividualEvaluation> selectByReport(long reportId) {
-        String query = "select *" + " from " + INDIVIDUALEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
+                + " WHERE "
                     + REPORTS_REPORT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reportId)});

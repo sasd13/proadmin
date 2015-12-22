@@ -57,8 +57,8 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public Project select(long id) {
-        String query = "select * from " + PROJECT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + PROJECT_TABLE_NAME
+                + " WHERE "
                     + PROJECT_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -66,15 +66,15 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public List<Project> selectAll() {
-        String query = "select * from " + PROJECT_TABLE_NAME;
+        String query = "SELECT * FROM " + PROJECT_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public Project selectByCode(String code) {
-        String query = "select * from " + PROJECT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + PROJECT_TABLE_NAME
+                + " WHERE "
                     + PROJECT_CODE + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(code)});
@@ -84,8 +84,8 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
-        String query = "select * from " + PROJECT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + PROJECT_TABLE_NAME
+                + " WHERE "
                     + PROJECT_ACADEMICLEVEL + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(academicLevel)});

@@ -68,8 +68,8 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public LeadEvaluation select(long id) {
-        String query = "select * from " + LEADEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME
+                + " WHERE "
                     + LEADEVALUATION_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -77,15 +77,15 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public List<LeadEvaluation> selectAll() {
-        String query = "select * from " + LEADEVALUATION_TABLE_NAME;
+        String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public List<LeadEvaluation> selectByStudent(long studentId) {
-        String query = "select * from " + LEADEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME
+                + " WHERE "
                     + STUDENTS_STUDENT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(studentId)});
@@ -95,8 +95,8 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public LeadEvaluation selectByReport(long reportId) {
-        String query = "select * from " + LEADEVALUATION_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME
+                + " WHERE "
                     + REPORTS_REPORT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reportId)});

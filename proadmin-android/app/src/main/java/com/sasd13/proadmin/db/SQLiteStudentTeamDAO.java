@@ -59,8 +59,8 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public StudentTeam select(long id) {
-        String query = "select * from " + STUDENTTEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
+                + " WHERE "
                     + STUDENTTEAM_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -74,8 +74,8 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public List<StudentTeam> selectByStudent(long studentId) {
-        String query = "select * from " + STUDENTTEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
+                + " WHERE "
                     + STUDENTS_STUDENT_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(studentId)});
@@ -85,8 +85,8 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public List<StudentTeam> selectByTeam(long teamId) {
-        String query = "select * from " + STUDENTTEAM_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
+                + " WHERE "
                     + TEAMS_TEAM_ID + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teamId)});

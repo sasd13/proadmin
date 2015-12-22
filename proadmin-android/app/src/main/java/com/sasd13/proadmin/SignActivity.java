@@ -11,10 +11,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.proadmin.core.db.TeacherDAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.session.Session;
 
 public class SignActivity extends AppCompatActivity {
@@ -92,12 +95,14 @@ public class SignActivity extends AppCompatActivity {
     private void tryToPerformSignUp() {
         Teacher teacher = getTeacherFromForm();
 
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
 
-        if (dao.selectTeacherByNumber(teacher.getNumber()) == null) {
-            performSignUp(teacher, dao);
+        TeacherDAO teacherDAO = (TeacherDAO) dao.getEntityDAO(Teacher.class);
+
+        if (teacherDAO.selectByNumber(teacher.getNumber()) == null) {
+            performSignUp(teacher, teacherDAO);
 
             Session.logIn(teacher.getNumber(), teacher.getPassword());
 
@@ -130,8 +135,8 @@ public class SignActivity extends AppCompatActivity {
         return teacher;
     }
 
-    private void performSignUp(Teacher teacher, DAO dao) {
-        dao.insertTeacher(teacher);
+    private void performSignUp(Teacher teacher, EntityDAO entityDAO) {
+        entityDAO.insert(teacher);
     }
 
     private void goToHomeActivityWithWelcome() {

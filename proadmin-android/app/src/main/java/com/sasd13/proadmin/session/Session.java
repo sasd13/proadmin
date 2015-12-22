@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.core.db.TeacherDAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 
 public class Session {
 
@@ -26,10 +28,12 @@ public class Session {
     }
 
     public static boolean logIn(String number, String password) {
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
-        Teacher teacher = dao.selectTeacherByNumber(number);
+
+        TeacherDAO teacherDAO = (TeacherDAO) dao.getEntityDAO(Teacher.class);
+        Teacher teacher = teacherDAO.selectByNumber(number);
         dao.close();
 
         try {

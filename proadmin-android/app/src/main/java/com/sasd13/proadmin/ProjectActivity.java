@@ -25,17 +25,7 @@ public class ProjectActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        try {
-            DAO dao = DAOFactory.make();
 
-            dao.open();
-            Project project = dao.selectProject(getProjectIdFromIntent());
-            dao.close();
-
-            fillPresentationProject(project);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 
     private long getProjectIdFromIntent() {

@@ -59,8 +59,8 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public Student select(long id) {
-        String query = "select * from " + STUDENT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENT_TABLE_NAME
+                + " WHERE "
                     + STUDENT_ID + " = ?";
 
         return executeSelectById(query, id);
@@ -68,15 +68,15 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public List<Student> selectAll() {
-        String query = "select * from " + STUDENT_TABLE_NAME;
+        String query = "SELECT * FROM " + STUDENT_TABLE_NAME;
 
         return executeSelectAll(query);
     }
 
     @Override
     public Student selectByNumber(String number) {
-        String query = "select * from " + STUDENT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENT_TABLE_NAME
+                + " WHERE "
                     + STUDENT_NUMBER + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(number)});
@@ -86,8 +86,8 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public List<Student> selectByAcademicLevel(AcademicLevel academicLevel) {
-        String query = "select * from " + STUDENT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENT_TABLE_NAME
+                + " WHERE "
                     + STUDENT_ACADEMICLEVEL + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(academicLevel)});
@@ -97,8 +97,8 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public List<Student> selectByEmail(String email) {
-        String query = "select * from " + STUDENT_TABLE_NAME
-                + " where "
+        String query = "SELECT * FROM " + STUDENT_TABLE_NAME
+                + " WHERE "
                     + STUDENT_EMAIL + " = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(email)});

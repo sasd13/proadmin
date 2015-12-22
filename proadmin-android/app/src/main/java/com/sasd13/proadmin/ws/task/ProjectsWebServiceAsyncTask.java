@@ -2,8 +2,10 @@ package com.sasd13.proadmin.ws.task;
 
 import android.os.AsyncTask;
 
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.ws.rest.ProjectsWebServiceClient;
 
 public class ProjectsWebServiceAsyncTask extends AsyncTask<Long, Integer, Project[]> {
@@ -43,12 +45,15 @@ public class ProjectsWebServiceAsyncTask extends AsyncTask<Long, Integer, Projec
     }
 
     private void persistPulledProjects(Project[] projects) {
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
+
+        EntityDAO entityDAO = dao.getEntityDAO(Project.class);
         for (Project project : projects) {
-            dao.persistProject(project);
+            entityDAO.insert(project);
         }
+
         dao.close();
     }
 }

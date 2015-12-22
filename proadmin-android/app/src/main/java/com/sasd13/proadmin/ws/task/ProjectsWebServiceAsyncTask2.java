@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.javaex.db.EntityDAO;
 import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.ws.rest.ProjectsWebServiceClient;
 
 public class ProjectsWebServiceAsyncTask2 extends AsyncTask<Long, Integer, Project[]> {
@@ -86,12 +88,15 @@ public class ProjectsWebServiceAsyncTask2 extends AsyncTask<Long, Integer, Proje
     }
 
     private void persistPulledProjects(Project[] projects) {
-        DAO dao = DAOFactory.make();
+        DAO dao = SQLiteDAO.getInstance();
 
         dao.open();
+
+        EntityDAO entityDAO = dao.getEntityDAO(Project.class);
         for (Project project : projects) {
-            dao.persistProject(project);
+            entityDAO.insert(project);
         }
+
         dao.close();
     }
 }
