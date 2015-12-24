@@ -3,7 +3,7 @@ package com.sasd13.proadmin.core.filter.running;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.javaex.pattern.filter.Criteria;
+import com.sasd13.javaex.pattern.criteria.Criteria;
 import com.sasd13.proadmin.core.bean.running.Running;
 
 public class ProjectCriteria implements Criteria<Running> {

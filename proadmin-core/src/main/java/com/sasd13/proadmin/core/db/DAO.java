@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.core.db;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.javaex.db.IDAO;
 
 public abstract class DAO implements IDAO {
@@ -17,7 +17,7 @@ public abstract class DAO implements IDAO {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public EntityDAO getEntityDAO(Class mClass) {
+	public IEntityDAO getEntityDAO(Class mClass) {
 		if ("Teacher".equals(mClass.getSimpleName())) {
 			return teacherDAO;
 		} else if ("Project".equals(mClass.getSimpleName())) {

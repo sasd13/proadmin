@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.Report;
 
-public interface ReportDAO extends EntityDAO<Report> {
+public interface ReportDAO extends IEntityDAO<Report> {
 	
 	String REPORT_TABLE_NAME = "reports";
 	

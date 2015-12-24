@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.SQLiteDAO;
@@ -34,12 +34,12 @@ public class SettingActivity extends MotherActivity {
     }
 
     private void createFormTeacher() {
-        this.formTeacher = new FormTeacherViewHolder();
+        formTeacher = new FormTeacherViewHolder();
 
-        this.formTeacher.textViewNumber = (TextView) findViewById(R.id.setting_form_user_textview_number);
-        this.formTeacher.editTextFirstName = (EditText) findViewById(R.id.setting_form_user_edittext_firstname);
-        this.formTeacher.editTextLastName = (EditText) findViewById(R.id.setting_form_user_edittext_lastname);
-        this.formTeacher.editTextEmail = (EditText) findViewById(R.id.setting_form_user_edittext_email);
+        formTeacher.textViewNumber = (TextView) findViewById(R.id.setting_form_user_textview_number);
+        formTeacher.editTextFirstName = (EditText) findViewById(R.id.setting_form_user_edittext_firstname);
+        formTeacher.editTextLastName = (EditText) findViewById(R.id.setting_form_user_edittext_lastname);
+        formTeacher.editTextEmail = (EditText) findViewById(R.id.setting_form_user_edittext_email);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class SettingActivity extends MotherActivity {
 
         dao.open();
 
-        EntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
-        Teacher teacher = (Teacher) entityDAO.select(Session.getTeacherId());
+        IEntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
+        Teacher teacher = (Teacher) entityDAO.select(Session.getId());
 
         dao.close();
 
@@ -59,10 +59,10 @@ public class SettingActivity extends MotherActivity {
     }
 
     private void fillFormTeacher(Teacher teacher) {
-        this.formTeacher.textViewNumber.setText(teacher.getNumber());
-        this.formTeacher.editTextFirstName.setText(teacher.getFirstName(), TextView.BufferType.EDITABLE);
-        this.formTeacher.editTextLastName.setText(teacher.getLastName(), TextView.BufferType.EDITABLE);
-        this.formTeacher.editTextEmail.setText(teacher.getEmail(), TextView.BufferType.EDITABLE);
+        formTeacher.textViewNumber.setText(teacher.getNumber());
+        formTeacher.editTextFirstName.setText(teacher.getFirstName(), TextView.BufferType.EDITABLE);
+        formTeacher.editTextLastName.setText(teacher.getLastName(), TextView.BufferType.EDITABLE);
+        formTeacher.editTextEmail.setText(teacher.getEmail(), TextView.BufferType.EDITABLE);
     }
 
     @Override
@@ -110,15 +110,15 @@ public class SettingActivity extends MotherActivity {
 
         dao.open();
 
-        EntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
-        Teacher teacher = (Teacher) entityDAO.select(Session.getTeacherId());
+        IEntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
+        Teacher teacher = (Teacher) entityDAO.select(Session.getId());
 
         performUpdateTeacher(teacher, entityDAO);
 
         dao.close();
     }
 
-    private void performUpdateTeacher(Teacher teacher, EntityDAO entityDAO) {
+    private void performUpdateTeacher(Teacher teacher, IEntityDAO entityDAO) {
         editTeacherWithForm(teacher);
 
         entityDAO.update(teacher);
@@ -127,9 +127,9 @@ public class SettingActivity extends MotherActivity {
     }
 
     private void editTeacherWithForm(Teacher teacher) {
-        String firstName = this.formTeacher.editTextFirstName.getText().toString().trim();
-        String lastName = this.formTeacher.editTextLastName.getText().toString().trim();
-        String email = this.formTeacher.editTextEmail.getText().toString().trim();
+        String firstName = formTeacher.editTextFirstName.getText().toString().trim();
+        String lastName = formTeacher.editTextLastName.getText().toString().trim();
+        String email = formTeacher.editTextEmail.getText().toString().trim();
 
         teacher.setFirstName(firstName);
         teacher.setLastName(lastName);

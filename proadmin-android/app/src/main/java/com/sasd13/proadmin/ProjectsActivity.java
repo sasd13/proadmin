@@ -1,6 +1,7 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -14,7 +15,7 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -22,7 +23,6 @@ import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.task.ProjectsWebServiceAsyncTask;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class ProjectsActivity extends MotherActivity {
     private void createSpinAcademicLevels() {
         Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
 
-        this.spin = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
+        spin = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -65,12 +65,12 @@ public class ProjectsActivity extends MotherActivity {
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
-        this.tab = new Tab(this, recyclerView);
+        tab = new Tab(this, recyclerView);
     }
 
     private void fillSpinAcademicLevels() {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
-            this.spin.addItem(String.valueOf(academicLevel));
+            spin.addItem(String.valueOf(academicLevel));
         }
     }
 
@@ -79,18 +79,18 @@ public class ProjectsActivity extends MotherActivity {
 
         dao.open();
 
-        EntityDAO entityDAO = dao.getEntityDAO(Project.class);
-        this.projects = entityDAO.selectAll();
+        IEntityDAO entityDAO = dao.getEntityDAO(Project.class);
+        projects = entityDAO.selectAll();
 
         dao.close();
 
-        this.spin.resetPosition();
+        spin.resetPosition();
 
-        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(this.spin.getSelectedItem()));
+        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
     }
 
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        this.tab.clearItems();
+        tab.clearItems();
 
         addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
     }
@@ -110,7 +110,7 @@ public class ProjectsActivity extends MotherActivity {
             intent.putExtra(Extra.PROJECT_ID, project.getId());
             tabItemProject.setIntent(intent);
 
-            this.tab.addItem(tabItemProject);
+            tab.addItem(tabItemProject);
         }
     }
 
@@ -148,7 +148,6 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void tryToPerformRefresh() {
-        ProjectsWebServiceAsyncTask projectsTask = new ProjectsWebServiceAsyncTask();
-        projectsTask.execute();
+
     }
 }

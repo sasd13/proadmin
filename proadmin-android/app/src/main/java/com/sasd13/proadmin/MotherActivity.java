@@ -45,13 +45,13 @@ public abstract class MotherActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerview);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_drawerlayout);
 
-        this.drawer = new Drawer(this, recyclerView, drawerLayout);
+        drawer = new Drawer(this, recyclerView, drawerLayout);
     }
 
     private void fillDrawer() {
         DrawerItemTitle drawerItemTitle = new DrawerItemTitle();
         drawerItemTitle.setText(getResources().getString(R.string.activity_home));
-        this.drawer.addItem(drawerItemTitle);
+        drawer.addItem(drawerItemTitle);
 
         addHomeMenuItemsToDrawer();
     }
@@ -67,7 +67,7 @@ public abstract class MotherActivity extends AppCompatActivity {
             drawerItemHomeMenu.setText(homeMenuItem.getText());
             drawerItemHomeMenu.setIntent(homeMenuItem.getIntent());
 
-            this.drawer.addItem(drawerItemHomeMenu);
+            drawer.addItem(drawerItemHomeMenu);
         }
     }
 
@@ -75,19 +75,12 @@ public abstract class MotherActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        this.drawer.setOpened(false);
+        drawer.setOpened(false);
     }
 
     public void logOut() {
-        if (Session.logOut()) {
-            goToHomeActivityAndExit();
-        } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_logout)
-            );
-        }
+        Session.logOut();
+        goToHomeActivityAndExit();
     }
 
     private void goToHomeActivityAndExit() {

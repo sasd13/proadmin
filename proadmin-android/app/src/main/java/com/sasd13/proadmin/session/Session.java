@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.core.db.TeacherDAO;
-import com.sasd13.proadmin.db.SQLiteDAO;
 
 public class Session {
 
     private static final String SESSION_PREFERENCES = "session_preferences";
-    private static final String SESSION_TEACHER_ID = "session_teacher_id";
+    private static final String SESSION_ID = "session_id";
 
     private static SharedPreferences preferences;
 
@@ -20,40 +17,22 @@ public class Session {
     }
 
     public static boolean isStarted() {
-        return preferences.contains(SESSION_TEACHER_ID);
+        return preferences.contains(SESSION_ID);
     }
 
-    public static long getTeacherId() {
-        return preferences.getLong(SESSION_TEACHER_ID, 0);
+    public static long getId() {
+        return preferences.getLong(SESSION_ID, 0);
     }
 
-    public static boolean logIn(String number, String password) {
-        DAO dao = SQLiteDAO.getInstance();
-
-        dao.open();
-
-        TeacherDAO teacherDAO = (TeacherDAO) dao.getEntityDAO(Teacher.class);
-        Teacher teacher = teacherDAO.selectByNumber(number);
-        dao.close();
-
-        try {
-            if (teacher.getPassword().equals(password)) {
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putLong(SESSION_TEACHER_ID, teacher.getId());
-
-                return editor.commit();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    public static void logIn(Teacher teacher) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(SESSION_ID, teacher.getId());
+        editor.apply();
     }
 
-    public static boolean logOut() {
+    public static void logOut() {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
-
-        return editor.commit();
+        editor.apply();
     }
 }

@@ -4,12 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SQLiteEntityDAO<T> implements EntityDAO<T> {
+public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T> {
 
     protected SQLiteDatabase db;
 

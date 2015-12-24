@@ -4,16 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
-import com.sasd13.proadmin.session.Session;
+import com.sasd13.proadmin.ws.task.LoginAsyncTask;
 
 public class LogActivity extends Activity {
 
@@ -33,17 +29,16 @@ public class LogActivity extends Activity {
         setContentView(R.layout.activity_log);
 
         createFormLog();
-        customizeView();
     }
 
     private void createFormLog() {
-        this.formLog = new FormLogViewHolder();
+        formLog = new FormLogViewHolder();
 
-        this.formLog.editTextNumber = (EditText) findViewById(R.id.log_edittext_number);
-        this.formLog.editTextPassword = (EditText) findViewById(R.id.log_edittext_password);
+        formLog.editTextNumber = (EditText) findViewById(R.id.log_edittext_number);
+        formLog.editTextPassword = (EditText) findViewById(R.id.log_edittext_password);
 
-        this.formLog.buttonConnect = (Button) findViewById(R.id.log_button_connect);
-        this.formLog.buttonConnect.setOnClickListener(new View.OnClickListener() {
+        formLog.buttonConnect = (Button) findViewById(R.id.log_button_connect);
+        formLog.buttonConnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -56,20 +51,14 @@ public class LogActivity extends Activity {
     }
 
     private void logIn() {
-        String number = this.formLog.editTextNumber.getText().toString().trim();
-        String password = this.formLog.editTextPassword.getText().toString().trim();
+        String number = formLog.editTextNumber.getText().toString().trim();
+        String password = formLog.editTextPassword.getText().toString().trim();
 
-        if (Session.logIn(number, password)) {
-            goToHomeActivity();
-        } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.log_dialog_title_error_log),
-                    getResources().getString(R.string.log_dialog_message_error_log));
-        }
+        LoginAsyncTask loginTask = new LoginAsyncTask(this, number, password);
+        loginTask.execute();
     }
 
-    private void goToHomeActivity() {
+    public void goToHomeActivity() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
         final Intent intent = new Intent(this, HomeActivity.class);
@@ -88,32 +77,5 @@ public class LogActivity extends Activity {
         handler.postDelayed(runnable, LOGIN_TIMEOUT);
 
         waitDialog.show();
-    }
-
-    private void customizeView() {
-        //Add underline and link for textViews
-        TextView[] textViews = {
-                (TextView) findViewById(R.id.log_textview_signup)
-        };
-
-        SpannableString text;
-        for (TextView textView : textViews) {
-            text = new SpannableString(textView.getText().toString());
-            text.setSpan(new UnderlineSpan(), 0, text.length(), 0);
-            textView.setText(text);
-
-            switch (textView.getId()) {
-                case R.id.log_textview_signup :
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(LogActivity.this, SignActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                            startActivity(intent);
-                        }
-                    });
-            }
-        }
     }
 }

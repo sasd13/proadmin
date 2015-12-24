@@ -2,13 +2,13 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.Filter;
+import com.sasd13.javaex.net.AbstractFilter;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.filter.running.ProjectCriteria;
 import com.sasd13.proadmin.core.filter.running.TeacherCriteria;
 import com.sasd13.proadmin.core.filter.running.YearCriteria;
 
-public class RunningsFilter extends Filter<Running> {
+public class RunningsFilter extends AbstractFilter<Running> {
 	
 	public RunningsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);

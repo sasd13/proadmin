@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.Running;
 
-public interface RunningDAO extends EntityDAO<Running> {
+public interface RunningDAO extends IEntityDAO<Running> {
 	
 	String RUNNING_TABLE_NAME = "runnings";
 	

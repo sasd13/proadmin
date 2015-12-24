@@ -31,7 +31,7 @@ public class CollectionUtil {
         List<Project> list = new ArrayList<>();
 
         for (Project project : projects) {
-            if (project.getAcademicLevel().equals(academicLevel)) {
+            if (academicLevel.equals(project.getAcademicLevel())) {
                 list.add(project);
             }
         }

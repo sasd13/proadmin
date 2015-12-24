@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.StudentTeam;
 
-public interface StudentTeamDAO extends EntityDAO<StudentTeam> {
+public interface StudentTeamDAO extends IEntityDAO<StudentTeam> {
 	
 	String STUDENTTEAM_TABLE_NAME = "studentteams";
 	

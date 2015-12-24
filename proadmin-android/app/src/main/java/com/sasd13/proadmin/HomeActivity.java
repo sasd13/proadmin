@@ -1,8 +1,8 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,22 +25,20 @@ public class HomeActivity extends MotherActivity {
     }
 
     private void createHomeMenus() {
-        this.imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
-        this.imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
-        this.imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
-        this.imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
+        imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
+        imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
+        imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
+        imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
         addDrawablesToImageViews();
         addListenersToImageViews();
     }
 
     private void addDrawablesToImageViews() {
-        Resources resources = getResources();
-
-        this.imageViewCalendar.setImageDrawable(resources.getDrawable(R.drawable.imageview_calendar));
-        this.imageViewProject.setImageDrawable(resources.getDrawable(R.drawable.imageview_project));
-        this.imageViewTeam.setImageDrawable(resources.getDrawable(R.drawable.imageview_team));
-        this.imageViewReport.setImageDrawable(resources.getDrawable(R.drawable.imageview_report));
+        imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
+        imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
+        imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
+        imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
     private void addListenersToImageViews() {
@@ -54,10 +52,10 @@ public class HomeActivity extends MotherActivity {
                         intent = new Intent(HomeActivity.this, ProjectsActivity.class);
                         break;
                     /*case R.id.home_imageview_team:
-                        intent = new Intent(HomeActivity.this, TeamsActivity.class);
+                        intent = new Intent(HomeActivity. TeamsActivity.class);
                         break;*/
                     /*case R.id.home_imageview_report:
-                        intent = new Intent(HomeActivity.this, ReportsActivity.class);
+                        intent = new Intent(HomeActivity. ReportsActivity.class);
                         break;*/
                     case R.id.home_imageview_calendar:
                         intent = new Intent(HomeActivity.this, SettingActivity.class);
@@ -73,10 +71,10 @@ public class HomeActivity extends MotherActivity {
             }
         };
 
-        this.imageViewCalendar.setOnClickListener(listener);
-        this.imageViewTeam.setOnClickListener(listener);
-        this.imageViewProject.setOnClickListener(listener);
-        this.imageViewReport.setOnClickListener(listener);
+        imageViewCalendar.setOnClickListener(listener);
+        imageViewTeam.setOnClickListener(listener);
+        imageViewProject.setOnClickListener(listener);
+        imageViewReport.setOnClickListener(listener);
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.Team;
 
-public interface TeamDAO extends EntityDAO<Team> {
+public interface TeamDAO extends IEntityDAO<Team> {
 	
 	String TEAM_TABLE_NAME = "teams";
 	

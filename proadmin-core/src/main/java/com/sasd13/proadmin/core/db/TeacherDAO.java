@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 
-public interface TeacherDAO extends EntityDAO<Teacher> {
+public interface TeacherDAO extends IEntityDAO<Teacher> {
 	
 	String TEACHER_TABLE_NAME = "teachers";
 	

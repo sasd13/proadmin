@@ -69,17 +69,6 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/log_textview_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:padding="@dimen/log_textview_sign_padding"
-            android:text="@string/log_textview_sign"
-            android:textSize="@dimen/textsize_medium"
-            android:clickable="true"/>
-
     </RelativeLayout>
 
 </LinearLayout>

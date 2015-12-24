@@ -2,10 +2,10 @@ package com.sasd13.proadmin.core.db;
 
 import java.util.List;
 
-import com.sasd13.javaex.db.EntityDAO;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 
-public interface IndividualEvaluationDAO extends EntityDAO<IndividualEvaluation> {
+public interface IndividualEvaluationDAO extends IEntityDAO<IndividualEvaluation> {
 	
 	String INDIVIDUALEVALUATION_TABLE_NAME = "individualevaluations";
 	
