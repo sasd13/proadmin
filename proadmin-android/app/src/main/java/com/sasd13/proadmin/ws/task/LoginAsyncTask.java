@@ -24,20 +24,20 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
 
     private LogActivity logActivity;
     private String password;
+    private Map<String, String[]> mapParams;
     private WebServiceClient<Teacher> service;
-    private Map<String, String> mapParams;
-    private int count;
     private WaitDialog waitDialog;
+    private int count;
 
     public LoginAsyncTask(LogActivity logActivity, String number, String password) {
         this.logActivity = logActivity;
         this.password = password;
-        service = new WebServiceClient<>(Teacher.class);
         mapParams = new HashMap<>();
-        count = 0;
-        waitDialog = AsynckTaskWaitDialogMaker.make(logActivity, this);
+        service = new WebServiceClient<>(Teacher.class);
+        waitDialog = WaitDialogMaker.make(logActivity, this);
 
-        mapParams.put("number", number);
+        String[] numbers = {number};
+        mapParams.put("number", numbers);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         Teacher teacher = null;
 
         if (!isCancelled()) {
-            if (count >= MAX_TRY) {
+            if (count > MAX_TRY) {
                 cancel(true);
             } else {
                 count++;
@@ -68,7 +68,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
 
     @Override
     protected void onCancelled(Teacher teacher) {
-        if (count >= MAX_TRY) {
+        if (count > MAX_TRY) {
             CustomDialog.showOkDialog(
                     logActivity,
                     logActivity.getString(R.string.log_dialog_title_error_log),

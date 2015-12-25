@@ -6,20 +6,25 @@ import com.sasd13.javaex.net.AbstractFilter;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;
+import com.sasd13.proadmin.core.filter.project.CodeCriteria;
 
 public class ProjectsFilter extends AbstractFilter<Project> {
 	
 	public ProjectsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		
+		String value;
+		
 		for (String key : mapParameters.keySet()) {
-			if ("academiclevel".equals(key)) {
-				for (String value : mapParameters.get(key)) {
-					try {
-						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					}
+			value = mapParameters.get(key)[0];
+			
+			if ("code".equals(key)) {
+				multiAndCriteria.addCriteria(new CodeCriteria(value));
+			} else if ("academiclevel".equals(key)) {
+				try {
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 				}
 			}
 		}

@@ -11,14 +11,16 @@ public class ReportsFilter extends AbstractFilter<Report> {
 	public ReportsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		
+		String value;
+		
 		for (String key : mapParameters.keySet()) {
-			if ("team".equalsIgnoreCase(key)) {
-				for (String value : mapParameters.get(key)) {
-					try {
-						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+			value = mapParameters.get(key)[0];
+			
+			if ("team".equals(key)) {
+				try {
+					multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
 				}
 			}
 		}

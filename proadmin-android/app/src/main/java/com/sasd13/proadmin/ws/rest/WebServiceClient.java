@@ -3,6 +3,7 @@ package com.sasd13.proadmin.ws.rest;
 import com.sasd13.javaex.net.HttpRequest;
 import com.sasd13.javaex.net.MimeType;
 import com.sasd13.javaex.net.parser.DataParser;
+import com.sasd13.javaex.net.parser.ParametersParser;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 
 import java.net.MalformedURLException;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class WebServiceClient<T> implements IWebServiceClient<T> {
 
-    private static final String WEBSERVICE_URL = "http://192.168.1.9:8080/proadmin-ws/";
+    private static final String URL_WEBSERVICE = "http://192.168.1.9:8080/proadmin-ws/";
 
     protected Class<T> mClass;
     protected String url;
@@ -19,7 +20,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     public WebServiceClient(Class<T> mClass) {
         this.mClass = mClass;
-        url = WEBSERVICE_URL + mClass.getSimpleName().toLowerCase() + "s";
+        url = URL_WEBSERVICE + mClass.getSimpleName().toLowerCase() + "s";
     }
 
     @Override
@@ -33,8 +34,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.hasReponseData(true);
             httpRequest.execute();
 
-            String respData = httpRequest.getResponseData();
             String mimeType = httpRequest.getResponseContentType();
+            String respData = httpRequest.getResponseData();
 
             t = (T) DataParser.decode(mimeType, respData, mClass);
         } catch (MalformedURLException e) {
@@ -42,26 +43,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         }
 
         return t;
-    }
-
-    private String getUrlParams(Map<String, String> mapParams) {
-        StringBuilder builder = new StringBuilder();
-
-        int i = 0;
-        for (String key : mapParams.keySet()) {
-            if (i == 0) {
-                builder.append("?");
-                i++;
-            } else {
-                builder.append("&");
-            }
-
-            builder.append(key.toLowerCase());
-            builder.append("=");
-            builder.append(mapParams.get(key));
-        }
-
-        return builder.toString();
     }
 
     @Override
@@ -73,8 +54,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.hasReponseData(true);
             httpRequest.execute();
 
-            String respData = httpRequest.getResponseData();
             String mimeType = httpRequest.getResponseContentType();
+            String respData = httpRequest.getResponseData();
 
             ts = (T[]) DataParser.decode(mimeType, respData, mClass);
         } catch (MalformedURLException e) {
@@ -84,7 +65,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         return ts;
     }
 
-    public T[] getAll(Map<String, String> mapParams) {
+    public T[] getAll(Map<String, String[]> mapParams) {
         T[] ts = null;
 
         String urlParams = getUrlParams(mapParams);
@@ -94,8 +75,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.hasReponseData(true);
             httpRequest.execute();
 
-            String respData = httpRequest.getResponseData();
             String mimeType = httpRequest.getResponseContentType();
+            String respData = httpRequest.getResponseData();
 
             ts = (T[]) DataParser.decode(mimeType, respData, mClass);
         } catch (MalformedURLException e) {
@@ -103,6 +84,30 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         }
 
         return ts;
+    }
+
+    private String getUrlParams(Map<String, String[]> mapParams) {
+        ParametersParser.encode(mapParams);
+
+        StringBuilder builder = new StringBuilder();
+        boolean first = true;
+
+        for (String key : mapParams.keySet()) {
+            for (String value : mapParams.get(key)) {
+                if (first) {
+                    builder.append("?");
+                    first = false;
+                } else {
+                    builder.append("&");
+                }
+
+                builder.append(key.toLowerCase());
+                builder.append("=");
+                builder.append(value);
+            }
+        }
+
+        return builder.toString().trim();
     }
 
     @Override
@@ -116,8 +121,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.hasReponseData(true);
             httpRequest.execute();
 
-            String respData = httpRequest.getResponseData();
             String mimeType = httpRequest.getResponseContentType();
+            String respData = httpRequest.getResponseData();
 
             id = (long) DataParser.decode(mimeType, respData, Long.class);
         } catch (MalformedURLException e) {
@@ -161,7 +166,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             try {
                 httpRequest = new HttpRequest(new URL(url + urlParams));
                 httpRequest.setRequestMethod("DELETE");
-                httpRequest.hasReponseData(true);
                 httpRequest.execute();
             } catch (MalformedURLException e) {
                 e.printStackTrace();

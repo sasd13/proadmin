@@ -22,6 +22,7 @@ public class RequestProcessor {
 		Map<String, String[]> mapParameters = req.getParameterMap();
 		
 		Object respData = null;
+		
 		if (mapParameters.size() == 1 && mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
 			try {
 				respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);

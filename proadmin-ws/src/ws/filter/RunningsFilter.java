@@ -13,34 +13,28 @@ public class RunningsFilter extends AbstractFilter<Running> {
 	public RunningsFilter(Map<String, String[]> mapParameters) {
 		super(mapParameters);
 		
+		String value;
+		
 		for (String key : mapParameters.keySet()) {
-			if ("year".equalsIgnoreCase(key)) {
-				for (String value : mapParameters.get(key)) {
-					try {
-						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			value = mapParameters.get(key)[0];
 			
-			if ("teacher".equalsIgnoreCase(key)) {
-				for (String value : mapParameters.get(key)) {
-					try {
-						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+			if ("year".equals(key)) {
+				try {
+					multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
 				}
-			}
-			
-			if ("project".equalsIgnoreCase(key)) {
-				for (String value : mapParameters.get(key)) {
-					try {
-						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+			} else if ("teacher".equals(key)) {
+				try {
+					multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			} else if ("project".equals(key)) {
+				try {
+					multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
 				}
 			}
 		}
