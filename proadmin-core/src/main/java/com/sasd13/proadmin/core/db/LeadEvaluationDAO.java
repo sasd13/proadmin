@@ -1,23 +1,17 @@
 package com.sasd13.proadmin.core.db;
 
-import java.util.List;
-
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.LeadEvaluation;
 
 public interface LeadEvaluationDAO extends IEntityDAO<LeadEvaluation> {
 	
-	String LEADEVALUATION_TABLE_NAME = "leadevaluations";
+	String TABLE = "leadevaluations";
 	
-	String LEADEVALUATION_ID = "leadevaluation_id";
-	String LEADEVALUATION_PLANNINGMARK = "leadevaluation_planningmark";
-	String LEADEVALUATION_PLANNINGCOMMENT = "leadevaluation_planningcomment";
-	String LEADEVALUATION_COMMUNICATIONMARK = "leadevaluation_communicationmark";
-	String LEADEVALUATION_COMMUNICATIONCOMMENT = "leadevaluation_communicationcomment";
-	String STUDENTS_STUDENT_ID = "students_student_id";
-	String REPORTS_REPORT_ID = "reports_report_id";
-	
-	List<LeadEvaluation> selectByStudent(long studentId);
-	
-	LeadEvaluation selectByReport(long reportId);
+	String COLUMN_ID = "leadevaluation_id";
+	String COLUMN_PLANNINGMARK = "leadevaluation_planningmark";
+	String COLUMN_PLANNINGCOMMENT = "leadevaluation_planningcomment";
+	String COLUMN_COMMUNICATIONMARK = "leadevaluation_communicationmark";
+	String COLUMN_COMMUNICATIONCOMMENT = "leadevaluation_communicationcomment";
+	String COLUMN_REPORT_ID = "leadevaluation_report_id";
+	String COLUMN_STUDENT_ID = "leadevaluation_student_id";
 }

@@ -20,135 +20,144 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     /**
      * Table teachers
      */
-    public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherDAO.TEACHER_TABLE_NAME + ";";
-    public static final String TEACHER_TABLE_CREATE = "CREATE TABLE " + TeacherDAO.TEACHER_TABLE_NAME
+    public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherDAO.TABLE + ";";
+    public static final String TEACHER_TABLE_CREATE = "CREATE TABLE " + TeacherDAO.TABLE
             + " ("
-                + TeacherDAO.TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TeacherDAO.TEACHER_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
-                + TeacherDAO.TEACHER_FIRSTNAME + " VARCHAR(255) NOT NULL, "
-                + TeacherDAO.TEACHER_LASTNAME + " VARCHAR(255) NOT NULL, "
-                + TeacherDAO.TEACHER_EMAIL + " VARCHAR(255) NOT NULL, "
-                + TeacherDAO.TEACHER_PASSWORD + " VARCHAR(255) NOT NULL, "
-                + TeacherDAO.DELETED + " INTEGER NOT NULL DEFAULT 0"
+                + TeacherDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + TeacherDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+                + TeacherDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+                + TeacherDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
+                + TeacherDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
+                + TeacherDAO.COLUMN_PASSWORD + " VARCHAR(255) NOT NULL, "
+                + TeacherDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + TeacherDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table projects
      */
-    public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.PROJECT_TABLE_NAME + ";";
-    public static final String PROJECT_TABLE_CREATE = "CREATE TABLE " + ProjectDAO.PROJECT_TABLE_NAME
+    public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.TABLE + ";";
+    public static final String PROJECT_TABLE_CREATE = "CREATE TABLE " + ProjectDAO.TABLE
             + " ("
-                + ProjectDAO.PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ProjectDAO.PROJECT_CODE + " VARCHAR(255) NOT NULL, "
-                + ProjectDAO.PROJECT_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
-                + ProjectDAO.PROJECT_TITLE + " VARCHAR(255) NOT NULL, "
-                + ProjectDAO.PROJECT_DESCRIPTION + " TEXT NOT NULL, "
-                + ProjectDAO.DELETED + " INTEGER NOT NULL DEFAULT 0"
+                + ProjectDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
+                + ProjectDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                + ProjectDAO.COLUMN_TITLE + " VARCHAR(255) NOT NULL, "
+                + ProjectDAO.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + ProjectDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + ProjectDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table runnings
      */
-    public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.RUNNING_TABLE_NAME + ";";
-    public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.RUNNING_TABLE_NAME
+    public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
+    public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE
             + " ("
-                + RunningDAO.RUNNING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + RunningDAO.RUNNING_YEAR + " INT NOT NULL, "
-                + RunningDAO.TEACHERS_TEACHER_ID + " INTEGER NOT NULL, "
-                + RunningDAO.PROJECTS_PROJECT_ID + " INTEGER NOT NULL, "
-                + RunningDAO.DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + RunningDAO.TEACHERS_TEACHER_ID + ") REFERENCES " + TeacherDAO.TEACHER_TABLE_NAME + "("+ TeacherDAO.TEACHER_ID + ")"
-                + ", FOREIGN KEY (" + RunningDAO.PROJECTS_PROJECT_ID + ") REFERENCES " + ProjectDAO.PROJECT_TABLE_NAME + "("+ ProjectDAO.PROJECT_ID + ")"
+                + RunningDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
+                + RunningDAO.COLUMN_TEACHER_ID + " INTEGER NOT NULL, "
+                + RunningDAO.COLUMN_PROJECT_ID + " INTEGER NOT NULL, "
+                + RunningDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + RunningDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "("+ TeacherDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "("+ ProjectDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table teams
      */
-    public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TEAM_TABLE_NAME + ";";
-    public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TEAM_TABLE_NAME
+    public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TABLE + ";";
+    public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TABLE
             + " ("
-                + TeamDAO.TEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TeamDAO.TEAM_CODE + " VARCHAR(255) NOT NULL, "
-                + TeamDAO.RUNNINGS_RUNNING_ID + " INTEGER NOT NULL, "
-                + TeamDAO.DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + TeamDAO.RUNNINGS_RUNNING_ID + ") REFERENCES " + RunningDAO.RUNNING_TABLE_NAME + "("+ RunningDAO.RUNNING_ID + ")"
+                + TeamDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
+                + TeamDAO.COLUMN_RUNNING_ID + " INTEGER NOT NULL, "
+                + TeamDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + TeamDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + TeamDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "("+ RunningDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table students
      */
-    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.STUDENT_TABLE_NAME + ";";
-    public static final String STUDENT_TABLE_CREATE = "CREATE TABLE " + StudentDAO.STUDENT_TABLE_NAME
+    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.TABLE + ";";
+    public static final String STUDENT_TABLE_CREATE = "CREATE TABLE " + StudentDAO.TABLE
             + " ("
-                + StudentDAO.STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + StudentDAO.STUDENT_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
-                + StudentDAO.STUDENT_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.STUDENT_FIRSTNAME + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.STUDENT_LASTNAME + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.STUDENT_EMAIL + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.DELETED + " INTEGER NOT NULL DEFAULT 0"
+                + StudentDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+                + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + StudentDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table studentteams
      */
-    public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME + ";";
-    public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.STUDENTTEAM_TABLE_NAME
+    public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.TABLE + ";";
+    public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.TABLE
             + " ("
-                + StudentTeamDAO.STUDENTTEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + StudentTeamDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
-                + StudentTeamDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                + "FOREIGN KEY (" + StudentTeamDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + ")"
-                + ", FOREIGN KEY (" + StudentTeamDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + ")"
-                + ", CONSTRAINT UC_STUDENTTEAMID UNIQUE (" + StudentTeamDAO.TEAMS_TEAM_ID + ", " + StudentTeamDAO.STUDENTS_STUDENT_ID + ")"
+                + StudentTeamDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + StudentTeamDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
+                + StudentTeamDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
+                + "PRIMARY KEY (" + StudentTeamDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "("+ TeamDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
+                + ", CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + StudentTeamDAO.COLUMN_TEAM_ID + ", " + StudentTeamDAO.COLUMN_STUDENT_ID + ")"
             + ");";
 
     /**
      * Table reports
      */
-    public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.REPORT_TABLE_NAME + ";";
-    public static final String REPORT_TABLE_CREATE = "CREATE TABLE " + ReportDAO.REPORT_TABLE_NAME
+    public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
+    public static final String REPORT_TABLE_CREATE = "CREATE TABLE " + ReportDAO.TABLE
             + " ("
-                + ReportDAO.REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ReportDAO.REPORT_DATEMEETING + " VARCHAR(255) NOT NULL, "
-                + ReportDAO.REPORT_WEEKNUMBER + " INT NOT NULL, "
-                + ReportDAO.REPORT_TEAMCOMMENT + " TEXT, "
-                + ReportDAO.TEAMS_TEAM_ID + " INTEGER NOT NULL, "
-                + ReportDAO.DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + ReportDAO.TEAMS_TEAM_ID + ") REFERENCES " + TeamDAO.TEAM_TABLE_NAME + "("+ TeamDAO.TEAM_ID + ")"
+                + ReportDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
+                + ReportDAO.COLUMN_WEEKNUMBER + " INT NOT NULL, "
+                + ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, "
+                + ReportDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
+                + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + ReportDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + ReportDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "("+ TeamDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table leadevaluations
      */
-    public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationDAO.LEADEVALUATION_TABLE_NAME + ";";
-    public static final String LEADEVALUATION_TABLE_CREATE = "CREATE TABLE " + LeadEvaluationDAO.LEADEVALUATION_TABLE_NAME
+    public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationDAO.TABLE + ";";
+    public static final String LEADEVALUATION_TABLE_CREATE = "CREATE TABLE " + LeadEvaluationDAO.TABLE
             + " ("
-                + LeadEvaluationDAO.LEADEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + LeadEvaluationDAO.LEADEVALUATION_PLANNINGMARK + " FLOAT NOT NULL, "
-                + LeadEvaluationDAO.LEADEVALUATION_PLANNINGCOMMENT + " TEXT, "
-                + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONMARK + " FLOAT NOT NULL, "
-                + LeadEvaluationDAO.LEADEVALUATION_COMMUNICATIONCOMMENT + " TEXT, "
-                + LeadEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                + LeadEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
-                + LeadEvaluationDAO.DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + LeadEvaluationDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + ")"
-                + ", FOREIGN KEY (" + LeadEvaluationDAO.REPORTS_REPORT_ID + ") REFERENCES " + ReportDAO.REPORT_TABLE_NAME + "("+ ReportDAO.REPORT_ID + ")"
+                + LeadEvaluationDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + LeadEvaluationDAO.COLUMN_PLANNINGMARK + " FLOAT NOT NULL, "
+                + LeadEvaluationDAO.COLUMN_PLANNINGCOMMENT + " TEXT, "
+                + LeadEvaluationDAO.COLUMN_COMMUNICATIONMARK + " FLOAT NOT NULL, "
+                + LeadEvaluationDAO.COLUMN_COMMUNICATIONCOMMENT + " TEXT, "
+                + LeadEvaluationDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
+                + LeadEvaluationDAO.COLUMN_REPORT_ID + " INTEGER NOT NULL, "
+                + LeadEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + SQLiteLeadEvaluationDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + LeadEvaluationDAO.COLUMN_REPORT_ID + ") REFERENCES " + ReportDAO.TABLE + "("+ ReportDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + LeadEvaluationDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
             + ");";
 
     /**
      * Table individualevaluations
      */
-    public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationDAO.INDIVIDUALEVALUATION_TABLE_NAME + ";";
-    public static final String INDIVIDUALEVALUATION_TABLE_CREATE = "CREATE TABLE " + IndividualEvaluationDAO.INDIVIDUALEVALUATION_TABLE_NAME
+    public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationDAO.TABLE + ";";
+    public static final String INDIVIDUALEVALUATION_TABLE_CREATE = "CREATE TABLE " + IndividualEvaluationDAO.TABLE
             + " ("
-                + IndividualEvaluationDAO.INDIVIDUALEVALUATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + IndividualEvaluationDAO.INDIVIDUALEVALUATION_MARK + " FLOAT NOT NULL, "
-                + IndividualEvaluationDAO.STUDENTS_STUDENT_ID + " INTEGER NOT NULL, "
-                + IndividualEvaluationDAO.REPORTS_REPORT_ID + " INTEGER NOT NULL, "
-                + IndividualEvaluationDAO.DELETED + " INTEGER NOT NULL DEFAULT 0"
-                + "FOREIGN KEY (" + IndividualEvaluationDAO.STUDENTS_STUDENT_ID + ") REFERENCES " + StudentDAO.STUDENT_TABLE_NAME + "("+ StudentDAO.STUDENT_ID + ")"
-                + ", FOREIGN KEY (" + IndividualEvaluationDAO.REPORTS_REPORT_ID + ") REFERENCES " + ReportDAO.REPORT_TABLE_NAME + "("+ ReportDAO.REPORT_ID + ")"
+                + IndividualEvaluationDAO.COLUMN_ID + " INTEGER AUTOINCREMENT, "
+                + IndividualEvaluationDAO.COLUMN_MARK + " FLOAT NOT NULL, "
+                + IndividualEvaluationDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
+                + IndividualEvaluationDAO.COLUMN_REPORT_ID + " INTEGER NOT NULL, "
+                + IndividualEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+                + "PRIMARY KEY (" + IndividualEvaluationDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_REPORT_ID + ") REFERENCES " + ReportDAO.TABLE + "("+ ReportDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
             + ");";
 
 

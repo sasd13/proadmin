@@ -1,20 +1,14 @@
 package com.sasd13.proadmin.core.db;
 
-import java.util.List;
-
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 
 public interface IndividualEvaluationDAO extends IEntityDAO<IndividualEvaluation> {
 	
-	String INDIVIDUALEVALUATION_TABLE_NAME = "individualevaluations";
+	String TABLE = "individualevaluations";
 	
-	String INDIVIDUALEVALUATION_ID = "individualevaluation_id";
-	String INDIVIDUALEVALUATION_MARK = "individualevaluation_mark";
-	String STUDENTS_STUDENT_ID = "students_student_id";
-	String REPORTS_REPORT_ID = "reports_report_id";
-	
-	List<IndividualEvaluation> selectByStudent(long studentId);
-	
-	List<IndividualEvaluation> selectByReport(long reportId);
+	String COLUMN_ID = "individualevaluation_id";
+	String COLUMN_MARK = "individualevaluation_mark";
+	String COLUMN_REPORT_ID = "individualevaluation_report_id";
+	String COLUMN_STUDENT_ID = "individualevaluation_student_id";
 }

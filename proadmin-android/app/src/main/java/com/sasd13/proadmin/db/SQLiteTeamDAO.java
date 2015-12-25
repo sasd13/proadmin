@@ -15,8 +15,8 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     protected ContentValues getContentValues(Team team) {
         ContentValues values = new ContentValues();
 
-        values.put(TEAM_CODE, team.getCode());
-        values.put(RUNNINGS_RUNNING_ID, team.getRunning().getId());
+        values.put(COLUMN_CODE, team.getCode());
+        values.put(COLUMN_RUNNING_ID, team.getRunning().getId());
 
         return values;
     }
@@ -25,11 +25,11 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     protected Team getCursorValues(Cursor cursor) {
         Team team = new Team();
 
-        team.setId(cursor.getLong(cursor.getColumnIndex(TEAM_ID)));
-        team.setCode(cursor.getString(cursor.getColumnIndex(TEAM_CODE)));
+        team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+        team.setCode(cursor.getString(cursor.getColumnIndex(COLUMN_CODE)));
 
         Running running = new Running();
-        running.setId(cursor.getLong(cursor.getColumnIndex(RUNNINGS_RUNNING_ID)));
+        running.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNNING_ID)));
         team.setRunning(running);
 
         return team;
@@ -37,7 +37,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public long insert(Team team) {
-        long id = executeInsert(TEAM_TABLE_NAME, team);
+        long id = executeInsert(TABLE, team);
 
         team.setId(id);
 
@@ -46,49 +46,27 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public void update(Team team) {
-        executeUpdate(TEAM_TABLE_NAME, team, TEAM_ID, team.getId());
+        executeUpdate(TABLE, team, COLUMN_ID, team.getId());
     }
 
     @Override
     public void delete(long id) {
-        executeDelete(TEAM_TABLE_NAME, TEAM_ID, id);
+        executeDelete(TABLE, COLUMN_ID, id);
     }
 
     @Override
     public Team select(long id) {
-        String query = "SELECT * FROM " + TEAM_TABLE_NAME
+        String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + TEAM_ID + " = ?";
+                    + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
     }
 
     @Override
     public List<Team> selectAll() {
-        String query = "SELECT * FROM " + TEAM_TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
-    }
-
-    @Override
-    public Team selectByCode(String code) {
-        String query = "SELECT * FROM " + TEAM_TABLE_NAME
-                + " WHERE "
-                    + TEAM_CODE + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(code)});
-
-        return executeSelectSingleResult(cursor);
-    }
-
-    @Override
-    public List<Team> selectByRunning(long runningId) {
-        String query = "SELECT * FROM " + TEAM_TABLE_NAME
-                + " WHERE "
-                    + RUNNINGS_RUNNING_ID + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(runningId)});
-
-        return executeSelectMultiResult(cursor);
     }
 }

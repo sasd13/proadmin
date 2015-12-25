@@ -37,15 +37,15 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	protected Running getResultSetValues(ResultSet resultSet) throws SQLException {
 		Running running = new Running();
 		
-		running.setId(resultSet.getLong(RUNNING_ID));
-		running.setYear(resultSet.getInt(RUNNING_YEAR));
+		running.setId(resultSet.getLong(COLUMN_ID));
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
 		
 		Teacher teacher = new Teacher();
-		teacher.setId(resultSet.getLong(TEACHERS_TEACHER_ID));
+		teacher.setId(resultSet.getLong(COLUMN_TEACHER_ID));
 		running.setTeacher(teacher);
 		
 		Project project = new Project();
-		project.setId(resultSet.getLong(PROJECTS_PROJECT_ID));
+		project.setId(resultSet.getLong(COLUMN_PROJECT_ID));
 		running.setProject(project);
 		
 		return running;
@@ -55,11 +55,11 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	public long insert(Running running) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + RUNNING_TABLE_NAME 
+		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ RUNNING_YEAR + ", " 
-					+ TEACHERS_TEACHER_ID + ", " 
-					+ PROJECTS_PROJECT_ID 
+					+ COLUMN_YEAR + ", "
+					+ COLUMN_TEACHER_ID + ", "
+					+ COLUMN_PROJECT_ID 
 				+ ") VALUES (?, ?, ?)";
 		
 		try {
@@ -74,13 +74,13 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	
 	@Override
 	public void update(Running running) {
-		String query = "UPDATE " + RUNNING_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ RUNNING_YEAR + " = ?, " 
-					+ TEACHERS_TEACHER_ID + " = ?, " 
-					+ PROJECTS_PROJECT_ID + " = ?, " 
+					+ COLUMN_YEAR + " = ?, " 
+					+ COLUMN_TEACHER_ID + " = ?, " 
+					+ COLUMN_PROJECT_ID + " = ?, " 
 				+ " WHERE " 
-					+ RUNNING_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, running);
@@ -95,11 +95,11 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + RUNNING_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ DELETED + " = ?" 
+					+ COLUMN_DELETED + " = ?" 
 				+ " WHERE " 
-					+ RUNNING_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			executeDelete(query, id);
@@ -112,9 +112,9 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	public Running select(long id) {
 		Running running = null;
 		
-		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
+		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ RUNNING_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			running = executeSelectById(query, id);
@@ -129,70 +129,10 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	public List<Running> selectAll() {
 		List<Running> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + RUNNING_TABLE_NAME;
+		String query = "SELECT * FROM " + TABLE;
 		
 		try {
 			list = executeSelectAll(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Running> selectByYear(int year) {
-		List<Running> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
-				+ " WHERE " 
-					+ RUNNING_YEAR + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, year);
-			
-			list = executeSelectMultiResult(preparedStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Running> selectByTeacher(long teacherId) {
-		List<Running> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
-				+ " WHERE " 
-					+ TEACHERS_TEACHER_ID + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, teacherId);
-			
-			list = executeSelectMultiResult(preparedStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Running> selectByProject(long projectId) {
-		List<Running> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + RUNNING_TABLE_NAME 
-				+ " WHERE " 
-					+ PROJECTS_PROJECT_ID + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, projectId);
-			
-			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

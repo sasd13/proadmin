@@ -16,8 +16,8 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     protected ContentValues getContentValues(StudentTeam studentTeam) {
         ContentValues values = new ContentValues();
 
-        values.put(STUDENTS_STUDENT_ID, studentTeam.getStudent().getId());
-        values.put(TEAMS_TEAM_ID, studentTeam.getTeam().getId());
+        values.put(COLUMN_STUDENT_ID, studentTeam.getStudent().getId());
+        values.put(COLUMN_TEAM_ID, studentTeam.getTeam().getId());
 
         return values;
     }
@@ -25,14 +25,14 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     protected StudentTeam getCursorValues(Cursor cursor) {
         StudentTeam studentTeam = new StudentTeam();
 
-        studentTeam.setId(cursor.getLong(cursor.getColumnIndex(STUDENTTEAM_ID)));
+        studentTeam.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
 
         Student student = new Student();
-        student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
+        student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_STUDENT_ID)));
         studentTeam.setStudent(student);
 
         Team team = new Team();
-        team.setId(cursor.getLong(cursor.getColumnIndex(TEAMS_TEAM_ID)));
+        team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEAM_ID)));
         studentTeam.setTeam(team);
 
         return studentTeam;
@@ -40,7 +40,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public long insert(StudentTeam studentTeam) {
-        long id = executeInsert(STUDENTTEAM_TABLE_NAME, studentTeam);
+        long id = executeInsert(TABLE, studentTeam);
 
         studentTeam.setId(id);
 
@@ -54,43 +54,22 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public void delete(long id) {
-        executeDelete(STUDENTTEAM_TABLE_NAME, STUDENTTEAM_ID, id);
+        executeDelete(TABLE, COLUMN_ID, id);
     }
 
     @Override
     public StudentTeam select(long id) {
-        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
+        String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + STUDENTTEAM_ID + " = ?";
+                    + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
     }
 
     @Override
     public List<StudentTeam> selectAll() {
-        //Do nothing
-        return null;
-    }
+        String query = "SELECT * FROM " + TABLE;
 
-    @Override
-    public List<StudentTeam> selectByStudent(long studentId) {
-        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
-                + " WHERE "
-                    + STUDENTS_STUDENT_ID + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(studentId)});
-
-        return executeSelectMultiResult(cursor);
-    }
-
-    @Override
-    public List<StudentTeam> selectByTeam(long teamId) {
-        String query = "SELECT * FROM " + STUDENTTEAM_TABLE_NAME
-                + " WHERE "
-                    + TEAMS_TEAM_ID + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(teamId)});
-
-        return executeSelectMultiResult(cursor);
+        return executeSelectAll(query);
     }
 }

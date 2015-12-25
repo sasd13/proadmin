@@ -8,16 +8,16 @@ public class StudentTeam {
 	private Student student;
 	private Team team;
 	
-	public Student getStudent() {
-		return student;
-	}
-	
 	public long getId() {
 		return id;
 	}
 	
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public Student getStudent() {
+		return student;
 	}
 	
 	public void setStudent(Student student) {

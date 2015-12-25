@@ -11,7 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10707d22-77cb-469d-899a-010fa3590073" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\ws\task\AsynckTaskWaitDialogMaker.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/WaitDialogMaker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
@@ -21,17 +20,41 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/proadmin-core-0.1.jar" afterPath="$PROJECT_DIR$/app/libs/proadmin-core-0.1.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/WebContent/WEB-INF/lib/proadmin-core-0.1.jar" afterPath="$PROJECT_DIR$/../proadmin-ws/WebContent/WEB-INF/lib/proadmin-core-0.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../docs/db/proadmin.mwb.bak" afterPath="$PROJECT_DIR$/../docs/db/proadmin.mwb.bak" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../docs/db/proadmin.mwb" afterPath="$PROJECT_DIR$/../docs/db/proadmin.mwb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../docs/db/proadmin.pdf" afterPath="$PROJECT_DIR$/../docs/db/proadmin.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/constant/Extra.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/constant/Extra.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginAsyncTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginAsyncTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/ProjectsFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/ProjectsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/ReportsFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/ReportsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/rest/RequestProcessor.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/rest/RequestProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/RunningsFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/RunningsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/StudentsFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/StudentsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/TeachersFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/TeachersFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/TeamsFilter.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/ws/filter/TeamsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/DBHandler.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/DBHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/IndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/IndividualEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCIndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCIndividualEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCLeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCLeadEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCProjectDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCProjectDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCReportDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCReportDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCRunningDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCRunningDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCStudentDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCStudentDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCStudentTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCStudentTeamDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCTeacherDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCTeacherDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/db/JDBCTeamDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/LeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/LeadEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/ProjectDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/ProjectDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/ReportDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/ReportDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/RunningDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/RunningDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/StudentDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/StudentDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/bean/running/StudentTeam.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/bean/running/StudentTeam.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/StudentTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/StudentTeamDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/TeacherDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/TeacherDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/TeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-core/src/main/java/com/sasd13/proadmin/core/db/TeamDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -1534,19 +1557,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/ProjectsWebServiceAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/task/ProjectsWebServiceAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/DAOFactory.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ProjectsWebServiceAsyncTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ProjectsWebServiceAsyncTask2.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SignActivity.java" />
@@ -1565,7 +1578,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/EraserWebServiceAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/FinderWebServiceAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_log.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/AsynckTaskWaitDialogMaker.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/FinderByParamsWebServiceAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdaterWebServiceAsyncTask.java" />
@@ -1581,6 +1593,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginAsyncTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/WaitDialogMaker.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java" />
       </list>
     </option>
   </component>
@@ -1676,28 +1699,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -1746,7 +1747,7 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="extractMethod.generateAnnotations" value="true" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0123456789ABCDEF" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Phone_3p" />
     <property name="FullScreen" value="false" />
     <property name="extract.method.default.visibility" value="private" />
@@ -1963,7 +1964,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -2055,59 +2056,6 @@
       </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="89" column="20" selection-start-line="89" selection-start-column="20" selection-end-line="89" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.4565588">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java">
@@ -2212,38 +2160,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="62" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.73935264">
-          <caret line="103" column="41" selection-start-line="103" selection-start-column="41" selection-end-line="103" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/session/Session.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2294,6 +2210,127 @@
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteDBHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.1703577">
+          <caret line="157" column="59" selection-start-line="157" selection-start-column="59" selection-end-line="157" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteEntityDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteIndividualEvaluationDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+          <folding>
+            <element signature="e#2068#2069#0" expanded="true" />
+            <element signature="e#2119#2120#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteLeadEvaluationDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="5" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
+          <folding>
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2583#2584#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteProjectDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="5" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1715#1716#0" expanded="true" />
+            <element signature="e#1766#1767#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteReportDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.204082">
+          <caret line="75" column="5" selection-start-line="75" selection-start-column="5" selection-end-line="75" selection-end-column="5" />
+          <folding>
+            <element signature="e#1668#1669#0" expanded="true" />
+            <element signature="e#1739#1740#0" expanded="true" />
+            <element signature="e#1788#1789#0" expanded="true" />
+            <element signature="e#1839#1840#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteRunningDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7472119">
+          <caret line="75" column="5" selection-start-line="75" selection-start-column="5" selection-end-line="75" selection-end-column="5" />
+          <folding>
+            <element signature="e#1649#1650#0" expanded="true" />
+            <element signature="e#1700#1701#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.204082">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1861#1862#0" expanded="true" />
+            <element signature="e#1912#1913#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteStudentTeamDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.204082">
+          <caret line="72" column="39" selection-start-line="72" selection-start-column="39" selection-end-line="72" selection-end-column="39" />
+          <folding>
+            <element signature="e#1599#1600#0" expanded="true" />
+            <element signature="e#1650#1651#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeacherDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+          <folding>
+            <element signature="e#1750#1751#0" expanded="true" />
+            <element signature="e#1801#1802#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/db/SQLiteTeamDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76831347">
+          <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
+          <folding>
+            <element signature="e#1255#1256#0" expanded="true" />
+            <element signature="e#1322#1323#0" expanded="true" />
+            <element signature="e#1371#1372#0" expanded="true" />
+            <element signature="e#1422#1423#0" expanded="true" />
           </folding>
         </state>
       </provider>

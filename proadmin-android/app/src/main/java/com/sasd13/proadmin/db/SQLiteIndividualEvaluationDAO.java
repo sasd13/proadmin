@@ -16,9 +16,9 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
     protected ContentValues getContentValues(IndividualEvaluation individualEvaluation) {
         ContentValues values = new ContentValues();
 
-        values.put(INDIVIDUALEVALUATION_MARK, individualEvaluation.getMark());
-        values.put(STUDENTS_STUDENT_ID, individualEvaluation.getStudent().getId());
-        values.put(REPORTS_REPORT_ID, individualEvaluation.getReport().getId());
+        values.put(COLUMN_MARK, individualEvaluation.getMark());
+        values.put(COLUMN_REPORT_ID, individualEvaluation.getReport().getId());
+        values.put(COLUMN_STUDENT_ID, individualEvaluation.getStudent().getId());
 
         return values;
     }
@@ -27,23 +27,23 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
     protected IndividualEvaluation getCursorValues(Cursor cursor) {
         IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 
-        individualEvaluation.setId(cursor.getLong(cursor.getColumnIndex(INDIVIDUALEVALUATION_ID)));
-        individualEvaluation.setMark(cursor.getFloat(cursor.getColumnIndex(INDIVIDUALEVALUATION_MARK)));
-
-        Student student = new Student();
-        student.setId(cursor.getLong(cursor.getColumnIndex(STUDENTS_STUDENT_ID)));
-        individualEvaluation.setStudent(student);
+        individualEvaluation.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+        individualEvaluation.setMark(cursor.getFloat(cursor.getColumnIndex(COLUMN_MARK)));
 
         Report report = new Report();
-        report.setId(cursor.getLong(cursor.getColumnIndex(REPORTS_REPORT_ID)));
+        report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_REPORT_ID)));
         individualEvaluation.setReport(report);
+
+        Student student = new Student();
+        student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_STUDENT_ID)));
+        individualEvaluation.setStudent(student);
 
         return individualEvaluation;
     }
 
     @Override
     public long insert(IndividualEvaluation individualEvaluation) {
-        long id = executeInsert(INDIVIDUALEVALUATION_TABLE_NAME, individualEvaluation);
+        long id = executeInsert(TABLE, individualEvaluation);
 
         individualEvaluation.setId(id);
 
@@ -52,49 +52,27 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public void update(IndividualEvaluation individualEvaluation) {
-        executeUpdate(INDIVIDUALEVALUATION_TABLE_NAME, individualEvaluation, INDIVIDUALEVALUATION_ID, individualEvaluation.getId());
+        executeUpdate(TABLE, individualEvaluation, COLUMN_ID, individualEvaluation.getId());
     }
 
     @Override
     public void delete(long id) {
-        executeDelete(INDIVIDUALEVALUATION_TABLE_NAME, INDIVIDUALEVALUATION_ID, id);
+        executeDelete(TABLE, COLUMN_ID, id);
     }
 
     @Override
     public IndividualEvaluation select(long id) {
-        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
+        String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + INDIVIDUALEVALUATION_ID + " = ?";
+                    + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
     }
 
     @Override
     public List<IndividualEvaluation> selectAll() {
-        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
-    }
-
-    @Override
-    public List<IndividualEvaluation> selectByStudent(long id) {
-        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
-                + " WHERE "
-                    + STUDENTS_STUDENT_ID + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-
-        return executeSelectMultiResult(cursor);
-    }
-
-    @Override
-    public List<IndividualEvaluation> selectByReport(long reportId) {
-        String query = "SELECT * FROM " + INDIVIDUALEVALUATION_TABLE_NAME
-                + " WHERE "
-                    + REPORTS_REPORT_ID + " = ?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reportId)});
-
-        return executeSelectMultiResult(cursor);
     }
 }

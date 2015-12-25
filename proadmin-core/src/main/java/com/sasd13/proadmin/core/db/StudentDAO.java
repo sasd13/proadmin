@@ -1,25 +1,16 @@
 package com.sasd13.proadmin.core.db;
 
-import java.util.List;
-
 import com.sasd13.javaex.db.IEntityDAO;
-import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.member.Student;
 
 public interface StudentDAO extends IEntityDAO<Student> {
 	
-	String STUDENT_TABLE_NAME = "students";
+	String TABLE = "students";
 	
-	String STUDENT_ID = "student_id";
-	String STUDENT_NUMBER = "student_number";
-	String STUDENT_ACADEMICLEVEL = "student_academiclevel";
-	String STUDENT_FIRSTNAME = "student_firstname";
-	String STUDENT_LASTNAME = "student_lastname";
-	String STUDENT_EMAIL = "student_email";
-	
-	Student selectByNumber(String number);
-	
-	List<Student> selectByAcademicLevel(AcademicLevel academicLevel);
-	
-	List<Student> selectByEmail(String email);
+	String COLUMN_ID = "student_id";
+	String COLUMN_NUMBER = "student_number";
+	String COLUMN_ACADEMICLEVEL = "student_academiclevel";
+	String COLUMN_FIRSTNAME = "student_firstname";
+	String COLUMN_LASTNAME = "student_lastname";
+	String COLUMN_EMAIL = "student_email";
 }

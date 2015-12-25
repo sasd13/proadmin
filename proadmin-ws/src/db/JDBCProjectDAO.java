@@ -37,11 +37,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		
-		project.setId(resultSet.getLong(PROJECT_ID));
-		project.setCode(resultSet.getString(PROJECT_CODE));
-		project.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(PROJECT_ACADEMICLEVEL)));
-		project.setTitle(resultSet.getString(PROJECT_TITLE));
-		project.setDescription(resultSet.getString(PROJECT_DESCRIPTION));
+		project.setId(resultSet.getLong(COLUMN_ID));
+		project.setCode(resultSet.getString(COLUMN_CODE));
+		project.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		project.setTitle(resultSet.getString(COLUMN_TITLE));
+		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 		
 		return project;
 	}
@@ -50,12 +50,12 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	public long insert(Project project) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + PROJECT_TABLE_NAME 
+		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ PROJECT_CODE + ", " 
-					+ PROJECT_ACADEMICLEVEL + ", " 
-					+ PROJECT_TITLE + ", " 
-					+ PROJECT_DESCRIPTION 
+					+ COLUMN_CODE + ", " 
+					+ COLUMN_ACADEMICLEVEL + ", " 
+					+ COLUMN_TITLE + ", " 
+					+ COLUMN_DESCRIPTION 
 				+ ") VALUES (?, ?, ?, ?)";
 		
 		try {
@@ -70,14 +70,14 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	
 	@Override
 	public void update(Project project) {
-		String query = "UPDATE " + PROJECT_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ PROJECT_CODE + " = ?, " 
-					+ PROJECT_ACADEMICLEVEL + " = ?, " 
-					+ PROJECT_TITLE + " = ?, " 
-					+ PROJECT_DESCRIPTION + " = ?, " 
+					+ COLUMN_CODE + " = ?, " 
+					+ COLUMN_ACADEMICLEVEL + " = ?, " 
+					+ COLUMN_TITLE + " = ?, " 
+					+ COLUMN_DESCRIPTION + " = ?, " 
 				+ " WHERE " 
-					+ PROJECT_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, project);
@@ -92,11 +92,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + PROJECT_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ DELETED + " = ?" 
+					+ COLUMN_DELETED + " = ?" 
 				+ " WHERE " 
-					+ PROJECT_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			executeDelete(query, id);
@@ -109,9 +109,9 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	public Project select(long id) {
 		Project project = null;
 		
-		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
+		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ PROJECT_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			project = executeSelectById(query, id);
@@ -126,50 +126,10 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	public List<Project> selectAll() {
 		List<Project> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + PROJECT_TABLE_NAME;
+		String query = "SELECT * FROM " + TABLE;
 		
 		try {
 			list = executeSelectAll(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public Project selectByCode(String code) {
-		Project project = null;
-		
-		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
-				+ " WHERE " 
-					+ PROJECT_CODE + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, code);
-			
-			project = executeSelectSingleResult(preparedStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return project;
-	}
-	
-	@Override
-	public List<Project> selectByAcademicLevel(AcademicLevel academicLevel) {
-		List<Project> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + PROJECT_TABLE_NAME 
-				+ " WHERE " 
-					+ PROJECT_ACADEMICLEVEL + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, String.valueOf(academicLevel));
-			
-			list = executeSelectMultiResult(preparedStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

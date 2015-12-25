@@ -30,8 +30,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
-		preparedStatement.setLong(5, leadEvaluation.getStudent().getId());
-		preparedStatement.setLong(6, leadEvaluation.getReport().getId());
+		preparedStatement.setLong(5, leadEvaluation.getReport().getId());
+		preparedStatement.setLong(6, leadEvaluation.getStudent().getId());
 		
 		return preparedStatement;
 	}
@@ -40,19 +40,19 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		LeadEvaluation leadEvaluation = new LeadEvaluation();
 		
-		leadEvaluation.setId(resultSet.getLong(LEADEVALUATION_ID));
-		leadEvaluation.setPlanningMark(resultSet.getFloat(LEADEVALUATION_PLANNINGMARK));
-		leadEvaluation.setPlanningComment(resultSet.getString(LEADEVALUATION_PLANNINGCOMMENT));
-		leadEvaluation.setCommunicationMark(resultSet.getFloat(LEADEVALUATION_COMMUNICATIONMARK));
-		leadEvaluation.setCommunicationComment(resultSet.getString(LEADEVALUATION_COMMUNICATIONCOMMENT));
-		
-		Student student = new Student();
-		student.setId(resultSet.getLong(STUDENTS_STUDENT_ID));
-		leadEvaluation.setStudent(student);
+		leadEvaluation.setId(resultSet.getLong(COLUMN_ID));
+		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
+		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
+		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
+		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
 		
 		Report report = new Report();
-		report.setId(resultSet.getLong(REPORTS_REPORT_ID));
+		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
 		leadEvaluation.setReport(report);
+		
+		Student student = new Student();
+		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
+		leadEvaluation.setStudent(student);
 		
 		return leadEvaluation;
 	}
@@ -61,14 +61,14 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	public long insert(LeadEvaluation leadEvaluation) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + LEADEVALUATION_TABLE_NAME 
+		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ LEADEVALUATION_PLANNINGMARK + ", " 
-					+ LEADEVALUATION_PLANNINGCOMMENT + ", " 
-					+ LEADEVALUATION_COMMUNICATIONMARK + ", " 
-					+ LEADEVALUATION_COMMUNICATIONCOMMENT + ", " 
-					+ STUDENTS_STUDENT_ID + ", " 
-					+ REPORTS_REPORT_ID 
+					+ COLUMN_PLANNINGMARK + ", " 
+					+ COLUMN_PLANNINGCOMMENT + ", " 
+					+ COLUMN_COMMUNICATIONMARK + ", " 
+					+ COLUMN_COMMUNICATIONCOMMENT + ", " 
+					+ COLUMN_REPORT_ID + ", " 
+					+ COLUMN_STUDENT_ID
 				+ ") VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -83,16 +83,16 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	
 	@Override
 	public void update(LeadEvaluation leadEvaluation) {
-		String query = "UPDATE " + LEADEVALUATION_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ LEADEVALUATION_PLANNINGMARK + " = ?, " 
-					+ LEADEVALUATION_PLANNINGCOMMENT + " = ?, " 
-					+ LEADEVALUATION_COMMUNICATIONMARK + " = ?, " 
-					+ LEADEVALUATION_COMMUNICATIONCOMMENT + " = ?, " 
-					+ STUDENTS_STUDENT_ID + " = ?, " 
-					+ REPORTS_REPORT_ID + " = ?, " 
+					+ COLUMN_PLANNINGMARK + " = ?, " 
+					+ COLUMN_PLANNINGCOMMENT + " = ?, " 
+					+ COLUMN_COMMUNICATIONMARK + " = ?, " 
+					+ COLUMN_COMMUNICATIONCOMMENT + " = ?, " 
+					+ COLUMN_REPORT_ID + " = ?, " 
+					+ COLUMN_STUDENT_ID + " = ?, " 
 				+ " WHERE " 
-					+ LEADEVALUATION_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			PreparedStatement preparedStatement = getPreparedStatement(query, leadEvaluation);
@@ -107,11 +107,11 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	
 	@Override
 	public void delete(long id) {
-		String query = "UPDATE " + LEADEVALUATION_TABLE_NAME 
+		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ DELETED + " = ?" 
+					+ COLUMN_DELETED + " = ?" 
 				+ " WHERE " 
-					+ LEADEVALUATION_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			executeDelete(query, id);
@@ -124,9 +124,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	public LeadEvaluation select(long id) {
 		LeadEvaluation leadEvaluation = null;
 		
-		String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME 
+		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ LEADEVALUATION_ID + " = ?";
+					+ COLUMN_ID + " = ?";
 		
 		try {
 			leadEvaluation = executeSelectById(query, id);
@@ -141,7 +141,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	public List<LeadEvaluation> selectAll() {
 		List<LeadEvaluation> list = new ArrayList<LeadEvaluation>();
 		
-		String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME;
+		String query = "SELECT * FROM " + TABLE;
 		
 		try {
 			list = executeSelectAll(query);
@@ -150,45 +150,5 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		}
 		
 		return list;
-	}
-	
-	@Override
-	public List<LeadEvaluation> selectByStudent(long studentId) {
-		List<LeadEvaluation> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME 
-				+ " WHERE " 
-					+ STUDENTS_STUDENT_ID + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, studentId);
-			
-			list = executeSelectMultiResult(preparedStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public LeadEvaluation selectByReport(long reportId) {
-		LeadEvaluation leadEvaluation = null;
-		
-		String query = "SELECT * FROM " + LEADEVALUATION_TABLE_NAME 
-				+ " WHERE " 
-					+ REPORTS_REPORT_ID + " = ?";
-		
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, reportId);
-			
-			leadEvaluation = executeSelectSingleResult(preparedStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return leadEvaluation;
 	}
 }
