@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 
 /**
@@ -16,10 +17,12 @@ public class WaitDialogMaker {
     private static WaitDialog waitDialog;
     private static Context mContext;
     private static AsyncTask mAsyncTask;
+    private static TaskPlanner mTaskPlanner;
 
-    public static WaitDialog make(Context context, AsyncTask asyncTask) {
+    public static WaitDialog make(Context context, AsyncTask asyncTask, TaskPlanner taskPlanner) {
         mContext = context;
         mAsyncTask = asyncTask;
+        mTaskPlanner = taskPlanner;
         waitDialog = new WaitDialog(context, context.getResources().getString(R.string.dialog_title_request));
 
         waitDialog.setCancelable(true);
@@ -32,6 +35,7 @@ public class WaitDialogMaker {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mAsyncTask.cancel(true);
 
+                        mTaskPlanner.stop();
                         waitDialog.dismiss();
 
                         Toast.makeText(mContext, R.string.dialog_message_error_request_canceled, Toast.LENGTH_SHORT).show();

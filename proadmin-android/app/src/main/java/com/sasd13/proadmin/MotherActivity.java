@@ -2,25 +2,24 @@ package com.sasd13.proadmin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewStub;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
 import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemTitle;
+import com.sasd13.androidex.session.Session;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.content.homemenu.HomeMenu;
 import com.sasd13.proadmin.gui.content.homemenu.HomeMenuItem;
 import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemHomeMenu;
-import com.sasd13.proadmin.session.Session;
 
 public abstract class MotherActivity extends AppCompatActivity {
 
-    private static final int LOGOUT_TIMEOUT = 2000;
+    private static final int TIMEOUT = 2000;
 
     private Drawer drawer;
 
@@ -86,23 +85,20 @@ public abstract class MotherActivity extends AppCompatActivity {
     private void goToHomeActivityAndExit() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
-        final Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Extra.EXIT, true);
-
-        Runnable runnable = new Runnable() {
-
+        TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
+                Intent intent = new Intent(MotherActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Extra.EXIT, true);
+
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();
             }
-        };
+        }, TIMEOUT);
 
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, LOGOUT_TIMEOUT);
-
+        taskPlanner.start();
         waitDialog.show();
     }
 }

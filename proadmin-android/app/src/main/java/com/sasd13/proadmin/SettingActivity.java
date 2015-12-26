@@ -9,11 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.session.Session;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.db.SQLiteDAO;
-import com.sasd13.proadmin.session.Session;
 
 public class SettingActivity extends MotherActivity {
 

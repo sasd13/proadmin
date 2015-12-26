@@ -6,21 +6,30 @@ import com.sasd13.javaex.net.parser.DataParser;
 import com.sasd13.javaex.net.parser.ParametersParser;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
 public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     private static final String URL_WEBSERVICE = "http://192.168.1.9:8080/proadmin-ws/";
+    private static final int DEFAULT_TIMEOUT = 60000;
 
     protected Class<T> mClass;
+    protected int timeOut;
     protected String url;
     protected HttpRequest httpRequest;
 
     public WebServiceClient(Class<T> mClass) {
         this.mClass = mClass;
         url = URL_WEBSERVICE + mClass.getSimpleName().toLowerCase() + "s";
+        timeOut = DEFAULT_TIMEOUT;
+    }
+
+    public WebServiceClient(Class<T> mClass, int timeOut) {
+        this(mClass);
+        
+        this.timeOut = timeOut;
     }
 
     @Override
@@ -31,14 +40,14 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams));
-            httpRequest.hasReponseData(true);
-            httpRequest.execute();
+            httpRequest.open(timeOut);
+            httpRequest.connect();
 
             String mimeType = httpRequest.getResponseContentType();
-            String respData = httpRequest.getResponseData();
+            String respData = httpRequest.readResponseData();
 
             t = (T) DataParser.decode(mimeType, respData, mClass);
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -51,81 +60,58 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
         try {
             httpRequest = new HttpRequest(new URL(url));
-            httpRequest.hasReponseData(true);
-            httpRequest.execute();
+            httpRequest.open(timeOut);
+            httpRequest.connect();
 
             String mimeType = httpRequest.getResponseContentType();
-            String respData = httpRequest.getResponseData();
+            String respData = httpRequest.readResponseData();
 
             ts = (T[]) DataParser.decode(mimeType, respData, mClass);
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return ts;
     }
 
-    public T[] getAll(Map<String, String[]> mapParams) {
+    public T[] getAll(Map<String, String[]> parameters) {
         T[] ts = null;
 
-        String urlParams = getUrlParams(mapParams);
+        String urlParams = ParametersParser.toEncodedURLString(parameters);
 
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams));
-            httpRequest.hasReponseData(true);
-            httpRequest.execute();
+            httpRequest.open(timeOut);
+            httpRequest.connect();
 
             String mimeType = httpRequest.getResponseContentType();
-            String respData = httpRequest.getResponseData();
+            String respData = httpRequest.readResponseData();
 
             ts = (T[]) DataParser.decode(mimeType, respData, mClass);
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return ts;
-    }
-
-    private String getUrlParams(Map<String, String[]> mapParams) {
-        ParametersParser.encode(mapParams);
-
-        StringBuilder builder = new StringBuilder();
-        boolean first = true;
-
-        for (String key : mapParams.keySet()) {
-            for (String value : mapParams.get(key)) {
-                if (first) {
-                    builder.append("?");
-                    first = false;
-                } else {
-                    builder.append("&");
-                }
-
-                builder.append(key.toLowerCase());
-                builder.append("=");
-                builder.append(value);
-            }
-        }
-
-        return builder.toString().trim();
     }
 
     @Override
     public long post(T t) {
         long id = 0;
 
+        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, t);
+
         try {
-            httpRequest = new HttpRequest(new URL(url));
-            httpRequest.setRequestMethod("POST");
-            httpRequest.setRequestData(DataParser.encode(MimeType.APPLICATION_JSON, t));
-            httpRequest.hasReponseData(true);
-            httpRequest.execute();
+            httpRequest = new HttpRequest(new URL(url), "POST");
+            httpRequest.open(timeOut);
+            httpRequest.connect();
+            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
 
             String mimeType = httpRequest.getResponseContentType();
-            String respData = httpRequest.getResponseData();
+            String respData = httpRequest.readResponseData();
 
             id = (long) DataParser.decode(mimeType, respData, Long.class);
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -134,24 +120,28 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void put(T t) {
+        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, t);
+
         try {
-            httpRequest = new HttpRequest(new URL(url));
-            httpRequest.setRequestMethod("PUT");
-            httpRequest.setRequestData(DataParser.encode(MimeType.APPLICATION_JSON, t));
-            httpRequest.execute();
-        } catch (MalformedURLException e) {
+            httpRequest = new HttpRequest(new URL(url), "PUT");
+            httpRequest.open(timeOut);
+            httpRequest.connect();
+            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void putAll(T[] ts) {
+        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, ts);
+
         try {
-            httpRequest = new HttpRequest(new URL(url));
-            httpRequest.setRequestMethod("PUT");
-            httpRequest.setRequestData(DataParser.encode(MimeType.APPLICATION_JSON, ts));
-            httpRequest.execute();
-        } catch (MalformedURLException e) {
+            httpRequest = new HttpRequest(new URL(url), "PUT");
+            httpRequest.open(timeOut);
+            httpRequest.connect();
+            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -164,10 +154,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String urlParams = "?id=" + id;
 
             try {
-                httpRequest = new HttpRequest(new URL(url + urlParams));
-                httpRequest.setRequestMethod("DELETE");
-                httpRequest.execute();
-            } catch (MalformedURLException e) {
+                httpRequest = new HttpRequest(new URL(url + urlParams), "DELETE");
+                httpRequest.open(timeOut);
+                httpRequest.connect();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

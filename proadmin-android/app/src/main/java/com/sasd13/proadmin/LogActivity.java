@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.proadmin.ws.task.LoginAsyncTask;
 
 public class LogActivity extends Activity {
@@ -54,8 +56,16 @@ public class LogActivity extends Activity {
         String number = formLog.editTextNumber.getText().toString().trim();
         String password = formLog.editTextPassword.getText().toString().trim();
 
-        LoginAsyncTask loginTask = new LoginAsyncTask(this, number, password);
-        loginTask.execute();
+        if (ConnectivityChecker.isOnline(this)) {
+            LoginAsyncTask loginTask = new LoginAsyncTask(this, number, password);
+            loginTask.execute();
+        } else {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    getResources().getString(R.string.message_error_connectivity)
+            );
+        }
     }
 
     public void goToHomeActivity() {
