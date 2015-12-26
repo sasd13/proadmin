@@ -3,7 +3,6 @@ package com.sasd13.proadmin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +10,7 @@ import android.widget.EditText;
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.task.LoginAsyncTask;
 
 public class LogActivity extends Activity {
@@ -20,7 +20,7 @@ public class LogActivity extends Activity {
         public Button buttonConnect;
     }
 
-    private static final int LOGIN_TIMEOUT = 2000;
+    private static final int TIMEOUT = 2000;
 
     private FormLogViewHolder formLog;
 
@@ -71,21 +71,18 @@ public class LogActivity extends Activity {
     public void goToHomeActivity() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
-        final Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        Runnable runnable = new Runnable() {
-
+        TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
+                Intent intent = new Intent(LogActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 startActivity(intent);
                 waitDialog.dismiss();
             }
-        };
+        }, TIMEOUT);
 
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, LOGIN_TIMEOUT);
-
+        taskPlanner.start();
         waitDialog.show();
     }
 }

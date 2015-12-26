@@ -67,7 +67,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
 
         if (!isCancelled()) {
             try {
-                teacher = (service.getAll(parameters))[0];
+                teacher = service.get(parameters);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

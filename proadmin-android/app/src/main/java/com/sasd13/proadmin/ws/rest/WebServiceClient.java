@@ -28,7 +28,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     public WebServiceClient(Class<T> mClass, int timeOut) {
         this(mClass);
-        
+
         this.timeOut = timeOut;
     }
 
@@ -52,6 +52,12 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         }
 
         return t;
+    }
+
+    public T get(Map<String, String[]> parameters) {
+        T[] ts = getAll(parameters);
+
+        return (ts != null) ? ts[0] : null;
     }
 
     @Override
@@ -164,5 +170,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     }
 
     @Override
-    public void deleteAll() {}
+    public void deleteAll() {
+    }
 }
