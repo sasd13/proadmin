@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javaex-0.1-jar-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/javaex-0.1-jar-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

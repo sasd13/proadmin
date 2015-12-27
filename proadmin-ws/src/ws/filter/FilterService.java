@@ -13,19 +13,19 @@ import com.sasd13.proadmin.core.bean.running.Team;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class FilterService {
 	
-	public static List filter(List list, Map<String, String[]> mapParameters, Class mClass) {
+	public static List filter(Map<String, String[]> parameters, List list, Class mClass) {
 		if ("Teacher".equals(mClass.getSimpleName())) {
-			return new TeachersFilter(mapParameters).filter((List<Teacher>) list);
+			return new TeachersFilter(parameters).filter((List<Teacher>) list);
 		} else if ("Project".equals(mClass.getSimpleName())) {
-			return new ProjectsFilter(mapParameters).filter((List<Project>) list);
+			return new ProjectsFilter(parameters).filter((List<Project>) list);
 		} else if ("Running".equals(mClass.getSimpleName())) {
-			return new RunningsFilter(mapParameters).filter((List<Running>) list);
+			return new RunningsFilter(parameters).filter((List<Running>) list);
 		} else if ("Team".equals(mClass.getSimpleName())) {
-			return new TeamsFilter(mapParameters).filter((List<Team>) list);
+			return new TeamsFilter(parameters).filter((List<Team>) list);
 		} else if ("Student".equals(mClass.getSimpleName())) {
-			return new StudentsFilter(mapParameters).filter((List<Student>) list);
+			return new StudentsFilter(parameters).filter((List<Student>) list);
 		} else if ("Report".equals(mClass.getSimpleName())) {
-			return new ReportsFilter(mapParameters).filter((List<Report>) list);
+			return new ReportsFilter(parameters).filter((List<Report>) list);
 		} else {
 			return null;
 		}

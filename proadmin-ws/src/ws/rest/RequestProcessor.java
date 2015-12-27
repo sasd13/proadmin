@@ -19,22 +19,22 @@ import com.sasd13.javaex.net.parser.DataParser;
 public class RequestProcessor {
 	
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Map<String, String[]> mapParameters = req.getParameterMap();
+		Map<String, String[]> parameters = req.getParameterMap();
 		
 		Object respData = null;
 		
-		if (mapParameters.size() == 1 && mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
+		if (parameters.size() == 1 && parameters.containsKey("id") && parameters.get("id").length == 1) {
 			try {
 				respData = PersistenceService.read(Long.parseLong(req.getParameter("id")), mClass);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		} else {
-			if (!mapParameters.containsKey("id")) {
+			if (!parameters.containsKey("id")) {
 				respData = PersistenceService.readAll(mClass);
 				
-				if (!mapParameters.isEmpty()) {
-					respData = FilterService.filter((List) respData, mapParameters, mClass);
+				if (!parameters.isEmpty()) {
+					respData = FilterService.filter(parameters, (List) respData, mClass);
 				}
 			}
 		}
@@ -51,9 +51,9 @@ public class RequestProcessor {
 	}
 	
 	public static void doPost(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Object object = readAndDecodeDataFromRequest(req, mClass);
+		Object reqData = readAndDecodeDataFromRequest(req, mClass);
 		
-		long respData = PersistenceService.create(object);
+		long respData = PersistenceService.create(reqData);
 		
 		encodeAndWriteDataToResponse(resp, respData);
 	}
@@ -65,15 +65,15 @@ public class RequestProcessor {
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Object object = readAndDecodeDataFromRequest(req, mClass);
+		Object reqData = readAndDecodeDataFromRequest(req, mClass);
 		
-		PersistenceService.update(object);
+		PersistenceService.update(reqData);
 	}
 	
 	public static void doDelete(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
-		Map<String, String[]> mapParameters = req.getParameterMap();
+		Map<String, String[]> parameters = req.getParameterMap();
 		
-		if (mapParameters.size() == 1 && mapParameters.containsKey("id") && mapParameters.get("id").length == 1) {
+		if (parameters.size() == 1 && parameters.containsKey("id") && parameters.get("id").length == 1) {
 			try {
 				PersistenceService.delete(Long.parseLong(req.getParameter("id")), mClass);
 			} catch (NumberFormatException e) {

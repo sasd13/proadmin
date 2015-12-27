@@ -22,6 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Samir/Projects/GitHub/proadmin/proadmin-core/lib/javaex-0.1.jar"/>
+	<classpathentry kind="lib" path="lib/javaex-0.1-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
