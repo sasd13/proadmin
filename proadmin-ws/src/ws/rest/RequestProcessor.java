@@ -18,6 +18,8 @@ import com.sasd13.javaex.net.parser.DataParser;
 @SuppressWarnings("rawtypes")
 public class RequestProcessor {
 	
+	private static final String HTTP_HEADER_ACCEPT = "Accept";
+	
 	public static void doGet(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {
 		Map<String, String[]> parameters = req.getParameterMap();
 		
@@ -39,13 +41,18 @@ public class RequestProcessor {
 			}
 		}
 		
-		encodeAndWriteDataToResponse(resp, respData);
+		encodeAndWriteDataToResponse(req, resp, respData);
 	}
 	
-	private static void encodeAndWriteDataToResponse(HttpServletResponse resp, Object respData) throws IOException {
-		String sRespData = DataParser.encode(MimeType.APPLICATION_JSON, respData);
+	private static void encodeAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException {
+		String contentType = ContentTypeSelector.select(req.getHeaders(HTTP_HEADER_ACCEPT));
 		
-		resp.setContentType(MimeType.APPLICATION_JSON);
+		resp.setContentType(contentType);
+		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.APPLICATION_JSON);
+		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.APPLICATION_XML);
+		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.TEXT_PLAIN);
+		
+		String sRespData = DataParser.toString(contentType, respData);
 		
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
@@ -55,13 +62,13 @@ public class RequestProcessor {
 		
 		long respData = PersistenceService.create(reqData);
 		
-		encodeAndWriteDataToResponse(resp, respData);
+		encodeAndWriteDataToResponse(req, resp, respData);
 	}
 	
 	private static Object readAndDecodeDataFromRequest(HttpServletRequest req, Class mClass) throws IOException {
 		String reqData = ContentIO.read(req.getReader());
 		
-		return DataParser.decode(req.getContentType(), reqData, mClass);
+		return DataParser.fromString(req.getContentType(), reqData, mClass);
 	}
 	
 	public static void doPut(HttpServletRequest req, HttpServletResponse resp, Class mClass) throws ServletException, IOException {

@@ -10,9 +10,9 @@ public class Team {
 	
 	private long id;
 	private String code;
-	private Running running;
 	private List<Student> students;
 	private List<Report> reports;
+	private Running running;
 	
 	public Team() {
 		this.reports = new ArrayList<>();
@@ -32,14 +32,6 @@ public class Team {
 	
 	public void setCode(String code) {
 		this.code = code;
-	}
-	
-	public Running getRunning() {
-		return this.running;
-	}
-	
-	public void setRunning(Running running) {
-		this.running = running;
 	}
 	
 	public List<Student> getStudents() {
@@ -62,18 +54,26 @@ public class Team {
 		return this.reports.toArray(new Report[this.reports.size()]);
 	}
 	
+	public Running getRunning() {
+		return this.running;
+	}
+	
+	public void setRunning(Running running) {
+		this.running = running;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Team [");
-		builder.append(", id=" + getId());
+		builder.append("id=" + getId());
 		builder.append(", code=" + getCode());
-		builder.append(", running=" + getRunning());
 		builder.append(", students=" + Arrays.toString(getStudents().toArray(new Student[getStudents().size()])));
 		builder.append(", reports=" + Arrays.toString(getReports()));
+		builder.append(", running=" + getRunning());
 		builder.append("]");
 		
-		return builder.toString();
+		return builder.toString().trim();
 	}
 }

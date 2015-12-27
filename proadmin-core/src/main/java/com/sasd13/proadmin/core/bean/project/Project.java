@@ -14,8 +14,8 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 public class Project {
 	
 	private long id;
-	private String code, title, description;
 	private AcademicLevel academicLevel;
+	private String code, title, description;
 	
 	public long getId() {
 		return id;
@@ -25,20 +25,20 @@ public class Project {
 		this.id = id;
 	}
 	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	public AcademicLevel getAcademicLevel() {
 		return academicLevel;
 	}
 	
 	public void setAcademicLevel(AcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	public String getTitle() {
@@ -62,13 +62,13 @@ public class Project {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Project [");
-		builder.append(", id=" + getId());
-		builder.append(", code=" + getCode());
+		builder.append("id=" + getId());
 		builder.append(", academicLevel=" + getAcademicLevel());
+		builder.append(", code=" + getCode());
 		builder.append(", title=" + getTitle());
 		builder.append(", description=" + getDescription());
 		builder.append("]");
 		
-		return builder.toString();
+		return builder.toString().trim();
 	}
 }

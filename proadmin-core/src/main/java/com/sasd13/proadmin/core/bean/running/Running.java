@@ -70,13 +70,13 @@ public class Running {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Running [");
-		builder.append(", id=" + getId());
+		builder.append("id=" + getId());
 		builder.append(", year=" + getYear());
 		builder.append(", teacher=" + getTeacher());
 		builder.append(", project=" + getProject());
 		builder.append(", teams=" + Arrays.toString(getTeams()));
 		builder.append("]");
 		
-		return builder.toString();
+		return builder.toString().trim();
 	}
 }

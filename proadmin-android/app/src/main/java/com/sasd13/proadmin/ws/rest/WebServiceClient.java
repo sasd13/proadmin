@@ -46,7 +46,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            t = (T) DataParser.decode(mimeType, respData, mClass);
+            t = (T) DataParser.fromString(mimeType, respData, mClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.decode(mimeType, respData, mClass);
+            ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.decode(mimeType, respData, mClass);
+            ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     public long post(T t) {
         long id = 0;
 
-        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, t);
+        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
 
         try {
             httpRequest = new HttpRequest(new URL(url), "POST");
@@ -116,7 +116,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            id = (long) DataParser.decode(mimeType, respData, Long.class);
+            id = (long) DataParser.fromString(mimeType, respData, Long.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +126,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void put(T t) {
-        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, t);
+        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
 
         try {
             httpRequest = new HttpRequest(new URL(url), "PUT");
@@ -140,7 +140,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void putAll(T[] ts) {
-        String reqData = DataParser.encode(MimeType.APPLICATION_JSON, ts);
+        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, ts);
 
         try {
             httpRequest = new HttpRequest(new URL(url), "PUT");

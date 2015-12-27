@@ -11,9 +11,9 @@ public class Report {
 	private Timestamp dateMeeting;
 	private int weekNumber;
 	private String teamComment;
-	private Team team;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
+	private Team team;
 	
 	public Report() {
 		this.leadEvaluation = new LeadEvaluation();
@@ -54,14 +54,6 @@ public class Report {
 		this.teamComment = teamComment;
 	}
 	
-	public Team getTeam() {
-		return this.team;
-	}
-	
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-	
 	public LeadEvaluation getLeadEvaluation() {
 		return this.leadEvaluation;
 	}
@@ -78,19 +70,27 @@ public class Report {
 		return this.individualEvaluations.toArray(new IndividualEvaluation[this.individualEvaluations.size()]);
 	}
 	
+	public Team getTeam() {
+		return this.team;
+	}
+	
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append("Report [");
-		builder.append(", id=" + getId());
+		builder.append("id=" + getId());
 		builder.append(", dateMeeting=" + getDateMeeting());
 		builder.append(", teamComment=" + getTeamComment());
-		builder.append(", team=" + getTeam());
 		builder.append(", leadEvaluation=" + getLeadEvaluation());
 		builder.append(", individualEvaluations=" + Arrays.toString(getIndividualEvaluations()));
+		builder.append(", team=" + getTeam());
 		builder.append("]");
 		
-		return builder.toString();
+		return builder.toString().trim();
 	}
 }
