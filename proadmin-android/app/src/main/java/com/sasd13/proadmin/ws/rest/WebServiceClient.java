@@ -7,6 +7,7 @@ import com.sasd13.javaex.net.parser.ParametersParser;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
@@ -14,11 +15,13 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     private static final String URL_WEBSERVICE = "http://192.168.1.9:8080/proadmin-ws/";
     private static final int DEFAULT_TIMEOUT = 60000;
+    public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
     protected Class<T> mClass;
     protected int timeOut;
     protected String url;
     protected HttpRequest httpRequest;
+    protected int statusCode;
 
     public WebServiceClient(Class<T> mClass) {
         this.mClass = mClass;
@@ -32,6 +35,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         this.timeOut = timeOut;
     }
 
+    public int getStatusCode() {
+        return statusCode;
+    }
+
     @Override
     public T get(long id) {
         T t = null;
@@ -41,7 +48,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams));
             httpRequest.open(timeOut);
+            addHeadersAccept(httpRequest);
             httpRequest.connect();
+
+            statusCode = httpRequest.getResponseCode();
 
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
@@ -52,6 +62,11 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         }
 
         return t;
+    }
+
+    private void addHeadersAccept(HttpRequest httpRequest) {
+        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
+        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
     }
 
     public T get(Map<String, String[]> parameters) {
@@ -67,7 +82,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url));
             httpRequest.open(timeOut);
+            addHeadersAccept(httpRequest);
             httpRequest.connect();
+
+            statusCode = httpRequest.getResponseCode();
 
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
@@ -88,7 +106,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams));
             httpRequest.open(timeOut);
+            addHeadersAccept(httpRequest);
             httpRequest.connect();
+
+            statusCode = httpRequest.getResponseCode();
 
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
@@ -110,8 +131,11 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url), "POST");
             httpRequest.open(timeOut);
+            addHeadersAccept(httpRequest);
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+
+            statusCode = httpRequest.getResponseCode();
 
             String mimeType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
@@ -133,6 +157,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.open(timeOut);
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+
+            statusCode = httpRequest.getResponseCode();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,6 +173,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.open(timeOut);
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+
+            statusCode = httpRequest.getResponseCode();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,6 +191,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
                 httpRequest = new HttpRequest(new URL(url + urlParams), "DELETE");
                 httpRequest.open(timeOut);
                 httpRequest.connect();
+
+                statusCode = httpRequest.getResponseCode();
             } catch (IOException e) {
                 e.printStackTrace();
             }

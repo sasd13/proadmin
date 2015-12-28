@@ -40,11 +40,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
 
                 waitDialog.dismiss();
 
-                CustomDialog.showOkDialog(
-                        LoginAsyncTask.this.logActivity,
-                        LoginAsyncTask.this.logActivity.getResources().getString(R.string.title_error),
-                        "Impossible de se connecter au serveur"
-                );
+                showTaskError();
             }
         }, TIMEOUT - 100);
         waitDialog = WaitDialogMaker.make(logActivity, this, taskPlanner);
@@ -83,15 +79,27 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         taskPlanner.stop();
         waitDialog.dismiss();
 
-        if (teacher != null && password.equals(teacher.getPassword())) {
-            Session.logIn(teacher.getId());
-            logActivity.goToHomeActivity();
+        if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
+            if (teacher != null && password.equals(teacher.getPassword())) {
+                Session.logIn(teacher.getId());
+                logActivity.goToHomeActivity();
+            } else {
+                CustomDialog.showOkDialog(
+                        logActivity,
+                        logActivity.getResources().getString(R.string.log_dialog_title_error_log),
+                        logActivity.getResources().getString(R.string.log_dialog_message_error_log)
+                );
+            }
         } else {
-            CustomDialog.showOkDialog(
-                    logActivity,
-                    logActivity.getResources().getString(R.string.log_dialog_title_error_log),
-                    logActivity.getResources().getString(R.string.log_dialog_message_error_log)
-            );
+            showTaskError();
         }
+    }
+
+    private void showTaskError() {
+        CustomDialog.showOkDialog(
+                logActivity,
+                logActivity.getResources().getString(R.string.title_error),
+                "La requête n'a pas abouti"
+        );
     }
 }
