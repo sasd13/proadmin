@@ -10,13 +10,13 @@ import com.sasd13.proadmin.core.filter.project.CodeCriteria;
 
 public class ProjectsFilter extends AbstractFilter<Project> {
 	
-	public ProjectsFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public ProjectsFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
 		String value;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (String key : parameters.keySet()) {
+			value = parameters.get(key)[0];
 			
 			if ("code".equals(key)) {
 				multiAndCriteria.addCriteria(new CodeCriteria(value));
