@@ -3,7 +3,6 @@ package com.sasd13.proadmin.ws.task;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.LogActivity;
@@ -26,7 +25,6 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
     private String password;
     private WebServiceClient<Teacher> service;
     private TaskPlanner taskPlanner;
-    private WaitDialog waitDialog;
 
     public LoginAsyncTask(LogActivity logActivity, String number, String password) {
         this.logActivity = logActivity;
@@ -37,11 +35,8 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
             @Override
             public void run() {
                 cancel(true);
-                waitDialog.dismiss();
-                showTaskError();
             }
         }, TIMEOUT - 100);
-        waitDialog = WaitDialogMaker.make(logActivity, this, taskPlanner);
 
         parameters.put("number", new String[]{number});
     }
@@ -50,7 +45,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        waitDialog.show();
+        logActivity.displayLoad();
         taskPlanner.start();
     }
 
@@ -59,7 +54,9 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         Teacher teacher = null;
 
         if (!isCancelled()) {
-            teacher = service.get(parameters);
+            Teacher[] teachers = service.getAll(parameters);
+
+            teacher = (teachers != null && teachers.length > 0) ? teachers[0] : null;
         }
 
         return teacher;
@@ -70,29 +67,29 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         super.onPostExecute(teacher);
 
         taskPlanner.stop();
-        waitDialog.dismiss();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
             if (teacher != null && teacher.getPassword().equals(password)) {
                 Session.logIn(teacher.getId());
-                logActivity.goToHomeActivity();
+
+                logActivity.displayContent();
             } else {
                 CustomDialog.showOkDialog(
                         logActivity,
                         logActivity.getResources().getString(R.string.log_dialog_title_error_log),
                         logActivity.getResources().getString(R.string.log_dialog_message_error_log)
                 );
+
+                logActivity.displayNotFound();
             }
         } else {
-            showTaskError();
-        }
-    }
+            CustomDialog.showOkDialog(
+                    logActivity,
+                    logActivity.getResources().getString(R.string.log_dialog_title_error_log),
+                    "La requête n'a pas abouti"
+            );
 
-    private void showTaskError() {
-        CustomDialog.showOkDialog(
-                logActivity,
-                logActivity.getResources().getString(R.string.title_error),
-                "La requête n'a pas abouti"
-        );
+            logActivity.displayNotFound();
+        }
     }
 }

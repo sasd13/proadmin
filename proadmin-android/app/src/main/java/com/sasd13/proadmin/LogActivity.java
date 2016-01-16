@@ -13,7 +13,7 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.task.LoginAsyncTask;
 
-public class LogActivity extends Activity {
+public class LogActivity extends Activity implements IRefreshable {
 
     private class FormLogViewHolder {
         public EditText editTextNumber, editTextPassword;
@@ -22,6 +22,7 @@ public class LogActivity extends Activity {
 
     private static final int TIMEOUT = 2000;
 
+    private View viewFormLog, viewLoad;
     private FormLogViewHolder formLog;
 
     @Override
@@ -29,7 +30,13 @@ public class LogActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_log);
+        createSwitchableViews();
         createFormLog();
+    }
+
+    private void createSwitchableViews() {
+        viewFormLog = findViewById(R.id.log_view_formlog);
+        viewLoad = findViewById(R.id.log_view_load);
     }
 
     private void createFormLog() {
@@ -67,7 +74,23 @@ public class LogActivity extends Activity {
         }
     }
 
-    public void goToHomeActivity() {
+    @Override
+    public void displayLoad() {
+        switchToLoadView(true);
+    }
+
+    private void switchToLoadView(boolean switched) {
+        if (switched) {
+            viewLoad.setVisibility(View.VISIBLE);
+            viewFormLog.setVisibility(View.GONE);
+        } else {
+            viewFormLog.setVisibility(View.VISIBLE);
+            viewLoad.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void displayContent() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
         TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {
@@ -83,5 +106,10 @@ public class LogActivity extends Activity {
 
         taskPlanner.start();
         waitDialog.show();
+    }
+
+    @Override
+    public void displayNotFound() {
+        switchToLoadView(false);
     }
 }

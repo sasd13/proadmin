@@ -69,12 +69,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
     }
 
-    public T get(Map<String, String[]> parameters) {
-        T[] ts = getAll(parameters);
-
-        return (ts != null && ts.length > 0) ? ts[0] : null;
-    }
-
     @Override
     public T[] getAll() {
         T[] ts = null;

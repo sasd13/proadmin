@@ -14,22 +14,24 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
-import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.db.SQLiteDAO;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
+import com.sasd13.proadmin.ws.task.ReadAsyncTask;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class ProjectsActivity extends MotherActivity {
+public class ProjectsActivity extends MotherActivity implements IRefreshable {
+
+    private View viewTab, viewLoad;
 
     private Spin spin;
     private Tab tab;
     private List<Project> projects;
+    private ReadAsyncTask<Project> readTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,29 @@ public class ProjectsActivity extends MotherActivity {
 
         setContentView(R.layout.activity_projects);
         createSpinAcademicLevels();
+        createSwicthableViews();
         createTabProjects();
         fillSpinAcademicLevels();
-        fillTabProjects();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        refresh();
+    }
+
+    private void refresh() {
+        if (ConnectivityChecker.isActive(this)) {
+            readTask = new ReadAsyncTask<>(this, Project.class);
+            readTask.execute();
+        } else {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    getResources().getString(R.string.message_error_connectivity)
+            );
+        }
     }
 
     private void createSpinAcademicLevels() {
@@ -59,6 +81,11 @@ public class ProjectsActivity extends MotherActivity {
         });
     }
 
+    private void createSwicthableViews() {
+        viewTab = findViewById(R.id.projects_view_tab);
+        viewLoad = findViewById(R.id.projects_view_load);
+    }
+
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
@@ -68,39 +95,6 @@ public class ProjectsActivity extends MotherActivity {
     private void fillSpinAcademicLevels() {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
             spin.addItem(String.valueOf(academicLevel));
-        }
-    }
-
-    public void fillTabProjects() {
-        //projects = entityDAO.selectAll();
-
-        spin.resetPosition();
-
-        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
-    }
-
-    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        tab.clearItems();
-
-        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
-    }
-
-    private void addProjectsToTab(List<Project> list) {
-        TabItemProject tabItemProject;
-        Intent intent;
-
-        for (Project project : list) {
-            tabItemProject = new TabItemProject();
-
-            tabItemProject.setTitle(project.getTitle());
-            tabItemProject.setCode(project.getCode());
-            tabItemProject.setDescription(project.getDescription());
-
-            intent = new Intent(this, ProjectActivity.class);
-            intent.putExtra(Extra.PROJECT_ID, project.getId());
-            tabItemProject.setIntent(intent);
-
-            tab.addItem(tabItemProject);
         }
     }
 
@@ -125,19 +119,65 @@ public class ProjectsActivity extends MotherActivity {
         return true;
     }
 
-    private void refresh() {
-        if (ConnectivityChecker.isActive(this)) {
-            tryToPerformRefresh();
+    @Override
+    public void displayLoad() {
+        switchToLoadView(true);
+    }
+
+    private void switchToLoadView(boolean switched) {
+        if (switched) {
+            viewLoad.setVisibility(View.VISIBLE);
+            viewTab.setVisibility(View.GONE);
         } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            viewTab.setVisibility(View.VISIBLE);
+            viewLoad.setVisibility(View.GONE);
         }
     }
 
-    private void tryToPerformRefresh() {
+    @Override
+    public void displayContent() {
+        projects = Arrays.asList(readTask.getContent());
 
+        fillTabProjects();
+    }
+
+    public void fillTabProjects() {
+        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
+
+        switchToLoadView(false);
+    }
+
+    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
+        tab.clearItems();
+
+        try {
+            addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addProjectsToTab(List<Project> list) {
+        TabItemProject tabItemProject;
+        Intent intent;
+
+        for (Project project : list) {
+            tabItemProject = new TabItemProject();
+
+            tabItemProject.setTitle(project.getTitle());
+            tabItemProject.setCode(project.getCode());
+            tabItemProject.setDescription(project.getDescription());
+
+            intent = new Intent(this, ProjectActivity.class);
+            intent.putExtra(Extra.PROJECT_ID, project.getId());
+            tabItemProject.setIntent(intent);
+
+            tab.addItem(tabItemProject);
+        }
+    }
+
+    @Override
+    public void displayNotFound() {
+        switchToLoadView(false);
     }
 }
