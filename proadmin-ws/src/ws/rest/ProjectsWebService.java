@@ -7,40 +7,20 @@ package ws.rest;
 
 import com.sasd13.proadmin.core.bean.project.Project;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author Samir
  */
 @WebServlet("/projects")
-public class ProjectsWebService extends HttpServlet {
-	
-	private RequestProcessor<Project> requestProcessor = new RequestProcessor<>(Project.class);
+public class ProjectsWebService extends AbstractWebService<Project> {
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		requestProcessor.doGet(req, resp);
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		requestProcessor.doPost(req, resp);
-	}
-	
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		requestProcessor.doPut(req, resp);
-	}
-	
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		requestProcessor.doDelete(req, resp);
+	public void init() throws ServletException {
+		super.init();
+		
+		requestProcessor = new RequestProcessor<>(Project.class);
 	}
 }

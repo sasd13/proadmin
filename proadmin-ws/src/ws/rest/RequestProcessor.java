@@ -96,7 +96,7 @@ public class RequestProcessor<T> {
 			} else {
 				persistenceService.update((T) reqData);
 			}
-		} catch (ClassCastException e) {
+		} catch (NullPointerException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
