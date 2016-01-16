@@ -86,7 +86,9 @@ public abstract class JDBCEntityDAO<T> implements IEntityDAO<T> {
 		
 		ResultSet resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			list.add(getResultSetValues(resultSet));
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
 		}
 		
 		preparedStatement.close();

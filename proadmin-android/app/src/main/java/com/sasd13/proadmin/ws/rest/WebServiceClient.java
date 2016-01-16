@@ -48,7 +48,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept(httpRequest);
+            addHeadersAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -57,22 +57,22 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respData = httpRequest.readResponseData();
 
             t = (T) DataParser.fromString(mimeType, respData, mClass);
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
 
         return t;
     }
 
-    private void addHeadersAccept(HttpRequest httpRequest) {
-        //httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
+    private void addHeadersAccept() {
+        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
         httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
     }
 
     public T get(Map<String, String[]> parameters) {
         T[] ts = getAll(parameters);
 
-        return (ts != null) ? ts[0] : null;
+        return (ts != null && ts.length > 0) ? ts[0] : null;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept(httpRequest);
+            addHeadersAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -91,7 +91,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respData = httpRequest.readResponseData();
 
             ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
 
@@ -106,7 +106,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept(httpRequest);
+            addHeadersAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -115,7 +115,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respData = httpRequest.readResponseData();
 
             ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
 
@@ -131,7 +131,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.POST);
             httpRequest.open(timeOut);
-            addHeadersAccept(httpRequest);
+            addHeadersAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
 
@@ -201,5 +201,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void deleteAll() {
+        //Do nothing
     }
 }

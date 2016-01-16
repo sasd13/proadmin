@@ -6,13 +6,12 @@ import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class PersistenceService<T> {
 	
-	private Class mClass;
+	private Class<T> mClass;
 	private DAO dao = JDBCDAO.getInstance();
 	
-	public PersistenceService(Class mClass) {
+	public PersistenceService(Class<T> mClass) {
 		this.mClass = mClass;
 	}
 	
@@ -68,7 +67,25 @@ public class PersistenceService<T> {
 		try {
 			dao.open();
 			
-			dao.getEntityDAO(mClass).update(t);
+			performUpdate(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dao.close();
+		}
+	}
+	
+	private void performUpdate(T t) {
+		dao.getEntityDAO(mClass).update(t);
+	}
+	
+	public void updateAll(T[] ts) {
+		try {
+			dao.open();
+			
+			for (T t : ts) {
+				performUpdate(t);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

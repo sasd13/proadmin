@@ -10,7 +10,6 @@ import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class FilterService {
 	
 	public static List filter(Map<String, String[]> parameters, List list, Class mClass) {

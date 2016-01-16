@@ -16,15 +16,14 @@ import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.MimeType;
 import com.sasd13.javaex.net.parser.DataParser;
 
-@SuppressWarnings("rawtypes")
 public class RequestProcessor<T> {
 	
 	private static final String HTTP_HEADER_ACCEPT = "Accept";
 	
-	private Class mClass;
+	private Class<T> mClass;
 	private PersistenceService<T> persistenceService;
 	
-	public RequestProcessor(Class mClass) {
+	public RequestProcessor(Class<T> mClass) {
 		this.mClass = mClass;
 		persistenceService = new PersistenceService<>(mClass);
 	}
@@ -32,19 +31,15 @@ public class RequestProcessor<T> {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> parameters = req.getParameterMap();
 		
+		Object respData = null;
+		
 		if (parameters.size() == 1 && parameters.containsKey("id") && parameters.get("id").length == 1) {
-			T t = null;
-			
 			try {
-				t = persistenceService.read(Long.parseLong(req.getParameter("id")));
+				respData = persistenceService.read(Long.parseLong(req.getParameter("id")));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
-			
-			encodeAndWriteDataToResponse(req, resp, t);
 		} else {
-			T[] ts = null;
-			
 			if (!parameters.containsKey("id")) {
 				List<T> list = persistenceService.readAll();
 				
@@ -52,14 +47,14 @@ public class RequestProcessor<T> {
 					list = FilterService.filter(parameters, list, mClass);
 				}
 				
-				ts = (T[]) list.toArray();
+				respData = list.toArray((T[]) Array.newInstance(mClass, list.size()));
 			}
-			
-			encodeAndWriteDataToResponse(req, resp, ts);
 		}
+		
+		parseAndWriteDataToResponse(req, resp, respData);
 	}
 	
-	private void encodeAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException {
+	private void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException {
 		String contentType = ContentTypeSelector.select(req.getHeaders(HTTP_HEADER_ACCEPT));
 		
 		resp.setContentType(contentType);
@@ -73,31 +68,37 @@ public class RequestProcessor<T> {
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		T t = readAndDecodeDataFromRequest(req);		
-		
-		long id = persistenceService.create(t);
-		
-		encodeAndWriteDataToResponse(req, resp, id);
-	}
-	
-	private T readAndDecodeDataFromRequest(HttpServletRequest req) throws IOException {
-		T t = null;
-		
-		String reqData = ContentIO.read(req.getReader());
+		long id = 0;
 		
 		try {
-			t = (T) DataParser.fromString(req.getContentType(), reqData, mClass);
+			T t = (T) readAndParseDataFromRequest(req);	
+			
+			id = persistenceService.create(t);
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 		}
 		
-		return t;
+		parseAndWriteDataToResponse(req, resp, id);
+	}
+	
+	private Object readAndParseDataFromRequest(HttpServletRequest req) throws IOException {
+		String sReqData = ContentIO.read(req.getReader());
+		
+		return DataParser.fromString(req.getContentType(), sReqData, mClass);
 	}
 	
 	public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		T t = readAndDecodeDataFromRequest(req);
+		Object reqData = readAndParseDataFromRequest(req);
 		
-		persistenceService.update(t);
+		try {
+			if (reqData.getClass().isArray()) {
+				persistenceService.updateAll((T[]) reqData);
+			} else {
+				persistenceService.update((T) reqData);
+			}
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

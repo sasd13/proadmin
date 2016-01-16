@@ -22,8 +22,8 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
     private static final int TIMEOUT = 30000;
 
     private LogActivity logActivity;
-    private String password;
     private Map<String, String[]> parameters;
+    private String password;
     private WebServiceClient<Teacher> service;
     private TaskPlanner taskPlanner;
     private WaitDialog waitDialog;
@@ -43,8 +43,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         }, TIMEOUT - 100);
         waitDialog = WaitDialogMaker.make(logActivity, this, taskPlanner);
 
-        String[] numbers = {number};
-        parameters.put("number", numbers);
+        parameters.put("number", new String[]{number});
     }
 
     @Override
@@ -74,7 +73,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         waitDialog.dismiss();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            if (teacher != null && password.equals(teacher.getPassword())) {
+            if (teacher != null && teacher.getPassword().equals(password)) {
                 Session.logIn(teacher.getId());
                 logActivity.goToHomeActivity();
             } else {

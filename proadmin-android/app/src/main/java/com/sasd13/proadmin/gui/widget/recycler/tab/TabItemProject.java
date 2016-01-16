@@ -53,18 +53,6 @@ public class TabItemProject extends RecyclerItem {
     public void setIntent(Intent intent) {
         this.intent = intent;
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        try {
-            view.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    view.getContext().startActivity(TabItemProject.this.intent);
-                }
-            });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -73,6 +61,7 @@ public class TabItemProject extends RecyclerItem {
 
         findViews();
         bindViews();
+        setOnClickListener();
         setOnTouchListener();
     }
 
@@ -87,6 +76,16 @@ public class TabItemProject extends RecyclerItem {
         setTitle(title);
         setDescription(description);
         setIntent(intent);
+    }
+
+    private void setOnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(TabItemProject.this.intent);
+            }
+        });
     }
 
     private void setOnTouchListener() {
