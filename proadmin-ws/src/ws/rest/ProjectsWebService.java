@@ -7,7 +7,6 @@ package ws.rest;
 
 import com.sasd13.proadmin.core.bean.project.Project;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 /**
@@ -18,9 +17,7 @@ import javax.servlet.annotation.WebServlet;
 public class ProjectsWebService extends AbstractWebService<Project> {
 	
 	@Override
-	public void init() throws ServletException {
-		super.init();
-		
-		requestProcessor = new RequestProcessor<>(Project.class);
+	protected Class<Project> getEntityClass() {
+		return Project.class;
 	}
 }

@@ -7,7 +7,6 @@ package ws.rest;
 
 import com.sasd13.proadmin.core.bean.running.Team;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 /**
@@ -18,9 +17,7 @@ import javax.servlet.annotation.WebServlet;
 public class TeamsWebService extends AbstractWebService<Team> {
 	
 	@Override
-	public void init() throws ServletException {
-		super.init();
-		
-		requestProcessor = new RequestProcessor<>(Team.class);
+	protected Class<Team> getEntityClass() {
+		return Team.class;
 	}
 }

@@ -5,7 +5,6 @@
  */
 package ws.rest;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
@@ -18,9 +17,7 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 public class TeachersWebService extends AbstractWebService<Teacher> {
 	
 	@Override
-	public void init() throws ServletException {
-		super.init();
-		
-		requestProcessor = new RequestProcessor<>(Teacher.class);
+	protected Class<Teacher> getEntityClass() {
+		return Teacher.class;
 	}
 }
