@@ -20,7 +20,6 @@ public class HomeActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-
         createHomeMenus();
     }
 
@@ -83,7 +82,6 @@ public class HomeActivity extends MotherActivity {
 
         if (getIntent().hasExtra(Extra.EXIT) && getIntent().getBooleanExtra(Extra.EXIT, false)) {
             getIntent().removeExtra(Extra.EXIT);
-
             exit();
         }
     }

@@ -46,7 +46,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String urlParams = "?id=" + id;
 
         try {
-            httpRequest = new HttpRequest(new URL(url + urlParams));
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
             addHeadersAccept(httpRequest);
             httpRequest.connect();
@@ -65,7 +65,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     }
 
     private void addHeadersAccept(HttpRequest httpRequest) {
-        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
+        //httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
         httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
     }
 
@@ -80,7 +80,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         T[] ts = null;
 
         try {
-            httpRequest = new HttpRequest(new URL(url));
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
             addHeadersAccept(httpRequest);
             httpRequest.connect();
@@ -104,7 +104,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String urlParams = ParametersParser.toEncodedURLString(parameters);
 
         try {
-            httpRequest = new HttpRequest(new URL(url + urlParams));
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
             addHeadersAccept(httpRequest);
             httpRequest.connect();
@@ -129,7 +129,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
 
         try {
-            httpRequest = new HttpRequest(new URL(url), "POST");
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.POST);
             httpRequest.open(timeOut);
             addHeadersAccept(httpRequest);
             httpRequest.connect();
@@ -153,7 +153,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
 
         try {
-            httpRequest = new HttpRequest(new URL(url), "PUT");
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
             httpRequest.open(timeOut);
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
@@ -169,7 +169,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String reqData = DataParser.toString(MimeType.APPLICATION_JSON, ts);
 
         try {
-            httpRequest = new HttpRequest(new URL(url), "PUT");
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
             httpRequest.open(timeOut);
             httpRequest.connect();
             httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
@@ -188,7 +188,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String urlParams = "?id=" + id;
 
             try {
-                httpRequest = new HttpRequest(new URL(url + urlParams), "DELETE");
+                httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.DELETE);
                 httpRequest.open(timeOut);
                 httpRequest.connect();
 

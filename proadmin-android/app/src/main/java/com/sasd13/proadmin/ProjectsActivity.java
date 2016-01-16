@@ -1,7 +1,6 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -37,10 +36,8 @@ public class ProjectsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
-
         createSpinAcademicLevels();
         createTabProjects();
-
         fillSpinAcademicLevels();
         fillTabProjects();
     }
@@ -75,14 +72,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void fillTabProjects() {
-        DAO dao = SQLiteDAO.getInstance();
-
-        dao.open();
-
-        IEntityDAO entityDAO = dao.getEntityDAO(Project.class);
-        projects = entityDAO.selectAll();
-
-        dao.close();
+        //projects = entityDAO.selectAll();
 
         spin.resetPosition();
 
@@ -136,7 +126,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void refresh() {
-        if (ConnectivityChecker.isOnline(this)) {
+        if (ConnectivityChecker.isActive(this)) {
             tryToPerformRefresh();
         } else {
             CustomDialog.showOkDialog(

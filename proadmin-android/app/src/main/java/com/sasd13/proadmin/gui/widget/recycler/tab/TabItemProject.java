@@ -24,7 +24,7 @@ public class TabItemProject extends RecyclerItem {
         this.code = code;
 
         try {
-            this.textViewCode.setText(this.code);
+            textViewCode.setText(code);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class TabItemProject extends RecyclerItem {
         this.title = title;
 
         try {
-            this.textViewTitle.setText(this.title);
+            textViewTitle.setText(title);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class TabItemProject extends RecyclerItem {
         this.description = description;
 
         try {
-            this.textViewDescription.setText(this.description);
+            textViewDescription.setText(description);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -52,10 +52,10 @@ public class TabItemProject extends RecyclerItem {
 
     public void setIntent(Intent intent) {
         this.intent = intent;
-        this.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         try {
-            getView().setOnClickListener(new View.OnClickListener() {
+            view.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -77,20 +77,20 @@ public class TabItemProject extends RecyclerItem {
     }
 
     private void findViews() {
-        this.textViewCode = (TextView) getView().findViewById(R.id.tabitemproject_textview_code);
-        this.textViewTitle = (TextView) getView().findViewById(R.id.tabitemproject_textview_title);
-        this.textViewDescription = (TextView) getView().findViewById(R.id.tabitemproject_textview_description);
+        textViewCode = (TextView) view.findViewById(R.id.tabitemproject_textview_code);
+        textViewTitle = (TextView) view.findViewById(R.id.tabitemproject_textview_title);
+        textViewDescription = (TextView) view.findViewById(R.id.tabitemproject_textview_description);
     }
 
     private void bindViews() {
-        setCode(this.code);
-        setTitle(this.title);
-        setDescription(this.description);
-        setIntent(this.intent);
+        setCode(code);
+        setTitle(title);
+        setDescription(description);
+        setIntent(intent);
     }
 
     private void setOnTouchListener() {
-        int color = getView().getContext().getResources().getColor(R.color.background_material_light);
-        getView().setOnTouchListener(new ColorOnTouchListener(color));
+        int color = view.getContext().getResources().getColor(R.color.background_material_light);
+        view.setOnTouchListener(new ColorOnTouchListener(color));
     }
 }

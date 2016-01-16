@@ -19,7 +19,7 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
         this.color = color;
 
         try {
-            this.viewColor.setBackgroundColor(this.color);
+            viewColor.setBackgroundColor(color);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -34,13 +34,13 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
     }
 
     private void findViews() {
-        this.viewColor = getView().findViewById(R.id.draweritemhomemenu_view_color);
+        viewColor = view.findViewById(R.id.draweritemhomemenu_view_color);
     }
 
     private void bindViews() {
-        if (this.color == 0) {
-            this.color = getView().getContext().getResources().getColor(R.color.customGreenApp);
+        if (color == 0) {
+            color = view.getContext().getResources().getColor(R.color.customGreenApp);
         }
-        setColor(this.color);
+        setColor(color);
     }
 }

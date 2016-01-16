@@ -13,7 +13,6 @@ public class ProjectActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_project);
-
         createPresentationProject();
     }
 
@@ -24,8 +23,6 @@ public class ProjectActivity extends MotherActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     private long getProjectIdFromIntent() {

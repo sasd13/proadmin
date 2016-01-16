@@ -34,7 +34,7 @@ public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T> {
     protected void executeDelete(String table, String columnId, long id) {
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_DELETED, true);
+        values.put(COLUMN_DELETED, 1);
 
         db.update(table, values, columnId + " = ?", new String[]{String.valueOf(id)});
     }
@@ -61,7 +61,9 @@ public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T> {
         List<T> list = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
         }
         cursor.close();
 

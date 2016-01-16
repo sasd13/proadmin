@@ -9,18 +9,20 @@ import com.sasd13.proadmin.core.filter.member.NumberCriteria;
 
 public class TeachersFilter extends AbstractFilter<Teacher> {
 	
-	public TeachersFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public TeachersFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("number".equals(key)) {
-				multiAndCriteria.addCriteria(new NumberCriteria<Teacher>(value));
-			} else if ("email".equals(key)) {
-				multiAndCriteria.addCriteria(new EmailCriteria<Teacher>(value));
+			for (String value : entry.getValue()) {
+				if ("number".equals(key)) {
+					multiAndCriteria.addCriteria(new NumberCriteria<Teacher>(value));
+				} else if ("email".equals(key)) {
+					multiAndCriteria.addCriteria(new EmailCriteria<Teacher>(value));
+				}
 			}
 		}
 	}

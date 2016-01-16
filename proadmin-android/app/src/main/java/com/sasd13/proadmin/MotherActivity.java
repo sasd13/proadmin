@@ -26,7 +26,6 @@ public abstract class MotherActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         super.setContentView(R.layout.activity_mother);
 
         createDrawer();
@@ -57,8 +56,8 @@ public abstract class MotherActivity extends AppCompatActivity {
 
     private void addHomeMenuItemsToDrawer() {
         HomeMenu homeMenu = HomeMenu.getInstance(this);
-
         DrawerItemHomeMenu drawerItemHomeMenu;
+
         for (HomeMenuItem homeMenuItem : homeMenu.getItems()) {
             drawerItemHomeMenu = new DrawerItemHomeMenu();
 

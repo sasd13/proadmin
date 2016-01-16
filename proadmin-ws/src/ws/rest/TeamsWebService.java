@@ -20,28 +20,27 @@ import javax.servlet.http.HttpServletResponse;
  * @author Samir
  */
 @WebServlet("/teams")
-@SuppressWarnings("rawtypes")
 public class TeamsWebService extends HttpServlet {
 	
-	private Class mClass = Team.class;
+	private RequestProcessor<Team> requestProcessor = new RequestProcessor<>(Team.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doGet(req, resp, mClass);
+		requestProcessor.doGet(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doPost(req, resp, mClass);
+		requestProcessor.doPost(req, resp);
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doPut(req, resp, mClass);
+		requestProcessor.doPut(req, resp);
 	}
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doDelete(req, resp, mClass);
+		requestProcessor.doDelete(req, resp);
 	}
 }

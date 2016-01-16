@@ -10,31 +10,33 @@ import com.sasd13.proadmin.core.filter.running.YearCriteria;
 
 public class RunningsFilter extends AbstractFilter<Running> {
 	
-	public RunningsFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public RunningsFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("year".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-			} else if ("teacher".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-			} else if ("project".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
+			for (String value : entry.getValue()) {
+				if ("year".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if ("teacher".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if ("project".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

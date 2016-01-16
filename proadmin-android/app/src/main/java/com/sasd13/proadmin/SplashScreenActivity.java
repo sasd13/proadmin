@@ -21,7 +21,6 @@ public class SplashScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splashscreen);
-
         createLogo();
     }
 
@@ -36,7 +35,6 @@ public class SplashScreenActivity extends Activity {
 
         SQLiteDAO.getInstance().init(this);
         Session.init(this);
-
         if (Session.isStarted()) {
             goToActivity(HomeActivity.class);
         } else {

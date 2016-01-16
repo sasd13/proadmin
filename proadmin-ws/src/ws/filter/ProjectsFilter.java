@@ -13,18 +13,20 @@ public class ProjectsFilter extends AbstractFilter<Project> {
 	public ProjectsFilter(Map<String, String[]> parameters) {
 		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : parameters.keySet()) {
-			value = parameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("code".equals(key)) {
-				multiAndCriteria.addCriteria(new CodeCriteria(value));
-			} else if ("academiclevel".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+			for (String value : entry.getValue()) {
+				if ("code".equals(key)) {
+					multiAndCriteria.addCriteria(new CodeCriteria(value));
+				} else if ("academiclevel".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

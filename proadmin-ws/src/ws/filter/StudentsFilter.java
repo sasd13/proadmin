@@ -11,24 +11,26 @@ import com.sasd13.proadmin.core.filter.member.NumberCriteria;
 
 public class StudentsFilter extends AbstractFilter<Student> {
 	
-	public StudentsFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public StudentsFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("number".equals(key)) {
-				multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
-			} else if ("academiclevel".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+			for (String value : entry.getValue()) {
+				if ("number".equals(key)) {
+					multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
+				} else if ("academiclevel".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
+				} else if ("email".equals(key)) {
+					multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
 				}
-			} else if ("email".equals(key)) {
-				multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
 			}
 		}
 	}

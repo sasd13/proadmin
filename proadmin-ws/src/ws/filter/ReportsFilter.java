@@ -8,19 +8,21 @@ import com.sasd13.proadmin.core.filter.running.TeamCriteria;
 
 public class ReportsFilter extends AbstractFilter<Report> {
 	
-	public ReportsFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public ReportsFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("team".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
+			for (String value : entry.getValue()) {
+				if ("team".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

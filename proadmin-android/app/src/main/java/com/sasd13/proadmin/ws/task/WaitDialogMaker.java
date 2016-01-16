@@ -34,10 +34,8 @@ public class WaitDialogMaker {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mAsyncTask.cancel(true);
-
                         mTaskPlanner.stop();
                         waitDialog.dismiss();
-
                         Toast.makeText(mContext, R.string.dialog_message_error_request_canceled, Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -9,21 +9,23 @@ import com.sasd13.proadmin.core.filter.running.RunningCriteria;
 
 public class TeamsFilter extends AbstractFilter<Team> {
 	
-	public TeamsFilter(Map<String, String[]> mapParameters) {
-		super(mapParameters);
+	public TeamsFilter(Map<String, String[]> parameters) {
+		super(parameters);
 		
-		String value;
+		String key;
 		
-		for (String key : mapParameters.keySet()) {
-			value = mapParameters.get(key)[0];
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			key = entry.getKey();
 			
-			if ("code".equals(key)) {
-				multiAndCriteria.addCriteria(new CodeCriteria(value));
-			} else if ("running".equals(key)) {
-				try {
-					multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
+			for (String value : entry.getValue()) {
+				if ("code".equals(key)) {
+					multiAndCriteria.addCriteria(new CodeCriteria(value));
+				} else if ("running".equals(key)) {
+					try {
+						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

@@ -9,11 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidex.session.Session;
-import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.core.db.DAO;
-import com.sasd13.proadmin.db.SQLiteDAO;
 
 public class SettingActivity extends MotherActivity {
 
@@ -24,12 +20,13 @@ public class SettingActivity extends MotherActivity {
 
     private FormTeacherViewHolder formTeacher;
 
+    private Teacher teacher;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setting);
-
         createFormTeacher();
     }
 
@@ -46,14 +43,7 @@ public class SettingActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        DAO dao = SQLiteDAO.getInstance();
-
-        dao.open();
-
-        IEntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
-        Teacher teacher = (Teacher) entityDAO.select(Session.getId());
-
-        dao.close();
+        //teacher = (Teacher) entityDAO.select(Session.getId());
 
         fillFormTeacher(teacher);
     }
@@ -90,7 +80,7 @@ public class SettingActivity extends MotherActivity {
         String[] tabFormErrors = validFormTeacher();
 
         if (true) {
-            tryToPerformUpdateTeacher();
+            performUpdateTeacher();
         } else {
             CustomDialog.showOkDialog(
                     this,
@@ -105,34 +95,15 @@ public class SettingActivity extends MotherActivity {
         return null;
     }
 
-    private void tryToPerformUpdateTeacher() {
-        DAO dao = SQLiteDAO.getInstance();
-
-        dao.open();
-
-        IEntityDAO entityDAO = dao.getEntityDAO(Teacher.class);
-        Teacher teacher = (Teacher) entityDAO.select(Session.getId());
-
-        performUpdateTeacher(teacher, entityDAO);
-
-        dao.close();
-    }
-
-    private void performUpdateTeacher(Teacher teacher, IEntityDAO entityDAO) {
+    private void performUpdateTeacher() {
         editTeacherWithForm(teacher);
-
-        entityDAO.update(teacher);
-
+        //entityDAO.update(teacher);
         Toast.makeText(this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
     private void editTeacherWithForm(Teacher teacher) {
-        String firstName = formTeacher.editTextFirstName.getText().toString().trim();
-        String lastName = formTeacher.editTextLastName.getText().toString().trim();
-        String email = formTeacher.editTextEmail.getText().toString().trim();
-
-        teacher.setFirstName(firstName);
-        teacher.setLastName(lastName);
-        teacher.setEmail(email);
+        teacher.setFirstName(formTeacher.editTextFirstName.getText().toString().trim());
+        teacher.setLastName(formTeacher.editTextLastName.getText().toString().trim());
+        teacher.setEmail(formTeacher.editTextEmail.getText().toString().trim());
     }
 }

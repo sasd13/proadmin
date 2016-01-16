@@ -8,9 +8,6 @@ import com.sasd13.proadmin.core.db.DAO;
 
 public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
-    private static final String DB = "database.db";
-    private static final int VERSION = 1;
-
     private static SQLiteDAO instance = null;
 
     private SQLiteDBHandler dbHandler;
@@ -38,7 +35,7 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     @Override
     public void init(Context context) {
-        dbHandler = new SQLiteDBHandler(context, DB, null, VERSION);
+        dbHandler = new SQLiteDBHandler(context, SQLiteDBInformation.DB, null, SQLiteDBInformation.VERSION);
     }
 
     @Override

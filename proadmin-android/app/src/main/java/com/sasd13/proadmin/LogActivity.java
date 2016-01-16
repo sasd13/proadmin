@@ -29,7 +29,6 @@ public class LogActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_log);
-
         createFormLog();
     }
 
@@ -38,8 +37,8 @@ public class LogActivity extends Activity {
 
         formLog.editTextNumber = (EditText) findViewById(R.id.log_edittext_number);
         formLog.editTextPassword = (EditText) findViewById(R.id.log_edittext_password);
-
         formLog.buttonConnect = (Button) findViewById(R.id.log_button_connect);
+
         formLog.buttonConnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -56,7 +55,7 @@ public class LogActivity extends Activity {
         String number = formLog.editTextNumber.getText().toString().trim();
         String password = formLog.editTextPassword.getText().toString().trim();
 
-        if (ConnectivityChecker.isOnline(this)) {
+        if (ConnectivityChecker.isActive(this)) {
             LoginAsyncTask loginTask = new LoginAsyncTask(this, number, password);
             loginTask.execute();
         } else {

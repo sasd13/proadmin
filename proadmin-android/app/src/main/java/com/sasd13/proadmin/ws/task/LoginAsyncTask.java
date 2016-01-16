@@ -37,9 +37,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
             @Override
             public void run() {
                 cancel(true);
-
                 waitDialog.dismiss();
-
                 showTaskError();
             }
         }, TIMEOUT - 100);
@@ -62,11 +60,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Integer, Teacher> {
         Teacher teacher = null;
 
         if (!isCancelled()) {
-            try {
-                teacher = service.get(parameters);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+            teacher = service.get(parameters);
         }
 
         return teacher;

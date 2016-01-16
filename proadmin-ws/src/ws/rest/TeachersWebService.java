@@ -5,8 +5,6 @@
  */
 package ws.rest;
 
-import com.sasd13.proadmin.core.bean.member.Teacher;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -15,33 +13,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sasd13.proadmin.core.bean.member.Teacher;
+
 /**
  *
  * @author Samir
  */
 @WebServlet("/teachers")
-@SuppressWarnings("rawtypes")
 public class TeachersWebService extends HttpServlet {
 	
-	private Class mClass = Teacher.class;
+	private RequestProcessor<Teacher> requestProcessor = new RequestProcessor<>(Teacher.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doGet(req, resp, mClass);
+		requestProcessor.doGet(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doPost(req, resp, mClass);
+		requestProcessor.doPost(req, resp);
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doPut(req, resp, mClass);
+		requestProcessor.doPut(req, resp);
 	}
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestProcessor.doDelete(req, resp, mClass);
+		requestProcessor.doDelete(req, resp);
 	}
 }

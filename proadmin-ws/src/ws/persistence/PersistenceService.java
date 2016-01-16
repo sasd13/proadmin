@@ -6,19 +6,24 @@ import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public class PersistenceService {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class PersistenceService<T> {
 	
-	private static DAO dao = JDBCDAO.getInstance();
+	private Class mClass;
+	private DAO dao = JDBCDAO.getInstance();
 	
-	public static long create(Object object) {
+	public PersistenceService(Class mClass) {
+		this.mClass = mClass;
+	}
+	
+	public long create(T t) {
 		long id = 0;
 		
 		try {
 			dao.open();
 			
-			id = dao.getEntityDAO(object.getClass()).insert(object);
-		} catch (NullPointerException e) {
+			id = dao.getEntityDAO(mClass).insert(t);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
@@ -27,30 +32,30 @@ public class PersistenceService {
 		return id;
 	}
 	
-	public static Object read(long id, Class mClass) {
-		Object object = null;
+	public T read(long id) {
+		T t = null;
 		
 		try {
 			dao.open();
 			
-			object = dao.getEntityDAO(mClass).select(id);
-		} catch (NullPointerException e) {
+			t = (T) dao.getEntityDAO(mClass).select(id);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
 		}
 		
-		return object;
+		return t;
 	}
 	
-	public static List readAll(Class mClass) {
-		List list = null;
+	public List<T> readAll() {
+		List<T> list = null;
 		
 		try {
 			dao.open();
 			
 			list = dao.getEntityDAO(mClass).selectAll();
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
@@ -59,38 +64,24 @@ public class PersistenceService {
 		return list;
 	}
 	
-	public static void update(Object object) {
+	public void update(T t) {
 		try {
 			dao.open();
 			
-			if (object.getClass().isArray()) {
-				for (Object o : (Object[]) object) {
-					performUpdate(o);
-				}
-			} else if (object instanceof Iterable) {
-				for (Object o : (Iterable) object) {
-					performUpdate(o);
-				}
-			} else {
-				performUpdate(object);
-			}
-		} catch (NullPointerException e) {
+			dao.getEntityDAO(mClass).update(t);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
 		}
 	}
 	
-	private static void performUpdate(Object object) {
-		dao.getEntityDAO(object.getClass()).update(object);
-	}
-	
-	public static void delete(long id, Class mClass) {
+	public void delete(long id) {
 		try {
 			dao.open();
 			
 			dao.getEntityDAO(mClass).delete(id);
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
