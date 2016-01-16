@@ -20,7 +20,7 @@ import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.MimeType;
 import com.sasd13.javaex.net.parser.DataParser;
 
-import ws.filter.FilterService;
+import ws.filter.FilterFactory;
 import ws.persistence.PersistenceService;
 
 /**
@@ -59,7 +59,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 				List<T> list = persistenceService.readAll();
 				
 				if (!parameters.isEmpty()) {
-					list = FilterService.filter(parameters, list, getEntityClass());
+					list = FilterFactory.make(getEntityClass(), parameters).filter(list);
 				}
 				
 				respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
