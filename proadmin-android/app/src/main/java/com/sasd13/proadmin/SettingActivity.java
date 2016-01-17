@@ -152,6 +152,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     public void displayContent() {
         try {
             teacher = readTask.getContent()[0];
+
             fillFormTeacher();
         } catch (NullPointerException e) {
             e.printStackTrace();

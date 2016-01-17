@@ -62,7 +62,9 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 					list = FilterFactory.make(getEntityClass(), parameters).filter(list);
 				}
 				
-				respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
+				respData = (list.isEmpty()) 
+						? null
+						: list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
 			}
 		}
 		

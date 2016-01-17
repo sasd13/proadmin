@@ -14,7 +14,7 @@ import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.ws.task.ReadParameterizedTask;
+import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class LogActivity extends Activity implements IRefreshable {
     private View viewFormLog, viewLoad;
     private FormLogViewHolder formLog;
 
-    private ReadParameterizedTask<Teacher> readParameterizedTask;
+    private ParameterizedReadTask<Teacher> parameterizedReadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class LogActivity extends Activity implements IRefreshable {
             public void onClick(View v) {
                 if (formLog.editTextNumber.getText().toString().trim().length() > 0
                         && formLog.editTextPassword.getText().toString().trim().length() > 0) {
-                    KeyBoardHider.hide(v);
+                    KeyBoardHider.hide(LogActivity.this);
                     logIn();
                 }
             }
@@ -74,8 +74,8 @@ public class LogActivity extends Activity implements IRefreshable {
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put("number", new String[]{number});
 
-            readParameterizedTask = new ReadParameterizedTask<>(this, Teacher.class, parameters);
-            readParameterizedTask.execute();
+            parameterizedReadTask = new ParameterizedReadTask<>(this, Teacher.class, parameters);
+            parameterizedReadTask.execute();
         } else {
             CustomDialog.showOkDialog(
                     this,
@@ -105,7 +105,7 @@ public class LogActivity extends Activity implements IRefreshable {
         String password = formLog.editTextPassword.getText().toString().trim();
 
         try {
-            Teacher teacher = readParameterizedTask.getContent()[0];
+            Teacher teacher = parameterizedReadTask.getContent()[0];
 
             if (teacher != null && teacher.getPassword().equals(password)) {
                 Session.logIn(teacher.getId());
@@ -117,11 +117,11 @@ public class LogActivity extends Activity implements IRefreshable {
                         this.getResources().getString(R.string.log_dialog_title_error_log),
                         this.getResources().getString(R.string.log_dialog_message_error_log)
                 );
-
-                displayNotFound();
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            displayNotFound();
         }
     }
 

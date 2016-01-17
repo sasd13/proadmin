@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.gui.widget.recycler.tab;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.color.ColorOnTouchListener;
@@ -15,10 +15,6 @@ public class TabItemProject extends RecyclerItem {
     private Intent intent;
 
     private TextView textViewCode, textViewTitle, textViewDescription;
-
-    public TabItemProject() {
-        super(R.layout.tabitemproject);
-    }
 
     public void setCode(CharSequence code) {
         this.code = code;
@@ -56,8 +52,8 @@ public class TabItemProject extends RecyclerItem {
     }
 
     @Override
-    public void inflate(ViewStub viewStub) {
-        super.inflate(viewStub);
+    public void setView(View view) {
+        super.setView(view);
 
         findViews();
         bindViews();
@@ -89,7 +85,7 @@ public class TabItemProject extends RecyclerItem {
     }
 
     private void setOnTouchListener() {
-        int color = view.getContext().getResources().getColor(R.color.background_material_light);
+        int color = ContextCompat.getColor(view.getContext(), R.color.background_material_light);
         view.setOnTouchListener(new ColorOnTouchListener(color));
     }
 }

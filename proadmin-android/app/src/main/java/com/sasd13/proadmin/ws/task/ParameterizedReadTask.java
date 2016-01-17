@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Samir on 24/12/2015.
  */
-public class ReadParameterizedTask<T> extends AsyncTask<Void, Integer, T[]> {
+public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
 
     private static final int TIMEOUT = 60000;
 
@@ -25,7 +25,7 @@ public class ReadParameterizedTask<T> extends AsyncTask<Void, Integer, T[]> {
     private T[] ts;
     private TaskPlanner taskPlanner;
 
-    public ReadParameterizedTask(Activity activity, Class<T> mClass, Map<String, String[]> parameters) {
+    public ParameterizedReadTask(Activity activity, Class<T> mClass, Map<String, String[]> parameters) {
         this.activity = activity;
         this.mClass = mClass;
         this.parameters = parameters;

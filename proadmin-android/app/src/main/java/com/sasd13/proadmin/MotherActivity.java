@@ -9,7 +9,6 @@ import android.view.ViewStub;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
-import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemTitle;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.constant.Extra;
@@ -43,18 +42,10 @@ public abstract class MotherActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerview);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_drawerlayout);
 
-        drawer = new Drawer(this, recyclerView, drawerLayout);
+        drawer = new Drawer(this, recyclerView, R.layout.draweritemhomemenu, drawerLayout);
     }
 
     private void fillDrawer() {
-        DrawerItemTitle drawerItemTitle = new DrawerItemTitle();
-        drawerItemTitle.setText(getResources().getString(R.string.activity_home));
-        drawer.addItem(drawerItemTitle);
-
-        addHomeMenuItemsToDrawer();
-    }
-
-    private void addHomeMenuItemsToDrawer() {
         HomeMenu homeMenu = HomeMenu.getInstance(this);
         DrawerItemHomeMenu drawerItemHomeMenu;
 

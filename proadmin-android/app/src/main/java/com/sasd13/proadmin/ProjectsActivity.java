@@ -91,7 +91,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
-        tab = new Tab(this, recyclerView);
+        tab = new Tab(this, recyclerView, R.layout.tabitemproject);
     }
 
     private void fillSpinAcademicLevels() {
@@ -153,6 +153,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
         tab.clearItems();
+
         addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
     }
 

@@ -1,19 +1,15 @@
 package com.sasd13.proadmin.gui.widget.recycler.drawer;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewStub;
 
-import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemIntentable;
+import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItem;
 import com.sasd13.proadmin.R;
 
-public class DrawerItemHomeMenu extends DrawerItemIntentable {
+public class DrawerItemHomeMenu extends DrawerItem {
 
     private int color;
     private View viewColor;
-
-    public DrawerItemHomeMenu() {
-        super(R.layout.draweritemhomemenu);
-    }
 
     public void setColor(int color) {
         this.color = color;
@@ -26,8 +22,8 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
     }
 
     @Override
-    public void inflate(ViewStub viewStub) {
-        super.inflate(viewStub);
+    public void setView(View view) {
+        super.setView(view);
 
         findViews();
         bindViews();
@@ -39,7 +35,7 @@ public class DrawerItemHomeMenu extends DrawerItemIntentable {
 
     private void bindViews() {
         if (color == 0) {
-            color = view.getContext().getResources().getColor(R.color.customGreenApp);
+            color = ContextCompat.getColor(view.getContext(), R.color.customGreenApp);
         }
         setColor(color);
     }
