@@ -79,7 +79,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_DATEMEETING + " = ?, " 
 					+ COLUMN_WEEKNUMBER + " = ?, " 
 					+ COLUMN_TEAMCOMMENT + " = ?, " 
-					+ COLUMN_TEAM_ID + " = ?, " 
+					+ COLUMN_TEAM_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

@@ -167,7 +167,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
-            String respData = httpRequest.readResponseData();
 
             httpRequest.disconnect();
         } catch (IOException e) {

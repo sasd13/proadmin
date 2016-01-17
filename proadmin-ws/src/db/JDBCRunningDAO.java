@@ -78,7 +78,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				+ " SET " 
 					+ COLUMN_YEAR + " = ?, " 
 					+ COLUMN_TEACHER_ID + " = ?, " 
-					+ COLUMN_PROJECT_ID + " = ?, " 
+					+ COLUMN_PROJECT_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

@@ -90,7 +90,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 					+ COLUMN_COMMUNICATIONMARK + " = ?, " 
 					+ COLUMN_COMMUNICATIONCOMMENT + " = ?, " 
 					+ COLUMN_REPORT_ID + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?, " 
+					+ COLUMN_STUDENT_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

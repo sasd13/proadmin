@@ -78,7 +78,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				+ " SET " 
 					+ COLUMN_MARK + " = ?, " 
 					+ COLUMN_REPORT_ID + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?, " 
+					+ COLUMN_STUDENT_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

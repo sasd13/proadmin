@@ -79,7 +79,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 					+ COLUMN_ACADEMICLEVEL + " = ?, " 
 					+ COLUMN_FIRSTNAME + " = ?, " 
 					+ COLUMN_LASTNAME + " = ?, " 
-					+ COLUMN_EMAIL + " = ?, " 
+					+ COLUMN_EMAIL + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

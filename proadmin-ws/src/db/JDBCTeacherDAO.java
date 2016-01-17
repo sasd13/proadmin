@@ -78,7 +78,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 					+ COLUMN_FIRSTNAME + " = ?, " 
 					+ COLUMN_LASTNAME + " = ?, " 
 					+ COLUMN_EMAIL + " = ?, " 
-					+ COLUMN_PASSWORD + " = ?, " 
+					+ COLUMN_PASSWORD + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

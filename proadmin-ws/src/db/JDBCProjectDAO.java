@@ -75,7 +75,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 					+ COLUMN_CODE + " = ?, " 
 					+ COLUMN_ACADEMICLEVEL + " = ?, " 
 					+ COLUMN_TITLE + " = ?, " 
-					+ COLUMN_DESCRIPTION + " = ?, " 
+					+ COLUMN_DESCRIPTION + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

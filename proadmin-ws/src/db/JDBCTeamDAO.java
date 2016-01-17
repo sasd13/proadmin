@@ -70,7 +70,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_CODE + " = ?, " 
-					+ COLUMN_RUNNING_ID + " = ?, " 
+					+ COLUMN_RUNNING_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
