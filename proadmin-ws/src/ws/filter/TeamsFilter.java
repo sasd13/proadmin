@@ -2,12 +2,12 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.AbstractFilter;
+import com.sasd13.javaex.net.http.HttpFilter;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.filter.running.CodeCriteria;
 import com.sasd13.proadmin.core.filter.running.RunningCriteria;
 
-public class TeamsFilter extends AbstractFilter<Team> {
+public class TeamsFilter extends HttpFilter<Team> {
 	
 	public TeamsFilter(Map<String, String[]> parameters) {
 		super(parameters);

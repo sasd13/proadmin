@@ -2,14 +2,13 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.AbstractFilter;
-import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.sasd13.javaex.net.http.HttpFilter;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.filter.member.AcademicLevelCriteria;
 import com.sasd13.proadmin.core.filter.member.EmailCriteria;
 import com.sasd13.proadmin.core.filter.member.NumberCriteria;
 
-public class StudentsFilter extends AbstractFilter<Student> {
+public class StudentsFilter extends HttpFilter<Student> {
 	
 	public StudentsFilter(Map<String, String[]> parameters) {
 		super(parameters);
@@ -23,11 +22,7 @@ public class StudentsFilter extends AbstractFilter<Student> {
 				if ("number".equals(key)) {
 					multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
 				} else if ("academiclevel".equals(key)) {
-					try {
-						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(value));
 				} else if ("email".equals(key)) {
 					multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
 				}

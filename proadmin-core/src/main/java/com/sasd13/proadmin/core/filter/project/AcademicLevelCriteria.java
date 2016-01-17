@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.criteria.Criteria;
-import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 
 public class AcademicLevelCriteria implements Criteria<Project> {
 	
-	private AcademicLevel academicLevel;
+	private String academicLevel;
 	
-	public AcademicLevelCriteria(AcademicLevel academicLevel) {
+	public AcademicLevelCriteria(String academicLevel) {
 		this.academicLevel = academicLevel;
 	}
 	
@@ -20,7 +19,7 @@ public class AcademicLevelCriteria implements Criteria<Project> {
 		List<Project> result = new ArrayList<Project>();
 		
 		for (Project project : entities) {
-			if (academicLevel.equals(project.getAcademicLevel())) {
+			if (academicLevel.equals(String.valueOf(project.getAcademicLevel()))) {
 				result.add(project);
 			}
 		}

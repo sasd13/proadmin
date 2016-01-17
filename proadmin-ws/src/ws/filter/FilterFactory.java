@@ -2,27 +2,27 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.AbstractFilter;
+import com.sasd13.javaex.net.http.HttpFilter;
 
 public class FilterFactory {
 	
-	public static AbstractFilter make(Class mClass, Map<String, String[]> parameters) {
-		AbstractFilter filter = null;
+	public static HttpFilter make(Class mClass, Map<String, String[]> parameters) {
+		HttpFilter httpFilter = null;
 		
 		if ("Teacher".equals(mClass.getSimpleName())) {
-			filter = new TeachersFilter(parameters);
+			httpFilter = new TeachersFilter(parameters);
 		} else if ("Project".equals(mClass.getSimpleName())) {
-			filter = new ProjectsFilter(parameters);
+			httpFilter = new ProjectsFilter(parameters);
 		} else if ("Running".equals(mClass.getSimpleName())) {
-			filter = new RunningsFilter(parameters);
+			httpFilter = new RunningsFilter(parameters);
 		} else if ("Team".equals(mClass.getSimpleName())) {
-			filter = new TeamsFilter(parameters);
+			httpFilter = new TeamsFilter(parameters);
 		} else if ("Student".equals(mClass.getSimpleName())) {
-			filter = new StudentsFilter(parameters);
+			httpFilter = new StudentsFilter(parameters);
 		} else if ("Report".equals(mClass.getSimpleName())) {
-			filter = new ReportsFilter(parameters);
+			httpFilter = new ReportsFilter(parameters);
 		}
 		
-		return filter;
+		return httpFilter;
 	}
 }

@@ -10,8 +10,14 @@ import android.widget.EditText;
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.session.Session;
+import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.ws.task.LoginTask;
+import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.ws.task.ReadParameterizedTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LogActivity extends Activity implements IRefreshable {
 
@@ -24,6 +30,8 @@ public class LogActivity extends Activity implements IRefreshable {
 
     private View viewFormLog, viewLoad;
     private FormLogViewHolder formLog;
+
+    private ReadParameterizedTask<Teacher> readParameterizedTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class LogActivity extends Activity implements IRefreshable {
             public void onClick(View v) {
                 if (formLog.editTextNumber.getText().toString().trim().length() > 0
                         && formLog.editTextPassword.getText().toString().trim().length() > 0) {
+                    KeyBoardHider.hide(v);
                     logIn();
                 }
             }
@@ -60,11 +69,13 @@ public class LogActivity extends Activity implements IRefreshable {
 
     private void logIn() {
         String number = formLog.editTextNumber.getText().toString().trim();
-        String password = formLog.editTextPassword.getText().toString().trim();
 
         if (ConnectivityChecker.isActive(this)) {
-            LoginTask loginTask = new LoginTask(this, number, password);
-            loginTask.execute();
+            Map<String, String[]> parameters = new HashMap<>();
+            parameters.put("number", new String[]{number});
+
+            readParameterizedTask = new ReadParameterizedTask<>(this, Teacher.class, parameters);
+            readParameterizedTask.execute();
         } else {
             CustomDialog.showOkDialog(
                     this,
@@ -91,6 +102,30 @@ public class LogActivity extends Activity implements IRefreshable {
 
     @Override
     public void displayContent() {
+        String password = formLog.editTextPassword.getText().toString().trim();
+
+        try {
+            Teacher teacher = readParameterizedTask.getContent()[0];
+
+            if (teacher != null && teacher.getPassword().equals(password)) {
+                Session.logIn(teacher.getId());
+
+                goToHomeActivity();
+            } else {
+                CustomDialog.showOkDialog(
+                        this,
+                        this.getResources().getString(R.string.log_dialog_title_error_log),
+                        this.getResources().getString(R.string.log_dialog_message_error_log)
+                );
+
+                displayNotFound();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void goToHomeActivity() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
         TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {

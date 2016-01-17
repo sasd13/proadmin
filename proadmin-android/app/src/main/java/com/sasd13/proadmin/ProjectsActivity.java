@@ -21,7 +21,7 @@ import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.ReadTask;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectsActivity extends MotherActivity implements IRefreshable {
@@ -30,7 +30,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private Spin spin;
     private Tab tab;
-    private List<Project> projects;
+    private List<Project> projects = new ArrayList<>();
     private ReadTask<Project> readTask;
 
     @Override
@@ -53,6 +53,8 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
+            projects.clear();
+
             readTask = new ReadTask<>(this, Project.class);
             readTask.execute();
         } else {
@@ -136,7 +138,9 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        projects = Arrays.asList(readTask.getContent());
+        for (Project project : readTask.getContent()) {
+            projects.add(project);
+        }
 
         fillTabProjects();
     }
@@ -149,12 +153,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
         tab.clearItems();
-
-        try {
-            addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
     }
 
     private void addProjectsToTab(List<Project> list) {

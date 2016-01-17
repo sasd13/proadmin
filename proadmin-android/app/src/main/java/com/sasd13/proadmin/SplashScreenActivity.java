@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.db.SQLiteDAO;
 
 public class SplashScreenActivity extends Activity {
 
@@ -33,7 +32,6 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        SQLiteDAO.getInstance().init(this);
         Session.init(this);
         if (Session.isStarted()) {
             goToActivity(HomeActivity.class);

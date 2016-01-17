@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
@@ -17,10 +18,24 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
 
     private Context context;
     private WebServiceClient<T> service;
+    private TaskPlanner taskPlanner;
 
     public UpdateTask(Context context, Class<T> mClass) {
         this.context = context;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        taskPlanner = new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                cancel(true);
+            }
+        }, TIMEOUT - 100);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        taskPlanner.start();
     }
 
     @Override
@@ -37,8 +52,15 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
     }
 
     @Override
+    protected void onCancelled(Void aVoid) {
+        showTaskError();
+    }
+
+    @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
+        taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
             Toast.makeText(context, context.getResources().getString(R.string.message_updated), Toast.LENGTH_SHORT).show();

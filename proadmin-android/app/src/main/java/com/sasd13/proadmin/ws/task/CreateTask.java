@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
@@ -18,10 +19,17 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     private Activity activity;
     private WebServiceClient<T> service;
     private Long[] ids;
+    private TaskPlanner taskPlanner;
 
     public CreateTask(Activity activity, Class<T> mClass) {
         this.activity = activity;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        taskPlanner = new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                cancel(true);
+            }
+        }, TIMEOUT - 100);
     }
 
     public Long[] getContent() {
@@ -31,6 +39,8 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        taskPlanner.start();
 
         if (activity instanceof IRefreshable) {
             ((IRefreshable) activity).displayLoad();
@@ -53,8 +63,15 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     }
 
     @Override
+    protected void onCancelled(Long[] longs) {
+        showTaskError();
+    }
+
+    @Override
     protected void onPostExecute(Long[] ids) {
         super.onPostExecute(ids);
+
+        taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
             if (activity instanceof IRefreshable) {
@@ -62,10 +79,6 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
             }
         } else {
             showTaskError();
-
-            if (activity instanceof IRefreshable) {
-                ((IRefreshable) activity).displayNotFound();
-            }
         }
     }
 
@@ -75,5 +88,9 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
                 activity.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
+
+        if (activity instanceof IRefreshable) {
+            ((IRefreshable) activity).displayNotFound();
+        }
     }
 }

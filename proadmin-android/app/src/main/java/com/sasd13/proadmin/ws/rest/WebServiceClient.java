@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.javaex.net.HttpRequest;
 import com.sasd13.javaex.net.MimeType;
+import com.sasd13.javaex.net.http.HttpParametersParser;
+import com.sasd13.javaex.net.http.HttpRequest;
 import com.sasd13.javaex.net.parser.DataParser;
-import com.sasd13.javaex.net.parser.ParametersParser;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 
 import java.io.IOException;
@@ -17,21 +17,19 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     private static final int DEFAULT_TIMEOUT = 60000;
     public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
-    protected Class<T> mClass;
-    protected int timeOut;
-    protected String url;
-    protected HttpRequest httpRequest;
-    protected int statusCode;
+    private Class<T> mClass;
+    private int timeOut;
+    private String url;
+    private HttpRequest httpRequest;
+    private int statusCode;
 
     public WebServiceClient(Class<T> mClass) {
-        this.mClass = mClass;
-        url = URL_WEBSERVICE + mClass.getSimpleName().toLowerCase() + "s";
-        timeOut = DEFAULT_TIMEOUT;
+        this(mClass, DEFAULT_TIMEOUT);
     }
 
     public WebServiceClient(Class<T> mClass, int timeOut) {
-        this(mClass);
-
+        this.mClass = mClass;
+        url = URL_WEBSERVICE + mClass.getSimpleName().toLowerCase() + "s";
         this.timeOut = timeOut;
     }
 
@@ -56,9 +54,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            t = (T) DataParser.fromString(respContentType, respData, mClass);
-
             httpRequest.disconnect();
+
+            t = (T) DataParser.fromString(respContentType, respData, mClass);
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -86,9 +84,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
-
             httpRequest.disconnect();
+
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -99,7 +97,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     public T[] getAll(Map<String, String[]> parameters) {
         T[] ts = null;
 
-        String urlParams = ParametersParser.toEncodedURLString(parameters);
+        String urlParams = HttpParametersParser.toEncodedURLString(parameters);
 
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
@@ -112,9 +110,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
-
             httpRequest.disconnect();
+
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -143,9 +141,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            id = (long) DataParser.fromString(respContentType, respData, Long.class);
-
             httpRequest.disconnect();
+
+            id = (long) DataParser.fromString(respContentType, respData, Long.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

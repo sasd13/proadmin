@@ -2,13 +2,12 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.AbstractFilter;
-import com.sasd13.proadmin.core.bean.AcademicLevel;
+import com.sasd13.javaex.net.http.HttpFilter;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;
 import com.sasd13.proadmin.core.filter.project.CodeCriteria;
 
-public class ProjectsFilter extends AbstractFilter<Project> {
+public class ProjectsFilter extends HttpFilter<Project> {
 	
 	public ProjectsFilter(Map<String, String[]> parameters) {
 		super(parameters);
@@ -22,11 +21,7 @@ public class ProjectsFilter extends AbstractFilter<Project> {
 				if ("code".equals(key)) {
 					multiAndCriteria.addCriteria(new CodeCriteria(value));
 				} else if ("academiclevel".equals(key)) {
-					try {
-						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value.toUpperCase())));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(value));
 				}
 			}
 		}

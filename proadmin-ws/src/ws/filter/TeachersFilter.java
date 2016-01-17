@@ -2,12 +2,12 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.AbstractFilter;
+import com.sasd13.javaex.net.http.HttpFilter;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.filter.member.EmailCriteria;
 import com.sasd13.proadmin.core.filter.member.NumberCriteria;
 
-public class TeachersFilter extends AbstractFilter<Teacher> {
+public class TeachersFilter extends HttpFilter<Teacher> {
 	
 	public TeachersFilter(Map<String, String[]> parameters) {
 		super(parameters);

@@ -26,7 +26,6 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
     private Teacher teacher;
     private ReadTask<Teacher> readTask;
-    private UpdateTask<Teacher> updateTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +116,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         editTeacherWithForm(teacher);
 
         if (ConnectivityChecker.isActive(this)) {
-            updateTask = new UpdateTask<>(this, Teacher.class);
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
             CustomDialog.showOkDialog(

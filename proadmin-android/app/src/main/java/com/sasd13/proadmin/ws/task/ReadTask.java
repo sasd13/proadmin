@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
@@ -21,11 +22,18 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
     private Class<T> mClass;
     private WebServiceClient<T> service;
     private T[] ts;
+    private TaskPlanner taskPlanner;
 
     public ReadTask(Activity activity, Class<T> mClass) {
         this.activity = activity;
         this.mClass = mClass;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        taskPlanner = new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                cancel(true);
+            }
+        }, TIMEOUT - 100);
     }
 
     public T[] getContent() {
@@ -35,6 +43,8 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        taskPlanner.start();
 
         if (activity instanceof IRefreshable) {
             ((IRefreshable) activity).displayLoad();
@@ -59,8 +69,15 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
     }
 
     @Override
+    protected void onCancelled(T[] ts) {
+        showTaskError();
+    }
+
+    @Override
     protected void onPostExecute(T[] ts) {
         super.onPostExecute(ts);
+
+        taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
             if (activity instanceof IRefreshable) {
@@ -68,10 +85,6 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
             }
         } else {
             showTaskError();
-
-            if (activity instanceof IRefreshable) {
-                ((IRefreshable) activity).displayNotFound();
-            }
         }
     }
 
@@ -81,5 +94,9 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
                 activity.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
+
+        if (activity instanceof IRefreshable) {
+            ((IRefreshable) activity).displayNotFound();
+        }
     }
 }
