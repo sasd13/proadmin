@@ -48,15 +48,17 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept();
+            setHttpRequestHeaders();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
 
-            String mimeType = httpRequest.getResponseContentType();
+            String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            t = (T) DataParser.fromString(mimeType, respData, mClass);
+            t = (T) DataParser.fromString(respContentType, respData, mClass);
+
+            httpRequest.disconnect();
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -64,7 +66,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         return t;
     }
 
-    private void addHeadersAccept() {
+    private void setHttpRequestHeaders() {
         httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
         httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
     }
@@ -76,15 +78,17 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept();
+            setHttpRequestHeaders();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
 
-            String mimeType = httpRequest.getResponseContentType();
+            String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+
+            httpRequest.disconnect();
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -100,15 +104,17 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
             httpRequest.open(timeOut);
-            addHeadersAccept();
+            setHttpRequestHeaders();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
 
-            String mimeType = httpRequest.getResponseContentType();
+            String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            ts = (T[]) DataParser.fromString(mimeType, respData, mClass);
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+
+            httpRequest.disconnect();
         } catch (IOException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -120,21 +126,26 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     public long post(T t) {
         long id = 0;
 
-        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
+        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqData = DataParser.toString(reqContentType, t);
 
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.POST);
             httpRequest.open(timeOut);
-            addHeadersAccept();
+            httpRequest.setOutPutEnabled(true);
+            httpRequest.setRequestContentType(reqContentType);
+            setHttpRequestHeaders();
             httpRequest.connect();
-            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+            httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
 
-            String mimeType = httpRequest.getResponseContentType();
+            String respContentType = httpRequest.getResponseContentType();
             String respData = httpRequest.readResponseData();
 
-            id = (long) DataParser.fromString(mimeType, respData, Long.class);
+            id = (long) DataParser.fromString(respContentType, respData, Long.class);
+
+            httpRequest.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,15 +155,21 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void put(T t) {
-        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, t);
+        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqData = DataParser.toString(reqContentType, t);
 
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
             httpRequest.open(timeOut);
+            httpRequest.setOutPutEnabled(true);
+            httpRequest.setRequestContentType(reqContentType);
             httpRequest.connect();
-            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+            httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
+            String respData = httpRequest.readResponseData();
+
+            httpRequest.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,15 +177,20 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void putAll(T[] ts) {
-        String reqData = DataParser.toString(MimeType.APPLICATION_JSON, ts);
+        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqData = DataParser.toString(reqContentType, ts);
 
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
             httpRequest.open(timeOut);
+            httpRequest.setOutPutEnabled(true);
+            httpRequest.setRequestContentType(reqContentType);
             httpRequest.connect();
-            httpRequest.writeRequestData(MimeType.APPLICATION_JSON, reqData);
+            httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
+
+            httpRequest.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,6 +209,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
                 httpRequest.connect();
 
                 statusCode = httpRequest.getResponseCode();
+
+                httpRequest.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();
             }

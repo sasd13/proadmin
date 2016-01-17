@@ -19,7 +19,7 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.task.ReadAsyncTask;
+import com.sasd13.proadmin.ws.task.ReadTask;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private Spin spin;
     private Tab tab;
     private List<Project> projects;
-    private ReadAsyncTask<Project> readTask;
+    private ReadTask<Project> readTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
-            readTask = new ReadAsyncTask<>(this, Project.class);
+            readTask = new ReadTask<>(this, Project.class);
             readTask.execute();
         } else {
             CustomDialog.showOkDialog(
@@ -152,7 +152,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
         try {
             addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

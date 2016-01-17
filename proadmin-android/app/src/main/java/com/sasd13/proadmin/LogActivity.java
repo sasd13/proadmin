@@ -11,7 +11,7 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.ws.task.LoginAsyncTask;
+import com.sasd13.proadmin.ws.task.LoginTask;
 
 public class LogActivity extends Activity implements IRefreshable {
 
@@ -63,7 +63,7 @@ public class LogActivity extends Activity implements IRefreshable {
         String password = formLog.editTextPassword.getText().toString().trim();
 
         if (ConnectivityChecker.isActive(this)) {
-            LoginAsyncTask loginTask = new LoginAsyncTask(this, number, password);
+            LoginTask loginTask = new LoginTask(this, number, password);
             loginTask.execute();
         } else {
             CustomDialog.showOkDialog(
