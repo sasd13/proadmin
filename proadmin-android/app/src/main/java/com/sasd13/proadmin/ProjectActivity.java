@@ -1,12 +1,22 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.project.Project;
 
 public class ProjectActivity extends MotherActivity {
+
+    private class DescriptorTeacherViewHolder {
+        public TextView textViewTitle, textViewAcademicLevel, textViewCode, textViewDescription;
+    }
+
+    private DescriptorTeacherViewHolder descriptorTeacher;
 
     private Project project;
 
@@ -19,7 +29,12 @@ public class ProjectActivity extends MotherActivity {
     }
 
     private void createDescriptorProject() {
+        descriptorTeacher = new DescriptorTeacherViewHolder();
 
+        descriptorTeacher.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
+        descriptorTeacher.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
+        descriptorTeacher.textViewCode = (TextView) findViewById(R.id.project_textview_code);
+        descriptorTeacher.textViewDescription = (TextView) findViewById(R.id.project_textview_description);
     }
 
     @Override
@@ -36,6 +51,34 @@ public class ProjectActivity extends MotherActivity {
     }
 
     private void fillDescriptorProject() {
+        descriptorTeacher.textViewTitle.setText(project.getTitle());
+        descriptorTeacher.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
+        descriptorTeacher.textViewCode.setText(project.getCode());
+        descriptorTeacher.textViewDescription.setText(project.getDescription());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_project, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_project_action_new:
+                newRunning();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    private void newRunning() {
 
     }
 }

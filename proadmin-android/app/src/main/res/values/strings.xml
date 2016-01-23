@@ -30,6 +30,14 @@
     <string name="projects_textview_projects">PROJETS</string>
 
     <!-- Activity Project -->
+    <string name="project_textview_title_academiclevel">ACADEMIC LEVEL</string>
+    <string name="project_textview_title_code">CODE</string>
+    <string name="project_textview_title_title">TITLE</string>
+    <string name="project_textview_title_description">DESCRIPTION</string>
+    <string name="project_textview_academiclevel_l1">L1</string>
+    <string name="project_textview_code">L1A</string>
+    <string name="project_textview_title">Title</string>
+    <string name="project_textview_description">Description</string>
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
