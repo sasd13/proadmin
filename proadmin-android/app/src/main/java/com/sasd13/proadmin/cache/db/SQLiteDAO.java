@@ -1,12 +1,22 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sasd13.androidex.db.ISQLiteDAO;
+import com.sasd13.proadmin.cache.IClearable;
 import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
+import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
+import com.sasd13.proadmin.core.db.ProjectDAO;
+import com.sasd13.proadmin.core.db.ReportDAO;
+import com.sasd13.proadmin.core.db.RunningDAO;
+import com.sasd13.proadmin.core.db.StudentDAO;
+import com.sasd13.proadmin.core.db.StudentTeamDAO;
+import com.sasd13.proadmin.core.db.TeacherDAO;
+import com.sasd13.proadmin.core.db.TeamDAO;
 
-public class SQLiteDAO extends DAO implements ISQLiteDAO {
+public class SQLiteDAO extends DAO implements ISQLiteDAO, IClearable {
 
     private static SQLiteDAO instance = null;
 
@@ -56,5 +66,18 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
     @Override
     public void close() {
         db.close();
+    }
+
+    @Override
+    public void clear() {
+        db.execSQL("DELETE FROM " + IndividualEvaluationDAO.TABLE);
+        db.execSQL("DELETE FROM " + LeadEvaluationDAO.TABLE);
+        db.execSQL("DELETE FROM " + ReportDAO.TABLE);
+        db.execSQL("DELETE FROM " + StudentTeamDAO.TABLE);
+        db.execSQL("DELETE FROM " + StudentDAO.TABLE);
+        db.execSQL("DELETE FROM " + TeamDAO.TABLE);
+        db.execSQL("DELETE FROM " + RunningDAO.TABLE);
+        db.execSQL("DELETE FROM " + ProjectDAO.TABLE);
+        db.execSQL("DELETE FROM " + TeacherDAO.TABLE);
     }
 }

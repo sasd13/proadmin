@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -54,7 +54,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -71,5 +71,14 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(StudentTeam studentTeam) {
+        if (select(studentTeam.getId()) != null) {
+            db.delete(TABLE, COLUMN_ID + " = ?", new String[]{String.valueOf(studentTeam.getId())});
+        }
+
+        insert(studentTeam);
     }
 }

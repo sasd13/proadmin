@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -56,8 +56,8 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
     }
 
     @Override
-    public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+    public void delete(long l) {
+        //Do nothing
     }
 
     @Override
@@ -74,5 +74,14 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(IndividualEvaluation individualEvaluation) {
+        if (select(individualEvaluation.getId()) == null) {
+            insert(individualEvaluation);
+        } else {
+            update(individualEvaluation);
+        }
     }
 }

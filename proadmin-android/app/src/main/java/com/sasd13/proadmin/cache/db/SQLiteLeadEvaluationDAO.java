@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -63,7 +63,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -80,5 +80,14 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(LeadEvaluation leadEvaluation) {
+        if (select(leadEvaluation.getId()) == null) {
+            insert(leadEvaluation);
+        } else {
+            update(leadEvaluation);
+        }
     }
 }

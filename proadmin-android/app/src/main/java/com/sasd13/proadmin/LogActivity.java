@@ -13,6 +13,7 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
@@ -109,6 +110,7 @@ public class LogActivity extends Activity implements IRefreshable {
 
             if (teacher != null && teacher.getPassword().equals(password)) {
                 Session.logIn(teacher.getId());
+                Cache.persist(teacher);
 
                 goToHomeActivity();
             } else {

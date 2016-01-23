@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -56,7 +56,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -73,5 +73,14 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(Running running) {
+        if (select(running.getId()) == null) {
+            insert(running);
+        } else {
+            update(running);
+        }
     }
 }

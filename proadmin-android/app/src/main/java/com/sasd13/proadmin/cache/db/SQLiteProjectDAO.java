@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -52,7 +52,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -69,5 +69,14 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(Project project) {
+        if (select(project.getId()) == null) {
+            insert(project);
+        } else {
+            update(project);
+        }
     }
 }

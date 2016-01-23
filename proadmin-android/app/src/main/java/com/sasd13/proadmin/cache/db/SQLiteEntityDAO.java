@@ -1,15 +1,16 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sasd13.javaex.db.IEntityDAO;
+import com.sasd13.proadmin.cache.IPersistable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T> {
+public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T>, IPersistable<T> {
 
     protected SQLiteDatabase db;
 
@@ -29,14 +30,6 @@ public abstract class SQLiteEntityDAO<T> implements IEntityDAO<T> {
 
     protected void executeUpdate(String table, T t, String columnId, long id) {
         db.update(table, getContentValues(t), columnId + " = ?", new String[]{String.valueOf(id)});
-    }
-
-    protected void executeDelete(String table, String columnId, long id) {
-        ContentValues values = new ContentValues();
-
-        values.put(COLUMN_DELETED, 1);
-
-        db.update(table, values, columnId + " = ?", new String[]{String.valueOf(id)});
     }
 
     protected T executeSelectById(String query, long id) {

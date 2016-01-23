@@ -14,6 +14,7 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -140,6 +141,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     public void displayContent() {
         for (Project project : readTask.getContent()) {
             projects.add(project);
+            Cache.persist(project);
         }
 
         fillTabProjects();

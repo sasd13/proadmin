@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -56,7 +56,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -73,5 +73,14 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(Report report) {
+        if (select(report.getId()) == null) {
+            insert(report);
+        } else {
+            update(report);
+        }
     }
 }

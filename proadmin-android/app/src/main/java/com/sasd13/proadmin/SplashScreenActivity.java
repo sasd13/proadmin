@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.cache.Cache;
 
 public class SplashScreenActivity extends Activity {
 
@@ -33,6 +34,8 @@ public class SplashScreenActivity extends Activity {
         super.onStart();
 
         Session.init(this);
+        Cache.init(this);
+
         if (Session.isStarted()) {
             goToActivity(HomeActivity.class);
         } else {

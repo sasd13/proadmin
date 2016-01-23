@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.db;
+package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -51,7 +51,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public void delete(long id) {
-        executeDelete(TABLE, COLUMN_ID, id);
+        //Do nothing
     }
 
     @Override
@@ -68,5 +68,14 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         String query = "SELECT * FROM " + TABLE;
 
         return executeSelectAll(query);
+    }
+
+    @Override
+    public void persist(Team team) {
+        if (select(team.getId()) == null) {
+            insert(team);
+        } else {
+            update(team);
+        }
     }
 }
