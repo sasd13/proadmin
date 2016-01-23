@@ -141,10 +141,11 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     public void displayContent() {
         for (Project project : readTask.getContent()) {
             projects.add(project);
-            Cache.persist(project);
         }
 
         fillTabProjects();
+
+        Cache.keepAll(projects);
     }
 
     public void fillTabProjects() {

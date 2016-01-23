@@ -7,6 +7,7 @@ import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
 import java.util.Map;

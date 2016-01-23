@@ -110,7 +110,7 @@ public class LogActivity extends Activity implements IRefreshable {
 
             if (teacher != null && teacher.getPassword().equals(password)) {
                 Session.logIn(teacher.getId());
-                Cache.persist(teacher);
+                Cache.keep(teacher);
 
                 goToHomeActivity();
             } else {
