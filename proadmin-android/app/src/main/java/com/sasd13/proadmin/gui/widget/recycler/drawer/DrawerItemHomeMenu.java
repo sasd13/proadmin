@@ -30,7 +30,7 @@ public class DrawerItemHomeMenu extends DrawerItem {
     }
 
     private void findViews() {
-        viewColor = view.findViewById(R.id.draweritemhomemenu_view_color);
+        viewColor = view.findViewById(R.id.draweritem_homemenu_view_color);
     }
 
     private void bindViews() {

@@ -1,5 +1,6 @@
 package com.sasd13.proadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,8 +69,8 @@ public class ProjectActivity extends MotherActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_project_action_new:
-                newRunning();
+            case R.id.menu_project_action_runnings:
+                listRunnings();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -78,7 +79,11 @@ public class ProjectActivity extends MotherActivity {
         return true;
     }
 
-    private void newRunning() {
+    private void listRunnings() {
+        Intent intent = new Intent(this, RunningsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Extra.PROJECT_ID, project.getId());
 
+        startActivity(intent);
     }
 }

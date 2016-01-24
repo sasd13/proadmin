@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_padding">
+
+    <RelativeLayout
+        android:id="@+id/runnings_view_tab_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding">
+
+        <TextView
+            android:id="@+id/runnings_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/runnings_textview_runnings"
+            android:textColor="@color/customOrange"
+            android:textSize="@dimen/textsize_medium"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/runnings_dividerview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_below="@id/runnings_textview"
+            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:background="@color/customOrange" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/runnings_view_tab_title">
+
+        <RelativeLayout
+            android:id="@+id/runnings_view_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/runnings_progressbar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/splashscreen_progressbar_margin"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/runnings_view_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/runnings_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:paddingLeft="@dimen/activity_padding"
+                android:paddingRight="@dimen/activity_padding"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

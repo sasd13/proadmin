@@ -42,7 +42,7 @@ public abstract class MotherActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerview);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_drawerlayout);
 
-        drawer = new Drawer(this, recyclerView, R.layout.draweritemhomemenu, drawerLayout);
+        drawer = new Drawer(this, recyclerView, R.layout.draweritem_homemenu, drawerLayout);
     }
 
     private void fillDrawer() {

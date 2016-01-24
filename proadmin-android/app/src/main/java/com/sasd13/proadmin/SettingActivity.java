@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.session.Session;
+import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.ws.task.ReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
@@ -60,7 +62,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     private void readTeacher() {
         if (ConnectivityChecker.isActive(this)) {
             readTask = new ReadTask<>(this, Teacher.class);
-            readTask.execute();
+            readTask.execute(Session.getId());
         } else {
             finish();
 
@@ -83,7 +85,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_sign_action_accept:
+            case R.id.menu_setting_action_accept:
                 updateTeacher();
                 break;
             default:
@@ -152,6 +154,8 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     public void displayContent() {
         try {
             teacher = readTask.getContent()[0];
+
+            Cache.keep(teacher);
 
             fillFormTeacher();
         } catch (NullPointerException e) {

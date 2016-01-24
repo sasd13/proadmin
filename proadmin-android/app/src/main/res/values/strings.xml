@@ -8,6 +8,8 @@
     <string name="activity_home">Menu</string>
     <string name="activity_projects">Projets</string>
     <string name="activity_project">Projet</string>
+    <string name="activity_runnings">Gestions</string>
+    <string name="activity_running">Gestion</string>
     <string name="activity_setting">Options</string>
 
     <!-- Activity Log -->
@@ -39,6 +41,14 @@
     <string name="project_textview_title">Title</string>
     <string name="project_textview_description">Description</string>
 
+    <!-- Activity Runnings -->
+    <string name="runnings_textview_runnings">GESTIONS</string>
+
+    <!-- Activity Running -->
+    <string name="running_textview_title_year">ANNEE</string>
+    <string name="running_textview_title_teams">GROUPES</string>
+    <string name="running_textview_year">Année</string>
+
     <!-- Application -->
     <string name="app_name">Proadmin</string>
 
@@ -52,9 +62,15 @@
     <!-- Form -->
     <string name="form_textview_title_number">MATRICULE</string>
 
+    <!-- Menu -->
+    <string name="menuitem_projects_action_runnings">Mes gestions</string>
+
     <!-- Tab -->
     <string name="tabitem_project_textview_title">Title</string>
     <string name="tabitem_project_textview_code">Code</string>
     <string name="tabitem_project_textview_description">Description</string>
+    <string name="tabitem_running_textview_year">Année</string>
+    <string name="tabitem_project_textview_teams">Groupes :</string>
+    <string name="tabitem_project_textview_nbrteams">0</string>
 
 </resources>

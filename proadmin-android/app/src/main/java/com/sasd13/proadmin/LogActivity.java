@@ -15,7 +15,7 @@ import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
+import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class LogActivity extends Activity implements IRefreshable {
     private View viewFormLog, viewLoad;
     private FormLogViewHolder formLog;
 
-    private ParameterizedReadTask<Teacher> parameterizedReadTask;
+    private RefreshableParameterizedReadTask<Teacher> parameterizedReadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class LogActivity extends Activity implements IRefreshable {
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put("number", new String[]{number});
 
-            parameterizedReadTask = new ParameterizedReadTask<>(this, Teacher.class, parameters);
+            parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Teacher.class, parameters, this);
             parameterizedReadTask.execute();
         } else {
             CustomDialog.showOkDialog(

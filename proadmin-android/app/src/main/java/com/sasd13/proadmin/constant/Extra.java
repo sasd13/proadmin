@@ -9,4 +9,5 @@ public class Extra {
     public static final int MODE_EDIT = 2;
 
     public static final String PROJECT_ID = "PROJECT_ID";
+    public static final String RUNNING_ID = "RUNNING_ID";
 }

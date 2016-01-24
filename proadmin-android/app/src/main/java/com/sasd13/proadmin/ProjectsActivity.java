@@ -20,7 +20,7 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.util.CollectionUtil;
-import com.sasd13.proadmin.ws.task.ReadTask;
+import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private Spin spin;
     private Tab tab;
     private List<Project> projects = new ArrayList<>();
-    private ReadTask<Project> readTask;
+    private RefreshableReadTask<Project> readTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
         if (ConnectivityChecker.isActive(this)) {
             projects.clear();
 
-            readTask = new ReadTask<>(this, Project.class);
+            readTask = new RefreshableReadTask<>(this, Project.class, this);
             readTask.execute();
         } else {
             CustomDialog.showOkDialog(
@@ -92,7 +92,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
-        tab = new Tab(this, recyclerView, R.layout.tabitemproject);
+        tab = new Tab(this, recyclerView, R.layout.tabitem_project);
     }
 
     private void fillSpinAcademicLevels() {
@@ -139,8 +139,12 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        for (Project project : readTask.getContent()) {
-            projects.add(project);
+        try {
+            for (Project project : readTask.getContent()) {
+                projects.add(project);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         fillTabProjects();

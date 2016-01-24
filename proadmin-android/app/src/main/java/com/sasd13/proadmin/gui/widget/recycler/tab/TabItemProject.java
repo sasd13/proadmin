@@ -62,9 +62,9 @@ public class TabItemProject extends RecyclerItem {
     }
 
     private void findViews() {
-        textViewCode = (TextView) view.findViewById(R.id.tabitemproject_textview_code);
-        textViewTitle = (TextView) view.findViewById(R.id.tabitemproject_textview_title);
-        textViewDescription = (TextView) view.findViewById(R.id.tabitemproject_textview_description);
+        textViewCode = (TextView) view.findViewById(R.id.tabitem_project_textview_code);
+        textViewTitle = (TextView) view.findViewById(R.id.tabitem_project_textview_title);
+        textViewDescription = (TextView) view.findViewById(R.id.tabitem_project_textview_description);
     }
 
     private void bindViews() {

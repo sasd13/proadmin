@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
@@ -16,13 +15,13 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
 
     private static final int TIMEOUT = 60000;
 
-    private Activity activity;
+    private Context context;
     private WebServiceClient<T> service;
-    private Long[] ids;
+    private Long[] results;
     private TaskPlanner taskPlanner;
 
-    public CreateTask(Activity activity, Class<T> mClass) {
-        this.activity = activity;
+    public CreateTask(Context context, Class<T> mClass) {
+        this.context = context;
         service = new WebServiceClient<>(mClass, TIMEOUT);
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
@@ -33,7 +32,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     }
 
     public Long[] getContent() {
-        return ids;
+        return results;
     }
 
     @Override
@@ -41,56 +40,50 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
         super.onPreExecute();
 
         taskPlanner.start();
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayLoad();
-        }
     }
 
     @Override
     protected Long[] doInBackground(T... ts) {
         if (!isCancelled()) {
             if (ts.length > 0) {
-                ids = new Long[ts.length];
+                results = new Long[ts.length];
 
-                for (int i = 0; i<ids.length; i++) {
-                    ids[i] = service.post(ts[i]);
+                for (int i = 0; i<results.length; i++) {
+                    results[i] = service.post(ts[i]);
                 }
             }
         }
 
-        return ids;
+        return results;
     }
 
     @Override
     protected void onCancelled(Long[] longs) {
-        showTaskError();
+        doInTaskError();
     }
 
     @Override
-    protected void onPostExecute(Long[] ids) {
-        super.onPostExecute(ids);
+    protected void onPostExecute(Long[] longs) {
+        super.onPostExecute(longs);
 
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            if (activity instanceof IRefreshable) {
-                ((IRefreshable) activity).displayContent();
-            }
+            doInTaskCompleted();
         } else {
-            showTaskError();
+            doInTaskError();
         }
     }
 
-    private void showTaskError() {
+    protected void doInTaskCompleted() {
+        //Do nothing
+    }
+
+    protected void doInTaskError() {
         CustomDialog.showOkDialog(
-                activity,
-                activity.getResources().getString(R.string.title_error),
+                context,
+                context.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayNotFound();
-        }
     }
 }

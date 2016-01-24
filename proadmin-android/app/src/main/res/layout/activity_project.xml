@@ -22,7 +22,7 @@
             android:textStyle="bold"/>
 
         <View
-            android:id="@+id/project_dividerview_3"
+            android:id="@+id/project_dividerview_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_title"
@@ -33,7 +33,7 @@
             android:id="@+id/project_textview_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/project_dividerview_3"
+            android:layout_below="@id/project_dividerview_1"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/project_textview_title"
             android:textSize="@dimen/textsize_medium"/>
@@ -50,7 +50,7 @@
             android:textStyle="bold"/>
 
         <View
-            android:id="@+id/project_dividerview_1"
+            android:id="@+id/project_dividerview_2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_academiclevel"
@@ -61,7 +61,7 @@
             android:id="@+id/project_textview_academiclevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/project_dividerview_1"
+            android:layout_below="@id/project_dividerview_2"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/project_textview_academiclevel_l1"
             android:textSize="@dimen/textsize_medium"
@@ -79,7 +79,7 @@
             android:textStyle="bold"/>
 
         <View
-            android:id="@+id/project_dividerview_2"
+            android:id="@+id/project_dividerview_3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_code"
@@ -90,7 +90,7 @@
             android:id="@+id/project_textview_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/project_dividerview_2"
+            android:layout_below="@id/project_dividerview_3"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/project_textview_code"
             android:textSize="@dimen/textsize_medium"

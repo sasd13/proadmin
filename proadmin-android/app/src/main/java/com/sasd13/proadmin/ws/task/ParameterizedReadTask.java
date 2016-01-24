@@ -1,13 +1,11 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
 import java.util.Map;
@@ -19,16 +17,14 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
 
     private static final int TIMEOUT = 60000;
 
-    private Activity activity;
-    private Class<T> mClass;
+    private Context context;
     private Map<String, String[]> parameters;
     private WebServiceClient<T> service;
-    private T[] ts;
+    private T[] results;
     private TaskPlanner taskPlanner;
 
-    public ParameterizedReadTask(Activity activity, Class<T> mClass, Map<String, String[]> parameters) {
-        this.activity = activity;
-        this.mClass = mClass;
+    public ParameterizedReadTask(Context context, Class<T> mClass, Map<String, String[]> parameters) {
+        this.context = context;
         this.parameters = parameters;
         service = new WebServiceClient<>(mClass, TIMEOUT);
         taskPlanner = new TaskPlanner(new Runnable() {
@@ -40,7 +36,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
     }
 
     public T[] getContent() {
-        return ts;
+        return results;
     }
 
     @Override
@@ -48,24 +44,20 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
         super.onPreExecute();
 
         taskPlanner.start();
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayLoad();
-        }
     }
 
     @Override
     protected T[] doInBackground(Void... aVoid) {
         if (!isCancelled()) {
-            ts = service.getAll(parameters);
+            results = service.getAll(parameters);
         }
 
-        return ts;
+        return results;
     }
 
     @Override
     protected void onCancelled(T[] ts) {
-        showTaskError();
+        doInTaskError();
     }
 
     @Override
@@ -75,23 +67,21 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            if (activity instanceof IRefreshable) {
-                ((IRefreshable) activity).displayContent();
-            }
+            doInTaskCompleted();
         } else {
-            showTaskError();
+            doInTaskError();
         }
     }
 
-    private void showTaskError() {
+    protected void doInTaskCompleted() {
+        //Do nothing
+    }
+
+    protected void doInTaskError() {
         CustomDialog.showOkDialog(
-                activity,
-                activity.getResources().getString(R.string.title_error),
+                context,
+                context.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayNotFound();
-        }
     }
 }

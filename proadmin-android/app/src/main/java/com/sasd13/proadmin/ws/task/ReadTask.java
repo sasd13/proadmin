@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.IRefreshable;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
@@ -14,18 +13,18 @@ import java.lang.reflect.Array;
 /**
  * Created by Samir on 24/12/2015.
  */
-public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
+public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
 
     private static final int TIMEOUT = 60000;
 
-    private Activity activity;
+    private Context context;
     private Class<T> mClass;
     private WebServiceClient<T> service;
-    private T[] ts;
+    private T[] results;
     private TaskPlanner taskPlanner;
 
-    public ReadTask(Activity activity, Class<T> mClass) {
-        this.activity = activity;
+    public ReadTask(Context context, Class<T> mClass) {
+        this.context = context;
         this.mClass = mClass;
         service = new WebServiceClient<>(mClass, TIMEOUT);
         taskPlanner = new TaskPlanner(new Runnable() {
@@ -37,7 +36,7 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
     }
 
     public T[] getContent() {
-        return ts;
+        return results;
     }
 
     @Override
@@ -45,32 +44,28 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
         super.onPreExecute();
 
         taskPlanner.start();
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayLoad();
-        }
     }
 
     @Override
-    protected T[] doInBackground(Integer... ids) {
+    protected T[] doInBackground(Long... ids) {
         if (!isCancelled()) {
             if (ids.length > 0) {
-                ts = (T[]) Array.newInstance(mClass, ids.length);
+                results = (T[]) Array.newInstance(mClass, ids.length);
 
                 for (int i = 0; i<ids.length; i++) {
-                    Array.set(ts, i, service.get(ids[i]));
+                    Array.set(results, i, service.get(ids[i]));
                 }
             } else {
-                ts = service.getAll();
+                results = service.getAll();
             }
         }
 
-        return ts;
+        return results;
     }
 
     @Override
     protected void onCancelled(T[] ts) {
-        showTaskError();
+        doInTaskError();
     }
 
     @Override
@@ -80,23 +75,21 @@ public class ReadTask<T> extends AsyncTask<Integer, Integer, T[]> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            if (activity instanceof IRefreshable) {
-                ((IRefreshable) activity).displayContent();
-            }
+            doInTaskCompleted();
         } else {
-            showTaskError();
+            doInTaskError();
         }
     }
 
-    private void showTaskError() {
+    protected void doInTaskCompleted() {
+        //Do nothing
+    }
+
+    protected void doInTaskError() {
         CustomDialog.showOkDialog(
-                activity,
-                activity.getResources().getString(R.string.title_error),
+                context,
+                context.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
-
-        if (activity instanceof IRefreshable) {
-            ((IRefreshable) activity).displayNotFound();
-        }
     }
 }

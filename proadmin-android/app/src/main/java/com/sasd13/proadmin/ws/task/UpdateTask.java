@@ -53,7 +53,7 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
 
     @Override
     protected void onCancelled(Void aVoid) {
-        showTaskError();
+        doInTaskError();
     }
 
     @Override
@@ -63,13 +63,17 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            Toast.makeText(context, context.getResources().getString(R.string.message_updated), Toast.LENGTH_SHORT).show();
+            doInTaskCompleted();
         } else {
-            showTaskError();
+            doInTaskError();
         }
     }
 
-    private void showTaskError() {
+    protected void doInTaskCompleted() {
+        Toast.makeText(context, context.getResources().getString(R.string.message_updated), Toast.LENGTH_SHORT).show();
+    }
+
+    protected void doInTaskError() {
         CustomDialog.showOkDialog(
                 context,
                 context.getResources().getString(R.string.title_error),
