@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.ConnectivityChecker;
@@ -59,11 +58,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
             readTask = new RefreshableReadTask<>(this, Project.class, this);
             readTask.execute();
         } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            ConnectivityChecker.showConnectivityError(this);
         }
     }
 

@@ -56,7 +56,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		long id = 0;
 		
 		String query = "INSERT INTO " + TABLE 
-				+ "(" 
+				+ "("
 					+ COLUMN_YEAR + ", "
 					+ COLUMN_TEACHER_ID + ", "
 					+ COLUMN_PROJECT_ID 

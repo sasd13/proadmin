@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
@@ -18,7 +17,7 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.ws.task.CreateTask;
+import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
 
 import java.util.ArrayList;
@@ -34,6 +33,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     private Tab tab;
     private List<Running> runnings = new ArrayList<>();
     private RefreshableParameterizedReadTask<Running> parameterizedReadTask;
+    private boolean refreshTab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +73,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
             parameterizedReadTask.execute();
         } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            ConnectivityChecker.showConnectivityError(this);
         }
     }
 
@@ -107,14 +103,20 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     }
 
     private void newRunning() {
-        if ()
-        Running running = new Running();
+        if (ConnectivityChecker.isActive(this)) {
+            Running running = new Running();
 
-        running.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
-        running.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
-        running.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            running.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
+            running.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
+            running.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
-        CreateTask<Running> createTask = new CreateTask<>(this, Running.class);
+            refreshTab = true;
+
+            RefreshableCreateTask<Running> createTask = new RefreshableCreateTask<>(this, Running.class, this);
+            createTask.execute(running);
+        } else {
+            ConnectivityChecker.showConnectivityError(this);
+        }
     }
 
     @Override
@@ -134,17 +136,23 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        try {
-            for (Running running : parameterizedReadTask.getContent()) {
-                runnings.add(running);
+        if (refreshTab) {
+            refreshTab = false;
+
+            refresh();
+        } else {
+            try {
+                for (Running running : parameterizedReadTask.getContent()) {
+                    runnings.add(running);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+
+            fillTabRunnings();
+
+            Cache.keepAll(runnings);
         }
-
-        fillTabRunnings();
-
-        Cache.keepAll(runnings);
     }
 
     public void fillTabRunnings() {

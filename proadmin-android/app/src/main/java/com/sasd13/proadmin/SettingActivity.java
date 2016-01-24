@@ -64,13 +64,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
             readTask = new ReadTask<>(this, Teacher.class);
             readTask.execute(Session.getId());
         } else {
-            finish();
-
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            ConnectivityChecker.showConnectivityError(this);
         }
     }
 

@@ -49,7 +49,7 @@ public interface DBHandler {
 	public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
 	public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE 
 			+ " (" 
-				+ RunningDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, " 
+				+ RunningDAO.COLUMN_ID + " SERIAL, " 
 				+ RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
 				+ RunningDAO.COLUMN_TEACHER_ID + " BIGINT UNSIGNED NOT NULL, "
 				+ RunningDAO.COLUMN_PROJECT_ID + " BIGINT UNSIGNED NOT NULL, "
@@ -65,7 +65,7 @@ public interface DBHandler {
 	public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TABLE + ";";
 	public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TABLE 
 			+ " (" 
-				+ TeamDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, " 
+				+ TeamDAO.COLUMN_ID + " SERIAL, " 
 				+ TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, " 
 				+ TeamDAO.COLUMN_RUNNING_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ TeamDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
@@ -95,7 +95,7 @@ public interface DBHandler {
 	public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.TABLE + ";";
 	public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.TABLE 
 			+ " ("
-				+ StudentTeamDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ StudentTeamDAO.COLUMN_ID + " SERIAL, "
 				+ StudentTeamDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ StudentTeamDAO.COLUMN_STUDENT_ID + " BIGINT UNSIGNED NOT NULL, "
 				+ "PRIMARY KEY (" + StudentTeamDAO.COLUMN_ID + ")"
@@ -110,7 +110,7 @@ public interface DBHandler {
 	public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
 	public static final String REPORT_TABLE_CREATE = "CREATE TABLE " + ReportDAO.TABLE 
 			+ " (" 
-				+ ReportDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, " 
+				+ ReportDAO.COLUMN_ID + " SERIAL, " 
 				+ ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
 				+ ReportDAO.COLUMN_WEEKNUMBER + " INT NOT NULL, " 
 				+ ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, " 
@@ -126,7 +126,7 @@ public interface DBHandler {
 	public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationDAO.TABLE + ";";
 	public static final String LEADEVALUATION_TABLE_CREATE = "CREATE TABLE " + LeadEvaluationDAO.TABLE 
 			+ " ("
-				+ LeadEvaluationDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, "  
+				+ LeadEvaluationDAO.COLUMN_ID + " SERIAL, "  
 				+ LeadEvaluationDAO.COLUMN_PLANNINGMARK + " DOUBLE NOT NULL, " 
 				+ LeadEvaluationDAO.COLUMN_PLANNINGCOMMENT + " TEXT, "
 				+ LeadEvaluationDAO.COLUMN_COMMUNICATIONMARK + " DOUBLE NOT NULL, " 

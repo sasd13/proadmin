@@ -78,11 +78,7 @@ public class LogActivity extends Activity implements IRefreshable {
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Teacher.class, parameters, this);
             parameterizedReadTask.execute();
         } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            ConnectivityChecker.showConnectivityError(this);
         }
     }
 
