@@ -23,17 +23,13 @@ import java.util.List;
 public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, LeadEvaluation leadEvaluation) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, leadEvaluation);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
 		preparedStatement.setLong(5, leadEvaluation.getReport().getId());
 		preparedStatement.setLong(6, leadEvaluation.getStudent().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -72,7 +68,11 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				+ ") VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, leadEvaluation);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, leadEvaluation);
+			
+			id = executeInsert(preparedStatement);
+			
 			leadEvaluation.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,9 +95,10 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, leadEvaluation);
-			preparedStatement.setLong(7, leadEvaluation.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, leadEvaluation);
 			
+			preparedStatement.setLong(7, leadEvaluation.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

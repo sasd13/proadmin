@@ -35,7 +35,7 @@ public interface DBHandler {
 	public static final String PROJECT_TABLE_CREATE = "CREATE TABLE " + ProjectDAO.TABLE 
 			+ " (" 
 				+ ProjectDAO.COLUMN_ID + " SERIAL, " 
-				+ ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
+				+ ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL UNIQUE, "
 				+ ProjectDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, " 
 				+ ProjectDAO.COLUMN_TITLE + " VARCHAR(255) NOT NULL, "
 				+ ProjectDAO.COLUMN_DESCRIPTION + " TEXT NOT NULL, " 
@@ -81,7 +81,7 @@ public interface DBHandler {
 			+ " (" 
 				+ StudentDAO.COLUMN_ID + " SERIAL, " 
 				+ StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, " 
-				+ StudentDAO.COLUMN_ACADEMICLEVEL + " INT NOT NULL, " 
+				+ StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, " 
 				+ StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
 				+ StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, " 
 				+ StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, " 
@@ -145,7 +145,7 @@ public interface DBHandler {
 	public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationDAO.TABLE + ";";
 	public static final String INDIVIDUALEVALUATION_TABLE_CREATE = "CREATE TABLE " + IndividualEvaluationDAO.TABLE 
 			+ " ("
-				+ IndividualEvaluationDAO.COLUMN_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ IndividualEvaluationDAO.COLUMN_ID + " SERIAL, "
 				+ IndividualEvaluationDAO.COLUMN_MARK + " DOUBLE NOT NULL, " 
 				+ IndividualEvaluationDAO.COLUMN_REPORT_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ IndividualEvaluationDAO.COLUMN_STUDENT_ID + " BIGINT UNSIGNED NOT NULL, " 

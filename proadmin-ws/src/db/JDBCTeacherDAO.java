@@ -21,16 +21,12 @@ import java.util.List;
 public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Teacher teacher) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, teacher);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
 		preparedStatement.setString(1, teacher.getNumber());
 		preparedStatement.setString(2, teacher.getFirstName());
 		preparedStatement.setString(3, teacher.getLastName());
 		preparedStatement.setString(4, teacher.getEmail());
 		preparedStatement.setString(5, teacher.getPassword());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -61,7 +57,11 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, teacher);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, teacher);
+			
+			id = executeInsert(preparedStatement);
+			
 			teacher.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,9 +83,10 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, teacher);
-			preparedStatement.setLong(6, teacher.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, teacher);
 			
+			preparedStatement.setLong(6, teacher.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {
@@ -138,5 +139,24 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		}
 		
 		return list;
+	}
+	
+	public Teacher selectByNumber(String number) {
+		Teacher teacher = null;
+		
+		String query = "SELECT * FROM " + TABLE 
+				+ " WHERE " 
+					+ COLUMN_NUMBER + " = ?";
+		
+		try {
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement.setString(1, number);
+			
+			teacher = executeSelectSingleResult(preparedStatement);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return teacher;
 	}
 }

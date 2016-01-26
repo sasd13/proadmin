@@ -23,14 +23,10 @@ import java.util.List;
 public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, IndividualEvaluation individualEvaluation) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, individualEvaluation);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setLong(2, individualEvaluation.getReport().getId());
 		preparedStatement.setLong(3, individualEvaluation.getStudent().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -63,7 +59,11 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				+ ") VALUES (?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, individualEvaluation);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, individualEvaluation);
+			
+			id = executeInsert(preparedStatement);
+			
 			individualEvaluation.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,9 +83,10 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, individualEvaluation);
-			preparedStatement.setLong(4, individualEvaluation.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, individualEvaluation);
 			
+			preparedStatement.setLong(4, individualEvaluation.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

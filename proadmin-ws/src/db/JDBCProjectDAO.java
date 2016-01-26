@@ -22,15 +22,11 @@ import java.util.List;
 public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Project project) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, project);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
 		preparedStatement.setString(2, String.valueOf(project.getAcademicLevel()));
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -59,7 +55,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 				+ ") VALUES (?, ?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, project);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, project);
+			
+			id = executeInsert(preparedStatement);
+			
 			project.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,9 +80,10 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, project);
-			preparedStatement.setLong(5, project.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, project);
 			
+			preparedStatement.setLong(5, project.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

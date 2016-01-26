@@ -22,16 +22,12 @@ import java.util.List;
 public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Student student) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, student);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Student student) throws SQLException {
 		preparedStatement.setString(1, student.getNumber());
 		preparedStatement.setString(2, String.valueOf(student.getAcademicLevel()));
 		preparedStatement.setString(3, student.getFirstName());
 		preparedStatement.setString(4, student.getLastName());
 		preparedStatement.setString(5, student.getEmail());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -62,7 +58,11 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, student);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, student);
+			
+			id = executeInsert(preparedStatement);
+			
 			student.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,9 +84,10 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, student);
-			preparedStatement.setLong(6, student.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, student);
 			
+			preparedStatement.setLong(6, student.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

@@ -23,14 +23,10 @@ import java.util.List;
 public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Running running) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, running);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
 		preparedStatement.setInt(1, running.getYear());
 		preparedStatement.setLong(2, running.getTeacher().getId());
 		preparedStatement.setLong(3, running.getProject().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -63,7 +59,11 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				+ ") VALUES (?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, running);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, running);
+			
+			id = executeInsert(preparedStatement);
+			
 			running.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,9 +83,10 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, running);
-			preparedStatement.setLong(4, running.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, running);
 			
+			preparedStatement.setLong(4, running.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

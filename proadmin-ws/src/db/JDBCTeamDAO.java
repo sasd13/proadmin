@@ -22,13 +22,9 @@ import java.util.List;
 public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Team team) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, team);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
 		preparedStatement.setString(1, team.getCode());
 		preparedStatement.setLong(2, team.getRunning().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -56,7 +52,11 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 				+ ") VALUES (?, ?)";
 		
 		try {
-			id = executeInsert(query, team);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, team);
+			
+			id = executeInsert(preparedStatement);
+			
 			team.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,9 +75,10 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, team);
-			preparedStatement.setLong(3, team.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, team);
 			
+			preparedStatement.setLong(3, team.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

@@ -20,24 +20,24 @@ import com.sasd13.javaex.db.IEntityDAO;
  */
 public abstract class JDBCEntityDAO<T> implements IEntityDAO<T> {
 	
-	protected Connection connection;
+	private Connection connection;
 	
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
 	
-	protected PreparedStatement getPreparedStatement(String query, T t) throws SQLException {
+	protected PreparedStatement getPreparedStatement(String query) throws SQLException {
 		return (query.startsWith("INSERT") || query.startsWith("insert")) 
 				? connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS) 
 				: connection.prepareStatement(query);
 	}
 	
+	protected abstract void editPreparedStatement(PreparedStatement preparedStatement, T t) throws SQLException;
+	
 	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
 	
-	protected long executeInsert(String query, T t) throws SQLException {
+	protected long executeInsert(PreparedStatement preparedStatement) throws SQLException {
 		long id = 0;
-		
-		PreparedStatement preparedStatement = getPreparedStatement(query, t);
 		
 		long affectedRows = preparedStatement.executeUpdate();
 		if (affectedRows > 0) {

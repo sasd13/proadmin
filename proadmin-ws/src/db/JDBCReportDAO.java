@@ -23,15 +23,11 @@ import java.util.List;
 public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, Report report) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, report);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
 		preparedStatement.setInt(2, report.getWeekNumber());
 		preparedStatement.setString(3, report.getTeamComment());
 		preparedStatement.setLong(4, report.getTeam().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -63,7 +59,11 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				+ ") VALUES (?, ?, ?, ?)";
 		
 		try {
-			id = executeInsert(query, report);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, report);
+			
+			id = executeInsert(preparedStatement);
+			
 			report.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,9 +84,10 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_ID + " = ?";
 		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query, report);
-			preparedStatement.setLong(5, report.getId());
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, report);
 			
+			preparedStatement.setLong(5, report.getId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {

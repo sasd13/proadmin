@@ -23,13 +23,9 @@ import java.util.List;
 public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements StudentTeamDAO {
 	
 	@Override
-	protected PreparedStatement getPreparedStatement(String query, StudentTeam studentTeam) throws SQLException {
-		PreparedStatement preparedStatement = super.getPreparedStatement(query, studentTeam);
-		
+	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setLong(1, studentTeam.getTeam().getId());
 		preparedStatement.setLong(2, studentTeam.getStudent().getId());
-		
-		return preparedStatement;
 	}
 	
 	@Override
@@ -60,7 +56,11 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 				+ ") VALUES (?, ?)";
 		
 		try {
-			id = executeInsert(query, studentTeam);
+			PreparedStatement preparedStatement = getPreparedStatement(query);
+			editPreparedStatement(preparedStatement, studentTeam);
+			
+			id = executeInsert(preparedStatement);
+			
 			studentTeam.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
