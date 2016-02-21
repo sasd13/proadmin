@@ -7,6 +7,7 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.TeacherDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements TeacherDAO {
 
@@ -63,6 +64,11 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Teacher> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

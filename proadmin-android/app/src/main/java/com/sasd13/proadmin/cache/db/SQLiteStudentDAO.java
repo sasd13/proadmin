@@ -8,6 +8,7 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.db.StudentDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements StudentDAO {
 
@@ -64,6 +65,11 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Student> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

@@ -53,7 +53,6 @@ public class JDBCDAO extends DAO {
 		return instance;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void open() {
 		try {

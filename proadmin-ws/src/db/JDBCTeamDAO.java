@@ -8,12 +8,15 @@ package db;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.TeamDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -51,15 +54,30 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 					+ COLUMN_RUNNING_ID 
 				+ ") VALUES (?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, team);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			team.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
@@ -74,15 +92,22 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, team);
 			
 			preparedStatement.setLong(3, team.getId());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -94,10 +119,21 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -109,13 +145,63 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			team = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					team = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return team;
+	}
+	
+	public List<Team> select(Map<String, String[]> parameters) {
+		List<Team> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(Team.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<Team> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -124,10 +210,21 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

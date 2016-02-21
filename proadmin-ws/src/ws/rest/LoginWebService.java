@@ -6,18 +6,21 @@
 package ws.rest;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.sasd13.javaex.net.ws.DataSerializerException;
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.core.db.DAO;
-
-import db.JDBCDAO;
-import db.JDBCTeacherDAO;
+import com.sasd13.proadmin.core.util.EnumURLParameter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import ws.persistence.PersistenceService;
 
 /**
  *
@@ -26,34 +29,40 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginWebService extends HttpServlet {
 	
-	private DAO dao = JDBCDAO.getInstance();
+	protected PersistenceService<Teacher> persistenceService;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		
+		persistenceService = new PersistenceService<>(Teacher.class);
+	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		long id = 0;
-		
 		try {
 			Teacher teacherFromRequest = (Teacher) ParserService.readAndParseDataFromRequest(req, Teacher.class);
 			
-			try {
-				dao.open();
+			Map<String, String[]> parameters = new HashMap<String, String[]>();
+			parameters.put(EnumURLParameter.NUMBER.getName(), new String[]{teacherFromRequest.getNumber()});
+			
+			List<Teacher> list = (List<Teacher>) persistenceService.read(parameters);
+			
+			long id;
+			
+			if (list.isEmpty() || list.size() > 1) {
+				id = 0;
+			} else {
+				Teacher teacher = list.get(0);
 				
-				Teacher teacher = ((JDBCTeacherDAO) dao.getEntityDAO(Teacher.class)).selectByNumber(teacherFromRequest.getNumber());
-				
-				id = (teacher == null)
-						? 0
-						: (!teacherFromRequest.getPassword().equals(teacher.getPassword()))
-							? -1
-							: teacher.getId();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				dao.close();
+				id = (teacherFromRequest.getPassword().equals(teacher.getPassword()))
+						? teacher.getId()
+						: -1;
 			}
-		} catch (ClassCastException | NullPointerException e) {
+			
+			ParserService.parseAndWriteDataToResponse(req, resp, id);
+		} catch (DataSerializerException e) {
 			e.printStackTrace();
 		}
-		
-		ParserService.parseAndWriteDataToResponse(req, resp, id);
 	}
 }

@@ -9,12 +9,15 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.StudentTeam;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.StudentTeamDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -55,22 +58,37 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 					+ COLUMN_TEAM_ID 
 				+ ") VALUES (?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, studentTeam);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			studentTeam.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
 	}
 	
 	@Override
-	public void update(StudentTeam arg0) {
+	public void update(StudentTeam studentTeam) {
 		//Do nothing
 	}
 	
@@ -80,10 +98,21 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -95,13 +124,63 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			studentTeam = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					studentTeam = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return studentTeam;
+	}
+	
+	public List<StudentTeam> select(Map<String, String[]> parameters) {
+		List<StudentTeam> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(StudentTeam.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<StudentTeam> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -110,10 +189,21 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

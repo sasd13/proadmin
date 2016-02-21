@@ -9,12 +9,15 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -58,15 +61,30 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 					+ COLUMN_STUDENT_ID
 				+ ") VALUES (?, ?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, individualEvaluation);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			individualEvaluation.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
@@ -82,15 +100,22 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, individualEvaluation);
 			
 			preparedStatement.setLong(4, individualEvaluation.getId());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -102,10 +127,21 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -117,13 +153,63 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			individualEvaluation = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					individualEvaluation = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return individualEvaluation;
+	}
+	
+	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
+		List<IndividualEvaluation> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(IndividualEvaluation.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<IndividualEvaluation> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -132,10 +218,21 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

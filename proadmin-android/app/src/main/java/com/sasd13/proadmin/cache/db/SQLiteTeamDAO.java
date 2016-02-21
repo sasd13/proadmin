@@ -8,6 +8,7 @@ import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.TeamDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
@@ -61,6 +62,11 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Team> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

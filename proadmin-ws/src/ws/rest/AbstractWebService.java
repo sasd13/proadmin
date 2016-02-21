@@ -7,6 +7,7 @@ package ws.rest;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ws.filter.FilterFactory;
+import com.sasd13.javaex.net.ws.DataSerializerException;
+
 import ws.persistence.PersistenceService;
 
 /**
@@ -23,6 +25,8 @@ import ws.persistence.PersistenceService;
  * @author Samir
  */
 public abstract class AbstractWebService<T> extends HttpServlet {
+	
+	private static final String REQUEST_PARAMETER_ID = "id";
 	
 	protected PersistenceService<T> persistenceService;
 	
@@ -41,55 +45,53 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		
 		Object respData = null;
 		
-		if (parameters.size() == 1 && parameters.containsKey("id") && parameters.get("id").length == 1) {
+		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				respData = persistenceService.read(Long.parseLong(req.getParameter("id")));
+				respData = persistenceService.read(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		} else {
-			if (!parameters.containsKey("id")) {
-				List<T> list = persistenceService.readAll();
-				
-				if (!parameters.isEmpty()) {
-					list = FilterFactory.make(getEntityClass(), parameters).filter(list);
-				}
-				
-				respData = (list.isEmpty()) 
-						? null
-						: list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
-			}
+			List<T> list = (parameters.isEmpty())
+					? persistenceService.readAll()
+					: (!parameters.containsKey(REQUEST_PARAMETER_ID)) 
+						? persistenceService.read(parameters)
+						: new ArrayList<T>();
+						
+			respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
 		}
 		
-		ParserService.parseAndWriteDataToResponse(req, resp, respData);
+		try {
+			ParserService.parseAndWriteDataToResponse(req, resp, respData);
+		} catch (DataSerializerException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		long id = 0;
-		
 		try {
 			T t = (T) ParserService.readAndParseDataFromRequest(req, getEntityClass());
 			
-			id = persistenceService.create(t);
-		} catch (ClassCastException e) {
+			long id = persistenceService.create(t);
+			
+			ParserService.parseAndWriteDataToResponse(req, resp, id);
+		} catch (DataSerializerException e) {
 			e.printStackTrace();
 		}
-		
-		ParserService.parseAndWriteDataToResponse(req, resp, id);
 	}
 	
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Object reqData = ParserService.readAndParseDataFromRequest(req, getEntityClass());
-		
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		try {
+			Object reqData = ParserService.readAndParseDataFromRequest(req, getEntityClass());
+			
 			if (reqData.getClass().isArray()) {
 				persistenceService.updateAll((T[]) reqData);
 			} else {
 				persistenceService.update((T) reqData);
 			}
-		} catch (NullPointerException | ClassCastException e) {
+		} catch (DataSerializerException e) {
 			e.printStackTrace();
 		}
 	}
@@ -98,9 +100,9 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> parameters = req.getParameterMap();
 		
-		if (parameters.size() == 1 && parameters.containsKey("id") && parameters.get("id").length == 1) {
+		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				persistenceService.delete(Long.parseLong(req.getParameter("id")));
+				persistenceService.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}

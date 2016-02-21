@@ -9,6 +9,7 @@ import com.sasd13.proadmin.core.db.ReportDAO;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDAO {
 
@@ -17,7 +18,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_DATEMEETING, String.valueOf(report.getDateMeeting()));
-        values.put(COLUMN_WEEKNUMBER, report.getWeekNumber());
+        values.put(COLUMN_WEEK, report.getWeek());
         values.put(COLUMN_TEAMCOMMENT, report.getTeamComment());
         values.put(COLUMN_TEAM_ID, report.getTeam().getId());
 
@@ -30,7 +31,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         report.setDateMeeting(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
-        report.setWeekNumber(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEKNUMBER)));
+        report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
         report.setTeamComment(cursor.getString(cursor.getColumnIndex(COLUMN_TEAMCOMMENT)));
 
         Team team = new Team();
@@ -66,6 +67,11 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Report> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

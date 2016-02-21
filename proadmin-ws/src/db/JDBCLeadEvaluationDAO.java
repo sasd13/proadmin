@@ -9,12 +9,15 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -67,15 +70,30 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 					+ COLUMN_STUDENT_ID
 				+ ") VALUES (?, ?, ?, ?, ?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, leadEvaluation);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			leadEvaluation.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
@@ -94,15 +112,22 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, leadEvaluation);
 			
 			preparedStatement.setLong(7, leadEvaluation.getId());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -114,10 +139,21 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -129,13 +165,63 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			leadEvaluation = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					leadEvaluation = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return leadEvaluation;
+	}
+	
+	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
+		List<LeadEvaluation> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(LeadEvaluation.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<LeadEvaluation> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -144,10 +230,21 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

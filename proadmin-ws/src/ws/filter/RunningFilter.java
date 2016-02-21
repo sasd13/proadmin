@@ -2,36 +2,33 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.http.HttpFilter;
+import com.sasd13.javaex.net.http.util.URLParameterFilter;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.filter.running.ProjectCriteria;
 import com.sasd13.proadmin.core.filter.running.TeacherCriteria;
 import com.sasd13.proadmin.core.filter.running.YearCriteria;
+import com.sasd13.proadmin.core.util.EnumURLParameter;
 
-public class RunningsFilter extends HttpFilter<Running> {
+public class RunningFilter extends URLParameterFilter<Running> {
 	
-	public RunningsFilter(Map<String, String[]> parameters) {
+	public RunningFilter(Map<String, String[]> parameters) {
 		super(parameters);
 		
-		String key;
-		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
-			key = entry.getKey();
-			
 			for (String value : entry.getValue()) {
-				if ("year".equals(key)) {
+				if (EnumURLParameter.YEAR.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if ("teacher".equals(key)) {
+				} else if (EnumURLParameter.TEACHER.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if ("project".equals(key)) {
+				} else if (EnumURLParameter.PROJECT.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {

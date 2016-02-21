@@ -8,6 +8,7 @@ import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.db.ProjectDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements ProjectDAO {
 
@@ -62,6 +63,11 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Project> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

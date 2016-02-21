@@ -3,6 +3,8 @@
 	<name>proadmin-ws</name>
 	<comment></comment>
 	<projects>
+		<project>javaex</project>
+		<project>proadmin-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

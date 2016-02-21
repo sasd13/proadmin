@@ -9,6 +9,7 @@ import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.db.RunningDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements RunningDAO {
 
@@ -66,6 +67,11 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<Running> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

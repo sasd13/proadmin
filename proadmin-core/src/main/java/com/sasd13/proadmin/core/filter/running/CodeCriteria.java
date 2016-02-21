@@ -19,7 +19,7 @@ public class CodeCriteria implements Criteria<Team> {
 		List<Team> result = new ArrayList<Team>();
 		
 		for (Team team : entities) {
-			if (code.equals(team.getCode())) {
+			if (code.equalsIgnoreCase(team.getCode())) {
 				result.add(team);
 			}
 		}

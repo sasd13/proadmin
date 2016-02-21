@@ -1,7 +1,10 @@
 package ws.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.sasd13.javaex.db.DBException;
 import com.sasd13.proadmin.core.db.DAO;
 
 import db.JDBCDAO;
@@ -47,8 +50,24 @@ public class PersistenceService<T> {
 		return t;
 	}
 	
+	public List<T> read(Map<String, String[]> parameters) {
+		List<T> list = new ArrayList<T>();
+		
+		try {
+			dao.open();
+			
+			list = (List<T>) dao.getEntityDAO(mClass).select(parameters);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dao.close();
+		}
+		
+		return list;
+	}
+	
 	public List<T> readAll() {
-		List<T> list = null;
+		List<T> list = new ArrayList<T>();
 		
 		try {
 			dao.open();
@@ -75,7 +94,7 @@ public class PersistenceService<T> {
 		}
 	}
 	
-	private void performUpdate(T t) {
+	private void performUpdate(T t) throws DBException {
 		dao.getEntityDAO(mClass).update(t);
 	}
 	

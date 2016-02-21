@@ -2,25 +2,34 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.http.HttpFilter;
+import com.sasd13.javaex.net.http.util.URLParameterFilter;
+import com.sasd13.proadmin.core.bean.member.Student;
+import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.core.bean.project.Project;
+import com.sasd13.proadmin.core.bean.running.Report;
+import com.sasd13.proadmin.core.bean.running.Running;
+import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.filter.FilterException;
 
 public class FilterFactory {
 	
-	public static HttpFilter make(Class mClass, Map<String, String[]> parameters) {
-		HttpFilter httpFilter = null;
+	public static <T> URLParameterFilter<T> make(Class<T> mClass, Map<String, String[]> parameters) throws FilterException {
+		URLParameterFilter<T> httpFilter = null;
 		
-		if ("Teacher".equals(mClass.getSimpleName())) {
-			httpFilter = new TeachersFilter(parameters);
-		} else if ("Project".equals(mClass.getSimpleName())) {
-			httpFilter = new ProjectsFilter(parameters);
-		} else if ("Running".equals(mClass.getSimpleName())) {
-			httpFilter = new RunningsFilter(parameters);
-		} else if ("Team".equals(mClass.getSimpleName())) {
-			httpFilter = new TeamsFilter(parameters);
-		} else if ("Student".equals(mClass.getSimpleName())) {
-			httpFilter = new StudentsFilter(parameters);
-		} else if ("Report".equals(mClass.getSimpleName())) {
-			httpFilter = new ReportsFilter(parameters);
+		if (Teacher.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new TeacherFilter(parameters);
+		} else if (Project.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new ProjectFilter(parameters);
+		} else if (Running.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new RunningFilter(parameters);
+		} else if (Team.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new TeamFilter(parameters);
+		} else if (Student.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new StudentFilter(parameters);
+		} else if (Report.class.equals(mClass)) {
+			httpFilter = (URLParameterFilter<T>) new ReportFilter(parameters);
+		} else {
+			throw new FilterException("Class '" + mClass.getName() + "' has no parameter filter");
 		}
 		
 		return httpFilter;

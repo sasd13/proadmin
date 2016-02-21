@@ -1,17 +1,20 @@
 package com.sasd13.proadmin.ws.rest;
 
 import com.sasd13.javaex.net.MimeType;
+import com.sasd13.javaex.net.http.HttpException;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.net.parser.DataParser;
+import com.sasd13.javaex.net.ws.DataSerializer;
+import com.sasd13.javaex.net.ws.DataSerializerException;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class LogWebServiceClient {
 
-    private static final String URL_LOGINWEBSERVICE = "http://192.168.1.9:8080/proadmin-ws/login";
+    private static final String URL_WEBSERVICE_LOGIN = "http://192.168.1.9:8080/proadmin-ws/login";
     private static final int DEFAULT_TIMEOUT = 60000;
     public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
@@ -40,10 +43,11 @@ public class LogWebServiceClient {
         teacher.setPassword(password);
 
         String reqContentType = MimeType.APPLICATION_JSON;
-        String reqData = DataParser.toString(reqContentType, teacher);
 
         try {
-            httpRequest = new HttpRequest(new URL(URL_LOGINWEBSERVICE), HttpRequest.Method.POST);
+            String reqData = DataSerializer.toString(reqContentType, teacher);
+
+            httpRequest = new HttpRequest(new URL(URL_WEBSERVICE_LOGIN), HttpRequest.Method.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
             httpRequest.setRequestContentType(reqContentType);
@@ -58,8 +62,8 @@ public class LogWebServiceClient {
 
             httpRequest.disconnect();
 
-            id = (long) DataParser.fromString(respContentType, respData, Long.class);
-        } catch (IOException e) {
+            id = (long) DataSerializer.fromString(respContentType, respData, Long.class);
+        } catch (DataSerializerException | IOException | HttpException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -67,7 +71,7 @@ public class LogWebServiceClient {
     }
 
     private void setHttpRequestHeaders() {
-        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_JSON);
-        httpRequest.addRequestHeader("Accept", MimeType.APPLICATION_XML);
+        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_JSON);
+        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_XML);
     }
 }

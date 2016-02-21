@@ -112,7 +112,7 @@ public interface DBHandler {
 			+ " (" 
 				+ ReportDAO.COLUMN_ID + " SERIAL, " 
 				+ ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
-				+ ReportDAO.COLUMN_WEEKNUMBER + " INT NOT NULL, " 
+				+ ReportDAO.COLUMN_WEEK + " INT NOT NULL, " 
 				+ ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, " 
 				+ ReportDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ ReportDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "

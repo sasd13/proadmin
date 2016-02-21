@@ -19,7 +19,7 @@ public class NumberCriteria<T extends AcademicMember> implements Criteria<T> {
 		List<T> result = new ArrayList<>();
 		
 		for (T t : entities) {
-			if (number.equals(t.getNumber())) {
+			if (number.equalsIgnoreCase(t.getNumber())) {
 				result.add(t);
 			}
 		}

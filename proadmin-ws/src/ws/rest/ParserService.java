@@ -8,33 +8,33 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.MimeType;
-import com.sasd13.javaex.net.parser.DataParser;
+import com.sasd13.javaex.net.http.HttpRequest;
+import com.sasd13.javaex.net.ws.DataSerializer;
+import com.sasd13.javaex.net.ws.DataSerializerException;
 
 public class ParserService {
 	
-	private static final String HTTP_HEADER_ACCEPT = "Accept";
-	
-	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException {
+	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataSerializerException {
 		String sReqData = ContentIO.read(req.getReader());
 		
-		return (T) DataParser.fromString(req.getContentType(), sReqData, mClass);
+		return (T) DataSerializer.fromString(req.getContentType(), sReqData, mClass);
 	}
 	
-	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException {
-		String contentType = getRequestContentType(req);
+	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException, DataSerializerException {
+		String contentType = getRequestAcceptMimeType(req);
 		
 		resp.setContentType(contentType);
-		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.APPLICATION_JSON);
-		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.APPLICATION_XML);
-		resp.addHeader(HTTP_HEADER_ACCEPT, MimeType.TEXT_PLAIN);
+		resp.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_JSON);
+		resp.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_XML);
+		resp.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.TEXT_PLAIN);
 		
-		String sRespData = DataParser.toString(contentType, respData);
+		String sRespData = DataSerializer.toString(contentType, respData);
 		
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
 	
-	public static String getRequestContentType(HttpServletRequest req) {
-		Enumeration<String> accepts = req.getHeaders(HTTP_HEADER_ACCEPT);
+	public static String getRequestAcceptMimeType(HttpServletRequest req) {
+		Enumeration<String> accepts = req.getHeaders(HttpRequest.HEADER_ATTRIBUTE_ACCEPT);
 		
 		String contentType = null, accept;
 		

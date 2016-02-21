@@ -2,6 +2,7 @@ package com.sasd13.proadmin.cache;
 
 import android.content.Context;
 
+import com.sasd13.javaex.db.DBException;
 import com.sasd13.proadmin.cache.db.SQLiteDAO;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Cache {
         }
     }
 
-    private static void performKeep(Object object) {
+    private static void performKeep(Object object) throws DBException {
         ((IPersistable) dao.getEntityDAO(object.getClass())).persist(object);
     }
 

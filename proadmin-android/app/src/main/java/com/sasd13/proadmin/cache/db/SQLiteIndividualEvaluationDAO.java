@@ -9,6 +9,7 @@ import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 
@@ -67,6 +68,11 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<IndividualEvaluation> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

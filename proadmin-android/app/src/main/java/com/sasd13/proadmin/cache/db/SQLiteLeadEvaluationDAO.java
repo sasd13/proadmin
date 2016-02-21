@@ -9,6 +9,7 @@ import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
 
 import java.util.List;
+import java.util.Map;
 
 public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 
@@ -73,6 +74,11 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
                     + COLUMN_ID + " = ?";
 
         return executeSelectById(query, id);
+    }
+
+    @Override
+    public List<LeadEvaluation> select(Map<String, String[]> map) {
+        return null;
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Report {
 	
 	private long id;
 	private Timestamp dateMeeting;
-	private int weekNumber;
+	private int week;
 	private String teamComment;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
@@ -38,12 +38,12 @@ public class Report {
 		this.dateMeeting = dateMeeting;
 	}
 	
-	public int getWeekNumber() {
-		return this.weekNumber;
+	public int getWeek() {
+		return this.week;
 	}
 	
-	public void setWeekNumber(int weekNumber) {
-		this.weekNumber = weekNumber;
+	public void setWeek(int week) {
+		this.week = week;
 	}
 	
 	public String getTeamComment() {
@@ -85,6 +85,7 @@ public class Report {
 		builder.append("Report [");
 		builder.append("id=" + getId());
 		builder.append(", dateMeeting=" + getDateMeeting());
+		builder.append(", weak=" + getWeek());
 		builder.append(", teamComment=" + getTeamComment());
 		builder.append(", leadEvaluation=" + getLeadEvaluation());
 		builder.append(", individualEvaluations=" + Arrays.toString(getIndividualEvaluations()));

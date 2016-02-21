@@ -8,12 +8,15 @@ package db;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.db.StudentDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -57,15 +60,30 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 					+ COLUMN_EMAIL 
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, student);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			student.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
@@ -83,15 +101,22 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, student);
 			
 			preparedStatement.setLong(6, student.getId());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -103,10 +128,21 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -118,13 +154,63 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			student = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					student = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return student;
+	}
+	
+	public List<Student> select(Map<String, String[]> parameters) {
+		List<Student> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(Student.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<Student> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -133,10 +219,21 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

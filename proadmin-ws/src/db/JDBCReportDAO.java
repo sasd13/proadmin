@@ -8,13 +8,16 @@ package db;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.ReportDAO;
+import com.sasd13.proadmin.core.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -25,7 +28,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
-		preparedStatement.setInt(2, report.getWeekNumber());
+		preparedStatement.setInt(2, report.getWeek());
 		preparedStatement.setString(3, report.getTeamComment());
 		preparedStatement.setLong(4, report.getTeam().getId());
 	}
@@ -36,7 +39,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		report.setId(resultSet.getLong(COLUMN_ID));
 		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
-		report.setWeekNumber(resultSet.getInt(COLUMN_WEEKNUMBER));
+		report.setWeek(resultSet.getInt(COLUMN_WEEK));
 		report.setTeamComment(resultSet.getString(COLUMN_TEAMCOMMENT));
 		
 		Team team = new Team();
@@ -53,20 +56,35 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
 					+ COLUMN_DATEMEETING + ", "
-					+ COLUMN_WEEKNUMBER + ", " 
+					+ COLUMN_WEEK + ", " 
 					+ COLUMN_TEAMCOMMENT + ", " 
 					+ COLUMN_TEAM_ID 
 				+ ") VALUES (?, ?, ?, ?)";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, report);
 			
-			id = executeInsert(preparedStatement);
+			long affectedRows = preparedStatement.executeUpdate();
+			if (affectedRows > 0) {
+				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					id = generatedKeys.getLong(1);
+				}
+			}
 			
 			report.setId(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return id;
@@ -77,21 +95,28 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DATEMEETING + " = ?, " 
-					+ COLUMN_WEEKNUMBER + " = ?, " 
+					+ COLUMN_WEEK + " = ?, " 
 					+ COLUMN_TEAMCOMMENT + " = ?, " 
 					+ COLUMN_TEAM_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			PreparedStatement preparedStatement = getPreparedStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, report);
 			
 			preparedStatement.setLong(5, report.getId());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -103,10 +128,21 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			executeDelete(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setLong(2, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -118,13 +154,63 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
+		PreparedStatement preparedStatement = null;
+		
 		try {
-			report = executeSelectById(query, id);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setLong(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (!resultSet.getBoolean(COLUMN_DELETED)) {
+					report = getResultSetValues(resultSet);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return report;
+	}
+	
+	public List<Report> select(Map<String, String[]> parameters) {
+		List<Report> list = new ArrayList<>();
+		
+		String query = null;
+		Statement statement = null;
+		
+		try {
+			query = "SELECT * FROM " + TABLE
+					+ " WHERE " + WhereClauseParser.parse(Report.class, parameters) + ";";
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	private void fillListWithResultSet(List<Report> list, ResultSet resultSet) throws SQLException {
+		while (resultSet.next()) {
+			if (!resultSet.getBoolean(COLUMN_DELETED)) {
+				list.add(getResultSetValues(resultSet));
+			}
+		}
 	}
 	
 	@Override
@@ -133,10 +219,21 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		String query = "SELECT * FROM " + TABLE;
 		
+		Statement statement = null;
+		
 		try {
-			list = executeSelectAll(query);
+			statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			fillListWithResultSet(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;

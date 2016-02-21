@@ -19,7 +19,7 @@ public class EmailCriteria<T extends AcademicMember> implements Criteria<T> {
 		List<T> result = new ArrayList<>();
 		
 		for (T t : entities) {
-			if (email.equals(t.getEmail())) {
+			if (email.equalsIgnoreCase(t.getEmail())) {
 				result.add(t);
 			}
 		}

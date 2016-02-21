@@ -19,7 +19,7 @@ public class AcademicLevelCriteria implements Criteria<Project> {
 		List<Project> result = new ArrayList<Project>();
 		
 		for (Project project : entities) {
-			if (academicLevel.equals(String.valueOf(project.getAcademicLevel()))) {
+			if (academicLevel.equalsIgnoreCase(String.valueOf(project.getAcademicLevel()))) {
 				result.add(project);
 			}
 		}
