@@ -15,7 +15,7 @@ public class Team {
 	private Running running;
 	
 	public Team() {
-		this.reports = new ArrayList<>();
+		reports = new ArrayList<>();
 	}
 	
 	public long getId() {

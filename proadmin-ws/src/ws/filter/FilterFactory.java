@@ -14,24 +14,20 @@ import com.sasd13.proadmin.core.filter.FilterException;
 public class FilterFactory {
 	
 	public static <T> URLParameterFilter<T> make(Class<T> mClass, Map<String, String[]> parameters) throws FilterException {
-		URLParameterFilter<T> httpFilter = null;
-		
 		if (Teacher.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new TeacherFilter(parameters);
+			return (URLParameterFilter<T>) new TeacherFilter(parameters);
 		} else if (Project.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new ProjectFilter(parameters);
+			return (URLParameterFilter<T>) new ProjectFilter(parameters);
 		} else if (Running.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new RunningFilter(parameters);
+			return (URLParameterFilter<T>) new RunningFilter(parameters);
 		} else if (Team.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new TeamFilter(parameters);
+			return (URLParameterFilter<T>) new TeamFilter(parameters);
 		} else if (Student.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new StudentFilter(parameters);
+			return (URLParameterFilter<T>) new StudentFilter(parameters);
 		} else if (Report.class.equals(mClass)) {
-			httpFilter = (URLParameterFilter<T>) new ReportFilter(parameters);
+			return (URLParameterFilter<T>) new ReportFilter(parameters);
 		} else {
 			throw new FilterException("Class '" + mClass.getName() + "' has no parameter filter");
 		}
-		
-		return httpFilter;
 	}
 }

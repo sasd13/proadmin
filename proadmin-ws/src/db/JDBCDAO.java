@@ -58,15 +58,15 @@ public class JDBCDAO extends DAO {
 		try {
 			connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USER, JDBCInformation.PASSWORD);
 			
-			((JDBCEntityDAO) teacherDAO).setConnection(connection);
-			((JDBCEntityDAO) projectDAO).setConnection(connection);
-			((JDBCEntityDAO) runningDAO).setConnection(connection);
-			((JDBCEntityDAO) teamDAO).setConnection(connection);
-			((JDBCEntityDAO) studentDAO).setConnection(connection);
-			((JDBCEntityDAO) studentTeamDAO).setConnection(connection);
-			((JDBCEntityDAO) reportDAO).setConnection(connection);
-			((JDBCEntityDAO) leadEvaluationDAO).setConnection(connection);
-			((JDBCEntityDAO) individualEvaluationDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) leadEvaluationDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

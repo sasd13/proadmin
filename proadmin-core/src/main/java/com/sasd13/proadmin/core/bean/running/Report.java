@@ -16,10 +16,10 @@ public class Report {
 	private Team team;
 	
 	public Report() {
-		this.leadEvaluation = new LeadEvaluation();
-		this.individualEvaluations = new ArrayList<>();
+		leadEvaluation = new LeadEvaluation();
+		individualEvaluations = new ArrayList<>();
 		
-		this.leadEvaluation.setReport(this);
+		leadEvaluation.setReport(this);
 	}
 	
 	public long getId() {

@@ -17,8 +17,8 @@ public class Running {
 	private List<Team> teams;
 	
 	public Running() {
-		this.year = Calendar.getInstance().get(Calendar.YEAR);
-		this.teams = new ArrayList<>();
+		year = Calendar.getInstance().get(Calendar.YEAR);
+		teams = new ArrayList<>();
 	}
 	
 	public long getId() {

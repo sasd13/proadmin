@@ -25,7 +25,6 @@ public abstract class DAO implements IDAO {
 	protected LeadEvaluationDAO leadEvaluationDAO;
 	protected IndividualEvaluationDAO individualEvaluationDAO;
 	
-	@SuppressWarnings("unchecked")
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DBException {
 		if (Teacher.class.equals(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;

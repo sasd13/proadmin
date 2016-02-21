@@ -76,7 +76,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			long id = persistenceService.create(t);
 			
 			ParserService.parseAndWriteDataToResponse(req, resp, id);
-		} catch (DataSerializerException e) {
+		} catch (DataSerializerException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			} else {
 				persistenceService.update((T) reqData);
 			}
-		} catch (DataSerializerException e) {
+		} catch (DataSerializerException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}

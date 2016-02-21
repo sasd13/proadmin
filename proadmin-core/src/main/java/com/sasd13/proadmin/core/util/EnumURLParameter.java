@@ -20,7 +20,7 @@ public enum EnumURLParameter {
 	
 	private String name;
 	
-	EnumURLParameter(String name) {
+	private EnumURLParameter(String name) {
 		this.name = name;
 	}
 	

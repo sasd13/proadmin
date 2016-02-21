@@ -78,49 +78,39 @@ public class WhereClauseParser {
 	}
 	
 	private static String fromTeacher(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		if (EnumURLParameter.NUMBER.getName().equals(key)) {
-			condition = TeacherDAO.COLUMN_NUMBER + " = '" + value + "'";
+			return TeacherDAO.COLUMN_NUMBER + " = '" + value + "'";
 		} else if (EnumURLParameter.FIRSTNAME.getName().equals(key)) {
-			condition = TeacherDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
+			return TeacherDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
 		} else if (EnumURLParameter.LASTNAME.getName().equals(key)) {
-			condition = TeacherDAO.COLUMN_LASTNAME + " = '" + value + "'";
+			return TeacherDAO.COLUMN_LASTNAME + " = '" + value + "'";
 		} else if (EnumURLParameter.EMAIL.getName().equals(key)) {
-			condition = TeacherDAO.COLUMN_EMAIL + " = '" + value + "'";
+			return TeacherDAO.COLUMN_EMAIL + " = '" + value + "'";
 		} else {
 			throw new WhereClauseException("Teacher key '" + key + "' is not a declared parameter");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromProject(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		if (EnumURLParameter.CODE.getName().equals(key)) {
-			condition = ProjectDAO.COLUMN_CODE + " = '" + value + "'";
+			return ProjectDAO.COLUMN_CODE + " = '" + value + "'";
 		} else if (EnumURLParameter.ACADEMICLEVEL.getName().equals(key)) {
-			condition = ProjectDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
+			return ProjectDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
 		} else if (EnumURLParameter.TITLE.getName().equals(key)) {
-			condition = ProjectDAO.COLUMN_TITLE + " = '" + value + "'";
+			return ProjectDAO.COLUMN_TITLE + " = '" + value + "'";
 		} else {
 			throw new WhereClauseException("Project key '" + key + "' is not a declared parameter");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromRunning(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		try {
 			if (EnumURLParameter.YEAR.getName().equals(key)) {
-				condition = RunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
+				return RunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.TEACHER.getName().equals(key)) {
-				condition = RunningDAO.COLUMN_TEACHER_ID + " = " + Integer.parseInt(value);
+				return RunningDAO.COLUMN_TEACHER_ID + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.PROJECT.getName().equals(key)) {
-				condition = RunningDAO.COLUMN_PROJECT_ID + " = " + Integer.parseInt(value);
+				return RunningDAO.COLUMN_PROJECT_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("Running key '" + key + "' is not a declared parameter");
 			}
@@ -128,18 +118,14 @@ public class WhereClauseParser {
 			e.printStackTrace();
 			throw new WhereClauseException("Running key '" + key + "' parameter parsing error. See above");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromTeam(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		if (EnumURLParameter.CODE.getName().equals(key)) {
-			condition = TeamDAO.COLUMN_CODE + " = '" + value + "'";
+			return TeamDAO.COLUMN_CODE + " = '" + value + "'";
 		} else if (EnumURLParameter.RUNNING.getName().equals(key)) {
 			try {
-				condition = TeamDAO.COLUMN_RUNNING_ID + " = " + Integer.parseInt(value);
+				return TeamDAO.COLUMN_RUNNING_ID + " = " + Integer.parseInt(value);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				throw new WhereClauseException("Team key '" + key + "' parameter parsing error. See above");
@@ -147,38 +133,30 @@ public class WhereClauseParser {
 		} else {
 			throw new WhereClauseException("Team key '" + key + "' is not a declared parameter");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromStudent(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		if (EnumURLParameter.NUMBER.getName().equals(key)) {
-			condition = StudentDAO.COLUMN_NUMBER + " = '" + value + "'";
+			return StudentDAO.COLUMN_NUMBER + " = '" + value + "'";
 		} else if (EnumURLParameter.ACADEMICLEVEL.getName().equals(key)) {
-			condition = StudentDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
+			return StudentDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
 		} else if (EnumURLParameter.FIRSTNAME.getName().equals(key)) {
-			condition = StudentDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
+			return StudentDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
 		} else if (EnumURLParameter.LASTNAME.getName().equals(key)) {
-			condition = StudentDAO.COLUMN_LASTNAME + " = '" + value + "'";
+			return StudentDAO.COLUMN_LASTNAME + " = '" + value + "'";
 		} else if (EnumURLParameter.EMAIL.getName().equals(key)) {
-			condition = StudentDAO.COLUMN_EMAIL + " = '" + value + "'";
+			return StudentDAO.COLUMN_EMAIL + " = '" + value + "'";
 		} else {
 			throw new WhereClauseException("Student key '" + key + "' is not a declared parameter");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromStudentTeam(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		try {
 			if (EnumURLParameter.TEAM.getName().equals(key)) {
-				condition = StudentTeamDAO.COLUMN_TEAM_ID + " = " + Integer.parseInt(value);
+				return StudentTeamDAO.COLUMN_TEAM_ID + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.STUDENT.getName().equals(key)) {
-				condition = StudentTeamDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
+				return StudentTeamDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("StudentTeam key '" + key + "' is not a declared parameter");
 			}
@@ -186,18 +164,14 @@ public class WhereClauseParser {
 			e.printStackTrace();
 			throw new WhereClauseException("StudentTeam key '" + key + "' parameter parsing error. See above");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromReport(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		try {
 			if (EnumURLParameter.WEEK.getName().equals(key)) {
-				condition = ReportDAO.COLUMN_WEEK + " = " + Integer.parseInt(value);
+				return ReportDAO.COLUMN_WEEK + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.TEAM.getName().equals(key)) {
-				condition = ReportDAO.COLUMN_TEAM_ID + " = " + Integer.parseInt(value);
+				return ReportDAO.COLUMN_TEAM_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("Report key '" + key + "' is not a declared parameter");
 			}
@@ -205,18 +179,14 @@ public class WhereClauseParser {
 			e.printStackTrace();
 			throw new WhereClauseException("Report key '" + key + "' parameter parsing error. See above");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromLeadEvaluation(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		try {
 			if (EnumURLParameter.REPORT.getName().equals(key)) {
-				condition = LeadEvaluationDAO.COLUMN_REPORT_ID + " = " + Integer.parseInt(value);
+				return LeadEvaluationDAO.COLUMN_REPORT_ID + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.STUDENT.getName().equals(key)) {
-				condition = LeadEvaluationDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
+				return LeadEvaluationDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("LeadEvaluation key '" + key + "' is not a declared parameter");
 			}
@@ -224,18 +194,14 @@ public class WhereClauseParser {
 			e.printStackTrace();
 			throw new WhereClauseException("LeadEvaluation key '" + key + "' parameter parsing error. See above");
 		}
-		
-		return condition;
 	}
 	
 	private static String fromIndividualEvaluation(String key, String value) throws WhereClauseException {
-		String condition = null;
-		
 		try {
 			if (EnumURLParameter.REPORT.getName().equals(key)) {
-				condition = IndividualEvaluationDAO.COLUMN_REPORT_ID + " = " + Integer.parseInt(value);
+				return IndividualEvaluationDAO.COLUMN_REPORT_ID + " = " + Integer.parseInt(value);
 			} else if (EnumURLParameter.STUDENT.getName().equals(key)) {
-				condition = IndividualEvaluationDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
+				return IndividualEvaluationDAO.COLUMN_STUDENT_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("IndividualEvaluation key '" + key + "' is not a declared parameter");
 			}
@@ -243,7 +209,5 @@ public class WhereClauseParser {
 			e.printStackTrace();
 			throw new WhereClauseException("IndividualEvaluation key '" + key + "' parameter parsing error. See above");
 		}
-		
-		return condition;
 	}
 }
