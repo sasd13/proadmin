@@ -9,7 +9,7 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.StudentTeam;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.StudentTeamDAO;
-import com.sasd13.proadmin.core.util.WhereClauseParser;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -157,7 +157,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		
 		try {
 			query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(StudentTeam.class, parameters) + ";";
+					+ " WHERE " + WhereClauseParser.parse(StudentTeamDAO.class, parameters) + ";";
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);

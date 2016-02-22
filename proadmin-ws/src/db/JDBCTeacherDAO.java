@@ -7,7 +7,7 @@ package db;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.TeacherDAO;
-import com.sasd13.proadmin.core.util.WhereClauseParser;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -186,7 +186,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		
 		try {
 			query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(Teacher.class, parameters) + ";";
+					+ " WHERE " + WhereClauseParser.parse(TeacherDAO.class, parameters) + ";";
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);

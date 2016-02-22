@@ -8,7 +8,7 @@ package db;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.TeamDAO;
-import com.sasd13.proadmin.core.util.WhereClauseParser;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -178,7 +178,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		
 		try {
 			query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(Team.class, parameters) + ";";
+					+ " WHERE " + WhereClauseParser.parse(TeamDAO.class, parameters) + ";";
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);

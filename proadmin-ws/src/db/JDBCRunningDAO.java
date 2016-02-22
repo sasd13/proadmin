@@ -9,7 +9,7 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.db.RunningDAO;
-import com.sasd13.proadmin.core.util.WhereClauseParser;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -186,7 +186,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		
 		try {
 			query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(Running.class, parameters) + ";";
+					+ " WHERE " + WhereClauseParser.parse(RunningDAO.class, parameters) + ";";
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);

@@ -9,7 +9,7 @@ import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
-import com.sasd13.proadmin.core.util.WhereClauseParser;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -186,7 +186,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		
 		try {
 			query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(IndividualEvaluation.class, parameters) + ";";
+					+ " WHERE " + WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + ";";
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);

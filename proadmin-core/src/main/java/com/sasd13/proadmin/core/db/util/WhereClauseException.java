@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.core.util;
+package com.sasd13.proadmin.core.db.util;
 
 import java.sql.SQLException;
 

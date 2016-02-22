@@ -14,7 +14,7 @@ import com.sasd13.javaex.net.ws.DataSerializerException;
 
 public class ParserService {
 	
-	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataSerializerException, ClassCastException {
+	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataSerializerException {
 		String sReqData = ContentIO.read(req.getReader());
 		
 		return (T) DataSerializer.fromString(req.getContentType(), sReqData, mClass);
@@ -33,7 +33,7 @@ public class ParserService {
 		ContentIO.write(resp.getWriter(), sRespData);
 	}
 	
-	public static String getRequestAcceptMimeType(HttpServletRequest req) {
+	private static String getRequestAcceptMimeType(HttpServletRequest req) {
 		Enumeration<String> accepts = req.getHeaders(HttpRequest.HEADER_ATTRIBUTE_ACCEPT);
 		
 		String contentType = MimeType.TEXT_PLAIN, accept;
