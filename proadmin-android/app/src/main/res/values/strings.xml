@@ -3,7 +3,7 @@
 
     <!-- Activity -->
     <string name="activity_splashscreen">@string/app_name</string>
-    <string name="activity_log">Connexion</string>
+    <string name="activity_login">Connexion</string>
     <string name="activity_sign">Inscription</string>
     <string name="activity_home">Menu</string>
     <string name="activity_projects">Projets</string>
@@ -12,12 +12,12 @@
     <string name="activity_running">Gestion</string>
     <string name="activity_setting">Options</string>
 
-    <!-- Activity Log -->
-    <string name="log_button_connect">Connexion</string>
-    <string name="log_textview_sign">Inscription sur Proadmin</string>
-    <string name="log_textview_restorepassword">Mot de passe oublié ?</string>
-    <string name="log_dialog_title_error_log">Erreur connexion</string>
-    <string name="log_dialog_message_error_log">Identifiants invalides</string>
+    <!-- Activity Login -->
+    <string name="login_button_connect">Connexion</string>
+    <string name="login_textview_sign">Inscription sur Proadmin</string>
+    <string name="login_textview_restorepassword">Mot de passe oublié ?</string>
+    <string name="login_dialog_title_error_login">Erreur connexion</string>
+    <string name="login_dialog_message_error_login">Identifiants invalides</string>
 
     <!-- Activity Sign -->
     <string name="sign_dialog_title_error_sign">Erreur inscription</string>

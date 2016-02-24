@@ -4,28 +4,28 @@ import android.os.AsyncTask;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.LogActivity;
+import com.sasd13.proadmin.LoginActivity;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.ws.rest.LogWebServiceClient;
+import com.sasd13.proadmin.ws.rest.LoginWebServiceClient;
 
 /**
  * Created by Samir on 24/12/2015.
  */
-public class LogTask extends AsyncTask<Void, Integer, Long> {
+public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
     private static final int TIMEOUT = 60000;
 
-    private LogActivity logActivity;
-    private LogWebServiceClient service;
+    private LoginActivity loginActivity;
+    private LoginWebServiceClient service;
     private String number, password;
     private Long result;
     private TaskPlanner taskPlanner;
 
-    public LogTask(LogActivity logActivity, String number, String password) {
-        this.logActivity = logActivity;
+    public LoginTask(LoginActivity loginActivity, String number, String password) {
+        this.loginActivity = loginActivity;
         this.number = number;
         this.password = password;
-        service = new LogWebServiceClient(TIMEOUT);
+        service = new LoginWebServiceClient(TIMEOUT);
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
@@ -43,7 +43,7 @@ public class LogTask extends AsyncTask<Void, Integer, Long> {
         super.onPreExecute();
 
         taskPlanner.start();
-        logActivity.displayLoad();
+        loginActivity.displayLoad();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LogTask extends AsyncTask<Void, Integer, Long> {
 
         taskPlanner.stop();
 
-        if (service.getStatusCode() == LogWebServiceClient.STATUS_OK) {
+        if (service.getStatusCode() == LoginWebServiceClient.STATUS_OK) {
             doInTaskCompleted();
         } else {
             doInTaskError();
@@ -75,32 +75,32 @@ public class LogTask extends AsyncTask<Void, Integer, Long> {
 
     protected void doInTaskCompleted() {
         if (result == 0) {
-            logActivity.displayNotFound();
+            loginActivity.displayNotFound();
 
             CustomDialog.showOkDialog(
-                    logActivity,
-                    logActivity.getResources().getString(R.string.title_error),
+                    loginActivity,
+                    loginActivity.getResources().getString(R.string.title_error),
                     "Identifiant invalide"
             );
         } else if (result == -1) {
-            logActivity.displayNotFound();
+            loginActivity.displayNotFound();
 
             CustomDialog.showOkDialog(
-                    logActivity,
-                    logActivity.getResources().getString(R.string.title_error),
+                    loginActivity,
+                    loginActivity.getResources().getString(R.string.title_error),
                     "Mot de passe incorrect"
             );
         } else {
-            logActivity.displayContent();
+            loginActivity.displayContent();
         }
     }
 
     protected void doInTaskError() {
-        logActivity.displayNotFound();
+        loginActivity.displayNotFound();
 
         CustomDialog.showOkDialog(
-                logActivity,
-                logActivity.getResources().getString(R.string.title_error),
+                loginActivity,
+                loginActivity.getResources().getString(R.string.title_error),
                 "La requête n'a pas abouti"
         );
     }

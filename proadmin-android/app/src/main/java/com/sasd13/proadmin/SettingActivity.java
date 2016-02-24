@@ -23,11 +23,11 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         public EditText editTextFirstName, editTextLastName, editTextEmail;
     }
 
-    private View viewFormTeacher, viewLoad;
+    private View viewLoad, viewFormTeacher;
     private FormTeacherViewHolder formTeacher;
 
-    private Teacher teacher;
     private ReadTask<Teacher> readTask;
+    private Teacher teacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,8 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     private void createSwitchableViews() {
-        viewFormTeacher = findViewById(R.id.setting_view_formteacher);
         viewLoad = findViewById(R.id.setting_view_load);
+        viewFormTeacher = findViewById(R.id.setting_view_formteacher);
     }
 
     private void createFormTeacher() {
@@ -149,10 +149,9 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         try {
             teacher = readTask.getContent()[0];
 
-            Cache.keep(teacher);
-
             fillFormTeacher();
-        } catch (NullPointerException e) {
+            Cache.keep(teacher);
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
 

@@ -7,6 +7,7 @@ import com.sasd13.proadmin.cache.db.SQLiteDAO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Samir on 23/01/2016.
@@ -56,6 +57,22 @@ public class Cache {
             dao.open();
 
             object = dao.getEntityDAO(mClass).select(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dao.close();
+        }
+
+        return object;
+    }
+
+    public static Object load(Map<String, String[]> parameters, Class mClass) {
+        Object object = null;
+
+        try {
+            dao.open();
+
+            object = dao.getEntityDAO(mClass).select(parameters);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

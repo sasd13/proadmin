@@ -22,16 +22,17 @@ import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
-    private View viewTab, viewLoad;
-
     private Spin spin;
+    private View viewLoad, viewTab;
     private Tab tab;
-    private List<Project> projects = new ArrayList<>();
+
     private RefreshableReadTask<Project> readTask;
+    private List<Project> projects = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,24 +43,6 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
         createSwicthableViews();
         createTabProjects();
         fillSpinAcademicLevels();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        refresh();
-    }
-
-    private void refresh() {
-        if (ConnectivityChecker.isActive(this)) {
-            projects.clear();
-
-            readTask = new RefreshableReadTask<>(this, Project.class, this);
-            readTask.execute();
-        } else {
-            ConnectivityChecker.showConnectivityError(this);
-        }
     }
 
     private void createSpinAcademicLevels() {
@@ -80,8 +63,8 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     }
 
     private void createSwicthableViews() {
-        viewTab = findViewById(R.id.projects_view_tab);
         viewLoad = findViewById(R.id.projects_view_load);
+        viewTab = findViewById(R.id.projects_view_tab);
     }
 
     private void createTabProjects() {
@@ -93,6 +76,22 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private void fillSpinAcademicLevels() {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
             spin.addItem(String.valueOf(academicLevel));
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        refresh();
+    }
+
+    private void refresh() {
+        if (ConnectivityChecker.isActive(this)) {
+            readTask = new RefreshableReadTask<>(this, Project.class, this);
+            readTask.execute();
+        } else {
+            ConnectivityChecker.showConnectivityError(this);
         }
     }
 
@@ -135,22 +134,20 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     @Override
     public void displayContent() {
         try {
-            for (Project project : readTask.getContent()) {
-                projects.add(project);
-            }
+            projects.clear();
+
+            Collections.addAll(projects, readTask.getContent());
+            fillTabProjects();
+            Cache.keepAll(projects);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        fillTabProjects();
-
-        Cache.keepAll(projects);
+        switchToLoadView(false);
     }
 
     public void fillTabProjects() {
         fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
-
-        switchToLoadView(false);
     }
 
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {

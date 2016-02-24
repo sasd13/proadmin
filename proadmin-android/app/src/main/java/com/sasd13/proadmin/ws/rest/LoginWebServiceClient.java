@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class LogWebServiceClient {
+public class LoginWebServiceClient {
 
     private static final String URL_WEBSERVICE_LOGIN = "http://192.168.1.9:8080/proadmin-ws/login";
     private static final int DEFAULT_TIMEOUT = 60000;
@@ -23,11 +23,11 @@ public class LogWebServiceClient {
     private int timeOut;
     private int statusCode;
 
-    public LogWebServiceClient() {
+    public LoginWebServiceClient() {
         this(DEFAULT_TIMEOUT);
     }
 
-    public LogWebServiceClient(int timeOut) {
+    public LoginWebServiceClient(int timeOut) {
         this.timeOut = timeOut;
         teacher = new Teacher();
     }

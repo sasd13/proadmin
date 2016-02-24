@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.cache.db;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sasd13.androidex.db.ISQLiteDAO;
@@ -50,34 +51,46 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO, IClearable {
 
     @Override
     public void open() {
-        db = dbHandler.getWritableDatabase();
+        try {
+            db = dbHandler.getWritableDatabase();
 
-        ((SQLiteEntityDAO) teacherDAO).setDB(db);
-        ((SQLiteEntityDAO) projectDAO).setDB(db);
-        ((SQLiteEntityDAO) runningDAO).setDB(db);
-        ((SQLiteEntityDAO) teamDAO).setDB(db);
-        ((SQLiteEntityDAO) studentDAO).setDB(db);
-        ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
-        ((SQLiteEntityDAO) reportDAO).setDB(db);
-        ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
-        ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
+            ((SQLiteEntityDAO) teacherDAO).setDB(db);
+            ((SQLiteEntityDAO) projectDAO).setDB(db);
+            ((SQLiteEntityDAO) runningDAO).setDB(db);
+            ((SQLiteEntityDAO) teamDAO).setDB(db);
+            ((SQLiteEntityDAO) studentDAO).setDB(db);
+            ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
+            ((SQLiteEntityDAO) reportDAO).setDB(db);
+            ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
+            ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void close() {
-        db.close();
+        try {
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void clear() {
-        db.execSQL("DELETE FROM " + IndividualEvaluationDAO.TABLE);
-        db.execSQL("DELETE FROM " + LeadEvaluationDAO.TABLE);
-        db.execSQL("DELETE FROM " + ReportDAO.TABLE);
-        db.execSQL("DELETE FROM " + StudentTeamDAO.TABLE);
-        db.execSQL("DELETE FROM " + StudentDAO.TABLE);
-        db.execSQL("DELETE FROM " + TeamDAO.TABLE);
-        db.execSQL("DELETE FROM " + RunningDAO.TABLE);
-        db.execSQL("DELETE FROM " + ProjectDAO.TABLE);
-        db.execSQL("DELETE FROM " + TeacherDAO.TABLE);
+        try {
+            db.execSQL("DELETE FROM " + IndividualEvaluationDAO.TABLE);
+            db.execSQL("DELETE FROM " + LeadEvaluationDAO.TABLE);
+            db.execSQL("DELETE FROM " + ReportDAO.TABLE);
+            db.execSQL("DELETE FROM " + StudentTeamDAO.TABLE);
+            db.execSQL("DELETE FROM " + StudentDAO.TABLE);
+            db.execSQL("DELETE FROM " + TeamDAO.TABLE);
+            db.execSQL("DELETE FROM " + RunningDAO.TABLE);
+            db.execSQL("DELETE FROM " + ProjectDAO.TABLE);
+            db.execSQL("DELETE FROM " + TeacherDAO.TABLE);
+        } catch (NullPointerException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

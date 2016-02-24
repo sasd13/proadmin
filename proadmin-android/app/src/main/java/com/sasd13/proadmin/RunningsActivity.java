@@ -16,24 +16,29 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
+import com.sasd13.proadmin.core.util.EnumURLParameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
 import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RunningsActivity extends MotherActivity implements IRefreshable {
 
-    private View viewTab, viewLoad;
-
+    private View viewLoad, viewTab;
     private Tab tab;
-    private List<Running> runnings = new ArrayList<>();
+
     private RefreshableParameterizedReadTask<Running> parameterizedReadTask;
-    private boolean refreshTab;
+    private List<Running> runnings = new ArrayList<>();
+
+    private RefreshableCreateTask<Running> createTask;
+    private Running runningToCreate;
+    private boolean isActionCreateTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +69,9 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
-            runnings.clear();
-
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put("teacher", new String[]{String.valueOf(Session.getId())});
-            parameters.put("project", new String[]{String.valueOf(getProjectIdFromIntent())});
+            parameters.put(EnumURLParameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
+            parameters.put(EnumURLParameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
 
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
             parameterizedReadTask.execute();
@@ -104,16 +107,16 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void newRunning() {
         if (ConnectivityChecker.isActive(this)) {
-            Running running = new Running();
+            isActionCreateTask = true;
 
-            running.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
-            running.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
-            running.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            runningToCreate = new Running();
 
-            refreshTab = true;
+            runningToCreate.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
+            runningToCreate.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
+            runningToCreate.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
-            RefreshableCreateTask<Running> createTask = new RefreshableCreateTask<>(this, Running.class, this);
-            createTask.execute(running);
+            createTask = new RefreshableCreateTask<>(this, Running.class, this);
+            createTask.execute(runningToCreate);
         } else {
             ConnectivityChecker.showConnectivityError(this);
         }
@@ -136,22 +139,30 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        if (refreshTab) {
-            refreshTab = false;
+        if (isActionCreateTask) {
+            isActionCreateTask = false;
 
-            refresh();
+            processResultForCreateTask();
         } else {
-            try {
-                for (Running running : parameterizedReadTask.getContent()) {
-                    runnings.add(running);
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+            processResultForReadTask();
+        }
+
+        switchToLoadView(false);
+    }
+
+    private void processResultForCreateTask() {
+        try {
+            long id = createTask.getContent()[0];
+
+            if (id > 0) {
+                runningToCreate.setId(id);
+                runnings.add(runningToCreate);
+
+                fillTabRunnings();
+                Cache.keep(runningToCreate);
             }
-
-            fillTabRunnings();
-
-            Cache.keepAll(runnings);
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
     }
 
@@ -177,6 +188,18 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             tabItemRunning.setIntent(intent);
 
             tab.addItem(tabItemRunning);
+        }
+    }
+
+    private void processResultForReadTask() {
+        try {
+            runnings.clear();
+
+            Collections.addAll(runnings, parameterizedReadTask.getContent());
+            fillTabRunnings();
+            Cache.keepAll(runnings);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

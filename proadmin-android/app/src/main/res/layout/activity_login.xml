@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/log_view_load"
+        android:id="@+id/login_view_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
-            android:id="@+id/log_progressbar"
+            android:id="@+id/login_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -20,7 +20,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/log_view_formlog"
+        android:id="@+id/login_view_formlogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -50,7 +50,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/log_edittext_number"
+                android:id="@+id/login_edittext_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_holo_light"
@@ -61,7 +61,7 @@
                 android:textSize="@dimen/textsize_medium" />
 
             <EditText
-                android:id="@+id/log_edittext_password"
+                android:id="@+id/login_edittext_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_margin_medium"
@@ -73,12 +73,12 @@
                 android:textSize="@dimen/textsize_medium" />
 
             <Button
-                android:id="@+id/log_button_connect"
+                android:id="@+id/login_button_connect"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/view_margin_medium"
                 android:background="@color/customOrange"
-                android:text="@string/log_button_connect"
+                android:text="@string/login_button_connect"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />

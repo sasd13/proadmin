@@ -11,9 +11,9 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.ws.task.LogTask;
+import com.sasd13.proadmin.ws.task.LoginTask;
 
-public class LogActivity extends Activity implements IRefreshable {
+public class LoginActivity extends Activity implements IRefreshable {
 
     private class FormLogViewHolder {
         public EditText editTextNumber, editTextPassword;
@@ -22,39 +22,39 @@ public class LogActivity extends Activity implements IRefreshable {
 
     private static final int TIMEOUT = 2000;
 
-    private View viewFormLog, viewLoad;
-    private FormLogViewHolder formLog;
+    private View viewLoad, viewFormLogin;
+    private FormLogViewHolder formLogin;
 
-    private LogTask logTask;
+    private LoginTask loginTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_log);
+        setContentView(R.layout.activity_login);
         createSwitchableViews();
-        createFormLog();
+        createFormLogin();
     }
 
     private void createSwitchableViews() {
-        viewFormLog = findViewById(R.id.log_view_formlog);
-        viewLoad = findViewById(R.id.log_view_load);
+        viewLoad = findViewById(R.id.login_view_load);
+        viewFormLogin = findViewById(R.id.login_view_formlogin);
     }
 
-    private void createFormLog() {
-        formLog = new FormLogViewHolder();
+    private void createFormLogin() {
+        formLogin = new FormLogViewHolder();
 
-        formLog.editTextNumber = (EditText) findViewById(R.id.log_edittext_number);
-        formLog.editTextPassword = (EditText) findViewById(R.id.log_edittext_password);
-        formLog.buttonConnect = (Button) findViewById(R.id.log_button_connect);
+        formLogin.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
+        formLogin.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
+        formLogin.buttonConnect = (Button) findViewById(R.id.login_button_connect);
 
-        formLog.buttonConnect.setOnClickListener(new View.OnClickListener() {
+        formLogin.buttonConnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (formLog.editTextNumber.getText().toString().trim().length() > 0
-                        && formLog.editTextPassword.getText().toString().trim().length() > 0) {
-                    KeyBoardHider.hide(LogActivity.this);
+                if (formLogin.editTextNumber.getText().toString().trim().length() > 0
+                        && formLogin.editTextPassword.getText().toString().trim().length() > 0) {
+                    KeyBoardHider.hide(LoginActivity.this);
                     logIn();
                 }
             }
@@ -62,12 +62,12 @@ public class LogActivity extends Activity implements IRefreshable {
     }
 
     private void logIn() {
-        String number = formLog.editTextNumber.getText().toString().trim();
-        String password = formLog.editTextPassword.getText().toString().trim();
+        String number = formLogin.editTextNumber.getText().toString().trim();
+        String password = formLogin.editTextPassword.getText().toString().trim();
 
         if (ConnectivityChecker.isActive(this)) {
-            logTask = new LogTask(this, number, password);
-            logTask.execute();
+            loginTask = new LoginTask(this, number, password);
+            loginTask.execute();
         } else {
             ConnectivityChecker.showConnectivityError(this);
         }
@@ -81,19 +81,18 @@ public class LogActivity extends Activity implements IRefreshable {
     private void switchToLoadView(boolean switched) {
         if (switched) {
             viewLoad.setVisibility(View.VISIBLE);
-            viewFormLog.setVisibility(View.GONE);
+            viewFormLogin.setVisibility(View.GONE);
         } else {
-            viewFormLog.setVisibility(View.VISIBLE);
+            viewFormLogin.setVisibility(View.VISIBLE);
             viewLoad.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void displayContent() {
-        long id = logTask.getContent();
+        long id = loginTask.getContent();
 
         Session.logIn(id);
-
         goToHomeActivity();
     }
 
@@ -101,7 +100,7 @@ public class LogActivity extends Activity implements IRefreshable {
         TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(LogActivity.this, HomeActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(intent);

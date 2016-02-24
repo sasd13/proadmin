@@ -39,7 +39,7 @@ public class SplashScreenActivity extends Activity {
         if (Session.isStarted()) {
             goToActivity(HomeActivity.class);
         } else {
-            goToActivity(LogActivity.class);
+            goToActivity(LoginActivity.class);
         }
     }
 
