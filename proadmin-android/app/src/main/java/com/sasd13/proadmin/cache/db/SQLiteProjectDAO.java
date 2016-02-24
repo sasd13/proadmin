@@ -2,6 +2,7 @@ package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -64,7 +65,11 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
                 + " WHERE "
                     + COLUMN_ID + " = " + id;
 
-        db.execSQL(query);
+        try {
+            db.execSQL(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

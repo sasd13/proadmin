@@ -2,12 +2,16 @@ package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.sasd13.proadmin.core.bean.running.Report;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.db.ReportDAO;
+import com.sasd13.proadmin.core.db.util.WhereClauseException;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +47,9 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public long insert(Report report) {
-        long id = executeInsert(TABLE, report);
+        long id = db.insert(TABLE, null, getContentValues(report));
+
+        if (id < 0) id = 0;
 
         report.setId(id);
 
@@ -52,33 +58,81 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public void update(Report report) {
-        executeUpdate(TABLE, report, COLUMN_ID, report.getId());
+        db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{String.valueOf(report.getId())});
     }
 
     @Override
     public void delete(long id) {
-        //Do nothing
+        String query = "UPDATE " + TABLE
+                + " SET "
+                    + COLUMN_DELETED + " = 1"
+                + " WHERE "
+                    + COLUMN_ID + " = " + id;
+
+        try {
+            db.execSQL(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Report select(long id) {
+        Report report = null;
+
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
                     + COLUMN_ID + " = ?";
 
-        return executeSelectById(query, id);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        if (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                report = getCursorValues(cursor);
+            }
+        }
+        cursor.close();
+
+        return report;
     }
 
     @Override
-    public List<Report> select(Map<String, String[]> map) {
-        return null;
+    public List<Report> select(Map<String, String[]> parameters) {
+        List<Report> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM " + TABLE
+                    + " WHERE "
+                        + WhereClauseParser.parse(ReportDAO.class, parameters);
+
+            Cursor cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                    list.add(getCursorValues(cursor));
+                }
+            }
+            cursor.close();
+        } catch (WhereClauseException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     @Override
     public List<Report> selectAll() {
+        List<Report> list = new ArrayList<>();
+
         String query = "SELECT * FROM " + TABLE;
 
-        return executeSelectAll(query);
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
+        cursor.close();
+
+        return list;
     }
 
     @Override

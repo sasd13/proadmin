@@ -2,10 +2,14 @@ package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.db.TeacherDAO;
+import com.sasd13.proadmin.core.db.util.WhereClauseException;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +44,9 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public long insert(Teacher teacher) {
-        long id = executeInsert(TABLE, teacher);
+        long id = db.insert(TABLE, null, getContentValues(teacher));
+
+        if (id < 0) id = 0;
 
         teacher.setId(id);
 
@@ -49,33 +55,81 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public void update(Teacher teacher) {
-        executeUpdate(TABLE, teacher, COLUMN_ID, teacher.getId());
+        db.update(TABLE, getContentValues(teacher), COLUMN_ID + " = ?", new String[]{String.valueOf(teacher.getId())});
     }
 
     @Override
     public void delete(long id) {
-        //Do nothing
+        String query = "UPDATE " + TABLE
+                + " SET "
+                + COLUMN_DELETED + " = 1"
+                + " WHERE "
+                + COLUMN_ID + " = " + id;
+
+        try {
+            db.execSQL(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Teacher select(long id) {
+        Teacher teacher = null;
+
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + COLUMN_ID + " = ?";
+                + COLUMN_ID + " = ?";
 
-        return executeSelectById(query, id);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        if (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                teacher = getCursorValues(cursor);
+            }
+        }
+        cursor.close();
+
+        return teacher;
     }
 
     @Override
-    public List<Teacher> select(Map<String, String[]> map) {
-        return null;
+    public List<Teacher> select(Map<String, String[]> parameters) {
+        List<Teacher> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM " + TABLE
+                    + " WHERE "
+                        + WhereClauseParser.parse(TeacherDAO.class, parameters);
+
+            Cursor cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                    list.add(getCursorValues(cursor));
+                }
+            }
+            cursor.close();
+        } catch (WhereClauseException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     @Override
     public List<Teacher> selectAll() {
+        List<Teacher> list = new ArrayList<>();
+
         String query = "SELECT * FROM " + TABLE;
 
-        return executeSelectAll(query);
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
+        cursor.close();
+
+        return list;
     }
 
     @Override

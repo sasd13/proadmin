@@ -2,6 +2,7 @@ package com.sasd13.proadmin.cache.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
@@ -69,7 +70,11 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
                 + " WHERE "
                     + COLUMN_ID + " = " + id;
 
-        db.execSQL(query);
+        try {
+            db.execSQL(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
