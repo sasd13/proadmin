@@ -45,7 +45,6 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
     private void createFormTeacher() {
         formTeacher = new FormTeacherViewHolder();
-
         formTeacher.textViewNumber = (TextView) findViewById(R.id.setting_form_user_textview_number);
         formTeacher.editTextFirstName = (EditText) findViewById(R.id.setting_form_user_edittext_firstname);
         formTeacher.editTextLastName = (EditText) findViewById(R.id.setting_form_user_edittext_lastname);

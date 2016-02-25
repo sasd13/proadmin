@@ -62,6 +62,31 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
         });
     }
 
+    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
+        tab.clearItems();
+
+        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
+    }
+
+    private void addProjectsToTab(List<Project> list) {
+        TabItemProject tabItemProject;
+        Intent intent;
+
+        for (Project project : list) {
+            tabItemProject = new TabItemProject();
+
+            tabItemProject.setTitle(project.getTitle());
+            tabItemProject.setCode(project.getCode());
+            tabItemProject.setDescription(project.getDescription());
+
+            intent = new Intent(this, ProjectActivity.class);
+            intent.putExtra(Extra.PROJECT_ID, project.getId());
+            tabItemProject.setIntent(intent);
+
+            tab.addItem(tabItemProject);
+        }
+    }
+
     private void createSwicthableViews() {
         viewLoad = findViewById(R.id.projects_view_load);
         viewTab = findViewById(R.id.projects_view_tab);
@@ -148,31 +173,6 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     public void fillTabProjects() {
         fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
-    }
-
-    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        tab.clearItems();
-
-        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
-    }
-
-    private void addProjectsToTab(List<Project> list) {
-        TabItemProject tabItemProject;
-        Intent intent;
-
-        for (Project project : list) {
-            tabItemProject = new TabItemProject();
-
-            tabItemProject.setTitle(project.getTitle());
-            tabItemProject.setCode(project.getCode());
-            tabItemProject.setDescription(project.getDescription());
-
-            intent = new Intent(this, ProjectActivity.class);
-            intent.putExtra(Extra.PROJECT_ID, project.getId());
-            tabItemProject.setIntent(intent);
-
-            tab.addItem(tabItemProject);
-        }
     }
 
     @Override

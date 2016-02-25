@@ -12,11 +12,11 @@ import com.sasd13.proadmin.core.bean.project.Project;
 
 public class RunningActivity extends MotherActivity {
 
-    private class DescriptorTeacherViewHolder {
+    private class DescriptorRunningViewHolder {
         public TextView textViewTitle, textViewAcademicLevel, textViewCode, textViewDescription;
     }
 
-    private DescriptorTeacherViewHolder descriptorTeacher;
+    private DescriptorRunningViewHolder descriptorRunning;
 
     private Project project;
 
@@ -25,16 +25,16 @@ public class RunningActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_project);
-        createDescriptorProject();
+        createDescriptorRunning();
     }
 
-    private void createDescriptorProject() {
-        descriptorTeacher = new DescriptorTeacherViewHolder();
+    private void createDescriptorRunning() {
+        descriptorRunning = new DescriptorRunningViewHolder();
 
-        descriptorTeacher.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
-        descriptorTeacher.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
-        descriptorTeacher.textViewCode = (TextView) findViewById(R.id.project_textview_code);
-        descriptorTeacher.textViewDescription = (TextView) findViewById(R.id.project_textview_description);
+        descriptorRunning.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
+        descriptorRunning.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
+        descriptorRunning.textViewCode = (TextView) findViewById(R.id.project_textview_code);
+        descriptorRunning.textViewDescription = (TextView) findViewById(R.id.project_textview_description);
     }
 
     @Override
@@ -51,10 +51,10 @@ public class RunningActivity extends MotherActivity {
     }
 
     private void fillDescriptorProject() {
-        descriptorTeacher.textViewTitle.setText(project.getTitle());
-        descriptorTeacher.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
-        descriptorTeacher.textViewCode.setText(project.getCode());
-        descriptorTeacher.textViewDescription.setText(project.getDescription());
+        descriptorRunning.textViewTitle.setText(project.getTitle());
+        descriptorRunning.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
+        descriptorRunning.textViewCode.setText(project.getCode());
+        descriptorRunning.textViewDescription.setText(project.getDescription());
     }
 
     @Override

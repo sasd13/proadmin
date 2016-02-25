@@ -15,7 +15,7 @@ import com.sasd13.proadmin.ws.task.LoginTask;
 
 public class LoginActivity extends Activity implements IRefreshable {
 
-    private class FormLogViewHolder {
+    private class FormLoginViewHolder {
         public EditText editTextNumber, editTextPassword;
         public Button buttonConnect;
     }
@@ -23,7 +23,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     private static final int TIMEOUT = 2000;
 
     private View viewLoad, viewFormLogin;
-    private FormLogViewHolder formLogin;
+    private FormLoginViewHolder formLogin;
 
     private LoginTask loginTask;
 
@@ -42,8 +42,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     }
 
     private void createFormLogin() {
-        formLogin = new FormLogViewHolder();
-
+        formLogin = new FormLoginViewHolder();
         formLogin.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
         formLogin.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
         formLogin.buttonConnect = (Button) findViewById(R.id.login_button_connect);

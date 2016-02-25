@@ -38,7 +38,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private RefreshableCreateTask<Running> createTask;
     private Running runningToCreate;
-    private boolean isActionCreateTask;
+    private boolean isActionCreate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,10 +107,9 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void newRunning() {
         if (ConnectivityChecker.isActive(this)) {
-            isActionCreateTask = true;
+            isActionCreate = true;
 
             runningToCreate = new Running();
-
             runningToCreate.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
             runningToCreate.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
             runningToCreate.setYear(Calendar.getInstance().get(Calendar.YEAR));
@@ -139,8 +138,8 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        if (isActionCreateTask) {
-            isActionCreateTask = false;
+        if (isActionCreate) {
+            isActionCreate = false;
 
             processResultForCreateTask();
         } else {
@@ -170,7 +169,6 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
         tab.clearItems();
 
         addRunningsToTab();
-
         switchToLoadView(false);
     }
 
