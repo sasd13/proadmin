@@ -28,8 +28,6 @@ public class IndividualEvaluation extends Evaluation {
 		builder.append("IndividualEvaluation [");
 		builder.append("id=" + getId());
 		builder.append(", mark=" + getMark());
-		builder.append(", student=" + getStudent());
-		builder.append(", report=" + getReport());
 		builder.append("]");
 		
 		return builder.toString().trim();

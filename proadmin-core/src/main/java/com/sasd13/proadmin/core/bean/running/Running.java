@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.core.bean.running;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -72,9 +71,6 @@ public class Running {
 		builder.append("Running [");
 		builder.append("id=" + getId());
 		builder.append(", year=" + getYear());
-		builder.append(", teacher=" + getTeacher());
-		builder.append(", project=" + getProject());
-		builder.append(", teams=" + Arrays.toString(getTeams()));
 		builder.append("]");
 		
 		return builder.toString().trim();

@@ -2,7 +2,6 @@ package com.sasd13.proadmin.core.bean.running;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Report {
@@ -87,9 +86,6 @@ public class Report {
 		builder.append(", dateMeeting=" + getDateMeeting());
 		builder.append(", weak=" + getWeek());
 		builder.append(", teamComment=" + getTeamComment());
-		builder.append(", leadEvaluation=" + getLeadEvaluation());
-		builder.append(", individualEvaluations=" + Arrays.toString(getIndividualEvaluations()));
-		builder.append(", team=" + getTeam());
 		builder.append("]");
 		
 		return builder.toString().trim();

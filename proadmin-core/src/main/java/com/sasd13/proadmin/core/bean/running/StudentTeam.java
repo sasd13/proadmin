@@ -38,8 +38,6 @@ public class StudentTeam {
 		
 		builder.append("StudentTeam [");
 		builder.append("id=" + getId());
-		builder.append(", student=" + getStudent());
-		builder.append(", team=" + getTeam());
 		builder.append("]");
 		
 		return builder.toString().trim();

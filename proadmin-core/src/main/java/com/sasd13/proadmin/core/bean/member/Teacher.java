@@ -31,7 +31,6 @@ public class Teacher extends AcademicMember {
 		builder.append(", firstName=" + getFirstName());
 		builder.append(", lastName=" + getLastName());
 		builder.append(", email=" + getEmail());
-		builder.append(", password=" + getPassword());
 		builder.append("]");
 		
 		return builder.toString().trim();

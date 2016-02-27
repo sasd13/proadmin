@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.core.bean.running;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.sasd13.proadmin.core.bean.member.Student;
@@ -69,9 +68,6 @@ public class Team {
 		builder.append("Team [");
 		builder.append("id=" + getId());
 		builder.append(", code=" + getCode());
-		builder.append(", students=" + Arrays.toString(getStudents().toArray(new Student[getStudents().size()])));
-		builder.append(", reports=" + Arrays.toString(getReports()));
-		builder.append(", running=" + getRunning());
 		builder.append("]");
 		
 		return builder.toString().trim();
