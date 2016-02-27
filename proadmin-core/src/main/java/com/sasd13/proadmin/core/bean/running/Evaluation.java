@@ -26,7 +26,7 @@ public abstract class Evaluation {
 	}
 	
 	public Student getStudent() {
-		return this.student;
+		return student;
 	}
 	
 	public void setStudent(Student student) {
@@ -34,7 +34,7 @@ public abstract class Evaluation {
 	}
 	
 	public Report getReport() {
-		return this.report;
+		return report;
 	}
 	
 	public void setReport(Report report) {

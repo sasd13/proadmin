@@ -6,7 +6,7 @@ public class LeadEvaluation extends Evaluation {
 	private String planningComment, communicationComment;
 	
 	public float getPlanningMark() {
-		return this.planningMark;
+		return planningMark;
 	}
 	
 	public void setPlanningMark(float planningMark) {
@@ -14,7 +14,7 @@ public class LeadEvaluation extends Evaluation {
 	}
 	
 	public float getCommunicationMark() {
-		return this.communicationMark;
+		return communicationMark;
 	}
 	
 	public void setCommunicationMark(float communicationMark) {
@@ -22,7 +22,7 @@ public class LeadEvaluation extends Evaluation {
 	}
 	
 	public String getPlanningComment() {
-		return this.planningComment;
+		return planningComment;
 	}
 	
 	public void setPlanningComment(String planningComment) {
@@ -30,7 +30,7 @@ public class LeadEvaluation extends Evaluation {
 	}
 	
 	public String getCommunicationComment() {
-		return this.communicationComment;
+		return communicationComment;
 	}
 	
 	public void setCommunicationComment(String communicationComment) {

@@ -2,7 +2,7 @@ package ws.filter;
 
 import java.util.Map;
 
-import com.sasd13.javaex.net.http.util.URLParameterFilter;
+import com.sasd13.javaex.net.util.URLParameterFilter;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;

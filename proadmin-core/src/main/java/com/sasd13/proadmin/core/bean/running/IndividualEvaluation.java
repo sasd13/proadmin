@@ -14,7 +14,7 @@ public class IndividualEvaluation extends Evaluation {
 	private float mark;
 	
 	public float getMark() {
-		return this.mark;
+		return mark;
 	}
 	
 	public void setMark(float mark) {

@@ -1,15 +1,13 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.javaex.net.MimeType;
-import com.sasd13.javaex.net.http.HttpException;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.net.ws.DataSerializer;
-import com.sasd13.javaex.net.ws.DataSerializerException;
+import com.sasd13.javaex.util.DataParser;
+import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class LoginWebServiceClient {
@@ -42,16 +40,16 @@ public class LoginWebServiceClient {
         teacher.setNumber(number);
         teacher.setPassword(password);
 
-        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
 
         try {
-            String reqData = DataSerializer.toString(reqContentType, teacher);
+            String reqData = DataParser.toString(reqContentType, teacher);
 
-            httpRequest = new HttpRequest(new URL(URL_WEBSERVICE_LOGIN), HttpRequest.Method.POST);
+            httpRequest = new HttpRequest(new URL(URL_WEBSERVICE_LOGIN), HttpRequest.HttpMethod.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.setRequestContentType(reqContentType);
-            setHttpRequestHeaders();
+            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
@@ -62,16 +60,16 @@ public class LoginWebServiceClient {
 
             httpRequest.disconnect();
 
-            id = (long) DataSerializer.fromString(respContentType, respData, Long.class);
-        } catch (DataSerializerException | IOException | HttpException | URISyntaxException e) {
+            id = (long) DataParser.fromString(respContentType, respData, Long.class);
+        } catch (DataParserException | IOException e) {
             e.printStackTrace();
         }
 
         return id;
     }
 
-    private void setHttpRequestHeaders() {
-        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_JSON);
-        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_XML);
+    private void setRequestHeaderAccept() {
+        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_XML.getMIMEType());
     }
 }

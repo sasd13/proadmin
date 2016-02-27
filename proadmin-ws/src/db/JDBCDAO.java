@@ -76,7 +76,7 @@ public class JDBCDAO extends DAO {
 	public void close() {
 		try {
 			connection.close();
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -96,12 +96,12 @@ public class JDBCDAO extends DAO {
 			statement.executeUpdate(DBHandler.REPORT_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.LEADEVALUATION_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.INDIVIDUALEVALUATION_TABLE_CREATE);
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

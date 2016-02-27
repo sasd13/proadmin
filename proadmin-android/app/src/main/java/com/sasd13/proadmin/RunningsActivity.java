@@ -16,7 +16,7 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
-import com.sasd13.proadmin.core.util.EnumURLParameter;
+import com.sasd13.proadmin.core.util.URLParameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
 import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
@@ -70,8 +70,8 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(EnumURLParameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
-            parameters.put(EnumURLParameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
+            parameters.put(URLParameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
+            parameters.put(URLParameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
 
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
             parameterizedReadTask.execute();
@@ -110,8 +110,8 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             isActionCreate = true;
 
             runningToCreate = new Running();
-            runningToCreate.setTeacher((Teacher) Cache.load(Session.getId(), Teacher.class));
-            runningToCreate.setProject((Project) Cache.load(getProjectIdFromIntent(), Project.class));
+            runningToCreate.setTeacher(Cache.load(Session.getId(), Teacher.class));
+            runningToCreate.setProject(Cache.load(getProjectIdFromIntent(), Project.class));
             runningToCreate.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
             createTask = new RefreshableCreateTask<>(this, Running.class, this);

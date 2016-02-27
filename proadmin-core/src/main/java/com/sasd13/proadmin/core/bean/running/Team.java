@@ -27,7 +27,7 @@ public class Team {
 	}
 	
 	public String getCode() {
-		return this.code;
+		return code;
 	}
 	
 	public void setCode(String code) {
@@ -35,7 +35,7 @@ public class Team {
 	}
 	
 	public List<Student> getStudents() {
-		return this.students;
+		return students;
 	}
 	
 	public void setStudents(List<Student> students) {
@@ -43,19 +43,19 @@ public class Team {
 	}
 	
 	public void addReport(Report report) {
-		this.reports.add(report);
+		reports.add(report);
 	}
 	
 	public void removeReport(Report report) {
-		this.reports.remove(report);
+		reports.remove(report);
 	}
 	
 	public Report[] getReports() {
-		return this.reports.toArray(new Report[this.reports.size()]);
+		return reports.toArray(new Report[reports.size()]);
 	}
 	
 	public Running getRunning() {
-		return this.running;
+		return running;
 	}
 	
 	public void setRunning(Running running) {

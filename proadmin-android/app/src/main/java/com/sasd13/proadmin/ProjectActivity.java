@@ -41,7 +41,7 @@ public class ProjectActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        project = (Project) Cache.load(getProjectIdFromIntent(), Project.class);
+        project = Cache.load(getProjectIdFromIntent(), Project.class);
 
         fillDescriptorProject();
     }

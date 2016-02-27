@@ -31,7 +31,7 @@ public class Report {
 	}
 	
 	public Timestamp getDateMeeting() {
-		return this.dateMeeting;
+		return dateMeeting;
 	}
 	
 	public void setDateMeeting(Timestamp dateMeeting) {
@@ -39,7 +39,7 @@ public class Report {
 	}
 	
 	public int getWeek() {
-		return this.week;
+		return week;
 	}
 	
 	public void setWeek(int week) {
@@ -47,7 +47,7 @@ public class Report {
 	}
 	
 	public String getTeamComment() {
-		return this.teamComment;
+		return teamComment;
 	}
 	
 	public void setTeamComment(String teamComment) {
@@ -55,23 +55,23 @@ public class Report {
 	}
 	
 	public LeadEvaluation getLeadEvaluation() {
-		return this.leadEvaluation;
+		return leadEvaluation;
 	}
 	
 	public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		this.individualEvaluations.add(individualEvaluation);
+		individualEvaluations.add(individualEvaluation);
 	}
 	
 	public void removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		this.individualEvaluations.remove(individualEvaluation);
+		individualEvaluations.remove(individualEvaluation);
 	}
 	
 	public IndividualEvaluation[] getIndividualEvaluations() {
-		return this.individualEvaluations.toArray(new IndividualEvaluation[this.individualEvaluations.size()]);
+		return individualEvaluations.toArray(new IndividualEvaluation[individualEvaluations.size()]);
 	}
 	
 	public Team getTeam() {
-		return this.team;
+		return team;
 	}
 	
 	public void setTeam(Team team) {

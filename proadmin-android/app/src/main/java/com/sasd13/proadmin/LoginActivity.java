@@ -11,7 +11,10 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.ws.task.LoginTask;
+import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
 public class LoginActivity extends Activity implements IRefreshable {
 
@@ -26,6 +29,8 @@ public class LoginActivity extends Activity implements IRefreshable {
     private FormLoginViewHolder formLogin;
 
     private LoginTask loginTask;
+    private RefreshableReadTask<Teacher> readTask;
+    private boolean isActionLogin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,8 @@ public class LoginActivity extends Activity implements IRefreshable {
         String password = formLogin.editTextPassword.getText().toString().trim();
 
         if (ConnectivityChecker.isActive(this)) {
+            isActionLogin = true;
+
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();
         } else {
@@ -89,10 +96,16 @@ public class LoginActivity extends Activity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        long id = loginTask.getContent();
+        if (isActionLogin) {
+            isActionLogin = false;
 
-        Session.logIn(id);
-        goToHomeActivity();
+            readTask = new RefreshableReadTask<>(this, Teacher.class, this);
+            readTask.execute(loginTask.getContent());
+        } else {
+            Cache.keep(readTask.getContent()[0]);
+            Session.logIn(loginTask.getContent());
+            goToHomeActivity();
+        }
     }
 
     private void goToHomeActivity() {

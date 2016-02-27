@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.task;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
@@ -98,10 +99,6 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
     protected void doInTaskError() {
         loginActivity.displayNotFound();
 
-        CustomDialog.showOkDialog(
-                loginActivity,
-                loginActivity.getResources().getString(R.string.title_error),
-                "La requête n'a pas abouti"
-        );
+        Toast.makeText(loginActivity, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

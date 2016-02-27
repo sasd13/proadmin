@@ -5,7 +5,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sasd13.androidex.db.ISQLiteDAO;
-import com.sasd13.proadmin.cache.IClearable;
 import com.sasd13.proadmin.core.db.DAO;
 import com.sasd13.proadmin.core.db.IndividualEvaluationDAO;
 import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
@@ -17,7 +16,7 @@ import com.sasd13.proadmin.core.db.StudentTeamDAO;
 import com.sasd13.proadmin.core.db.TeacherDAO;
 import com.sasd13.proadmin.core.db.TeamDAO;
 
-public class SQLiteDAO extends DAO implements ISQLiteDAO, IClearable {
+public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     private static SQLiteDAO instance = null;
 
@@ -77,7 +76,6 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO, IClearable {
         }
     }
 
-    @Override
     public void clear() {
         try {
             db.execSQL("DELETE FROM " + IndividualEvaluationDAO.TABLE);

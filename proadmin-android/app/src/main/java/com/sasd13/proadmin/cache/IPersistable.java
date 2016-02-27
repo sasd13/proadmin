@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.cache;
 
 /**
- * Created by Samir on 23/01/2016.
+ * Created by Samir on 27/02/2016.
  */
 public interface IPersistable<T> {
 

@@ -30,7 +30,7 @@ public class Running {
 	}
 	
 	public int getYear() {
-		return this.year;
+		return year;
 	}
 	
 	public void setYear(int year) {
@@ -38,7 +38,7 @@ public class Running {
 	}
 	
 	public Teacher getTeacher() {
-		return this.teacher;
+		return teacher;
 	}
 	
 	public void setTeacher(Teacher teacher) {
@@ -46,7 +46,7 @@ public class Running {
 	}
 	
 	public Project getProject() {
-		return this.project;
+		return project;
 	}
 	
 	public void setProject(Project project) {
@@ -54,15 +54,15 @@ public class Running {
 	}
 	
 	public void addTeam(Team team) {
-		this.teams.add(team);
+		teams.add(team);
 	}
 	
 	public void removeTeam(Team team) {
-		this.teams.remove(team);
+		teams.remove(team);
 	}
 	
 	public Team[] getTeams() {
-		return this.teams.toArray(new Team[this.teams.size()]);
+		return teams.toArray(new Team[teams.size()]);
 	}
 	
 	@Override

@@ -124,10 +124,10 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public void persist(StudentTeam studentTeam) {
-        if (select(studentTeam.getId()) != null) {
-            db.delete(TABLE, COLUMN_ID + " = ?", new String[]{String.valueOf(studentTeam.getId())});
+        if (select(studentTeam.getId()) == null) {
+            insert(studentTeam);
+        } else {
+            update(studentTeam);
         }
-
-        insert(studentTeam);
     }
 }

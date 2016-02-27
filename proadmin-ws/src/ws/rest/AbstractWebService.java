@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sasd13.javaex.net.ws.DataSerializerException;
+import com.sasd13.javaex.db.Persistence;
+import com.sasd13.javaex.util.DataParserException;
 
-import ws.persistence.PersistenceService;
+import db.JDBCDAO;
 
 /**
  *
@@ -28,13 +29,13 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	private static final String REQUEST_PARAMETER_ID = "id";
 	
-	protected PersistenceService<T> persistenceService;
+	private Persistence persistence;
 	
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		
-		persistenceService = new PersistenceService<>(getEntityClass());
+		persistence = new Persistence(JDBCDAO.getInstance());
 	}
 	
 	protected abstract Class<T> getEntityClass();
@@ -47,23 +48,23 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		
 		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				respData = persistenceService.read(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)));
+				respData = persistence.read(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		} else {
 			List<T> list = (parameters.isEmpty())
-					? persistenceService.readAll()
+					? persistence.readAll(getEntityClass())
 					: (!parameters.containsKey(REQUEST_PARAMETER_ID)) 
-						? persistenceService.read(parameters)
+						? persistence.read(parameters, getEntityClass())
 						: new ArrayList<T>();
-						
+			
 			respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
 		}
 		
 		try {
-			ParserService.parseAndWriteDataToResponse(req, resp, respData);
-		} catch (DataSerializerException e) {
+			IOService.parseAndWriteDataToResponse(req, resp, respData);
+		} catch (DataParserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -71,12 +72,12 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			T t = (T) ParserService.readAndParseDataFromRequest(req, getEntityClass());
+			T t = (T) IOService.readAndParseDataFromRequest(req, getEntityClass());
 			
-			long id = persistenceService.create(t);
+			long id = persistence.create(t);
 			
-			ParserService.parseAndWriteDataToResponse(req, resp, id);
-		} catch (DataSerializerException | ClassCastException e) {
+			IOService.parseAndWriteDataToResponse(req, resp, id);
+		} catch (DataParserException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
@@ -84,14 +85,14 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		try {
-			Object reqData = ParserService.readAndParseDataFromRequest(req, getEntityClass());
+			Object reqData = IOService.readAndParseDataFromRequest(req, getEntityClass());
 			
 			if (reqData.getClass().isArray()) {
-				persistenceService.updateAll((T[]) reqData);
+				persistence.updateAll((T[]) reqData);
 			} else {
-				persistenceService.update((T) reqData);
+				persistence.update((T) reqData);
 			}
-		} catch (DataSerializerException | ClassCastException e) {
+		} catch (DataParserException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
@@ -102,7 +103,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		
 		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				persistenceService.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)));
+				persistence.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}

@@ -1,16 +1,14 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.javaex.net.MimeType;
-import com.sasd13.javaex.net.http.HttpException;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.net.http.util.URLParameterEncoder;
-import com.sasd13.javaex.net.ws.DataSerializer;
-import com.sasd13.javaex.net.ws.DataSerializerException;
+import com.sasd13.javaex.net.util.URLParameterEncoder;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
+import com.sasd13.javaex.util.DataParser;
+import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.util.MediaType;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
@@ -47,9 +45,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String urlParams = "?id=" + id;
 
         try {
-            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
-            setHttpRequestHeaders();
+            setRequestHeaderAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -59,17 +57,17 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            t = (T) DataSerializer.fromString(respContentType, respData, mClass);
-        } catch (IOException | HttpException | URISyntaxException | DataSerializerException | ClassCastException e) {
+            t = (T) DataParser.fromString(respContentType, respData, mClass);
+        } catch (IOException | DataParserException e) {
             e.printStackTrace();
         }
 
         return t;
     }
 
-    private void setHttpRequestHeaders() {
-        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_JSON);
-        httpRequest.addRequestHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MimeType.APPLICATION_XML);
+    private void setRequestHeaderAccept() {
+        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_XML.getMIMEType());
     }
 
     @Override
@@ -77,9 +75,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         T[] ts = null;
 
         try {
-            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.GET);
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
-            setHttpRequestHeaders();
+            setRequestHeaderAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -89,8 +87,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            ts = (T[]) DataSerializer.fromString(respContentType, respData, mClass);
-        } catch (IOException | HttpException | URISyntaxException | DataSerializerException | ClassCastException e) {
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+        } catch (IOException | DataParserException e) {
             e.printStackTrace();
         }
 
@@ -103,9 +101,9 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         try {
             String urlParams = URLParameterEncoder.toEncodedURLString(parameters);
 
-            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.GET);
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
-            setHttpRequestHeaders();
+            setRequestHeaderAccept();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -115,8 +113,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            ts = (T[]) DataSerializer.fromString(respContentType, respData, mClass);
-        } catch (IOException | HttpException | URISyntaxException | DataSerializerException | ClassCastException e) {
+            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+        } catch (IOException | DataParserException e) {
             e.printStackTrace();
         }
 
@@ -127,16 +125,16 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     public long post(T t) {
         long id = 0;
 
-        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
 
         try {
-            String reqData = DataSerializer.toString(reqContentType, t);
+            String reqData = DataParser.toString(reqContentType, t);
 
-            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.POST);
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.setRequestContentType(reqContentType);
-            setHttpRequestHeaders();
+            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
@@ -147,8 +145,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            id = (long) DataSerializer.fromString(respContentType, respData, Long.class);
-        } catch (DataSerializerException | IOException | HttpException | URISyntaxException e) {
+            id = (long) DataParser.fromString(respContentType, respData, Long.class);
+        } catch (DataParserException | IOException e) {
             e.printStackTrace();
         }
 
@@ -157,44 +155,44 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void put(T t) {
-        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
 
         try {
-            String reqData = DataSerializer.toString(reqContentType, t);
+            String reqData = DataParser.toString(reqContentType, t);
 
-            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.PUT);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.setRequestContentType(reqContentType);
+            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
 
             httpRequest.disconnect();
-        } catch (DataSerializerException | IOException e) {
+        } catch (DataParserException | IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void putAll(T[] ts) {
-        String reqContentType = MimeType.APPLICATION_JSON;
+        String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
 
         try {
-            String reqData = DataSerializer.toString(reqContentType, ts);
+            String reqData = DataParser.toString(reqContentType, ts);
 
-            httpRequest = new HttpRequest(new URL(url), HttpRequest.Method.PUT);
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.PUT);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.setRequestContentType(reqContentType);
+            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
             statusCode = httpRequest.getResponseCode();
 
             httpRequest.disconnect();
-        } catch (DataSerializerException | IOException e) {
+        } catch (DataParserException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -204,7 +202,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         String urlParams = "?id=" + id;
 
         try {
-            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.Method.DELETE);
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.DELETE);
             httpRequest.open(timeOut);
             httpRequest.connect();
 

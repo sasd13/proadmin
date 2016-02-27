@@ -78,7 +78,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -110,7 +110,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -136,7 +136,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -167,7 +167,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -193,7 +193,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -227,7 +227,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

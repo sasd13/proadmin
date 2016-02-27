@@ -2,10 +2,9 @@ package com.sasd13.proadmin.ws.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
 /**
@@ -80,10 +79,6 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     }
 
     protected void doInTaskError() {
-        CustomDialog.showOkDialog(
-                context,
-                context.getResources().getString(R.string.title_error),
-                "La requête n'a pas abouti"
-        );
+        Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }
