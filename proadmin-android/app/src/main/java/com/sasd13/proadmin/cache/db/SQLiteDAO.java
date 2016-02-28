@@ -24,15 +24,17 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
     private SQLiteDatabase db;
 
     private SQLiteDAO() {
-        teacherDAO = new SQLiteTeacherDAO();
-        projectDAO = new SQLiteProjectDAO();
-        runningDAO = new SQLiteRunningDAO();
-        teamDAO = new SQLiteTeamDAO();
-        studentDAO = new SQLiteStudentDAO();
-        studentTeamDAO = new SQLiteStudentTeamDAO();
-        reportDAO = new SQLiteReportDAO();
-        leadEvaluationDAO = new SQLiteLeadEvaluationDAO();
-        individualEvaluationDAO = new SQLiteIndividualEvaluationDAO();
+        super(
+                new SQLiteTeacherDAO(),
+                new SQLiteProjectDAO(),
+                new SQLiteRunningDAO(),
+                new SQLiteTeamDAO(),
+                new SQLiteStudentDAO(),
+                new SQLiteStudentTeamDAO(),
+                new SQLiteReportDAO(),
+                new SQLiteLeadEvaluationDAO(),
+                new SQLiteIndividualEvaluationDAO()
+        );
     }
 
     public static synchronized SQLiteDAO getInstance() {
@@ -50,21 +52,17 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     @Override
     public void open() {
-        try {
-            db = dbHandler.getWritableDatabase();
+        db = dbHandler.getWritableDatabase();
 
-            ((SQLiteEntityDAO) teacherDAO).setDB(db);
-            ((SQLiteEntityDAO) projectDAO).setDB(db);
-            ((SQLiteEntityDAO) runningDAO).setDB(db);
-            ((SQLiteEntityDAO) teamDAO).setDB(db);
-            ((SQLiteEntityDAO) studentDAO).setDB(db);
-            ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
-            ((SQLiteEntityDAO) reportDAO).setDB(db);
-            ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
-            ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        ((SQLiteEntityDAO) teacherDAO).setDB(db);
+        ((SQLiteEntityDAO) projectDAO).setDB(db);
+        ((SQLiteEntityDAO) runningDAO).setDB(db);
+        ((SQLiteEntityDAO) teamDAO).setDB(db);
+        ((SQLiteEntityDAO) studentDAO).setDB(db);
+        ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
+        ((SQLiteEntityDAO) reportDAO).setDB(db);
+        ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
+        ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
     }
 
     @Override
@@ -87,7 +85,7 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
             db.execSQL("DELETE FROM " + RunningDAO.TABLE);
             db.execSQL("DELETE FROM " + ProjectDAO.TABLE);
             db.execSQL("DELETE FROM " + TeacherDAO.TABLE);
-        } catch (NullPointerException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

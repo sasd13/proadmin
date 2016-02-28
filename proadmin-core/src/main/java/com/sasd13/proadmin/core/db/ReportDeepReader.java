@@ -32,7 +32,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		try {
 			LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 			ReportHandler.setLeadEvaluationToReport(leadEvaluation, report);
-		} catch (NullPointerException e) {
+		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
 		

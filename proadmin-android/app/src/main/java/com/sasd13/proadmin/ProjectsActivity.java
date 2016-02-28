@@ -158,15 +158,11 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void displayContent() {
-        try {
-            projects.clear();
+        projects.clear();
 
-            Collections.addAll(projects, readTask.getContent());
-            fillTabProjects();
-            Cache.keepAll(projects);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        Collections.addAll(projects, readTask.getContent());
+        fillTabProjects();
+        Cache.keepAll(projects);
 
         switchToLoadView(false);
     }

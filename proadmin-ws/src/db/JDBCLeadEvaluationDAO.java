@@ -208,7 +208,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

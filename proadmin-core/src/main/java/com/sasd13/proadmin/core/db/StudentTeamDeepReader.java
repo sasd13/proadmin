@@ -2,6 +2,7 @@ package com.sasd13.proadmin.core.db;
 
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
+import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.StudentTeam;
 
 public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
@@ -16,6 +17,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	
 	@Override
 	protected void retrieveData(StudentTeam studentTeam) {
-		studentTeam.setStudent(studentDAO.select(studentTeam.getStudent().getId()));
+		Student student = studentDAO.select(studentTeam.getStudent().getId());
+		studentTeam.setStudent(student);
 	}
 }

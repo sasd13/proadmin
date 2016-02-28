@@ -38,6 +38,10 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
         return results;
     }
 
+    public void setDeepReadEnabled(boolean deepReadEnabled) {
+        service.setDataRetrieveDeepEnabled(deepReadEnabled);
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -48,7 +52,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
     @Override
     protected T[] doInBackground(Void... aVoid) {
         if (!isCancelled()) {
-            results = service.getAll(parameters);
+            results = service.get(parameters);
         }
 
         return results;

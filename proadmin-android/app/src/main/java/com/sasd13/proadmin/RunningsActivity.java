@@ -16,7 +16,7 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
-import com.sasd13.proadmin.core.util.URLParameter;
+import com.sasd13.proadmin.core.util.Parameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
 import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
@@ -70,10 +70,11 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(URLParameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
-            parameters.put(URLParameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
+            parameters.put(Parameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
+            parameters.put(Parameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
 
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
+            parameterizedReadTask.setDeepReadEnabled(true);
             parameterizedReadTask.execute();
         } else {
             ConnectivityChecker.showConnectivityError(this);
@@ -160,7 +161,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
                 fillTabRunnings();
                 Cache.keep(runningToCreate);
             }
-        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -190,15 +191,11 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     }
 
     private void processResultForReadTask() {
-        try {
-            runnings.clear();
+        runnings.clear();
 
-            Collections.addAll(runnings, parameterizedReadTask.getContent());
-            fillTabRunnings();
-            Cache.keepAll(runnings);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        Collections.addAll(runnings, parameterizedReadTask.getContent());
+        fillTabRunnings();
+        Cache.keepAll(runnings);
     }
 
     @Override

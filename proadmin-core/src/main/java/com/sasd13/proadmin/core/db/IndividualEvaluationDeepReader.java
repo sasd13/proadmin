@@ -2,6 +2,7 @@ package com.sasd13.proadmin.core.db;
 
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
+import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.bean.running.IndividualEvaluation;
 
 public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluation> {
@@ -16,6 +17,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 
 	@Override
 	protected void retrieveData(IndividualEvaluation individualEvaluation) {
-		individualEvaluation.setStudent(studentDAO.select(individualEvaluation.getStudent().getId()));
+		Student student = studentDAO.select(individualEvaluation.getStudent().getId());
+		individualEvaluation.setStudent(student);
 	}
 }

@@ -150,7 +150,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
             fillFormTeacher();
             Cache.keep(teacher);
-        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
 

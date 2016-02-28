@@ -167,7 +167,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

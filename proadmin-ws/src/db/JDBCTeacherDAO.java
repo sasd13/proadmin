@@ -196,7 +196,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

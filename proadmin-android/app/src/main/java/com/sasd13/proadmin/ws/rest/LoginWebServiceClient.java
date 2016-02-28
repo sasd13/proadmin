@@ -1,9 +1,10 @@
 package com.sasd13.proadmin.ws.rest;
 
+import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.net.http.HttpRequest;
+import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
-import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class LoginWebServiceClient {
             httpRequest = new HttpRequest(new URL(URL_WEBSERVICE_LOGIN), HttpRequest.HttpMethod.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
             setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
@@ -69,7 +70,7 @@ public class LoginWebServiceClient {
     }
 
     private void setRequestHeaderAccept() {
-        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_JSON.getMIMEType());
-        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_XML.getMIMEType());
+        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_XML.getMIMEType());
     }
 }

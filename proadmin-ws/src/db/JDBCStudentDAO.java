@@ -192,7 +192,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 			
 			ResultSet resultSet = statement.executeQuery(query);
 			fillListWithResultSet(list, resultSet);
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {

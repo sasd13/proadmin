@@ -196,7 +196,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

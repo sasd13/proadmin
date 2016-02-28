@@ -197,7 +197,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

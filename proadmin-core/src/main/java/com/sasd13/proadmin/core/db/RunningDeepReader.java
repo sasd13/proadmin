@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
+import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.bean.running.handler.RunningHandler;
@@ -27,11 +29,14 @@ public class RunningDeepReader extends DeepReader<Running> {
 	
 	@Override
 	protected void retrieveData(Running running) {
-		running.setTeacher(teacherDAO.select(running.getTeacher().getId()));
-		running.setProject(projectDAO.select(running.getProject().getId()));
+		Teacher teacher = teacherDAO.select(running.getTeacher().getId());
+		running.setTeacher(teacher);
+		
+		Project project = projectDAO.select(running.getProject().getId());
+		running.setProject(project);
 		
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(Parameter.TEAM.getName(), new String[]{String.valueOf(running.getId())});
+		parameters.put(Parameter.RUNNING.getName(), new String[]{String.valueOf(running.getId())});
 		
 		List<Team> teams = teamDAO.select(parameters);
 		RunningHandler.addTeamsToRunning(teams, running);

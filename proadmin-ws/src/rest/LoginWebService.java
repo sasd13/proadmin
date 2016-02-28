@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.db.IDAO;
 import com.sasd13.javaex.db.Persistence;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.core.bean.member.Teacher;
@@ -24,6 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import rest.handler.RESTHandler;
+
 /**
  *
  * @author Samir
@@ -31,20 +32,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginWebService extends HttpServlet {
 	
-	private IDAO dao = JDBCDAO.getInstance();
 	private Persistence persistence;
 	
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		
-		persistence = new Persistence(dao);
+		persistence = new Persistence(JDBCDAO.getInstance());
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Teacher teacherFromRequest = (Teacher) IOService.readAndParseDataFromRequest(req, Teacher.class);
+			Teacher teacherFromRequest = (Teacher) RESTHandler.readAndParseDataFromRequest(req, Teacher.class);
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			parameters.put(Parameter.NUMBER.getName(), new String[]{teacherFromRequest.getNumber()});
@@ -63,7 +63,7 @@ public class LoginWebService extends HttpServlet {
 						: -1;
 			}
 			
-			IOService.parseAndWriteDataToResponse(req, resp, id);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
 		} catch (DataParserException e) {
 			e.printStackTrace();
 		}

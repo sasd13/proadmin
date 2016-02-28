@@ -188,7 +188,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

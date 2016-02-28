@@ -38,6 +38,10 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
         return results;
     }
 
+    public void setDeepReadEnabled(boolean deepReadEnabled) {
+        service.setDataRetrieveDeepEnabled(deepReadEnabled);
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

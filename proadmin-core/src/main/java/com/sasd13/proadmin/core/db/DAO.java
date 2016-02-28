@@ -26,11 +26,11 @@ public abstract class DAO implements IDAO {
 	protected LeadEvaluationDAO leadEvaluationDAO;
 	protected IndividualEvaluationDAO individualEvaluationDAO;
 	
-	protected RunningDeepReader runningDeepReader;
-	protected StudentTeamDeepReader studentTeamDeepReader;
-	protected ReportDeepReader reportDeepReader;
-	protected LeadEvaluationDeepReader leadEvaluationDeepReader;
-	protected IndividualEvaluationDeepReader individualEvaluationDeepReader;
+	private RunningDeepReader runningDeepReader;
+	private StudentTeamDeepReader studentTeamDeepReader;
+	private ReportDeepReader reportDeepReader;
+	private LeadEvaluationDeepReader leadEvaluationDeepReader;
+	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
 	
 	protected DAO(TeacherDAO teacherDAO, ProjectDAO projectDAO, 
 			RunningDAO runningDAO, TeamDAO teamDAO, StudentDAO studentDAO, StudentTeamDAO studentTeamDAO, 

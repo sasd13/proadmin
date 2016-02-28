@@ -1,11 +1,12 @@
 package com.sasd13.proadmin.ws.rest;
 
+import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.net.http.HttpRequest;
+import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.net.util.URLParameterEncoder;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
-import com.sasd13.javaex.util.MediaType;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -23,6 +24,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     private String url;
     private HttpRequest httpRequest;
     private int statusCode;
+    private boolean dataRetrieveDeepEnabled;
 
     public WebServiceClient(Class<T> mClass) {
         this(mClass, DEFAULT_TIMEOUT);
@@ -38,6 +40,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         return statusCode;
     }
 
+    public void setDataRetrieveDeepEnabled(boolean dataRetrieveDeepEnabled) {
+        this.dataRetrieveDeepEnabled = dataRetrieveDeepEnabled;
+    }
+
     @Override
     public T get(long id) {
         T t = null;
@@ -48,6 +54,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
             setRequestHeaderAccept();
+            setRequestHeaderDataRetrieve();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -66,18 +73,26 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     }
 
     private void setRequestHeaderAccept() {
-        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_JSON.getMIMEType());
-        httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_ACCEPT, MediaType.APPLICATION_XML.getMIMEType());
+        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_XML.getMIMEType());
     }
 
-    @Override
-    public T[] getAll() {
+    private void setRequestHeaderDataRetrieve() {
+        if (dataRetrieveDeepEnabled) {
+            httpRequest.addHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName(), HttpHeader.DATA_RETRIEVE_VALUE_DEEP.getName());
+        }
+    }
+
+    public T[] get(Map<String, String[]> parameters) {
         T[] ts = null;
 
         try {
-            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.GET);
+            String urlParams = URLParameterEncoder.toEncodedURLString(parameters);
+
+            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
             setRequestHeaderAccept();
+            setRequestHeaderDataRetrieve();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -95,15 +110,15 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         return ts;
     }
 
-    public T[] getAll(Map<String, String[]> parameters) {
+    @Override
+    public T[] getAll() {
         T[] ts = null;
 
         try {
-            String urlParams = URLParameterEncoder.toEncodedURLString(parameters);
-
-            httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
+            httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
             setRequestHeaderAccept();
+            setRequestHeaderDataRetrieve();
             httpRequest.connect();
 
             statusCode = httpRequest.getResponseCode();
@@ -133,7 +148,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
             setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
@@ -163,7 +178,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.PUT);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
@@ -185,7 +200,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.PUT);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpRequest.HEADER_ATTRIBUTE_CONTENTTYPE, reqContentType);
+            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 

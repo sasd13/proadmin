@@ -196,7 +196,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException | NullPointerException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

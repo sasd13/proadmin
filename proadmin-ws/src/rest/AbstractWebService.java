@@ -16,7 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import rest.handler.RESTHandler;
+import rest.handler.ReadHandler;
+
 import com.sasd13.javaex.db.Persistence;
+import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.util.DataParserException;
 
 import db.JDBCDAO;
@@ -43,27 +47,34 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> parameters = req.getParameterMap();
+		String headerDataRetrieve = (String) req.getHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName());
 		
 		Object respData = null;
 		
 		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				respData = persistence.read(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
+				long id = Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID));
+				
+				respData = ReadHandler.read(id, getEntityClass(), persistence, headerDataRetrieve);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		} else {
-			List<T> list = (parameters.isEmpty())
-					? persistence.readAll(getEntityClass())
-					: (!parameters.containsKey(REQUEST_PARAMETER_ID)) 
-						? persistence.read(parameters, getEntityClass())
-						: new ArrayList<T>();
+			List<T> list;
+			
+			if (parameters.isEmpty()) {
+				list = ReadHandler.readAll(getEntityClass(), persistence, headerDataRetrieve);
+			} else if (!parameters.containsKey(REQUEST_PARAMETER_ID)) {
+				list = ReadHandler.read(parameters, getEntityClass(), persistence, headerDataRetrieve);
+			} else {
+				list = new ArrayList<>();
+			}
 			
 			respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
 		}
 		
 		try {
-			IOService.parseAndWriteDataToResponse(req, resp, respData);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, respData);
 		} catch (DataParserException e) {
 			e.printStackTrace();
 		}
@@ -72,20 +83,20 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			T t = (T) IOService.readAndParseDataFromRequest(req, getEntityClass());
+			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
 			
 			long id = persistence.create(t);
 			
-			IOService.parseAndWriteDataToResponse(req, resp, id);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
 		} catch (DataParserException | ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Object reqData = IOService.readAndParseDataFromRequest(req, getEntityClass());
+			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
 			
 			if (reqData.getClass().isArray()) {
 				persistence.updateAll((T[]) reqData);
