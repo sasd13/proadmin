@@ -179,42 +179,42 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	}
 	
 	public List<Running> select(Map<String, String[]> parameters) {
-		List<Running> list = new ArrayList<>();
+		List<Running> runnings = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
 		try {
-			query = "SELECT * FROM " + TABLE
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(RunningDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(runnings, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return runnings;
 	}
 	
-	private void fillListWithResultSet(List<Running> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<Running> runnings, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				runnings.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<Running> selectAll() {
-		List<Running> list = new ArrayList<>();
+		List<Running> runnings = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -226,7 +226,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 			ResultSet resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
 				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					list.add(getResultSetValues(resultSet));
+					runnings.add(getResultSetValues(resultSet));
 				}
 			}
 		} catch (SQLException e) {
@@ -239,6 +239,6 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 			}
 		}
 		
-		return list;
+		return runnings;
 	}
 }

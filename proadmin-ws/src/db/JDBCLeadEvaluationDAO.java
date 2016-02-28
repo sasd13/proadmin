@@ -191,42 +191,42 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 	
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
-		List<LeadEvaluation> list = new ArrayList<>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
-		try {
-			query = "SELECT * FROM " + TABLE
+		try {			
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(leadEvaluations, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return leadEvaluations;
 	}
 	
-	private void fillListWithResultSet(List<LeadEvaluation> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<LeadEvaluation> leadEvaluations, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<LeadEvaluation> selectAll() {
-		List<LeadEvaluation> list = new ArrayList<LeadEvaluation>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<LeadEvaluation>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -236,7 +236,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(leadEvaluations, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -247,6 +247,6 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			}
 		}
 		
-		return list;
+		return leadEvaluations;
 	}
 }

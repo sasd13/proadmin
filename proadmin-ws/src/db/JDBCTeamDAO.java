@@ -173,12 +173,12 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	public List<Team> select(Map<String, String[]> parameters) {
 		List<Team> list = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
 		try {
-			query = "SELECT * FROM " + TABLE
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(TeamDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
@@ -188,7 +188,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

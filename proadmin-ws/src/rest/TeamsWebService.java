@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ws.rest;
+package rest;
 
 import com.sasd13.proadmin.core.bean.running.Team;
 

@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.core.util;
 
-public enum URLParameter {
+public enum Parameter {
 	
 	ACADEMICLEVEL("academiclevel"),
 	CODE("code"),
@@ -20,7 +20,7 @@ public enum URLParameter {
 	
 	private String name;
 	
-	private URLParameter(String name) {
+	private Parameter(String name) {
 		this.name = name;
 	}
 	

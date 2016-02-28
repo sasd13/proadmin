@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.core.db;
 
 import com.sasd13.javaex.db.DBException;
+import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.javaex.db.IDAO;
 import com.sasd13.proadmin.core.bean.member.Student;
@@ -25,6 +26,33 @@ public abstract class DAO implements IDAO {
 	protected LeadEvaluationDAO leadEvaluationDAO;
 	protected IndividualEvaluationDAO individualEvaluationDAO;
 	
+	protected RunningDeepReader runningDeepReader;
+	protected StudentTeamDeepReader studentTeamDeepReader;
+	protected ReportDeepReader reportDeepReader;
+	protected LeadEvaluationDeepReader leadEvaluationDeepReader;
+	protected IndividualEvaluationDeepReader individualEvaluationDeepReader;
+	
+	protected DAO(TeacherDAO teacherDAO, ProjectDAO projectDAO, 
+			RunningDAO runningDAO, TeamDAO teamDAO, StudentDAO studentDAO, StudentTeamDAO studentTeamDAO, 
+			ReportDAO reportDAO, LeadEvaluationDAO leadEvaluationDAO, IndividualEvaluationDAO individualEvaluationDAO) {
+		
+		this.teacherDAO = teacherDAO;
+		this.projectDAO = projectDAO;
+		this.runningDAO = runningDAO;
+		this.teamDAO = teamDAO;
+		this.studentDAO = studentDAO;
+		this.studentTeamDAO = studentTeamDAO;
+		this.reportDAO = reportDAO;
+		this.leadEvaluationDAO = leadEvaluationDAO;
+		this.individualEvaluationDAO = individualEvaluationDAO;
+		
+		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO, teamDAO);
+		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO);
+		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDAO, individualEvaluationDAO);
+		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
+		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
+	}
+	
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DBException {
 		if (Teacher.class.equals(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;
@@ -46,6 +74,22 @@ public abstract class DAO implements IDAO {
 			return (IEntityDAO<T>) individualEvaluationDAO;
 		} else {
 			throw new DBException("Class '" + mClass.getName() + "' has no entity dao");
+		}
+	}
+	
+	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DBException {
+		if (Running.class.equals(mClass)) {
+			return (DeepReader<T>) runningDeepReader;
+		} else if (StudentTeam.class.equals(mClass)) {
+			return (DeepReader<T>) studentTeamDeepReader;
+		} else if (Report.class.equals(mClass)) {
+			return (DeepReader<T>) reportDeepReader;
+		} else if (LeadEvaluation.class.equals(mClass)) {
+			return (DeepReader<T>) leadEvaluationDeepReader;
+		} else if (IndividualEvaluation.class.equals(mClass)) {
+			return (DeepReader<T>) individualEvaluationDeepReader;
+		} else {
+			throw new DBException("Class '" + mClass.getName() + "' has no deep reader");
 		}
 	}
 }

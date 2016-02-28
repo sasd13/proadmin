@@ -182,17 +182,17 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 	public List<Student> select(Map<String, String[]> parameters) {
 		List<Student> list = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
 		try {
-			query = "SELECT * FROM " + TABLE
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(StudentDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
 			fillListWithResultSet(list, resultSet);
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 		} finally {
 			try {

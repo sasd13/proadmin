@@ -176,42 +176,42 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	}
 	
 	public List<Project> select(Map<String, String[]> parameters) {
-		List<Project> list = new ArrayList<>();
+		List<Project> projects = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
-		try {
-			query = "SELECT * FROM " + TABLE
+		try {			
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(ProjectDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(projects, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return projects;
 	}
 	
-	private void fillListWithResultSet(List<Project> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<Project> projects, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				projects.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<Project> selectAll() {
-		List<Project> list = new ArrayList<>();
+		List<Project> projects = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -221,7 +221,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(projects, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -232,6 +232,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 		
-		return list;
+		return projects;
 	}
 }

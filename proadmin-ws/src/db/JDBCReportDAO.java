@@ -180,42 +180,42 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	}
 	
 	public List<Report> select(Map<String, String[]> parameters) {
-		List<Report> list = new ArrayList<>();
+		List<Report> reports = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
-		try {
-			query = "SELECT * FROM " + TABLE
+		try {			
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(ReportDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(reports, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return reports;
 	}
 	
-	private void fillListWithResultSet(List<Report> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<Report> reports, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				reports.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<Report> selectAll() {
-		List<Report> list = new ArrayList<>();
+		List<Report> reports = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -225,7 +225,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(reports, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -236,6 +236,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 		
-		return list;
+		return reports;
 	}
 }

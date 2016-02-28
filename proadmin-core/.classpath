@@ -23,6 +23,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/javaex/target/javaex-0.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/javaex"/>
+	<classpathentry kind="lib" path="lib/javaex-0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

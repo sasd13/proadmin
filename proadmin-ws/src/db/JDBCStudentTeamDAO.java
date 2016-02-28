@@ -150,42 +150,42 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	}
 	
 	public List<StudentTeam> select(Map<String, String[]> parameters) {
-		List<StudentTeam> list = new ArrayList<>();
+		List<StudentTeam> studentTeams = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
 		try {
-			query = "SELECT * FROM " + TABLE
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(StudentTeamDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(studentTeams, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return studentTeams;
 	}
 	
-	private void fillListWithResultSet(List<StudentTeam> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<StudentTeam> studentTeams, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				studentTeams.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<StudentTeam> selectAll() {
-		List<StudentTeam> list = new ArrayList<StudentTeam>();
+		List<StudentTeam> studentTeams = new ArrayList<StudentTeam>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -195,7 +195,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(studentTeams, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -206,6 +206,6 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			}
 		}
 		
-		return list;
+		return studentTeams;
 	}
 }

@@ -1,4 +1,4 @@
-package ws.rest;
+package rest;
 
 import java.io.IOException;
 import java.util.Enumeration;

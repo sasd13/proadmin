@@ -23,18 +23,20 @@ public class JDBCDAO extends DAO {
 	private Connection connection;
 	
 	private JDBCDAO() {
+		super(
+			new JDBCTeacherDAO(),
+			new JDBCProjectDAO(),
+			new JDBCRunningDAO(),
+			new JDBCTeamDAO(),
+			new JDBCStudentDAO(),
+			new JDBCStudentTeamDAO(),
+			new JDBCReportDAO(),
+			new JDBCLeadEvaluationDAO(),
+			new JDBCIndividualEvaluationDAO()
+		);
+		
 		try {
 			Class.forName(JDBCInformation.DRIVER);
-			
-			teacherDAO = new JDBCTeacherDAO();
-			projectDAO = new JDBCProjectDAO();
-			runningDAO = new JDBCRunningDAO();
-			teamDAO = new JDBCTeamDAO();
-			studentDAO = new JDBCStudentDAO();
-			studentTeamDAO = new JDBCStudentTeamDAO();
-			reportDAO = new JDBCReportDAO();
-			leadEvaluationDAO = new JDBCLeadEvaluationDAO();
-			individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
 			
 			open();
 			createTablesIfNotExist();

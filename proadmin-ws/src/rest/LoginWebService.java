@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ws.rest;
+package rest;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import com.sasd13.javaex.db.IDAO;
 import com.sasd13.javaex.db.Persistence;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.core.bean.member.Teacher;
-import com.sasd13.proadmin.core.util.URLParameter;
+import com.sasd13.proadmin.core.util.Parameter;
 
 import db.JDBCDAO;
 
@@ -47,7 +47,7 @@ public class LoginWebService extends HttpServlet {
 			Teacher teacherFromRequest = (Teacher) IOService.readAndParseDataFromRequest(req, Teacher.class);
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
-			parameters.put(URLParameter.NUMBER.getName(), new String[]{teacherFromRequest.getNumber()});
+			parameters.put(Parameter.NUMBER.getName(), new String[]{teacherFromRequest.getNumber()});
 			
 			List<Teacher> list = (List<Teacher>) persistence.read(parameters, Teacher.class);
 			

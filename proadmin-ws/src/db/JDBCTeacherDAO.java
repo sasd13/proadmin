@@ -181,12 +181,12 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	public List<Teacher> select(Map<String, String[]> parameters) {
 		List<Teacher> list = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
 		try {
-			query = "SELECT * FROM " + TABLE
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(TeacherDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
@@ -196,7 +196,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

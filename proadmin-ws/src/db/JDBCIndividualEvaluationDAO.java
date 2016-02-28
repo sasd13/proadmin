@@ -179,42 +179,42 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
-		List<IndividualEvaluation> list = new ArrayList<>();
+		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 		
-		String query = null;
 		Statement statement = null;
 		
-		try {
-			query = "SELECT * FROM " + TABLE
+		try {			
+			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " + WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + ";";
+			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(individualEvaluations, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return list;
+		return individualEvaluations;
 	}
 	
-	private void fillListWithResultSet(List<IndividualEvaluation> list, ResultSet resultSet) throws SQLException {
+	private void fillListWithResultSet(List<IndividualEvaluation> individualEvaluations, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
+				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		}
 	}
 	
 	@Override
 	public List<IndividualEvaluation> selectAll() {
-		List<IndividualEvaluation> list = new ArrayList<>();
+		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + TABLE;
 		
@@ -224,7 +224,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			fillListWithResultSet(individualEvaluations, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -235,6 +235,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			}
 		}
 		
-		return list;
+		return individualEvaluations;
 	}
 }
