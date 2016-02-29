@@ -33,7 +33,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	@Override
 	protected Team getResultSetValues(ResultSet resultSet) throws SQLException {
 		Team team = new Team();
-		
 		team.setId(resultSet.getLong(COLUMN_ID));
 		team.setCode(resultSet.getString(COLUMN_CODE));
 		

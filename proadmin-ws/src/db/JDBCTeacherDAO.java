@@ -35,7 +35,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	@Override
 	protected Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
 		Teacher teacher = new Teacher();
-		
 		teacher.setId(resultSet.getLong(COLUMN_ID));
 		teacher.setNumber(resultSet.getString(COLUMN_NUMBER));
 		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));

@@ -13,6 +13,14 @@ public class IndividualEvaluation extends Evaluation {
 	
 	private float mark;
 	
+	public IndividualEvaluation() {}
+	
+	public IndividualEvaluation(Report report) {
+		super(report);
+		
+		report.getIndividualEvaluations().add(this);
+	}
+	
 	public float getMark() {
 		return mark;
 	}

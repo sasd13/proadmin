@@ -37,17 +37,15 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	
 	@Override
 	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		LeadEvaluation leadEvaluation = new LeadEvaluation();
+		Report report = new Report();
+		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
 		
+		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
 		leadEvaluation.setId(resultSet.getLong(COLUMN_ID));
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
-		
-		Report report = new Report();
-		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
-		leadEvaluation.setReport(report);
 		
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));

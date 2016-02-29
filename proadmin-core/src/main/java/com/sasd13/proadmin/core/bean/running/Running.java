@@ -52,16 +52,8 @@ public class Running {
 		this.project = project;
 	}
 	
-	public void addTeam(Team team) {
-		teams.add(team);
-	}
-	
-	public void removeTeam(Team team) {
-		teams.remove(team);
-	}
-	
-	public Team[] getTeams() {
-		return teams.toArray(new Team[teams.size()]);
+	public List<Team> getTeams() {
+		return teams;
 	}
 	
 	@Override

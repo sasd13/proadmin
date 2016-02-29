@@ -36,9 +36,9 @@ public class RunningDeepReader extends DeepReader<Running> {
 		running.setProject(project);
 		
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(Parameter.RUNNING.getName(), new String[]{String.valueOf(running.getId())});
+		parameters.put(Parameter.RUNNING.getName(), new String[] { String.valueOf(running.getId()) });
 		
 		List<Team> teams = teamDAO.select(parameters);
-		RunningHandler.addTeamsToRunning(teams, running);
+		RunningHandler.setTeamsToRunning(teams, running);
 	}
 }

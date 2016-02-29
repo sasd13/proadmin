@@ -3,13 +3,10 @@ package com.sasd13.proadmin.core.bean.running;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sasd13.proadmin.core.bean.member.Student;
-
 public class Team {
 	
 	private long id;
 	private String code;
-	private List<Student> students;
 	private List<Report> reports;
 	private Running running;
 	
@@ -33,24 +30,8 @@ public class Team {
 		this.code = code;
 	}
 	
-	public List<Student> getStudents() {
-		return students;
-	}
-	
-	public void setStudents(List<Student> students) {
-		this.students = students;
-	}
-	
-	public void addReport(Report report) {
-		reports.add(report);
-	}
-	
-	public void removeReport(Report report) {
-		reports.remove(report);
-	}
-	
-	public Report[] getReports() {
-		return reports.toArray(new Report[reports.size()]);
+	public List<Report> getReports() {
+		return reports;
 	}
 	
 	public Running getRunning() {

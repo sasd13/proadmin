@@ -19,9 +19,10 @@ public class ReportHandler {
 		leadEvaluationTarget.setStudent(leadEvaluation.getStudent());
 	}
 	
-	public static void addIndividualEvaluationsToReport(List<IndividualEvaluation> individualEvaluations, Report report) {
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			report.addIndividualEvaluation(individualEvaluation);
-		}
+	public static void setIndividualEvaluationsToReport(List<IndividualEvaluation> individualEvaluations, Report report) {
+		List<IndividualEvaluation> individualEvaluationsTarget = report.getIndividualEvaluations();
+		
+		individualEvaluationsTarget.clear();
+		individualEvaluationsTarget.addAll(individualEvaluations);
 	}
 }

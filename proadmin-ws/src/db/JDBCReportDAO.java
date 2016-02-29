@@ -27,24 +27,22 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
+		preparedStatement.setString(1, String.valueOf(report.getMeetingDate()));
 		preparedStatement.setInt(2, report.getWeek());
-		preparedStatement.setString(3, report.getTeamComment());
+		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setLong(4, report.getTeam().getId());
 	}
 	
 	@Override
 	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-		
-		report.setId(resultSet.getLong(COLUMN_ID));
-		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
-		report.setWeek(resultSet.getInt(COLUMN_WEEK));
-		report.setTeamComment(resultSet.getString(COLUMN_TEAMCOMMENT));
-		
 		Team team = new Team();
 		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
-		report.setTeam(team);
+		
+		Report report = new Report(team);
+		report.setId(resultSet.getLong(COLUMN_ID));
+		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
+		report.setWeek(resultSet.getInt(COLUMN_WEEK));
+		report.setComment(resultSet.getString(COLUMN_TEAMCOMMENT));
 		
 		return report;
 	}

@@ -7,9 +7,10 @@ import com.sasd13.proadmin.core.bean.running.Team;
 
 public class RunningHandler {
 	
-	public static void addTeamsToRunning(List<Team> teams, Running running) {
-		for (Team team : teams) {
-			running.addTeam(team);
-		}
+	public static void setTeamsToRunning(List<Team> teams, Running running) {
+		List<Team> teamsTarget = running.getTeams();
+		
+		teamsTarget.clear();
+		teamsTarget.addAll(teams);
 	}
 }

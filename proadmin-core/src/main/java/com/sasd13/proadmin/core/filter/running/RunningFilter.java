@@ -2,10 +2,11 @@ package com.sasd13.proadmin.core.filter.running;
 
 import java.util.Map;
 
+import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.util.Parameter;
 
-public class RunningFilter extends com.sasd13.javaex.util.ParameterFilter<Running> {
+public class RunningFilter extends AndFilter<Running> {
 	
 	public RunningFilter(Map<String, String[]> parameters) {
 		super(parameters);

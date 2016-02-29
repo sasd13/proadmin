@@ -35,7 +35,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	@Override
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
-		
 		project.setId(resultSet.getLong(COLUMN_ID));
 		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(COLUMN_ACADEMICLEVEL)));

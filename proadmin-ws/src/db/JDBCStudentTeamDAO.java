@@ -33,17 +33,14 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	
 	@Override
 	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		StudentTeam studentTeam = new StudentTeam();
-		
-		studentTeam.setId(resultSet.getLong(COLUMN_ID));
+		Student student = new Student();
+		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
 		
 		Team team = new Team();
 		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
-		studentTeam.setTeam(team);
 		
-		Student student = new Student();
-		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
-		studentTeam.setStudent(student);
+		StudentTeam studentTeam = new StudentTeam(student, team);
+		studentTeam.setId(resultSet.getLong(COLUMN_ID));
 		
 		return studentTeam;
 	}

@@ -17,6 +17,12 @@ public abstract class Evaluation {
 	private Student student;
 	private Report report;
 	
+	protected Evaluation() {}
+	
+	protected Evaluation(Report report) {
+		this.report = report;
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -35,9 +41,5 @@ public abstract class Evaluation {
 	
 	public Report getReport() {
 		return report;
-	}
-	
-	public void setReport(Report report) {
-		this.report = report;
 	}
 }

@@ -33,15 +33,13 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	@Override
-	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {		
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
-		
-		individualEvaluation.setId(resultSet.getLong(COLUMN_ID));
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
-		
+	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
 		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
-		individualEvaluation.setReport(report);
+		
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
+		individualEvaluation.setId(resultSet.getLong(COLUMN_ID));
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));		
 		
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));

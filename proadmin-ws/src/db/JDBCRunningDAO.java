@@ -35,7 +35,6 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 	@Override
 	protected Running getResultSetValues(ResultSet resultSet) throws SQLException {
 		Running running = new Running();
-		
 		running.setId(resultSet.getLong(COLUMN_ID));
 		running.setYear(resultSet.getInt(COLUMN_YEAR));
 		

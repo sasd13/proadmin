@@ -36,7 +36,6 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 	@Override
 	protected Student getResultSetValues(ResultSet resultSet) throws SQLException {
 		Student student = new Student();
-		
 		student.setId(resultSet.getLong(COLUMN_ID));
 		student.setNumber(resultSet.getString(COLUMN_NUMBER));
 		student.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(COLUMN_ACADEMICLEVEL)));

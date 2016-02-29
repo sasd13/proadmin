@@ -1,9 +1,19 @@
 package com.sasd13.proadmin.core.bean.running;
 
+import com.sasd13.proadmin.core.bean.running.handler.ReportHandler;
+
 public class LeadEvaluation extends Evaluation {
 	
 	private float planningMark, communicationMark;
 	private String planningComment, communicationComment;
+	
+	public LeadEvaluation() {}
+	
+	public LeadEvaluation(Report report) {
+		super(report);
+		
+		ReportHandler.setLeadEvaluationToReport(this, report);
+	}
 	
 	public float getPlanningMark() {
 		return planningMark;

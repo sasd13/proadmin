@@ -2,11 +2,11 @@ package com.sasd13.proadmin.core.filter.project;
 
 import java.util.Map;
 
-import com.sasd13.javaex.util.ParameterFilter;
+import com.sasd13.javaex.net.util.URLParameterFilter;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.util.Parameter;
 
-public class ProjectFilter extends ParameterFilter<Project> {
+public class ProjectFilter extends URLParameterFilter<Project> {
 	
 	public ProjectFilter(Map<String, String[]> parameters) {
 		super(parameters);

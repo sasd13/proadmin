@@ -2,11 +2,11 @@ package com.sasd13.proadmin.core.filter.member;
 
 import java.util.Map;
 
-import com.sasd13.javaex.util.ParameterFilter;
+import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.core.bean.member.Student;
 import com.sasd13.proadmin.core.util.Parameter;
 
-public class StudentFilter extends ParameterFilter<Student> {
+public class StudentFilter extends AndFilter<Student> {
 	
 	public StudentFilter(Map<String, String[]> parameters) {
 		super(parameters);

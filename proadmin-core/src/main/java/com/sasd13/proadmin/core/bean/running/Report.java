@@ -7,18 +7,21 @@ import java.util.List;
 public class Report {
 	
 	private long id;
-	private Timestamp dateMeeting;
+	private Timestamp meetingDate;
 	private int week;
-	private String teamComment;
+	private String comment;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
 	private Team team;
 	
-	public Report() {
-		leadEvaluation = new LeadEvaluation();
-		individualEvaluations = new ArrayList<>();
+	public Report() {}
+	
+	public Report(Team team) {
+		this.team = team;
 		
-		leadEvaluation.setReport(this);
+		leadEvaluation = new LeadEvaluation(this);
+		individualEvaluations = new ArrayList<>();
+		team.getReports().add(this);
 	}
 	
 	public long getId() {
@@ -29,12 +32,12 @@ public class Report {
 		this.id = id;
 	}
 	
-	public Timestamp getDateMeeting() {
-		return dateMeeting;
+	public Timestamp getMeetingDate() {
+		return meetingDate;
 	}
 	
-	public void setDateMeeting(Timestamp dateMeeting) {
-		this.dateMeeting = dateMeeting;
+	public void setMeetingDate(Timestamp meetingDate) {
+		this.meetingDate = meetingDate;
 	}
 	
 	public int getWeek() {
@@ -45,36 +48,24 @@ public class Report {
 		this.week = week;
 	}
 	
-	public String getTeamComment() {
-		return teamComment;
+	public String getComment() {
+		return comment;
 	}
 	
-	public void setTeamComment(String teamComment) {
-		this.teamComment = teamComment;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	public LeadEvaluation getLeadEvaluation() {
 		return leadEvaluation;
 	}
 	
-	public void addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		individualEvaluations.add(individualEvaluation);
-	}
-	
-	public void removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		individualEvaluations.remove(individualEvaluation);
-	}
-	
-	public IndividualEvaluation[] getIndividualEvaluations() {
-		return individualEvaluations.toArray(new IndividualEvaluation[individualEvaluations.size()]);
+	public List<IndividualEvaluation> getIndividualEvaluations() {
+		return individualEvaluations;
 	}
 	
 	public Team getTeam() {
 		return team;
-	}
-	
-	public void setTeam(Team team) {
-		this.team = team;
 	}
 	
 	@Override
@@ -83,9 +74,9 @@ public class Report {
 		
 		builder.append("Report [");
 		builder.append("id=" + getId());
-		builder.append(", dateMeeting=" + getDateMeeting());
+		builder.append(", meetingDate=" + getMeetingDate());
 		builder.append(", weak=" + getWeek());
-		builder.append(", teamComment=" + getTeamComment());
+		builder.append(", comment=" + getComment());
 		builder.append("]");
 		
 		return builder.toString().trim();

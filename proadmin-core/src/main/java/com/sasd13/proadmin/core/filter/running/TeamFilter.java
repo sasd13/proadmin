@@ -2,11 +2,11 @@ package com.sasd13.proadmin.core.filter.running;
 
 import java.util.Map;
 
-import com.sasd13.javaex.util.ParameterFilter;
+import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.core.bean.running.Team;
 import com.sasd13.proadmin.core.util.Parameter;
 
-public class TeamFilter extends ParameterFilter<Team> {
+public class TeamFilter extends AndFilter<Team> {
 	
 	public TeamFilter(Map<String, String[]> parameters) {
 		super(parameters);
