@@ -10,7 +10,6 @@ import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.bean.running.Team;
-import com.sasd13.proadmin.core.bean.running.handler.RunningHandler;
 import com.sasd13.proadmin.core.util.Parameter;
 
 public class RunningDeepReader extends DeepReader<Running> {
@@ -39,6 +38,6 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.put(Parameter.RUNNING.getName(), new String[] { String.valueOf(running.getId()) });
 		
 		List<Team> teams = teamDAO.select(parameters);
-		RunningHandler.setTeamsToRunning(teams, running);
+		running.setTeams(teams);
 	}
 }

@@ -14,13 +14,15 @@ public class Report {
 	private List<IndividualEvaluation> individualEvaluations;
 	private Team team;
 	
-	public Report() {}
-	
-	public Report(Team team) {
-		this.team = team;
-		
+	public Report() {
 		leadEvaluation = new LeadEvaluation(this);
 		individualEvaluations = new ArrayList<>();
+	}
+	
+	public Report(Team team) {
+		this();
+		
+		this.team = team;
 		team.getReports().add(this);
 	}
 	

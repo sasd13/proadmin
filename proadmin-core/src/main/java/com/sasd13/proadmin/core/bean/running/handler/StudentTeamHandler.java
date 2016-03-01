@@ -23,6 +23,8 @@ public class StudentTeamHandler {
 		teamTarget.setId(team.getId());
 		teamTarget.setCode(team.getCode());
 		teamTarget.setRunning(team.getRunning());
-		TeamHandler.setReportsToTeam(team.getReports(), teamTarget);
+		
+		teamTarget.getReports().clear();
+		teamTarget.getReports().addAll(team.getReports());
 	}
 }
