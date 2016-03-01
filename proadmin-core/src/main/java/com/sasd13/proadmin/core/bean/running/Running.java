@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.core.bean.running;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class Running {
 	
 	public Running() {
 		year = Calendar.getInstance().get(Calendar.YEAR);
-		teams = new ArrayList<>();
 	}
 	
 	public long getId() {
@@ -54,6 +52,10 @@ public class Running {
 	
 	public List<Team> getTeams() {
 		return teams;
+	}
+	
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
 	}
 	
 	@Override
