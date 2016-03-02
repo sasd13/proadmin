@@ -29,27 +29,26 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.put(Parameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
 		
 		try {
-			LeadEvaluation leadEvaluationFromDB = leadEvaluationDAO.select(parameters).get(0);
+			LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 			
-			LeadEvaluation leadEvaluation = report.getLeadEvaluation();
-			leadEvaluation.setId(leadEvaluationFromDB.getId());
-			leadEvaluation.setPlanningMark(leadEvaluationFromDB.getPlanningMark());
-			leadEvaluation.setPlanningComment(leadEvaluationFromDB.getPlanningComment());
-			leadEvaluation.setCommunicationMark(leadEvaluationFromDB.getCommunicationMark());
-			leadEvaluation.setCommunicationComment(leadEvaluationFromDB.getCommunicationComment());
-			leadEvaluation.setStudent(leadEvaluationFromDB.getStudent());
+			report.getLeadEvaluation().setId(leadEvaluation.getId());
+			report.getLeadEvaluation().setPlanningMark(leadEvaluation.getPlanningMark());
+			report.getLeadEvaluation().setPlanningComment(leadEvaluation.getPlanningComment());
+			report.getLeadEvaluation().setCommunicationMark(leadEvaluation.getCommunicationMark());
+			report.getLeadEvaluation().setCommunicationComment(leadEvaluation.getCommunicationComment());
+			report.getLeadEvaluation().setStudent(leadEvaluation.getStudent());
 		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
 		
-		List<IndividualEvaluation> individualEvaluationsFromDB = individualEvaluationDAO.select(parameters);
+		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		
-		IndividualEvaluation individualEvaluation;
-		for (IndividualEvaluation individualEvaluationFromDB : individualEvaluationsFromDB) {
-			individualEvaluation = new IndividualEvaluation(report);
-			individualEvaluation.setId(individualEvaluationFromDB.getId());
-			individualEvaluation.setMark(individualEvaluationFromDB.getMark());
-			individualEvaluation.setStudent(individualEvaluationFromDB.getStudent());
+		IndividualEvaluation individualEvaluationToAdd;
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			individualEvaluationToAdd = new IndividualEvaluation(report);
+			individualEvaluationToAdd.setId(individualEvaluation.getId());
+			individualEvaluationToAdd.setMark(individualEvaluation.getMark());
+			individualEvaluationToAdd.setStudent(individualEvaluation.getStudent());
 		}
 	}
 }

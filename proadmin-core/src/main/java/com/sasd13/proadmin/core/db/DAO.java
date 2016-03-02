@@ -47,7 +47,7 @@ public abstract class DAO implements IDAO {
 		this.individualEvaluationDAO = individualEvaluationDAO;
 		
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO, teamDAO);
-		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO);
+		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDAO, individualEvaluationDAO);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
