@@ -22,7 +22,6 @@ import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ProjectsActivity extends MotherActivity implements IRefreshable {
@@ -159,8 +158,8 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     @Override
     public void displayContent() {
         projects.clear();
+        projects.addAll(readTask.getContent());
 
-        Collections.addAll(projects, readTask.getContent());
         fillTabProjects();
         Cache.keepAll(projects);
 

@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
@@ -22,8 +23,6 @@ import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +112,6 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             runningToCreate = new Running();
             runningToCreate.setTeacher(Cache.load(Session.getId(), Teacher.class));
             runningToCreate.setProject(Cache.load(getProjectIdFromIntent(), Project.class));
-            runningToCreate.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
             createTask = new RefreshableCreateTask<>(this, Running.class, this);
             createTask.execute(runningToCreate);
@@ -152,7 +150,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void processResultForCreateTask() {
         try {
-            long id = createTask.getContent()[0];
+            long id = createTask.getContent().get(0);
 
             if (id > 0) {
                 runningToCreate.setId(id);
@@ -161,8 +159,12 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
                 fillTabRunnings();
                 Cache.keep(runningToCreate);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Erreur de chargement des données"
+            );
         }
     }
 
@@ -192,8 +194,8 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void processResultForReadTask() {
         runnings.clear();
+        runnings.addAll(parameterizedReadTask.getContent());
 
-        Collections.addAll(runnings, parameterizedReadTask.getContent());
         fillTabRunnings();
         Cache.keepAll(runnings);
     }

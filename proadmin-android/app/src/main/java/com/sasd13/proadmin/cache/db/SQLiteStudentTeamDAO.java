@@ -27,17 +27,14 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     }
 
     protected StudentTeam getCursorValues(Cursor cursor) {
-        StudentTeam studentTeam = new StudentTeam();
-
-        studentTeam.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-
         Student student = new Student();
         student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_STUDENT_ID)));
-        studentTeam.setStudent(student);
 
         Team team = new Team();
         team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEAM_ID)));
-        studentTeam.setTeam(team);
+
+        StudentTeam studentTeam = new StudentTeam(student, team);
+        studentTeam.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
 
         return studentTeam;
     }

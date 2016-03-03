@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
@@ -102,9 +103,19 @@ public class LoginActivity extends Activity implements IRefreshable {
             readTask = new RefreshableReadTask<>(this, Teacher.class, this);
             readTask.execute(loginTask.getContent());
         } else {
-            Cache.keep(readTask.getContent()[0]);
-            Session.logIn(loginTask.getContent());
-            goToHomeActivity();
+            try {
+                Cache.keep(readTask.getContent().get(0));
+                Session.logIn(loginTask.getContent());
+                goToHomeActivity();
+            } catch (IndexOutOfBoundsException | NullPointerException e) {
+                CustomDialog.showOkDialog(
+                        this,
+                        getResources().getString(R.string.title_error),
+                        "Erreur de chargement des données"
+                );
+
+                switchToLoadView(false);
+            }
         }
     }
 

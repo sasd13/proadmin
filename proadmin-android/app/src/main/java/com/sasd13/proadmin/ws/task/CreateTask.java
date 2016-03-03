@@ -7,21 +7,25 @@ import android.widget.Toast;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Samir on 24/12/2015.
  */
-public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
+public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
 
     private static final int TIMEOUT = 60000;
 
     private Context context;
     private WebServiceClient<T> service;
-    private Long[] results;
+    private List<Long> results;
     private TaskPlanner taskPlanner;
 
     public CreateTask(Context context, Class<T> mClass) {
         this.context = context;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
@@ -30,7 +34,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
         }, TIMEOUT - 100);
     }
 
-    public Long[] getContent() {
+    public List<Long> getContent() {
         return results;
     }
 
@@ -42,13 +46,11 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     }
 
     @Override
-    protected Long[] doInBackground(T... ts) {
+    protected List<Long> doInBackground(T... ts) {
         if (!isCancelled()) {
             if (ts.length > 0) {
-                results = new Long[ts.length];
-
-                for (int i = 0; i<results.length; i++) {
-                    results[i] = service.post(ts[i]);
+                for (T t : ts) {
+                    results.add(service.post(t));
                 }
             }
         }
@@ -57,12 +59,12 @@ public class CreateTask<T> extends AsyncTask<T, Integer, Long[]> {
     }
 
     @Override
-    protected void onCancelled(Long[] longs) {
+    protected void onCancelled(List<Long> longs) {
         doInTaskError();
     }
 
     @Override
-    protected void onPostExecute(Long[] longs) {
+    protected void onPostExecute(List<Long> longs) {
         super.onPostExecute(longs);
 
         taskPlanner.stop();

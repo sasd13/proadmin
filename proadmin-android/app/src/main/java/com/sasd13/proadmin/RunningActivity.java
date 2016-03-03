@@ -30,7 +30,6 @@ public class RunningActivity extends MotherActivity {
 
     private void createDescriptorRunning() {
         descriptorRunning = new DescriptorRunningViewHolder();
-
         descriptorRunning.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
         descriptorRunning.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
         descriptorRunning.textViewCode = (TextView) findViewById(R.id.project_textview_code);

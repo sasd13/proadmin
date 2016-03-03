@@ -146,12 +146,16 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     @Override
     public void displayContent() {
         try {
-            teacher = readTask.getContent()[0];
+            teacher = readTask.getContent().get(0);
 
             fillFormTeacher();
             Cache.keep(teacher);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Erreur de chargement des données"
+            );
         }
 
         switchToLoadView(false);

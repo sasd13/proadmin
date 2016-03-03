@@ -30,14 +30,12 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     protected IndividualEvaluation getCursorValues(Cursor cursor) {
-        IndividualEvaluation individualEvaluation = new IndividualEvaluation();
-
-        individualEvaluation.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-        individualEvaluation.setMark(cursor.getFloat(cursor.getColumnIndex(COLUMN_MARK)));
-
         Report report = new Report();
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_REPORT_ID)));
-        individualEvaluation.setReport(report);
+
+        IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
+        individualEvaluation.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+        individualEvaluation.setMark(cursor.getFloat(cursor.getColumnIndex(COLUMN_MARK)));
 
         Student student = new Student();
         student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_STUDENT_ID)));

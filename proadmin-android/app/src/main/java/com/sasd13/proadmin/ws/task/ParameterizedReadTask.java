@@ -7,25 +7,29 @@ import android.widget.Toast;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Samir on 24/12/2015.
  */
-public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
+public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> {
 
     private static final int TIMEOUT = 60000;
 
     private Context context;
     private Map<String, String[]> parameters;
     private WebServiceClient<T> service;
-    private T[] results;
+    private List<T> results;
     private TaskPlanner taskPlanner;
 
     public ParameterizedReadTask(Context context, Class<T> mClass, Map<String, String[]> parameters) {
         this.context = context;
         this.parameters = parameters;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +38,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
         }, TIMEOUT - 100);
     }
 
-    public T[] getContent() {
+    public List<T> getContent() {
         return results;
     }
 
@@ -50,21 +54,21 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, T[]> {
     }
 
     @Override
-    protected T[] doInBackground(Void... aVoid) {
+    protected List<T> doInBackground(Void... aVoid) {
         if (!isCancelled()) {
-            results = service.get(parameters);
+            results = Arrays.asList(service.get(parameters));
         }
 
         return results;
     }
 
     @Override
-    protected void onCancelled(T[] ts) {
+    protected void onCancelled(List<T> ts) {
         doInTaskError();
     }
 
     @Override
-    protected void onPostExecute(T[] ts) {
+    protected void onPostExecute(List<T> ts) {
         super.onPostExecute(ts);
 
         taskPlanner.stop();

@@ -33,17 +33,15 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     protected LeadEvaluation getCursorValues(Cursor cursor) {
-        LeadEvaluation leadEvaluation = new LeadEvaluation();
+        Report report = new Report();
+        report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_REPORT_ID)));
 
+        LeadEvaluation leadEvaluation = new LeadEvaluation(report);
         leadEvaluation.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         leadEvaluation.setPlanningMark(cursor.getFloat(cursor.getColumnIndex(COLUMN_PLANNINGMARK)));
         leadEvaluation.setPlanningComment(cursor.getString(cursor.getColumnIndex(COLUMN_PLANNINGCOMMENT)));
         leadEvaluation.setCommunicationMark(cursor.getFloat(cursor.getColumnIndex(COLUMN_COMMUNICATIONMARK)));
         leadEvaluation.setCommunicationComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMUNICATIONCOMMENT)));
-
-        Report report = new Report();
-        report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_REPORT_ID)));
-        leadEvaluation.setReport(report);
 
         Student student = new Student();
         student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_STUDENT_ID)));

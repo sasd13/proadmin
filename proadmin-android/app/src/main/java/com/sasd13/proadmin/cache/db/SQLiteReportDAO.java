@@ -21,9 +21,9 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
     protected ContentValues getContentValues(Report report) {
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_DATEMEETING, String.valueOf(report.getDateMeeting()));
+        values.put(COLUMN_DATEMEETING, String.valueOf(report.getMeetingDate()));
         values.put(COLUMN_WEEK, report.getWeek());
-        values.put(COLUMN_TEAMCOMMENT, report.getTeamComment());
+        values.put(COLUMN_TEAMCOMMENT, report.getComment());
         values.put(COLUMN_TEAM_ID, report.getTeam().getId());
 
         return values;
@@ -31,16 +31,14 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     protected Report getCursorValues(Cursor cursor) {
-        Report report = new Report();
-
-        report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-        report.setDateMeeting(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
-        report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
-        report.setTeamComment(cursor.getString(cursor.getColumnIndex(COLUMN_TEAMCOMMENT)));
-
         Team team = new Team();
         team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEAM_ID)));
-        report.setTeam(team);
+
+        Report report = new Report(team);
+        report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+        report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
+        report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
+        report.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_TEAMCOMMENT)));
 
         return report;
     }

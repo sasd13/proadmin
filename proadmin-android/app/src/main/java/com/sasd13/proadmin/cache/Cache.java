@@ -78,8 +78,4 @@ public class Cache {
 
         return ts;
     }
-
-    public static void clear() {
-        SQLiteDAO.getInstance().clear();
-    }
 }

@@ -7,25 +7,28 @@ import android.widget.Toast;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Samir on 24/12/2015.
  */
-public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
+public class ReadTask<T> extends AsyncTask<Long, Integer, List<T>> {
 
     private static final int TIMEOUT = 60000;
 
     private Context context;
     private Class<T> mClass;
     private WebServiceClient<T> service;
-    private T[] results;
+    private List<T> results;
     private TaskPlanner taskPlanner;
 
     public ReadTask(Context context, Class<T> mClass) {
         this.context = context;
         this.mClass = mClass;
         service = new WebServiceClient<>(mClass, TIMEOUT);
+        results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +37,7 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
         }, TIMEOUT - 100);
     }
 
-    public T[] getContent() {
+    public List<T> getContent() {
         return results;
     }
 
@@ -50,16 +53,14 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
     }
 
     @Override
-    protected T[] doInBackground(Long... ids) {
+    protected List<T> doInBackground(Long... ids) {
         if (!isCancelled()) {
             if (ids.length > 0) {
-                results = (T[]) Array.newInstance(mClass, ids.length);
-
-                for (int i = 0; i<ids.length; i++) {
-                    Array.set(results, i, service.get(ids[i]));
+                for (long id : ids) {
+                    results.add(service.get(id));
                 }
             } else {
-                results = service.getAll();
+                Collections.addAll(results, service.getAll());
             }
         }
 
@@ -67,12 +68,12 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, T[]> {
     }
 
     @Override
-    protected void onCancelled(T[] ts) {
+    protected void onCancelled(List<T> ts) {
         doInTaskError();
     }
 
     @Override
-    protected void onPostExecute(T[] ts) {
+    protected void onPostExecute(List<T> ts) {
         super.onPostExecute(ts);
 
         taskPlanner.stop();
