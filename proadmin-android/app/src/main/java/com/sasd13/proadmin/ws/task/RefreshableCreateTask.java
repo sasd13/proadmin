@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.task;
 
 import android.content.Context;
 
-import com.sasd13.proadmin.IRefreshable;
+import com.sasd13.proadmin.pattern.command.IRefreshable;
 
 /**
  * Created by Samir on 24/12/2015.
@@ -21,20 +21,20 @@ public class RefreshableCreateTask<T> extends CreateTask<T> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        refreshable.displayLoad();
+        refreshable.doInLoad();
     }
 
     @Override
     protected void doInTaskCompleted() {
         super.doInTaskCompleted();
 
-        refreshable.displayContent();
+        refreshable.doInCompleted();
     }
 
     @Override
     protected void doInTaskError() {
         super.doInTaskError();
 
-        refreshable.displayNotFound();
+        refreshable.doInError();
     }
 }

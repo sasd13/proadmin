@@ -14,6 +14,7 @@ import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.LoginTask;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
@@ -67,11 +68,11 @@ public class LoginActivity extends Activity implements IRefreshable {
     }
 
     private void logIn() {
-        String number = formLogin.editTextNumber.getText().toString().trim();
-        String password = formLogin.editTextPassword.getText().toString().trim();
-
         if (ConnectivityChecker.isActive(this)) {
             isActionLogin = true;
+
+            String number = formLogin.editTextNumber.getText().toString().trim();
+            String password = formLogin.editTextPassword.getText().toString().trim();
 
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();
@@ -81,7 +82,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     }
 
     @Override
-    public void displayLoad() {
+    public void doInLoad() {
         switchToLoadView(true);
     }
 
@@ -96,7 +97,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     }
 
     @Override
-    public void displayContent() {
+    public void doInCompleted() {
         if (isActionLogin) {
             isActionLogin = false;
 
@@ -134,7 +135,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     }
 
     @Override
-    public void displayNotFound() {
+    public void doInError() {
         switchToLoadView(false);
     }
 }

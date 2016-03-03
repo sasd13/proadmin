@@ -44,7 +44,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         super.onPreExecute();
 
         taskPlanner.start();
-        loginActivity.displayLoad();
+        loginActivity.doInLoad();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
     protected void doInTaskCompleted() {
         if (result == 0) {
-            loginActivity.displayNotFound();
+            loginActivity.doInError();
 
             CustomDialog.showOkDialog(
                     loginActivity,
@@ -84,7 +84,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
                     "Identifiant invalide"
             );
         } else if (result == -1) {
-            loginActivity.displayNotFound();
+            loginActivity.doInError();
 
             CustomDialog.showOkDialog(
                     loginActivity,
@@ -92,12 +92,12 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
                     "Mot de passe incorrect"
             );
         } else {
-            loginActivity.displayContent();
+            loginActivity.doInCompleted();
         }
     }
 
     protected void doInTaskError() {
-        loginActivity.displayNotFound();
+        loginActivity.doInError();
 
         Toast.makeText(loginActivity, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }

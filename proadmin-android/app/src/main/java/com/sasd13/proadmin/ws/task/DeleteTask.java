@@ -40,8 +40,8 @@ public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
     @Override
     protected Void doInBackground(Long... ids) {
         if (!isCancelled()) {
-            for (int i=0; i < ids.length; i++) {
-                service.delete(ids[i]);
+            for (long id : ids) {
+                service.delete(id);
             }
         }
 

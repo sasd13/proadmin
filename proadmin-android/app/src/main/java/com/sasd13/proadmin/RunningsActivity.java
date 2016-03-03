@@ -19,6 +19,7 @@ import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.util.Parameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
+import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
 
@@ -121,7 +122,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayLoad() {
+    public void doInLoad() {
         switchToLoadView(true);
     }
 
@@ -136,7 +137,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayContent() {
+    public void doInCompleted() {
         if (isActionCreate) {
             isActionCreate = false;
 
@@ -201,7 +202,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayNotFound() {
+    public void doInError() {
         switchToLoadView(false);
     }
 }

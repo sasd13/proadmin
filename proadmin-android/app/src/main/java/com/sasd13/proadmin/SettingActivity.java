@@ -13,6 +13,7 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.ReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
 
@@ -129,7 +130,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayLoad() {
+    public void doInLoad() {
         switchToLoadView(true);
     }
 
@@ -144,7 +145,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayContent() {
+    public void doInCompleted() {
         try {
             teacher = readTask.getContent().get(0);
 
@@ -169,7 +170,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayNotFound() {
+    public void doInError() {
         switchToLoadView(false);
     }
 }

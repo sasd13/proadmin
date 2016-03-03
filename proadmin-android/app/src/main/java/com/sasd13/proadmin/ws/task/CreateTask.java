@@ -48,10 +48,8 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
     @Override
     protected List<Long> doInBackground(T... ts) {
         if (!isCancelled()) {
-            if (ts.length > 0) {
-                for (T t : ts) {
-                    results.add(service.post(t));
-                }
+            for (T t : ts) {
+                results.add(service.post(t));
             }
         }
 

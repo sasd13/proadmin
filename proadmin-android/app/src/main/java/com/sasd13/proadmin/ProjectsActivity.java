@@ -18,6 +18,7 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
+import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
@@ -141,7 +142,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayLoad() {
+    public void doInLoad() {
         switchToLoadView(true);
     }
 
@@ -156,7 +157,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayContent() {
+    public void doInCompleted() {
         projects.clear();
         projects.addAll(readTask.getContent());
 
@@ -171,7 +172,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     }
 
     @Override
-    public void displayNotFound() {
+    public void doInError() {
         switchToLoadView(false);
     }
 }
