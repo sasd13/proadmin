@@ -15,16 +15,15 @@ public class YearCriteria implements Criteria<Running> {
 	}
 	
 	@Override
-	public List<Running> meetCriteria(List<Running> entities) {
-		List<Running> result = new ArrayList<Running>();
+	public List<Running> meetCriteria(List<Running> list) {
+		List<Running> results = new ArrayList<Running>();
 		
-		for (Running running : entities) {
-			if (year == running.getYear()) {
-				result.add(running);
+		for (Running running : list) {
+			if (running.getYear() == year) {
+				results.add(running);
 			}
 		}
 		
-		return result;
+		return results;
 	}
-	
 }

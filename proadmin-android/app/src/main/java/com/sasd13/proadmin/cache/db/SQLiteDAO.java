@@ -2,13 +2,16 @@ package com.sasd13.proadmin.cache.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 import com.sasd13.androidex.db.ISQLiteDAO;
 import com.sasd13.proadmin.core.db.DAO;
 
 public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
-    private static SQLiteDAO instance = null;
+    private static class SQLiteDAOHolder {
+        private static final SQLiteDAO INSTANCE = new SQLiteDAO();
+    }
 
     private SQLiteDBHandler dbHandler;
     private SQLiteDatabase db;
@@ -27,12 +30,8 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
         );
     }
 
-    public static synchronized SQLiteDAO getInstance() {
-        if (instance == null) {
-            instance = new SQLiteDAO();
-        }
-
-        return instance;
+    public static SQLiteDAO getInstance() {
+        return SQLiteDAOHolder.INSTANCE;
     }
 
     @Override
@@ -42,17 +41,21 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     @Override
     public void open() {
-        db = dbHandler.getWritableDatabase();
+        try {
+            db = dbHandler.getWritableDatabase();
 
-        ((SQLiteEntityDAO) teacherDAO).setDB(db);
-        ((SQLiteEntityDAO) projectDAO).setDB(db);
-        ((SQLiteEntityDAO) runningDAO).setDB(db);
-        ((SQLiteEntityDAO) teamDAO).setDB(db);
-        ((SQLiteEntityDAO) studentDAO).setDB(db);
-        ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
-        ((SQLiteEntityDAO) reportDAO).setDB(db);
-        ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
-        ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
+            ((SQLiteEntityDAO) teacherDAO).setDB(db);
+            ((SQLiteEntityDAO) projectDAO).setDB(db);
+            ((SQLiteEntityDAO) runningDAO).setDB(db);
+            ((SQLiteEntityDAO) teamDAO).setDB(db);
+            ((SQLiteEntityDAO) studentDAO).setDB(db);
+            ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
+            ((SQLiteEntityDAO) reportDAO).setDB(db);
+            ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
+            ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

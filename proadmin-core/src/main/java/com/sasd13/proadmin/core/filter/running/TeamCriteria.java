@@ -15,15 +15,15 @@ public class TeamCriteria implements Criteria<Report> {
 	}
 	
 	@Override
-	public List<Report> meetCriteria(List<Report> entities) {
-		List<Report> result = new ArrayList<Report>();
+	public List<Report> meetCriteria(List<Report> list) {
+		List<Report> results = new ArrayList<Report>();
 		
-		for (Report report : entities) {
-			if (id == report.getTeam().getId()) {
-				result.add(report);
+		for (Report report : list) {
+			if (report.getTeam().getId() == id) {
+				results.add(report);
 			}
 		}
 		
-		return result;
+		return results;
 	}
 }

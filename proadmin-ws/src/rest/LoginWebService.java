@@ -58,7 +58,7 @@ public class LoginWebService extends HttpServlet {
 			} else {
 				Teacher teacher = list.get(0);
 				
-				id = (teacherFromRequest.getPassword().equals(teacher.getPassword()))
+				id = (teacher.getPassword().equals(teacherFromRequest.getPassword()))
 						? teacher.getId()
 						: -1;
 			}

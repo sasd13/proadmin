@@ -15,15 +15,15 @@ public class FirstNameCriteria<T extends AcademicMember> implements Criteria<T> 
 	}
 	
 	@Override
-	public List<T> meetCriteria(List<T> entities) {
-		List<T> result = new ArrayList<>();
+	public List<T> meetCriteria(List<T> list) {
+		List<T> results = new ArrayList<>();
 		
-		for (T t : entities) {
-			if (firstName.equalsIgnoreCase(t.getFirstName())) {
-				result.add(t);
+		for (T t : list) {
+			if (t.getFirstName().equalsIgnoreCase(firstName)) {
+				results.add(t);
 			}
 		}
 		
-		return result;
+		return results;
 	}
 }

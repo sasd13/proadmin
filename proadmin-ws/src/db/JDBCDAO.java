@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.sasd13.javaex.db.DBException;
 import com.sasd13.proadmin.core.db.DAO;
 
 /**
@@ -18,7 +19,9 @@ import com.sasd13.proadmin.core.db.DAO;
  */
 public class JDBCDAO extends DAO {
 	
-	private static JDBCDAO instance = null;
+	private static class JDBCDAOHolder {
+		private static final JDBCDAO INSTANCE = new JDBCDAO();
+	}
 	
 	private Connection connection;
 	
@@ -40,7 +43,7 @@ public class JDBCDAO extends DAO {
 			
 			open();
 			createTablesIfNotExist();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | DBException e) {
 			e.printStackTrace();
 		} finally {
 			close();
@@ -48,15 +51,11 @@ public class JDBCDAO extends DAO {
 	}
 	
 	public static JDBCDAO getInstance() {
-		if (instance == null) {
-			instance = new JDBCDAO();
-		}
-		
-		return instance;
+		return JDBCDAOHolder.INSTANCE;
 	}
 	
 	@Override
-	public void open() {
+	public void open() throws DBException {
 		try {
 			connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USER, JDBCInformation.PASSWORD);
 			
@@ -70,7 +69,7 @@ public class JDBCDAO extends DAO {
 			((JDBCEntityDAO<?>) leadEvaluationDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("Database access error");
 		}
 	}
 	
@@ -78,7 +77,7 @@ public class JDBCDAO extends DAO {
 	public void close() {
 		try {
 			connection.close();
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +102,7 @@ public class JDBCDAO extends DAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

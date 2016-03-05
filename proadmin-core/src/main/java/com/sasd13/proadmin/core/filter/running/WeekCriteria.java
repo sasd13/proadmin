@@ -15,16 +15,15 @@ public class WeekCriteria implements Criteria<Report> {
 	}
 	
 	@Override
-	public List<Report> meetCriteria(List<Report> entities) {
-		List<Report> result = new ArrayList<Report>();
+	public List<Report> meetCriteria(List<Report> list) {
+		List<Report> results = new ArrayList<Report>();
 		
-		for (Report report : entities) {
-			if (week == report.getWeek()) {
-				result.add(report);
+		for (Report report : list) {
+			if (report.getWeek() == week) {
+				results.add(report);
 			}
 		}
 		
-		return result;
+		return results;
 	}
-	
 }

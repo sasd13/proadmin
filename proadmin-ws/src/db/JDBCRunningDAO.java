@@ -81,7 +81,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -112,7 +112,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -138,7 +138,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -169,7 +169,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -195,7 +195,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -233,7 +233,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

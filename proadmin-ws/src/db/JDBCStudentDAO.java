@@ -80,7 +80,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -113,7 +113,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -139,7 +139,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -170,7 +170,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -196,7 +196,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -230,7 +230,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

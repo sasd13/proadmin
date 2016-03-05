@@ -15,15 +15,15 @@ public class RunningCriteria implements Criteria<Team> {
 	}
 	
 	@Override
-	public List<Team> meetCriteria(List<Team> entities) {
-		List<Team> result = new ArrayList<Team>();
+	public List<Team> meetCriteria(List<Team> list) {
+		List<Team> results = new ArrayList<Team>();
 		
-		for (Team team : entities) {
-			if (id == team.getRunning().getId()) {
-				result.add(team);
+		for (Team team : list) {
+			if (team.getRunning().getId() == id) {
+				results.add(team);
 			}
 		}
 		
-		return result;
+		return results;
 	}
 }

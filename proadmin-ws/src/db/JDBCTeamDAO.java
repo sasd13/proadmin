@@ -74,7 +74,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -104,7 +104,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -130,7 +130,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -161,7 +161,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -187,7 +187,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -221,7 +221,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

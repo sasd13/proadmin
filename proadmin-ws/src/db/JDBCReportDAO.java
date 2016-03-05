@@ -80,7 +80,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -112,7 +112,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -138,7 +138,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -169,7 +169,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -195,7 +195,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -229,7 +229,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

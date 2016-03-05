@@ -76,7 +76,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -107,7 +107,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -138,7 +138,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -164,7 +164,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -198,7 +198,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

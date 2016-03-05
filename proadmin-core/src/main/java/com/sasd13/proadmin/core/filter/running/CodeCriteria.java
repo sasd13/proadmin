@@ -15,15 +15,15 @@ public class CodeCriteria implements Criteria<Team> {
 	}
 	
 	@Override
-	public List<Team> meetCriteria(List<Team> entities) {
-		List<Team> result = new ArrayList<Team>();
+	public List<Team> meetCriteria(List<Team> list) {
+		List<Team> results = new ArrayList<Team>();
 		
-		for (Team team : entities) {
-			if (code.equalsIgnoreCase(team.getCode())) {
-				result.add(team);
+		for (Team team : list) {
+			if (team.getCode().equalsIgnoreCase(code)) {
+				results.add(team);
 			}
 		}
 		
-		return result;
+		return results;
 	}
 }

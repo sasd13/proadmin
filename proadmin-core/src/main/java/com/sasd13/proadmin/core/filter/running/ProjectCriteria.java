@@ -15,16 +15,15 @@ public class ProjectCriteria implements Criteria<Running> {
 	}
 	
 	@Override
-	public List<Running> meetCriteria(List<Running> entities) {
-		List<Running> result = new ArrayList<Running>();
+	public List<Running> meetCriteria(List<Running> list) {
+		List<Running> results = new ArrayList<Running>();
 		
-		for (Running running : entities) {
-			if (id == running.getProject().getId()) {
-				result.add(running);
+		for (Running running : list) {
+			if (running.getProject().getId() == id) {
+				results.add(running);
 			}
 		}
 		
-		return result;
+		return results;
 	}
-	
 }

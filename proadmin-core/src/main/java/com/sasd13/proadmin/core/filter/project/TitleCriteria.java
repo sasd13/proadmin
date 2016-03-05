@@ -15,15 +15,15 @@ public class TitleCriteria implements Criteria<Project> {
 	}
 	
 	@Override
-	public List<Project> meetCriteria(List<Project> entities) {
-		List<Project> result = new ArrayList<Project>();
+	public List<Project> meetCriteria(List<Project> list) {
+		List<Project> results = new ArrayList<Project>();
 		
-		for (Project project : entities) {
-			if (title.equalsIgnoreCase(project.getTitle())) {
-				result.add(project);
+		for (Project project : list) {
+			if (project.getTitle().equalsIgnoreCase(title)) {
+				results.add(project);
 			}
 		}
 		
-		return result;
+		return results;
 	}
 }

@@ -89,7 +89,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -123,7 +123,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -149,7 +149,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -180,7 +180,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				preparedStatement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -206,7 +206,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -240,7 +240,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		} finally {
 			try {
 				statement.close();
-			} catch (SQLException e) {
+			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

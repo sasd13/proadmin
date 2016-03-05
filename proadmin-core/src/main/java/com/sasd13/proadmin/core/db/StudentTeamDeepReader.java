@@ -30,7 +30,6 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		
 		Team team = teamDAO.select(studentTeam.getTeam().getId());
 		
-		studentTeam.getTeam().setId(team.getId());
 		studentTeam.getTeam().setCode(team.getCode());
 		studentTeam.getTeam().setRunning(team.getRunning());
 	}

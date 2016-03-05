@@ -3,6 +3,7 @@ package com.sasd13.proadmin.core.filter.project;
 import java.util.Map;
 
 import com.sasd13.javaex.net.util.URLParameterFilter;
+import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.util.Parameter;
 
@@ -16,7 +17,11 @@ public class ProjectFilter extends URLParameterFilter<Project> {
 				if (Parameter.CODE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new CodeCriteria(value));
 				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(value));
+					try {
+						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value)));
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					}
 				} else if (Parameter.TITLE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new TitleCriteria(value));
 				}
