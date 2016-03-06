@@ -10,8 +10,12 @@ import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.ws.WebServiceInformation;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class WebServiceClient<T> implements IWebServiceClient<T> {
@@ -83,8 +87,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         }
     }
 
-    public T[] get(Map<String, String[]> parameters) {
-        T[] ts = null;
+    public List<T> get(Map<String, String[]> parameters) {
+        List<T> ts = new ArrayList<>();
 
         try {
             String urlParams = URLParameterEncoder.toEncodedURLString(parameters);
@@ -102,7 +106,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+            Collections.addAll(ts, (T[]) DataParser.fromString(respContentType, respData, mClass));
         } catch (IOException | DataParserException e) {
             e.printStackTrace();
         }
@@ -111,8 +115,8 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     }
 
     @Override
-    public T[] getAll() {
-        T[] ts = null;
+    public List<T> getAll() {
+        List<T> ts = new ArrayList<>();
 
         try {
             httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.GET);
@@ -128,7 +132,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            ts = (T[]) DataParser.fromString(respContentType, respData, mClass);
+            Collections.addAll(ts, (T[]) DataParser.fromString(respContentType, respData, mClass));
         } catch (IOException | DataParserException e) {
             e.printStackTrace();
         }
@@ -191,11 +195,11 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     }
 
     @Override
-    public void putAll(T[] ts) {
+    public void putAll(List<T> ts) {
         String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
 
         try {
-            String reqData = DataParser.toString(reqContentType, ts);
+            String reqData = DataParser.toString(reqContentType, ts.toArray((T[]) Array.newInstance(mClass, ts.size())));
 
             httpRequest = new HttpRequest(new URL(url), HttpRequest.HttpMethod.PUT);
             httpRequest.open(timeOut);

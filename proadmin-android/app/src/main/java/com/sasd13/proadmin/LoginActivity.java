@@ -102,22 +102,50 @@ public class LoginActivity extends Activity implements ILoader {
         if (isActionLogin) {
             isActionLogin = false;
 
-            readTask = new LoaderReadTask<>(this, Teacher.class, this);
-            readTask.execute(loginTask.getResult());
+            doInLoginTaskCompleted();
         } else {
-            try {
-                Cache.keep(readTask.getResults().get(0));
-                SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
-                goToHomeActivity();
-            } catch (IndexOutOfBoundsException | NullPointerException e) {
-                CustomDialog.showOkDialog(
-                        this,
-                        getResources().getString(R.string.title_error),
-                        "Erreur de chargement des données"
-                );
+            doInReadTaskCompleted();
+        }
+    }
 
-                switchToLoadView(false);
-            }
+    private void doInLoginTaskCompleted() {
+        long result = loginTask.getResult();
+
+        if (result == 0) {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Identifiant invalide"
+            );
+
+            switchToLoadView(false);
+        } else if (result == -1) {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Mot de passe incorrect"
+            );
+
+            switchToLoadView(false);
+        } else {
+            readTask = new LoaderReadTask<>(this, Teacher.class, this);
+            readTask.execute(result);
+        }
+    }
+
+    private void doInReadTaskCompleted() {
+        try {
+            Cache.keep(readTask.getResults().get(0));
+            SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
+            goToHomeActivity();
+        } catch (IndexOutOfBoundsException e) {
+            CustomDialog.showOkDialog(
+                    this,
+                    getResources().getString(R.string.title_error),
+                    "Erreur de chargement des données"
+            );
+
+            switchToLoadView(false);
         }
     }
 

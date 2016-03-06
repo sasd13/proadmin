@@ -62,10 +62,10 @@ public class SplashScreenActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        stopGoToActivity();
+        cancelGoToActivity();
     }
 
-    private void stopGoToActivity() {
+    private void cancelGoToActivity() {
         taskPlanner.stop();
     }
 
@@ -73,6 +73,6 @@ public class SplashScreenActivity extends Activity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
 
-        stopGoToActivity();
+        cancelGoToActivity();
     }
 }

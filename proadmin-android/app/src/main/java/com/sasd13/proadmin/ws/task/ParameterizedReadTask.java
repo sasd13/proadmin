@@ -8,7 +8,6 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
     @Override
     protected List<T> doInBackground(Void... aVoid) {
         if (!isCancelled()) {
-            results = Arrays.asList(service.get(parameters));
+            results.addAll(service.get(parameters));
         }
 
         return results;

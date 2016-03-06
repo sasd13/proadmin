@@ -3,10 +3,8 @@ package com.sasd13.proadmin.ws.task;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.LoginActivity;
-import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.LoginWebServiceClient;
 
 /**
@@ -75,25 +73,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
     }
 
     protected void doInTaskCompleted() {
-        if (result == 0) {
-            loginActivity.doInError();
-
-            CustomDialog.showOkDialog(
-                    loginActivity,
-                    loginActivity.getResources().getString(R.string.title_error),
-                    "Identifiant invalide"
-            );
-        } else if (result == -1) {
-            loginActivity.doInError();
-
-            CustomDialog.showOkDialog(
-                    loginActivity,
-                    loginActivity.getResources().getString(R.string.title_error),
-                    "Mot de passe incorrect"
-            );
-        } else {
-            loginActivity.doInCompleted();
-        }
+        loginActivity.doInCompleted();
     }
 
     protected void doInTaskError() {

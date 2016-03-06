@@ -143,15 +143,15 @@ public class RunningsActivity extends MotherActivity implements ILoader {
         if (isActionCreate) {
             isActionCreate = false;
 
-            processResultForCreateTask();
+            doInCreateTaskCompleted();
         } else {
-            processResultForReadTask();
+            doInReadTaskCompleted();
         }
 
         switchToLoadView(false);
     }
 
-    private void processResultForCreateTask() {
+    private void doInCreateTaskCompleted() {
         try {
             long id = createTask.getResults().get(0);
 
@@ -175,7 +175,6 @@ public class RunningsActivity extends MotherActivity implements ILoader {
         tab.clearItems();
 
         addRunningsToTab();
-        switchToLoadView(false);
     }
 
     private void addRunningsToTab() {
@@ -195,7 +194,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
         }
     }
 
-    private void processResultForReadTask() {
+    private void doInReadTaskCompleted() {
         runnings.clear();
         runnings.addAll(parameterizedReadTask.getResults());
 

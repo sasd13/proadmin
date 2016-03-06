@@ -163,7 +163,6 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
         fillTabProjects();
         Cache.keepAll(projects);
-
         switchToLoadView(false);
     }
 

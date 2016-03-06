@@ -8,7 +8,6 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,14 +18,12 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, List<T>> {
     private static final int TIMEOUT = 60000;
 
     private Context context;
-    private Class<T> mClass;
     private WebServiceClient<T> service;
     private List<T> results;
     private TaskPlanner taskPlanner;
 
     public ReadTask(Context context, Class<T> mClass) {
         this.context = context;
-        this.mClass = mClass;
         service = new WebServiceClient<>(mClass, TIMEOUT);
         results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
@@ -60,7 +57,7 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, List<T>> {
                     results.add(service.get(id));
                 }
             } else {
-                Collections.addAll(results, service.getAll());
+                results.addAll(service.getAll());
             }
         }
 

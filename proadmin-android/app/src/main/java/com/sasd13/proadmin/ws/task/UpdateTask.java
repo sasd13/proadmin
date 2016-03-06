@@ -8,6 +8,8 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.ws.rest.WebServiceClient;
 
+import java.util.Arrays;
+
 /**
  * Created by Samir on 24/12/2015.
  */
@@ -43,7 +45,7 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
             if (ts.length == 1) {
                 service.put(ts[0]);
             } else if (ts.length > 1) {
-                service.putAll(ts);
+                service.putAll(Arrays.asList(ts));
             }
         }
 

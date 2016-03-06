@@ -112,21 +112,17 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     private void performUpdateTeacher() {
-        editTeacherWithForm(teacher);
+        editTeacherWithForm();
 
         if (ConnectivityChecker.isActive(this)) {
             UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
-            CustomDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    getResources().getString(R.string.message_error_connectivity)
-            );
+            ConnectivityChecker.showNotActive(this);
         }
     }
 
-    private void editTeacherWithForm(Teacher teacher) {
+    private void editTeacherWithForm() {
         teacher.setFirstName(formTeacherViewHolder.editTextFirstName.getText().toString().trim());
         teacher.setLastName(formTeacherViewHolder.editTextLastName.getText().toString().trim());
         teacher.setEmail(formTeacherViewHolder.editTextEmail.getText().toString().trim());
@@ -154,7 +150,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
 
             fillFormTeacherViewHolder();
             Cache.keep(teacher);
-        } catch (IndexOutOfBoundsException | NullPointerException e) {
+        } catch (IndexOutOfBoundsException e) {
             CustomDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
