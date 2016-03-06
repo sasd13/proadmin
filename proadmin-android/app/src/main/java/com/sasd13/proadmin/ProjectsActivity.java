@@ -17,9 +17,9 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
+import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
 import com.sasd13.proadmin.pattern.command.IRefreshable;
-import com.sasd13.proadmin.util.CollectionUtil;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
         tab.clearItems();
 
-        addProjectsToTab(CollectionUtil.filterProjectsByAcademicLevel(projects, academicLevel));
+        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
 
     private void addProjectsToTab(List<Project> list) {
@@ -116,7 +116,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
             readTask = new RefreshableReadTask<>(this, Project.class, this);
             readTask.execute();
         } else {
-            ConnectivityChecker.showConnectivityError(this);
+            ConnectivityChecker.showNotActive(this);
         }
     }
 

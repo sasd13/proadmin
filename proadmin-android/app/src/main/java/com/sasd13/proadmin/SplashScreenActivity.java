@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.constant.Extra;
 
 public class SplashScreenActivity extends Activity {
 
@@ -36,7 +37,7 @@ public class SplashScreenActivity extends Activity {
         Session.init(this);
         Cache.init(this);
 
-        if (Session.isStarted()) {
+        if (Session.containsAttribute(Extra.TEACHER_ID)) {
             goToActivity(HomeActivity.class);
         } else {
             goToActivity(LoginActivity.class);

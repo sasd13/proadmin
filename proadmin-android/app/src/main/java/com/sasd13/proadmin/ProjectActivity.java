@@ -10,14 +10,15 @@ import android.widget.TextView;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.project.Project;
+import com.sasd13.proadmin.handler.ActivityHandler;
 
 public class ProjectActivity extends MotherActivity {
 
-    private class DescriptorProjectViewHolder {
+    private class ProjectViewHolder {
         public TextView textViewTitle, textViewAcademicLevel, textViewCode, textViewDescription;
     }
 
-    private DescriptorProjectViewHolder descriptorProject;
+    private ProjectViewHolder projectViewHolder;
 
     private Project project;
 
@@ -26,35 +27,35 @@ public class ProjectActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_project);
-        createDescriptorProject();
+        createProjectViewHolder();
     }
 
-    private void createDescriptorProject() {
-        descriptorProject = new DescriptorProjectViewHolder();
-        descriptorProject.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
-        descriptorProject.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
-        descriptorProject.textViewCode = (TextView) findViewById(R.id.project_textview_code);
-        descriptorProject.textViewDescription = (TextView) findViewById(R.id.project_textview_description);
+    private void createProjectViewHolder() {
+        projectViewHolder = new ProjectViewHolder();
+        projectViewHolder.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
+        projectViewHolder.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
+        projectViewHolder.textViewCode = (TextView) findViewById(R.id.project_textview_code);
+        projectViewHolder.textViewDescription = (TextView) findViewById(R.id.project_textview_description);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        
+        project = Cache.load(getCurrentProjectId(), Project.class);
 
-        project = Cache.load(getProjectIdFromIntent(), Project.class);
-
-        fillDescriptorProject();
+        fillProjectViewHolder();
     }
 
-    private long getProjectIdFromIntent() {
-        return getIntent().getLongExtra(Extra.PROJECT_ID, 0);
+    private long getCurrentProjectId() {
+        return ActivityHandler.getCurrentExtraId(this, Extra.PROJECT_ID);
     }
 
-    private void fillDescriptorProject() {
-        descriptorProject.textViewTitle.setText(project.getTitle());
-        descriptorProject.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
-        descriptorProject.textViewCode.setText(project.getCode());
-        descriptorProject.textViewDescription.setText(project.getDescription());
+    private void fillProjectViewHolder() {
+        projectViewHolder.textViewTitle.setText(project.getTitle());
+        projectViewHolder.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
+        projectViewHolder.textViewCode.setText(project.getCode());
+        projectViewHolder.textViewDescription.setText(project.getDescription());
     }
 
     @Override

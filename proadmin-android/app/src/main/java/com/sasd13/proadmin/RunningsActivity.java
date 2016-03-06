@@ -11,7 +11,6 @@ import android.view.View;
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.androidex.session.Session;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
@@ -19,6 +18,7 @@ import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.util.Parameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
+import com.sasd13.proadmin.handler.SessionHandler;
 import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
 import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
@@ -69,20 +69,19 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
+            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
+            long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(Parameter.TEACHER.getName(), new String[]{String.valueOf(Session.getId())});
-            parameters.put(Parameter.PROJECT.getName(), new String[]{String.valueOf(getProjectIdFromIntent())});
+            parameters.put(Parameter.TEACHER.getName(), new String[]{String.valueOf(teacherId)});
+            parameters.put(Parameter.PROJECT.getName(), new String[]{String.valueOf(projectId)});
 
             parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
             parameterizedReadTask.setDeepReadEnabled(true);
             parameterizedReadTask.execute();
         } else {
-            ConnectivityChecker.showConnectivityError(this);
+            ConnectivityChecker.showNotActive(this);
         }
-    }
-
-    private long getProjectIdFromIntent() {
-        return getIntent().getLongExtra(Extra.PROJECT_ID, 0);
     }
 
     @Override
@@ -110,14 +109,17 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
         if (ConnectivityChecker.isActive(this)) {
             isActionCreate = true;
 
+            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
+            long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+
             runningToCreate = new Running();
-            runningToCreate.setTeacher(Cache.load(Session.getId(), Teacher.class));
-            runningToCreate.setProject(Cache.load(getProjectIdFromIntent(), Project.class));
+            runningToCreate.setTeacher(Cache.load(teacherId, Teacher.class));
+            runningToCreate.setProject(Cache.load(projectId, Project.class));
 
             createTask = new RefreshableCreateTask<>(this, Running.class, this);
             createTask.execute(runningToCreate);
         } else {
-            ConnectivityChecker.showConnectivityError(this);
+            ConnectivityChecker.showNotActive(this);
         }
     }
 

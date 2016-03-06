@@ -29,18 +29,18 @@ public class HomeActivity extends MotherActivity {
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawablesToImageViews();
-        addListenersToImageViews();
+        addDrawablesToHomeMenus();
+        addListenersToHomeMenus();
     }
 
-    private void addDrawablesToImageViews() {
+    private void addDrawablesToHomeMenus() {
         imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
         imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
         imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
         imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
-    private void addListenersToImageViews() {
+    private void addListenersToHomeMenus() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +63,7 @@ public class HomeActivity extends MotherActivity {
 
                 try {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                     startActivity(intent);
                 } catch (NullPointerException e) {
                     e.printStackTrace();

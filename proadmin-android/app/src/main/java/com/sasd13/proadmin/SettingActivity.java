@@ -7,15 +7,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.androidex.session.Session;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.handler.SessionHandler;
 import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.ReadTask;
-import com.sasd13.proadmin.ws.task.UpdateTask;
+import com.sasd13.proadmin.ws.task.RefreshableUpdateTask;
 
 public class SettingActivity extends MotherActivity implements IRefreshable {
 
@@ -25,10 +27,11 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     private View viewLoad, viewFormTeacher;
-    private FormTeacherViewHolder formTeacher;
+    private FormTeacherViewHolder formTeacherViewHolder;
 
     private ReadTask<Teacher> readTask;
     private Teacher teacher;
+    private boolean isActionUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
         setContentView(R.layout.activity_setting);
         createSwitchableViews();
-        createFormTeacher();
+        createFormTeacherViewHolder();
     }
 
     private void createSwitchableViews() {
@@ -44,12 +47,12 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         viewFormTeacher = findViewById(R.id.setting_view_formteacher);
     }
 
-    private void createFormTeacher() {
-        formTeacher = new FormTeacherViewHolder();
-        formTeacher.textViewNumber = (TextView) findViewById(R.id.setting_form_user_textview_number);
-        formTeacher.editTextFirstName = (EditText) findViewById(R.id.setting_form_user_edittext_firstname);
-        formTeacher.editTextLastName = (EditText) findViewById(R.id.setting_form_user_edittext_lastname);
-        formTeacher.editTextEmail = (EditText) findViewById(R.id.setting_form_user_edittext_email);
+    private void createFormTeacherViewHolder() {
+        formTeacherViewHolder = new FormTeacherViewHolder();
+        formTeacherViewHolder.textViewNumber = (TextView) findViewById(R.id.setting_form_user_textview_number);
+        formTeacherViewHolder.editTextFirstName = (EditText) findViewById(R.id.setting_form_user_edittext_firstname);
+        formTeacherViewHolder.editTextLastName = (EditText) findViewById(R.id.setting_form_user_edittext_lastname);
+        formTeacherViewHolder.editTextEmail = (EditText) findViewById(R.id.setting_form_user_edittext_email);
     }
 
     @Override
@@ -61,10 +64,12 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
     private void readTeacher() {
         if (ConnectivityChecker.isActive(this)) {
+            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
+
             readTask = new ReadTask<>(this, Teacher.class);
-            readTask.execute(Session.getId());
+            readTask.execute(teacherId);
         } else {
-            ConnectivityChecker.showConnectivityError(this);
+            ConnectivityChecker.showNotActive(this);
         }
     }
 
@@ -112,7 +117,9 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         editTeacherWithForm(teacher);
 
         if (ConnectivityChecker.isActive(this)) {
-            UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
+            isActionUpdate = true;
+
+            RefreshableUpdateTask<Teacher> updateTask = new RefreshableUpdateTask<>(this, Teacher.class, this);
             updateTask.execute(teacher);
         } else {
             CustomDialog.showOkDialog(
@@ -124,9 +131,9 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
     }
 
     private void editTeacherWithForm(Teacher teacher) {
-        teacher.setFirstName(formTeacher.editTextFirstName.getText().toString().trim());
-        teacher.setLastName(formTeacher.editTextLastName.getText().toString().trim());
-        teacher.setEmail(formTeacher.editTextEmail.getText().toString().trim());
+        teacher.setFirstName(formTeacherViewHolder.editTextFirstName.getText().toString().trim());
+        teacher.setLastName(formTeacherViewHolder.editTextLastName.getText().toString().trim());
+        teacher.setEmail(formTeacherViewHolder.editTextEmail.getText().toString().trim());
     }
 
     @Override
@@ -146,10 +153,26 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void doInCompleted() {
+        if (isActionUpdate) {
+            isActionUpdate = false;
+
+            processForUpdateCompleted();
+        } else {
+            processForReadCompleted();
+        }
+
+        switchToLoadView(false);
+    }
+
+    private void processForUpdateCompleted() {
+        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    private void processForReadCompleted() {
         try {
             teacher = readTask.getContent().get(0);
 
-            fillFormTeacher();
+            fillFormTeacherViewHolder();
             Cache.keep(teacher);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             CustomDialog.showOkDialog(
@@ -158,15 +181,13 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
                     "Erreur de chargement des données"
             );
         }
-
-        switchToLoadView(false);
     }
 
-    private void fillFormTeacher() {
-        formTeacher.textViewNumber.setText(teacher.getNumber());
-        formTeacher.editTextFirstName.setText(teacher.getFirstName(), TextView.BufferType.EDITABLE);
-        formTeacher.editTextLastName.setText(teacher.getLastName(), TextView.BufferType.EDITABLE);
-        formTeacher.editTextEmail.setText(teacher.getEmail(), TextView.BufferType.EDITABLE);
+    private void fillFormTeacherViewHolder() {
+        formTeacherViewHolder.textViewNumber.setText(teacher.getNumber());
+        formTeacherViewHolder.editTextFirstName.setText(teacher.getFirstName(), TextView.BufferType.EDITABLE);
+        formTeacherViewHolder.editTextLastName.setText(teacher.getLastName(), TextView.BufferType.EDITABLE);
+        formTeacherViewHolder.editTextEmail.setText(teacher.getEmail(), TextView.BufferType.EDITABLE);
     }
 
     @Override

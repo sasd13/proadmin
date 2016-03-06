@@ -9,11 +9,12 @@ import android.widget.EditText;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.KeyBoardHider;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.handler.SessionHandler;
 import com.sasd13.proadmin.pattern.command.IRefreshable;
 import com.sasd13.proadmin.ws.task.LoginTask;
 import com.sasd13.proadmin.ws.task.RefreshableReadTask;
@@ -28,7 +29,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     private static final int TIMEOUT = 2000;
 
     private View viewLoad, viewFormLogin;
-    private FormLoginViewHolder formLogin;
+    private FormLoginViewHolder formLoginViewHolder;
 
     private LoginTask loginTask;
     private RefreshableReadTask<Teacher> readTask;
@@ -40,7 +41,7 @@ public class LoginActivity extends Activity implements IRefreshable {
 
         setContentView(R.layout.activity_login);
         createSwitchableViews();
-        createFormLogin();
+        createFormLoginViewHolder();
     }
 
     private void createSwitchableViews() {
@@ -48,18 +49,18 @@ public class LoginActivity extends Activity implements IRefreshable {
         viewFormLogin = findViewById(R.id.login_view_formlogin);
     }
 
-    private void createFormLogin() {
-        formLogin = new FormLoginViewHolder();
-        formLogin.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
-        formLogin.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
-        formLogin.buttonConnect = (Button) findViewById(R.id.login_button_connect);
+    private void createFormLoginViewHolder() {
+        formLoginViewHolder = new FormLoginViewHolder();
+        formLoginViewHolder.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
+        formLoginViewHolder.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
+        formLoginViewHolder.buttonConnect = (Button) findViewById(R.id.login_button_connect);
 
-        formLogin.buttonConnect.setOnClickListener(new View.OnClickListener() {
+        formLoginViewHolder.buttonConnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (formLogin.editTextNumber.getText().toString().trim().length() > 0
-                        && formLogin.editTextPassword.getText().toString().trim().length() > 0) {
+                if (formLoginViewHolder.editTextNumber.getText().toString().trim().length() > 0
+                        && formLoginViewHolder.editTextPassword.getText().toString().trim().length() > 0) {
                     KeyBoardHider.hide(LoginActivity.this);
                     logIn();
                 }
@@ -71,13 +72,13 @@ public class LoginActivity extends Activity implements IRefreshable {
         if (ConnectivityChecker.isActive(this)) {
             isActionLogin = true;
 
-            String number = formLogin.editTextNumber.getText().toString().trim();
-            String password = formLogin.editTextPassword.getText().toString().trim();
+            String number = formLoginViewHolder.editTextNumber.getText().toString().trim();
+            String password = formLoginViewHolder.editTextPassword.getText().toString().trim();
 
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();
         } else {
-            ConnectivityChecker.showConnectivityError(this);
+            ConnectivityChecker.showNotActive(this);
         }
     }
 
@@ -106,7 +107,7 @@ public class LoginActivity extends Activity implements IRefreshable {
         } else {
             try {
                 Cache.keep(readTask.getContent().get(0));
-                Session.logIn(loginTask.getContent());
+                SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getContent());
                 goToHomeActivity();
             } catch (IndexOutOfBoundsException | NullPointerException e) {
                 CustomDialog.showOkDialog(

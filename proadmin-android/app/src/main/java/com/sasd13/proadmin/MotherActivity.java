@@ -68,7 +68,7 @@ public abstract class MotherActivity extends AppCompatActivity {
     }
 
     public void logOut() {
-        Session.logOut();
+        Session.clear();
         goToHomeActivityAndExit();
     }
 
