@@ -19,19 +19,19 @@ import com.sasd13.proadmin.core.bean.AcademicLevel;
 import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.core.filter.project.AcademicLevelCriteria;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
-import com.sasd13.proadmin.pattern.command.IRefreshable;
-import com.sasd13.proadmin.ws.task.RefreshableReadTask;
+import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.ws.task.LoaderReadTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsActivity extends MotherActivity implements IRefreshable {
+public class ProjectsActivity extends MotherActivity implements ILoader {
 
     private Spin spin;
     private View viewLoad, viewTab;
     private Tab tab;
 
-    private RefreshableReadTask<Project> readTask;
+    private LoaderReadTask<Project> readTask;
     private List<Project> projects = new ArrayList<>();
 
     @Override
@@ -113,7 +113,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
-            readTask = new RefreshableReadTask<>(this, Project.class, this);
+            readTask = new LoaderReadTask<>(this, Project.class, this);
             readTask.execute();
         } else {
             ConnectivityChecker.showNotActive(this);
@@ -159,7 +159,7 @@ public class ProjectsActivity extends MotherActivity implements IRefreshable {
     @Override
     public void doInCompleted() {
         projects.clear();
-        projects.addAll(readTask.getContent());
+        projects.addAll(readTask.getResults());
 
         fillTabProjects();
         Cache.keepAll(projects);

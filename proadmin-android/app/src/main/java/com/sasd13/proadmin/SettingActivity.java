@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
@@ -15,23 +14,22 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.handler.SessionHandler;
-import com.sasd13.proadmin.pattern.command.IRefreshable;
-import com.sasd13.proadmin.ws.task.ReadTask;
-import com.sasd13.proadmin.ws.task.RefreshableUpdateTask;
+import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.ws.task.LoaderReadTask;
+import com.sasd13.proadmin.ws.task.UpdateTask;
 
-public class SettingActivity extends MotherActivity implements IRefreshable {
+public class SettingActivity extends MotherActivity implements ILoader {
 
-    private class FormTeacherViewHolder {
-        public TextView textViewNumber;
-        public EditText editTextFirstName, editTextLastName, editTextEmail;
+    private static class FormTeacherViewHolder {
+        TextView textViewNumber;
+        EditText editTextFirstName, editTextLastName, editTextEmail;
     }
 
     private View viewLoad, viewFormTeacher;
     private FormTeacherViewHolder formTeacherViewHolder;
 
-    private ReadTask<Teacher> readTask;
+    private LoaderReadTask<Teacher> readTask;
     private Teacher teacher;
-    private boolean isActionUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         if (ConnectivityChecker.isActive(this)) {
             long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
 
-            readTask = new ReadTask<>(this, Teacher.class);
+            readTask = new LoaderReadTask<>(this, Teacher.class, this);
             readTask.execute(teacherId);
         } else {
             ConnectivityChecker.showNotActive(this);
@@ -117,9 +115,7 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
         editTeacherWithForm(teacher);
 
         if (ConnectivityChecker.isActive(this)) {
-            isActionUpdate = true;
-
-            RefreshableUpdateTask<Teacher> updateTask = new RefreshableUpdateTask<>(this, Teacher.class, this);
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
             CustomDialog.showOkDialog(
@@ -153,24 +149,8 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
 
     @Override
     public void doInCompleted() {
-        if (isActionUpdate) {
-            isActionUpdate = false;
-
-            processForUpdateCompleted();
-        } else {
-            processForReadCompleted();
-        }
-
-        switchToLoadView(false);
-    }
-
-    private void processForUpdateCompleted() {
-        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-    }
-
-    private void processForReadCompleted() {
         try {
-            teacher = readTask.getContent().get(0);
+            teacher = readTask.getResults().get(0);
 
             fillFormTeacherViewHolder();
             Cache.keep(teacher);
@@ -181,6 +161,8 @@ public class SettingActivity extends MotherActivity implements IRefreshable {
                     "Erreur de chargement des données"
             );
         }
+
+        switchToLoadView(false);
     }
 
     private void fillFormTeacherViewHolder() {

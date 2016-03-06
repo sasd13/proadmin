@@ -7,6 +7,7 @@ import com.sasd13.javaex.net.util.URLParameterEncoder;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.proadmin.ws.WebServiceInformation;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -15,7 +16,6 @@ import java.util.Map;
 
 public class WebServiceClient<T> implements IWebServiceClient<T> {
 
-    private static final String URL_WEBSERVICE = "http://192.168.1.9:8080/proadmin-ws/";
     private static final int DEFAULT_TIMEOUT = 60000;
     public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
@@ -32,7 +32,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
     public WebServiceClient(Class<T> mClass, int timeOut) {
         this.mClass = mClass;
-        url = URL_WEBSERVICE + mClass.getSimpleName().toLowerCase() + "s";
+        url = WebServiceInformation.URL + mClass.getSimpleName().toLowerCase() + "s";
         this.timeOut = timeOut;
     }
 

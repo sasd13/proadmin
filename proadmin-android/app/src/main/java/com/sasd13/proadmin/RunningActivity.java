@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 public class RunningActivity extends MotherActivity {
 
-    private class RunningViewHolder {
+    private static class RunningViewHolder {
 
     }
 

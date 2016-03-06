@@ -34,7 +34,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
         }, TIMEOUT - 100);
     }
 
-    public List<Long> getContent() {
+    public List<Long> getResults() {
         return results;
     }
 

@@ -35,7 +35,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         }, TIMEOUT - 100);
     }
 
-    public Long getContent() {
+    public Long getResult() {
         return result;
     }
 

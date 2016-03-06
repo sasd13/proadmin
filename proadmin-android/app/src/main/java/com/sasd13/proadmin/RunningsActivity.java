@@ -19,24 +19,24 @@ import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.util.Parameter;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
 import com.sasd13.proadmin.handler.SessionHandler;
-import com.sasd13.proadmin.pattern.command.IRefreshable;
-import com.sasd13.proadmin.ws.task.RefreshableCreateTask;
-import com.sasd13.proadmin.ws.task.RefreshableParameterizedReadTask;
+import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.ws.task.LoaderCreateTask;
+import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningsActivity extends MotherActivity implements IRefreshable {
+public class RunningsActivity extends MotherActivity implements ILoader {
 
     private View viewLoad, viewTab;
     private Tab tab;
 
-    private RefreshableParameterizedReadTask<Running> parameterizedReadTask;
+    private LoaderParameterizedReadTask<Running> parameterizedReadTask;
     private List<Running> runnings = new ArrayList<>();
 
-    private RefreshableCreateTask<Running> createTask;
+    private LoaderCreateTask<Running> createTask;
     private Running runningToCreate;
     private boolean isActionCreate;
 
@@ -76,7 +76,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             parameters.put(Parameter.TEACHER.getName(), new String[]{String.valueOf(teacherId)});
             parameters.put(Parameter.PROJECT.getName(), new String[]{String.valueOf(projectId)});
 
-            parameterizedReadTask = new RefreshableParameterizedReadTask<>(this, Running.class, parameters, this);
+            parameterizedReadTask = new LoaderParameterizedReadTask<>(this, Running.class, parameters, this);
             parameterizedReadTask.setDeepReadEnabled(true);
             parameterizedReadTask.execute();
         } else {
@@ -116,7 +116,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
             runningToCreate.setTeacher(Cache.load(teacherId, Teacher.class));
             runningToCreate.setProject(Cache.load(projectId, Project.class));
 
-            createTask = new RefreshableCreateTask<>(this, Running.class, this);
+            createTask = new LoaderCreateTask<>(this, Running.class, this);
             createTask.execute(runningToCreate);
         } else {
             ConnectivityChecker.showNotActive(this);
@@ -153,7 +153,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void processResultForCreateTask() {
         try {
-            long id = createTask.getContent().get(0);
+            long id = createTask.getResults().get(0);
 
             if (id > 0) {
                 runningToCreate.setId(id);
@@ -197,7 +197,7 @@ public class RunningsActivity extends MotherActivity implements IRefreshable {
 
     private void processResultForReadTask() {
         runnings.clear();
-        runnings.addAll(parameterizedReadTask.getContent());
+        runnings.addAll(parameterizedReadTask.getResults());
 
         fillTabRunnings();
         Cache.keepAll(runnings);

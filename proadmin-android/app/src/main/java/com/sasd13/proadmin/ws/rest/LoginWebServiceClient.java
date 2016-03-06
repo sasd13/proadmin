@@ -6,6 +6,7 @@ import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.ws.WebServiceInformation;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -13,7 +14,6 @@ import java.net.URL;
 
 public class LoginWebServiceClient {
 
-    private static final String URL_WEBSERVICE_LOGIN = "http://192.168.1.9:8080/proadmin-ws/login";
     private static final int DEFAULT_TIMEOUT = 60000;
     public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
@@ -46,7 +46,7 @@ public class LoginWebServiceClient {
         try {
             String reqData = DataParser.toString(reqContentType, teacher);
 
-            httpRequest = new HttpRequest(new URL(URL_WEBSERVICE_LOGIN), HttpRequest.HttpMethod.POST);
+            httpRequest = new HttpRequest(new URL(WebServiceInformation.URL_LOGIN), HttpRequest.HttpMethod.POST);
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
             httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);

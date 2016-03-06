@@ -37,7 +37,7 @@ public class ReadTask<T> extends AsyncTask<Long, Integer, List<T>> {
         }, TIMEOUT - 100);
     }
 
-    public List<T> getContent() {
+    public List<T> getResults() {
         return results;
     }
 

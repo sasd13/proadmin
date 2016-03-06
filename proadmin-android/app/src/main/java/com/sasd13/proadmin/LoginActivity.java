@@ -15,15 +15,15 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.handler.SessionHandler;
-import com.sasd13.proadmin.pattern.command.IRefreshable;
+import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoginTask;
-import com.sasd13.proadmin.ws.task.RefreshableReadTask;
+import com.sasd13.proadmin.ws.task.LoaderReadTask;
 
-public class LoginActivity extends Activity implements IRefreshable {
+public class LoginActivity extends Activity implements ILoader {
 
-    private class FormLoginViewHolder {
-        public EditText editTextNumber, editTextPassword;
-        public Button buttonConnect;
+    private static class FormLoginViewHolder {
+        EditText editTextNumber, editTextPassword;
+        Button buttonConnect;
     }
 
     private static final int TIMEOUT = 2000;
@@ -32,7 +32,7 @@ public class LoginActivity extends Activity implements IRefreshable {
     private FormLoginViewHolder formLoginViewHolder;
 
     private LoginTask loginTask;
-    private RefreshableReadTask<Teacher> readTask;
+    private LoaderReadTask<Teacher> readTask;
     private boolean isActionLogin;
 
     @Override
@@ -102,12 +102,12 @@ public class LoginActivity extends Activity implements IRefreshable {
         if (isActionLogin) {
             isActionLogin = false;
 
-            readTask = new RefreshableReadTask<>(this, Teacher.class, this);
-            readTask.execute(loginTask.getContent());
+            readTask = new LoaderReadTask<>(this, Teacher.class, this);
+            readTask.execute(loginTask.getResult());
         } else {
             try {
-                Cache.keep(readTask.getContent().get(0));
-                SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getContent());
+                Cache.keep(readTask.getResults().get(0));
+                SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
                 goToHomeActivity();
             } catch (IndexOutOfBoundsException | NullPointerException e) {
                 CustomDialog.showOkDialog(

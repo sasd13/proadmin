@@ -14,8 +14,8 @@ import com.sasd13.proadmin.handler.ActivityHandler;
 
 public class ProjectActivity extends MotherActivity {
 
-    private class ProjectViewHolder {
-        public TextView textViewTitle, textViewAcademicLevel, textViewCode, textViewDescription;
+    private static class ProjectViewHolder {
+        TextView textViewTitle, textViewAcademicLevel, textViewCode, textViewDescription;
     }
 
     private ProjectViewHolder projectViewHolder;
@@ -41,14 +41,11 @@ public class ProjectActivity extends MotherActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        
-        project = Cache.load(getCurrentProjectId(), Project.class);
+
+        long id = ActivityHandler.getCurrentExtraId(this, Extra.PROJECT_ID);
+        project = Cache.load(id, Project.class);
 
         fillProjectViewHolder();
-    }
-
-    private long getCurrentProjectId() {
-        return ActivityHandler.getCurrentExtraId(this, Extra.PROJECT_ID);
     }
 
     private void fillProjectViewHolder() {

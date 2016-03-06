@@ -38,7 +38,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
         }, TIMEOUT - 100);
     }
 
-    public List<T> getContent() {
+    public List<T> getResults() {
         return results;
     }
 
