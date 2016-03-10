@@ -44,30 +44,27 @@ public class HomeActivity extends MotherActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = null;
+                Class mClass = null;
 
                 switch (v.getId()) {
                     case R.id.home_imageview_project:
-                        intent = new Intent(HomeActivity.this, ProjectsActivity.class);
+                        mClass = ProjectsActivity.class;
                         break;
                     /*case R.id.home_imageview_team:
-                        intent = new Intent(HomeActivity. TeamsActivity.class);
+                        mClass = TeamsActivity.class;
                         break;*/
                     /*case R.id.home_imageview_report:
-                        intent = new Intent(HomeActivity. ReportsActivity.class);
+                        mClass = ReportsActivity.class;
                         break;*/
                     case R.id.home_imageview_calendar:
-                        intent = new Intent(HomeActivity.this, SettingActivity.class);
+                        mClass = SettingActivity.class;
                         break;
                 }
 
-                try {
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(HomeActivity.this, mClass);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                    startActivity(intent);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                startActivity(intent);
             }
         };
 
