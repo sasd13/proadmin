@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Activity -->
+    <string name="activity_splashscreen">@string/app_name</string>
+    <string name="activity_login">Connexion</string>
+    <string name="activity_sign">Inscription</string>
+    <string name="activity_home">Menu</string>
+    <string name="activity_projects">Projets</string>
+    <string name="activity_project">Projet</string>
+    <string name="activity_runnings">Gestions</string>
+    <string name="activity_running">Gestion</string>
+    <string name="activity_setting">Options</string>
+
+    <!-- Activity Login -->
+    <string name="login_button_connect">Connexion</string>
+    <string name="login_textview_sign">Inscription sur Proadmin</string>
+    <string name="login_textview_restorepassword">Mot de passe oublié ?</string>
+    <string name="login_dialog_title_error_login">Erreur connexion</string>
+    <string name="login_dialog_message_error_login">Identifiants invalides</string>
+
+    <!-- Activity Sign -->
+    <string name="sign_dialog_title_error_sign">Erreur inscription</string>
+    <string name="sign_dialog_message_error_sign">Remplir le formulaire d\'inscription</string>
+
+    <!-- Activity Home -->
+    <string name="home_dialog_title_welcome">Bienvenue</string>
+    <string name="home_dialog_message_welcome">Salut</string>
+
+    <!-- Activity Projects -->
+    <string name="projects_textview_academiclevels">NIVEAU ACADEMIQUE :</string>
+    <string name="projects_textview_projects">PROJETS</string>
+
+    <!-- Activity Project -->
+    <string name="project_textview_title_academiclevel">ACADEMIC LEVEL</string>
+    <string name="project_textview_title_code">CODE</string>
+    <string name="project_textview_title_title">TITLE</string>
+    <string name="project_textview_title_description">DESCRIPTION</string>
+    <string name="project_textview_academiclevel_l1">L1</string>
+    <string name="project_textview_code">L1A</string>
+    <string name="project_textview_title">Title</string>
+    <string name="project_textview_description">Description</string>
+
+    <!-- Activity Runnings -->
+    <string name="runnings_textview_runnings">GESTIONS</string>
+
+    <!-- Activity Running -->
+    <string name="running_textview_title_year">ANNEE</string>
+    <string name="running_textview_title_teams">GROUPES</string>
+    <string name="running_textview_year">Année</string>
+
+    <!-- Application -->
+    <string name="app_name">Proadmin</string>
+
+    <!-- Dialog -->
+    <string name="dialog_title_request">Requête</string>
+    <string name="dialog_message_error_request_canceled">Requête annulée</string>
+
+    <!-- EditText -->
+    <string name="edittext_hint_number">Matricule</string>
+
+    <!-- Form -->
+    <string name="form_textview_title_number">MATRICULE</string>
+
+    <!-- Menu -->
+    <string name="menuitem_projects_action_runnings">Mes gestions</string>
+
+    <!-- Tab -->
+    <string name="tabitem_project_textview_title">Title</string>
+    <string name="tabitem_project_textview_code">Code</string>
+    <string name="tabitem_project_textview_description">Description</string>
+    <string name="tabitem_running_textview_year">Année</string>
+    <string name="tabitem_project_textview_teams">Groupes :</string>
+    <string name="tabitem_project_textview_nbrteams">0</string>
+
+</resources>

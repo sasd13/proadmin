@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.gestionprojetandroid"
+    android:versionCode="1"
+    android:versionName="1.0"
+    android:screenOrientation="portrait"
+     >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:theme="@style/AppBaseTheme"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name">
+        
+        <activity
+            android:name="com.example.gestionprojetandroid.Demarrage"
+            android:label="@string/app_name">
+            </activity>
+            
+        <activity
+            android:name="com.example.gestionprojetandroid.MotherHome"
+            android:label="@string/app_name" >
+               <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
+            
+        <activity
+            android:name="com.example.gestionprojetandroid.Accueil"
+            android:label="@string/app_name">
+            
+           
+        </activity>
+        <activity
+            android:name="com.example.gestionprojetandroid.FicheEvaluation"
+            android:label="@string/title_activity_fiche_evaluation" >
+            
+        </activity>
+        <activity
+            android:name="com.example.gestionprojetandroid.Configurations"
+            android:label="@string/title_activity_configurations" >
+        </activity>
+        <activity
+            android:name="com.example.gestionprojetandroid.Projets"
+            android:label="@string/title_activity_projets" >
+        </activity>
+        <activity
+            android:name="com.example.gestionprojetandroid.Groupes"
+            android:label="@string/title_activity_groupes" >
+            
+        </activity>
+        <activity
+            android:name="com.example.gestionprojetandroid.Planning"
+            android:label="@string/title_activity_planning" >
+          
+        </activity>
+         <activity
+            android:name="com.example.gestionprojetandroid.Bilan"
+            android:label="@string/bilan" >
+          
+        </activity>
+    </application>
+
+</manifest>

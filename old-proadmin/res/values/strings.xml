@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GESTION DE PROJET</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="intitule_recherche">rechercher un étudiant, un projet &#8230;</string>
+    <string name="description_corps_accueil">Ici se trouve le corps de l\'Accueil\n Ici on mettra les fenetres principales.</string>
+    <string name="libelle_bas_logo_descartes">Copyright Mars 2013 - UFR PARIS DESCARTES</string>
+    <string name="attribut_todo">TODO</string>
+    <string name="title_activity_fiche_evaluation">FicheEvaluation</string>
+    <string name="title_activity_groupes">Groupes</string>
+    <string name="linearlayout_liste_projets_encadrant">Liste des projets</string>
+    <string name="nom_page_fiche">FICHE D\'EVALUATION HEBDOMADAIRE</string>
+    <string name="nom_page_configurations">CONFIGURATIONS</string><string name="listViewGroupe_idGroupe">L3D1</string><string name="listViewGroupe_libelle_idGroupe">Identifiant du groupe :</string>
+    <string name="nom_page_accueil">ACCUEIL</string>
+    <string name="nom_page_groupes">GROUPES</string>
+    <string name="nom_page_projets">PROJETS</string>
+    <string name="libelle_projet">Nom du projet</string>
+    <string name="title_activity_spinner_semestres">SpinnerSemestres</string>
+
+    <string name="affichage_niveaux">Niveaux</string>
+
+    <string-array name="table_niveaux">
+        <item>Licence 1</item>
+        <item>Licence 2</item>
+        <item>Licence 3</item>
+        <item>Master 1</item>
+        <item>Master 2</item>
+    </string-array>
+
+    <string name="affichage_groupes">Groupes</string>
+
+    <string-array name="table_groupes">
+        <item>groupe 1</item>
+        <item>groupe 2</item>
+    </string-array>
+
+    <string name="affichage_annees">Années</string><string name="affichage_semaines">Semaines</string>
+
+    <string-array name="table_annees">
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+    </string-array>
+    <string-array name="table_notation">
+        <item>absent</item>
+        <item>---</item>
+        <item>--</item>
+        <item>-</item><item>=</item><item>+</item><item>++</item>
+        <item>+++</item>
+    </string-array>
+
+    <string name="libelle_noms">Noms</string>
+    <string name="nom1">BROU Jean-Philippe</string>
+    <string name="nom2">JAMAL Hadi</string>
+    <string name="nom3">SAMIR Said Ali</string>
+    <string name="nom4">RAVIER Simon</string>
+    <string name="libelle_evaluation_chef">1. EVALUATION DU CHEF DE PROJET :</string>
+    <string name="libelle_evaluation_groupe">2. EVALUATION DES MEMBRES DU GROUPE :</string>
+    <string name="libelle_commentaires_groupe">3. COMMENTAIRES HEBDOMADAIRES :</string>
+
+    <string-array name="table_noms_membres">
+        <item>BROU Jean-Philippe</item>
+        <item>JAMAL Hadi</item>
+        <item>SAMIR Said Ali</item>
+        <item>RAVIER Simon</item>
+    </string-array>
+
+    <string name="libelle_gestion_planning">GESTION DU PLANNING</string>
+    <string name="libelle_communication">COMMUNICATION &amp; ORGANISATION</string>
+    <string name="libelle_appreciations">Appréciations globales</string>
+    <string name="hint_vos_commentaires">Vos commentaires sur ce groupe, vos notes, vos remarques &#8230;</string>
+    <string name="hint_saisir_commentaires">Saisissez vos commentaires</string>
+    <string name="libelle_planning">Planning</string>
+    <string name="libelle_mes_groupes">Mes Groupes</string>
+    <string name="libelle_creer">Créer</string><string name="libelle_creation_projet">Création de projet</string>
+    <string name="phrase_bas_page_principale">Mars 2013 - Propriété privée - UFR Descartes Paris V</string>
+    <string name="libelle_vous_etes_connecte_en_tant_que">Vous êtes connecté en tant que : </string>
+    <string name="nom_prenom_encadrant">Mr. Claude LATTAUD</string>
+    <string name="texte_bouton_par_defaut">Configuration par défaut</string>
+    <string name="title_activity_configurations">Configurations</string>
+    <string name="libelle_activer_mot_de_passe">Activer le mot de passe : </string>
+    <string name="libelle_rester_connecte">Rester connecté ? </string>
+    <string name="libelle_votre_mot_de_passe">Votre mot de passe :</string>
+    <string name="libelle_confirmer_mot_de_passe">Confirmez-le :</string>
+    <string name="libelle_securite">SÉCURITÉ</string>
+    <string name="libelle_identite">IDENTITÉ</string>
+    <string name="libelle_nom_encadrant">Nom encadrant :</string>
+    <string name="libelle_prenom_encadrant">Prenom encadrant :</string>
+    <string name="libelle_email">Email :</string>
+    <string name="Libelle_ecran_demarrage">ECRAN DE DÉMARRAGE</string>
+    <string name="libelle_oui">Oui</string>
+    <string name="libelle_non">Non</string>
+    <string name="title_activity_projets">Projets</string>
+    <string name="libelle_mes_projets">Mes projets</string>
+    <string name="libelle_propose_par">Propose par :</string>
+    <string name="libelle_edition_protegee">Édition protégée par l\'auteur </string>
+    <string name="bouton_libelle_attribuer">Attribuer</string>
+    <string name="bouton_libelle_modifier">Modifier</string>
+    <string name="bouton_libelle_supprimer">Supprimer</string>
+    <string name="libelle_developpement_android">Développement d\'une application de gestion sous Android &#8230;</string>
+    <string name="libelle_tout">Tout</string>
+    <string name="libelle_valider">Valider</string><string name="libelle_nouveau">Nouveau</string>
+    <string name="libelle_onglets_controle">Onglets de contrôle</string>
+    <string name="libelle_consultation_projet">Consultation de projet</string>
+    <string name="libelle_nom_projet">Nom du projet</string>
+    <string name="libelle_description_projet">Description du projet</string><string name="libelle_consultation_groupe">Consultation de groupe</string>
+    <string name="libelle_licence2">Licence 2</string>
+    <string name="libelle_licence1">Licence 1</string>
+    <string name="libelle_licence3">Licence 3</string>
+    <string name="libelle_master1">Master 1</string>
+    <string name="libelle_master2">Master 2</string>
+    <string name="libelle_creation_groupe">Création de groupe</string>
+    <string name="libelle_email_etudiant">Adresse électronique</string>
+    <string name="libelle_identifiant">Id</string>
+    <string name="libelle_nom">Nom</string>
+    <string name="libelle_prenom">Prénom</string>
+    <string name="saisissez_nom_projet_existant">Ici s\'affichera le nom du projet créé</string>
+    <string name="attribuer_projet">Attribuer projet</string>
+    <string name="annee_creation">Année de création</string><string name="annee_creation_gestion">Années de gestion (dont création)</string>
+    <string name="choix_niveau_formation_groupe"> Cochez le niveau de formation concerné</string>
+    <string name="cochez_etudiant_groupe">Cochez pour supprimer un étudiant du groupe</string>
+    <string name="etudiants_groupe">Etudiant(s) du groupe</string>
+    <string name="libelle_bouton_creer_groupe">Créer ce groupe</string>
+    <string name="libelle_enregistrer_nouveau">Enregistrer/Nouveau</string>
+    <string name="title_activity_planning">Planning</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="libelle_liste">Liste</string>
+    <string name="nom_projet">Nom du projet :</string>
+    <string name="idGroupe">Identifiant du groupe :</string><string name="idProjet">Identifiant du projet :</string>
+    <string name="hint_idProjet">ex : L3D</string><string name="hint_idGroupe">ex : L3D1</string>
+    <string name="libelle_supprimer_projet">Supprimer le projet</string><string name="libelle_supprimer_groupe">Supprimer le groupe</string>
+    <string name="listViewProjet_libelle_idProjet">Identifiant du projet :</string><string name="listViewProjet_libelle_niveau">niveau :</string><string name="listViewProjet_niveau">Licence 3</string><string name="listViewProjet_description">Application d\'aide à la gestion de projet</string><string name="listViewProjet_libelle_description">description :</string>
+    <string name="listViewGroupe_idProjet">L3D</string><string name="listViewProjet_idProjet">L3D</string>
+    <string name="choix_projet">Projet concerné :</string>
+    <string-array name="table_projets">
+        <item >L3D</item>
+    </string-array>
+    <string name="ajouter_etudiant">Ajouter un etudiant</string><string name="supprimer_etudiant">Supprimer le(s) etudiant(s)</string>
+    <string name="libelle_annee">Annee :</string>
+    <string name="listViewGroupe_libelle_projet">Projet :</string><string name="listViewGroupe_libelle_nbrEtudiants">Nombre d\'etudiants :</string><string name="listViewGroupe_libelle_nomProjet">Nom du projet :</string><string name="listViewGroupe_nbrEtudiants">0</string>
+    <string-array name="table_semaines">
+        <item >Semaine 1</item><item >Semaine 2</item><item >Semaine 3</item><item >Semaine 4</item><item >Semaine 5</item><item >Semaine 6</item><item >Semaine 7</item><item >Semaine 8</item><item >Semaine 9</item><item >Semaine 10</item><item >Semaine 11</item><item >Semaine 12</item>
+    </string-array>
+    <string name="separateur_trait">-</string><string name="separateur_slash">/</string>
+    <color name="linearlayout_etudiant_color">#f9f9f9</color>
+    <string name="niveaux">Niveau du projet:</string>
+    <string name="bouton_ajouter_etudiant">ajouter etudiant</string>
+    <string name="description">description</string>
+    <string name="importer">Importer les projets à l\'année en cours</string>
+    <string name="importe">(importé)</string>
+    <string name="annuler_importation">Annuler importation</string>
+    
+    <string name="retour">Retour</string>
+    <string name="commentaire_gal">Commentaire général</string>
+    <string name="bilan_g_n_ral">BILAN</string>
+    <string name="membre_s_">Membre(s)</string>
+    <string name="jean_philippe_brou">Jean-Philippe BROU</string>
+    <string name="tri">Tri</string>
+    <string name="hadi_jamal">Hadi JAMAL</string>
+    <string name="l3d_d_veloppement_d_apos_une_application_de_gestion_de_projet_sous_android">L3D - Développement d&amp;apos;une application de gestion de projet sous  Android</string>
+    <string name="simon_ravier">Simon RAVIER</string>
+    <string name="nom_projet_id">L3D - Développement d&amp;apos;une application de gestion de projet sous  Android</string>
+    <string name="bilan">Bilan</string>
+    <string name="listViewFiche_libelle_progression">Progression hebdomadaire :</string>
+    <string name="listViewFiche_progression">0</string>
+    <string name="listViewFiche_progression_totale">12</string>
+    <string name="libelle_acces_fiches">Accès aux fiches d\'évaluation</string>
+    <string name="libelle_semaine">Semaine :</string>
+    <string name="archiver">Archiver</string>
+    <string name="desarchiver">Désarchiver</string>
+    <string name="Points_suspension">&#8230;</string>
+    <string name="button_fiche">Fiches d\'évaluation</string>
+    <string name="button_bilan">Bilan du groupe</string>
+    <string name="text_acces">consultation</string>
+
+</resources>

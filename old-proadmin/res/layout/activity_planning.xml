@@ -1,0 +1,459 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Planning" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#dda600"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="28dp"
+                android:layout_height="30dp"
+                android:background="#337caa"
+                android:contentDescription="@+id/attribut_Todo"
+                android:src="@drawable/fond_calendar" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="#337caa"
+                android:gravity="center|right"
+                android:paddingRight="18dp"
+                android:text="PLANNING"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Horaires de passage du groupe"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#337caa"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#337caa" />
+
+        <LinearLayout
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:background="#000000"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_confirm_profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="Groupes"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="Niveaux"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="Projets"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="Début"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="Fin"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="#000000"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/Spinner_projet"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_groupes"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_niveau"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_niveaux"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_groupe"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_projets"
+                    android:paddingLeft="10dp" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#337caa"
+                    android:text="15 : 30"
+                    android:textColor="#FFFFFF"
+                    android:textColorLink="#ffffff"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="16 : 00"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="#000000"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/Spinner03"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_groupes"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner02"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_niveaux"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner01"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_projets"
+                    android:paddingLeft="10dp" />
+
+                <Button
+                    android:id="@+id/Button02"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#337caa"
+                    android:text="15 : 30"
+                    android:textColor="#FFFFFF"
+                    android:textColorLink="#ffffff"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/Button01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="16 : 00"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="#000000"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/Spinner04"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_groupes"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner05"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_niveaux"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner06"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_projets"
+                    android:paddingLeft="10dp" />
+
+                <Button
+                    android:id="@+id/Button04"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#337caa"
+                    android:text="15 : 30"
+                    android:textColor="#FFFFFF"
+                    android:textColorLink="#ffffff"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/Button03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="16 : 00"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="#000000"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/Spinner04"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_groupes"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner05"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_niveaux"
+                    android:paddingLeft="10dp" />
+
+                <Spinner
+                    android:id="@+id/Spinner06"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:entries="@array/table_projets"
+                    android:paddingLeft="10dp" />
+
+                <Button
+                    android:id="@+id/Button04"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#337caa"
+                    android:text="15 : 30"
+                    android:textColor="#FFFFFF"
+                    android:textColorLink="#ffffff"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/Button03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="16 : 00"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Prochain groupe programmé"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#337caa"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#337caa" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="207dp"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/Button14"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="L3D1 - Groupe 1"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button9"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:layout_margin="1dp"
+                    android:background="#ffffff"
+                    android:text="Jean Philippe BROU"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button11"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_margin="1dp"
+                    android:background="#ffffff"
+                    android:text="Hadi JAMAL"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/Button12"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_margin="1dp"
+                    android:background="#ffffff"
+                    android:text="Samir SAID ALI"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/Button11"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_margin="1dp"
+                    android:background="#ffffff"
+                    android:text="Simon RAVIER"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/Button13"
+                    android:layout_width="105dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="1dp"
+                    android:background="#dda600"
+                    android:text="17 h 45 - 18 h 15"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/button13"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="#337caa"
+                    android:text="PROJET : L3D1"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:text="Cliquez sur le nom d&apos;un étudiant pour voir son bilan et sur le bouton &quot;PROJET&quot; pour le consulter"
+        android:textColor="#6e6e6e"
+        android:textSize="12sp" >
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>

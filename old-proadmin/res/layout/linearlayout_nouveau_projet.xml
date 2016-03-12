@@ -1,0 +1,209 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/projet_libelle_creationProjet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="@string/libelle_creation_projet"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#dda600"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#dda600" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#dda600"
+                    android:padding="3dp"
+                    android:text="@string/annee_creation_gestion"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/projet_spinner_annee_creation_gestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#eff1f2"
+                    android:entries="@array/table_annees"
+                    android:gravity="center"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/projet_editText_idProjet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Identifiant du projet (ex: L3D)"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1"
+                        android:textSize="12sp" >
+
+                        <requestFocus />
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/projet_editText_nomProjet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="@string/libelle_nom_projet"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/projet_radioGroup_niveaux"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#eff1f2"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="3dp" >
+
+                    <RadioButton
+                        android:id="@+id/projet_radioButton_licence1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:checked="true"
+                        android:text="L1"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/projet_radioButton_licence2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="L2"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/projet_radioButton_licence3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="L3"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/projet_radioButton_master1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="M1"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/projet_radioButton_master2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="M2"
+                        android:textSize="12sp" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="185dp"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="@string/libelle_description_projet" />
+
+                    <Button
+                        android:id="@+id/projet_bouton_supprimer"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:background="#dda600"
+                        android:onClick="ButtonOnclick"
+                        android:padding="3dp"
+                        android:text="@string/libelle_supprimer_projet"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="590dp"
+                    android:layout_height="2dp"
+                    android:background="#8a8a8a" />
+
+                <EditText
+                    android:id="@+id/projet_editText_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#f9f9f9"
+                    android:ems="10"
+                    android:gravity="left|top"
+                    android:hint="@string/description"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

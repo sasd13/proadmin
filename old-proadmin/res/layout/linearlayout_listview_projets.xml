@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#ffffff"
+    android:gravity="center_horizontal|clip_vertical"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="460dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/projet_libelle_mesProjets"
+            android:layout_width="392dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="3dp"
+            android:text="@string/libelle_mes_projets"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#dda600"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        
+        <View
+			android:layout_width="fill_parent"
+			android:layout_height="2dp"
+			android:background="#dda600" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/projet_bouton_importer_projet"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:background="#dda600"
+            android:onClick="ButtonOnclick"
+            android:text="@string/importer"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewProjet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+    </ListView>
+
+</LinearLayout>
