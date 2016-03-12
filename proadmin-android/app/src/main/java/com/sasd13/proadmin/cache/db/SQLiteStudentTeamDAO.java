@@ -3,12 +3,12 @@ package com.sasd13.proadmin.cache.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.sasd13.proadmin.core.bean.member.Student;
-import com.sasd13.proadmin.core.bean.member.StudentTeam;
-import com.sasd13.proadmin.core.bean.member.Team;
-import com.sasd13.proadmin.core.db.StudentTeamDAO;
-import com.sasd13.proadmin.core.db.util.WhereClauseException;
-import com.sasd13.proadmin.core.db.util.WhereClauseParser;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.dao.StudentTeamDAO;
+import com.sasd13.proadmin.dao.util.WhereClauseException;
+import com.sasd13.proadmin.dao.util.WhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;

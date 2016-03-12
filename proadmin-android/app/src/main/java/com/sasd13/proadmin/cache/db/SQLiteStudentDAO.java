@@ -4,11 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.core.bean.AcademicLevel;
-import com.sasd13.proadmin.core.bean.member.Student;
-import com.sasd13.proadmin.core.db.StudentDAO;
-import com.sasd13.proadmin.core.db.util.WhereClauseException;
-import com.sasd13.proadmin.core.db.util.WhereClauseParser;
+import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.dao.StudentDAO;
+import com.sasd13.proadmin.dao.util.WhereClauseException;
+import com.sasd13.proadmin.dao.util.WhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;

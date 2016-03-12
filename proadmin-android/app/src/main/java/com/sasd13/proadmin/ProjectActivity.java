@@ -7,9 +7,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.core.bean.project.Project;
 import com.sasd13.proadmin.handler.ActivityHandler;
 
 public class ProjectActivity extends MotherActivity {

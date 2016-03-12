@@ -5,7 +5,7 @@ import com.sasd13.javaex.net.http.HttpRequest;
 import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
-import com.sasd13.proadmin.core.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.ws.WebServiceInformation;
 
 import java.io.IOException;

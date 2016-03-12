@@ -4,12 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.core.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.core.bean.member.Student;
-import com.sasd13.proadmin.core.bean.running.Report;
-import com.sasd13.proadmin.core.db.LeadEvaluationDAO;
-import com.sasd13.proadmin.core.db.util.WhereClauseException;
-import com.sasd13.proadmin.core.db.util.WhereClauseParser;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.dao.LeadEvaluationDAO;
+import com.sasd13.proadmin.dao.util.WhereClauseException;
+import com.sasd13.proadmin.dao.util.WhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.handler.SessionHandler;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;

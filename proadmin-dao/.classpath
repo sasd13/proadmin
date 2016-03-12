@@ -26,8 +26,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/javaex"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/proadmin-bean"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/proadmin-util"/>
-	<classpathentry kind="lib" path="/proadmin/lib/javaex-0.1.jar"/>
-	<classpathentry kind="lib" path="/proadmin-bean/target/proadmin-bean-0.0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/proadmin-util/target/proadmin-util-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

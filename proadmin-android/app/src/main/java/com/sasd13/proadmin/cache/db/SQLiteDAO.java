@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.sasd13.androidex.db.ISQLiteDAO;
-import com.sasd13.proadmin.core.db.DAO;
+import com.sasd13.proadmin.dao.DAO;
 
 public class SQLiteDAO extends DAO implements ISQLiteDAO {
 

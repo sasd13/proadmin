@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.sasd13.proadmin</groupId>
 		<artifactId>proadmin</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1</version>
 	</parent>
 
 	<artifactId>proadmin-dao</artifactId>
@@ -34,12 +34,12 @@
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-bean</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1</version>
 		</dependency>
 	</dependencies>
 </project>
