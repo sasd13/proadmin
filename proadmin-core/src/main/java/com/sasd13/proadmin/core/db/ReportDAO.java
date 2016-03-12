@@ -12,4 +12,5 @@ public interface ReportDAO extends IEntityDAO<Report> {
 	String COLUMN_WEEK = "report_week";
 	String COLUMN_TEAMCOMMENT = "report_teamcomment";
 	String COLUMN_TEAM_ID = "report_team_id";
+	String COLUMN_RUNNING_ID = "report_running_id";
 }

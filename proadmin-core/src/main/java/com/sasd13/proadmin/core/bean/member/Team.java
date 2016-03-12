@@ -1,18 +1,9 @@
-package com.sasd13.proadmin.core.bean.running;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.sasd13.proadmin.core.bean.member;
 
 public class Team {
 	
 	private long id;
 	private String code;
-	private List<Report> reports;
-	private Running running;
-	
-	public Team() {
-		reports = new ArrayList<>();
-	}
 	
 	public long getId() {
 		return id;
@@ -28,18 +19,6 @@ public class Team {
 	
 	public void setCode(String code) {
 		this.code = code;
-	}
-	
-	public List<Report> getReports() {
-		return reports;
-	}
-	
-	public Running getRunning() {
-		return running;
-	}
-	
-	public void setRunning(Running running) {
-		this.running = running;
 	}
 	
 	@Override

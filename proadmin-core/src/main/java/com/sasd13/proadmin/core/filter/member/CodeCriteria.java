@@ -1,10 +1,10 @@
-package com.sasd13.proadmin.core.filter.running;
+package com.sasd13.proadmin.core.filter.member;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.criteria.Criteria;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.member.Team;
 
 public class CodeCriteria implements Criteria<Team> {
 	

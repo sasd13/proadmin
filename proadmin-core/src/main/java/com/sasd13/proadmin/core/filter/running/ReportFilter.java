@@ -25,6 +25,12 @@ public class ReportFilter extends AndFilter<Report> {
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
+				} else if (Parameter.RUNNING.getName().equals(entry.getKey())) {
+					try {
+						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

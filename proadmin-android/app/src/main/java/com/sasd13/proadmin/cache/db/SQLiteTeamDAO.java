@@ -4,8 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.core.bean.running.Running;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.member.Team;
 import com.sasd13.proadmin.core.db.TeamDAO;
 import com.sasd13.proadmin.core.db.util.WhereClauseException;
 import com.sasd13.proadmin.core.db.util.WhereClauseParser;
@@ -21,7 +20,6 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_CODE, team.getCode());
-        values.put(COLUMN_RUNNING_ID, team.getRunning().getId());
 
         return values;
     }
@@ -32,10 +30,6 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
         team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         team.setCode(cursor.getString(cursor.getColumnIndex(COLUMN_CODE)));
-
-        Running running = new Running();
-        running.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNNING_ID)));
-        team.setRunning(running);
 
         return team;
     }

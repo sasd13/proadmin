@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.core.bean.running;
 
 import java.util.Calendar;
-import java.util.List;
 
 import com.sasd13.proadmin.core.bean.member.Teacher;
 import com.sasd13.proadmin.core.bean.project.Project;
@@ -12,7 +11,6 @@ public class Running {
 	private int year;
 	private Teacher teacher;
 	private Project project;
-	private List<Team> teams;
 	
 	public Running() {
 		year = Calendar.getInstance().get(Calendar.YEAR);
@@ -48,14 +46,6 @@ public class Running {
 	
 	public void setProject(Project project) {
 		this.project = project;
-	}
-	
-	public List<Team> getTeams() {
-		return teams;
-	}
-	
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
 	}
 	
 	@Override

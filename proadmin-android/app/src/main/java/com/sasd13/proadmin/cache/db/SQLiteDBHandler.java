@@ -47,18 +47,18 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             + ");";
 
     /**
-     * Table runnings
+     * Table students
      */
-    public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
-    public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE
+    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.TABLE + ";";
+    public static final String STUDENT_TABLE_CREATE = "CREATE TABLE " + StudentDAO.TABLE
             + " ("
-                + RunningDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
-                + RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
-                + RunningDAO.COLUMN_TEACHER_ID + " INTEGER NOT NULL, "
-                + RunningDAO.COLUMN_PROJECT_ID + " INTEGER NOT NULL, "
-                + RunningDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "("+ TeacherDAO.COLUMN_ID + ")"
-                + ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "("+ ProjectDAO.COLUMN_ID + ")"
+            + StudentDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+            + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+            + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+            + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+            + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
+            + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
+            + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
     /**
@@ -69,24 +69,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             + " ("
                 + TeamDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
                 + TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
-                + TeamDAO.COLUMN_RUNNING_ID + " INTEGER NOT NULL, "
-                + TeamDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + TeamDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "("+ RunningDAO.COLUMN_ID + ")"
-            + ");";
-
-    /**
-     * Table students
-     */
-    public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.TABLE + ";";
-    public static final String STUDENT_TABLE_CREATE = "CREATE TABLE " + StudentDAO.TABLE
-            + " ("
-                + StudentDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
-                + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
-                + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
-                + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
+                + TeamDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
     /**
@@ -104,6 +87,21 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             + ");";
 
     /**
+     * Table runnings
+     */
+    public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
+    public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE
+            + " ("
+            + RunningDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+            + RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
+            + RunningDAO.COLUMN_TEACHER_ID + " INTEGER NOT NULL, "
+            + RunningDAO.COLUMN_PROJECT_ID + " INTEGER NOT NULL, "
+            + RunningDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
+            + "FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "("+ TeacherDAO.COLUMN_ID + ")"
+            + ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "("+ ProjectDAO.COLUMN_ID + ")"
+            + ");";
+
+    /**
      * Table reports
      */
     public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
@@ -114,8 +112,10 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                 + ReportDAO.COLUMN_WEEK + " INT NOT NULL, "
                 + ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, "
                 + ReportDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
+                + ReportDAO.COLUMN_RUNNING_ID + " INTEGER NOT NULL, "
                 + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
                 + "FOREIGN KEY (" + ReportDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "("+ TeamDAO.COLUMN_ID + ")"
+                + ", FOREIGN KEY (" + ReportDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "("+ RunningDAO.COLUMN_ID + ")"
             + ");";
 
     /**
@@ -160,10 +160,10 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
         db.execSQL(TEACHER_TABLE_CREATE);
         db.execSQL(PROJECT_TABLE_CREATE);
-        db.execSQL(RUNNING_TABLE_CREATE);
-        db.execSQL(TEAM_TABLE_CREATE);
         db.execSQL(STUDENT_TABLE_CREATE);
+        db.execSQL(TEAM_TABLE_CREATE);
         db.execSQL(STUDENTTEAM_TABLE_CREATE);
+        db.execSQL(RUNNING_TABLE_CREATE);
         db.execSQL(REPORT_TABLE_CREATE);
         db.execSQL(LEADEVALUATION_TABLE_CREATE);
         db.execSQL(INDIVIDUALEVALUATION_TABLE_CREATE);
@@ -174,10 +174,10 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
         db.execSQL(INDIVIDUALEVALUATION_TABLE_DROP);
         db.execSQL(LEADEVALUATION_TABLE_DROP);
         db.execSQL(REPORT_TABLE_DROP);
-        db.execSQL(STUDENTTEAM_TABLE_DROP);
-        db.execSQL(STUDENT_TABLE_DROP);
-        db.execSQL(TEAM_TABLE_DROP);
         db.execSQL(RUNNING_TABLE_DROP);
+        db.execSQL(STUDENTTEAM_TABLE_DROP);
+        db.execSQL(TEAM_TABLE_DROP);
+        db.execSQL(STUDENT_TABLE_DROP);
         db.execSQL(PROJECT_TABLE_DROP);
         db.execSQL(TEACHER_TABLE_DROP);
 

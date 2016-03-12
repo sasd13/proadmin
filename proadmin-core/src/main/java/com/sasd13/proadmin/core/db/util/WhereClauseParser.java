@@ -45,14 +45,14 @@ public class WhereClauseParser {
 					builder.append(fromTeacher(entry.getKey(), value));
 				} else if (ProjectDAO.class.equals(mClass)) {
 					builder.append(fromProject(entry.getKey(), value));
-				} else if (RunningDAO.class.equals(mClass)) {
-					builder.append(fromRunning(entry.getKey(), value));
-				} else if (TeamDAO.class.equals(mClass)) {
-					builder.append(fromTeam(entry.getKey(), value));
 				} else if (StudentDAO.class.equals(mClass)) {
 					builder.append(fromStudent(entry.getKey(), value));
+				} else if (TeamDAO.class.equals(mClass)) {
+					builder.append(fromTeam(entry.getKey(), value));
 				} else if (StudentTeamDAO.class.equals(mClass)) {
 					builder.append(fromStudentTeam(entry.getKey(), value));
+				} else if (RunningDAO.class.equals(mClass)) {
+					builder.append(fromRunning(entry.getKey(), value));
 				} else if (ReportDAO.class.equals(mClass)) {
 					builder.append(fromReport(entry.getKey(), value));
 				} else if (LeadEvaluationDAO.class.equals(mClass)) {
@@ -96,38 +96,6 @@ public class WhereClauseParser {
 		}
 	}
 	
-	private static String fromRunning(String key, String value) throws WhereClauseException {
-		try {
-			if (Parameter.YEAR.getName().equalsIgnoreCase(key)) {
-				return RunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
-			} else if (Parameter.TEACHER.getName().equalsIgnoreCase(key)) {
-				return RunningDAO.COLUMN_TEACHER_ID + " = " + Integer.parseInt(value);
-			} else if (Parameter.PROJECT.getName().equalsIgnoreCase(key)) {
-				return RunningDAO.COLUMN_PROJECT_ID + " = " + Integer.parseInt(value);
-			} else {
-				throw new WhereClauseException("Running key '" + key + "' is not a declared parameter");
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("Running key '" + key + "' parameter parsing error. See above");
-		}
-	}
-	
-	private static String fromTeam(String key, String value) throws WhereClauseException {
-		if (Parameter.CODE.getName().equalsIgnoreCase(key)) {
-			return TeamDAO.COLUMN_CODE + " = '" + value + "'";
-		} else if (Parameter.RUNNING.getName().equalsIgnoreCase(key)) {
-			try {
-				return TeamDAO.COLUMN_RUNNING_ID + " = " + Integer.parseInt(value);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				throw new WhereClauseException("Team key '" + key + "' parameter parsing error. See above");
-			}
-		} else {
-			throw new WhereClauseException("Team key '" + key + "' is not a declared parameter");
-		}
-	}
-	
 	private static String fromStudent(String key, String value) throws WhereClauseException {
 		if (Parameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return StudentDAO.COLUMN_NUMBER + " = '" + value + "'";
@@ -141,6 +109,14 @@ public class WhereClauseParser {
 			return StudentDAO.COLUMN_EMAIL + " = '" + value + "'";
 		} else {
 			throw new WhereClauseException("Student key '" + key + "' is not a declared parameter");
+		}
+	}
+	
+	private static String fromTeam(String key, String value) throws WhereClauseException {
+		if (Parameter.CODE.getName().equalsIgnoreCase(key)) {
+			return TeamDAO.COLUMN_CODE + " = '" + value + "'";
+		} else {
+			throw new WhereClauseException("Team key '" + key + "' is not a declared parameter");
 		}
 	}
 	
@@ -159,12 +135,31 @@ public class WhereClauseParser {
 		}
 	}
 	
+	private static String fromRunning(String key, String value) throws WhereClauseException {
+		try {
+			if (Parameter.YEAR.getName().equalsIgnoreCase(key)) {
+				return RunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
+			} else if (Parameter.TEACHER.getName().equalsIgnoreCase(key)) {
+				return RunningDAO.COLUMN_TEACHER_ID + " = " + Integer.parseInt(value);
+			} else if (Parameter.PROJECT.getName().equalsIgnoreCase(key)) {
+				return RunningDAO.COLUMN_PROJECT_ID + " = " + Integer.parseInt(value);
+			} else {
+				throw new WhereClauseException("Running key '" + key + "' is not a declared parameter");
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			throw new WhereClauseException("Running key '" + key + "' parameter parsing error. See above");
+		}
+	}
+	
 	private static String fromReport(String key, String value) throws WhereClauseException {
 		try {
 			if (Parameter.WEEK.getName().equalsIgnoreCase(key)) {
 				return ReportDAO.COLUMN_WEEK + " = " + Integer.parseInt(value);
 			} else if (Parameter.TEAM.getName().equalsIgnoreCase(key)) {
 				return ReportDAO.COLUMN_TEAM_ID + " = " + Integer.parseInt(value);
+			} else if (Parameter.RUNNING.getName().equalsIgnoreCase(key)) {
+				return ReportDAO.COLUMN_RUNNING_ID + " = " + Integer.parseInt(value);
 			} else {
 				throw new WhereClauseException("Report key '" + key + "' is not a declared parameter");
 			}

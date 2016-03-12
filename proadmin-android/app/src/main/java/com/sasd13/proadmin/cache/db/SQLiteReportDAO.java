@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import com.sasd13.proadmin.core.bean.member.Team;
 import com.sasd13.proadmin.core.bean.running.Report;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.db.ReportDAO;
 import com.sasd13.proadmin.core.db.util.WhereClauseException;
 import com.sasd13.proadmin.core.db.util.WhereClauseParser;
@@ -25,6 +26,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         values.put(COLUMN_WEEK, report.getWeek());
         values.put(COLUMN_TEAMCOMMENT, report.getComment());
         values.put(COLUMN_TEAM_ID, report.getTeam().getId());
+        values.put(COLUMN_RUNNING_ID, report.getRunning().getId());
 
         return values;
     }
@@ -34,7 +36,10 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         Team team = new Team();
         team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEAM_ID)));
 
-        Report report = new Report(team);
+        Running running = new Running();
+        running.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNNING_ID)));
+
+        Report report = new Report(team, running);
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
         report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));

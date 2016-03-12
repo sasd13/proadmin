@@ -5,8 +5,9 @@
  */
 package db;
 
+import com.sasd13.proadmin.core.bean.member.Team;
 import com.sasd13.proadmin.core.bean.running.Report;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.running.Running;
 import com.sasd13.proadmin.core.db.ReportDAO;
 import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
@@ -31,6 +32,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		preparedStatement.setInt(2, report.getWeek());
 		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setLong(4, report.getTeam().getId());
+		preparedStatement.setLong(5, report.getRunning().getId());
 	}
 	
 	@Override
@@ -38,7 +40,10 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		Team team = new Team();
 		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
 		
-		Report report = new Report(team);
+		Running running = new Running();
+		running.setId(resultSet.getLong(COLUMN_RUNNING_ID));
+		
+		Report report = new Report(team, running);
 		report.setId(resultSet.getLong(COLUMN_ID));
 		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setWeek(resultSet.getInt(COLUMN_WEEK));
@@ -56,8 +61,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_DATEMEETING + ", "
 					+ COLUMN_WEEK + ", " 
 					+ COLUMN_TEAMCOMMENT + ", " 
-					+ COLUMN_TEAM_ID 
-				+ ") VALUES (?, ?, ?, ?)";
+					+ COLUMN_TEAM_ID + ", "
+					+ COLUMN_RUNNING_ID 
+				+ ") VALUES (?, ?, ?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -95,7 +101,8 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_DATEMEETING + " = ?, " 
 					+ COLUMN_WEEK + " = ?, " 
 					+ COLUMN_TEAMCOMMENT + " = ?, " 
-					+ COLUMN_TEAM_ID + " = ?" 
+					+ COLUMN_TEAM_ID + " = ?, " 
+					+ COLUMN_RUNNING_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
@@ -105,7 +112,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, report);
 			
-			preparedStatement.setLong(5, report.getId());
+			preparedStatement.setLong(6, report.getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

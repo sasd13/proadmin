@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.criteria.Criteria;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.running.Report;
 
-public class RunningCriteria implements Criteria<Team> {
+public class RunningCriteria implements Criteria<Report> {
 	
 	private long id;
 	
@@ -15,12 +15,12 @@ public class RunningCriteria implements Criteria<Team> {
 	}
 	
 	@Override
-	public List<Team> meetCriteria(List<Team> list) {
-		List<Team> results = new ArrayList<Team>();
+	public List<Report> meetCriteria(List<Report> list) {
+		List<Report> results = new ArrayList<Report>();
 		
-		for (Team team : list) {
-			if (team.getRunning().getId() == id) {
-				results.add(team);
+		for (Report report : list) {
+			if (report.getRunning().getId() == id) {
+				results.add(report);
 			}
 		}
 		

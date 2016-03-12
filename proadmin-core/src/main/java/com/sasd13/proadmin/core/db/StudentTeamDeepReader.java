@@ -3,8 +3,8 @@ package com.sasd13.proadmin.core.db;
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.core.bean.member.Student;
-import com.sasd13.proadmin.core.bean.running.StudentTeam;
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.member.StudentTeam;
+import com.sasd13.proadmin.core.bean.member.Team;
 
 public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	
@@ -31,6 +31,5 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		Team team = teamDAO.select(studentTeam.getTeam().getId());
 		
 		studentTeam.getTeam().setCode(team.getCode());
-		studentTeam.getTeam().setRunning(team.getRunning());
 	}
 }

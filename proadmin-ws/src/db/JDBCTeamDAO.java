@@ -5,11 +5,6 @@
  */
 package db;
 
-import com.sasd13.proadmin.core.bean.running.Running;
-import com.sasd13.proadmin.core.bean.running.Team;
-import com.sasd13.proadmin.core.db.TeamDAO;
-import com.sasd13.proadmin.core.db.util.WhereClauseParser;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +12,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.sasd13.proadmin.core.bean.member.Team;
+import com.sasd13.proadmin.core.db.TeamDAO;
+import com.sasd13.proadmin.core.db.util.WhereClauseParser;
 
 /**
  *
@@ -27,7 +26,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
 		preparedStatement.setString(1, team.getCode());
-		preparedStatement.setLong(2, team.getRunning().getId());
 	}
 	
 	@Override
@@ -35,10 +33,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		Team team = new Team();
 		team.setId(resultSet.getLong(COLUMN_ID));
 		team.setCode(resultSet.getString(COLUMN_CODE));
-		
-		Running running = new Running();
-		running.setId(resultSet.getLong(COLUMN_RUNNING_ID));
-		team.setRunning(running);
 		
 		return team;
 	}
@@ -49,9 +43,8 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ COLUMN_CODE + ", " 
-					+ COLUMN_RUNNING_ID 
-				+ ") VALUES (?, ?)";
+					+ COLUMN_CODE
+				+ ") VALUES (?)";
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -86,8 +79,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	public void update(Team team) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ COLUMN_CODE + " = ?, " 
-					+ COLUMN_RUNNING_ID + " = ?" 
+					+ COLUMN_CODE + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
@@ -97,7 +89,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, team);
 			
-			preparedStatement.setLong(3, team.getId());
+			preparedStatement.setLong(2, team.getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -20,10 +20,10 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
         super(
                 new SQLiteTeacherDAO(),
                 new SQLiteProjectDAO(),
-                new SQLiteRunningDAO(),
-                new SQLiteTeamDAO(),
                 new SQLiteStudentDAO(),
+                new SQLiteTeamDAO(),
                 new SQLiteStudentTeamDAO(),
+                new SQLiteRunningDAO(),
                 new SQLiteReportDAO(),
                 new SQLiteLeadEvaluationDAO(),
                 new SQLiteIndividualEvaluationDAO()
@@ -46,10 +46,10 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
             ((SQLiteEntityDAO) teacherDAO).setDB(db);
             ((SQLiteEntityDAO) projectDAO).setDB(db);
-            ((SQLiteEntityDAO) runningDAO).setDB(db);
-            ((SQLiteEntityDAO) teamDAO).setDB(db);
             ((SQLiteEntityDAO) studentDAO).setDB(db);
+            ((SQLiteEntityDAO) teamDAO).setDB(db);
             ((SQLiteEntityDAO) studentTeamDAO).setDB(db);
+            ((SQLiteEntityDAO) runningDAO).setDB(db);
             ((SQLiteEntityDAO) reportDAO).setDB(db);
             ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
             ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);

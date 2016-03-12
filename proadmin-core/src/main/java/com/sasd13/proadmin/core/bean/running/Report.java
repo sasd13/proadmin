@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sasd13.proadmin.core.bean.member.Team;
+
 public class Report {
 	
 	private long id;
@@ -13,17 +15,18 @@ public class Report {
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
 	private Team team;
+	private Running running;
 	
 	public Report() {
 		leadEvaluation = new LeadEvaluation(this);
 		individualEvaluations = new ArrayList<>();
 	}
 	
-	public Report(Team team) {
+	public Report(Team team, Running running) {
 		this();
 		
 		this.team = team;
-		team.getReports().add(this);
+		this.running = running;
 	}
 	
 	public long getId() {
@@ -68,6 +71,10 @@ public class Report {
 	
 	public Team getTeam() {
 		return team;
+	}
+	
+	public Running getRunning() {
+		return running;
 	}
 	
 	@Override

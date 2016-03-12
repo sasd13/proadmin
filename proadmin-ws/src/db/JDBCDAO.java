@@ -29,10 +29,10 @@ public class JDBCDAO extends DAO {
 		super(
 			new JDBCTeacherDAO(),
 			new JDBCProjectDAO(),
-			new JDBCRunningDAO(),
-			new JDBCTeamDAO(),
 			new JDBCStudentDAO(),
+			new JDBCTeamDAO(),
 			new JDBCStudentTeamDAO(),
+			new JDBCRunningDAO(),
 			new JDBCReportDAO(),
 			new JDBCLeadEvaluationDAO(),
 			new JDBCIndividualEvaluationDAO()
@@ -61,10 +61,10 @@ public class JDBCDAO extends DAO {
 			
 			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) leadEvaluationDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) individualEvaluationDAO).setConnection(connection);
@@ -90,10 +90,10 @@ public class JDBCDAO extends DAO {
 			
 			statement.executeUpdate(DBHandler.TEACHER_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.PROJECT_TABLE_CREATE);
-			statement.executeUpdate(DBHandler.RUNNING_TABLE_CREATE);
-			statement.executeUpdate(DBHandler.TEAM_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.STUDENT_TABLE_CREATE);
+			statement.executeUpdate(DBHandler.TEAM_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.STUDENTTEAM_TABLE_CREATE);
+			statement.executeUpdate(DBHandler.RUNNING_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.REPORT_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.LEADEVALUATION_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.INDIVIDUALEVALUATION_TABLE_CREATE);

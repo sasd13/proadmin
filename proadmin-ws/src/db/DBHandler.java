@@ -44,36 +44,6 @@ public interface DBHandler {
 			+ ");";
 	
 	/**
-	 * Table runnings
-	 */
-	public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
-	public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE 
-			+ " (" 
-				+ RunningDAO.COLUMN_ID + " SERIAL, " 
-				+ RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
-				+ RunningDAO.COLUMN_TEACHER_ID + " BIGINT UNSIGNED NOT NULL, "
-				+ RunningDAO.COLUMN_PROJECT_ID + " BIGINT UNSIGNED NOT NULL, "
-				+ RunningDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
-				+ "PRIMARY KEY (" + RunningDAO.COLUMN_ID + ")"
-				+ ", FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "(" + TeacherDAO.COLUMN_ID + ")" 
-				+ ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "(" + ProjectDAO.COLUMN_ID + ")"
-			+ ");";
-	
-	/**
-	 * Table teams
-	 */
-	public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TABLE + ";";
-	public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TABLE 
-			+ " (" 
-				+ TeamDAO.COLUMN_ID + " SERIAL, " 
-				+ TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, " 
-				+ TeamDAO.COLUMN_RUNNING_ID + " BIGINT UNSIGNED NOT NULL, " 
-				+ TeamDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
-				+ "PRIMARY KEY (" + TeamDAO.COLUMN_ID + ")"
-				+ ", FOREIGN KEY (" + TeamDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "(" + RunningDAO.COLUMN_ID + ")" 
-			+ ");";
-	
-	/**
 	 * Table students
 	 */
 	public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.TABLE + ";";
@@ -87,6 +57,18 @@ public interface DBHandler {
 				+ StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, " 
 				+ StudentDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
 				+ "PRIMARY KEY (" + StudentDAO.COLUMN_ID + ")"
+			+ ");";
+	
+	/**
+	 * Table teams
+	 */
+	public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TABLE + ";";
+	public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TABLE 
+			+ " (" 
+				+ TeamDAO.COLUMN_ID + " SERIAL, " 
+				+ TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "  
+				+ TeamDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
+				+ "PRIMARY KEY (" + TeamDAO.COLUMN_ID + ")"
 			+ ");";
 	
 	/**
@@ -105,6 +87,22 @@ public interface DBHandler {
 			+ ");";
 	
 	/**
+	 * Table runnings
+	 */
+	public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
+	public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE 
+			+ " (" 
+				+ RunningDAO.COLUMN_ID + " SERIAL, " 
+				+ RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
+				+ RunningDAO.COLUMN_TEACHER_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ RunningDAO.COLUMN_PROJECT_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ RunningDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
+				+ "PRIMARY KEY (" + RunningDAO.COLUMN_ID + ")"
+				+ ", FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "(" + TeacherDAO.COLUMN_ID + ")" 
+				+ ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "(" + ProjectDAO.COLUMN_ID + ")"
+			+ ");";
+	
+	/**
 	 * Table reports
 	 */
 	public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
@@ -114,10 +112,12 @@ public interface DBHandler {
 				+ ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
 				+ ReportDAO.COLUMN_WEEK + " INT NOT NULL, " 
 				+ ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, " 
-				+ ReportDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, " 
+				+ ReportDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ ReportDAO.COLUMN_RUNNING_ID + " BIGINT UNSIGNED NOT NULL, "
 				+ ReportDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
 				+ "PRIMARY KEY (" + ReportDAO.COLUMN_ID + ")"
 				+ ", FOREIGN KEY (" + ReportDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "(" + TeamDAO.COLUMN_ID + ")" 
+				+ ", FOREIGN KEY (" + ReportDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "(" + RunningDAO.COLUMN_ID + ")" 
 			+ ");";
 	
 	/**
@@ -154,5 +154,4 @@ public interface DBHandler {
 				+ ", FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_REPORT_ID + ") REFERENCES " + ReportDAO.TABLE + "(" + ReportDAO.COLUMN_ID + ")" 
 				+ ", FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "(" + StudentDAO.COLUMN_ID + ")" 
 			+ ");";
-	
 }

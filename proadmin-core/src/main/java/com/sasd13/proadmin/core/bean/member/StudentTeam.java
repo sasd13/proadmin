@@ -1,6 +1,4 @@
-package com.sasd13.proadmin.core.bean.running;
-
-import com.sasd13.proadmin.core.bean.member.Student;
+package com.sasd13.proadmin.core.bean.member;
 
 public class StudentTeam {
 	

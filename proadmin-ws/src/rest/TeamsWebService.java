@@ -5,7 +5,7 @@
  */
 package rest;
 
-import com.sasd13.proadmin.core.bean.running.Team;
+import com.sasd13.proadmin.core.bean.member.Team;
 
 import javax.servlet.annotation.WebServlet;
 
