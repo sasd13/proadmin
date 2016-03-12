@@ -1,0 +1,12 @@
+com\sasd13\proadmin\bean\project\Project.class
+com\sasd13\proadmin\bean\member\Member.class
+com\sasd13\proadmin\bean\member\StudentTeam.class
+com\sasd13\proadmin\bean\member\Team.class
+com\sasd13\proadmin\bean\running\IndividualEvaluation.class
+com\sasd13\proadmin\bean\running\Evaluation.class
+com\sasd13\proadmin\bean\member\Teacher.class
+com\sasd13\proadmin\bean\running\Report.class
+com\sasd13\proadmin\bean\running\Running.class
+com\sasd13\proadmin\bean\member\Student.class
+com\sasd13\proadmin\bean\running\LeadEvaluation.class
+com\sasd13\proadmin\bean\AcademicLevel.class
