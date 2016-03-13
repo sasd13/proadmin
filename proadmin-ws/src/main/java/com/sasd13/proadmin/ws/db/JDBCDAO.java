@@ -33,6 +33,7 @@ public class JDBCDAO extends DAO {
 			new JDBCTeamDAO(),
 			new JDBCStudentTeamDAO(),
 			new JDBCRunningDAO(),
+			new JDBCRunningTeamDAO(),
 			new JDBCReportDAO(),
 			new JDBCLeadEvaluationDAO(),
 			new JDBCIndividualEvaluationDAO()
@@ -65,6 +66,7 @@ public class JDBCDAO extends DAO {
 			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) runningTeamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) leadEvaluationDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) individualEvaluationDAO).setConnection(connection);
@@ -94,6 +96,7 @@ public class JDBCDAO extends DAO {
 			statement.executeUpdate(DBHandler.TEAM_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.STUDENTTEAM_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.RUNNING_TABLE_CREATE);
+			statement.executeUpdate(DBHandler.RUNNINGTEAM_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.REPORT_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.LEADEVALUATION_TABLE_CREATE);
 			statement.executeUpdate(DBHandler.INDIVIDUALEVALUATION_TABLE_CREATE);

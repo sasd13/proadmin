@@ -21,20 +21,20 @@ public class LoaderReadTask<T> extends ReadTask<T> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        loader.doInLoad();
+        loader.onLoad();
     }
 
     @Override
-    protected void doInTaskCompleted() {
-        super.doInTaskCompleted();
+    protected void onTaskCompleted() {
+        super.onTaskCompleted();
 
-        loader.doInCompleted();
+        loader.onCompleted();
     }
 
     @Override
-    protected void doInTaskError() {
-        super.doInTaskError();
+    protected void onTaskError() {
+        super.onTaskError();
 
-        loader.doInError();
+        loader.onError();
     }
 }

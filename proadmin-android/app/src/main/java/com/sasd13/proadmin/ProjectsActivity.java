@@ -27,12 +27,12 @@ import java.util.List;
 
 public class ProjectsActivity extends MotherActivity implements ILoader {
 
-    private Spin spin;
+    private Spin spinAcademicLevels;
     private View viewLoad, viewTab;
-    private Tab tab;
+    private Tab tabProjects;
 
-    private LoaderReadTask<Project> readTask;
     private List<Project> projects = new ArrayList<>();
+    private LoaderReadTask<Project> readTaskProjects;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,11 +48,11 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     private void createSpinAcademicLevels() {
         Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
 
-        spin = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
+        spinAcademicLevels = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
+                fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spinAcademicLevels.getSelectedItem()));
             }
 
             @Override
@@ -63,7 +63,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        tab.clearItems();
+        tabProjects.clearItems();
 
         addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
@@ -74,7 +74,6 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
         for (Project project : list) {
             tabItemProject = new TabItemProject();
-
             tabItemProject.setTitle(project.getTitle());
             tabItemProject.setCode(project.getCode());
             tabItemProject.setDescription(project.getDescription());
@@ -83,7 +82,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
             intent.putExtra(Extra.PROJECT_ID, project.getId());
             tabItemProject.setIntent(intent);
 
-            tab.addItem(tabItemProject);
+            tabProjects.addItem(tabItemProject);
         }
     }
 
@@ -95,12 +94,12 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
-        tab = new Tab(this, recyclerView, R.layout.tabitem_project);
+        tabProjects = new Tab(this, recyclerView, R.layout.tabitem_project);
     }
 
     private void fillSpinAcademicLevels() {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
-            spin.addItem(String.valueOf(academicLevel));
+            spinAcademicLevels.addItem(String.valueOf(academicLevel));
         }
     }
 
@@ -113,8 +112,8 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
-            readTask = new LoaderReadTask<>(this, Project.class, this);
-            readTask.execute();
+            readTaskProjects = new LoaderReadTask<>(this, Project.class, this);
+            readTaskProjects.execute();
         } else {
             ConnectivityChecker.showNotActive(this);
         }
@@ -142,7 +141,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInLoad() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -157,9 +156,9 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInCompleted() {
+    public void onCompleted() {
         projects.clear();
-        projects.addAll(readTask.getResults());
+        projects.addAll(readTaskProjects.getResults());
 
         fillTabProjects();
         Cache.keepAll(projects);
@@ -167,11 +166,11 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     public void fillTabProjects() {
-        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spin.getSelectedItem()));
+        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spinAcademicLevels.getSelectedItem()));
     }
 
     @Override
-    public void doInError() {
+    public void onError() {
         switchToLoadView(false);
     }
 }

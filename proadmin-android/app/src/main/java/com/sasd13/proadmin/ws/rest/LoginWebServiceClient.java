@@ -50,6 +50,7 @@ public class LoginWebServiceClient {
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
             httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
+            httpRequest.addHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName(), HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName());
             setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);

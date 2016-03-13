@@ -63,7 +63,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
 
     @Override
     protected void onCancelled(List<T> ts) {
-        doInTaskError();
+        onTaskError();
     }
 
     @Override
@@ -73,17 +73,17 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            doInTaskCompleted();
+            onTaskCompleted();
         } else {
-            doInTaskError();
+            onTaskError();
         }
     }
 
-    protected void doInTaskCompleted() {
+    protected void onTaskCompleted() {
         //Do nothing
     }
 
-    protected void doInTaskError() {
+    protected void onTaskError() {
         Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

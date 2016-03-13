@@ -20,8 +20,6 @@ public class ProjectActivity extends MotherActivity {
 
     private ProjectViewHolder projectViewHolder;
 
-    private Project project;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +41,12 @@ public class ProjectActivity extends MotherActivity {
         super.onStart();
 
         long id = ActivityHandler.getCurrentExtraId(this, Extra.PROJECT_ID);
-        project = Cache.load(id, Project.class);
+        Project project = Cache.load(id, Project.class);
 
-        fillProjectViewHolder();
+        fillProjectViewHolder(project);
     }
 
-    private void fillProjectViewHolder() {
+    private void fillProjectViewHolder(Project project) {
         projectViewHolder.textViewTitle.setText(project.getTitle());
         projectViewHolder.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
         projectViewHolder.textViewCode.setText(project.getCode());
@@ -79,7 +77,6 @@ public class ProjectActivity extends MotherActivity {
     private void listRunnings() {
         Intent intent = new Intent(this, RunningsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Extra.PROJECT_ID, project.getId());
 
         startActivity(intent);
     }

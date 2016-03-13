@@ -42,7 +42,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         super.onPreExecute();
 
         taskPlanner.start();
-        loginActivity.doInLoad();
+        loginActivity.onLoad();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
     @Override
     protected void onCancelled(Long aLong) {
-        doInTaskError();
+        onTaskError();
     }
 
     @Override
@@ -66,18 +66,18 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == LoginWebServiceClient.STATUS_OK) {
-            doInTaskCompleted();
+            onTaskCompleted();
         } else {
-            doInTaskError();
+            onTaskError();
         }
     }
 
-    protected void doInTaskCompleted() {
-        loginActivity.doInCompleted();
+    protected void onTaskCompleted() {
+        loginActivity.onCompleted();
     }
 
-    protected void doInTaskError() {
-        loginActivity.doInError();
+    protected void onTaskError() {
+        loginActivity.onError();
 
         Toast.makeText(loginActivity, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }

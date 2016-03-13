@@ -19,15 +19,9 @@ public class ReportFilter extends AndFilter<Report> {
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (Parameter.TEAM.getName().equals(entry.getKey())) {
+				} else if (Parameter.RUNNINGTEAM.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
-				} else if (Parameter.RUNNING.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+						multiAndCriteria.addCriteria(new RunningTeamCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}

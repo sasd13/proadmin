@@ -19,6 +19,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
     protected ContentValues getContentValues(Teacher teacher) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, teacher.getId());
         values.put(COLUMN_NUMBER, teacher.getNumber());
         values.put(COLUMN_FIRSTNAME, teacher.getFirstName());
         values.put(COLUMN_LASTNAME, teacher.getLastName());
@@ -44,13 +45,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public long insert(Teacher teacher) {
-        long id = db.insert(TABLE, null, getContentValues(teacher));
-
-        if (id < 0) id = 0;
-
-        teacher.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(teacher));
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ProjectDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
 import com.sasd13.proadmin.dao.RunningDAO;
+import com.sasd13.proadmin.dao.RunningTeamDAO;
 import com.sasd13.proadmin.dao.StudentDAO;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
 import com.sasd13.proadmin.dao.TeacherDAO;
@@ -78,12 +79,12 @@ public interface DBHandler {
 	public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.TABLE 
 			+ " ("
 				+ StudentTeamDAO.COLUMN_ID + " SERIAL, "
-				+ StudentTeamDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ StudentTeamDAO.COLUMN_STUDENT_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ StudentTeamDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, " 
 				+ "PRIMARY KEY (" + StudentTeamDAO.COLUMN_ID + ")"
-				+ ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "(" + TeamDAO.COLUMN_ID + ")" 
 				+ ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "(" + StudentDAO.COLUMN_ID + ")" 
-				+ ", CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + StudentTeamDAO.COLUMN_TEAM_ID + ", " + StudentTeamDAO.COLUMN_STUDENT_ID + ")" 
+				+ ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "(" + TeamDAO.COLUMN_ID + ")" 
+				+ ", CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + StudentTeamDAO.COLUMN_STUDENT_ID + ", " + StudentTeamDAO.COLUMN_TEAM_ID + ")" 
 			+ ");";
 	
 	/**
@@ -103,6 +104,21 @@ public interface DBHandler {
 			+ ");";
 	
 	/**
+	 * Table runningteams
+	 */
+	public static final String RUNNINGTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningTeamDAO.TABLE + ";";
+	public static final String RUNNINGTEAM_TABLE_CREATE = "CREATE TABLE " + RunningTeamDAO.TABLE 
+			+ " ("
+				+ RunningTeamDAO.COLUMN_ID + " SERIAL, "
+				+ RunningTeamDAO.COLUMN_RUNNING_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ RunningTeamDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ "PRIMARY KEY (" + RunningTeamDAO.COLUMN_ID + ")"
+				+ ", FOREIGN KEY (" + RunningTeamDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "(" + RunningDAO.COLUMN_ID + ")" 
+				+ ", FOREIGN KEY (" + RunningTeamDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "(" + TeamDAO.COLUMN_ID + ")" 
+				+ ", CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + RunningTeamDAO.COLUMN_RUNNING_ID + ", " + RunningTeamDAO.COLUMN_TEAM_ID + ")" 
+			+ ");";
+	
+	/**
 	 * Table reports
 	 */
 	public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
@@ -112,12 +128,10 @@ public interface DBHandler {
 				+ ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
 				+ ReportDAO.COLUMN_WEEK + " INT NOT NULL, " 
 				+ ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, " 
-				+ ReportDAO.COLUMN_TEAM_ID + " BIGINT UNSIGNED NOT NULL, "
-				+ ReportDAO.COLUMN_RUNNING_ID + " BIGINT UNSIGNED NOT NULL, "
+				+ ReportDAO.COLUMN_RUNNINGTEAM + " BIGINT UNSIGNED NOT NULL, "
 				+ ReportDAO.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT FALSE, "
 				+ "PRIMARY KEY (" + ReportDAO.COLUMN_ID + ")"
-				+ ", FOREIGN KEY (" + ReportDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "(" + TeamDAO.COLUMN_ID + ")" 
-				+ ", FOREIGN KEY (" + ReportDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "(" + RunningDAO.COLUMN_ID + ")" 
+				+ ", FOREIGN KEY (" + ReportDAO.COLUMN_RUNNINGTEAM + ") REFERENCES " + RunningTeamDAO.TABLE + "(" + RunningTeamDAO.COLUMN_ID + ")" 
 			+ ");";
 	
 	/**

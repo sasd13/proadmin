@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/setting_view_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/log_progressbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/splashscreen_progressbar_margin" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/setting_view_formteacher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_padding"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/setting_form_user_textview_number_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/form_textview_title_number"
+                android:textColor="@color/customOrange"
+                android:textSize="@dimen/textsize_medium"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/setting_form_user_dividerview_1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dividerview_height_medium"
+                android:layout_below="@id/setting_form_user_textview_number_title"
+                android:layout_marginTop="@dimen/dividerview_margintop"
+                android:background="@color/customOrange" />
+
+            <TextView
+                android:id="@+id/setting_form_user_textview_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_dividerview_1"
+                android:layout_marginTop="@dimen/view_margin_medium"
+                android:singleLine="true"
+                android:text="@string/edittext_hint_number"
+                android:textSize="@dimen/textsize_medium" />
+
+            <TextView
+                android:id="@+id/setting_form_user_textview_identity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_textview_number"
+                android:layout_marginTop="@dimen/viewgroup_margin"
+                android:text="@string/form_textview_title_identity"
+                android:textColor="@color/customOrange"
+                android:textSize="@dimen/textsize_medium"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/setting_form_user_dividerview_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dividerview_height_medium"
+                android:layout_below="@id/setting_form_user_textview_identity"
+                android:layout_marginTop="@dimen/dividerview_margintop"
+                android:background="@color/customOrange" />
+
+            <EditText
+                android:id="@+id/setting_form_user_edittext_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_dividerview_2"
+                android:layout_marginTop="@dimen/view_margin_medium"
+                android:background="@drawable/edit_text_holo_light"
+                android:hint="@string/edittext_hint_firstname"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textCapWords"
+                android:singleLine="true"
+                android:textSize="@dimen/textsize_medium" />
+
+            <EditText
+                android:id="@+id/setting_form_user_edittext_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_edittext_firstname"
+                android:layout_marginTop="@dimen/view_margin_medium"
+                android:background="@drawable/edit_text_holo_light"
+                android:hint="@string/edittext_hint_lastname"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textCapWords"
+                android:singleLine="true"
+                android:textSize="@dimen/textsize_medium" />
+
+            <TextView
+                android:id="@+id/setting_form_user_textview_email_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_edittext_lastname"
+                android:layout_marginTop="@dimen/viewgroup_margin"
+                android:text="@string/form_textview_title_email"
+                android:textColor="@color/customOrange"
+                android:textSize="@dimen/textsize_medium"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/setting_form_user_dividerview_3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dividerview_height_medium"
+                android:layout_below="@id/setting_form_user_textview_email_title"
+                android:layout_marginTop="@dimen/dividerview_margintop"
+                android:background="@color/customOrange" />
+
+            <EditText
+                android:id="@+id/setting_form_user_edittext_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/setting_form_user_dividerview_3"
+                android:layout_marginTop="@dimen/view_margin_medium"
+                android:background="@drawable/edit_text_holo_light"
+                android:hint="@string/edittext_hint_email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textSize="@dimen/textsize_medium" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -90,6 +90,12 @@
         </activity>
 
         <activity
+            android:name=".TeamActivity"
+            android:label="@string/activity_team"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".SettingActivity"
             android:label="@string/activity_setting"
             android:screenOrientation="portrait"

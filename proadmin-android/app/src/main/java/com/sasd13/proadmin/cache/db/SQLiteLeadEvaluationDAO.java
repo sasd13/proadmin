@@ -21,6 +21,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
     protected ContentValues getContentValues(LeadEvaluation leadEvaluation) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, leadEvaluation.getId());
         values.put(COLUMN_PLANNINGMARK, leadEvaluation.getPlanningMark());
         values.put(COLUMN_PLANNINGCOMMENT, leadEvaluation.getPlanningComment());
         values.put(COLUMN_COMMUNICATIONMARK, leadEvaluation.getCommunicationMark());
@@ -52,13 +53,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public long insert(LeadEvaluation leadEvaluation) {
-        long id = db.insert(TABLE, null, getContentValues(leadEvaluation));
-
-        if (id < 0) id = 0;
-
-        leadEvaluation.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(leadEvaluation));
     }
 
     @Override

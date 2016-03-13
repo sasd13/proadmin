@@ -32,7 +32,7 @@ public class LoginActivity extends Activity implements ILoader {
     private FormLoginViewHolder formLoginViewHolder;
 
     private LoginTask loginTask;
-    private LoaderReadTask<Teacher> readTask;
+    private LoaderReadTask<Teacher> readTaskTeacher;
     private boolean isActionLogin;
 
     @Override
@@ -83,7 +83,7 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void doInLoad() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -98,17 +98,17 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void doInCompleted() {
+    public void onCompleted() {
         if (isActionLogin) {
             isActionLogin = false;
 
-            doInLoginTaskCompleted();
+            onLoginTaskCompleted();
         } else {
-            doInReadTaskCompleted();
+            onReadTaskTeacherCompleted();
         }
     }
 
-    private void doInLoginTaskCompleted() {
+    private void onLoginTaskCompleted() {
         long result = loginTask.getResult();
 
         if (result == 0) {
@@ -128,14 +128,14 @@ public class LoginActivity extends Activity implements ILoader {
 
             switchToLoadView(false);
         } else {
-            readTask = new LoaderReadTask<>(this, Teacher.class, this);
-            readTask.execute(result);
+            readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
+            readTaskTeacher.execute(result);
         }
     }
 
-    private void doInReadTaskCompleted() {
+    private void onReadTaskTeacherCompleted() {
         try {
-            Cache.keep(readTask.getResults().get(0));
+            Cache.keep(readTaskTeacher.getResults().get(0));
             SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
             goToHomeActivity();
         } catch (IndexOutOfBoundsException e) {
@@ -164,7 +164,7 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void doInError() {
+    public void onError() {
         switchToLoadView(false);
     }
 }

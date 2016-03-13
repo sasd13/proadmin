@@ -21,6 +21,7 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
     protected ContentValues getContentValues(IndividualEvaluation individualEvaluation) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, individualEvaluation.getId());
         values.put(COLUMN_MARK, individualEvaluation.getMark());
         values.put(COLUMN_REPORT_ID, individualEvaluation.getReport().getId());
         values.put(COLUMN_STUDENT_ID, individualEvaluation.getStudent().getId());
@@ -46,13 +47,7 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public long insert(IndividualEvaluation individualEvaluation) {
-        long id = db.insert(TABLE, null, getContentValues(individualEvaluation));
-
-        if (id < 0) id = 0;
-
-        individualEvaluation.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(individualEvaluation));
     }
 
     @Override

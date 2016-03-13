@@ -20,6 +20,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     protected ContentValues getContentValues(StudentTeam studentTeam) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, studentTeam.getId());
         values.put(COLUMN_STUDENT_ID, studentTeam.getStudent().getId());
         values.put(COLUMN_TEAM_ID, studentTeam.getTeam().getId());
 
@@ -41,13 +42,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
     @Override
     public long insert(StudentTeam studentTeam) {
-        long id = db.insert(TABLE, null, getContentValues(studentTeam));
-
-        if (id < 0) id = 0;
-
-        studentTeam.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(studentTeam));
     }
 
     @Override
@@ -70,9 +65,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                studentTeam = getCursorValues(cursor);
-            }
+            studentTeam = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -90,9 +83,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
-                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                    list.add(getCursorValues(cursor));
-                }
+                list.add(getCursorValues(cursor));
             }
             cursor.close();
         } catch (WhereClauseException e) {
@@ -110,9 +101,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
 
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
+            list.add(getCursorValues(cursor));
         }
         cursor.close();
 

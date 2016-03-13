@@ -10,6 +10,7 @@ import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ProjectDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
 import com.sasd13.proadmin.dao.RunningDAO;
+import com.sasd13.proadmin.dao.RunningTeamDAO;
 import com.sasd13.proadmin.dao.StudentDAO;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
 import com.sasd13.proadmin.dao.TeacherDAO;
@@ -23,7 +24,8 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String TEACHER_TABLE_DROP = "DROP TABLE IF EXISTS " + TeacherDAO.TABLE + ";";
     public static final String TEACHER_TABLE_CREATE = "CREATE TABLE " + TeacherDAO.TABLE
             + " ("
-                + TeacherDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TeacherDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + TeacherDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
                 + TeacherDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
                 + TeacherDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
@@ -38,7 +40,8 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String PROJECT_TABLE_DROP = "DROP TABLE IF EXISTS " + ProjectDAO.TABLE + ";";
     public static final String PROJECT_TABLE_CREATE = "CREATE TABLE " + ProjectDAO.TABLE
             + " ("
-                + ProjectDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ProjectDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
                 + ProjectDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
                 + ProjectDAO.COLUMN_TITLE + " VARCHAR(255) NOT NULL, "
@@ -52,13 +55,14 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String STUDENT_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentDAO.TABLE + ";";
     public static final String STUDENT_TABLE_CREATE = "CREATE TABLE " + StudentDAO.TABLE
             + " ("
-            + StudentDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
-            + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
-            + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
-            + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
-            + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
-            + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
-            + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + StudentDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
+                + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
+                + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
     /**
@@ -67,7 +71,8 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String TEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + TeamDAO.TABLE + ";";
     public static final String TEAM_TABLE_CREATE = "CREATE TABLE " + TeamDAO.TABLE
             + " ("
-                + TeamDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TeamDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + TeamDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
                 + TeamDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
@@ -78,12 +83,11 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String STUDENTTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + StudentTeamDAO.TABLE + ";";
     public static final String STUDENTTEAM_TABLE_CREATE = "CREATE TABLE " + StudentTeamDAO.TABLE
             + " ("
-                + StudentTeamDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
-                + StudentTeamDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + StudentTeamDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + StudentTeamDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
-                + "FOREIGN KEY (" + StudentTeamDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "("+ TeamDAO.COLUMN_ID + ")"
-                + ", FOREIGN KEY (" + StudentTeamDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
-                + ", CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + StudentTeamDAO.COLUMN_TEAM_ID + ", " + StudentTeamDAO.COLUMN_STUDENT_ID + ")"
+                + StudentTeamDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
+                + "CONSTRAINT UNIQUE_CONSTRAINT UNIQUE (" + StudentTeamDAO.COLUMN_STUDENT_ID + ", " + StudentTeamDAO.COLUMN_TEAM_ID + ")"
             + ");";
 
     /**
@@ -92,13 +96,24 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String RUNNING_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningDAO.TABLE + ";";
     public static final String RUNNING_TABLE_CREATE = "CREATE TABLE " + RunningDAO.TABLE
             + " ("
-            + RunningDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
-            + RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
-            + RunningDAO.COLUMN_TEACHER_ID + " INTEGER NOT NULL, "
-            + RunningDAO.COLUMN_PROJECT_ID + " INTEGER NOT NULL, "
-            + RunningDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-            + "FOREIGN KEY (" + RunningDAO.COLUMN_TEACHER_ID + ") REFERENCES " + TeacherDAO.TABLE + "("+ TeacherDAO.COLUMN_ID + ")"
-            + ", FOREIGN KEY (" + RunningDAO.COLUMN_PROJECT_ID + ") REFERENCES " + ProjectDAO.TABLE + "("+ ProjectDAO.COLUMN_ID + ")"
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + RunningDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
+                + RunningDAO.COLUMN_YEAR + " INT NOT NULL, "
+                + RunningDAO.COLUMN_TEACHER_ID + " INTEGER NOT NULL, "
+                + RunningDAO.COLUMN_PROJECT_ID + " INTEGER NOT NULL, "
+                + RunningDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
+            + ");";
+
+    /**
+     * Table studentteams
+     */
+    public static final String RUNNINGTEAM_TABLE_DROP = "DROP TABLE IF EXISTS " + RunningTeamDAO.TABLE + ";";
+    public static final String RUNNINGTEAM_TABLE_CREATE = "CREATE TABLE " + RunningTeamDAO.TABLE
+            + " ("
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + RunningTeamDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
+                + RunningTeamDAO.COLUMN_RUNNING_ID + " INTEGER NOT NULL, "
+                + RunningTeamDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL"
             + ");";
 
     /**
@@ -107,15 +122,13 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String REPORT_TABLE_DROP = "DROP TABLE IF EXISTS " + ReportDAO.TABLE + ";";
     public static final String REPORT_TABLE_CREATE = "CREATE TABLE " + ReportDAO.TABLE
             + " ("
-                + ReportDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ReportDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
                 + ReportDAO.COLUMN_WEEK + " INT NOT NULL, "
                 + ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, "
-                + ReportDAO.COLUMN_TEAM_ID + " INTEGER NOT NULL, "
-                + ReportDAO.COLUMN_RUNNING_ID + " INTEGER NOT NULL, "
-                + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + ReportDAO.COLUMN_TEAM_ID + ") REFERENCES " + TeamDAO.TABLE + "("+ TeamDAO.COLUMN_ID + ")"
-                + ", FOREIGN KEY (" + ReportDAO.COLUMN_RUNNING_ID + ") REFERENCES " + RunningDAO.TABLE + "("+ RunningDAO.COLUMN_ID + ")"
+                + ReportDAO.COLUMN_RUNNINGTEAM + " INTEGER NOT NULL, "
+                + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
     /**
@@ -124,16 +137,15 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String LEADEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + LeadEvaluationDAO.TABLE + ";";
     public static final String LEADEVALUATION_TABLE_CREATE = "CREATE TABLE " + LeadEvaluationDAO.TABLE
             + " ("
-                + LeadEvaluationDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + LeadEvaluationDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + LeadEvaluationDAO.COLUMN_PLANNINGMARK + " FLOAT NOT NULL, "
                 + LeadEvaluationDAO.COLUMN_PLANNINGCOMMENT + " TEXT, "
                 + LeadEvaluationDAO.COLUMN_COMMUNICATIONMARK + " FLOAT NOT NULL, "
                 + LeadEvaluationDAO.COLUMN_COMMUNICATIONCOMMENT + " TEXT, "
                 + LeadEvaluationDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
                 + LeadEvaluationDAO.COLUMN_REPORT_ID + " INTEGER NOT NULL, "
-                + LeadEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + LeadEvaluationDAO.COLUMN_REPORT_ID + ") REFERENCES " + ReportDAO.TABLE + "("+ ReportDAO.COLUMN_ID + ")"
-                + ", FOREIGN KEY (" + LeadEvaluationDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
+                + LeadEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
     /**
@@ -142,18 +154,17 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
     public static final String INDIVIDUALEVALUATION_TABLE_DROP = "DROP TABLE IF EXISTS " + IndividualEvaluationDAO.TABLE + ";";
     public static final String INDIVIDUALEVALUATION_TABLE_CREATE = "CREATE TABLE " + IndividualEvaluationDAO.TABLE
             + " ("
-                + IndividualEvaluationDAO.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + IndividualEvaluationDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + IndividualEvaluationDAO.COLUMN_MARK + " FLOAT NOT NULL, "
                 + IndividualEvaluationDAO.COLUMN_STUDENT_ID + " INTEGER NOT NULL, "
                 + IndividualEvaluationDAO.COLUMN_REPORT_ID + " INTEGER NOT NULL, "
-                + IndividualEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0, "
-                + "FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_REPORT_ID + ") REFERENCES " + ReportDAO.TABLE + "("+ ReportDAO.COLUMN_ID + ")"
-                + ", FOREIGN KEY (" + IndividualEvaluationDAO.COLUMN_STUDENT_ID + ") REFERENCES " + StudentDAO.TABLE + "("+ StudentDAO.COLUMN_ID + ")"
+                + IndividualEvaluationDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
 
     public SQLiteDBHandler(Context context, String name, CursorFactory factory, int version) {
-		super(context, name, factory, version);
+        super(context, name, factory, version);
 	}
 	
 	@Override
@@ -164,6 +175,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
         db.execSQL(TEAM_TABLE_CREATE);
         db.execSQL(STUDENTTEAM_TABLE_CREATE);
         db.execSQL(RUNNING_TABLE_CREATE);
+        db.execSQL(RUNNINGTEAM_TABLE_CREATE);
         db.execSQL(REPORT_TABLE_CREATE);
         db.execSQL(LEADEVALUATION_TABLE_CREATE);
         db.execSQL(INDIVIDUALEVALUATION_TABLE_CREATE);
@@ -174,6 +186,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
         db.execSQL(INDIVIDUALEVALUATION_TABLE_DROP);
         db.execSQL(LEADEVALUATION_TABLE_DROP);
         db.execSQL(REPORT_TABLE_DROP);
+        db.execSQL(RUNNINGTEAM_TABLE_DROP);
         db.execSQL(RUNNING_TABLE_DROP);
         db.execSQL(STUDENTTEAM_TABLE_DROP);
         db.execSQL(TEAM_TABLE_DROP);
@@ -182,16 +195,5 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
         db.execSQL(TEACHER_TABLE_DROP);
 
 		onCreate(db);
-	}
-	
-	//Methode pour activer la contrainte de cle etrangere a l'ouverture de la base de donnees
-	//Par defaut la contrainte n'est pas active dans SQLite
-	@Override
-	public void onOpen(SQLiteDatabase db) {
-	    super.onOpen(db);
-
-	    if (!db.isReadOnly()) {	        
-	        db.execSQL("PRAGMA foreign_keys=ON;");
-	    }
 	}
 }

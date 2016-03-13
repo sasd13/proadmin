@@ -20,6 +20,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
     protected ContentValues getContentValues(Student student) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, student.getId());
         values.put(COLUMN_NUMBER, student.getNumber());
         values.put(COLUMN_ACADEMICLEVEL, String.valueOf(student.getAcademicLevel()));
         values.put(COLUMN_FIRSTNAME, student.getFirstName());
@@ -45,13 +46,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public long insert(Student student) {
-        long id = db.insert(TABLE, null, getContentValues(student));
-
-        if (id < 0) id = 0;
-
-        student.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(student));
     }
 
     @Override

@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.ReportDAO;
 import com.sasd13.proadmin.dao.util.WhereClauseException;
 import com.sasd13.proadmin.dao.util.WhereClauseParser;
@@ -22,24 +21,21 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
     protected ContentValues getContentValues(Report report) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, report.getId());
         values.put(COLUMN_DATEMEETING, String.valueOf(report.getMeetingDate()));
         values.put(COLUMN_WEEK, report.getWeek());
         values.put(COLUMN_TEAMCOMMENT, report.getComment());
-        values.put(COLUMN_TEAM_ID, report.getTeam().getId());
-        values.put(COLUMN_RUNNING_ID, report.getRunning().getId());
+        values.put(COLUMN_RUNNINGTEAM, report.getRunningTeam().getId());
 
         return values;
     }
 
     @Override
     protected Report getCursorValues(Cursor cursor) {
-        Team team = new Team();
-        team.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEAM_ID)));
+        RunningTeam runningteam = new RunningTeam();
+        runningteam.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNNINGTEAM)));
 
-        Running running = new Running();
-        running.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNNING_ID)));
-
-        Report report = new Report(team, running);
+        Report report = new Report(runningteam);
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
         report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
@@ -50,13 +46,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public long insert(Report report) {
-        long id = db.insert(TABLE, null, getContentValues(report));
-
-        if (id < 0) id = 0;
-
-        report.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(report));
     }
 
     @Override

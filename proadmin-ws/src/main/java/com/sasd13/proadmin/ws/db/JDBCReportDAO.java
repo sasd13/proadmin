@@ -14,9 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.ReportDAO;
 import com.sasd13.proadmin.dao.util.WhereClauseParser;
 
@@ -31,19 +30,15 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		preparedStatement.setString(1, String.valueOf(report.getMeetingDate()));
 		preparedStatement.setInt(2, report.getWeek());
 		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setLong(4, report.getTeam().getId());
-		preparedStatement.setLong(5, report.getRunning().getId());
+		preparedStatement.setLong(4, report.getRunningTeam().getId());
 	}
 	
 	@Override
 	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new Team();
-		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
+		RunningTeam runningTeam = new RunningTeam();
+		runningTeam.setId(resultSet.getLong(COLUMN_RUNNINGTEAM));
 		
-		Running running = new Running();
-		running.setId(resultSet.getLong(COLUMN_RUNNING_ID));
-		
-		Report report = new Report(team, running);
+		Report report = new Report(runningTeam);
 		report.setId(resultSet.getLong(COLUMN_ID));
 		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setWeek(resultSet.getInt(COLUMN_WEEK));
@@ -61,8 +56,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_DATEMEETING + ", "
 					+ COLUMN_WEEK + ", " 
 					+ COLUMN_TEAMCOMMENT + ", " 
-					+ COLUMN_TEAM_ID + ", "
-					+ COLUMN_RUNNING_ID 
+					+ COLUMN_RUNNINGTEAM
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
@@ -101,8 +95,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 					+ COLUMN_DATEMEETING + " = ?, " 
 					+ COLUMN_WEEK + " = ?, " 
 					+ COLUMN_TEAMCOMMENT + " = ?, " 
-					+ COLUMN_TEAM_ID + " = ?, " 
-					+ COLUMN_RUNNING_ID + " = ?" 
+					+ COLUMN_RUNNINGTEAM + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		

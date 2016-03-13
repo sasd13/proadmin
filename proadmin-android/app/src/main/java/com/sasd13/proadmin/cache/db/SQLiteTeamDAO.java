@@ -19,6 +19,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     protected ContentValues getContentValues(Team team) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, team.getId());
         values.put(COLUMN_CODE, team.getCode());
 
         return values;
@@ -36,13 +37,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public long insert(Team team) {
-        long id = db.insert(TABLE, null, getContentValues(team));
-
-        if (id < 0) id = 0;
-
-        team.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(team));
     }
 
     @Override

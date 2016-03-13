@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_padding">
 
     <RelativeLayout
-        android:id="@+id/runnings_view_tab_title"
+        android:id="@+id/runnings_relativelayout_project"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -13,11 +13,52 @@
         android:paddingRight="@dimen/activity_padding">
 
         <TextView
-            android:id="@+id/runnings_textview"
-            android:layout_width="match_parent"
+            android:id="@+id/runnings_textview_title_project"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/runnings_textview_runnings"
+            android:text="@string/runnings_textview_title_project"
+            android:textColor="@color/customOrange"
+            android:textSize="@dimen/textsize_medium"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/runnings_dividerview_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_below="@id/runnings_textview_title_project"
+            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:background="@color/customOrange" />
+
+        <TextView
+            android:id="@+id/runnings_textview_project"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/runnings_dividerview_1"
+            android:layout_marginTop="@dimen/view_margin_medium"
+            android:text="@string/runnings_textview_project"
+            android:textSize="@dimen/textsize_medium"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/runnings_view_tab_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/runnings_relativelayout_project"
+        android:layout_marginTop="@dimen/viewgroup_margin"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding">
+
+        <TextView
+            android:id="@+id/runnings_textview_title_years"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/runnings_textview_title_years"
             android:textColor="@color/customOrange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold" />
@@ -26,7 +67,7 @@
             android:id="@+id/runnings_dividerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dividerview_height_medium"
-            android:layout_below="@id/runnings_textview"
+            android:layout_below="@id/runnings_textview_title_years"
             android:layout_marginTop="@dimen/dividerview_margintop"
             android:background="@color/customOrange" />
 

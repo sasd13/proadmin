@@ -7,19 +7,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.business.BusinessException;
+import com.sasd13.proadmin.business.running.RunningService;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
 import com.sasd13.proadmin.handler.SessionHandler;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.sorter.running.RunningSorter;
 import com.sasd13.proadmin.ws.task.LoaderCreateTask;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
 
@@ -30,23 +34,28 @@ import java.util.Map;
 
 public class RunningsActivity extends MotherActivity implements ILoader {
 
+    private TextView textViewProject;
     private View viewLoad, viewTab;
-    private Tab tab;
+    private Tab tabRunnings;
 
-    private LoaderParameterizedReadTask<Running> parameterizedReadTask;
     private List<Running> runnings = new ArrayList<>();
-
-    private LoaderCreateTask<Running> createTask;
+    private LoaderParameterizedReadTask<Running> parameterizedReadTaskRunning;
     private Running runningToCreate;
-    private boolean isActionCreate;
+    private LoaderCreateTask<Running> createTaskRunning;
+    private boolean isActionCreateRunning;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_runnings);
+        createTextViewProject();
         createSwicthableViews();
         createTabRunnings();
+    }
+
+    private void createTextViewProject() {
+        textViewProject = (TextView) findViewById(R.id.runnings_textview_project);
     }
 
     private void createSwicthableViews() {
@@ -57,14 +66,23 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     private void createTabRunnings() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.runnings_recyclerview);
 
-        tab = new Tab(this, recyclerView, R.layout.tabitem_running);
+        tabRunnings = new Tab(this, recyclerView, R.layout.tabitem_running);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        long id = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+        Project project = Cache.load(id, Project.class);
+
+        fillTextViewProject(project);
         refresh();
+    }
+
+    private void fillTextViewProject(Project project) {
+        String text = project.getCode() + " - " + project.getTitle();
+        textViewProject.setText(text);
     }
 
     private void refresh() {
@@ -73,12 +91,12 @@ public class RunningsActivity extends MotherActivity implements ILoader {
             long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
 
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(Parameter.TEACHER.getName(), new String[]{String.valueOf(teacherId)});
-            parameters.put(Parameter.PROJECT.getName(), new String[]{String.valueOf(projectId)});
+            parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
+            parameters.put(Parameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
 
-            parameterizedReadTask = new LoaderParameterizedReadTask<>(this, Running.class, parameters, this);
-            parameterizedReadTask.setDeepReadEnabled(true);
-            parameterizedReadTask.execute();
+            parameterizedReadTaskRunning = new LoaderParameterizedReadTask<>(this, Running.class, parameters, this);
+            parameterizedReadTaskRunning.setDeepReadEnabled(true);
+            parameterizedReadTaskRunning.execute();
         } else {
             ConnectivityChecker.showNotActive(this);
         }
@@ -107,24 +125,27 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
     private void newRunning() {
         if (ConnectivityChecker.isActive(this)) {
-            isActionCreate = true;
+            try {
+                runningToCreate = RunningService.initCreateRunning();
 
-            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
-            long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+                isActionCreateRunning = true;
 
-            runningToCreate = new Running();
-            runningToCreate.setTeacher(Cache.load(teacherId, Teacher.class));
-            runningToCreate.setProject(Cache.load(projectId, Project.class));
-
-            createTask = new LoaderCreateTask<>(this, Running.class, this);
-            createTask.execute(runningToCreate);
+                createTaskRunning = new LoaderCreateTask<>(this, Running.class, this);
+                createTaskRunning.execute(runningToCreate);
+            } catch (BusinessException e) {
+                CustomDialog.showOkDialog(
+                        this,
+                        e.getTitle(),
+                        e.getMessage()
+                );
+            }
         } else {
             ConnectivityChecker.showNotActive(this);
         }
     }
 
     @Override
-    public void doInLoad() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -139,27 +160,28 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInCompleted() {
-        if (isActionCreate) {
-            isActionCreate = false;
+    public void onCompleted() {
+        if (isActionCreateRunning) {
+            isActionCreateRunning = false;
 
-            doInCreateTaskCompleted();
+            onCreateTaskRunningCompleted();
         } else {
-            doInReadTaskCompleted();
+            onReadTaskRunningsCompleted();
         }
 
         switchToLoadView(false);
     }
 
-    private void doInCreateTaskCompleted() {
+    private void onCreateTaskRunningCompleted() {
         try {
-            long id = createTask.getResults().get(0);
+            long id = createTaskRunning.getResults().get(0);
 
             if (id > 0) {
                 runningToCreate.setId(id);
                 runnings.add(runningToCreate);
 
                 fillTabRunnings();
+                Toast.makeText(this, "Gestion créée", Toast.LENGTH_SHORT).show();
                 Cache.keep(runningToCreate);
             }
         } catch (IndexOutOfBoundsException e) {
@@ -172,8 +194,9 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     public void fillTabRunnings() {
-        tab.clearItems();
+        tabRunnings.clearItems();
 
+        RunningSorter.byYear(runnings, true);
         addRunningsToTab();
     }
 
@@ -183,27 +206,26 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
         for (Running running : runnings) {
             tabItemRunning = new TabItemRunning();
-
             tabItemRunning.setYear(String.valueOf(running.getYear()));
 
             intent = new Intent(this, RunningActivity.class);
             intent.putExtra(Extra.RUNNING_ID, running.getId());
             tabItemRunning.setIntent(intent);
 
-            tab.addItem(tabItemRunning);
+            tabRunnings.addItem(tabItemRunning);
         }
     }
 
-    private void doInReadTaskCompleted() {
+    private void onReadTaskRunningsCompleted() {
         runnings.clear();
-        runnings.addAll(parameterizedReadTask.getResults());
+        runnings.addAll(parameterizedReadTaskRunning.getResults());
 
         fillTabRunnings();
         Cache.keepAll(runnings);
     }
 
     @Override
-    public void doInError() {
+    public void onError() {
         switchToLoadView(false);
     }
 }

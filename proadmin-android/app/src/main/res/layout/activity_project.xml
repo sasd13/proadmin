@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_dividerview_2"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/project_textview_academiclevel_l1"
+            android:text="@string/project_textview_academiclevel"
             android:textSize="@dimen/textsize_medium"
             android:singleLine="true"/>
 

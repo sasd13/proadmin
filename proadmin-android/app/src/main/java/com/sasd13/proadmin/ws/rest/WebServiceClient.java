@@ -95,6 +95,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest = new HttpRequest(new URL(url + urlParams), HttpRequest.HttpMethod.GET);
             httpRequest.open(timeOut);
+            httpRequest.addHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName(), HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName());
             setRequestHeaderAccept();
             setRequestHeaderDataRetrieve();
             httpRequest.connect();

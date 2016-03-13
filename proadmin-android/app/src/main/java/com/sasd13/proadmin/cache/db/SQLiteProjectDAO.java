@@ -20,6 +20,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
     protected ContentValues getContentValues(Project project) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, project.getId());
         values.put(COLUMN_CODE, project.getCode());
         values.put(COLUMN_ACADEMICLEVEL, String.valueOf(project.getAcademicLevel()));
         values.put(COLUMN_TITLE, project.getTitle());
@@ -43,13 +44,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public long insert(Project project) {
-        long id = db.insert(TABLE, null, getContentValues(project));
-
-        if (id < 0) id = 0;
-
-        project.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(project));
     }
 
     @Override

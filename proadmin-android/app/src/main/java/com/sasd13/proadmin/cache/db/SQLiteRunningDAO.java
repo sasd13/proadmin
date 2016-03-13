@@ -21,6 +21,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
     protected ContentValues getContentValues(Running running) {
         ContentValues values = new ContentValues();
 
+        values.put(COLUMN_ID, running.getId());
         values.put(COLUMN_YEAR, running.getYear());
         values.put(COLUMN_TEACHER_ID, running.getTeacher().getId());
         values.put(COLUMN_PROJECT_ID, running.getProject().getId());
@@ -33,6 +34,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
         Running running = new Running();
 
         running.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+        running.setYear(cursor.getInt(cursor.getColumnIndex(COLUMN_YEAR)));
 
         Teacher teacher = new Teacher();
         teacher.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_TEACHER_ID)));
@@ -47,13 +49,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public long insert(Running running) {
-        long id = db.insert(TABLE, null, getContentValues(running));
-
-        if (id < 0) id = 0;
-
-        running.setId(id);
-
-        return id;
+        return db.insert(TABLE, null, getContentValues(running));
     }
 
     @Override

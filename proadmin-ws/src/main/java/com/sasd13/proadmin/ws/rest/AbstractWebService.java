@@ -7,7 +7,6 @@ package com.sasd13.proadmin.ws.rest;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +44,15 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> parameters = req.getParameterMap();
+		String headerRequestParameterized = (String) req.getHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName());
 		String headerDataRetrieve = (String) req.getHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName());
 		
 		Object respData = null;
 		
-		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
+		if (!HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName().equals(headerRequestParameterized)
+				&& parameters.size() == 1 
+				&& parameters.containsKey(REQUEST_PARAMETER_ID) 
+				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
 				long id = Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID));
 				
@@ -62,10 +65,8 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			
 			if (parameters.isEmpty()) {
 				list = ReadHandler.readAll(getEntityClass(), persistence, headerDataRetrieve);
-			} else if (!parameters.containsKey(REQUEST_PARAMETER_ID)) {
-				list = ReadHandler.read(parameters, getEntityClass(), persistence, headerDataRetrieve);
 			} else {
-				list = new ArrayList<>();
+				list = ReadHandler.read(parameters, getEntityClass(), persistence, headerDataRetrieve);
 			}
 			
 			respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));

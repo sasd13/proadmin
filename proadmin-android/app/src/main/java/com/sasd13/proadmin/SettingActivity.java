@@ -28,7 +28,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     private View viewLoad, viewFormTeacher;
     private FormTeacherViewHolder formTeacherViewHolder;
 
-    private LoaderReadTask<Teacher> readTask;
+    private LoaderReadTask<Teacher> readTaskTeacher;
     private Teacher teacher;
 
     @Override
@@ -64,8 +64,8 @@ public class SettingActivity extends MotherActivity implements ILoader {
         if (ConnectivityChecker.isActive(this)) {
             long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
 
-            readTask = new LoaderReadTask<>(this, Teacher.class, this);
-            readTask.execute(teacherId);
+            readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
+            readTaskTeacher.execute(teacherId);
         } else {
             ConnectivityChecker.showNotActive(this);
         }
@@ -129,7 +129,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInLoad() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -144,9 +144,9 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInCompleted() {
+    public void onCompleted() {
         try {
-            teacher = readTask.getResults().get(0);
+            teacher = readTaskTeacher.getResults().get(0);
 
             fillFormTeacherViewHolder();
             Cache.keep(teacher);
@@ -169,7 +169,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void doInError() {
+    public void onError() {
         switchToLoadView(false);
     }
 }

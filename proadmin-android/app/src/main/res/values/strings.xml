@@ -10,6 +10,7 @@
     <string name="activity_project">Projet</string>
     <string name="activity_runnings">Gestions</string>
     <string name="activity_running">Gestion</string>
+    <string name="activity_team">Groupe</string>
     <string name="activity_setting">Options</string>
 
     <!-- Activity Login -->
@@ -32,22 +33,28 @@
     <string name="projects_textview_projects">PROJETS</string>
 
     <!-- Activity Project -->
-    <string name="project_textview_title_academiclevel">ACADEMIC LEVEL</string>
+    <string name="project_textview_title_academiclevel">NIVEAU ACADEMIQUE</string>
     <string name="project_textview_title_code">CODE</string>
-    <string name="project_textview_title_title">TITLE</string>
+    <string name="project_textview_title_title">TITRE</string>
     <string name="project_textview_title_description">DESCRIPTION</string>
-    <string name="project_textview_academiclevel_l1">L1</string>
-    <string name="project_textview_code">L1A</string>
-    <string name="project_textview_title">Title</string>
+    <string name="project_textview_academiclevel">Niveau</string>
+    <string name="project_textview_code">Code</string>
+    <string name="project_textview_title">Titre</string>
     <string name="project_textview_description">Description</string>
 
     <!-- Activity Runnings -->
-    <string name="runnings_textview_runnings">GESTIONS</string>
+    <string name="runnings_textview_title_project">PROJET</string>
+    <string name="runnings_textview_project">Projet</string>
+    <string name="runnings_textview_title_years">ANNEES</string>
 
     <!-- Activity Running -->
+    <string name="running_textview_title_project">PROJET</string>
+    <string name="running_textview_project">Projet</string>
     <string name="running_textview_title_year">ANNEE</string>
-    <string name="running_textview_title_teams">GROUPES</string>
     <string name="running_textview_year">Année</string>
+    <string name="running_textview_title_teams">GROUPES</string>
+
+    <!-- Activity Team -->
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
@@ -66,11 +73,11 @@
     <string name="menuitem_projects_action_runnings">Mes gestions</string>
 
     <!-- Tab -->
-    <string name="tabitem_project_textview_title">Title</string>
+    <string name="tabitem_project_textview_title">Titre</string>
     <string name="tabitem_project_textview_code">Code</string>
     <string name="tabitem_project_textview_description">Description</string>
     <string name="tabitem_running_textview_year">Année</string>
-    <string name="tabitem_project_textview_teams">Groupes :</string>
-    <string name="tabitem_project_textview_nbrteams">0</string>
+    <string name="tabitem_running_textview_teams">Groupes</string>
+    <string name="tabitem_team_textview_code">Code</string>
 
 </resources>

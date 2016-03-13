@@ -27,8 +27,8 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		preparedStatement.setLong(1, studentTeam.getTeam().getId());
-		preparedStatement.setLong(2, studentTeam.getStudent().getId());
+		preparedStatement.setLong(1, studentTeam.getStudent().getId());
+		preparedStatement.setLong(2, studentTeam.getTeam().getId());
 	}
 	
 	@Override
@@ -129,9 +129,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					studentTeam = getResultSetValues(resultSet);
-				}
+				studentTeam = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -174,9 +172,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	
 	private void fillListWithResultSet(List<StudentTeam> studentTeams, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				studentTeams.add(getResultSetValues(resultSet));
-			}
+			studentTeams.add(getResultSetValues(resultSet));
 		}
 	}
 	

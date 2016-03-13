@@ -13,6 +13,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public abstract class DAO implements IDAO {
 	
@@ -22,19 +23,22 @@ public abstract class DAO implements IDAO {
 	protected TeamDAO teamDAO;
 	protected StudentTeamDAO studentTeamDAO;
 	protected RunningDAO runningDAO;
+	protected RunningTeamDAO runningTeamDAO;
 	protected ReportDAO reportDAO;
 	protected LeadEvaluationDAO leadEvaluationDAO;
 	protected IndividualEvaluationDAO individualEvaluationDAO;
 	
 	private StudentTeamDeepReader studentTeamDeepReader;
 	private RunningDeepReader runningDeepReader;
+	private RunningTeamDeepReader runningTeamDeepReader;
 	private ReportDeepReader reportDeepReader;
 	private LeadEvaluationDeepReader leadEvaluationDeepReader;
 	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
 	
 	protected DAO(TeacherDAO teacherDAO, ProjectDAO projectDAO, 
 			StudentDAO studentDAO, TeamDAO teamDAO, StudentTeamDAO studentTeamDAO,
-			RunningDAO runningDAO, ReportDAO reportDAO, LeadEvaluationDAO leadEvaluationDAO, IndividualEvaluationDAO individualEvaluationDAO) {
+			RunningDAO runningDAO, RunningTeamDAO runningTeamDAO,
+			ReportDAO reportDAO, LeadEvaluationDAO leadEvaluationDAO, IndividualEvaluationDAO individualEvaluationDAO) {
 		
 		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;
@@ -42,12 +46,14 @@ public abstract class DAO implements IDAO {
 		this.teamDAO = teamDAO;
 		this.studentTeamDAO = studentTeamDAO;
 		this.runningDAO = runningDAO;
+		this.runningTeamDAO = runningTeamDAO;
 		this.reportDAO = reportDAO;
 		this.leadEvaluationDAO = leadEvaluationDAO;
 		this.individualEvaluationDAO = individualEvaluationDAO;
 		
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDAO, individualEvaluationDAO);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
@@ -66,6 +72,8 @@ public abstract class DAO implements IDAO {
 			return (IEntityDAO<T>) studentTeamDAO;
 		} else if (Running.class.equals(mClass)) {
 			return (IEntityDAO<T>) runningDAO;
+		} else if (RunningTeam.class.equals(mClass)) {
+			return (IEntityDAO<T>) runningTeamDAO;
 		} else if (Report.class.equals(mClass)) {
 			return (IEntityDAO<T>) reportDAO;
 		} else if (LeadEvaluation.class.equals(mClass)) {
@@ -82,6 +90,8 @@ public abstract class DAO implements IDAO {
 			return (DeepReader<T>) studentTeamDeepReader;
 		} else if (Running.class.equals(mClass)) {
 			return (DeepReader<T>) runningDeepReader;
+		} else if (RunningTeam.class.equals(mClass)) {
+			return (DeepReader<T>) runningTeamDeepReader;
 		} else if (Report.class.equals(mClass)) {
 			return (DeepReader<T>) reportDeepReader;
 		} else if (LeadEvaluation.class.equals(mClass)) {
