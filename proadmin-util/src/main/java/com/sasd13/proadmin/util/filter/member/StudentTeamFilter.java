@@ -17,13 +17,13 @@ public class StudentTeamFilter extends AndFilter<StudentTeam> {
 					try {
 						multiAndCriteria.addCriteria(new StudentCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.TEAM.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				}
 			}

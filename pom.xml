@@ -42,5 +42,6 @@
 		<module>proadmin-util</module>
 		<module>proadmin-dao</module>
 		<module>proadmin-ws</module>
+		<module>proadmin-business</module>
 	</modules>
 </project>

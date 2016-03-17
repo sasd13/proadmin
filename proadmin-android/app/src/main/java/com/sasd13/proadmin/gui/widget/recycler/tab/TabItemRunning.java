@@ -19,10 +19,8 @@ public class TabItemRunning extends RecyclerItem {
     public void setYear(CharSequence year) {
         this.year = year;
 
-        try {
-            textViewYear.setText(year);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (textViewYear != null) {
+        	textViewYear.setText(year);
         }
     }
 

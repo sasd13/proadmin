@@ -61,6 +61,8 @@ public class Cache {
             t = dao.getEntityDAO(mClass).select(id);
         } catch (DBException e) {
             e.printStackTrace();
+        } finally {
+            dao.close();
         }
 
         return t;
@@ -75,6 +77,8 @@ public class Cache {
             ts = dao.getEntityDAO(mClass).select(parameters);
         } catch (DBException e) {
             e.printStackTrace();
+        } finally {
+            dao.close();
         }
 
         return ts;
@@ -89,6 +93,8 @@ public class Cache {
             ts = dao.getEntityDAO(mClass).selectAll();
         } catch (DBException e) {
             e.printStackTrace();
+        } finally {
+            dao.close();
         }
 
         return ts;

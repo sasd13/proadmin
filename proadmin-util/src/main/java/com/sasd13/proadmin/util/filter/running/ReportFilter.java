@@ -17,13 +17,13 @@ public class ReportFilter extends AndFilter<Report> {
 					try {
 						multiAndCriteria.addCriteria(new WeekCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.RUNNINGTEAM.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new RunningTeamCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				}
 			}

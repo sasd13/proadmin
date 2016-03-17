@@ -14,10 +14,8 @@ public class DrawerItemHomeMenu extends DrawerItem {
     public void setColor(int color) {
         this.color = color;
 
-        try {
-            viewColor.setBackgroundColor(color);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (viewColor != null) {
+        	viewColor.setBackgroundColor(color);
         }
     }
 

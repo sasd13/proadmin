@@ -78,10 +78,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -109,10 +111,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -135,10 +139,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -166,10 +172,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				preparedStatement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -192,10 +200,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				statement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -226,10 +236,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				statement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

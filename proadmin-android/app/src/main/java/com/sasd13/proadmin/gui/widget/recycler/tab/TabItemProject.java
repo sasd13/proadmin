@@ -19,30 +19,24 @@ public class TabItemProject extends RecyclerItem {
     public void setCode(CharSequence code) {
         this.code = code;
 
-        try {
-            textViewCode.setText(code);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (textViewCode != null) {
+        	textViewCode.setText(code);
         }
     }
 
     public void setTitle(CharSequence title) {
         this.title = title;
 
-        try {
-            textViewTitle.setText(title);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (textViewTitle != null) {
+        	textViewTitle.setText(title);
         }
     }
 
     public void setDescription(CharSequence description) {
         this.description = description;
 
-        try {
-            textViewDescription.setText(description);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (textViewDescription != null) {
+        	textViewDescription.setText(description);
         }
     }
 

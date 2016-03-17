@@ -17,19 +17,19 @@ public class RunningFilter extends AndFilter<Running> {
 					try {
 						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.TEACHER.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.PROJECT.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				}
 			}

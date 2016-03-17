@@ -78,8 +78,7 @@ public class WhereClauseParser {
 			try {
 				return TeacherDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				throw new WhereClauseException("Teacher key '" + key + "' parameter parsing error. See above");
+				throw new WhereClauseException("Teacher key '" + key + "' parameter parsing error");
 			}
 		} else if (Parameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return TeacherDAO.COLUMN_NUMBER + " = '" + value + "'";
@@ -99,8 +98,7 @@ public class WhereClauseParser {
 			try {
 				return ProjectDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				throw new WhereClauseException("Project key '" + key + "' parameter parsing error. See above");
+				throw new WhereClauseException("Project key '" + key + "' parameter parsing error");
 			}
 		} else if (Parameter.CODE.getName().equalsIgnoreCase(key)) {
 			return ProjectDAO.COLUMN_CODE + " = '" + value + "'";
@@ -118,8 +116,7 @@ public class WhereClauseParser {
 			try {
 				return StudentDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				throw new WhereClauseException("Student key '" + key + "' parameter parsing error. See above");
+				throw new WhereClauseException("Student key '" + key + "' parameter parsing error");
 			}
 		} else if (Parameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return StudentDAO.COLUMN_NUMBER + " = '" + value + "'";
@@ -141,8 +138,7 @@ public class WhereClauseParser {
 			try {
 				return TeamDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				throw new WhereClauseException("Team key '" + key + "' parameter parsing error. See above");
+				throw new WhereClauseException("Team key '" + key + "' parameter parsing error");
 			}
 		} else if (Parameter.CODE.getName().equalsIgnoreCase(key)) {
 			return TeamDAO.COLUMN_CODE + " = '" + value + "'";
@@ -163,8 +159,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("StudentTeam key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("StudentTeam key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("StudentTeam key '" + key + "' parameter parsing error");
 		}
 	}
 	
@@ -182,8 +177,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("Running key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("Running key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("Running key '" + key + "' parameter parsing error");
 		}
 	}
 	
@@ -199,8 +193,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("RunningTeam key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("RunningTeam key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("RunningTeam key '" + key + "' parameter parsing error");
 		}
 	}
 	
@@ -216,8 +209,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("Report key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("Report key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("Report key '" + key + "' parameter parsing error");
 		}
 	}
 	
@@ -233,8 +225,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("LeadEvaluation key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("LeadEvaluation key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("LeadEvaluation key '" + key + "' parameter parsing error");
 		}
 	}
 	
@@ -250,8 +241,7 @@ public class WhereClauseParser {
 				throw new WhereClauseException("IndividualEvaluation key '" + key + "' is not a declared parameter");
 			}
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			throw new WhereClauseException("IndividualEvaluation key '" + key + "' parameter parsing error. See above");
+			throw new WhereClauseException("IndividualEvaluation key '" + key + "' parameter parsing error");
 		}
 	}
 }

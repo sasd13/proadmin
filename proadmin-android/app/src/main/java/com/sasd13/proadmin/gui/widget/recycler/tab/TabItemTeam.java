@@ -19,10 +19,8 @@ public class TabItemTeam extends RecyclerItem {
     public void setCode(CharSequence code) {
         this.code = code;
 
-        try {
-            textViewCode.setText(code);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (textViewCode != null) {
+        	textViewCode.setText(code);
         }
     }
 

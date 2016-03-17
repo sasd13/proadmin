@@ -20,7 +20,7 @@ public class ProjectFilter extends URLParameterFilter<Project> {
 					try {
 						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value)));
 					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.TITLE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new TitleCriteria(value));

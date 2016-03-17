@@ -28,17 +28,13 @@ public class ReportDeepReader extends DeepReader<Report> {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 		parameters.put(Parameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
 		
-		try {
-			LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
-			report.getLeadEvaluation().setId(leadEvaluation.getId());
-			report.getLeadEvaluation().setPlanningMark(leadEvaluation.getPlanningMark());
-			report.getLeadEvaluation().setPlanningComment(leadEvaluation.getPlanningComment());
-			report.getLeadEvaluation().setCommunicationMark(leadEvaluation.getCommunicationMark());
-			report.getLeadEvaluation().setCommunicationComment(leadEvaluation.getCommunicationComment());
-			report.getLeadEvaluation().setStudent(leadEvaluation.getStudent());
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
+		report.getLeadEvaluation().setId(leadEvaluation.getId());
+		report.getLeadEvaluation().setPlanningMark(leadEvaluation.getPlanningMark());
+		report.getLeadEvaluation().setPlanningComment(leadEvaluation.getPlanningComment());
+		report.getLeadEvaluation().setCommunicationMark(leadEvaluation.getCommunicationMark());
+		report.getLeadEvaluation().setCommunicationComment(leadEvaluation.getCommunicationComment());
+		report.getLeadEvaluation().setStudent(leadEvaluation.getStudent());
 		
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		IndividualEvaluation individualEvaluationToAdd;

@@ -77,10 +77,12 @@ public class JDBCDAO extends DAO {
 	
 	@Override
 	public void close() {
-		try {
-			connection.close();
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -103,10 +105,12 @@ public class JDBCDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				statement.close();
-			} catch (SQLException | NullPointerException e) {
-				e.printStackTrace();
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

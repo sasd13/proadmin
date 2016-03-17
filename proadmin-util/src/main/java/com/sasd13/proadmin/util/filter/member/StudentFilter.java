@@ -20,7 +20,7 @@ public class StudentFilter extends AndFilter<Student> {
 					try {
 						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value)));
 					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
+						//throw new FilterException
 					}
 				} else if (Parameter.FIRSTNAME.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new FirstNameCriteria<Student>(value));
