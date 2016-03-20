@@ -18,10 +18,14 @@ public enum AcademicLevel {
 		return name;
 	}
 	
+	public static AcademicLevel[] getLevels() {
+		return new AcademicLevel[] {L1, L2, L3, M1, M2};
+	}
+	
 	public static AcademicLevel find(String name) {
 		AcademicLevel academicLevel = UNKNOWN;
 		
-		for (AcademicLevel bufferedAcademicLevel : AcademicLevel.values()) {
+		for (AcademicLevel bufferedAcademicLevel : values()) {
 			if (bufferedAcademicLevel.getName().equalsIgnoreCase(name)) {
 				academicLevel = bufferedAcademicLevel;
 			}

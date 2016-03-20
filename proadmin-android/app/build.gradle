@@ -35,4 +35,5 @@ dependencies {
     compile('com.thoughtworks.xstream:xstream:1.4.7') {
         exclude group: 'xmlpull', module: 'xmlpull'
     }
+    compile 'commons-codec:commons-codec:1.4'
 }

@@ -1,13 +1,13 @@
 package com.sasd13.proadmin.business;
 
-import com.sasd13.javaex.db.IDAO;
-import com.sasd13.javaex.db.Persistence;
+import com.sasd13.javaex.db.ILayeredDAO;
+import com.sasd13.javaex.db.LayeredPersistor;
 
 public abstract class BusinessService<T> {
 	
-	protected Persistence persistence;
+	protected LayeredPersistor persistor;
 	
-	protected BusinessService(IDAO dao) {
-		persistence = new Persistence(dao);
+	protected BusinessService(ILayeredDAO layeredDAO) {
+		persistor = new LayeredPersistor(layeredDAO);
 	}
 }

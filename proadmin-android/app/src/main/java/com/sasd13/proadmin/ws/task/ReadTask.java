@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ReadTask<T> extends AsyncTask<Long, Integer, List<T>> {
 
-    private static final int TIMEOUT = 60000;
+    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
 
     private Context context;
     private WebServiceClient<T> service;

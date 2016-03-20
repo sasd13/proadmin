@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sasd13.javaex.db.Persistence;
+import com.sasd13.javaex.db.LayeredPersistor;
 import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
@@ -31,15 +31,6 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	private static final String REQUEST_PARAMETER_ID = "id";
 	
-	private Persistence persistence;
-	
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		
-		persistence = new Persistence(JDBCDAO.getInstance());
-	}
-	
 	protected abstract Class<T> getEntityClass();
 	
 	@Override
@@ -49,6 +40,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		Map<String, String[]> parameters = req.getParameterMap();
 		
 		Object respData = null;
+		LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
 		
 		if (!HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName().equals(headerRequestParameterized)
 				&& parameters.size() == 1 
@@ -57,7 +49,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			try {
 				long id = Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID));
 				
-				respData = ReadHandler.read(id, getEntityClass(), persistence, headerDataRetrieve);
+				respData = ReadHandler.read(id, getEntityClass(), persistor, headerDataRetrieve);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -65,9 +57,9 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			List<T> list;
 			
 			if (parameters.isEmpty()) {
-				list = ReadHandler.readAll(getEntityClass(), persistence, headerDataRetrieve);
+				list = ReadHandler.readAll(getEntityClass(), persistor, headerDataRetrieve);
 			} else {
-				list = ReadHandler.read(parameters, getEntityClass(), persistence, headerDataRetrieve);
+				list = ReadHandler.read(parameters, getEntityClass(), persistor, headerDataRetrieve);
 			}
 			
 			respData = list.toArray((T[]) Array.newInstance(getEntityClass(), list.size()));
@@ -87,7 +79,8 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		try {
 			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
 			
-			id = persistence.create(t);
+			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+			id = persistor.create(t);
 		} catch (DataParserException e) {
 			e.printStackTrace();
 		}
@@ -103,11 +96,12 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
+			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
 			
 			if (reqData.getClass().isArray()) {
-				persistence.updateAll(Arrays.asList((T[]) reqData));
+				persistor.updateAll(Arrays.asList((T[]) reqData));
 			} else {
-				persistence.update((T) reqData);
+				persistor.update((T) reqData);
 			}
 		} catch (DataParserException e) {
 			e.printStackTrace();
@@ -124,7 +118,8 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 				&& parameters.containsKey(REQUEST_PARAMETER_ID) 
 				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
-				persistence.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
+				LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+				persistor.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}

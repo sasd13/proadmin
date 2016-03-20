@@ -15,6 +15,6 @@ public interface JDBCInformation {
 	String HOST = "localhost:3306";
 	String DB = "proadmin";
 	String URL = "jdbc:mysql://" + HOST + "/" + DB;
-	String USER = "root";
+	String USERNAME = "root";
 	String PASSWORD = "";
 }

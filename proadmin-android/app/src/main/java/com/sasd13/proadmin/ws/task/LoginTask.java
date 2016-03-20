@@ -12,7 +12,7 @@ import com.sasd13.proadmin.ws.rest.LoginWebServiceClient;
  */
 public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
-    private static final int TIMEOUT = 60000;
+    private static final int TIMEOUT = LoginWebServiceClient.DEFAULT_TIMEOUT;
 
     private LoginActivity loginActivity;
     private LoginWebServiceClient service;
@@ -48,7 +48,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
     @Override
     protected Long doInBackground(Void... aVoid) {
         if (!isCancelled()) {
-            result = service.login(number, password);
+            result = service.logIn(number, password);
         }
 
         return result;

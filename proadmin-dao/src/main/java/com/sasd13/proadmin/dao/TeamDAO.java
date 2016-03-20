@@ -7,6 +7,6 @@ public interface TeamDAO extends IEntityDAO<Team> {
 	
 	String TABLE = "teams";
 	
-	String COLUMN_ID = "team_id";
-	String COLUMN_CODE = "team_code";
+	String COLUMN_ID = "id";
+	String COLUMN_CODE = "code";
 }

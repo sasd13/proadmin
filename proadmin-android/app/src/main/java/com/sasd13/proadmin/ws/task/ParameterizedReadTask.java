@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> {
 
-    private static final int TIMEOUT = 60000;
+    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
 
     private Context context;
     private Map<String, String[]> parameters;

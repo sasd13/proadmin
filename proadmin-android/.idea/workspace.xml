@@ -28,403 +28,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10707d22-77cb-469d-899a-010fa3590073" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\business\BusinessException.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\business\running\RunningService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/running/RunningBusinessService.java" />
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\handler\ActivityHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/helper/ActivityHelper.java" />
-      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\handler\SessionHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/helper/SessionHelper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/hash/JDBCHashDAO.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_codec_1_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/resources/scripts/proadmin_ws_TBL_CREATE.sql" />
+      <change type="DELETED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-ws\src\main\java\com\sasd13\proadmin\ws\db\DBHandler.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\src\main\java\com\sasd13\proadmin\business\running\RunningBusinessService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/RunningBusiness.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.classpath" afterPath="$PROJECT_DIR$/../.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/.classpath" afterPath="$PROJECT_DIR$/../old-proadmin/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.classpath" afterPath="$PROJECT_DIR$/../proadmin-bean/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/.classpath" afterPath="$PROJECT_DIR$/../proadmin-business/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.classpath" afterPath="$PROJECT_DIR$/../proadmin-dao/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.classpath" afterPath="$PROJECT_DIR$/../proadmin-util/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/.classpath" afterPath="$PROJECT_DIR$/../proadmin-ws/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/.gitignore" afterPath="$PROJECT_DIR$/../old-proadmin/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/.gitignore" afterPath="$PROJECT_DIR$/app/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.gitignore" afterPath="$PROJECT_DIR$/../proadmin-bean/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.gitignore" afterPath="$PROJECT_DIR$/../proadmin-dao/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.gitignore" afterPath="$PROJECT_DIR$/../proadmin-util/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/.gitignore" afterPath="$PROJECT_DIR$/../proadmin-ws/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.project" afterPath="$PROJECT_DIR$/../.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/.project" afterPath="$PROJECT_DIR$/../old-proadmin/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.project" afterPath="$PROJECT_DIR$/../proadmin-bean/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/.project" afterPath="$PROJECT_DIR$/../proadmin-business/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.project" afterPath="$PROJECT_DIR$/../proadmin-dao/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.project" afterPath="$PROJECT_DIR$/../proadmin-util/.project" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/javaex-0.1.jar" afterPath="$PROJECT_DIR$/app/libs/javaex-0.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/proadmin-bean-0.1.jar" afterPath="$PROJECT_DIR$/app/libs/proadmin-bean-0.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/proadmin-dao-0.1.jar" afterPath="$PROJECT_DIR$/app/libs/proadmin-dao-0.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/libs/proadmin-util-0.1.jar" afterPath="$PROJECT_DIR$/app/libs/proadmin-util-0.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/AbstractWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/AbstractWebService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/AcademicLevel.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/AcademicLevel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/AcademicLevelCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/AcademicLevelCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/AcademicLevelCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/AcademicLevelCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Accueil.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Accueil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeEtudiants.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeEtudiants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeNotes.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeNotes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeProjets.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/AdapterListeProjets.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/AndroidManifest.xml" afterPath="$PROJECT_DIR$/../old-proadmin/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/main/java/com/sasd13/proadmin/App.java" afterPath="$PROJECT_DIR$/../src/main/java/com/sasd13/proadmin/App.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/test/java/com/sasd13/proadmin/bean/AppTest.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/test/java/com/sasd13/proadmin/bean/AppTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/src/test/java/com/sasd13/proadmin/business/AppTest.java" afterPath="$PROJECT_DIR$/../proadmin-business/src/test/java/com/sasd13/proadmin/business/AppTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/test/java/com/sasd13/proadmin/dao/AppTest.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/test/java/com/sasd13/proadmin/dao/AppTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/test/java/com/sasd13/proadmin/util/AppTest.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/test/java/com/sasd13/proadmin/util/AppTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/test/java/com/sasd13/proadmin/AppTest.java" afterPath="$PROJECT_DIR$/../src/test/java/com/sasd13/proadmin/AppTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/sasd13/proadmin/ApplicationTest.java" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/sasd13/proadmin/ApplicationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Bilan.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Bilan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/gen/com/example/gestionprojetandroid/BuildConfig.java" afterPath="$PROJECT_DIR$/../old-proadmin/gen/com/example/gestionprojetandroid/BuildConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/BusinessException.java" afterPath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/BusinessException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/BusinessService.java" afterPath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/BusinessService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/Cache.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/Cache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/CodeCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/CodeCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/CodeCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/CodeCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Commentaire.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Commentaire.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Configurations.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Configurations.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/CreateTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/CreateTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/DAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/DAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packDatabase/DAOBase.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packDatabase/DAOBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/DBHandler.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/DBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packDatabase/DatabaseHandler.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packDatabase/DatabaseHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/DeleteTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/DeleteTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/drawer/DrawerItemHomeMenu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/drawer/DrawerItemHomeMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionConfiguration.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionEtudiant.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionEtudiant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionFiche.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionFiche.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionProjet.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurEditorActionProjet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurRatingBarFiche.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/EcouteurRatingBarFiche.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/EmailCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/EmailCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Encadrant.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Encadrant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Etudiant.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Etudiant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/EtudiantSelect.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/EtudiantSelect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Evaluation.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Evaluation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Evaluation.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Evaluation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/constant/Extra.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/constant/Extra.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Fiche.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Fiche.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/FicheEvaluation.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/FicheEvaluation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/FilterException.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/FilterException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/FirstNameCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/FirstNameCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Groupe.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Groupe.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Groupes.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Groupes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenuItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/content/homemenu/HomeMenuItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/pattern/command/ILoader.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/pattern/command/ILoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/IPersistable.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/IPersistable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Identification.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Identification.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/IndividualEvaluation.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/IndividualEvaluation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/IndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/IndividualEvaluationDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/IndividualEvaluationDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/IndividualEvaluationDeepReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCEntityDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCEntityDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCIndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCIndividualEvaluationDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCInformation.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCInformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCLeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCLeadEvaluationDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCProjectDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCProjectDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCReportDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCReportDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCRunningDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCRunningDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCRunningTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCRunningTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCStudentDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCStudentDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCStudentTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCStudentTeamDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCTeacherDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCTeacherDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/db/JDBCTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/LastNameCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/LastNameCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/LeadEvaluation.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/LeadEvaluation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/LeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/LeadEvaluationDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/LeadEvaluationDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/LeadEvaluationDeepReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderCreateTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderCreateTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderParameterizedReadTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderParameterizedReadTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderReadTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderReadTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/WebContent/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/../proadmin-ws/WebContent/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/../proadmin-ws/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Member.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Member.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Menu.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/MotherActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/MotherActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/MotherHome.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/MotherHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Note.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Note.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/NumberCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/NumberCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/Parameter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/Parameter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/project/Project.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/project/Project.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/ProjectCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/ProjectCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ProjectDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ProjectDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/ProjectFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/ProjectFilter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/ProjectsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/ProjectsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Projet.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Projet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/ProjetSelect.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/ProjetSelect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Projets.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/com/example/gestionprojetandroid/Projets.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/gen/com/example/gestionprojetandroid/R.java" afterPath="$PROJECT_DIR$/../old-proadmin/gen/com/example/gestionprojetandroid/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/README.md" afterPath="$PROJECT_DIR$/../old-proadmin/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/handler/RESTHandler.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/handler/RESTHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/handler/ReadHandler.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/handler/ReadHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Report.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Report.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ReportDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ReportDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ReportDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/ReportDeepReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/ReportFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/ReportFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/ReportsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/ReportsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Running.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/Running.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/running/RunningBusinessService.java" afterPath="$PROJECT_DIR$/../proadmin-business/src/main/java/com/sasd13/proadmin/business/running/RunningBusinessService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningDeepReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/sorter/running/RunningSorter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/sorter/running/RunningSorter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/RunningTeam.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/running/RunningTeam.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningTeamCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningTeamCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningTeamDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/RunningTeamDeepReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningTeamFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/RunningTeamFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/RunningTeamsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/RunningTeamsWebService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/RunningsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/RunningsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBInformation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBInformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteEntityDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteEntityDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteIndividualEvaluationDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteIndividualEvaluationDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteLeadEvaluationDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteLeadEvaluationDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteProjectDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteProjectDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteReportDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteReportDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteRunningDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteRunningDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteRunningTeamDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteRunningTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentTeamDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentTeamDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeamDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Securite.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packEntite/Securite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SettingActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SettingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/src/packUtil/SpinnerTri.java" afterPath="$PROJECT_DIR$/../old-proadmin/src/packUtil/SpinnerTri.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SplashScreenActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SplashScreenActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Student.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Student.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/StudentTeam.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/StudentTeam.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentTeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentTeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentTeamDeepReader.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/StudentTeamDeepReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentTeamFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/StudentTeamFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/StudentTeamsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/StudentTeamsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/StudentsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/StudentsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemProject.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemProject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemRunning.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemRunning.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemTeam.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemTeam.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Teacher.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Teacher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/TeacherCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/TeacherCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/TeacherDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/TeacherDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeacherFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeacherFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/TeachersWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/TeachersWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Team.java" afterPath="$PROJECT_DIR$/../proadmin-bean/src/main/java/com/sasd13/proadmin/bean/member/Team.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/TeamActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/TeamActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeamCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeamCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/TeamCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/TeamCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/TeamDAO.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/TeamDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeamFilter.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/member/TeamFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/TeamsWebService.java" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/java/com/sasd13/proadmin/ws/rest/TeamsWebService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/TitleCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/project/TitleCriteria.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/WebServiceInformation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/WebServiceInformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/WeekCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/WeekCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/util/WhereClauseException.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/util/WhereClauseException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/util/WhereClauseParser.java" afterPath="$PROJECT_DIR$/../proadmin-dao/src/main/java/com/sasd13/proadmin/dao/util/WhereClauseParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/YearCriteria.java" afterPath="$PROJECT_DIR$/../proadmin-util/src/main/java/com/sasd13/proadmin/util/filter/running/YearCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_bilan.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_bilan.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_bilan.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_bilan.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_bilan.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_bilan.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_configurations.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_configurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_configurations.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_configurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_configurations.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_configurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_fiche_evaluation.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_fiche_evaluation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_fiche_evaluation.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_fiche_evaluation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_fiche_evaluation.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_fiche_evaluation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_identification.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_identification.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_mother.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_mother.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_motherhome.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_motherhome.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_planning.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_planning.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_planning.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_planning.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_planning.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_planning.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_projects.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_projects.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/activity_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/activity_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/activity_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_running.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_running.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_runnings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_runnings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_setting.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_setting.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splashscreen.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splashscreen.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_team.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_team.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/alertdialog_perso.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/alertdialog_perso.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/androidex_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/androidex_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/anim/anim1.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/anim/anim1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/anim/anim1.xml" afterPath="$PROJECT_DIR$/app/src/main/res/anim/anim1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/anim/animation_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/anim/animation_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/anim/animation_page_principale.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/anim/animation_page_principale.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/configurations.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/configurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/color/couleurs_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/color/couleurs_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/color/couleurs_projet.xml" afterPath="$PROJECT_DIR$/app/src/main/res/color/couleurs_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/dialog_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/dialog_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values/dimens.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values-sw600dp/dimens.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values-sw600dp/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values-sw720dp-land/dimens.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values-sw720dp-land/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/draweritem_homemenu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/draweritem_homemenu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/fiche_evaluation.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/fiche_evaluation.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew" afterPath="$PROJECT_DIR$/gradlew" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/webapp/index.jsp" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/webapp/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/javaex_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/javaex_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_bilan_general.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_bilan_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_bilan_individuel.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_bilan_individuel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_etudiant.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_etudiant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_etudiant.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_etudiant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_etudiant.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_etudiant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_notes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_notes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_notes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_notes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_notes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_notes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_item_listview_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_item_listview_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_item_listview_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_fiches.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_fiches.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_fiches.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_fiches.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_fiches.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_fiches.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_groupes.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_groupes.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_listview_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_listview_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_listview_projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_fiche.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_fiche.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_groupe.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_groupe.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/linearlayout_nouveau_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/linearlayout_nouveau_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_projet.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/linearlayout_nouveau_projet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/menu_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/menu_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/menu_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/menu_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/menu_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/menu_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/menu_autre.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/menu_autre.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/menu_autre.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/menu_autre.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/menu_autre.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/menu_autre.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_project.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_project.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_projects.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_projects.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_running.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_running.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_runnings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_runnings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_setting.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_setting.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_team.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_team.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/../.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../old-proadmin/.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.jdt.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.settings/org.eclipse.m2e.core.prefs" afterPath="$PROJECT_DIR$/../.settings/org.eclipse.m2e.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.m2e.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.m2e.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.m2e.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-business/.settings/org.eclipse.m2e.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.m2e.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.m2e.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.m2e.core.prefs" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.m2e.core.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../proadmin-ws/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.common.project.facet.core.xml" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.common.project.facet.core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.common.project.facet.core.xml" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.common.project.facet.core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.common.project.facet.core.xml" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.common.project.facet.core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.validation.prefs" afterPath="$PROJECT_DIR$/../proadmin-bean/.settings/org.eclipse.wst.validation.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.validation.prefs" afterPath="$PROJECT_DIR$/../proadmin-dao/.settings/org.eclipse.wst.validation.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.validation.prefs" afterPath="$PROJECT_DIR$/../proadmin-util/.settings/org.eclipse.wst.validation.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/page_principale.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/page_principale.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/page_principale.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/page_principale.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/page_principale.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/page_principale.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/planning.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/planning.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/target/m2e-wtp/web-resources/META-INF/maven/com.sasd13.proadmin/proadmin-ws/pom.properties" afterPath="$PROJECT_DIR$/../proadmin-ws/target/m2e-wtp/web-resources/META-INF/maven/com.sasd13.proadmin/proadmin-ws/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proadmin-android.iml" afterPath="$PROJECT_DIR$/proadmin-android.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proadmin-app.iml" afterPath="$PROJECT_DIR$/proadmin-app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/proadmin_bean_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/proadmin_bean_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/proadmin_dao_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/proadmin_dao_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/proadmin_util_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/proadmin_util_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/proguard-project.txt" afterPath="$PROJECT_DIR$/../old-proadmin/proguard-project.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/project.properties" afterPath="$PROJECT_DIR$/../old-proadmin/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/menu/projets.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/menu/projets.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values/strings.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values/styles.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/values-v11/styles.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/values-v11/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_23_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_project.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_project.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_running.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_running.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_team.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tabitem_team.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout/viewpager_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout/viewpager_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/viewpager_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw600dp/viewpager_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/viewpager_accueil.xml" afterPath="$PROJECT_DIR$/../old-proadmin/res/layout-sw720dp/viewpager_accueil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../proadmin-ws/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/../proadmin-ws/src/main/webapp/WEB-INF/web.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/xpp3_min_1_1_4c.xml" afterPath="$PROJECT_DIR$/.idea/libraries/xpp3_min_1_1_4c.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/xstream_1_4_7.xml" afterPath="$PROJECT_DIR$/.idea/libraries/xstream_1_4_7.xml" />
     </list>
     <ignored path="proadmin-android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -451,18 +108,7 @@
     <favorites_list name="proadmin-android" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="LoginWebServiceClient.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.76149917">
-              <caret line="62" column="37" selection-start-line="62" selection-start-column="37" selection-end-line="62" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -1580,7 +1226,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android" value="4373389935853" />
+        <entry key="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android" value="4374100225764" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1802,6 +1448,7 @@
                             <option value="$MODULE_DIR$/libs/androidex.aar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.5/686c608d1805b6d4d425ec4459e88164ffc85870/gson-2.5.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/bce3282142b63068260f021fcbe48b72e8d71a1a/xstream-1.4.7.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
                             <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/19d4e90b43059058f6e056f794f0ea4030d60b86/xpp3_min-1.1.4c.jar" />
                             <option value="$MODULE_DIR$/libs/javaex-0.1.jar" />
@@ -1937,10 +1584,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/pattern/command/LoginActivityAction.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/IService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/Service.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/BusinessException.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/tabitem_team.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/gui/widget/recycler/tab/TabItemTeam.java" />
@@ -1950,17 +1593,9 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/tabitem_running.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_team.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/TeamActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderParameterizedReadTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderCreateTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/CreateTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/DeleteTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderReadTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_runnings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_running.xml" />
@@ -1969,12 +1604,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SettingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_running.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ProjectActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/running/RunningService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/running/RunningBusinessService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteIndividualEvaluationDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteLeadEvaluationDAO.java" />
@@ -1984,10 +1616,25 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteRunningTeamDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteStudentTeamDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeamDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/helper/SessionHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/WebServiceInformation.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/RunningBusinessService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/RunningBusiness.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/CreateTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/DeleteTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/Cache.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java" />
       </list>
     </option>
   </component>
@@ -2033,6 +1680,17 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proadmin-android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2043,135 +1701,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="task" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin-android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="proadmin" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2436,26 +1967,26 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31973898" sideWeight="0.4939577" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.4939577" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23338369" sideWeight="0.5644372" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23338369" sideWeight="0.5644372" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23413897" sideWeight="0.43556282" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.4939577" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -2479,97 +2010,11 @@
           <properties />
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="162" />
+      <option name="time" value="163" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="14" selection-start-line="80" selection-start-column="14" selection-end-line="80" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16013628">
-          <caret line="56" column="10" selection-start-line="56" selection-start-column="10" selection-end-line="56" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderReadTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/SplashScreenActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/TeamActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36883116">
-          <caret line="67" column="45" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82857144">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53351957">
-          <caret line="32" column="52" selection-start-line="32" selection-start-column="52" selection-end-line="32" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_projects.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.622905">
-          <caret line="37" column="73" selection-start-line="37" selection-start-column="73" selection-end-line="37" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25266904">
-          <caret line="51" column="50" selection-start-line="51" selection-start-column="50" selection-end-line="51" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_runnings.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43928573">
-          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_running.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -2591,13 +2036,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05974026">
           <caret line="13" column="50" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51428574">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -2692,33 +2130,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/running/RunningBusinessService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="51" selection-start-line="177" selection-start-column="51" selection-end-line="177" selection-end-column="51" />
-          <folding>
-            <element signature="e#4878#4879#0" expanded="true" />
-            <element signature="e#4916#4917#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/Cache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2727,19 +2138,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="157" column="79" selection-start-line="157" selection-start-column="79" selection-end-line="157" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-23/android.jar!/android/database/Cursor.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.3743017">
           <caret line="84" column="9" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2747,10 +2149,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.52327746">
           <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
-          <folding>
-            <element signature="e#1359#1360#0" expanded="true" />
-            <element signature="e#1410#1411#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2758,10 +2156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36312848">
           <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
-          <folding>
-            <element signature="e#1871#1872#0" expanded="true" />
-            <element signature="e#1922#1923#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2769,7 +2163,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="102" column="21" selection-start-line="102" selection-start-column="21" selection-end-line="102" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2777,7 +2170,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="121" column="5" selection-start-line="121" selection-start-column="5" selection-end-line="121" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2785,7 +2177,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="124" column="20" selection-start-line="124" selection-start-column="20" selection-end-line="124" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2793,7 +2184,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="127" column="20" selection-start-line="127" selection-start-column="20" selection-end-line="127" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2801,7 +2191,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2809,7 +2198,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="90" column="20" selection-start-line="90" selection-start-column="20" selection-end-line="90" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2817,7 +2205,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="115" column="5" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2825,15 +2212,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="110" column="5" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="9" selection-start-line="113" selection-start-column="9" selection-end-line="113" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2841,7 +2219,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4787053">
           <caret line="118" column="20" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2857,7 +2234,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.55025554">
           <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2865,7 +2241,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2877,10 +2252,148 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/business/RunningBusiness.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20272572">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/WebServiceClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/CreateTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="72" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/DeleteTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderCreateTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderParameterizedReadTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoaderReadTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ParameterizedReadTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="72" selection-start-line="18" selection-start-column="72" selection-end-line="18" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/ReadTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="72" selection-start-line="17" selection-start-column="72" selection-end-line="17" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/UpdateTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="72" selection-start-line="17" selection-start-column="72" selection-end-line="17" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/rest/LoginWebServiceClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76149917">
-          <caret line="62" column="37" selection-start-line="62" selection-start-column="37" selection-end-line="62" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.33246753">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/ws/task/LoginTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.6753247">
+          <caret line="14" column="77" selection-start-line="14" selection-start-column="77" selection-end-line="14" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteTeacherDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2805195">
+          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/Cache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17662337">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/RunningsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35064936">
+          <caret line="192" column="8" selection-start-line="192" selection-start-column="8" selection-end-line="192" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/cache/db/SQLiteDBHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="70" selection-start-line="31" selection-start-column="70" selection-end-line="31" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sasd13/proadmin/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31428573">
+          <caret line="74" column="49" selection-start-line="74" selection-start-column="49" selection-end-line="74" selection-end-column="49" />
           <folding />
         </state>
       </provider>

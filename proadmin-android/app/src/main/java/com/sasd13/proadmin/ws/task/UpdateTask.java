@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
 
-    private static final int TIMEOUT = 60000;
+    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
 
     private Context context;
     private WebServiceClient<T> service;

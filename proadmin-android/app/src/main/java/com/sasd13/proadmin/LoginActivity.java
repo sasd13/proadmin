@@ -19,6 +19,9 @@ import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.LoginTask;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class LoginActivity extends Activity implements ILoader {
 
     private static class FormLoginViewHolder {
@@ -73,7 +76,7 @@ public class LoginActivity extends Activity implements ILoader {
             isActionLogin = true;
 
             String number = formLoginViewHolder.editTextNumber.getText().toString().trim();
-            String password = formLoginViewHolder.editTextPassword.getText().toString().trim();
+            String password = new String(Hex.encodeHex(DigestUtils.md5(formLoginViewHolder.editTextPassword.getText().toString().trim())));
 
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();

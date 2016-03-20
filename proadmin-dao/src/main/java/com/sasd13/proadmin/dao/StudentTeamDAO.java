@@ -7,7 +7,7 @@ public interface StudentTeamDAO extends IEntityDAO<StudentTeam> {
 	
 	String TABLE = "studentteams";
 	
-	String COLUMN_ID = "studentteam_id";
-	String COLUMN_STUDENT_ID = "studentteam_student_id";
-	String COLUMN_TEAM_ID = "studentteam_team_id";
+	String COLUMN_ID = "id";
+	String COLUMN_STUDENT_ID = "student_id";
+	String COLUMN_TEAM_ID = "team_id";
 }

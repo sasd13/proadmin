@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.dao;
 
-import com.sasd13.javaex.db.DBException;
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.DeepReader;
-import com.sasd13.javaex.db.IDAO;
+import com.sasd13.javaex.db.ILayeredDAO;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
-public abstract class DAO implements IDAO {
+public abstract class DAO implements ILayeredDAO {
 	
 	protected TeacherDAO teacherDAO;
 	protected ProjectDAO projectDAO;
@@ -59,7 +59,7 @@ public abstract class DAO implements IDAO {
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
 	
-	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DBException {
+	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DAOException {
 		if (Teacher.class.equals(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;
 		} else if (Project.class.equals(mClass)) {
@@ -81,11 +81,11 @@ public abstract class DAO implements IDAO {
 		} else if (IndividualEvaluation.class.equals(mClass)) {
 			return (IEntityDAO<T>) individualEvaluationDAO;
 		} else {
-			throw new DBException("Class '" + mClass.getName() + "' has no entity dao");
+			throw new DAOException("Class '" + mClass.getName() + "' has no entity dao");
 		}
 	}
 	
-	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DBException {
+	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DAOException {
 		if (StudentTeam.class.equals(mClass)) {
 			return (DeepReader<T>) studentTeamDeepReader;
 		} else if (Running.class.equals(mClass)) {
@@ -99,7 +99,7 @@ public abstract class DAO implements IDAO {
 		} else if (IndividualEvaluation.class.equals(mClass)) {
 			return (DeepReader<T>) individualEvaluationDeepReader;
 		} else {
-			throw new DBException("Class '" + mClass.getName() + "' has no deep reader");
+			throw new DAOException("Class '" + mClass.getName() + "' has no deep reader");
 		}
 	}
 }

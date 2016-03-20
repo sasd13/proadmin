@@ -2,25 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\com.thoughtworks.xstream\xstream\1.4.7\bce3282142b63068260f021fcbe48b72e8d71a1a\xstream-1.4.7.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="bce3282142b63068260f021fcbe48b72e8d71a1a">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\xstream-1.4.7_a168bffc3d8bce632e73469cfd09a1ce0b798eb8.jar" />
-    </item>
-    <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\proadmin-util-0.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="2bd0e64110049c6e55edab06be8d863a9b5df640">
+        sha1="b51c8468f78fdd31eb19c12bb2bb0d4127e45abb">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\proadmin-util-0.1_2d44868293867c39810dfd8ed6fb4980d7f90be2.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\proadmin-dao-0.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_ce104b10fa4e845e856da45756707575f199ef9e.jar" />
+        sha1="9e5cc86671e6dfc7ca0396a2930a6aa395ddbff7">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\proadmin-dao-0.1_52ea60836e10a5a17bce1f721571a08dac900d5a.jar" />
     </item>
     <item
         jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\xpp3\xpp3_min\1.1.4c\19d4e90b43059058f6e056f794f0ea4030d60b86\xpp3_min-1.1.4c.jar"
@@ -30,11 +23,32 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\xpp3_min-1.1.4c_1b31d91ab1aa09a14359dc3104af13f115de0f3f.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\javaex-0.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_1e013f46646d37b65511aef2d881aa4e56aa35bc.jar" />
+        sha1="a01798fa956af342ee19b0f48762634531949d60">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\javaex-0.1_75890972390f80ee6756e84d095a818ec34c66ee.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.5\686c608d1805b6d4d425ec4459e88164ffc85870\gson-2.5.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="686c608d1805b6d4d425ec4459e88164ffc85870">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\gson-2.5_9b09d50ae20934a7c48bb913791f14d311ce4354.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_ce104b10fa4e845e856da45756707575f199ef9e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\proadmin-bean-0.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2161bdbae906475dc065e2b5e41ed394fc1bc592">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\proadmin-bean-0.1_ee5af17de26c35fba60451004f7bec9cdf5eeb74.jar" />
     </item>
     <item
         jar="C:\Users\Samir\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
@@ -44,18 +58,11 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_0478c9dae7478cbe246ca7bc546b9865c5f33b95.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\proadmin-bean-0.1.jar"
+        jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.4\4216af16d38465bbab0f3dff8efa14204f7a399a\commons-codec-1.4.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="3a619d1035c08929b7d55996a1c1e9838fa46824">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\proadmin-bean-0.1_ee5af17de26c35fba60451004f7bec9cdf5eeb74.jar" />
-    </item>
-    <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_f039b16be92bfa1ed558e1e6aa3cdb49e10beece.jar" />
+        sha1="4216af16d38465bbab0f3dff8efa14204f7a399a">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\commons-codec-1.4_44c01bf7b61f43f1ea2366d0a167f08a899fa712.jar" />
     </item>
     <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.sasd13.androidex\androidex\jars\classes.jar"
@@ -65,11 +72,11 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\exploded-aar-com.sasd13.androidex-androidex_316e546c0d81600b4f2990a5cbfc764e3b3d196f.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\proadmin-dao-0.1.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="4aab38c4af1c62e5c71adc8eb59813368cdd5052">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\proadmin-dao-0.1_52ea60836e10a5a17bce1f721571a08dac900d5a.jar" />
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_f039b16be92bfa1ed558e1e6aa3cdb49e10beece.jar" />
     </item>
     <item
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
@@ -79,18 +86,18 @@
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_2927e134ed716c64ee3cbb481279a21a5e61a9eb.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\libs\javaex-0.1.jar"
+        jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="5cb0fee3b0fd0df33aa58b5497328a66c405ddaf">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\javaex-0.1_75890972390f80ee6756e84d095a818ec34c66ee.jar" />
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_1e013f46646d37b65511aef2d881aa4e56aa35bc.jar" />
     </item>
     <item
-        jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.5\686c608d1805b6d4d425ec4459e88164ffc85870\gson-2.5.jar"
+        jar="C:\Users\Samir\.gradle\caches\modules-2\files-2.1\com.thoughtworks.xstream\xstream\1.4.7\bce3282142b63068260f021fcbe48b72e8d71a1a\xstream-1.4.7.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="686c608d1805b6d4d425ec4459e88164ffc85870">
-        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\gson-2.5_9b09d50ae20934a7c48bb913791f14d311ce4354.jar" />
+        sha1="bce3282142b63068260f021fcbe48b72e8d71a1a">
+        <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\xstream-1.4.7_a168bffc3d8bce632e73469cfd09a1ce0b798eb8.jar" />
     </item>
 
 </items>

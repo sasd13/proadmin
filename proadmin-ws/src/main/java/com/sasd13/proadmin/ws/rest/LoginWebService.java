@@ -16,11 +16,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sasd13.javaex.db.Persistence;
+import com.sasd13.javaex.db.DAOException;
+import com.sasd13.javaex.db.LayeredPersistor;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
+import com.sasd13.proadmin.ws.db.hash.JDBCHashDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 
 /**
@@ -30,42 +32,56 @@ import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 @WebServlet("/login")
 public class LoginWebService extends HttpServlet {
 	
-	private Persistence persistence;
-	
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		
-		persistence = new Persistence(JDBCDAO.getInstance());
-	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		long id = 0;
+		
 		try {
-			Map<String, String> login = RESTHandler.readAndParseDataFromRequest(req, Map.class);
-			String number = login.get(Parameter.NUMBER.getName());
+			Map<String, String> logins = RESTHandler.readAndParseDataFromRequest(req, Map.class);
+			String number = logins.get(Parameter.NUMBER.getName());
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			parameters.put(Parameter.NUMBER.getName(), new String[]{ number });
 			
-			List<Teacher> list = (List<Teacher>) persistence.read(parameters, Teacher.class);
-			
-			long id;
+			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+			List<Teacher> list = (List<Teacher>) persistor.read(parameters, Teacher.class);
 			
 			if (list.isEmpty()) {
 				id = 0;
 			} else {
 				Teacher teacher = list.get(0);
-				String password = login.get(Parameter.PASSWORD.getName());
 				
-				id = (teacher.isPasswordMatching(password))
-						? teacher.getId()
-						: -1;
+				String candidate = logins.get(Parameter.PASSWORD.getName());
+				String hash = selectHashFromDAO(teacher);
+				
+				id = (hash.equals(candidate)) ? teacher.getId() : -1;
 			}
-			
+		} catch (DataParserException e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
 		} catch (DataParserException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String selectHashFromDAO(Teacher teacher) {
+		String hash = null;
+		
+		JDBCHashDAO dao = new JDBCHashDAO();
+		
+		try {
+			dao.open();
+			
+			hash = dao.select(teacher.getId());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} finally {
+			dao.close();
+		}
+		
+		return hash;
 	}
 }

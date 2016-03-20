@@ -24,7 +24,6 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         values.put(COLUMN_FIRSTNAME, teacher.getFirstName());
         values.put(COLUMN_LASTNAME, teacher.getLastName());
         values.put(COLUMN_EMAIL, teacher.getEmail());
-        values.put(COLUMN_PASSWORD, teacher.getPassword());
 
         return values;
     }
@@ -38,7 +37,6 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         teacher.setFirstName(cursor.getString(cursor.getColumnIndex(COLUMN_FIRSTNAME)));
         teacher.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LASTNAME)));
         teacher.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
-        teacher.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
 
         return teacher;
     }

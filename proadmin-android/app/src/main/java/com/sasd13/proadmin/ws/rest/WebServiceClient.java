@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class WebServiceClient<T> implements IWebServiceClient<T> {
 
-    private static final int DEFAULT_TIMEOUT = 60000;
+    public static final int DEFAULT_TIMEOUT = 60000;
     public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
 
     private Class<T> mClass;
@@ -29,10 +29,6 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     private HttpRequest httpRequest;
     private int statusCode;
     private boolean dataRetrieveDeepEnabled;
-
-    public WebServiceClient(Class<T> mClass) {
-        this(mClass, DEFAULT_TIMEOUT);
-    }
 
     public WebServiceClient(Class<T> mClass, int timeOut) {
         this.mClass = mClass;

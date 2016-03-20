@@ -7,10 +7,9 @@ public interface TeacherDAO extends IEntityDAO<Teacher> {
 	
 	String TABLE = "teachers";
 	
-	String COLUMN_ID = "teacher_id";
-	String COLUMN_NUMBER = "teacher_number";
-	String COLUMN_FIRSTNAME = "teacher_firstname";
-	String COLUMN_LASTNAME = "teacher_lastname";
-	String COLUMN_EMAIL = "teacher_email";
-	String COLUMN_PASSWORD = "teacher_password";
+	String COLUMN_ID = "id";
+	String COLUMN_NUMBER = "number";
+	String COLUMN_FIRSTNAME = "firstname";
+	String COLUMN_LASTNAME = "lastname";
+	String COLUMN_EMAIL = "email";
 }

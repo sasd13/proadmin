@@ -7,11 +7,11 @@ public interface LeadEvaluationDAO extends IEntityDAO<LeadEvaluation> {
 	
 	String TABLE = "leadevaluations";
 	
-	String COLUMN_ID = "leadevaluation_id";
-	String COLUMN_PLANNINGMARK = "leadevaluation_planningmark";
-	String COLUMN_PLANNINGCOMMENT = "leadevaluation_planningcomment";
-	String COLUMN_COMMUNICATIONMARK = "leadevaluation_communicationmark";
-	String COLUMN_COMMUNICATIONCOMMENT = "leadevaluation_communicationcomment";
-	String COLUMN_REPORT_ID = "leadevaluation_report_id";
-	String COLUMN_STUDENT_ID = "leadevaluation_student_id";
+	String COLUMN_ID = "id";
+	String COLUMN_PLANNINGMARK = "planningmark";
+	String COLUMN_PLANNINGCOMMENT = "planningcomment";
+	String COLUMN_COMMUNICATIONMARK = "communicationmark";
+	String COLUMN_COMMUNICATIONCOMMENT = "communicationcomment";
+	String COLUMN_REPORT_ID = "report_id";
+	String COLUMN_STUDENT_ID = "student_id";
 }

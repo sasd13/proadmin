@@ -30,7 +30,6 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                 + TeacherDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
                 + TeacherDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
                 + TeacherDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
-                + TeacherDAO.COLUMN_PASSWORD + " VARCHAR(255) NOT NULL, "
                 + TeacherDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 

@@ -7,10 +7,10 @@ public interface StudentDAO extends IEntityDAO<Student> {
 	
 	String TABLE = "students";
 	
-	String COLUMN_ID = "student_id";
-	String COLUMN_NUMBER = "student_number";
-	String COLUMN_ACADEMICLEVEL = "student_academiclevel";
-	String COLUMN_FIRSTNAME = "student_firstname";
-	String COLUMN_LASTNAME = "student_lastname";
-	String COLUMN_EMAIL = "student_email";
+	String COLUMN_ID = "id";
+	String COLUMN_NUMBER = "number";
+	String COLUMN_ACADEMICLEVEL = "academiclevel";
+	String COLUMN_FIRSTNAME = "firstname";
+	String COLUMN_LASTNAME = "lastname";
+	String COLUMN_EMAIL = "email";
 }

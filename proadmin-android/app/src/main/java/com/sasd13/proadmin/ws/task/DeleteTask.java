@@ -13,7 +13,7 @@ import com.sasd13.proadmin.ws.rest.WebServiceClient;
  */
 public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
 
-    private static final int TIMEOUT = 60000;
+    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
 
     private Context context;
     private WebServiceClient<T> service;

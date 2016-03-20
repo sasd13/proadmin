@@ -98,7 +98,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     private void fillSpinAcademicLevels() {
-        for (AcademicLevel academicLevel : AcademicLevel.values()) {
+        for (AcademicLevel academicLevel : AcademicLevel.getLevels()) {
             spinAcademicLevels.addItem(academicLevel.getName());
         }
     }
