@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.handler.ActivityHandler;
+import com.sasd13.proadmin.helper.ActivityHelper;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -40,7 +40,7 @@ public class ProjectActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        long id = ActivityHandler.getCurrentExtraId(this, Extra.PROJECT_ID);
+        long id = ActivityHelper.getCurrentExtraId(this, Extra.PROJECT_ID);
         Project project = Cache.load(id, Project.class);
 
         fillProjectViewHolder(project);

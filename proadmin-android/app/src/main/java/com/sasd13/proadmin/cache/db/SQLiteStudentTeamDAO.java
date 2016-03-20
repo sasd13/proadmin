@@ -82,15 +82,19 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
                         + WhereClauseParser.parse(StudentTeamDAO.class, parameters);
 
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor.moveToNext()) {
-                list.add(getCursorValues(cursor));
-            }
+            fillListWithCursor(list, cursor);
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
+    }
+
+    private void fillListWithCursor(List<StudentTeam> list, Cursor cursor) {
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
     }
 
     @Override
@@ -100,9 +104,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
+        fillListWithCursor(list, cursor);
         cursor.close();
 
         return list;

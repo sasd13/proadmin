@@ -38,7 +38,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_ID));
 		student.setNumber(resultSet.getString(COLUMN_NUMBER));
-		student.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		student.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));

@@ -15,12 +15,11 @@ import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.business.BusinessException;
-import com.sasd13.proadmin.business.running.RunningService;
+import com.sasd13.proadmin.business.running.RunningBusinessService;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.handler.SessionHandler;
+import com.sasd13.proadmin.helper.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.sorter.running.RunningSorter;
@@ -73,7 +72,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     protected void onStart() {
         super.onStart();
 
-        long id = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+        long id = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
         Project project = Cache.load(id, Project.class);
 
         fillTextViewProject(project);
@@ -87,8 +86,8 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
     private void refresh() {
         if (ConnectivityChecker.isActive(this)) {
-            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
-            long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+            long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
+            long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
 
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
@@ -125,19 +124,14 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
     private void newRunning() {
         if (ConnectivityChecker.isActive(this)) {
-            try {
-                runningToCreate = RunningService.initCreateRunning();
+            runningToCreate = new Running();
 
+            boolean isPrepared = RunningBusinessService.prepareRunningToCreate(runningToCreate, this);
+            if (isPrepared) {
                 isActionCreateRunning = true;
 
                 createTaskRunning = new LoaderCreateTask<>(this, Running.class, this);
                 createTaskRunning.execute(runningToCreate);
-            } catch (BusinessException e) {
-                CustomDialog.showOkDialog(
-                        this,
-                        e.getTitle(),
-                        e.getMessage()
-                );
             }
         } else {
             ConnectivityChecker.showNotActive(this);
@@ -181,7 +175,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
                 runnings.add(runningToCreate);
 
                 fillTabRunnings();
-                Toast.makeText(this, "Gestion créée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Running added", Toast.LENGTH_SHORT).show();
                 Cache.keep(runningToCreate);
             }
         } catch (IndexOutOfBoundsException e) {

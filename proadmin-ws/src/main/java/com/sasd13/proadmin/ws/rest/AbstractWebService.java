@@ -7,6 +7,7 @@ package com.sasd13.proadmin.ws.rest;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +44,9 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, String[]> parameters = req.getParameterMap();
 		String headerRequestParameterized = (String) req.getHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName());
 		String headerDataRetrieve = (String) req.getHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName());
+		Map<String, String[]> parameters = req.getParameterMap();
 		
 		Object respData = null;
 		
@@ -81,11 +82,17 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		long id = 0;
+		
 		try {
 			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
 			
-			long id = persistence.create(t);
-			
+			id = persistence.create(t);
+		} catch (DataParserException e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
 		} catch (DataParserException e) {
 			e.printStackTrace();
@@ -98,7 +105,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
 			
 			if (reqData.getClass().isArray()) {
-				persistence.updateAll((T[]) reqData);
+				persistence.updateAll(Arrays.asList((T[]) reqData));
 			} else {
 				persistence.update((T) reqData);
 			}
@@ -109,9 +116,13 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String headerRequestParameterized = (String) req.getHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName());
 		Map<String, String[]> parameters = req.getParameterMap();
 		
-		if (parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
+		if (!HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName().equals(headerRequestParameterized)
+				&& parameters.size() == 1 
+				&& parameters.containsKey(REQUEST_PARAMETER_ID) 
+				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
 				persistence.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
 			} catch (NumberFormatException e) {

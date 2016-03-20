@@ -15,7 +15,7 @@ import com.sasd13.javaex.util.DataParserException;
 public class RESTHandler {
 	
 	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataParserException {
-		String sReqData = ContentIO.read(req.getReader());
+		String sReqData = ContentIO.readAndClose(req.getReader());
 		
 		return (T) DataParser.fromString(req.getContentType(), sReqData, mClass);
 	}
@@ -28,7 +28,7 @@ public class RESTHandler {
 		
 		String sRespData = DataParser.toString(contentType, respData);
 		
-		ContentIO.write(resp.getWriter(), sRespData);
+		ContentIO.writeAndClose(resp.getWriter(), sRespData);
 	}
 	
 	private static String getRequestAcceptMediaType(HttpServletRequest req) {

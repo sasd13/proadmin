@@ -52,7 +52,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spinAcademicLevels.getSelectedItem()));
+                fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
             }
 
             @Override
@@ -99,7 +99,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
     private void fillSpinAcademicLevels() {
         for (AcademicLevel academicLevel : AcademicLevel.values()) {
-            spinAcademicLevels.addItem(String.valueOf(academicLevel));
+            spinAcademicLevels.addItem(academicLevel.getName());
         }
     }
 
@@ -166,7 +166,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     public void fillTabProjects() {
-        fillTabProjectsByAcademicLevel(AcademicLevel.valueOf(spinAcademicLevels.getSelectedItem()));
+        fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
     }
 
     @Override

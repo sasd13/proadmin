@@ -62,10 +62,12 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
 
     @Override
     public void close() {
-        try {
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (db != null) {
+            try {
+                db.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

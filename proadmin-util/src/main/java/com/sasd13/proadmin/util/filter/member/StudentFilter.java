@@ -17,11 +17,7 @@ public class StudentFilter extends AndFilter<Student> {
 				if (Parameter.NUMBER.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
 				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value)));
-					} catch (IllegalArgumentException e) {
-						//throw new FilterException
-					}
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.find(entry.getKey())));
 				} else if (Parameter.FIRSTNAME.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new FirstNameCriteria<Student>(value));
 				} else if (Parameter.LASTNAME.getName().equals(entry.getKey())) {

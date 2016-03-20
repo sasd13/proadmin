@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.handler.ActivityHandler;
+import com.sasd13.proadmin.helper.ActivityHelper;
 
 public class TeamActivity extends MotherActivity {
 
@@ -39,7 +39,7 @@ public class TeamActivity extends MotherActivity {
         super.onStart();
 
         if (isInExtraModeEdit()) {
-            long id = ActivityHandler.getCurrentExtraId(this, Extra.TEAM_ID);
+            long id = ActivityHelper.getCurrentExtraId(this, Extra.TEAM_ID);
             team = Cache.load(id, Team.class);
 
             fillTeamViewHolder();

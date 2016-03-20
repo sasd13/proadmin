@@ -13,7 +13,7 @@ import com.sasd13.androidex.net.ConnectivityChecker;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.handler.SessionHandler;
+import com.sasd13.proadmin.helper.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
@@ -62,7 +62,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
 
     private void readTeacher() {
         if (ConnectivityChecker.isActive(this)) {
-            long teacherId = SessionHandler.getExtraIdFromSession(Extra.TEACHER_ID);
+            long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
 
             readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
             readTaskTeacher.execute(teacherId);

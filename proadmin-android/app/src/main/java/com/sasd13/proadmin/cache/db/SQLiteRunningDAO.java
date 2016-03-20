@@ -101,17 +101,21 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
                         + WhereClauseParser.parse(RunningDAO.class, parameters);
 
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor.moveToNext()) {
-                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                    list.add(getCursorValues(cursor));
-                }
-            }
+            fillListWithCursor(list, cursor);
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
+    }
+
+    private void fillListWithCursor(List<Running> list, Cursor cursor) {
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
     }
 
     @Override
@@ -121,11 +125,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
+        fillListWithCursor(list, cursor);
         cursor.close();
 
         return list;

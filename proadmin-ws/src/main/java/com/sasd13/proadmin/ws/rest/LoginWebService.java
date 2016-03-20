@@ -42,21 +42,23 @@ public class LoginWebService extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Teacher teacherFromRequest = (Teacher) RESTHandler.readAndParseDataFromRequest(req, Teacher.class);
+			Map<String, String> login = RESTHandler.readAndParseDataFromRequest(req, Map.class);
+			String number = login.get(Parameter.NUMBER.getName());
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
-			parameters.put(Parameter.NUMBER.getName(), new String[]{teacherFromRequest.getNumber()});
+			parameters.put(Parameter.NUMBER.getName(), new String[]{ number });
 			
 			List<Teacher> list = (List<Teacher>) persistence.read(parameters, Teacher.class);
 			
 			long id;
 			
-			if (list.isEmpty() || list.size() > 1) {
+			if (list.isEmpty()) {
 				id = 0;
 			} else {
 				Teacher teacher = list.get(0);
+				String password = login.get(Parameter.PASSWORD.getName());
 				
-				id = (teacher.getPassword().equals(teacherFromRequest.getPassword()))
+				id = (teacher.isPasswordMatching(password))
 						? teacher.getId()
 						: -1;
 			}

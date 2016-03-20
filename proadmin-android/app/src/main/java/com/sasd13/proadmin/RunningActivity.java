@@ -18,8 +18,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemTeam;
-import com.sasd13.proadmin.handler.ActivityHandler;
-import com.sasd13.proadmin.handler.SessionHandler;
+import com.sasd13.proadmin.helper.ActivityHelper;
+import com.sasd13.proadmin.helper.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
@@ -85,10 +85,10 @@ public class RunningActivity extends MotherActivity implements ILoader {
     protected void onStart() {
         super.onStart();
 
-        long id = ActivityHandler.getCurrentExtraId(this, Extra.RUNNING_ID);
+        long id = ActivityHelper.getCurrentExtraId(this, Extra.RUNNING_ID);
         running = Cache.load(id, Running.class);
 
-        long projectId = SessionHandler.getExtraIdFromSession(Extra.PROJECT_ID);
+        long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
         Project project = Cache.load(projectId, Project.class);
 
         fillRunningViewHolder(project);

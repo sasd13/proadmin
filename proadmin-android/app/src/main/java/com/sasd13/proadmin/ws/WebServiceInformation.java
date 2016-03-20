@@ -6,5 +6,5 @@ package com.sasd13.proadmin.ws;
 public interface WebServiceInformation {
 
     String URL = "http://192.168.1.9:8080/proadmin-ws/";
-    String URL_LOGIN = "http://192.168.1.9:8080/proadmin-ws/login";
+    String URL_LOGIN = URL + "login";
 }

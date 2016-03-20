@@ -104,17 +104,21 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
                     + " WHERE " + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + ";";
 
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor.moveToNext()) {
-                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                    list.add(getCursorValues(cursor));
-                }
-            }
+            fillListWithCursor(list, cursor);
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
+    }
+
+    private void fillListWithCursor(List<LeadEvaluation> list, Cursor cursor) {
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
     }
 
     @Override
@@ -124,11 +128,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
+        fillListWithCursor(list, cursor);
         cursor.close();
 
         return list;

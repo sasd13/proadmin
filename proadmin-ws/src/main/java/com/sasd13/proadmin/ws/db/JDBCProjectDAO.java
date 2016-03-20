@@ -37,7 +37,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		Project project = new Project();
 		project.setId(resultSet.getLong(COLUMN_ID));
 		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setAcademicLevel(AcademicLevel.valueOf(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		project.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 		

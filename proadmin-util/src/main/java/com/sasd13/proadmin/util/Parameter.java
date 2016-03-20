@@ -9,6 +9,7 @@ public enum Parameter {
 	ID("id"),
 	LASTNAME("lastname"),
 	NUMBER("number"),
+	PASSWORD("password"),
 	PROJECT("project"),
 	REPORT("report"),
 	RUNNING("running"),

@@ -29,7 +29,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		preparedStatement.setString(2, teacher.getFirstName());
 		preparedStatement.setString(3, teacher.getLastName());
 		preparedStatement.setString(4, teacher.getEmail());
-		preparedStatement.setString(5, teacher.getPassword());
 	}
 	
 	@Override
@@ -54,9 +53,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 					+ COLUMN_NUMBER + ", " 
 					+ COLUMN_FIRSTNAME + ", " 
 					+ COLUMN_LASTNAME + ", " 
-					+ COLUMN_EMAIL + ", " 
-					+ COLUMN_PASSWORD 
-				+ ") VALUES (?, ?, ?, ?, ?)";
+					+ COLUMN_EMAIL
+				+ ") VALUES (?, ?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
 		

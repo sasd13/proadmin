@@ -35,7 +35,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
         project.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         project.setCode(cursor.getString(cursor.getColumnIndex(COLUMN_CODE)));
-        project.setAcademicLevel(AcademicLevel.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
+        project.setAcademicLevel(AcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
         project.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
         project.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
 
@@ -95,17 +95,21 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
                     + " WHERE " + WhereClauseParser.parse(ProjectDAO.class, parameters) + ";";
 
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor.moveToNext()) {
-                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                    list.add(getCursorValues(cursor));
-                }
-            }
+            fillListWithCursor(list, cursor);
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
+    }
+
+    private void fillListWithCursor(List<Project> list, Cursor cursor) {
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
     }
 
     @Override
@@ -115,11 +119,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
+        fillListWithCursor(list, cursor);
         cursor.close();
 
         return list;

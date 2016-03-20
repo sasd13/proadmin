@@ -17,11 +17,7 @@ public class ProjectFilter extends URLParameterFilter<Project> {
 				if (Parameter.CODE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new CodeCriteria(value));
 				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.valueOf(value)));
-					} catch (IllegalArgumentException e) {
-						//throw new FilterException
-					}
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.find(value)));
 				} else if (Parameter.TITLE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new TitleCriteria(value));
 				}

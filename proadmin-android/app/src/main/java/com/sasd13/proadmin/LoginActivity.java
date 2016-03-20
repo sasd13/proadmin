@@ -14,7 +14,7 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.handler.SessionHandler;
+import com.sasd13.proadmin.helper.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.LoginTask;
@@ -136,7 +136,7 @@ public class LoginActivity extends Activity implements ILoader {
     private void onReadTaskTeacherCompleted() {
         try {
             Cache.keep(readTaskTeacher.getResults().get(0));
-            SessionHandler.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
+            SessionHelper.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
             goToHomeActivity();
         } catch (IndexOutOfBoundsException e) {
             CustomDialog.showOkDialog(

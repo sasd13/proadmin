@@ -17,13 +17,13 @@ public class RunningTeamFilter extends AndFilter<RunningTeam> {
 					try {
 						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						//throw new FilterException
+						e.printStackTrace();
 					}
 				} else if (Parameter.TEAM.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
-						//throw new FilterException
+						e.printStackTrace();
 					}
 				}
 			}

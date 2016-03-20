@@ -36,7 +36,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
         student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         student.setNumber(cursor.getString(cursor.getColumnIndex(COLUMN_NUMBER)));
-        student.setAcademicLevel(AcademicLevel.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
+        student.setAcademicLevel(AcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
         student.setFirstName(cursor.getString(cursor.getColumnIndex(COLUMN_FIRSTNAME)));
         student.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LASTNAME)));
         student.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
@@ -98,17 +98,21 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
                     + WhereClauseParser.parse(StudentDAO.class, parameters);
 
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor.moveToNext()) {
-                if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                    list.add(getCursorValues(cursor));
-                }
-            }
+            fillListWithCursor(list, cursor);
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
+    }
+
+    private void fillListWithCursor(List<Student> list, Cursor cursor) {
+        while (cursor.moveToNext()) {
+            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
+                list.add(getCursorValues(cursor));
+            }
+        }
     }
 
     @Override
@@ -118,11 +122,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
+        fillListWithCursor(list, cursor);
         cursor.close();
 
         return list;
