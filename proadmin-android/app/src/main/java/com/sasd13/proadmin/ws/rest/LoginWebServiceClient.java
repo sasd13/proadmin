@@ -31,7 +31,7 @@ public class LoginWebServiceClient {
         return statusCode;
     }
 
-    public long logIn(String number, String hash) {
+    public long logIn(String number, String password) {
         long id = 0;
 
         String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
@@ -39,7 +39,7 @@ public class LoginWebServiceClient {
         try {
             Map<String, String> logins = new HashMap<>();
             logins.put(Parameter.NUMBER.getName(), number);
-            logins.put(Parameter.PASSWORD.getName(), hash);
+            logins.put(Parameter.PASSWORD.getName(), password);
 
             String reqData = DataParser.toString(reqContentType, logins);
 

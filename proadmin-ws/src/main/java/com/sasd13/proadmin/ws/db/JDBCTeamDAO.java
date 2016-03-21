@@ -140,19 +140,19 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					team = getResultSetValues(resultSet);
-				}
+				team = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,12 +176,16 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(TeamDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -197,19 +201,13 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		return list;
 	}
 	
-	private void fillListWithResultSet(List<Team> list, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Team> selectAll() {
 		List<Team> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -217,7 +215,9 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

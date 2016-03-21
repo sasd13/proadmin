@@ -26,8 +26,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setString(2, String.valueOf(project.getAcademicLevel()));
+		preparedStatement.setString(1, project.getAcademicLevel().getName());
+		preparedStatement.setString(2, project.getCode());
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
 	}
@@ -36,8 +36,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setId(resultSet.getLong(COLUMN_ID));
-		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 		
@@ -50,8 +50,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ COLUMN_CODE + ", " 
 					+ COLUMN_ACADEMICLEVEL + ", " 
+					+ COLUMN_CODE + ", " 
 					+ COLUMN_TITLE + ", " 
 					+ COLUMN_DESCRIPTION 
 				+ ") VALUES (?, ?, ?, ?)";
@@ -91,8 +91,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	public void update(Project project) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ COLUMN_CODE + " = ?, " 
 					+ COLUMN_ACADEMICLEVEL + " = ?, " 
+					+ COLUMN_CODE + " = ?, " 
 					+ COLUMN_TITLE + " = ?, " 
 					+ COLUMN_DESCRIPTION + " = ?" 
 				+ " WHERE " 
@@ -153,19 +153,19 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					project = getResultSetValues(resultSet);
-				}
+				project = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,12 +189,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		
 		try {			
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(ProjectDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(projects, resultSet);
+			while (resultSet.next()) {
+				projects.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -210,19 +214,13 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		return projects;
 	}
 	
-	private void fillListWithResultSet(List<Project> projects, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				projects.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Project> selectAll() {
 		List<Project> projects = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -230,7 +228,9 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(projects, resultSet);
+			while (resultSet.next()) {
+				projects.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

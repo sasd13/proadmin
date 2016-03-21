@@ -9,6 +9,6 @@ public interface IndividualEvaluationDAO extends IEntityDAO<IndividualEvaluation
 	
 	String COLUMN_ID = "id";
 	String COLUMN_MARK = "mark";
-	String COLUMN_REPORT_ID = "report_id";
 	String COLUMN_STUDENT_ID = "student_id";
+	String COLUMN_REPORT_ID = "report_id";
 }

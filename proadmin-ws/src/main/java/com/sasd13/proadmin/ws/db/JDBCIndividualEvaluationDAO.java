@@ -28,8 +28,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
-		preparedStatement.setLong(2, individualEvaluation.getReport().getId());
-		preparedStatement.setLong(3, individualEvaluation.getStudent().getId());
+		preparedStatement.setLong(2, individualEvaluation.getStudent().getId());
+		preparedStatement.setLong(3, individualEvaluation.getReport().getId());
 	}
 	
 	@Override
@@ -54,9 +54,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ COLUMN_MARK + ", " 
-					+ COLUMN_REPORT_ID + ", " 
-					+ COLUMN_STUDENT_ID
+					+ COLUMN_MARK + ", "
+					+ COLUMN_STUDENT_ID + ", "
+					+ COLUMN_REPORT_ID
 				+ ") VALUES (?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
@@ -95,8 +95,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_MARK + " = ?, " 
-					+ COLUMN_REPORT_ID + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?" 
+					+ COLUMN_STUDENT_ID + " = ?, "
+					+ COLUMN_REPORT_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
@@ -155,19 +155,19 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					individualEvaluation = getResultSetValues(resultSet);
-				}
+				individualEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,12 +191,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		
 		try {			
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(individualEvaluations, resultSet);
+			while (resultSet.next()) {
+				individualEvaluations.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -212,19 +216,13 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		return individualEvaluations;
 	}
 	
-	private void fillListWithResultSet(List<IndividualEvaluation> individualEvaluations, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				individualEvaluations.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<IndividualEvaluation> selectAll() {
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -232,7 +230,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(individualEvaluations, resultSet);
+			while (resultSet.next()) {
+				individualEvaluations.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

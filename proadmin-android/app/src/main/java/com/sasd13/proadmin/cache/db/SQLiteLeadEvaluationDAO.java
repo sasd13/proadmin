@@ -26,8 +26,8 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         values.put(COLUMN_PLANNINGCOMMENT, leadEvaluation.getPlanningComment());
         values.put(COLUMN_COMMUNICATIONMARK, leadEvaluation.getCommunicationMark());
         values.put(COLUMN_COMMUNICATIONCOMMENT, leadEvaluation.getCommunicationComment());
-        values.put(COLUMN_REPORT_ID, leadEvaluation.getReport().getId());
         values.put(COLUMN_STUDENT_ID, leadEvaluation.getStudent().getId());
+        values.put(COLUMN_REPORT_ID, leadEvaluation.getReport().getId());
 
         return values;
     }
@@ -65,9 +65,9 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
     public void delete(long id) {
         String query = "UPDATE " + TABLE
                 + " SET "
-                + COLUMN_DELETED + " = 1"
+                    + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + id;
 
         try {
             db.execSQL(query);
@@ -82,13 +82,12 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + COLUMN_ID + " = ?";
+                    + COLUMN_ID + " = ? AND "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                leadEvaluation = getCursorValues(cursor);
-            }
+            leadEvaluation = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -101,10 +100,14 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
         try {
             String query = "SELECT * FROM " + TABLE
-                    + " WHERE " + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + ";";
+                    + " WHERE "
+                        + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+                        + COLUMN_DELETED + " = ?";
 
-            Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
@@ -113,22 +116,18 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         return list;
     }
 
-    private void fillListWithCursor(List<LeadEvaluation> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
-    }
-
     @Override
     public List<LeadEvaluation> selectAll() {
         List<LeadEvaluation> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE;
+        String query = "SELECT * FROM " + TABLE
+                + " WHERE "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

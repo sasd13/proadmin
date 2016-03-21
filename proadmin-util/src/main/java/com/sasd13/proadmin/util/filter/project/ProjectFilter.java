@@ -14,10 +14,10 @@ public class ProjectFilter extends URLParameterFilter<Project> {
 		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (Parameter.CODE.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new CodeCriteria(value));
-				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
+				if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.find(value)));
+				} else if (Parameter.CODE.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new CodeCriteria(value));
 				} else if (Parameter.TITLE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new TitleCriteria(value));
 				}

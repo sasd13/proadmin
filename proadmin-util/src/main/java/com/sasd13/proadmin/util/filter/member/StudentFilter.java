@@ -16,15 +16,15 @@ public class StudentFilter extends AndFilter<Student> {
 			for (String value : entry.getValue()) {
 				if (Parameter.NUMBER.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
-				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.find(entry.getKey())));
 				} else if (Parameter.FIRSTNAME.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new FirstNameCriteria<Student>(value));
 				} else if (Parameter.LASTNAME.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new LastNameCriteria<Student>(value));
 				} else if (Parameter.EMAIL.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
-				}
+				} else if (Parameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new AcademicLevelCriteria(AcademicLevel.find(entry.getKey())));
+				} 
 			}
 		}
 	}

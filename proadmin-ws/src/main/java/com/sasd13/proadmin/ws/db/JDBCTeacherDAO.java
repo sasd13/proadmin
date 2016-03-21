@@ -152,19 +152,19 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					teacher = getResultSetValues(resultSet);
-				}
+				teacher = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,12 +188,16 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(TeacherDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -209,19 +213,13 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		return list;
 	}
 	
-	private void fillListWithResultSet(List<Teacher> list, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Teacher> selectAll() {
 		List<Teacher> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -229,7 +227,9 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

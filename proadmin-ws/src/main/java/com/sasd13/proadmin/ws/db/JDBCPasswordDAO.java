@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.db.hash;
+package com.sasd13.proadmin.ws.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,13 +8,12 @@ import java.sql.SQLException;
 
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.IDAO;
-import com.sasd13.proadmin.ws.db.JDBCInformation;
 
-public class JDBCHashDAO implements IDAO {
+public class JDBCPasswordDAO implements IDAO {
 	
-	private static final String TABLE = "hashes";
+	private static final String TABLE = "passwords";
 	
-	private static final String COLUMN_HASH = "hash";
+	private static final String COLUMN_PASSWORD = "password";
 	private static final String COLUMN_TEACHER_ID = "teacher_id";
 	private static final String COLUMN_DELETED = "deleted";
 	
@@ -48,12 +47,12 @@ public class JDBCHashDAO implements IDAO {
 		}
 	}
 	
-	public long insert(String hash, long userId) {
+	public long insert(String password, long teacherId) {
 		long id = 0;
 		
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ COLUMN_HASH + ", " 
+					+ COLUMN_PASSWORD + ", " 
 					+ COLUMN_TEACHER_ID
 				+ ") VALUES (?, ?)";
 		
@@ -61,8 +60,8 @@ public class JDBCHashDAO implements IDAO {
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, hash);
-			preparedStatement.setLong(2, userId);
+			preparedStatement.setString(1, password);
+			preparedStatement.setLong(2, teacherId);
 			
 			long affectedRows = preparedStatement.executeUpdate();
 			if (affectedRows > 0) {
@@ -87,10 +86,10 @@ public class JDBCHashDAO implements IDAO {
 		return id;
 	}
 	
-	void update(String hash, long userId) {
+	void update(String password, long teacherId) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ COLUMN_HASH + " = ?"
+					+ COLUMN_PASSWORD + " = ?"
 				+ " WHERE " 
 					+ COLUMN_TEACHER_ID + " = ?";
 		
@@ -98,8 +97,8 @@ public class JDBCHashDAO implements IDAO {
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, hash);
-			preparedStatement.setLong(2, userId);
+			preparedStatement.setString(1, password);
+			preparedStatement.setLong(2, teacherId);
 			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -115,7 +114,7 @@ public class JDBCHashDAO implements IDAO {
 		}
 	}
 	
-	public void delete(long userId) {
+	public void delete(long teacherId) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -127,7 +126,7 @@ public class JDBCHashDAO implements IDAO {
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, userId);
+			preparedStatement.setLong(2, teacherId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,10 +141,10 @@ public class JDBCHashDAO implements IDAO {
 		}
 	}
 	
-	public String select(long userId) {
-		String hash = null;
+	public String select(long teacherId) {
+		String password = null;
 		
-		String query = "SELECT " + COLUMN_HASH + " FROM " + TABLE 
+		String query = "SELECT " + COLUMN_PASSWORD + " FROM " + TABLE 
 				+ " WHERE " 
 					+ COLUMN_TEACHER_ID + " = ? AND "
 					+ COLUMN_DELETED + " = ?";
@@ -154,12 +153,12 @@ public class JDBCHashDAO implements IDAO {
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, userId);
+			preparedStatement.setLong(1, teacherId);
 			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				hash = resultSet.getString(COLUMN_HASH);
+				password = resultSet.getString(COLUMN_PASSWORD);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -173,6 +172,6 @@ public class JDBCHashDAO implements IDAO {
 			}
 		}
 		
-		return hash;
+		return password;
 	}
 }

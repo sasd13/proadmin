@@ -157,12 +157,15 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(StudentTeamDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(StudentTeamDAO.class, parameters);
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(studentTeams, resultSet);
+			while (resultSet.next()) {
+				studentTeams.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -178,12 +181,6 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		return studentTeams;
 	}
 	
-	private void fillListWithResultSet(List<StudentTeam> studentTeams, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			studentTeams.add(getResultSetValues(resultSet));
-		}
-	}
-	
 	@Override
 	public List<StudentTeam> selectAll() {
 		List<StudentTeam> studentTeams = new ArrayList<StudentTeam>();
@@ -196,7 +193,9 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(studentTeams, resultSet);
+			while (resultSet.next()) {
+				studentTeams.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

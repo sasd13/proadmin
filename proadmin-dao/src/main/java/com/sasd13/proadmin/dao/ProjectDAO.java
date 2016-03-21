@@ -8,8 +8,8 @@ public interface ProjectDAO extends IEntityDAO<Project> {
 	String TABLE = "projects";
 	
 	String COLUMN_ID = "id";
-	String COLUMN_CODE = "code";
 	String COLUMN_ACADEMICLEVEL = "academiclevel";
+	String COLUMN_CODE = "code";
 	String COLUMN_TITLE = "title";
 	String COLUMN_DESCRIPTION = "description";
 }

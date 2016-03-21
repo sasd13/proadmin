@@ -22,7 +22,7 @@ import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
-import com.sasd13.proadmin.ws.db.hash.JDBCHashDAO;
+import com.sasd13.proadmin.ws.db.JDBCPasswordDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 
 /**
@@ -52,9 +52,9 @@ public class LoginWebService extends HttpServlet {
 				Teacher teacher = list.get(0);
 				
 				String candidate = logins.get(Parameter.PASSWORD.getName());
-				String hash = selectHashFromDAO(teacher);
+				String password = selectPasswordFromDAO(teacher);
 				
-				id = (hash.equals(candidate)) ? teacher.getId() : -1;
+				id = (password.equals(candidate)) ? teacher.getId() : -1;
 			}
 		} catch (DataParserException e) {
 			e.printStackTrace();
@@ -67,21 +67,21 @@ public class LoginWebService extends HttpServlet {
 		}
 	}
 	
-	private String selectHashFromDAO(Teacher teacher) {
-		String hash = null;
+	private String selectPasswordFromDAO(Teacher teacher) {
+		String password = null;
 		
-		JDBCHashDAO dao = new JDBCHashDAO();
+		JDBCPasswordDAO dao = new JDBCPasswordDAO();
 		
 		try {
 			dao.open();
 			
-			hash = dao.select(teacher.getId());
+			password = dao.select(teacher.getId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
 		}
 		
-		return hash;
+		return password;
 	}
 }

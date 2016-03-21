@@ -23,8 +23,8 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
         values.put(COLUMN_ID, individualEvaluation.getId());
         values.put(COLUMN_MARK, individualEvaluation.getMark());
-        values.put(COLUMN_REPORT_ID, individualEvaluation.getReport().getId());
         values.put(COLUMN_STUDENT_ID, individualEvaluation.getStudent().getId());
+        values.put(COLUMN_REPORT_ID, individualEvaluation.getReport().getId());
 
         return values;
     }
@@ -76,13 +76,12 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + COLUMN_ID + " = ?";
+                    + COLUMN_ID + " = ? AND "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                individualEvaluation = getCursorValues(cursor);
-            }
+            individualEvaluation = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -96,10 +95,13 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters);
+                        + WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + " AND "
+                        + COLUMN_DELETED + " = ?";
 
-            Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
@@ -108,22 +110,18 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
         return list;
     }
 
-    private void fillListWithCursor(List<IndividualEvaluation> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
-    }
-
     @Override
     public List<IndividualEvaluation> selectAll() {
         List<IndividualEvaluation> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE;
+        String query = "SELECT * FROM " + TABLE
+                + " WHERE "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

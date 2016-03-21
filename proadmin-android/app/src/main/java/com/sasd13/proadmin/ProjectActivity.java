@@ -48,7 +48,7 @@ public class ProjectActivity extends MotherActivity {
 
     private void fillProjectViewHolder(Project project) {
         projectViewHolder.textViewTitle.setText(project.getTitle());
-        projectViewHolder.textViewAcademicLevel.setText(String.valueOf(project.getAcademicLevel()));
+        projectViewHolder.textViewAcademicLevel.setText(project.getAcademicLevel().getName());
         projectViewHolder.textViewCode.setText(project.getCode());
         projectViewHolder.textViewDescription.setText(project.getDescription());
     }

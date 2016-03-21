@@ -22,9 +22,9 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_ID, report.getId());
-        values.put(COLUMN_DATEMEETING, String.valueOf(report.getMeetingDate()));
+        values.put(COLUMN_MEETINGDATE, String.valueOf(report.getMeetingDate()));
         values.put(COLUMN_WEEK, report.getWeek());
-        values.put(COLUMN_TEAMCOMMENT, report.getComment());
+        values.put(COLUMN_COMMENT, report.getComment());
         values.put(COLUMN_RUNNINGTEAM, report.getRunningTeam().getId());
 
         return values;
@@ -37,9 +37,9 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
         Report report = new Report(runningteam);
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-        report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_DATEMEETING))));
+        report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_MEETINGDATE))));
         report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
-        report.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_TEAMCOMMENT)));
+        report.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
 
         return report;
     }
@@ -75,13 +75,12 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + COLUMN_ID + " = ?";
+                    + COLUMN_ID + " = ? AND "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                report = getCursorValues(cursor);
-            }
+            report = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -95,10 +94,13 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(ReportDAO.class, parameters);
+                        + WhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
+                        + COLUMN_DELETED + " = ?";
 
-            Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
@@ -107,22 +109,18 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         return list;
     }
 
-    private void fillListWithCursor(List<Report> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
-    }
-
     @Override
     public List<Report> selectAll() {
         List<Report> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE;
+        String query = "SELECT * FROM " + TABLE
+                + " WHERE "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

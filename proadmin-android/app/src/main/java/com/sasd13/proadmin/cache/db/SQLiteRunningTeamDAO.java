@@ -82,19 +82,15 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
                         + WhereClauseParser.parse(RunningTeamDAO.class, parameters);
 
             Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
         }
 
         return list;
-    }
-
-    private void fillListWithCursor(List<RunningTeam> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            list.add(getCursorValues(cursor));
-        }
     }
 
     @Override
@@ -104,7 +100,9 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
         String query = "SELECT * FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

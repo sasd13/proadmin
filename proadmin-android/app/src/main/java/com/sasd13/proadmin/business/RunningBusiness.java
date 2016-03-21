@@ -11,7 +11,6 @@ import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.helper.SessionHelper;
 import com.sasd13.proadmin.util.Parameter;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +23,11 @@ public class RunningBusiness {
     public static boolean prepareRunningToCreate(final Running runningToCreate, Context context) {
         boolean prepared = false;
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
         Teacher teacher = Cache.load(SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID), Teacher.class);
         Project project = Cache.load(SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID), Project.class);
 
         Map<String, String[]> parameters = new HashMap<>();
-        parameters.put(Parameter.YEAR.getName(), new String[]{ String.valueOf(year) });
+        parameters.put(Parameter.YEAR.getName(), new String[]{ String.valueOf(runningToCreate.getYear()) });
         parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacher.getId()) });
         parameters.put(Parameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
 
@@ -38,7 +36,7 @@ public class RunningBusiness {
             CustomDialog.showOkDialog(
                     context,
                     "Running error",
-                    "Cannot have two runnings for project '" + project.getCode() + "' at year '" + year + "'"
+                    "Cannot have two runnings for project '" + project.getCode() + "' at year '" + runningToCreate.getYear() + "'"
             );
         } else {
             runningToCreate.setTeacher(teacher);

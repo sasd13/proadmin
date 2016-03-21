@@ -41,8 +41,8 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             + " ("
                 + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProjectDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
-                + ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
                 + ProjectDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
+                + ProjectDAO.COLUMN_CODE + " VARCHAR(255) NOT NULL, "
                 + ProjectDAO.COLUMN_TITLE + " VARCHAR(255) NOT NULL, "
                 + ProjectDAO.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
                 + ProjectDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
@@ -57,10 +57,10 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                 + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + StudentDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + StudentDAO.COLUMN_NUMBER + " VARCHAR(255) NOT NULL UNIQUE, "
-                + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
                 + StudentDAO.COLUMN_FIRSTNAME + " VARCHAR(255) NOT NULL, "
                 + StudentDAO.COLUMN_LASTNAME + " VARCHAR(255) NOT NULL, "
                 + StudentDAO.COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
+                + StudentDAO.COLUMN_ACADEMICLEVEL + " VARCHAR(255) NOT NULL, "
                 + StudentDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";
 
@@ -123,9 +123,9 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
             + " ("
                 + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ReportDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
-                + ReportDAO.COLUMN_DATEMEETING + " VARCHAR(255) NOT NULL, "
+                + ReportDAO.COLUMN_MEETINGDATE + " VARCHAR(255) NOT NULL, "
                 + ReportDAO.COLUMN_WEEK + " INT NOT NULL, "
-                + ReportDAO.COLUMN_TEAMCOMMENT + " TEXT, "
+                + ReportDAO.COLUMN_COMMENT + " TEXT, "
                 + ReportDAO.COLUMN_RUNNINGTEAM + " INTEGER NOT NULL, "
                 + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"
             + ");";

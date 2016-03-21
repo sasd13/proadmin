@@ -22,10 +22,10 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
         values.put(COLUMN_ID, student.getId());
         values.put(COLUMN_NUMBER, student.getNumber());
-        values.put(COLUMN_ACADEMICLEVEL, String.valueOf(student.getAcademicLevel()));
         values.put(COLUMN_FIRSTNAME, student.getFirstName());
         values.put(COLUMN_LASTNAME, student.getLastName());
         values.put(COLUMN_EMAIL, student.getEmail());
+        values.put(COLUMN_ACADEMICLEVEL, student.getAcademicLevel().getName());
 
         return values;
     }
@@ -75,13 +75,12 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                    + COLUMN_ID + " = ?";
+                    + COLUMN_ID + " = ? AND "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                student = getCursorValues(cursor);
-            }
+            student = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -95,10 +94,13 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                    + WhereClauseParser.parse(StudentDAO.class, parameters);
+                        + WhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
+                        + COLUMN_DELETED + " = ?";
 
-            Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
@@ -107,22 +109,18 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         return list;
     }
 
-    private void fillListWithCursor(List<Student> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
-    }
-
     @Override
     public List<Student> selectAll() {
         List<Student> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE;
+        String query = "SELECT * FROM " + TABLE
+                + " WHERE "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

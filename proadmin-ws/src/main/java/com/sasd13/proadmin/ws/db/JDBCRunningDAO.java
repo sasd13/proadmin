@@ -156,19 +156,19 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					running = getResultSetValues(resultSet);
-				}
+				running = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -192,12 +192,16 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(RunningDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(RunningDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(runnings, resultSet);
+			while (resultSet.next()) {
+				runnings.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -213,19 +217,13 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		return runnings;
 	}
 	
-	private void fillListWithResultSet(List<Running> runnings, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				runnings.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Running> selectAll() {
 		List<Running> runnings = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -234,9 +232,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 			
 			ResultSet resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					runnings.add(getResultSetValues(resultSet));
-				}
+				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

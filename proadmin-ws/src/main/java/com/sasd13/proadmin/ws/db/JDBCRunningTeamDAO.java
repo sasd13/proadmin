@@ -157,12 +157,15 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(RunningTeamDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(RunningTeamDAO.class, parameters);
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(runningTeams, resultSet);
+			while (resultSet.next()) {
+				runningTeams.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -178,12 +181,6 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		return runningTeams;
 	}
 	
-	private void fillListWithResultSet(List<RunningTeam> runningTeams, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			runningTeams.add(getResultSetValues(resultSet));
-		}
-	}
-	
 	@Override
 	public List<RunningTeam> selectAll() {
 		List<RunningTeam> runningTeams = new ArrayList<RunningTeam>();
@@ -196,7 +193,9 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(runningTeams, resultSet);
+			while (resultSet.next()) {
+				runningTeams.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

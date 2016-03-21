@@ -27,10 +27,10 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Student student) throws SQLException {
 		preparedStatement.setString(1, student.getNumber());
-		preparedStatement.setString(2, String.valueOf(student.getAcademicLevel()));
-		preparedStatement.setString(3, student.getFirstName());
-		preparedStatement.setString(4, student.getLastName());
-		preparedStatement.setString(5, student.getEmail());
+		preparedStatement.setString(2, student.getFirstName());
+		preparedStatement.setString(3, student.getLastName());
+		preparedStatement.setString(4, student.getEmail());
+		preparedStatement.setString(5, student.getAcademicLevel().getName());
 	}
 	
 	@Override
@@ -38,10 +38,10 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_ID));
 		student.setNumber(resultSet.getString(COLUMN_NUMBER));
-		student.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));
+		student.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 		
 		return student;
 	}
@@ -53,10 +53,10 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
 					+ COLUMN_NUMBER + ", " 
-					+ COLUMN_ACADEMICLEVEL + ", " 
 					+ COLUMN_FIRSTNAME + ", " 
 					+ COLUMN_LASTNAME + ", " 
-					+ COLUMN_EMAIL 
+					+ COLUMN_EMAIL + ", " 
+					+ COLUMN_ACADEMICLEVEL 
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
@@ -95,10 +95,10 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_NUMBER + " = ?, " 
-					+ COLUMN_ACADEMICLEVEL + " = ?, " 
 					+ COLUMN_FIRSTNAME + " = ?, " 
 					+ COLUMN_LASTNAME + " = ?, " 
-					+ COLUMN_EMAIL + " = ?" 
+					+ COLUMN_EMAIL + " = ?, " 
+					+ COLUMN_ACADEMICLEVEL + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
@@ -157,19 +157,19 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					student = getResultSetValues(resultSet);
-				}
+				student = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -193,12 +193,16 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		
 		try {
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(StudentDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -214,19 +218,13 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		return list;
 	}
 	
-	private void fillListWithResultSet(List<Student> list, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				list.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Student> selectAll() {
 		List<Student> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -234,7 +232,9 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(list, resultSet);
+			while (resultSet.next()) {
+				list.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

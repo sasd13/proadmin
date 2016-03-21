@@ -40,9 +40,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		Report report = new Report(runningTeam);
 		report.setId(resultSet.getLong(COLUMN_ID));
-		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
+		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
 		report.setWeek(resultSet.getInt(COLUMN_WEEK));
-		report.setComment(resultSet.getString(COLUMN_TEAMCOMMENT));
+		report.setComment(resultSet.getString(COLUMN_COMMENT));
 		
 		return report;
 	}
@@ -53,9 +53,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		String query = "INSERT INTO " + TABLE 
 				+ "(" 
-					+ COLUMN_DATEMEETING + ", "
+					+ COLUMN_MEETINGDATE + ", "
 					+ COLUMN_WEEK + ", " 
-					+ COLUMN_TEAMCOMMENT + ", " 
+					+ COLUMN_COMMENT + ", " 
 					+ COLUMN_RUNNINGTEAM
 				+ ") VALUES (?, ?, ?, ?, ?)";
 		
@@ -94,9 +94,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	public void update(Report report) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
-					+ COLUMN_DATEMEETING + " = ?, " 
+					+ COLUMN_MEETINGDATE + " = ?, " 
 					+ COLUMN_WEEK + " = ?, " 
-					+ COLUMN_TEAMCOMMENT + " = ?, " 
+					+ COLUMN_COMMENT + " = ?, " 
 					+ COLUMN_RUNNINGTEAM + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
@@ -156,19 +156,19 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					report = getResultSetValues(resultSet);
-				}
+				report = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -192,12 +192,16 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		
 		try {			
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(ReportDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(reports, resultSet);
+			while (resultSet.next()) {
+				reports.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -213,19 +217,13 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		return reports;
 	}
 	
-	private void fillListWithResultSet(List<Report> reports, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				reports.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<Report> selectAll() {
 		List<Report> reports = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -233,7 +231,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(reports, resultSet);
+			while (resultSet.next()) {
+				reports.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -55,9 +55,9 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
     public void delete(long id) {
         String query = "UPDATE " + TABLE
                 + " SET "
-                + COLUMN_DELETED + " = 1"
+                    + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + id;
 
         try {
             db.execSQL(query);
@@ -72,13 +72,12 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
         String query = "SELECT * FROM " + TABLE
                 + " WHERE "
-                + COLUMN_ID + " = ?";
+                    + COLUMN_ID + " = ? AND "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                teacher = getCursorValues(cursor);
-            }
+            teacher = getCursorValues(cursor);
         }
         cursor.close();
 
@@ -92,10 +91,13 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(TeacherDAO.class, parameters);
+                        + WhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
+                        + COLUMN_DELETED + " = ?";
 
-            Cursor cursor = db.rawQuery(query, null);
-            fillListWithCursor(list, cursor);
+            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            while (cursor.moveToNext()) {
+                list.add(getCursorValues(cursor));
+            }
             cursor.close();
         } catch (WhereClauseException e) {
             e.printStackTrace();
@@ -104,22 +106,18 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         return list;
     }
 
-    private void fillListWithCursor(List<Teacher> list, Cursor cursor) {
-        while (cursor.moveToNext()) {
-            if (cursor.getInt(cursor.getColumnIndex(COLUMN_DELETED)) == 0) {
-                list.add(getCursorValues(cursor));
-            }
-        }
-    }
-
     @Override
     public List<Teacher> selectAll() {
         List<Teacher> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE;
+        String query = "SELECT * FROM " + TABLE
+                + " WHERE "
+                    + COLUMN_DELETED + " = ?";
 
-        Cursor cursor = db.rawQuery(query, null);
-        fillListWithCursor(list, cursor);
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        while (cursor.moveToNext()) {
+            list.add(getCursorValues(cursor));
+        }
         cursor.close();
 
         return list;

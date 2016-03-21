@@ -31,8 +31,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
-		preparedStatement.setLong(5, leadEvaluation.getReport().getId());
-		preparedStatement.setLong(6, leadEvaluation.getStudent().getId());
+		preparedStatement.setLong(5, leadEvaluation.getStudent().getId());
+		preparedStatement.setLong(6, leadEvaluation.getReport().getId());
 	}
 	
 	@Override
@@ -64,8 +64,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 					+ COLUMN_PLANNINGCOMMENT + ", " 
 					+ COLUMN_COMMUNICATIONMARK + ", " 
 					+ COLUMN_COMMUNICATIONCOMMENT + ", " 
-					+ COLUMN_REPORT_ID + ", " 
-					+ COLUMN_STUDENT_ID
+					+ COLUMN_STUDENT_ID + ", " 
+					+ COLUMN_REPORT_ID 
 				+ ") VALUES (?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement preparedStatement = null;
@@ -107,8 +107,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 					+ COLUMN_PLANNINGCOMMENT + " = ?, " 
 					+ COLUMN_COMMUNICATIONMARK + " = ?, " 
 					+ COLUMN_COMMUNICATIONCOMMENT + " = ?, " 
-					+ COLUMN_REPORT_ID + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?" 
+					+ COLUMN_STUDENT_ID + " = ?, " 
+					+ COLUMN_REPORT_ID + " = ?" 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
 		
@@ -167,19 +167,19 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		
 		String query = "SELECT * FROM " + TABLE 
 				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
+					+ COLUMN_ID + " = ? AND "
+					+ COLUMN_DELETED + " = ?";
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, id);
+			preparedStatement.setBoolean(2, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				if (!resultSet.getBoolean(COLUMN_DELETED)) {
-					leadEvaluation = getResultSetValues(resultSet);
-				}
+				leadEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -203,12 +203,16 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		
 		try {			
 			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + ";";
+					+ " WHERE " 
+						+ WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(leadEvaluations, resultSet);
+			while (resultSet.next()) {
+				leadEvaluations.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -224,19 +228,13 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		return leadEvaluations;
 	}
 	
-	private void fillListWithResultSet(List<LeadEvaluation> leadEvaluations, ResultSet resultSet) throws SQLException {
-		while (resultSet.next()) {
-			if (!resultSet.getBoolean(COLUMN_DELETED)) {
-				leadEvaluations.add(getResultSetValues(resultSet));
-			}
-		}
-	}
-	
 	@Override
 	public List<LeadEvaluation> selectAll() {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<LeadEvaluation>();
 		
-		String query = "SELECT * FROM " + TABLE;
+		String query = "SELECT * FROM " + TABLE
+				+ " WHERE " 
+					+ COLUMN_DELETED + " = false";
 		
 		Statement statement = null;
 		
@@ -244,7 +242,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			statement = connection.createStatement();
 			
 			ResultSet resultSet = statement.executeQuery(query);
-			fillListWithResultSet(leadEvaluations, resultSet);
+			while (resultSet.next()) {
+				leadEvaluations.add(getResultSetValues(resultSet));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

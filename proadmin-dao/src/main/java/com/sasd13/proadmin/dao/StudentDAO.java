@@ -9,8 +9,8 @@ public interface StudentDAO extends IEntityDAO<Student> {
 	
 	String COLUMN_ID = "id";
 	String COLUMN_NUMBER = "number";
-	String COLUMN_ACADEMICLEVEL = "academiclevel";
 	String COLUMN_FIRSTNAME = "firstname";
 	String COLUMN_LASTNAME = "lastname";
 	String COLUMN_EMAIL = "email";
+	String COLUMN_ACADEMICLEVEL = "academiclevel";
 }
