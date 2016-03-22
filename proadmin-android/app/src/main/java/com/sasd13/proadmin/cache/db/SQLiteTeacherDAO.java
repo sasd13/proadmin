@@ -48,7 +48,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
 
     @Override
     public void update(Teacher teacher) {
-        db.update(TABLE, getContentValues(teacher), COLUMN_ID + " = ?", new String[]{String.valueOf(teacher.getId())});
+        db.update(TABLE, getContentValues(teacher), COLUMN_ID + " = ?", new String[]{ String.valueOf(teacher.getId()) });
     }
 
     @Override

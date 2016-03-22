@@ -57,6 +57,6 @@ public class Running {
 		builder.append(", year=" + getYear());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

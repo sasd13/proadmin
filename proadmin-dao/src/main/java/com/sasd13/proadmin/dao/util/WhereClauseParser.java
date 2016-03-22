@@ -70,7 +70,7 @@ public class WhereClauseParser {
 			builder.append(")");
 		}
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 	
 	private static String fromTeacher(String key, String value) throws WhereClauseException {

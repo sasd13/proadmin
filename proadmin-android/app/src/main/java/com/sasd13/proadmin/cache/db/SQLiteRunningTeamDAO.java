@@ -52,7 +52,7 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
 
     @Override
     public void delete(long id) {
-        db.delete(TABLE, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+        db.delete(TABLE, COLUMN_ID + " = ?", new String[]{ String.valueOf(id) });
     }
 
     @Override
@@ -63,7 +63,7 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
                 + " WHERE "
                     + COLUMN_ID + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id) });
         if (cursor.moveToNext()) {
             runningTeam = getCursorValues(cursor);
         }

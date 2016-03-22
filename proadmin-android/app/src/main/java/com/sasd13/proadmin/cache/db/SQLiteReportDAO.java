@@ -51,7 +51,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public void update(Report report) {
-        db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{String.valueOf(report.getId())});
+        db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{ String.valueOf(report.getId()) });
     }
 
     @Override

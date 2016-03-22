@@ -29,6 +29,6 @@ public class IndividualEvaluation extends Evaluation {
 		builder.append(", mark=" + getMark());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

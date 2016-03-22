@@ -37,6 +37,6 @@ public class StudentTeam {
 		builder.append("id=" + getId());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

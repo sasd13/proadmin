@@ -26,7 +26,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 	@Override
 	protected void retrieveData(Report report) {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(Parameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
+		parameters.put(Parameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
 		
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 		report.getLeadEvaluation().setId(leadEvaluation.getId());

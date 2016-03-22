@@ -55,6 +55,6 @@ public class LeadEvaluation extends Evaluation {
 		builder.append(", communicationComment=" + getCommunicationComment());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

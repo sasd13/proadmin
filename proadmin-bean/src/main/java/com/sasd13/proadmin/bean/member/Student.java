@@ -27,6 +27,6 @@ public class Student extends Member {
 		builder.append(", academicLevel=" + getAcademicLevel());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

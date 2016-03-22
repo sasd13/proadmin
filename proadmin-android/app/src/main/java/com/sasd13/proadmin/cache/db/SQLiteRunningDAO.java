@@ -54,7 +54,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
 
     @Override
     public void update(Running running) {
-        db.update(TABLE, getContentValues(running), COLUMN_ID + " = ?", new String[]{String.valueOf(running.getId())});
+        db.update(TABLE, getContentValues(running), COLUMN_ID + " = ?", new String[]{ String.valueOf(running.getId()) });
     }
 
     @Override

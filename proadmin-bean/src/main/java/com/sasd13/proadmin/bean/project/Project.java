@@ -60,6 +60,6 @@ public class Project {
 		builder.append(", description=" + getDescription());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

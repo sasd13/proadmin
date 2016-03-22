@@ -14,6 +14,6 @@ public class Teacher extends Member {
 		builder.append(", email=" + getEmail());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

@@ -51,6 +51,6 @@ public class RunningTeam {
 		builder.append("id=" + getId());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

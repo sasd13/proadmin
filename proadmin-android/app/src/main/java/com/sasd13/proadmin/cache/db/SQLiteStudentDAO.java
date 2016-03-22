@@ -51,7 +51,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
     @Override
     public void update(Student student) {
-        db.update(TABLE, getContentValues(student), COLUMN_ID + " = ?", new String[]{String.valueOf(student.getId())});
+        db.update(TABLE, getContentValues(student), COLUMN_ID + " = ?", new String[]{ String.valueOf(student.getId()) });
     }
 
     @Override

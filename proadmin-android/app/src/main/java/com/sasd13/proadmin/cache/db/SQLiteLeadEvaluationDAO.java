@@ -58,7 +58,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public void update(LeadEvaluation leadEvaluation) {
-        db.update(TABLE, getContentValues(leadEvaluation), COLUMN_ID + " = ?", new String[]{String.valueOf(leadEvaluation.getId())});
+        db.update(TABLE, getContentValues(leadEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(leadEvaluation.getId()) });
     }
 
     @Override

@@ -81,6 +81,6 @@ public class Report {
 		builder.append(", comment=" + getComment());
 		builder.append("]");
 		
-		return builder.toString().trim();
+		return builder.toString();
 	}
 }

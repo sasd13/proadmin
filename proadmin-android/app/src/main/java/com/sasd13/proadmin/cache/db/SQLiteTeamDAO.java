@@ -42,7 +42,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public void update(Team team) {
-        db.update(TABLE, getContentValues(team), COLUMN_ID + " = ?", new String[]{String.valueOf(team.getId())});
+        db.update(TABLE, getContentValues(team), COLUMN_ID + " = ?", new String[]{ String.valueOf(team.getId()) });
     }
 
     @Override

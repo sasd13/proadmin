@@ -49,7 +49,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public void update(Project project) {
-        db.update(TABLE, getContentValues(project), COLUMN_ID + " = ?", new String[]{String.valueOf(project.getId())});
+        db.update(TABLE, getContentValues(project), COLUMN_ID + " = ?", new String[]{ String.valueOf(project.getId()) });
     }
 
     @Override

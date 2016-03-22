@@ -52,7 +52,7 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public void update(IndividualEvaluation individualEvaluation) {
-        db.update(TABLE, getContentValues(individualEvaluation), COLUMN_ID + " = ?", new String[]{String.valueOf(individualEvaluation.getId())});
+        db.update(TABLE, getContentValues(individualEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(individualEvaluation.getId()) });
     }
 
     @Override
