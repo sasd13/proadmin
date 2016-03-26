@@ -12,14 +12,14 @@ import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
-import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.helper.SessionHelper;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
@@ -65,7 +65,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     private void createTabRunnings() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.runnings_recyclerview);
 
-        tabRunnings = new Tab(this, recyclerView, R.layout.tabitem_running);
+        tabRunnings = new Tab(recyclerView, R.layout.tabitem_running);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void refresh() {
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
             long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
 
@@ -97,7 +97,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
             parameterizedReadTaskRunning.setDeepReadEnabled(true);
             parameterizedReadTaskRunning.execute();
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 
@@ -123,7 +123,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void newRunning() {
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             runningToCreate = new Running();
 
             boolean isPrepared = RunningBusiness.prepareRunningToCreate(runningToCreate, this);
@@ -134,7 +134,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
                 createTaskRunning.execute(runningToCreate);
             }
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.helper.ActivityHelper;
+import com.sasd13.proadmin.util.ActivityHelper;
 
 public class ProjectActivity extends MotherActivity {
 

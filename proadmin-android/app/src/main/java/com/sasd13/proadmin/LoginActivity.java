@@ -8,13 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidex.net.ConnectivityChecker;
-import com.sasd13.androidex.util.KeyBoardHider;
+import com.sasd13.androidex.net.NetworkHelper;
+import com.sasd13.androidex.util.KeyboardHelper;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.helper.SessionHelper;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.LoginTask;
@@ -64,7 +64,7 @@ public class LoginActivity extends Activity implements ILoader {
             public void onClick(View v) {
                 if (formLoginViewHolder.editTextNumber.getText().toString().trim().length() > 0
                         && formLoginViewHolder.editTextPassword.getText().toString().trim().length() > 0) {
-                    KeyBoardHider.hide(LoginActivity.this);
+                    KeyboardHelper.hide(LoginActivity.this);
                     logIn();
                 }
             }
@@ -72,7 +72,7 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     private void logIn() {
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             isActionLogin = true;
 
             String number = formLoginViewHolder.editTextNumber.getText().toString().trim();
@@ -81,7 +81,7 @@ public class LoginActivity extends Activity implements ILoader {
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.helper.ActivityHelper;
+import com.sasd13.proadmin.util.ActivityHelper;
 
 public class TeamActivity extends MotherActivity {
 

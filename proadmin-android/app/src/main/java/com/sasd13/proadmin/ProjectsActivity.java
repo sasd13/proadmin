@@ -12,7 +12,7 @@ import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
-import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
@@ -48,7 +48,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     private void createSpinAcademicLevels() {
         Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
 
-        spinAcademicLevels = new Spin(this, spinner, new AdapterView.OnItemSelectedListener() {
+        spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -94,7 +94,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     private void createTabProjects() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
 
-        tabProjects = new Tab(this, recyclerView, R.layout.tabitem_project);
+        tabProjects = new Tab(recyclerView, R.layout.tabitem_project);
     }
 
     private void fillSpinAcademicLevels() {
@@ -111,11 +111,11 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     private void refresh() {
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             readTaskProjects = new LoaderReadTask<>(this, Project.class, this);
             readTaskProjects.execute();
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 

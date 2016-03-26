@@ -18,8 +18,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemTeam;
-import com.sasd13.proadmin.helper.ActivityHelper;
-import com.sasd13.proadmin.helper.SessionHelper;
+import com.sasd13.proadmin.util.ActivityHelper;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
@@ -70,7 +70,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     private void createTabTeams() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.running_recyclerview);
 
-        tabTeams = new Tab(this, recyclerView, R.layout.tabitem_team);
+        tabTeams = new Tab(recyclerView, R.layout.tabitem_team);
     }
 
     private void newTeam() {

@@ -9,11 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
-import com.sasd13.androidex.net.ConnectivityChecker;
+import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.helper.SessionHelper;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
@@ -61,13 +61,13 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     private void readTeacher() {
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
 
             readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
             readTaskTeacher.execute(teacherId);
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 
@@ -114,11 +114,11 @@ public class SettingActivity extends MotherActivity implements ILoader {
     private void performUpdateTeacher() {
         editTeacherWithForm();
 
-        if (ConnectivityChecker.isActive(this)) {
+        if (NetworkHelper.isActive(this)) {
             UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
-            ConnectivityChecker.showNotActive(this);
+            NetworkHelper.displayNotActiveMessage(this);
         }
     }
 
