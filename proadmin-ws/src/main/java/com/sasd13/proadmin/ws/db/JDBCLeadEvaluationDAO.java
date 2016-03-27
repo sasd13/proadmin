@@ -77,7 +77,6 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			long affectedRows = preparedStatement.executeUpdate();
 			if (affectedRows > 0) {
 				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
 				if (generatedKeys.next()) {
 					id = generatedKeys.getLong(1);
 				}

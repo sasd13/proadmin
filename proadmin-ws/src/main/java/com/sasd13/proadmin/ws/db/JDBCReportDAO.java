@@ -68,7 +68,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			long affectedRows = preparedStatement.executeUpdate();
 			if (affectedRows > 0) {
 				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
 				if (generatedKeys.next()) {
 					id = generatedKeys.getLong(1);
 				}

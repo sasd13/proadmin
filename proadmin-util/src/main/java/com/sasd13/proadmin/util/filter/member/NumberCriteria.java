@@ -19,7 +19,7 @@ public class NumberCriteria<T extends Member> implements Criteria<T> {
 		List<T> results = new ArrayList<>();
 		
 		for (T t : list) {
-			if (t.getNumber().equalsIgnoreCase(number)) {
+			if (number.equalsIgnoreCase(t.getNumber())) {
 				results.add(t);
 			}
 		}

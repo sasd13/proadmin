@@ -19,7 +19,7 @@ public class WeekCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 		
 		for (Report report : list) {
-			if (report.getWeek() == week) {
+			if (week == report.getWeek()) {
 				results.add(report);
 			}
 		}

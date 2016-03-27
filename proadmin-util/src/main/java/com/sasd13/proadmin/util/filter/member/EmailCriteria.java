@@ -19,7 +19,7 @@ public class EmailCriteria<T extends Member> implements Criteria<T> {
 		List<T> results = new ArrayList<>();
 		
 		for (T t : list) {
-			if (t.getEmail().equalsIgnoreCase(email)) {
+			if (email.equalsIgnoreCase(t.getEmail())) {
 				results.add(t);
 			}
 		}

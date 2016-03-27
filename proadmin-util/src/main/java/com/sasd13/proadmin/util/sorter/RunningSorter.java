@@ -8,6 +8,10 @@ import com.sasd13.proadmin.bean.running.Running;
 
 public class RunningSorter {
 	
+	public static void byYear(List<Running> runnings) {
+		byYear(runnings, false);
+	}
+	
 	public static void byYear(List<Running> runnings, final boolean byDesc) {
 		Collections.sort(runnings, new Comparator<Running>() {
 

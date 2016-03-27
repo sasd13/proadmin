@@ -19,7 +19,7 @@ public class FirstNameCriteria<T extends Member> implements Criteria<T> {
 		List<T> results = new ArrayList<>();
 		
 		for (T t : list) {
-			if (t.getFirstName().equalsIgnoreCase(firstName)) {
+			if (firstName.equalsIgnoreCase(t.getFirstName())) {
 				results.add(t);
 			}
 		}

@@ -65,7 +65,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			long affectedRows = preparedStatement.executeUpdate();
 			if (affectedRows > 0) {
 				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
 				if (generatedKeys.next()) {
 					id = generatedKeys.getLong(1);
 				}

@@ -19,7 +19,7 @@ public class TitleCriteria implements Criteria<Project> {
 		List<Project> results = new ArrayList<Project>();
 		
 		for (Project project : list) {
-			if (project.getTitle().equalsIgnoreCase(title)) {
+			if (title.equalsIgnoreCase(project.getTitle())) {
 				results.add(project);
 			}
 		}

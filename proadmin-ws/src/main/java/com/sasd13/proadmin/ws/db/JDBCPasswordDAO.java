@@ -21,7 +21,7 @@ public class JDBCPasswordDAO implements IDAO {
 	
 	static {
 		try {
-			Class.forName(JDBCInformation.DRIVER);
+			Class.forName(JDBCInfo.DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -30,7 +30,7 @@ public class JDBCPasswordDAO implements IDAO {
 	@Override
 	public void open() throws DAOException {
 		try {
-			connection = DriverManager.getConnection(JDBCInformation.URL, JDBCInformation.USERNAME, JDBCInformation.PASSWORD);
+			connection = DriverManager.getConnection(JDBCInfo.URL, JDBCInfo.USERNAME, JDBCInfo.PASSWORD);
 		} catch (SQLException e) {
 			throw new DAOException("Error connection to database");
 		}
@@ -66,7 +66,6 @@ public class JDBCPasswordDAO implements IDAO {
 			long affectedRows = preparedStatement.executeUpdate();
 			if (affectedRows > 0) {
 				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				
 				if (generatedKeys.next()) {
 					id = generatedKeys.getLong(1);
 				}

@@ -20,7 +20,7 @@ public class AcademicLevelCriteria implements Criteria<Project> {
 		List<Project> results = new ArrayList<Project>();
 		
 		for (Project project : list) {
-			if (project.getAcademicLevel() == academicLevel) {
+			if (academicLevel == project.getAcademicLevel()) {
 				results.add(project);
 			}
 		}

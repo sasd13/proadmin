@@ -19,7 +19,7 @@ public class YearCriteria implements Criteria<Running> {
 		List<Running> results = new ArrayList<Running>();
 		
 		for (Running running : list) {
-			if (running.getYear() == year) {
+			if (year == running.getYear()) {
 				results.add(running);
 			}
 		}

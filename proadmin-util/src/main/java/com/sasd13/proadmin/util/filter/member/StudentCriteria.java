@@ -19,7 +19,7 @@ public class StudentCriteria implements Criteria<StudentTeam> {
 		List<StudentTeam> results = new ArrayList<>();
 		
 		for (StudentTeam studentTeam : list) {
-			if (studentTeam.getStudent().getId() == id) {
+			if (id == studentTeam.getStudent().getId()) {
 				results.add(studentTeam);
 			}
 		}

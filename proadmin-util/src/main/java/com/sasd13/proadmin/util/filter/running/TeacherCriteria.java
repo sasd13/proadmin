@@ -19,7 +19,7 @@ public class TeacherCriteria implements Criteria<Running> {
 		List<Running> results = new ArrayList<Running>();
 		
 		for (Running running : list) {
-			if (running.getTeacher().getId() == id) {
+			if (id == running.getTeacher().getId()) {
 				results.add(running);
 			}
 		}

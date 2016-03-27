@@ -19,7 +19,7 @@ public class LastNameCriteria<T extends Member> implements Criteria<T> {
 		List<T> results = new ArrayList<>();
 		
 		for (T t : list) {
-			if (t.getLastName().equalsIgnoreCase(lastName)) {
+			if (lastName.equalsIgnoreCase(t.getLastName())) {
 				results.add(t);
 			}
 		}

@@ -19,7 +19,7 @@ public class RunningTeamCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 		
 		for (Report report : list) {
-			if (report.getRunningTeam().getId() == id) {
+			if (id == report.getRunningTeam().getId()) {
 				results.add(report);
 			}
 		}
