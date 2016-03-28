@@ -1,7 +1,10 @@
 package com.sasd13.proadmin.bean.running;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sasd13.proadmin.bean.member.Student;
 
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public abstract class Evaluation {
 	
 	private long id;
@@ -11,7 +14,7 @@ public abstract class Evaluation {
 	protected Evaluation() {}
 	
 	protected Evaluation(Report report) {
-		//this.report = report; //Parsing circular association error
+		this.report = report;
 	}
 	
 	public long getId() {

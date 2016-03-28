@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Report {
 	
 	private long id;
@@ -22,7 +26,7 @@ public class Report {
 	public Report(RunningTeam runningTeam) {
 		this();
 		
-		//this.runningTeam = runningTeam; //Parsing circular association error
+		this.runningTeam = runningTeam;
 		runningTeam.getReports().add(this);
 	}
 	

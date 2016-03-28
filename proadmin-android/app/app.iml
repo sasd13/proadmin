@@ -86,9 +86,11 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="commons-codec-1.4" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.7.3" level="project" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.7.3" level="project" />
     <orderEntry type="library" exported="" name="proadmin-util-0.1" level="project" />
     <orderEntry type="library" exported="" name="xpp3_min-1.1.4c" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.7.3" level="project" />
     <orderEntry type="library" exported="" name="proadmin-dao-0.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="xstream-1.4.7" level="project" />
