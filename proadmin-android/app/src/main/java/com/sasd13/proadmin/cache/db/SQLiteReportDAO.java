@@ -76,12 +76,22 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public long insert(Report report) {
-        long id = db.insert(TABLE, null, getContentValues(report));
+        long id = 0;
 
-        leadEvaluationDAO.insert(report.getLeadEvaluation());
+        db.beginTransaction();
 
-        for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-            individualEvaluationDAO.insert(individualEvaluation);
+        try {
+            db.insert(TABLE, null, getContentValues(report));
+
+            leadEvaluationDAO.insert(report.getLeadEvaluation());
+
+            for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+                individualEvaluationDAO.insert(individualEvaluation);
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
 
         return id;
@@ -89,17 +99,27 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public void update(Report report) {
-        db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{ String.valueOf(report.getId()) });
+        db.beginTransaction();
 
-        leadEvaluationDAO.update(report.getLeadEvaluation());
+        try {
+            db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{ String.valueOf(report.getId()) });
 
-        for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-            individualEvaluationDAO.update(individualEvaluation);
+            leadEvaluationDAO.update(report.getLeadEvaluation());
+
+            for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+                individualEvaluationDAO.update(individualEvaluation);
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
     }
 
     @Override
     public void delete(Report report) {
+        db.beginTransaction();
+
         leadEvaluationDAO.delete(report.getLeadEvaluation());
 
         for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
@@ -114,8 +134,12 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
         try {
             db.execSQL(query);
+
+            db.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            db.endTransaction();
         }
     }
 

@@ -11,7 +11,7 @@ public abstract class Evaluation {
 	protected Evaluation() {}
 	
 	protected Evaluation(Report report) {
-		this.report = report;
+		//this.report = report; //Parsing circular association error
 	}
 	
 	public long getId() {

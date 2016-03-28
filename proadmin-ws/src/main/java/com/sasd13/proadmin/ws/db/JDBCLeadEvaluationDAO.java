@@ -82,6 +82,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				leadEvaluation.setId(id);
+			} else {
+				throw new SQLException("LeadEvaluation not inserted: " + leadEvaluation);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

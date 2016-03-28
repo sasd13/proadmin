@@ -47,12 +47,36 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
 
     @Override
     public long insert(IndividualEvaluation individualEvaluation) {
-        return db.insert(TABLE, null, getContentValues(individualEvaluation));
+        long id = 0;
+
+        db.beginTransaction();
+
+        try {
+            id = db.insert(TABLE, null, getContentValues(individualEvaluation));
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        return id;
     }
 
     @Override
     public void update(IndividualEvaluation individualEvaluation) {
-        db.update(TABLE, getContentValues(individualEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(individualEvaluation.getId()) });
+        if (db.inTransaction()) {
+            db.beginTransaction();
+
+            try {
+                db.update(TABLE, getContentValues(individualEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(individualEvaluation.getId()) });
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } else {
+            db.update(TABLE, getContentValues(individualEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(individualEvaluation.getId()) });
+        }
     }
 
     @Override
@@ -63,10 +87,16 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
                 + " WHERE "
                     + COLUMN_ID + " = " + individualEvaluation.getId();
 
+        db.beginTransaction();
+
         try {
             db.execSQL(query);
+
+            db.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            db.endTransaction();
         }
     }
 

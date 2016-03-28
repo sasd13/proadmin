@@ -22,7 +22,7 @@ public class Report {
 	public Report(RunningTeam runningTeam) {
 		this();
 		
-		this.runningTeam = runningTeam;
+		//this.runningTeam = runningTeam; //Parsing circular association error
 		runningTeam.getReports().add(this);
 	}
 	

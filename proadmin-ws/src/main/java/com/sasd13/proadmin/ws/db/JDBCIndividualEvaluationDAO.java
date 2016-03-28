@@ -73,6 +73,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				individualEvaluation.setId(id);
+			} else {
+				throw new SQLException("IndividualEvaluation not inserted: " + individualEvaluation);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

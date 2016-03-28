@@ -53,12 +53,36 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
 
     @Override
     public long insert(LeadEvaluation leadEvaluation) {
-        return db.insert(TABLE, null, getContentValues(leadEvaluation));
+        long id = 0;
+
+        db.beginTransaction();
+
+        try {
+            id = db.insert(TABLE, null, getContentValues(leadEvaluation));
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        return id;
     }
 
     @Override
     public void update(LeadEvaluation leadEvaluation) {
-        db.update(TABLE, getContentValues(leadEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(leadEvaluation.getId()) });
+        if (db.inTransaction()) {
+            db.beginTransaction();
+
+            try {
+                db.update(TABLE, getContentValues(leadEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(leadEvaluation.getId()) });
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } else {
+            db.update(TABLE, getContentValues(leadEvaluation), COLUMN_ID + " = ?", new String[]{ String.valueOf(leadEvaluation.getId()) });
+        }
     }
 
     @Override
@@ -69,10 +93,16 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
                 + " WHERE "
                     + COLUMN_ID + " = " + leadEvaluation.getId();
 
+        db.beginTransaction();
+
         try {
             db.execSQL(query);
+
+            db.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            db.endTransaction();
         }
     }
 
