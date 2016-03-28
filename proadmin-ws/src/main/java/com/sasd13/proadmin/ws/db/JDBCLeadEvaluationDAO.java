@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -55,7 +56,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 	
 	@Override
-	public long insert(LeadEvaluation leadEvaluation) {
+	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
 		long id = 0;
 		
 		String query = "INSERT INTO " + TABLE 
@@ -74,17 +75,17 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, leadEvaluation);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
+			connection.commit();
 			
-			leadEvaluation.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				leadEvaluation.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not inserted: " + leadEvaluation);
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -99,7 +100,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 	
 	@Override
-	public void update(LeadEvaluation leadEvaluation) {
+	public void update(LeadEvaluation leadEvaluation) throws DAOException {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_PLANNINGMARK + " = ?, " 
@@ -116,11 +117,15 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, leadEvaluation);
-			
 			preparedStatement.setLong(7, leadEvaluation.getId());
+			
 			preparedStatement.executeUpdate();
+			if (!connection.getAutoCommit()) {
+				connection.commit();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not updated: id=" + leadEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -133,7 +138,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(LeadEvaluation leadEvaluation) throws DAOException {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -145,10 +150,13 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, leadEvaluation.getId());
+			
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not deleted: id=" + leadEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -203,7 +211,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

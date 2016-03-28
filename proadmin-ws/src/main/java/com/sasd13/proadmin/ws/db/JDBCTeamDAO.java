@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.TeamDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -52,15 +52,13 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, team);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
 			
-			team.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				team.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -89,8 +87,8 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, team);
-			
 			preparedStatement.setLong(2, team.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,7 +104,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(Team team) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -118,7 +116,8 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, team.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,7 +175,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

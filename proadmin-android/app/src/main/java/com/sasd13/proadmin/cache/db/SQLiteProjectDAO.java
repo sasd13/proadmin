@@ -7,8 +7,8 @@ import android.database.SQLException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +53,12 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Project project) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + project.getId();
 
         try {
             db.execSQL(query);
@@ -92,7 +92,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -100,7 +100,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

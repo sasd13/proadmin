@@ -17,7 +17,7 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -61,15 +61,13 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, studentTeam);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
 			
-			studentTeam.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				studentTeam.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -91,7 +89,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(StudentTeam studentTeam) {
 		String query = "DELTE FROM " + TABLE 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
@@ -101,7 +99,8 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, studentTeam.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,7 +156,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(StudentTeamDAO.class, parameters);
+						+ SQLWhereClauseParser.parse(StudentTeamDAO.class, parameters);
 			
 			statement = connection.createStatement();
 			

@@ -25,9 +25,7 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
                 new SQLiteStudentTeamDAO(),
                 new SQLiteRunningDAO(),
                 new SQLiteRunningTeamDAO(),
-                new SQLiteReportDAO(),
-                new SQLiteLeadEvaluationDAO(),
-                new SQLiteIndividualEvaluationDAO()
+                new SQLiteReportDAO()
         );
     }
 
@@ -53,8 +51,6 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
             ((SQLiteEntityDAO) runningDAO).setDB(db);
             ((SQLiteEntityDAO) runningTeamDAO).setDB(db);
             ((SQLiteEntityDAO) reportDAO).setDB(db);
-            ((SQLiteEntityDAO) leadEvaluationDAO).setDB(db);
-            ((SQLiteEntityDAO) individualEvaluationDAO).setDB(db);
         } catch (SQLiteException e) {
             e.printStackTrace();
         }

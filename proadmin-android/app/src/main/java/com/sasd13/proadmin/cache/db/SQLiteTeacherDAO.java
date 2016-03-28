@@ -6,8 +6,8 @@ import android.database.SQLException;
 
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +52,12 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Teacher teacher) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + teacher.getId();
 
         try {
             db.execSQL(query);
@@ -91,7 +91,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -99,7 +99,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

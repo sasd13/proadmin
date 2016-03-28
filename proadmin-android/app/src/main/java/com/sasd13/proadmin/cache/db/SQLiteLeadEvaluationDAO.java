@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +62,12 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(LeadEvaluation leadEvaluation) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + leadEvaluation.getId();
 
         try {
             db.execSQL(query);
@@ -101,7 +101,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -109,7 +109,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

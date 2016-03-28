@@ -17,7 +17,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.RunningTeamDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -61,15 +61,13 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, runningTeam);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
 			
-			runningTeam.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				runningTeam.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -91,7 +89,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(RunningTeam runningTeam) {
 		String query = "DELTE FROM " + TABLE 
 				+ " WHERE " 
 					+ COLUMN_ID + " = ?";
@@ -101,7 +99,8 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, runningTeam.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,7 +156,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(RunningTeamDAO.class, parameters);
+						+ SQLWhereClauseParser.parse(RunningTeamDAO.class, parameters);
 			
 			statement = connection.createStatement();
 			

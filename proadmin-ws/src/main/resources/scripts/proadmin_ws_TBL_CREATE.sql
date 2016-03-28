@@ -90,8 +90,8 @@ CREATE TABLE runningteams (
 
 CREATE TABLE reports (
 	id SERIAL,
-	datemeeting VARCHAR(255) NOT NULL,
-	week INT NOT NULL,
+	meetingdate VARCHAR(255) NOT NULL,
+	sessionnumber INT NOT NULL,
 	comment TEXT,
 	runningteam_id BIGINT UNSIGNED NOT NULL,
 	deleted BOOLEAN NOT NULL DEFAULT FALSE,

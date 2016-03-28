@@ -110,19 +110,13 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String headerRequestParameterized = (String) req.getHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName());
-		Map<String, String[]> parameters = req.getParameterMap();
-		
-		if (!HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName().equals(headerRequestParameterized)
-				&& parameters.size() == 1 
-				&& parameters.containsKey(REQUEST_PARAMETER_ID) 
-				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
-			try {
-				LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
-				persistor.delete(Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID)), getEntityClass());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
+		try {
+			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
+			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+			
+			persistor.delete((T) reqData);
+		} catch (DataParserException e) {
+			e.printStackTrace();
 		}
 	}
 }

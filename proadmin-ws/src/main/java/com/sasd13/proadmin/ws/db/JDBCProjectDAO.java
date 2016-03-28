@@ -16,7 +16,7 @@ import java.util.Map;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -62,15 +62,13 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, project);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
 			
-			project.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				project.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -102,8 +100,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, project);
-			
 			preparedStatement.setLong(5, project.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +117,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(Project project) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -131,7 +129,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, project.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,7 +188,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

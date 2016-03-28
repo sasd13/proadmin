@@ -45,7 +45,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 			reportToAdd = new Report(runningTeam);
 			reportToAdd.setId(report.getId());
 			reportToAdd.setMeetingDate(report.getMeetingDate());
-			reportToAdd.setWeek(report.getWeek());
+			reportToAdd.setSessionNumber(report.getSessionNumber());
 			reportToAdd.setComment(report.getComment());
 		}
 	}

@@ -6,8 +6,8 @@ import android.database.SQLException;
 
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.TeamDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +46,12 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Team team) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + team.getId();
 
         try {
             db.execSQL(query);
@@ -85,7 +85,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -93,7 +93,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

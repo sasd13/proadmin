@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -61,15 +61,13 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, teacher);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
 			
-			teacher.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				teacher.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -101,8 +99,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, teacher);
-			
 			preparedStatement.setLong(5, teacher.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,7 +116,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(Teacher teacher) {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -130,7 +128,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, teacher.getId());
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,7 +187,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

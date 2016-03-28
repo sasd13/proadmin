@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 /**
  *
@@ -49,7 +50,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	@Override
-	public long insert(IndividualEvaluation individualEvaluation) {
+	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
 		long id = 0;
 		
 		String query = "INSERT INTO " + TABLE 
@@ -65,17 +66,17 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, individualEvaluation);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
-			}
+			preparedStatement.executeUpdate();
+			connection.commit();
 			
-			individualEvaluation.setId(id);
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+				individualEvaluation.setId(id);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("IndividualEvaluation not inserted: " + individualEvaluation);
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -90,7 +91,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	@Override
-	public void update(IndividualEvaluation individualEvaluation) {
+	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_MARK + " = ?, " 
@@ -104,11 +105,15 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			editPreparedStatement(preparedStatement, individualEvaluation);
-			
 			preparedStatement.setLong(4, individualEvaluation.getId());
+			
 			preparedStatement.executeUpdate();
+			if (!connection.getAutoCommit()) {
+				connection.commit();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("IndividualEvaluation not updated: id=" + individualEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -121,7 +126,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 	
 	@Override
-	public void delete(long id) {
+	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
 		String query = "UPDATE " + TABLE 
 				+ " SET " 
 					+ COLUMN_DELETED + " = ?" 
@@ -133,10 +138,13 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, id);
+			preparedStatement.setLong(2, individualEvaluation.getId());
+			
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("IndividualEvaluation not deleted: id=" + individualEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -191,7 +199,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ WhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

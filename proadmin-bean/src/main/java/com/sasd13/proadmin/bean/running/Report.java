@@ -8,7 +8,7 @@ public class Report {
 	
 	private long id;
 	private Timestamp meetingDate;
-	private int week;
+	private int sessionNumber;
 	private String comment;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
@@ -42,12 +42,12 @@ public class Report {
 		this.meetingDate = meetingDate;
 	}
 	
-	public int getWeek() {
-		return week;
+	public int getSessionNumber() {
+		return sessionNumber;
 	}
 	
-	public void setWeek(int week) {
-		this.week = week;
+	public void setSessionNumber(int sessionNumber) {
+		this.sessionNumber = sessionNumber;
 	}
 	
 	public String getComment() {
@@ -77,7 +77,7 @@ public class Report {
 		builder.append("Report [");
 		builder.append("id=" + getId());
 		builder.append(", meetingDate=" + getMeetingDate());
-		builder.append(", weak=" + getWeek());
+		builder.append(", sessionNumber=" + getSessionNumber());
 		builder.append(", comment=" + getComment());
 		builder.append("]");
 		

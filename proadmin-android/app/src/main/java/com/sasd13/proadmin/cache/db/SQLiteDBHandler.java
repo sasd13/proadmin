@@ -124,7 +124,7 @@ public class SQLiteDBHandler extends SQLiteOpenHelper {
                 + "column_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ReportDAO.COLUMN_ID + " INTEGER NOT NULL UNIQUE, "
                 + ReportDAO.COLUMN_MEETINGDATE + " VARCHAR(255) NOT NULL, "
-                + ReportDAO.COLUMN_WEEK + " INT NOT NULL, "
+                + ReportDAO.COLUMN_SESSIONNUMBER + " INT NOT NULL, "
                 + ReportDAO.COLUMN_COMMENT + " TEXT, "
                 + ReportDAO.COLUMN_RUNNINGTEAM + " INTEGER NOT NULL, "
                 + ReportDAO.COLUMN_DELETED + " INTEGER NOT NULL DEFAULT 0"

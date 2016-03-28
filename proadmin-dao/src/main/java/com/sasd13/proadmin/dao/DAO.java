@@ -25,8 +25,8 @@ public abstract class DAO implements ILayeredDAO {
 	protected RunningDAO runningDAO;
 	protected RunningTeamDAO runningTeamDAO;
 	protected ReportDAO reportDAO;
-	protected LeadEvaluationDAO leadEvaluationDAO;
-	protected IndividualEvaluationDAO individualEvaluationDAO;
+	private LeadEvaluationDAO leadEvaluationDAO;
+	private IndividualEvaluationDAO individualEvaluationDAO;
 	
 	private StudentTeamDeepReader studentTeamDeepReader;
 	private RunningDeepReader runningDeepReader;
@@ -37,8 +37,7 @@ public abstract class DAO implements ILayeredDAO {
 	
 	protected DAO(TeacherDAO teacherDAO, ProjectDAO projectDAO, 
 			StudentDAO studentDAO, TeamDAO teamDAO, StudentTeamDAO studentTeamDAO,
-			RunningDAO runningDAO, RunningTeamDAO runningTeamDAO,
-			ReportDAO reportDAO, LeadEvaluationDAO leadEvaluationDAO, IndividualEvaluationDAO individualEvaluationDAO) {
+			RunningDAO runningDAO, RunningTeamDAO runningTeamDAO, ReportDAO reportDAO) {
 		
 		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;
@@ -48,8 +47,8 @@ public abstract class DAO implements ILayeredDAO {
 		this.runningDAO = runningDAO;
 		this.runningTeamDAO = runningTeamDAO;
 		this.reportDAO = reportDAO;
-		this.leadEvaluationDAO = leadEvaluationDAO;
-		this.individualEvaluationDAO = individualEvaluationDAO;
+		this.leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
+		this.individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
 		
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);

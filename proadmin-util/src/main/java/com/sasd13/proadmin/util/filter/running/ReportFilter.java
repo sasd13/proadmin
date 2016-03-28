@@ -13,9 +13,9 @@ public class ReportFilter extends AndFilter<Report> {
 		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (Parameter.WEEK.getName().equals(entry.getKey())) {
+				if (Parameter.SESSIONNUMBER.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new WeekCriteria(Integer.parseInt(value)));
+						multiAndCriteria.addCriteria(new SessionNumberCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}

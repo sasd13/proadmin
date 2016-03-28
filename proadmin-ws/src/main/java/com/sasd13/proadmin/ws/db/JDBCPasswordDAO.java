@@ -63,12 +63,11 @@ public class JDBCPasswordDAO implements IDAO {
 			preparedStatement.setString(1, password);
 			preparedStatement.setLong(2, teacherId);
 			
-			long affectedRows = preparedStatement.executeUpdate();
-			if (affectedRows > 0) {
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					id = generatedKeys.getLong(1);
-				}
+			preparedStatement.executeUpdate();
+			
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -126,6 +125,7 @@ public class JDBCPasswordDAO implements IDAO {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, teacherId);
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

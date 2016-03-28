@@ -5,9 +5,9 @@
  */
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.proadmin.bean.member.Student;
-
 import javax.servlet.annotation.WebServlet;
+
+import com.sasd13.proadmin.bean.member.Student;
 
 /**
  *

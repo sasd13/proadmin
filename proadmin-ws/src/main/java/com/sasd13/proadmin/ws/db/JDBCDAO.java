@@ -37,9 +37,7 @@ public class JDBCDAO extends DAO {
 			new JDBCStudentTeamDAO(),
 			new JDBCRunningDAO(),
 			new JDBCRunningTeamDAO(),
-			new JDBCReportDAO(),
-			new JDBCLeadEvaluationDAO(),
-			new JDBCIndividualEvaluationDAO()
+			new JDBCReportDAO()
 		);
 	}
 	
@@ -56,8 +54,6 @@ public class JDBCDAO extends DAO {
 			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) runningTeamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) leadEvaluationDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
 			throw new DAOException("Error connection to database");
 		}

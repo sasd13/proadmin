@@ -14,12 +14,12 @@ public enum Parameter {
 	REPORT("report"),
 	RUNNING("running"),
 	RUNNINGTEAM("runningteam"),
+	SESSIONNUMBER("sessionnumber"),
 	STUDENT("student"),
 	STUDENTTEAM("studentteam"),
 	TEACHER("teacher"),
 	TEAM("team"),
 	TITLE("title"),
-	WEEK("week"),
 	YEAR("year");
 	
 	private String name;

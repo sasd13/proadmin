@@ -3,12 +3,16 @@ package com.sasd13.proadmin.cache.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
+import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,13 +21,39 @@ import java.util.Map;
 
 public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDAO {
 
+    private SQLiteLeadEvaluationDAO leadEvaluationDAO;
+    private SQLiteIndividualEvaluationDAO individualEvaluationDAO;
+
+    public SQLiteReportDAO() {
+        leadEvaluationDAO = new SQLiteLeadEvaluationDAO();
+        individualEvaluationDAO = new SQLiteIndividualEvaluationDAO();
+    }
+
+    @Override
+    public LeadEvaluationDAO getLeadEvaluationDAO() {
+        return leadEvaluationDAO;
+    }
+
+    @Override
+    public IndividualEvaluationDAO getIndividualEvaluationDAO() {
+        return individualEvaluationDAO;
+    }
+
+    @Override
+    public void setDB(SQLiteDatabase db) {
+        super.setDB(db);
+
+        leadEvaluationDAO.setDB(db);
+        individualEvaluationDAO.setDB(db);
+    }
+
     @Override
     protected ContentValues getContentValues(Report report) {
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_ID, report.getId());
         values.put(COLUMN_MEETINGDATE, String.valueOf(report.getMeetingDate()));
-        values.put(COLUMN_WEEK, report.getWeek());
+        values.put(COLUMN_SESSIONNUMBER, report.getSessionNumber());
         values.put(COLUMN_COMMENT, report.getComment());
         values.put(COLUMN_RUNNINGTEAM, report.getRunningTeam().getId());
 
@@ -38,7 +68,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         Report report = new Report(runningteam);
         report.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         report.setMeetingDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_MEETINGDATE))));
-        report.setWeek(cursor.getInt(cursor.getColumnIndex(COLUMN_WEEK)));
+        report.setSessionNumber(cursor.getInt(cursor.getColumnIndex(COLUMN_SESSIONNUMBER)));
         report.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
 
         return report;
@@ -46,21 +76,41 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
 
     @Override
     public long insert(Report report) {
-        return db.insert(TABLE, null, getContentValues(report));
+        long id = db.insert(TABLE, null, getContentValues(report));
+
+        leadEvaluationDAO.insert(report.getLeadEvaluation());
+
+        for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+            individualEvaluationDAO.insert(individualEvaluation);
+        }
+
+        return id;
     }
 
     @Override
     public void update(Report report) {
         db.update(TABLE, getContentValues(report), COLUMN_ID + " = ?", new String[]{ String.valueOf(report.getId()) });
+
+        leadEvaluationDAO.update(report.getLeadEvaluation());
+
+        for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+            individualEvaluationDAO.update(individualEvaluation);
+        }
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Report report) {
+        leadEvaluationDAO.delete(report.getLeadEvaluation());
+
+        for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+            individualEvaluationDAO.delete(individualEvaluation);
+        }
+
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + report.getId();
 
         try {
             db.execSQL(query);
@@ -94,7 +144,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -102,7 +152,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

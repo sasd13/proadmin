@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.RunningDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +58,12 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Running running) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + running.getId();
 
         try {
             db.execSQL(query);
@@ -97,7 +97,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(RunningDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(RunningDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -105,7 +105,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

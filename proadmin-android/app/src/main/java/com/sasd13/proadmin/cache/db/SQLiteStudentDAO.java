@@ -7,8 +7,8 @@ import android.database.SQLException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.StudentDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +55,12 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Student student) {
         String query = "UPDATE " + TABLE
                 + " SET "
                     + COLUMN_DELETED + " = 1"
                 + " WHERE "
-                    + COLUMN_ID + " = " + id;
+                    + COLUMN_ID + " = " + student.getId();
 
         try {
             db.execSQL(query);
@@ -94,7 +94,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -102,7 +102,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 

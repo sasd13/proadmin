@@ -50,8 +50,8 @@ public class LeadEvaluation extends Evaluation {
 		builder.append("LeadEvaluation [");
 		builder.append("id=" + getId());
 		builder.append(", planningMark=" + getPlanningMark());
-		builder.append(", communicationMark=" + getCommunicationMark());
 		builder.append(", planningComment=" + getPlanningComment());
+		builder.append(", communicationMark=" + getCommunicationMark());
 		builder.append(", communicationComment=" + getCommunicationComment());
 		builder.append("]");
 		

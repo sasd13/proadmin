@@ -7,8 +7,8 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
-import com.sasd13.proadmin.dao.util.WhereClauseException;
-import com.sasd13.proadmin.dao.util.WhereClauseParser;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
+import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,8 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     }
 
     @Override
-    public void delete(long id) {
-        db.delete(TABLE, COLUMN_ID + " = ?", new String[]{ String.valueOf(id) });
+    public void delete(StudentTeam studentTeam) {
+        db.delete(TABLE, COLUMN_ID + " = ?", new String[]{ String.valueOf(studentTeam.getId()) });
     }
 
     @Override
@@ -79,14 +79,14 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + WhereClauseParser.parse(StudentTeamDAO.class, parameters);
+                        + SQLWhereClauseParser.parse(StudentTeamDAO.class, parameters);
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (WhereClauseException e) {
+        } catch (SQLWhereClauseException e) {
             e.printStackTrace();
         }
 
