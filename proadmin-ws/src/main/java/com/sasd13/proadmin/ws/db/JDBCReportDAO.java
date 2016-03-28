@@ -268,7 +268,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, ReportDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

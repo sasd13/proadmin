@@ -175,7 +175,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, TeamDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

@@ -156,7 +156,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(StudentTeamDAO.class, parameters);
+						+ SQLWhereClauseParser.parse(parameters, StudentTeamDAO.class);
 			
 			statement = connection.createStatement();
 			

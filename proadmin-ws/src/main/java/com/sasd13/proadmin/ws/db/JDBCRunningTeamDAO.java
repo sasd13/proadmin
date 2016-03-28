@@ -156,7 +156,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(RunningTeamDAO.class, parameters);
+						+ SQLWhereClauseParser.parse(parameters, RunningTeamDAO.class);
 			
 			statement = connection.createStatement();
 			

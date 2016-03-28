@@ -36,6 +36,7 @@ public class RunningBusinessService extends BusinessService<Running> {
         }
 
         Running runningToCreate = new Running();
+        runningToCreate.setYear(year);
         runningToCreate.setTeacher(teacher);
         runningToCreate.setProject(project);
 

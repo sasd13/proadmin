@@ -1,7 +1,5 @@
 package com.sasd13.proadmin.bean.running;
 
-import java.util.Calendar;
-
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 
@@ -11,10 +9,6 @@ public class Running {
 	private int year;
 	private Teacher teacher;
 	private Project project;
-	
-	public Running() {
-		year = Calendar.getInstance().get(Calendar.YEAR);
-	}
 	
 	public long getId() {
 		return id;

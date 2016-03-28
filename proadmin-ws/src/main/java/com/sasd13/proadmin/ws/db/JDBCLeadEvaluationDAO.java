@@ -213,7 +213,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, LeadEvaluationDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

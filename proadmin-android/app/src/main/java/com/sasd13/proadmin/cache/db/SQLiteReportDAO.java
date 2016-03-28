@@ -168,7 +168,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(ReportDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, ReportDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

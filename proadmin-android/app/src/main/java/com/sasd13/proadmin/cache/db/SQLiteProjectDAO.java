@@ -92,7 +92,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(ProjectDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, ProjectDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

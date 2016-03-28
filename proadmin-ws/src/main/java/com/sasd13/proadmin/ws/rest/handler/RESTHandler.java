@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.http.HttpHeader;
-import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.util.MediaType;
 
 public class RESTHandler {
 	
 	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataParserException {
-		String sReqData = ContentIO.readAndClose(req.getReader());
+		String data = ContentIO.readAndClose(req.getReader());
 		
-		return (T) DataParser.fromString(req.getContentType(), sReqData, mClass);
+		return (T) DataParser.fromString(data, MediaType.find(req.getContentType()), mClass);
 	}
 	
 	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException, DataParserException {
@@ -26,7 +26,7 @@ public class RESTHandler {
 		resp.setContentType(contentType);
 		setResponseHeaderAccept(resp);
 		
-		String sRespData = DataParser.toString(contentType, respData);
+		String sRespData = DataParser.toString(respData, MediaType.find(contentType));
 		
 		ContentIO.writeAndClose(resp.getWriter(), sRespData);
 	}

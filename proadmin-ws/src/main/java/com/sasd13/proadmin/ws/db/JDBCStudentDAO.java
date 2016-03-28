@@ -192,7 +192,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, StudentDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

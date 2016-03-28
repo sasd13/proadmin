@@ -79,7 +79,7 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(RunningTeamDAO.class, parameters);
+                        + SQLWhereClauseParser.parse(parameters, RunningTeamDAO.class);
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {

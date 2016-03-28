@@ -97,7 +97,7 @@ public class SQLiteRunningDAO extends SQLiteEntityDAO<Running> implements Runnin
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(RunningDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, RunningDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

@@ -201,7 +201,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(IndividualEvaluationDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, IndividualEvaluationDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

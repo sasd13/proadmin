@@ -85,7 +85,7 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(TeamDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, TeamDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

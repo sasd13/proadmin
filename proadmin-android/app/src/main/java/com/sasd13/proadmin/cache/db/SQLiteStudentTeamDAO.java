@@ -79,7 +79,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(StudentTeamDAO.class, parameters);
+                        + SQLWhereClauseParser.parse(parameters, StudentTeamDAO.class);
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {

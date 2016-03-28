@@ -131,7 +131,7 @@ public class SQLiteLeadEvaluationDAO extends SQLiteEntityDAO<LeadEvaluation> imp
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(LeadEvaluationDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, LeadEvaluationDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

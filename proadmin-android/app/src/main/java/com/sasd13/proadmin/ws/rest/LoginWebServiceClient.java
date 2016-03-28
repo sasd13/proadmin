@@ -2,9 +2,9 @@ package com.sasd13.proadmin.ws.rest;
 
 import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.net.http.MediaType;
 import com.sasd13.javaex.util.DataParser;
 import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.WebServiceInformation;
 
@@ -34,19 +34,19 @@ public class LoginWebServiceClient {
     public long logIn(String number, String password) {
         long id = 0;
 
-        String reqContentType = MediaType.APPLICATION_JSON.getMIMEType();
+        MediaType reqMediaType = MediaType.APPLICATION_JSON;
 
         try {
             Map<String, String> logins = new HashMap<>();
             logins.put(Parameter.NUMBER.getName(), number);
             logins.put(Parameter.PASSWORD.getName(), password);
 
-            String reqData = DataParser.toString(reqContentType, logins);
+            String reqData = DataParser.toString(logins, reqMediaType);
 
-            httpRequest = new HttpRequest(new URL(WebServiceInformation.URL_LOGIN), HttpRequest.HttpMethod.POST);
+            httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(WebServiceInformation.URL_LOGIN));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqContentType);
+            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());
             httpRequest.addHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName(), HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName());
             setRequestHeaderAccept();
             httpRequest.connect();
@@ -59,7 +59,7 @@ public class LoginWebServiceClient {
 
             httpRequest.disconnect();
 
-            id = (long) DataParser.fromString(respContentType, respData, Long.class);
+            id = (long) DataParser.fromString(respData, MediaType.find(respContentType), Long.class);
         } catch (DataParserException | IOException e) {
             e.printStackTrace();
         }

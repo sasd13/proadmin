@@ -91,7 +91,7 @@ public class SQLiteTeacherDAO extends SQLiteEntityDAO<Teacher> implements Teache
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(TeacherDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, TeacherDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

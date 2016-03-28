@@ -191,7 +191,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(RunningDAO.class, parameters) + " AND "
+						+ SQLWhereClauseParser.parse(parameters, RunningDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

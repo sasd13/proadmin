@@ -94,7 +94,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(StudentDAO.class, parameters) + " AND "
+                        + SQLWhereClauseParser.parse(parameters, StudentDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

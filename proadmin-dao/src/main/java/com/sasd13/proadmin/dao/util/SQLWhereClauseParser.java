@@ -20,7 +20,7 @@ public class SQLWhereClauseParser {
 	private static final String OPERATOR_AND = "AND";
 	private static final String OPERATOR_OR = "OR";
 	
-	public static String parse(Class<? extends IEntityDAO<?>> mClass, Map<String, String[]> parameters) throws SQLWhereClauseException {
+	public static String parse(Map<String, String[]> parameters, Class<? extends IEntityDAO<?>> mClass) throws SQLWhereClauseException {
 		StringBuilder builder = new StringBuilder();
 		
 		boolean firstKey = true, firstValue = true;
