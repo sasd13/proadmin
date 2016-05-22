@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@string/form_textview_title_number"
-                android:textColor="@color/customOrange"
+                android:textColor="@color/orange"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
                 android:layout_height="@dimen/dividerview_height_medium"
                 android:layout_below="@id/setting_form_user_textview_number_title"
                 android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/customOrange" />
+                android:background="@color/orange" />
 
             <TextView
                 android:id="@+id/setting_form_user_textview_number"
@@ -66,7 +66,7 @@
                 android:layout_below="@id/setting_form_user_textview_number"
                 android:layout_marginTop="@dimen/viewgroup_margin"
                 android:text="@string/form_textview_title_identity"
-                android:textColor="@color/customOrange"
+                android:textColor="@color/orange"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="@dimen/dividerview_height_medium"
                 android:layout_below="@id/setting_form_user_textview_identity"
                 android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/customOrange" />
+                android:background="@color/orange" />
 
             <EditText
                 android:id="@+id/setting_form_user_edittext_firstname"
@@ -111,7 +111,7 @@
                 android:layout_below="@id/setting_form_user_edittext_lastname"
                 android:layout_marginTop="@dimen/viewgroup_margin"
                 android:text="@string/form_textview_title_email"
-                android:textColor="@color/customOrange"
+                android:textColor="@color/orange"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="@dimen/dividerview_height_medium"
                 android:layout_below="@id/setting_form_user_textview_email_title"
                 android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/customOrange" />
+                android:background="@color/orange" />
 
             <EditText
                 android:id="@+id/setting_form_user_edittext_email"

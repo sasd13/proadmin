@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/projects_textview_academiclevels"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@string/projects_textview_projects"
-                android:textColor="@color/customOrange"
+                android:textColor="@color/orange"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="@dimen/dividerview_height_medium"
                 android:layout_below="@id/projects_textview"
                 android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/customOrange" />
+                android:background="@color/orange" />
 
         </RelativeLayout>
 

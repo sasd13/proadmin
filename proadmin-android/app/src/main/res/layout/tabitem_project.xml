@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:gravity="left|center_vertical"
             android:text="@string/tabitem_project_textview_title"
-            android:textColor="@color/customBlue"
+            android:textColor="@color/blue"
             android:textSize="@dimen/textsize_xlarge"
             android:textStyle="bold"
             android:singleLine="true"

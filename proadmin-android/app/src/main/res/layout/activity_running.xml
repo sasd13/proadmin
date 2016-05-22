@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="@string/running_textview_title_project"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/running_textview_title_project"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange" />
+            android:background="@color/orange" />
 
         <TextView
             android:id="@+id/running_textview_project"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="@string/running_textview_title_year"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/running_textview_title_year"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange" />
+            android:background="@color/orange" />
 
         <TextView
             android:id="@+id/running_textview_year"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@string/running_textview_title_teams"
-                android:textColor="@color/customOrange"
+                android:textColor="@color/orange"
                 android:textSize="@dimen/textsize_medium"
                 android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
                 android:layout_height="@dimen/dividerview_height_medium"
                 android:layout_below="@id/running_textview_title_teams"
                 android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/customOrange" />
+                android:background="@color/orange" />
 
         </RelativeLayout>
 

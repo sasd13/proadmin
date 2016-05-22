@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="@string/project_textview_title_title"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"/>
 
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_title"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange"/>
+            android:background="@color/orange"/>
 
         <TextView
             android:id="@+id/project_textview_title"
@@ -45,7 +45,7 @@
             android:layout_below="@id/project_textview_title"
             android:layout_marginTop="@dimen/viewgroup_margin"
             android:text="@string/project_textview_title_academiclevel"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"/>
 
@@ -55,7 +55,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_academiclevel"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange"/>
+            android:background="@color/orange"/>
 
         <TextView
             android:id="@+id/project_textview_academiclevel"
@@ -74,7 +74,7 @@
             android:layout_below="@id/project_textview_academiclevel"
             android:layout_marginTop="@dimen/viewgroup_margin"
             android:text="@string/project_textview_title_code"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"/>
 
@@ -84,7 +84,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_code"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange"/>
+            android:background="@color/orange"/>
 
         <TextView
             android:id="@+id/project_textview_code"
@@ -103,7 +103,7 @@
             android:layout_below="@id/project_textview_code"
             android:layout_marginTop="@dimen/viewgroup_margin"
             android:text="@string/project_textview_title_description"
-            android:textColor="@color/customOrange"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textsize_medium"
             android:textStyle="bold"/>
 
@@ -113,7 +113,7 @@
             android:layout_height="@dimen/dividerview_height_medium"
             android:layout_below="@id/project_textview_title_description"
             android:layout_marginTop="@dimen/dividerview_margintop"
-            android:background="@color/customOrange"/>
+            android:background="@color/orange"/>
 
         <TextView
             android:id="@+id/project_textview_description"

@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:gravity="left|center_vertical"
             android:text="@string/tabitem_team_textview_code"
-            android:textColor="@color/customBlue"
+            android:textColor="@color/blue"
             android:textSize="@dimen/textsize_xlarge"
             android:textStyle="bold"/>
 

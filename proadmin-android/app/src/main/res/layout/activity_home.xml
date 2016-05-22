@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/customOrange"
+        android:background="@color/orange"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
@@ -15,7 +15,7 @@
             android:id="@+id/home_textview_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/home_textview_title_height"
-            android:background="@color/customBlue"
+            android:background="@color/blue"
             android:gravity="center|right"
             android:layout_marginTop="@dimen/home_textview_title_verticalmargin"
             android:layout_marginBottom="@dimen/home_textview_title_verticalmargin"
@@ -108,9 +108,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="80dp"
             android:layout_marginBottom="80dp"
-            android:animation="@anim/anim1"
             android:clickable="true"
-            android:layoutAnimation="@anim/animation_home"
             android:persistentDrawingCache="animation|scrolling" />
 
     </RelativeLayout>

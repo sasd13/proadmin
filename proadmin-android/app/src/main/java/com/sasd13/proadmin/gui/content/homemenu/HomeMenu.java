@@ -20,7 +20,7 @@ public class HomeMenu {
         tab[0] = new HomeMenuItem(
                 context.getResources().getString(R.string.activity_setting),
                 ContextCompat.getDrawable(context, R.drawable.ic_setting_small),
-                ContextCompat.getColor(context, R.color.customBrown),
+                ContextCompat.getColor(context, R.color.brown),
                 new Intent(context, SettingActivity.class)
         );
     }

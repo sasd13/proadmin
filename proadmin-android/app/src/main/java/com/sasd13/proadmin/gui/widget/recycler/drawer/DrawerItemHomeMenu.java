@@ -33,7 +33,7 @@ public class DrawerItemHomeMenu extends DrawerItem {
 
     private void bindViews() {
         if (color == 0) {
-            color = ContextCompat.getColor(view.getContext(), R.color.customGreenApp);
+            color = ContextCompat.getColor(view.getContext(), R.color.green);
         }
         setColor(color);
     }

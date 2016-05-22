@@ -123,3 +123,5 @@ CREATE TABLE individualevaluations (
 	FOREIGN KEY (report_id) REFERENCES reports (id),
 	FOREIGN KEY (student_id) REFERENCES students (id)
 );
+
+COMMIT;
