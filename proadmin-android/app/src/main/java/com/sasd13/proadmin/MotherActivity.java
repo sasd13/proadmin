@@ -12,9 +12,9 @@ import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.content.homemenu.HomeMenu;
-import com.sasd13.proadmin.gui.content.homemenu.HomeMenuItem;
-import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemHomeMenu;
+import com.sasd13.proadmin.gui.nav.Nav;
+import com.sasd13.proadmin.gui.nav.NavItem;
+import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemNav;
 
 public abstract class MotherActivity extends AppCompatActivity {
 
@@ -42,21 +42,21 @@ public abstract class MotherActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerview);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_drawerlayout);
 
-        drawer = new Drawer(recyclerView, R.layout.draweritem_homemenu, drawerLayout);
+        drawer = new Drawer(recyclerView, R.layout.draweritem_nav, drawerLayout);
     }
 
     private void fillDrawer() {
-        HomeMenu homeMenu = HomeMenu.getInstance(this);
-        DrawerItemHomeMenu drawerItemHomeMenu;
+        Nav nav = Nav.getInstance(this);
+        DrawerItemNav drawerItemNav;
 
-        for (HomeMenuItem homeMenuItem : homeMenu.getItems()) {
-            drawerItemHomeMenu = new DrawerItemHomeMenu();
+        for (NavItem navItem : nav.getItems()) {
+            drawerItemNav = new DrawerItemNav();
 
-            drawerItemHomeMenu.setColor(homeMenuItem.getColor());
-            drawerItemHomeMenu.setText(homeMenuItem.getText());
-            drawerItemHomeMenu.setIntent(homeMenuItem.getIntent());
+            drawerItemNav.setColor(navItem.getColor());
+            drawerItemNav.setText(navItem.getText());
+            drawerItemNav.setIntent(navItem.getIntent());
 
-            drawer.addItem(drawerItemHomeMenu);
+            drawer.addItem(drawerItemNav);
         }
     }
 

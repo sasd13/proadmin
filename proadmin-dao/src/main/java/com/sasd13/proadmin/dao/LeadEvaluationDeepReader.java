@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.dao;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
@@ -16,7 +17,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 	}
 
 	@Override
-	protected void retrieveData(LeadEvaluation leadEvaluation) {
+	protected void retrieveData(LeadEvaluation leadEvaluation) throws DAOException {
 		Student student = studentDAO.select(leadEvaluation.getStudent().getId());
 		leadEvaluation.setStudent(student);
 	}

@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.dao;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -19,7 +20,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 	}
 	
 	@Override
-	protected void retrieveData(Running running) {
+	protected void retrieveData(Running running) throws DAOException {
 		Teacher teacher = teacherDAO.select(running.getTeacher().getId());
 		running.setTeacher(teacher);
 		

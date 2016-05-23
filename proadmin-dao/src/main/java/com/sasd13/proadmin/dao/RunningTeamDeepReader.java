@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.DeepReader;
 import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Team;
@@ -27,7 +28,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	}
 	
 	@Override
-	protected void retrieveData(RunningTeam runningTeam) {
+	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
 		Running running = runningDAO.select(runningTeam.getRunning().getId());
 		runningTeam.getRunning().setYear(running.getYear());
 		runningTeam.getRunning().setTeacher(running.getTeacher());

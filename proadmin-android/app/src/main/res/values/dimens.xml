@@ -16,8 +16,8 @@
     <dimen name="home_imageview_margin">10dp</dimen>
 
     <!-- Drawer -->
-    <dimen name="draweritem_homemenu_view_color_width">16dp</dimen>
-    <dimen name="draweritem_homemenu_view_color_height">42dp</dimen>
+    <dimen name="draweritem_nav_colorview_width">16dp</dimen>
+    <dimen name="draweritem_nav_colorview_height">42dp</dimen>
 
     <!-- Form user -->
     <dimen name="form_user_checkbox_horizontalmargin">7dp</dimen>

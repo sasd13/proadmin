@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.gui.content.homemenu;
+package com.sasd13.proadmin.gui.nav;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,17 +7,17 @@ import android.support.v4.content.ContextCompat;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.SettingActivity;
 
-public class HomeMenu {
+public class Nav {
 
-    private static HomeMenu instance = null;
+    private static Nav instance = null;
 
     private static final int SIZE = 1;
-    private HomeMenuItem[] tab;
+    private NavItem[] tab;
 
-    private HomeMenu(Context context) {
-        tab = new HomeMenuItem[SIZE];
+    private Nav(Context context) {
+        tab = new NavItem[SIZE];
 
-        tab[0] = new HomeMenuItem(
+        tab[0] = new NavItem(
                 context.getResources().getString(R.string.activity_setting),
                 ContextCompat.getDrawable(context, R.drawable.ic_setting_small),
                 ContextCompat.getColor(context, R.color.brown),
@@ -25,11 +25,11 @@ public class HomeMenu {
         );
     }
 
-    public static HomeMenu getInstance(Context context) {
+    public static Nav getInstance(Context context) {
         if (instance == null) {
-            synchronized (HomeMenu.class) {
+            synchronized (Nav.class) {
                 if (instance == null) {
-                    instance = new HomeMenu(context);
+                    instance = new Nav(context);
                 }
             }
         }
@@ -37,5 +37,5 @@ public class HomeMenu {
         return instance;
     }
 
-    public HomeMenuItem[] getItems() { return tab; }
+    public NavItem[] getItems() { return tab; }
 }

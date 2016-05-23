@@ -6,16 +6,16 @@ import android.view.View;
 import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItem;
 import com.sasd13.proadmin.R;
 
-public class DrawerItemHomeMenu extends DrawerItem {
+public class DrawerItemNav extends DrawerItem {
 
     private int color;
-    private View viewColor;
+    private View colorView;
 
     public void setColor(int color) {
         this.color = color;
 
-        if (viewColor != null) {
-        	viewColor.setBackgroundColor(color);
+        if (colorView != null) {
+        	colorView.setBackgroundColor(color);
         }
     }
 
@@ -28,7 +28,7 @@ public class DrawerItemHomeMenu extends DrawerItem {
     }
 
     private void findViews() {
-        viewColor = view.findViewById(R.id.draweritem_homemenu_view_color);
+        colorView = view.findViewById(R.id.draweritem_nav_colorview);
     }
 
     private void bindViews() {
