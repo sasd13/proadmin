@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.db;
 
 import com.sasd13.proadmin.ws.Config;
 
-public interface JDBCInfo {
+public interface JDBCDatabaseInfo {
 	
 	String DRIVER = Config.getInfo(Config.DB_DRIVER);
 	String URL = Config.getInfo(Config.DB_URL);

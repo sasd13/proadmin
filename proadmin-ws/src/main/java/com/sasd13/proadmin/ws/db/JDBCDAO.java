@@ -22,7 +22,7 @@ public class JDBCDAO extends DAO {
 	
 	static {
 		try {
-			Class.forName(JDBCInfo.DRIVER);
+			Class.forName(JDBCDatabaseInfo.DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -41,10 +41,14 @@ public class JDBCDAO extends DAO {
 		);
 	}
 	
+	public Connection getConnection() {
+		return connection;
+	}
+	
 	@Override
 	public void open() throws DAOException {
 		try {
-			connection = DriverManager.getConnection(JDBCInfo.URL, JDBCInfo.USERNAME, JDBCInfo.PASSWORD);
+			connection = DriverManager.getConnection(JDBCDatabaseInfo.URL, JDBCDatabaseInfo.USERNAME, JDBCDatabaseInfo.PASSWORD);
 			
 			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);

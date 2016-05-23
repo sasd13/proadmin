@@ -1,15 +1,11 @@
 package com.sasd13.proadmin.ws.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.sasd13.javaex.db.DAOException;
-import com.sasd13.javaex.db.IDAO;
-
-public class JDBCPasswordDAO implements IDAO {
+public class JDBCPasswordDAO {
 	
 	private static final String TABLE = "passwords";
 	
@@ -19,32 +15,8 @@ public class JDBCPasswordDAO implements IDAO {
 	
 	private Connection connection;
 	
-	static {
-		try {
-			Class.forName(JDBCInfo.DRIVER);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void open() throws DAOException {
-		try {
-			connection = DriverManager.getConnection(JDBCInfo.URL, JDBCInfo.USERNAME, JDBCInfo.PASSWORD);
-		} catch (SQLException e) {
-			throw new DAOException("Error connection to database");
-		}
-	}
-	
-	@Override
-	public void close() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	public JDBCPasswordDAO(Connection connection) {
+		this.connection = connection;
 	}
 	
 	public long insert(String password, long teacherId) {

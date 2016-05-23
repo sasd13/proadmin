@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.db.DAOException;
-import com.sasd13.javaex.db.LayeredPersistor;
 import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.dao.TeacherDAO;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
 import com.sasd13.proadmin.ws.db.JDBCPasswordDAO;
@@ -36,6 +36,8 @@ public class LoginWebService extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		long id = 0;
 		
+		JDBCDAO dao = new JDBCDAO();
+		
 		try {
 			Map<String, String> logins = RESTHandler.readAndParseDataFromRequest(req, Map.class);
 			String number = logins.get(Parameter.NUMBER.getName());
@@ -43,8 +45,8 @@ public class LoginWebService extends HttpServlet {
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			parameters.put(Parameter.NUMBER.getName(), new String[]{ number });
 			
-			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
-			List<Teacher> list = (List<Teacher>) persistor.read(parameters, Teacher.class);
+			dao.open();
+			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
 			
 			if (list.isEmpty()) {
 				id = 0;
@@ -52,12 +54,14 @@ public class LoginWebService extends HttpServlet {
 				Teacher teacher = list.get(0);
 				
 				String candidate = logins.get(Parameter.PASSWORD.getName());
-				String password = selectPasswordFromDAO(teacher);
+				String password = selectPasswordFromDAO(dao, teacher);
 				
 				id = (password.equals(candidate)) ? teacher.getId() : -1;
 			}
-		} catch (DataParserException e) {
+		} catch (DataParserException | DAOException e) {
 			e.printStackTrace();
+		} finally {
+			dao.close();
 		}
 		
 		try {
@@ -67,21 +71,7 @@ public class LoginWebService extends HttpServlet {
 		}
 	}
 	
-	private String selectPasswordFromDAO(Teacher teacher) {
-		String password = null;
-		
-		JDBCPasswordDAO dao = new JDBCPasswordDAO();
-		
-		try {
-			dao.open();
-			
-			password = dao.select(teacher.getId());
-		} catch (DAOException e) {
-			e.printStackTrace();
-		} finally {
-			dao.close();
-		}
-		
-		return password;
+	private String selectPasswordFromDAO(JDBCDAO dao, Teacher teacher) {
+		return new JDBCPasswordDAO(dao.getConnection()).select(teacher.getId());
 	}
 }
