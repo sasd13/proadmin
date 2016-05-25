@@ -39,8 +39,8 @@ public class LoginWebService extends HttpServlet {
 		JDBCDAO dao = new JDBCDAO();
 		
 		try {
-			Map<String, String> logins = RESTHandler.readAndParseDataFromRequest(req, Map.class);
-			String number = logins.get(Parameter.NUMBER.getName());
+			Map<String, String> credentials = RESTHandler.readAndParseDataFromRequest(req, Map.class);
+			String number = credentials.get(Parameter.NUMBER.getName());
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			parameters.put(Parameter.NUMBER.getName(), new String[]{ number });
@@ -51,12 +51,10 @@ public class LoginWebService extends HttpServlet {
 			if (list.isEmpty()) {
 				id = 0;
 			} else {
-				Teacher teacher = list.get(0);
+				Teacher teacher = list.get(0);				
+				String candidate = credentials.get(Parameter.PASSWORD.getName());
 				
-				String candidate = logins.get(Parameter.PASSWORD.getName());
-				String password = selectPasswordFromDAO(dao, teacher);
-				
-				id = (password.equals(candidate)) ? teacher.getId() : -1;
+				id = (passwordMatches(dao, candidate, teacher)) ? teacher.getId() : -1;
 			}
 		} catch (DataParserException | DAOException e) {
 			e.printStackTrace();
@@ -71,7 +69,7 @@ public class LoginWebService extends HttpServlet {
 		}
 	}
 	
-	private String selectPasswordFromDAO(JDBCDAO dao, Teacher teacher) {
-		return new JDBCPasswordDAO(dao.getConnection()).select(teacher.getId());
+	private boolean passwordMatches(JDBCDAO dao, String password, Teacher teacher) {
+		return new JDBCPasswordDAO(dao.getConnection()).contains(password, teacher.getId());
 	}
 }

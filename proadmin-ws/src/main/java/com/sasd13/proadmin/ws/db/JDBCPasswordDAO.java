@@ -112,11 +112,12 @@ public class JDBCPasswordDAO {
 		}
 	}
 	
-	public String select(long teacherId) {
-		String password = null;
+	public boolean contains(String password, long teacherId) {
+		boolean contains = false;
 		
 		String query = "SELECT " + COLUMN_PASSWORD + " FROM " + TABLE 
 				+ " WHERE " 
+					+ COLUMN_PASSWORD + " = ? AND "
 					+ COLUMN_TEACHER_ID + " = ? AND "
 					+ COLUMN_DELETED + " = ?";
 		
@@ -124,12 +125,13 @@ public class JDBCPasswordDAO {
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, teacherId);
-			preparedStatement.setBoolean(2, false);
+			preparedStatement.setString(1, password);
+			preparedStatement.setLong(2, teacherId);
+			preparedStatement.setBoolean(3, false);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				password = resultSet.getString(COLUMN_PASSWORD);
+				contains = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,6 +145,6 @@ public class JDBCPasswordDAO {
 			}
 		}
 		
-		return password;
+		return contains;
 	}
 }
