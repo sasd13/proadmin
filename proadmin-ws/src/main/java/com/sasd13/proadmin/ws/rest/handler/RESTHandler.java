@@ -8,25 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.io.ContentIO;
 import com.sasd13.javaex.net.http.HttpHeader;
-import com.sasd13.javaex.util.DataParser;
-import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.MediaType;
 
 public class RESTHandler {
 	
-	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, DataParserException {
+	public static <T> T readAndParseDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, ParserException {
+		MediaType mediaType = MediaType.find(req.getContentType());
 		String data = ContentIO.readAndClose(req.getReader());
 		
-		return (T) DataParser.fromString(data, MediaType.find(req.getContentType()), mClass);
+		return (T) ParserFactory.make(mediaType).fromString(data, mClass);
 	}
 	
-	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException, DataParserException {
+	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData) throws IOException, ParserException {
 		String contentType = getRequestAcceptMediaType(req);
 		
 		resp.setContentType(contentType);
 		setResponseHeaderAccept(resp);
 		
-		String sRespData = DataParser.toString(respData, MediaType.find(contentType));
+		MediaType mediaType = MediaType.find(contentType);
+		String sRespData = ParserFactory.make(mediaType).toString(respData);
 		
 		ContentIO.writeAndClose(resp.getWriter(), sRespData);
 	}

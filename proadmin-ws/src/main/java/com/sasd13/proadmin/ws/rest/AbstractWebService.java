@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.db.LayeredPersistor;
 import com.sasd13.javaex.net.http.HttpHeader;
-import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 import com.sasd13.proadmin.ws.rest.handler.ReadHandler;
@@ -67,7 +67,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		
 		try {
 			RESTHandler.parseAndWriteDataToResponse(req, resp, respData);
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -81,13 +81,13 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			
 			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
 			id = persistor.create(t);
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +103,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			} else {
 				persistor.update((T) reqData);
 			}
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -115,7 +115,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
 			
 			persistor.delete((T) reqData);
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 	}

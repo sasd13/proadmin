@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.db.DAOException;
-import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
 import com.sasd13.proadmin.util.Parameter;
@@ -59,7 +59,7 @@ public class LoginWebService extends HttpServlet {
 						? teacher.getId() 
 						: LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue();
 			}
-		} catch (DataParserException | DAOException e) {
+		} catch (ParserException | DAOException e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
@@ -67,7 +67,7 @@ public class LoginWebService extends HttpServlet {
 		
 		try {
 			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
-		} catch (DataParserException e) {
+		} catch (ParserException e) {
 			e.printStackTrace();
 		}
 	}

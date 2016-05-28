@@ -17,7 +17,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.RunningTeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 
 /**
  *
@@ -156,7 +156,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionParser.parse(parameters, RunningTeamDAO.class);
+						+ ConditionBuilder.parse(parameters, RunningTeamDAO.class);
 			
 			statement = connection.createStatement();
 			

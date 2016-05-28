@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 
 /**
  *
@@ -187,7 +187,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionParser.parse(parameters, TeacherDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, TeacherDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

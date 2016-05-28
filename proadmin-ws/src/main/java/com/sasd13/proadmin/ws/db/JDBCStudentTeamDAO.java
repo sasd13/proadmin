@@ -17,7 +17,7 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 
 /**
  *
@@ -156,7 +156,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionParser.parse(parameters, StudentTeamDAO.class);
+						+ ConditionBuilder.parse(parameters, StudentTeamDAO.class);
 			
 			statement = connection.createStatement();
 			

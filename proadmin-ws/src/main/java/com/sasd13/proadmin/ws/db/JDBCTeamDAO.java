@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.TeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 
 /**
  *
@@ -175,7 +175,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionParser.parse(parameters, TeamDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, TeamDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

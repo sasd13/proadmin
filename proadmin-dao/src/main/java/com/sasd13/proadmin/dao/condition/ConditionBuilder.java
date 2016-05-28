@@ -6,7 +6,7 @@ import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.dao.condition.expression.ExpressionFactory;
 import com.sasd13.proadmin.dao.condition.expression.IExpression;
 
-public class ConditionParser {
+public class ConditionBuilder {
 	
 	private static final String OPERATOR_AND = "AND";
 	private static final String OPERATOR_OR = "OR";
