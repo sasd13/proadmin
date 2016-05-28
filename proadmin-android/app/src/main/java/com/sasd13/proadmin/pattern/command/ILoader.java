@@ -5,9 +5,9 @@ package com.sasd13.proadmin.pattern.command;
  */
 public interface ILoader {
 
-    void onLoad();
+    void onLoading();
 
-    void onCompleted();
+    void onLoadSucceeded();
 
-    void onError();
+    void onLoadFailed();
 }

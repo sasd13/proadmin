@@ -54,7 +54,7 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
 
     @Override
     protected void onCancelled(Void aVoid) {
-        onTaskError();
+        onTaskFailed();
     }
 
     @Override
@@ -64,17 +64,17 @@ public class UpdateTask<T> extends AsyncTask<T, Integer, Void> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            onTaskCompleted();
+            onTaskSucceeded();
         } else {
-            onTaskError();
+            onTaskFailed();
         }
     }
 
-    protected void onTaskCompleted() {
+    protected void onTaskSucceeded() {
         Toast.makeText(context, context.getResources().getString(R.string.message_updated), Toast.LENGTH_SHORT).show();
     }
 
-    protected void onTaskError() {
+    protected void onTaskFailed() {
         Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

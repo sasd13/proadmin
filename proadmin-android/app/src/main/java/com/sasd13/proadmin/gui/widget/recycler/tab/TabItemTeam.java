@@ -30,20 +30,20 @@ public class TabItemTeam extends RecyclerItem {
     }
 
     @Override
-    public void setView(View view) {
-        super.setView(view);
+    public void bindView(View view) {
+        super.bindView(view);
 
-        findViews();
-        bindViews();
+        findItemViews();
+        bindItemViews();
         setOnClickListener();
         setOnTouchListener();
     }
 
-    private void findViews() {
+    private void findItemViews() {
         textViewCode = (TextView) view.findViewById(R.id.tabitem_team_textview_code);
     }
 
-    private void bindViews() {
+    private void bindItemViews() {
         setCode(code);
         setIntent(intent);
     }

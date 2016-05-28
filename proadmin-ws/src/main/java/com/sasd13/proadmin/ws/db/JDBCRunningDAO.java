@@ -17,7 +17,7 @@ import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.RunningDAO;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
+import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 /**
  *
@@ -191,7 +191,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(parameters, RunningDAO.class) + " AND "
+						+ ConditionParser.parse(parameters, RunningDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

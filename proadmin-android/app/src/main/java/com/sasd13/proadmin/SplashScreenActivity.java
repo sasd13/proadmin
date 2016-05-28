@@ -34,8 +34,8 @@ public class SplashScreenActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        Session.init(this);
         Cache.init(this);
+        Session.init(this);
 
         if (Session.containsAttribute(Extra.TEACHER_ID)) {
             goToActivity(HomeActivity.class);

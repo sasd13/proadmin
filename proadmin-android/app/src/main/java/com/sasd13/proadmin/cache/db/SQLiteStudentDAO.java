@@ -7,8 +7,8 @@ import android.database.SQLException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.StudentDAO;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
+import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(parameters, StudentDAO.class) + " AND "
+                        + ConditionParser.parse(parameters, StudentDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
@@ -102,7 +102,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (SQLWhereClauseException e) {
+        } catch (ConditionException e) {
             e.printStackTrace();
         }
 

@@ -129,7 +129,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoading() {
         switchToLoadView(true);
     }
 
@@ -144,7 +144,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onCompleted() {
+    public void onLoadSucceeded() {
         try {
             teacher = readTaskTeacher.getResults().get(0);
 
@@ -169,7 +169,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onError() {
+    public void onLoadFailed() {
         switchToLoadView(false);
     }
 }

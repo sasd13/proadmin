@@ -15,8 +15,8 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
     private static final int TIMEOUT = LoginWebServiceClient.DEFAULT_TIMEOUT;
 
     private LoginActivity loginActivity;
-    private LoginWebServiceClient service;
     private String number, password;
+    private LoginWebServiceClient service;
     private Long result;
     private TaskPlanner taskPlanner;
 
@@ -42,7 +42,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         super.onPreExecute();
 
         taskPlanner.start();
-        loginActivity.onLoad();
+        loginActivity.onLoading();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
     @Override
     protected void onCancelled(Long aLong) {
-        onTaskError();
+        onTaskFailed();
     }
 
     @Override
@@ -66,19 +66,19 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == LoginWebServiceClient.STATUS_OK) {
-            onTaskCompleted();
+            onTaskSucceeded();
         } else {
-            onTaskError();
+            onTaskFailed();
         }
     }
 
-    protected void onTaskCompleted() {
-        loginActivity.onCompleted();
+    protected void onTaskSucceeded() {
+        loginActivity.onLoadSucceeded();
     }
 
-    protected void onTaskError() {
-        loginActivity.onError();
-
+    protected void onTaskFailed() {
         Toast.makeText(loginActivity, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
+
+        loginActivity.onLoadFailed();
     }
 }

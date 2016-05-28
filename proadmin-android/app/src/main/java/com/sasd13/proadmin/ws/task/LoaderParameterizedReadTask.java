@@ -23,20 +23,20 @@ public class LoaderParameterizedReadTask<T> extends ParameterizedReadTask<T> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        loader.onLoad();
+        loader.onLoading();
     }
 
     @Override
-    protected void onTaskCompleted() {
-        super.onTaskCompleted();
+    protected void onTaskSucceeded() {
+        super.onTaskSucceeded();
 
-        loader.onCompleted();
+        loader.onLoadSucceeded();
     }
 
     @Override
-    protected void onTaskError() {
-        super.onTaskError();
+    protected void onTaskFailed() {
+        super.onTaskFailed();
 
-        loader.onError();
+        loader.onLoadFailed();
     }
 }

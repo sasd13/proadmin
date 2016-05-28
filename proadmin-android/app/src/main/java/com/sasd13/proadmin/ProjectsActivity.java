@@ -141,7 +141,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoading() {
         switchToLoadView(true);
     }
 
@@ -156,7 +156,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onCompleted() {
+    public void onLoadSucceeded() {
         projects.clear();
         projects.addAll(readTaskProjects.getResults());
 
@@ -170,7 +170,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onError() {
+    public void onLoadFailed() {
         switchToLoadView(false);
     }
 }

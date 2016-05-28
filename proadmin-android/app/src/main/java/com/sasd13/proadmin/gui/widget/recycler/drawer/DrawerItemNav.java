@@ -20,18 +20,18 @@ public class DrawerItemNav extends DrawerItem {
     }
 
     @Override
-    public void setView(View view) {
-        super.setView(view);
+    public void bindView(View view) {
+        super.bindView(view);
 
-        findViews();
-        bindViews();
+        findItemViews();
+        bindItemViews();
     }
 
-    private void findViews() {
+    private void findItemViews() {
         colorView = view.findViewById(R.id.draweritem_nav_colorview);
     }
 
-    private void bindViews() {
+    private void bindItemViews() {
         if (color == 0) {
             color = ContextCompat.getColor(view.getContext(), R.color.green);
         }

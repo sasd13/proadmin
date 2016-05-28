@@ -21,6 +21,7 @@ import com.sasd13.javaex.util.DataParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
 import com.sasd13.proadmin.ws.db.JDBCPasswordDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
@@ -49,12 +50,14 @@ public class LoginWebService extends HttpServlet {
 			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
 			
 			if (list.isEmpty()) {
-				id = 0;
+				id = LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue();
 			} else {
-				Teacher teacher = list.get(0);				
+				Teacher teacher = list.get(0);			
 				String candidate = credentials.get(Parameter.PASSWORD.getName());
 				
-				id = (passwordMatches(dao, candidate, teacher)) ? teacher.getId() : -1;
+				id = (passwordMatches(dao, candidate, teacher)) 
+						? teacher.getId() 
+						: LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue();
 			}
 		} catch (DataParserException | DAOException e) {
 			e.printStackTrace();

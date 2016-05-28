@@ -22,7 +22,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
+import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 /**
  *
@@ -268,7 +268,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ SQLWhereClauseParser.parse(parameters, ReportDAO.class) + " AND "
+						+ ConditionParser.parse(parameters, ReportDAO.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

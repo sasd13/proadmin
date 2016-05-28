@@ -46,22 +46,22 @@ public class TabItemProject extends RecyclerItem {
     }
 
     @Override
-    public void setView(View view) {
-        super.setView(view);
+    public void bindView(View view) {
+        super.bindView(view);
 
-        findViews();
-        bindViews();
+        findItemViews();
+        bindItemViews();
         setOnClickListener();
         setOnTouchListener();
     }
 
-    private void findViews() {
+    private void findItemViews() {
         textViewCode = (TextView) view.findViewById(R.id.tabitem_project_textview_code);
         textViewTitle = (TextView) view.findViewById(R.id.tabitem_project_textview_title);
         textViewDescription = (TextView) view.findViewById(R.id.tabitem_project_textview_description);
     }
 
-    private void bindViews() {
+    private void bindItemViews() {
         setCode(code);
         setTitle(title);
         setDescription(description);

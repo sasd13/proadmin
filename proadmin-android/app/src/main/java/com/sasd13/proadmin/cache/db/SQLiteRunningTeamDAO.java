@@ -7,8 +7,8 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.RunningTeamDAO;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseException;
-import com.sasd13.proadmin.dao.util.SQLWhereClauseParser;
+import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,14 +79,14 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + SQLWhereClauseParser.parse(parameters, RunningTeamDAO.class);
+                        + ConditionParser.parse(parameters, RunningTeamDAO.class);
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (SQLWhereClauseException e) {
+        } catch (ConditionException e) {
             e.printStackTrace();
         }
 

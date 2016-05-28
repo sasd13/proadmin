@@ -81,6 +81,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
     private void fillTextViewProject(Project project) {
         String text = project.getCode() + " - " + project.getTitle();
+
         textViewProject.setText(text);
     }
 
@@ -139,7 +140,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoading() {
         switchToLoadView(true);
     }
 
@@ -154,19 +155,19 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onCompleted() {
+    public void onLoadSucceeded() {
         if (isActionCreateRunning) {
             isActionCreateRunning = false;
 
-            onCreateTaskRunningCompleted();
+            createTaskRunningSucceeded();
         } else {
-            onReadTaskRunningsCompleted();
+            readTaskRunningsSucceeded();
         }
 
         switchToLoadView(false);
     }
 
-    private void onCreateTaskRunningCompleted() {
+    private void createTaskRunningSucceeded() {
         try {
             long id = createTaskRunning.getResults().get(0);
 
@@ -210,7 +211,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
         }
     }
 
-    private void onReadTaskRunningsCompleted() {
+    private void readTaskRunningsSucceeded() {
         runnings.clear();
         runnings.addAll(parameterizedReadTaskRunning.getResults());
 
@@ -219,7 +220,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onError() {
+    public void onLoadFailed() {
         switchToLoadView(false);
     }
 }

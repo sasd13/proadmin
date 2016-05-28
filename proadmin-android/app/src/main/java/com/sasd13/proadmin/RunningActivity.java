@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
@@ -18,10 +17,10 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemTeam;
-import com.sasd13.proadmin.util.ActivityHelper;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ActivityHelper;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
 
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class RunningActivity extends MotherActivity implements ILoader {
     private RunningViewHolder runningViewHolder;
     private View viewLoad, viewTab;
     private Tab tabTeams;
-    private Button buttonNewGroup;
 
     private Running running;
     private List<Team> teams = new ArrayList<>();
@@ -52,7 +50,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
 
         setContentView(R.layout.activity_running);
         createRunningViewHoler();
-        createSwicthableViews();
+        createSwitchableViews();
         createTabTeams();
     }
 
@@ -62,7 +60,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
         runningViewHolder.textViewYear = (TextView) findViewById(R.id.running_textview_year);
     }
 
-    private void createSwicthableViews() {
+    private void createSwitchableViews() {
         viewLoad = findViewById(R.id.running_view_load);
         viewTab = findViewById(R.id.running_view_tab);
     }
@@ -135,7 +133,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoading() {
         switchToLoadView(true);
     }
 
@@ -150,17 +148,17 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onCompleted() {
+    public void onLoadSucceeded() {
         if (isActionReadRunningTeams) {
             isActionReadRunningTeams = false;
 
-            onReadTaskRunningTeamsCompleted();
+            readTaskRunningTeamsSucceeded();
         } else {
-            onReadTaskTeamsCompleted();
+            readTaskTeamsSucceeded();
         }
     }
 
-    private void onReadTaskRunningTeamsCompleted() {
+    private void readTaskRunningTeamsSucceeded() {
         List<RunningTeam> runningTeams = readTaskRunningTeams.getResults();
         if (!runningTeams.isEmpty()) {
             Map<String, String[]> parameters = new HashMap<>();
@@ -175,7 +173,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
         }
     }
 
-    private void onReadTaskTeamsCompleted() {
+    private void readTaskTeamsSucceeded() {
         teams.clear();
         teams.addAll(readTaskTeams.getResults());
 
@@ -208,7 +206,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onError() {
+    public void onLoadFailed() {
         switchToLoadView(false);
     }
 }

@@ -16,6 +16,7 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.LoginTask;
 
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoading() {
         switchToLoadView(true);
     }
 
@@ -101,20 +102,20 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void onCompleted() {
+    public void onLoadSucceeded() {
         if (isActionLogin) {
             isActionLogin = false;
 
-            onLoginTaskCompleted();
+            loginTaskSucceeded();
         } else {
-            onReadTaskTeacherCompleted();
+            readTaskTeacherSucceeded();
         }
     }
 
-    private void onLoginTaskCompleted() {
+    private void loginTaskSucceeded() {
         long result = loginTask.getResult();
 
-        if (result == 0) {
+        if (result == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
             CustomDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
@@ -122,7 +123,7 @@ public class LoginActivity extends Activity implements ILoader {
             );
 
             switchToLoadView(false);
-        } else if (result == -1) {
+        } else if (result == LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue()) {
             CustomDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
@@ -136,7 +137,7 @@ public class LoginActivity extends Activity implements ILoader {
         }
     }
 
-    private void onReadTaskTeacherCompleted() {
+    private void readTaskTeacherSucceeded() {
         try {
             Cache.keep(readTaskTeacher.getResults().get(0));
             SessionHelper.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
@@ -167,7 +168,7 @@ public class LoginActivity extends Activity implements ILoader {
     }
 
     @Override
-    public void onError() {
+    public void onLoadFailed() {
         switchToLoadView(false);
     }
 }

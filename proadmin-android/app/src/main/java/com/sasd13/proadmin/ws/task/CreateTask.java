@@ -58,7 +58,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
 
     @Override
     protected void onCancelled(List<Long> longs) {
-        onTaskError();
+        onTaskFailed();
     }
 
     @Override
@@ -68,17 +68,17 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
         taskPlanner.stop();
 
         if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            onTaskCompleted();
+            onTaskSucceeded();
         } else {
-            onTaskError();
+            onTaskFailed();
         }
     }
 
-    protected void onTaskCompleted() {
+    protected void onTaskSucceeded() {
         //Do nothing
     }
 
-    protected void onTaskError() {
+    protected void onTaskFailed() {
         Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }
