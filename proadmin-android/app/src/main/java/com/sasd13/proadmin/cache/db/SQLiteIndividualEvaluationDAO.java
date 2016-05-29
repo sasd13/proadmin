@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.dao.condition.ConditionException;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +125,7 @@ public class SQLiteIndividualEvaluationDAO extends SQLiteEntityDAO<IndividualEva
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + ConditionParser.parse(parameters, IndividualEvaluationDAO.class) + " AND "
+                        + ConditionBuilder.parse(parameters, IndividualEvaluationDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

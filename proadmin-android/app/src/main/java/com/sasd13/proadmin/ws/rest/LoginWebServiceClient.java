@@ -2,8 +2,8 @@ package com.sasd13.proadmin.ws.rest;
 
 import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.util.DataParser;
-import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.ws.WebServiceInformation;
@@ -41,7 +41,7 @@ public class LoginWebServiceClient {
             logins.put(Parameter.NUMBER.getName(), number);
             logins.put(Parameter.PASSWORD.getName(), password);
 
-            String reqData = DataParser.toString(logins, reqMediaType);
+            String reqData = ParserFactory.make(reqMediaType).toString(logins);
 
             httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(WebServiceInformation.URL_LOGIN));
             httpRequest.open(timeOut);
@@ -59,8 +59,9 @@ public class LoginWebServiceClient {
 
             httpRequest.disconnect();
 
-            id = (long) DataParser.fromString(respData, MediaType.find(respContentType), Long.class);
-        } catch (DataParserException | IOException e) {
+            MediaType respMediaType = MediaType.find(respContentType);
+            id = (long) ParserFactory.make(respMediaType).fromString(respData, Long.class);
+        } catch (ParserException | IOException e) {
             e.printStackTrace();
         }
 

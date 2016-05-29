@@ -7,8 +7,8 @@ import android.database.SQLException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.dao.condition.ConditionException;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +92,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + ConditionParser.parse(parameters, ProjectDAO.class) + " AND "
+                        + ConditionBuilder.parse(parameters, ProjectDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

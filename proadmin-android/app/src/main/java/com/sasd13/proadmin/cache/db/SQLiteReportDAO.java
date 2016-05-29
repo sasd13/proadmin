@@ -11,8 +11,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.dao.condition.ConditionException;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -168,7 +168,7 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + ConditionParser.parse(parameters, ReportDAO.class) + " AND "
+                        + ConditionBuilder.parse(parameters, ReportDAO.class) + " AND "
                         + COLUMN_DELETED + " = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });

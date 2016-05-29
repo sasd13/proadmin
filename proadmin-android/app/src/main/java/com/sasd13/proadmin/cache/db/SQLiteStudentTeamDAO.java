@@ -7,8 +7,8 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
+import com.sasd13.proadmin.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.dao.condition.ConditionException;
-import com.sasd13.proadmin.dao.condition.ConditionParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         try {
             String query = "SELECT * FROM " + TABLE
                     + " WHERE "
-                        + ConditionParser.parse(parameters, StudentTeamDAO.class);
+                        + ConditionBuilder.parse(parameters, StudentTeamDAO.class);
 
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {

@@ -4,8 +4,8 @@ import com.sasd13.javaex.net.http.HttpHeader;
 import com.sasd13.javaex.net.http.HttpRequest;
 import com.sasd13.javaex.net.util.URLParameterEncoder;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
-import com.sasd13.javaex.util.DataParser;
-import com.sasd13.javaex.util.DataParserException;
+import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.ws.WebServiceInformation;
 
@@ -64,8 +64,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            t = (T) DataParser.fromString(respData, MediaType.find(respContentType), mClass);
-        } catch (IOException | DataParserException e) {
+            MediaType respMediType = MediaType.find(respContentType);
+
+            t = (T) ParserFactory.make(respMediType).fromString(respData, mClass);
+        } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
 
@@ -103,8 +105,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            Collections.addAll(ts, (T[]) DataParser.fromString(respData, MediaType.find(respContentType), mClass));
-        } catch (IOException | DataParserException e) {
+            MediaType respMediType = MediaType.find(respContentType);
+
+            Collections.addAll(ts, (T[]) ParserFactory.make(respMediType).fromString(respData, mClass));
+        } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
 
@@ -129,8 +133,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            Collections.addAll(ts, (T[]) DataParser.fromString(respData, MediaType.find(respContentType), mClass));
-        } catch (IOException | DataParserException e) {
+            MediaType respMediType = MediaType.find(respContentType);
+
+            Collections.addAll(ts, (T[]) ParserFactory.make(respMediType).fromString(respData, mClass));
+        } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
 
@@ -144,7 +150,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         MediaType reqMediaType = MediaType.APPLICATION_JSON;
 
         try {
-            String reqData = DataParser.toString(t, reqMediaType);
+            String reqData = ParserFactory.make(reqMediaType).toString(t);
 
             httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(url));
             httpRequest.open(timeOut);
@@ -161,8 +167,10 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            id = (long) DataParser.fromString(respData, MediaType.find(respContentType), Long.class);
-        } catch (DataParserException | IOException e) {
+            MediaType respMediType = MediaType.find(respContentType);
+
+            id = (long) ParserFactory.make(respMediType).fromString(respData, Long.class);
+        } catch (ParserException | IOException e) {
             e.printStackTrace();
         }
 
@@ -174,7 +182,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         MediaType reqMediaType = MediaType.APPLICATION_JSON;
 
         try {
-            String reqData = DataParser.toString(t, reqMediaType);
+            String reqData = ParserFactory.make(reqMediaType).toString(t);
 
             httpRequest = new HttpRequest(HttpRequest.HttpMethod.PUT, new URL(url));
             httpRequest.open(timeOut);
@@ -186,7 +194,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             statusCode = httpRequest.getResponseCode();
 
             httpRequest.disconnect();
-        } catch (DataParserException | IOException e) {
+        } catch (ParserException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -196,7 +204,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
         MediaType reqMediaType = MediaType.APPLICATION_JSON;
 
         try {
-            String reqData = DataParser.toString(ts.toArray((T[]) Array.newInstance(mClass, ts.size())), reqMediaType);
+            String reqData = ParserFactory.make(reqMediaType).toString(ts.toArray((T[]) Array.newInstance(mClass, ts.size())));
 
             httpRequest = new HttpRequest(HttpRequest.HttpMethod.PUT, new URL(url));
             httpRequest.open(timeOut);
@@ -208,7 +216,7 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
             statusCode = httpRequest.getResponseCode();
 
             httpRequest.disconnect();
-        } catch (DataParserException | IOException e) {
+        } catch (ParserException | IOException e) {
             e.printStackTrace();
         }
     }
