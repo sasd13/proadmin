@@ -20,27 +20,27 @@ public class HomeActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-        createNavs();
+        createNav();
     }
 
-    private void createNavs() {
+    private void createNav() {
         imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
         imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawablesToNavs();
-        addListenersToNavs();
+        addDrawablesToNavItems();
+        addListenersToNavItems();
     }
 
-    private void addDrawablesToNavs() {
+    private void addDrawablesToNavItems() {
         imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
         imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
         imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
         imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
-    private void addListenersToNavs() {
+    private void addListenersToNavItems() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

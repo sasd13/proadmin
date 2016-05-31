@@ -13,8 +13,11 @@ public class TabItemProject extends RecyclerItem {
 
     private CharSequence code, title, description;
     private Intent intent;
-
     private TextView textViewCode, textViewTitle, textViewDescription;
+
+    public TabItemProject() {
+        super(R.layout.tabitem_project);
+    }
 
     public void setCode(CharSequence code) {
         this.code = code;
@@ -51,24 +54,23 @@ public class TabItemProject extends RecyclerItem {
 
         findItemViews();
         bindItemViews();
-        setOnClickListener();
-        setOnTouchListener();
+        setListeners();
     }
 
-    private void findItemViews() {
+    protected void findItemViews() {
         textViewCode = (TextView) view.findViewById(R.id.tabitem_project_textview_code);
         textViewTitle = (TextView) view.findViewById(R.id.tabitem_project_textview_title);
         textViewDescription = (TextView) view.findViewById(R.id.tabitem_project_textview_description);
     }
 
-    private void bindItemViews() {
+    protected void bindItemViews() {
         setCode(code);
         setTitle(title);
         setDescription(description);
         setIntent(intent);
     }
 
-    private void setOnClickListener() {
+    protected void setListeners() {
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -76,9 +78,7 @@ public class TabItemProject extends RecyclerItem {
                 view.getContext().startActivity(TabItemProject.this.intent);
             }
         });
-    }
 
-    private void setOnTouchListener() {
         int color = ContextCompat.getColor(view.getContext(), R.color.background_material_light);
         view.setOnTouchListener(new ColorOnTouchListener(color));
     }

@@ -1,8 +1,8 @@
 package com.sasd13.proadmin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +14,8 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.LoginTask;
@@ -23,7 +23,7 @@ import com.sasd13.proadmin.ws.task.LoginTask;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class LoginActivity extends Activity implements ILoader {
+public class LoginActivity extends AppCompatActivity implements ILoader {
 
     private static class FormLoginViewHolder {
         EditText editTextNumber, editTextPassword;

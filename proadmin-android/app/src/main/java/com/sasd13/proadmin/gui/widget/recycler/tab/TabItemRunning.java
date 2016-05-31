@@ -13,8 +13,11 @@ public class TabItemRunning extends RecyclerItem {
 
     private CharSequence year;
     private Intent intent;
-
     private TextView textViewYear;
+
+    public TabItemRunning() {
+        super(R.layout.tabitem_running);
+    }
 
     public void setYear(CharSequence year) {
         this.year = year;
@@ -35,20 +38,19 @@ public class TabItemRunning extends RecyclerItem {
 
         findItemViews();
         bindItemViews();
-        setOnClickListener();
-        setOnTouchListener();
+        setListeners();
     }
 
-    private void findItemViews() {
+    protected void findItemViews() {
         textViewYear = (TextView) view.findViewById(R.id.tabitem_running_textview_year);
     }
 
-    private void bindItemViews() {
+    protected void bindItemViews() {
         setYear(year);
         setIntent(intent);
     }
 
-    private void setOnClickListener() {
+    protected void setListeners() {
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -56,9 +58,7 @@ public class TabItemRunning extends RecyclerItem {
                 view.getContext().startActivity(TabItemRunning.this.intent);
             }
         });
-    }
 
-    private void setOnTouchListener() {
         int color = ContextCompat.getColor(view.getContext(), R.color.background_material_light);
         view.setOnTouchListener(new ColorOnTouchListener(color));
     }

@@ -19,9 +19,9 @@ import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
 import com.sasd13.proadmin.ws.task.LoaderCreateTask;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
@@ -63,9 +63,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void createTabRunnings() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.runnings_recyclerview);
-
-        tabRunnings = new Tab(recyclerView, R.layout.tabitem_running);
+        tabRunnings = new Tab((RecyclerView) findViewById(R.id.runnings_recyclerview));
     }
 
     @Override

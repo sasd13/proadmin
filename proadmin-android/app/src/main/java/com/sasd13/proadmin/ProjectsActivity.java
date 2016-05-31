@@ -92,9 +92,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
     }
 
     private void createTabProjects() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.projects_recyclerview);
-
-        tabProjects = new Tab(recyclerView, R.layout.tabitem_project);
+        tabProjects = new Tab((RecyclerView) findViewById(R.id.projects_recyclerview));
     }
 
     private void fillSpinAcademicLevels() {

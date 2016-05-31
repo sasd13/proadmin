@@ -39,10 +39,8 @@ public abstract class MotherActivity extends AppCompatActivity {
     }
 
     private void createDrawer() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerview);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_drawerlayout);
-
-        drawer = new Drawer(recyclerView, R.layout.draweritem_nav, drawerLayout);
+        drawer = new Drawer((RecyclerView) findViewById(R.id.drawer_recyclerview),
+                (DrawerLayout) findViewById(R.id.drawer_drawerlayout));
     }
 
     private void fillDrawer() {

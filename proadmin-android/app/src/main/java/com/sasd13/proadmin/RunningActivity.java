@@ -66,9 +66,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     private void createTabTeams() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.running_recyclerview);
-
-        tabTeams = new Tab(recyclerView, R.layout.tabitem_team);
+        tabTeams = new Tab((RecyclerView) findViewById(R.id.running_recyclerview));
     }
 
     private void newTeam() {
