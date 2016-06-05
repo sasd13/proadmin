@@ -1,25 +1,22 @@
 package com.sasd13.proadmin.gui.widget.recycler.tab;
 
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sasd13.androidex.gui.color.ColorOnTouchListener;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
+import com.sasd13.androidex.gui.widget.recycler.tab.TabItem;
 import com.sasd13.proadmin.R;
 
-public class TabItemProject extends RecyclerItem {
+public class TabItemProject extends TabItem {
 
-    private CharSequence code, title, description;
-    private Intent intent;
-    private TextView textViewCode, textViewTitle, textViewDescription;
+    private String code, description;
+    private TextView textViewCode, textViewDescription;
+    private OnClickListener onClickListener;
 
     public TabItemProject() {
         super(R.layout.tabitem_project);
     }
 
-    public void setCode(CharSequence code) {
+    public void setCode(String code) {
         this.code = code;
 
         if (textViewCode != null) {
@@ -27,15 +24,7 @@ public class TabItemProject extends RecyclerItem {
         }
     }
 
-    public void setTitle(CharSequence title) {
-        this.title = title;
-
-        if (textViewTitle != null) {
-        	textViewTitle.setText(title);
-        }
-    }
-
-    public void setDescription(CharSequence description) {
+    public void setDescription(String description) {
         this.description = description;
 
         if (textViewDescription != null) {
@@ -43,43 +32,37 @@ public class TabItemProject extends RecyclerItem {
         }
     }
 
-    public void setIntent(Intent intent) {
-        this.intent = intent;
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     @Override
-    public void bindView(View view) {
-        super.bindView(view);
-
-        findItemViews();
-        bindItemViews();
-        setListeners();
-    }
-
     protected void findItemViews() {
+        super.findItemViews();
+
         textViewCode = (TextView) view.findViewById(R.id.tabitem_project_textview_code);
-        textViewTitle = (TextView) view.findViewById(R.id.tabitem_project_textview_title);
         textViewDescription = (TextView) view.findViewById(R.id.tabitem_project_textview_description);
     }
 
+    @Override
     protected void bindItemViews() {
+        super.bindItemViews();
+
         setCode(code);
-        setTitle(title);
         setDescription(description);
-        setIntent(intent);
     }
 
+    @Override
     protected void setListeners() {
-        view.setOnClickListener(new View.OnClickListener() {
+        super.setListeners();
 
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(TabItemProject.this.intent);
+                if (onClickListener != null) {
+                    onClickListener.onClickOnRecyclerItem(TabItemProject.this);
+                }
             }
         });
-
-        int color = ContextCompat.getColor(view.getContext(), R.color.background_material_light);
-        view.setOnTouchListener(new ColorOnTouchListener(color));
     }
 }

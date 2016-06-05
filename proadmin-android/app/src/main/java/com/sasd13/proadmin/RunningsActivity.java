@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
@@ -19,7 +20,7 @@ import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
@@ -178,7 +179,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
                 Cache.keep(runningToCreate);
             }
         } catch (IndexOutOfBoundsException e) {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     "Erreur de chargement des données"
@@ -195,15 +196,20 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
     private void addRunningsToTab() {
         TabItemRunning tabItemRunning;
-        Intent intent;
 
-        for (Running running : runnings) {
+        for (final Running running : runnings) {
             tabItemRunning = new TabItemRunning();
+            tabItemRunning.setLabel("Running");
             tabItemRunning.setYear(String.valueOf(running.getYear()));
+            tabItemRunning.setOnClickListener(new RecyclerItem.OnClickListener() {
+                @Override
+                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
+                    Intent intent = new Intent(RunningsActivity.this, RunningActivity.class);
+                    intent.putExtra(Extra.RUNNING_ID, running.getId());
 
-            intent = new Intent(this, RunningActivity.class);
-            intent.putExtra(Extra.RUNNING_ID, running.getId());
-            tabItemRunning.setIntent(intent);
+                    startActivity(intent);
+                }
+            });
 
             tabRunnings.addItem(tabItemRunning);
         }

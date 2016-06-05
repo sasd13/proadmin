@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewStub;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
@@ -47,12 +48,19 @@ public abstract class MotherActivity extends AppCompatActivity {
         Nav nav = Nav.getInstance(this);
         DrawerItemNav drawerItemNav;
 
-        for (NavItem navItem : nav.getItems()) {
+        for (final NavItem navItem : nav.getItems()) {
             drawerItemNav = new DrawerItemNav();
 
             drawerItemNav.setColor(navItem.getColor());
-            drawerItemNav.setText(navItem.getText());
-            drawerItemNav.setIntent(navItem.getIntent());
+            drawerItemNav.setTitle(navItem.getText());
+            drawerItemNav.setOnClickListener(new RecyclerItem.OnClickListener() {
+                @Override
+                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
+                    navItem.getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    startActivity(navItem.getIntent());
+                }
+            });
 
             drawer.addItem(drawerItemNav);
         }

@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.androidex.util.KeyboardHelper;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ILoader;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements ILoader {
             public void onClick(View v) {
                 if (formLoginViewHolder.editTextNumber.getText().toString().trim().length() > 0
                         && formLoginViewHolder.editTextPassword.getText().toString().trim().length() > 0) {
-                    KeyboardHelper.hide(LoginActivity.this);
+                    KeyboardHelper.hide(v);
                     logIn();
                 }
             }
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements ILoader {
         long result = loginTask.getResult();
 
         if (result == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     "Identifiant invalide"
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements ILoader {
 
             switchToLoadView(false);
         } else if (result == LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue()) {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     "Mot de passe incorrect"
@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements ILoader {
             SessionHelper.setExtraIdInSession(Extra.TEACHER_ID, loginTask.getResult());
             goToHomeActivity();
         } catch (IndexOutOfBoundsException e) {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     "Erreur de chargement des données"

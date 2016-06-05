@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.task;
 
 import android.content.Context;
 
-import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ILoader;
 
 /**
  * Created by Samir on 24/12/2015.

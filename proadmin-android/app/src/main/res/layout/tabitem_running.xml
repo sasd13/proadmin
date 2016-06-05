@@ -9,13 +9,28 @@
         android:id="@+id/tabitem_running_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/recycleritem_padding">
+        android:layout_marginTop="@dimen/recycleritem_padding"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding">
+
+        <TextView
+            android:id="@+id/tabitem_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="left|center_vertical"
+            android:text="@string/tabitem_textview_label"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/textsize_xlarge"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tabitem_running_textview_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:gravity="left|center_vertical"
             android:text="@string/tabitem_running_textview_year"
             android:textColor="@color/blue"

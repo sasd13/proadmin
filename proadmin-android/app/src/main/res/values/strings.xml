@@ -73,7 +73,7 @@
     <string name="menuitem_projects_action_runnings">Mes gestions</string>
 
     <!-- Tab -->
-    <string name="tabitem_project_textview_title">Titre</string>
+    <string name="tabitem_textview_label">Label</string>
     <string name="tabitem_project_textview_code">Code</string>
     <string name="tabitem_project_textview_description">Description</string>
     <string name="tabitem_running_textview_year">Année</string>

@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sasd13.androidex.gui.widget.dialog.CustomDialog;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.net.NetworkHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ILoader;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
@@ -98,7 +98,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
         if (true) {
             performUpdateTeacher();
         } else {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     tabFormErrors[0]);
@@ -151,7 +151,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
             fillFormTeacherViewHolder();
             Cache.keep(teacher);
         } catch (IndexOutOfBoundsException e) {
-            CustomDialog.showOkDialog(
+            OptionDialog.showOkDialog(
                     this,
                     getResources().getString(R.string.title_error),
                     "Erreur de chargement des données"

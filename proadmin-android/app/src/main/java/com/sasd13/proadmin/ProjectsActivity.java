@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.net.NetworkHelper;
@@ -18,7 +19,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
-import com.sasd13.proadmin.pattern.command.ILoader;
+import com.sasd13.proadmin.util.ILoader;
 import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
 import com.sasd13.proadmin.ws.task.LoaderReadTask;
 
@@ -70,17 +71,20 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
 
     private void addProjectsToTab(List<Project> list) {
         TabItemProject tabItemProject;
-        Intent intent;
 
-        for (Project project : list) {
+        for (final Project project : list) {
             tabItemProject = new TabItemProject();
-            tabItemProject.setTitle(project.getTitle());
+            tabItemProject.setLabel(project.getTitle());
             tabItemProject.setCode(project.getCode());
             tabItemProject.setDescription(project.getDescription());
 
-            intent = new Intent(this, ProjectActivity.class);
-            intent.putExtra(Extra.PROJECT_ID, project.getId());
-            tabItemProject.setIntent(intent);
+            tabItemProject.setOnClickListener(new RecyclerItem.OnClickListener() {
+                @Override
+                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
+                    Intent intent = new Intent(ProjectsActivity.this, ProjectActivity.class);
+                    intent.putExtra(Extra.PROJECT_ID, project.getId());
+                }
+            });
 
             tabProjects.addItem(tabItemProject);
         }

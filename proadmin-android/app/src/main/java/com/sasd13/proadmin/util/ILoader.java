@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.pattern.command;
+package com.sasd13.proadmin.util;
 
 /**
  * Created by Samir on 16/01/2016.

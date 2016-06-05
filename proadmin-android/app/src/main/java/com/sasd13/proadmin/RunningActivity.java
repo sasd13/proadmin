@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
@@ -17,8 +18,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemTeam;
-import com.sasd13.proadmin.pattern.command.ILoader;
 import com.sasd13.proadmin.util.ActivityHelper;
+import com.sasd13.proadmin.util.ILoader;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
@@ -191,13 +192,18 @@ public class RunningActivity extends MotherActivity implements ILoader {
         TabItemTeam tabItemTeam;
         Intent intent;
 
-        for (Team team : teams) {
+        for (final Team team : teams) {
             tabItemTeam = new TabItemTeam();
-            tabItemTeam.setCode(team.getCode());
+            tabItemTeam.setLabel(team.getCode());
+            tabItemTeam.setOnClickListener(new RecyclerItem.OnClickListener() {
+                @Override
+                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
+                    Intent intent = new Intent(RunningActivity.this, TeamActivity.class);
+                    intent.putExtra(Extra.TEAM_ID, team.getId());
 
-            intent = new Intent(this, TeamActivity.class);
-            intent.putExtra(Extra.TEAM_ID, team.getId());
-            tabItemTeam.setIntent(intent);
+                    startActivity(intent);
+                }
+            });
 
             tabTeams.addItem(tabItemTeam);
         }

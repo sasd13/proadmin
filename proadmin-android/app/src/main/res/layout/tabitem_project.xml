@@ -12,12 +12,12 @@
         android:layout_marginTop="@dimen/recycleritem_padding">
 
         <TextView
-            android:id="@+id/tabitem_project_textview_title"
+            android:id="@+id/tabitem_textview_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:gravity="left|center_vertical"
-            android:text="@string/tabitem_project_textview_title"
+            android:text="@string/tabitem_textview_label"
             android:textColor="@color/blue"
             android:textSize="@dimen/textsize_xlarge"
             android:textStyle="bold"
@@ -28,7 +28,7 @@
             android:id="@+id/tabitem_project_textview_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tabitem_project_textview_title"
+            android:layout_below="@id/tabitem_textview_label"
             android:layout_marginTop="@dimen/view_margin_small"
             android:gravity="left|center_vertical"
             android:text="@string/tabitem_project_textview_code"
