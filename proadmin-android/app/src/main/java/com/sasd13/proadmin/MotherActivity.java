@@ -10,12 +10,12 @@ import android.view.ViewStub;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
+import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemNav;
 import com.sasd13.androidex.session.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.constant.Extra;
 import com.sasd13.proadmin.gui.nav.Nav;
 import com.sasd13.proadmin.gui.nav.NavItem;
-import com.sasd13.proadmin.gui.widget.recycler.drawer.DrawerItemNav;
 
 public abstract class MotherActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public abstract class MotherActivity extends AppCompatActivity {
             drawerItemNav = new DrawerItemNav();
 
             drawerItemNav.setColor(navItem.getColor());
-            drawerItemNav.setTitle(navItem.getText());
+            drawerItemNav.setLabel(navItem.getText());
             drawerItemNav.setOnClickListener(new RecyclerItem.OnClickListener() {
                 @Override
                 public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
