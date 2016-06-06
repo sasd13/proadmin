@@ -40,7 +40,7 @@
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="796cd270be07a0d44dbb1e374893bb5292d9c39b">
+        sha1="3d3020ab6f5215b7fea261bf9d869cfefe83481b">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_dd786ae00cb208aa8b57b158062c1b8d837fa1d3.jar" />
     </item>
     <item
@@ -68,7 +68,7 @@
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\exploded-aar\com.sasd13.androidex\androidex\jars\classes.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="0278b7a95bc73090d4314a67fb849fcac9e0a5ef">
+        sha1="b45a9a4c9d62b916bc5951fab55fd461b64621c1">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\exploded-aar-com.sasd13.androidex-androidex_316e546c0d81600b4f2990a5cbfc764e3b3d196f.jar" />
     </item>
     <item
@@ -89,7 +89,7 @@
         jar="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="1f277b13cd51872c313a6915e6a987feada73a5d">
+        sha1="a43d5723d7d0214192e8db06660e0b954b3c1f4d">
         <dex dex="C:\Users\Samir\Projects\GitHub\proadmin\proadmin-android\app\build\intermediates\pre-dexed\debug\instant-run_ca7c2941fe18ba9c6b9dcd93f94309d7fafd2efe.jar" />
     </item>
     <item

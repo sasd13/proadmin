@@ -117,7 +117,7 @@ public class ProjectsActivity extends MotherActivity implements ILoader {
             readTaskProjects = new LoaderReadTask<>(this, Project.class, this);
             readTaskProjects.execute();
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 

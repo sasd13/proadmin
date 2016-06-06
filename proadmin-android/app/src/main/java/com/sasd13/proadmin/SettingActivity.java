@@ -67,7 +67,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
             readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
             readTaskTeacher.execute(teacherId);
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 
@@ -118,7 +118,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
             UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 

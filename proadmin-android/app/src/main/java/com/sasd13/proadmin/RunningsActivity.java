@@ -97,7 +97,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
             parameterizedReadTaskRunning.setDeepReadEnabled(true);
             parameterizedReadTaskRunning.execute();
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 
@@ -134,7 +134,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
                 createTaskRunning.execute(runningToCreate);
             }
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 

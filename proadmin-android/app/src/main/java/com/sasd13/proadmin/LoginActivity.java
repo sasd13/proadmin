@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements ILoader {
             loginTask = new LoginTask(this, number, password);
             loginTask.execute();
         } else {
-            NetworkHelper.displayNotActiveMessage(this);
+            NetworkHelper.displayMessageNotActive(this);
         }
     }
 
