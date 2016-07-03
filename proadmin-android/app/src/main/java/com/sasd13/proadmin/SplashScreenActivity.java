@@ -12,6 +12,7 @@ import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskInitializer;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.content.Browser;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SplashScreenActivity extends AppCompatActivity implements TaskInitializer.Loader {
@@ -42,6 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity implements TaskIniti
     @Override
     public void load() {
         Session.init(this);
+        Browser.getInstance().init(this);
         Cache.init(this);
     }
 

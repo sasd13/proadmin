@@ -15,7 +15,7 @@
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/activity_splashscreen"
-            android:theme="@style/ProAdmin.NoActionBar"
+            android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:noHistory="true">
@@ -29,7 +29,7 @@
         <activity
             android:name=".LogInActivity"
             android:label="@string/activity_login"
-            android:theme="@style/ProAdmin.NoActionBar"
+            android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask">
@@ -38,7 +38,7 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/activity_home"
-            android:theme="@style/ProAdminBlue"
+            android:theme="@style/ProadminBlue"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask">
@@ -47,7 +47,7 @@
         <activity
             android:name=".ProjectsActivity"
             android:label="@string/activity_projects"
-            android:theme="@style/ProAdminOrange"
+            android:theme="@style/ProadminOrange"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".HomeActivity">
@@ -60,7 +60,7 @@
         <activity
             android:name=".ProjectActivity"
             android:label="@string/activity_project"
-            android:theme="@style/ProAdminOrange"
+            android:theme="@style/ProadminOrange"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".ProjectsActivity">
@@ -73,7 +73,7 @@
         <activity
             android:name=".RunningsActivity"
             android:label="@string/activity_runnings"
-            android:theme="@style/ProAdminRed"
+            android:theme="@style/ProadminRed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".ProjectActivity">
@@ -86,7 +86,7 @@
         <activity
             android:name=".RunningActivity"
             android:label="@string/activity_running"
-            android:theme="@style/ProAdminRed"
+            android:theme="@style/ProadminRed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".RunningsActivity">
@@ -99,14 +99,14 @@
         <activity
             android:name=".TeamActivity"
             android:label="@string/activity_team"
-            android:theme="@style/ProAdminGreen"
+            android:theme="@style/ProadminGreen"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".SettingActivity"
             android:label="@string/activity_setting"
-            android:theme="@style/ProAdminBrown"
+            android:theme="@style/ProadminBrown"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".HomeActivity">

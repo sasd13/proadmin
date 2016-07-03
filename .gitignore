@@ -34,3 +34,4 @@ build/
 gradle/
 app/build/
 androidex/build/
+target/

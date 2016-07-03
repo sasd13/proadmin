@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.handler.LogInHandler;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -47,7 +48,7 @@ public class LogInActivity extends AppCompatActivity {
                 if (!logInForm.editTextNumber.getText().toString().trim().isEmpty()
                         && !logInForm.editTextPassword.getText().toString().trim().isEmpty()) {
                     String number = logInForm.editTextNumber.getText().toString().trim();
-                    String password = logInForm.editTextPassword.getText().toString().trim();
+                    String password = HexEncoder.md5(logInForm.editTextPassword.getText().toString().trim());
 
                     logIn(number, password);
                 }

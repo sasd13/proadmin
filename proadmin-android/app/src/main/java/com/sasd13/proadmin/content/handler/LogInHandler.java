@@ -44,8 +44,6 @@ public class LogInHandler implements Promise {
 
     @Override
     public void onSuccess() {
-        waitDialog.dismiss();
-
         if (isActionLogin) {
             isActionLogin = false;
 
@@ -86,6 +84,7 @@ public class LogInHandler implements Promise {
             waitDialog.dismiss();
             LogInActivity.self.onError(error);
         } else {
+            waitDialog.dismiss();
             LogInActivity.self.onSuccess(readTaskTeacher.getResults().get(0));
         }
     }

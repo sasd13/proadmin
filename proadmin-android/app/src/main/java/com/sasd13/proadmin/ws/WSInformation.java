@@ -5,6 +5,6 @@ package com.sasd13.proadmin.ws;
  */
 public interface WSInformation {
 
-    String URL = "http://192.168.1.9:8081/proadmin-ws/";
+    String URL = "http://192.168.1.23:8082/proadmin-ws/";
     String URL_LOGIN = URL + "login";
 }
