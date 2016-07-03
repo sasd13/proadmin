@@ -9,16 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.net.NetworkHelper;
+import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.util.ILoader;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.ws.task.LoaderReadTask;
+import com.sasd13.proadmin.ws.task.ReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
 
-public class SettingActivity extends MotherActivity implements ILoader {
+public class SettingActivity extends MotherActivity implements Promise {
 
     private static class FormTeacherViewHolder {
         TextView textViewNumber;
@@ -28,7 +28,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     private View viewLoad, viewFormTeacher;
     private FormTeacherViewHolder formTeacherViewHolder;
 
-    private LoaderReadTask<Teacher> readTaskTeacher;
+    private ReadTask<Teacher> readTaskTeacher;
     private Teacher teacher;
 
     @Override
@@ -61,13 +61,13 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     private void readTeacher() {
-        if (NetworkHelper.isActive(this)) {
+        if (NetworkHelper.isConnected(this)) {
             long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
 
-            readTaskTeacher = new LoaderReadTask<>(this, Teacher.class, this);
+            readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(teacherId);
         } else {
-            NetworkHelper.displayMessageNotActive(this);
+            NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
@@ -114,11 +114,11 @@ public class SettingActivity extends MotherActivity implements ILoader {
     private void performUpdateTeacher() {
         editTeacherWithForm();
 
-        if (NetworkHelper.isActive(this)) {
+        if (NetworkHelper.isConnected(this)) {
             UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
             updateTask.execute(teacher);
         } else {
-            NetworkHelper.displayMessageNotActive(this);
+            NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
@@ -129,7 +129,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoading() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -144,7 +144,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoadSucceeded() {
+    public void onSuccess() {
         try {
             teacher = readTaskTeacher.getResults().get(0);
 
@@ -169,7 +169,7 @@ public class SettingActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoadFailed() {
+    public void onFail() {
         switchToLoadView(false);
     }
 }

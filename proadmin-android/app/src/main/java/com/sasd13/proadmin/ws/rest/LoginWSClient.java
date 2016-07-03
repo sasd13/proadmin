@@ -6,24 +6,25 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.MediaType;
 import com.sasd13.proadmin.util.Parameter;
-import com.sasd13.proadmin.ws.WebServiceInformation;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.WSInformation;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginWebServiceClient {
-
-    public static final int DEFAULT_TIMEOUT = 60000;
-    public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
+public class LoginWSClient {
 
     private HttpRequest httpRequest;
     private int timeOut;
     private int statusCode;
 
-    public LoginWebServiceClient(int timeOut) {
+    public LoginWSClient() {
+        this(WSConstants.TIMEOUT_LOGIN);
+    }
+
+    public LoginWSClient(int timeOut) {
         this.timeOut = timeOut;
     }
 
@@ -43,7 +44,7 @@ public class LoginWebServiceClient {
 
             String reqData = ParserFactory.make(reqMediaType).toString(logins);
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(WebServiceInformation.URL_LOGIN));
+            httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(WSInformation.URL_LOGIN));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
             httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());

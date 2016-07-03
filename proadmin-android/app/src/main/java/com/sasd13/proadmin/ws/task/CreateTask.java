@@ -1,11 +1,11 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.ws.rest.WebServiceClient;
+import com.sasd13.proadmin.util.Promise;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.rest.WSClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +15,21 @@ import java.util.List;
  */
 public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
 
-    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
-
-    private Context context;
-    private WebServiceClient<T> service;
+    protected Promise promise;
+    private WSClient<T> service;
     private List<Long> results;
     private TaskPlanner taskPlanner;
 
-    public CreateTask(Context context, Class<T> mClass) {
-        this.context = context;
-        service = new WebServiceClient<>(mClass, TIMEOUT);
+    public CreateTask(Promise promise, Class<T> mClass) {
+        this.promise = promise;
+        service = new WSClient<>(mClass);
         results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
                 cancel(true);
             }
-        }, TIMEOUT - 100);
+        }, WSConstants.TIMEOUT);
     }
 
     public List<Long> getResults() {
@@ -43,6 +41,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
         super.onPreExecute();
 
         taskPlanner.start();
+        promise.onLoad();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
 
     @Override
     protected void onCancelled(List<Long> longs) {
-        onTaskFailed();
+        promise.onFail();
     }
 
     @Override
@@ -67,18 +66,10 @@ public class CreateTask<T> extends AsyncTask<T, Integer, List<Long>> {
 
         taskPlanner.stop();
 
-        if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            onTaskSucceeded();
+        if (service.getStatusCode() == WSConstants.STATUS_OK) {
+            promise.onSuccess();
         } else {
-            onTaskFailed();
+            promise.onFail();
         }
-    }
-
-    protected void onTaskSucceeded() {
-        //Do nothing
-    }
-
-    protected void onTaskFailed() {
-        Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

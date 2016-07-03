@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.constant;
+package com.sasd13.proadmin.content;
 
 public class Extra {
 

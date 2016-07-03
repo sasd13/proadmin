@@ -63,6 +63,11 @@
     <string name="dialog_title_request">Requête</string>
     <string name="dialog_message_error_request_canceled">Requête annulée</string>
 
+    <!-- Drawer -->
+    <string name="drawer_header_menu">Menu</string>
+    <string name="drawer_header_account">Account</string>
+    <string name="drawer_label_logout">Log out</string>
+
     <!-- EditText -->
     <string name="edittext_hint_number">Matricule</string>
 

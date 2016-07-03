@@ -3,7 +3,6 @@
     xmlns:flousy="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_runnings_action_new"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/menuitem_action_new"
+        android:title="Nouveau"
         flousy:showAsAction="ifRoom"/>
 </menu>

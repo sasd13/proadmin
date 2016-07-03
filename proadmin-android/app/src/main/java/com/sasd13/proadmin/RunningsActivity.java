@@ -1,8 +1,6 @@
 package com.sasd13.proadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,37 +9,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
-import com.sasd13.androidex.net.NetworkHelper;
+import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemRunning;
-import com.sasd13.proadmin.util.ILoader;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
-import com.sasd13.proadmin.ws.task.LoaderCreateTask;
-import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
+import com.sasd13.proadmin.ws.task.CreateTask;
+import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningsActivity extends MotherActivity implements ILoader {
+public class RunningsActivity extends MotherActivity implements Promise {
 
     private TextView textViewProject;
     private View viewLoad, viewTab;
     private Tab tabRunnings;
 
     private List<Running> runnings = new ArrayList<>();
-    private LoaderParameterizedReadTask<Running> parameterizedReadTaskRunning;
+    private ParameterizedReadTask<Running> parameterizedReadTaskRunning;
     private Running runningToCreate;
-    private LoaderCreateTask<Running> createTaskRunning;
+    private CreateTask<Running> createTaskRunning;
     private boolean isActionCreateRunning;
 
     @Override
@@ -64,7 +60,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void createTabRunnings() {
-        tabRunnings = new Tab((RecyclerView) findViewById(R.id.runnings_recyclerview));
+        //tabRunnings = new Tab((RecyclerView) findViewById(R.id.runnings_recyclerview));
     }
 
     @Override
@@ -85,7 +81,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void refresh() {
-        if (NetworkHelper.isActive(this)) {
+        if (NetworkHelper.isConnected(this)) {
             long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
             long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
 
@@ -93,11 +89,11 @@ public class RunningsActivity extends MotherActivity implements ILoader {
             parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
             parameters.put(Parameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
 
-            parameterizedReadTaskRunning = new LoaderParameterizedReadTask<>(this, Running.class, parameters, this);
+            parameterizedReadTaskRunning = new ParameterizedReadTask<>(this, Running.class, parameters);
             parameterizedReadTaskRunning.setDeepReadEnabled(true);
             parameterizedReadTaskRunning.execute();
         } else {
-            NetworkHelper.displayMessageNotActive(this);
+            NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
@@ -123,23 +119,23 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     private void newRunning() {
-        if (NetworkHelper.isActive(this)) {
+        if (NetworkHelper.isConnected(this)) {
             runningToCreate = new Running();
 
             boolean isPrepared = RunningBusiness.prepareRunningToCreate(runningToCreate, this);
             if (isPrepared) {
                 isActionCreateRunning = true;
 
-                createTaskRunning = new LoaderCreateTask<>(this, Running.class, this);
+                createTaskRunning = new CreateTask<>(this, Running.class);
                 createTaskRunning.execute(runningToCreate);
             }
         } else {
-            NetworkHelper.displayMessageNotActive(this);
+            NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
     @Override
-    public void onLoading() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -154,7 +150,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoadSucceeded() {
+    public void onSuccess() {
         if (isActionCreateRunning) {
             isActionCreateRunning = false;
 
@@ -188,17 +184,18 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     public void fillTabRunnings() {
-        tabRunnings.clearItems();
+        tabRunnings.clear();
 
         RunningSorter.byYear(runnings, true);
-        addRunningsToTab();
+        //addRunningsToTab();
     }
 
+    /*
     private void addRunningsToTab() {
-        TabItemRunning tabItemRunning;
+        RunningItem tabItemRunning;
 
         for (final Running running : runnings) {
-            tabItemRunning = new TabItemRunning();
+            tabItemRunning = new RunningItem();
             tabItemRunning.setLabel("Running");
             tabItemRunning.setYear(String.valueOf(running.getYear()));
             tabItemRunning.setOnClickListener(new RecyclerItem.OnClickListener() {
@@ -213,7 +210,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
 
             tabRunnings.addItem(tabItemRunning);
         }
-    }
+    }*/
 
     private void readTaskRunningsSucceeded() {
         runnings.clear();
@@ -224,7 +221,7 @@ public class RunningsActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoadFailed() {
+    public void onFail() {
         switchToLoadView(false);
     }
 }

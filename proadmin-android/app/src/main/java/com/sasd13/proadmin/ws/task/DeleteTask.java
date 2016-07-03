@@ -1,33 +1,30 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.ws.rest.WebServiceClient;
+import com.sasd13.proadmin.util.Promise;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.rest.WSClient;
 
 /**
  * Created by Samir on 24/12/2015.
  */
 public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
 
-    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
-
-    private Context context;
-    private WebServiceClient<T> service;
+    private Promise promise;
+    private WSClient<T> service;
     private TaskPlanner taskPlanner;
 
-    public DeleteTask(Context context, Class<T> mClass) {
-        this.context = context;
-        service = new WebServiceClient<>(mClass, TIMEOUT);
+    public DeleteTask(Promise promise, Class<T> mClass) {
+        this.promise = promise;
+        service = new WSClient<>(mClass);
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
                 cancel(true);
             }
-        }, TIMEOUT - 100);
+        }, WSConstants.TIMEOUT);
     }
 
     @Override
@@ -35,6 +32,7 @@ public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
         super.onPreExecute();
 
         taskPlanner.start();
+        promise.onLoad();
     }
 
     @Override
@@ -50,7 +48,7 @@ public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
 
     @Override
     protected void onCancelled(Void aVoid) {
-        onTaskFailed();
+        promise.onFail();
     }
 
     @Override
@@ -59,18 +57,10 @@ public class DeleteTask<T> extends AsyncTask<Long, Integer, Void> {
 
         taskPlanner.stop();
 
-        if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            onTaskSucceeded();
+        if (service.getStatusCode() == WSConstants.STATUS_OK) {
+            promise.onSuccess();
         } else {
-            onTaskFailed();
+            promise.onFail();
         }
-    }
-
-    protected void onTaskSucceeded() {
-        Toast.makeText(context, context.getResources().getString(R.string.message_deleted), Toast.LENGTH_SHORT).show();
-    }
-
-    protected void onTaskFailed() {
-        Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

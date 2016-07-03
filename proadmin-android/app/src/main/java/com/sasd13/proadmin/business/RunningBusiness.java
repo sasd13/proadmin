@@ -7,7 +7,7 @@ import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.SessionHelper;
 

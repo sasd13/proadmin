@@ -2,34 +2,31 @@ package com.sasd13.proadmin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
 import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemTeam;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.ActivityHelper;
-import com.sasd13.proadmin.util.ILoader;
+import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.Parameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.ws.task.LoaderParameterizedReadTask;
+import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningActivity extends MotherActivity implements ILoader {
+public class RunningActivity extends MotherActivity implements Promise {
 
     private static class RunningViewHolder {
         TextView textViewProject, textViewYear;
@@ -41,8 +38,8 @@ public class RunningActivity extends MotherActivity implements ILoader {
 
     private Running running;
     private List<Team> teams = new ArrayList<>();
-    private LoaderParameterizedReadTask<RunningTeam> readTaskRunningTeams;
-    private LoaderParameterizedReadTask<Team> readTaskTeams;
+    private ParameterizedReadTask<RunningTeam> readTaskRunningTeams;
+    private ParameterizedReadTask<Team> readTaskTeams;
     private boolean isActionReadRunningTeams;
 
     @Override
@@ -67,15 +64,11 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     private void createTabTeams() {
-        tabTeams = new Tab((RecyclerView) findViewById(R.id.running_recyclerview));
+        //tabTeams = new Tab((RecyclerView) findViewById(R.id.running_recyclerview));
     }
 
     private void newTeam() {
-        Intent intent = new Intent(this, Team.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Extra.MODE, Extra.MODE_NEW);
-
-        startActivity(intent);
+        startActivity(new Intent(this, Team.class));
     }
 
     @Override
@@ -105,7 +98,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(Parameter.RUNNING.getName(), new String[]{ String.valueOf(running.getId()) });
 
-        readTaskRunningTeams = new LoaderParameterizedReadTask<>(this, RunningTeam.class, parameters, this);
+        readTaskRunningTeams = new ParameterizedReadTask<>(this, RunningTeam.class, parameters);
         readTaskRunningTeams.setDeepReadEnabled(true);
         readTaskRunningTeams.execute();
     }
@@ -132,7 +125,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoading() {
+    public void onLoad() {
         switchToLoadView(true);
     }
 
@@ -147,7 +140,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     @Override
-    public void onLoadSucceeded() {
+    public void onSuccess() {
         if (isActionReadRunningTeams) {
             isActionReadRunningTeams = false;
 
@@ -165,7 +158,7 @@ public class RunningActivity extends MotherActivity implements ILoader {
                 parameters.put(Parameter.ID.getName(), new String[]{ String.valueOf(runningTeam.getTeam().getId()) });
             }
 
-            readTaskTeams = new LoaderParameterizedReadTask<>(this, Team.class, parameters, this);
+            readTaskTeams = new ParameterizedReadTask<>(this, Team.class, parameters);
             readTaskTeams.execute();
         } else {
             switchToLoadView(false);
@@ -183,17 +176,18 @@ public class RunningActivity extends MotherActivity implements ILoader {
     }
 
     private void fillTabTeams() {
-        tabTeams.clearItems();
+        tabTeams.clear();
 
-        addTeamsToTab();
+        //addTeamsToTab();
     }
 
+    /*
     private void addTeamsToTab() {
-        TabItemTeam tabItemTeam;
+        TeamItem tabItemTeam;
         Intent intent;
 
         for (final Team team : teams) {
-            tabItemTeam = new TabItemTeam();
+            tabItemTeam = new TeamItem();
             tabItemTeam.setLabel(team.getCode());
             tabItemTeam.setOnClickListener(new RecyclerItem.OnClickListener() {
                 @Override
@@ -207,10 +201,10 @@ public class RunningActivity extends MotherActivity implements ILoader {
 
             tabTeams.addItem(tabItemTeam);
         }
-    }
+    }*/
 
     @Override
-    public void onLoadFailed() {
+    public void onFail() {
         switchToLoadView(false);
     }
 }

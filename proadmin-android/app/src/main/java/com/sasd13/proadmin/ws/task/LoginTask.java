@@ -1,36 +1,34 @@
 package com.sasd13.proadmin.ws.task;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.LoginActivity;
-import com.sasd13.proadmin.ws.rest.LoginWebServiceClient;
+import com.sasd13.proadmin.util.Promise;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.rest.LoginWSClient;
 
 /**
  * Created by Samir on 24/12/2015.
  */
-public class LoginTask extends AsyncTask<Void, Integer, Long> {
+public class LogInTask extends AsyncTask<Void, Integer, Long> {
 
-    private static final int TIMEOUT = LoginWebServiceClient.DEFAULT_TIMEOUT;
-
-    private LoginActivity loginActivity;
+    private Promise promise;
     private String number, password;
-    private LoginWebServiceClient service;
+    private LoginWSClient service;
     private Long result;
     private TaskPlanner taskPlanner;
 
-    public LoginTask(LoginActivity loginActivity, String number, String password) {
-        this.loginActivity = loginActivity;
+    public LogInTask(Promise promise, String number, String password) {
+        this.promise = promise;
         this.number = number;
         this.password = password;
-        service = new LoginWebServiceClient(TIMEOUT);
+        service = new LoginWSClient();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
                 cancel(true);
             }
-        }, TIMEOUT - 100);
+        }, WSConstants.TIMEOUT);
     }
 
     public Long getResult() {
@@ -42,7 +40,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
         super.onPreExecute();
 
         taskPlanner.start();
-        loginActivity.onLoading();
+        promise.onLoad();
     }
 
     @Override
@@ -56,7 +54,7 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
     @Override
     protected void onCancelled(Long aLong) {
-        onTaskFailed();
+        promise.onFail();
     }
 
     @Override
@@ -65,20 +63,10 @@ public class LoginTask extends AsyncTask<Void, Integer, Long> {
 
         taskPlanner.stop();
 
-        if (service.getStatusCode() == LoginWebServiceClient.STATUS_OK) {
-            onTaskSucceeded();
+        if (service.getStatusCode() == WSConstants.STATUS_OK) {
+            promise.onSuccess();
         } else {
-            onTaskFailed();
+            promise.onFail();
         }
-    }
-
-    protected void onTaskSucceeded() {
-        loginActivity.onLoadSucceeded();
-    }
-
-    protected void onTaskFailed() {
-        Toast.makeText(loginActivity, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
-
-        loginActivity.onLoadFailed();
     }
 }

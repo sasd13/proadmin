@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.ActivityHelper;
 
 public class TeamActivity extends MotherActivity {
@@ -90,7 +90,6 @@ public class TeamActivity extends MotherActivity {
 
     private void listRunnings() {
         Intent intent = new Intent(this, RunningsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Extra.PROJECT_ID, team.getId());
 
         startActivity(intent);

@@ -3,15 +3,17 @@ package com.sasd13.proadmin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.androidex.gui.GUIConstants;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.content.Extra;
 
 public class HomeActivity extends MotherActivity {
+
+    public static HomeActivity self;
 
     private ImageView imageViewProject, imageViewTeam, imageViewReport, imageViewCalendar;
 
@@ -19,11 +21,13 @@ public class HomeActivity extends MotherActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        self = this;
+
         setContentView(R.layout.activity_home);
-        createNav();
+        buildHomeView();
     }
 
-    private void createNav() {
+    private void buildHomeView() {
         imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
         imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
@@ -61,10 +65,7 @@ public class HomeActivity extends MotherActivity {
                         break;
                 }
 
-                Intent intent = new Intent(HomeActivity.this, mClass);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                startActivity(intent);
+                startActivity(new Intent(HomeActivity.this, mClass));
             }
         };
 
@@ -84,32 +85,19 @@ public class HomeActivity extends MotherActivity {
         }
     }
 
-    private void exit() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public void exit() {
+        final WaitDialog waitDialog = new WaitDialog(this);
+        waitDialog.setCancelable(false);
 
-        startActivity(intent);
-        finish();
-    }
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(HomeActivity.this, LogInActivity.class));
+                waitDialog.dismiss();
+                finish();
+            }
+        }, GUIConstants.TIMEOUT_ACTIVITY).start();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_home_action_logout:
-                logOut();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
+        waitDialog.show();
     }
 }

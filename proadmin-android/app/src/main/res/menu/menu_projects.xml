@@ -3,7 +3,7 @@
     xmlns:flousy="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_projects_action_refresh"
-        android:icon="@drawable/ic_action_refresh"
-        android:title="@string/menuitem_action_refresh"
+        android:icon="@drawable/ic_autorenew_white_36dp"
+        android:title="Actualiser"
         flousy:showAsAction="ifRoom"/>
 </menu>

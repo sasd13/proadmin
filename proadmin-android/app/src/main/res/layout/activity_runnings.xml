@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/AndroidEX.Activity"
     android:paddingTop="@dimen/activity_padding">
 
     <RelativeLayout
@@ -19,15 +20,15 @@
             android:layout_alignParentTop="true"
             android:text="@string/runnings_textview_title_project"
             android:textColor="@color/orange"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/runnings_dividerview_1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_height="wrap_content"
             android:layout_below="@id/runnings_textview_title_project"
-            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:layout_marginTop="@dimen/view_margin_medium"
             android:background="@color/orange" />
 
         <TextView
@@ -37,7 +38,7 @@
             android:layout_below="@id/runnings_dividerview_1"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/runnings_textview_project"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:ellipsize="end"/>
 
     </RelativeLayout>
@@ -47,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/runnings_relativelayout_project"
-        android:layout_marginTop="@dimen/viewgroup_margin"
+        android:layout_marginTop="@dimen/viewgroup_margin_medium"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding">
 
@@ -60,15 +61,15 @@
             android:layout_centerVertical="true"
             android:text="@string/runnings_textview_title_years"
             android:textColor="@color/orange"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/runnings_dividerview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_height="wrap_content"
             android:layout_below="@id/runnings_textview_title_years"
-            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:layout_marginTop="@dimen/view_margin_medium"
             android:background="@color/orange" />
 
     </RelativeLayout>

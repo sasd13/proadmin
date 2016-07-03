@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/AndroidEX.Activity"
     android:paddingTop="@dimen/activity_padding">
 
     <RelativeLayout
@@ -19,15 +20,15 @@
             android:layout_alignParentTop="true"
             android:text="@string/running_textview_title_project"
             android:textColor="@color/orange"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/running_dividerview_1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_height="wrap_content"
             android:layout_below="@id/running_textview_title_project"
-            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:layout_marginTop="@dimen/view_margin_medium"
             android:background="@color/orange" />
 
         <TextView
@@ -37,7 +38,7 @@
             android:layout_below="@id/running_dividerview_1"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/running_textview_project"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:ellipsize="end"/>
 
     </RelativeLayout>
@@ -47,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/running_relativelayout_project"
-        android:layout_marginTop="@dimen/viewgroup_margin"
+        android:layout_marginTop="@dimen/viewgroup_margin_medium"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding">
 
@@ -58,15 +59,15 @@
             android:layout_alignParentTop="true"
             android:text="@string/running_textview_title_year"
             android:textColor="@color/orange"
-            android:textSize="@dimen/textsize_medium"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/running_dividerview_2"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dividerview_height_medium"
+            android:layout_height="wrap_content"
             android:layout_below="@id/running_textview_title_year"
-            android:layout_marginTop="@dimen/dividerview_margintop"
+            android:layout_marginTop="@dimen/view_margin_medium"
             android:background="@color/orange" />
 
         <TextView
@@ -76,7 +77,7 @@
             android:layout_below="@id/running_dividerview_2"
             android:layout_marginTop="@dimen/view_margin_medium"
             android:text="@string/running_textview_year"
-            android:textSize="@dimen/textsize_medium" />
+            android:textSize="@dimen/text_size_medium" />
 
     </RelativeLayout>
 
@@ -84,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/running_relativelayout_year"
-        android:layout_marginTop="@dimen/viewgroup_margin">
+        android:layout_marginTop="@dimen/viewgroup_margin_medium">
 
         <RelativeLayout
             android:id="@+id/running_view_tab_title"
@@ -101,15 +102,15 @@
                 android:layout_alignParentTop="true"
                 android:text="@string/running_textview_title_teams"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/textsize_medium"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <View
                 android:id="@+id/running_dividerview_3"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dividerview_height_medium"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/running_textview_title_teams"
-                android:layout_marginTop="@dimen/dividerview_margintop"
+                android:layout_marginTop="@dimen/view_margin_medium"
                 android:background="@color/orange" />
 
         </RelativeLayout>

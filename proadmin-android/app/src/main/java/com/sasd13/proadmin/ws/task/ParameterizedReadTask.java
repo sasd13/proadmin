@@ -1,11 +1,11 @@
 package com.sasd13.proadmin.ws.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.ws.rest.WebServiceClient;
+import com.sasd13.proadmin.util.Promise;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.rest.WSClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,25 +16,23 @@ import java.util.Map;
  */
 public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> {
 
-    private static final int TIMEOUT = WebServiceClient.DEFAULT_TIMEOUT;
-
-    private Context context;
+    private Promise promise;
     private Map<String, String[]> parameters;
-    private WebServiceClient<T> service;
+    private WSClient<T> service;
     private List<T> results;
     private TaskPlanner taskPlanner;
 
-    public ParameterizedReadTask(Context context, Class<T> mClass, Map<String, String[]> parameters) {
-        this.context = context;
+    public ParameterizedReadTask(Promise promise, Class<T> mClass, Map<String, String[]> parameters) {
+        this.promise = promise;
         this.parameters = parameters;
-        service = new WebServiceClient<>(mClass, TIMEOUT);
+        service = new WSClient<>(mClass);
         results = new ArrayList<>();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {
                 cancel(true);
             }
-        }, TIMEOUT - 100);
+        }, WSConstants.TIMEOUT);
     }
 
     public List<T> getResults() {
@@ -50,6 +48,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
         super.onPreExecute();
 
         taskPlanner.start();
+        promise.onLoad();
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
 
     @Override
     protected void onCancelled(List<T> ts) {
-        onTaskFailed();
+        promise.onFail();
     }
 
     @Override
@@ -72,18 +71,10 @@ public class ParameterizedReadTask<T> extends AsyncTask<Void, Integer, List<T>> 
 
         taskPlanner.stop();
 
-        if (service.getStatusCode() == WebServiceClient.STATUS_OK) {
-            onTaskSucceeded();
+        if (service.getStatusCode() == WSConstants.STATUS_OK) {
+            promise.onSuccess();
         } else {
-            onTaskFailed();
+            promise.onFail();
         }
-    }
-
-    protected void onTaskSucceeded() {
-        //Do nothing
-    }
-
-    protected void onTaskFailed() {
-        Toast.makeText(context, "La requête n'a pas abouti", Toast.LENGTH_SHORT).show();
     }
 }

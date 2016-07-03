@@ -7,21 +7,18 @@ import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.MediaType;
-import com.sasd13.proadmin.ws.WebServiceInformation;
+import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.WSInformation;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class WebServiceClient<T> implements IWebServiceClient<T> {
-
-    public static final int DEFAULT_TIMEOUT = 60000;
-    public static final int STATUS_OK = HttpURLConnection.HTTP_OK;
+public class WSClient<T> implements IWebServiceClient<T> {
 
     private Class<T> mClass;
     private int timeOut;
@@ -30,9 +27,13 @@ public class WebServiceClient<T> implements IWebServiceClient<T> {
     private int statusCode;
     private boolean dataRetrieveDeepEnabled;
 
-    public WebServiceClient(Class<T> mClass, int timeOut) {
+    public WSClient(Class<T> mClass) {
+        this(mClass, WSConstants.TIMEOUT);
+    }
+
+    public WSClient(Class<T> mClass, int timeOut) {
         this.mClass = mClass;
-        url = WebServiceInformation.URL + mClass.getSimpleName().toLowerCase() + "s";
+        url = WSInformation.URL + mClass.getSimpleName().toLowerCase() + "s";
         this.timeOut = timeOut;
     }
 

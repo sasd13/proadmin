@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.ActivityHelper;
 
 public class ProjectActivity extends MotherActivity {
@@ -75,9 +75,6 @@ public class ProjectActivity extends MotherActivity {
     }
 
     private void listRunnings() {
-        Intent intent = new Intent(this, RunningsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        startActivity(intent);
+        startActivity(new Intent(this, RunningsActivity.class));
     }
 }

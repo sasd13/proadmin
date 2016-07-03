@@ -1,100 +1,58 @@
 package com.sasd13.proadmin;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewStub;
+import com.sasd13.androidex.DrawerActivity;
+import com.sasd13.androidex.gui.Action;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
+import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerModel;
+import com.sasd13.androidex.gui.widget.recycler.drawer.NavModel;
+import com.sasd13.proadmin.content.Browser;
+import com.sasd13.proadmin.util.SessionHelper;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
-import com.sasd13.androidex.gui.widget.recycler.drawer.Drawer;
-import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemNav;
-import com.sasd13.androidex.session.Session;
-import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.nav.Nav;
-import com.sasd13.proadmin.gui.nav.NavItem;
-
-public abstract class MotherActivity extends AppCompatActivity {
-
-    private static final int TIMEOUT = 2000;
-
-    private Drawer drawer;
+public abstract class MotherActivity extends DrawerActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_mother);
+    protected RecyclerHolder getDrawerHolder() {
+        RecyclerHolder recyclerHolder = new RecyclerHolder();
 
-        createDrawer();
-        fillDrawer();
+        addBrowserItems(recyclerHolder);
+        addAccountItems(recyclerHolder);
+
+        return recyclerHolder;
     }
 
-    @Override
-    public void setContentView(int layoutResource) {
-        ViewStub viewStub = (ViewStub) findViewById(R.id.activity_viewstub);
-        viewStub.setLayoutResource(layoutResource);
-        viewStub.inflate();
-    }
+    private void addBrowserItems(RecyclerHolder recyclerHolder) {
+        Browser.Item[] items = Browser.getInstance().getItems();
+        NavModel[] navModels = new NavModel[items.length];
 
-    private void createDrawer() {
-        drawer = new Drawer((RecyclerView) findViewById(R.id.drawer_recyclerview),
-                (DrawerLayout) findViewById(R.id.drawer_drawerlayout));
-    }
+        int i=-1;
 
-    private void fillDrawer() {
-        Nav nav = Nav.getInstance(this);
-        DrawerItemNav drawerItemNav;
+        for (final Browser.Item item : items) {
+            i++;
 
-        for (final NavItem navItem : nav.getItems()) {
-            drawerItemNav = new DrawerItemNav();
-
-            drawerItemNav.setColor(navItem.getColor());
-            drawerItemNav.setLabel(navItem.getText());
-            drawerItemNav.setOnClickListener(new RecyclerItem.OnClickListener() {
+            navModels[i] = new NavModel();
+            navModels[i].setIcon(item.getIcon());
+            navModels[i].setLabel(item.getLabel());
+            navModels[i].setActionClick(new Action() {
                 @Override
-                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
-                    navItem.getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    startActivity(navItem.getIntent());
+                public void execute() {
+                    startActivity(item.getIntent());
                 }
             });
-
-            drawer.addItem(drawerItemNav);
         }
+
+        recyclerHolder.add(getResources().getString(R.string.drawer_header_menu), navModels);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        drawer.setOpened(false);
-    }
-
-    public void logOut() {
-        Session.clear();
-        goToHomeActivityAndExit();
-    }
-
-    private void goToHomeActivityAndExit() {
-        final WaitDialog waitDialog = new WaitDialog(this);
-
-        TaskPlanner taskPlanner = new TaskPlanner(new Runnable() {
+    private void addAccountItems(RecyclerHolder recyclerHolder) {
+        DrawerModel drawerModel = new DrawerModel();
+        drawerModel.setLabel(getResources().getString(R.string.drawer_label_logout));
+        drawerModel.setActionClick(new Action() {
             @Override
-            public void run() {
-                Intent intent = new Intent(MotherActivity.this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(Extra.EXIT, true);
-
-                startActivity(intent);
-                waitDialog.dismiss();
-                finish();
+            public void execute() {
+                SessionHelper.logOut(MotherActivity.this);
             }
-        }, TIMEOUT);
+        });
 
-        taskPlanner.start();
-        waitDialog.show();
+        recyclerHolder.add(getResources().getString(R.string.drawer_header_account), new DrawerModel[]{ drawerModel });
     }
 }
