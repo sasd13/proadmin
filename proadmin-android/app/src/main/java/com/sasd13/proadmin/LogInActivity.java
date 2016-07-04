@@ -29,7 +29,6 @@ public class LogInActivity extends AppCompatActivity {
         self = this;
 
         setContentView(R.layout.activity_login);
-        LogInHandler.getInstance().init(this);
         buildLogInView();
     }
 
@@ -60,7 +59,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void logIn(String number, String password) {
-        LogInHandler.getInstance().logIn(number, password);
+        LogInHandler.getInstance().logIn(this, number, password);
     }
 
     public void onLogInLoad() {

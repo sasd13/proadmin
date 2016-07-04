@@ -28,20 +28,19 @@ public class LogInHandler implements Promise {
         return LogInHandlerHolder.INSTANCE;
     }
 
-    public void init(LogInActivity logInActivity) {
+    public void logIn(LogInActivity logInActivity, String number, String password) {
         this.logInActivity = logInActivity;
-    }
-
-    public void logIn(String number, String password) {
-        isActionLogin = true;
         logInTask = new LogInTask(this, number, password);
+        isActionLogin = true;
 
         logInTask.execute();
     }
 
     @Override
     public void onLoad() {
-        logInActivity.onLogInLoad();
+        if (isActionLogin) {
+            logInActivity.onLogInLoad();
+        }
     }
 
     @Override
