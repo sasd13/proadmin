@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.ws.WSConstants;
-import com.sasd13.proadmin.ws.rest.LoginWSClient;
+import com.sasd13.proadmin.ws.rest.LogInWSClient;
 
 /**
  * Created by Samir on 24/12/2015.
@@ -14,7 +14,7 @@ public class LogInTask extends AsyncTask<Void, Integer, Long> {
 
     private Promise promise;
     private String number, password;
-    private LoginWSClient service;
+    private LogInWSClient service;
     private Long result;
     private TaskPlanner taskPlanner;
 
@@ -22,7 +22,7 @@ public class LogInTask extends AsyncTask<Void, Integer, Long> {
         this.promise = promise;
         this.number = number;
         this.password = password;
-        service = new LoginWSClient();
+        service = new LogInWSClient();
         taskPlanner = new TaskPlanner(new Runnable() {
             @Override
             public void run() {

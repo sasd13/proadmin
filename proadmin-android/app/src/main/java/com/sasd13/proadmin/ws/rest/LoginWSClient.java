@@ -14,17 +14,17 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginWSClient {
+public class LogInWSClient {
 
     private HttpRequest httpRequest;
     private int timeOut;
     private int statusCode;
 
-    public LoginWSClient() {
+    public LogInWSClient() {
         this(WSConstants.TIMEOUT_LOGIN);
     }
 
-    public LoginWSClient(int timeOut) {
+    public LogInWSClient(int timeOut) {
         this.timeOut = timeOut;
     }
 

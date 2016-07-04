@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.content.handler;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
@@ -18,10 +17,10 @@ public class LogInHandler implements Promise {
         private static final LogInHandler INSTANCE = new LogInHandler();
     }
 
+    private LogInActivity logInActivity;
     private boolean isActionLogin;
     private LogInTask logInTask;
     private ReadTask<Teacher> readTaskTeacher;
-    private WaitDialog waitDialog;
     
     private LogInHandler() {}
 
@@ -29,17 +28,20 @@ public class LogInHandler implements Promise {
         return LogInHandlerHolder.INSTANCE;
     }
 
+    public void init(LogInActivity logInActivity) {
+        this.logInActivity = logInActivity;
+    }
+
     public void logIn(String number, String password) {
         isActionLogin = true;
         logInTask = new LogInTask(this, number, password);
-        waitDialog = new WaitDialog(LogInActivity.self);
 
         logInTask.execute();
     }
 
     @Override
     public void onLoad() {
-        waitDialog.show();
+        logInActivity.onLogInLoad();
     }
 
     @Override
@@ -47,13 +49,13 @@ public class LogInHandler implements Promise {
         if (isActionLogin) {
             isActionLogin = false;
 
-            loginTaskSucceeded();
+            onLogInTaskSucceeded();
         } else {
-            readTaskTeacherSucceeded();
+            onReadTaskTeacherSucceeded();
         }
     }
 
-    private void loginTaskSucceeded() {
+    private void onLogInTaskSucceeded() {
         String error = null;
 
         if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
@@ -63,15 +65,14 @@ public class LogInHandler implements Promise {
         }
 
         if (error != null) {
-            waitDialog.dismiss();
-            LogInActivity.self.onError(error);
+            logInActivity.onLogInError(error);
         } else {
             readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(logInTask.getResult());
         }
     }
 
-    private void readTaskTeacherSucceeded() {
+    private void onReadTaskTeacherSucceeded() {
         String error = null;
 
         try {
@@ -81,17 +82,14 @@ public class LogInHandler implements Promise {
         }
 
         if (error != null) {
-            waitDialog.dismiss();
-            LogInActivity.self.onError(error);
+            logInActivity.onLogInError(error);
         } else {
-            waitDialog.dismiss();
-            LogInActivity.self.onSuccess(readTaskTeacher.getResults().get(0));
+            logInActivity.onLogInSuccess(readTaskTeacher.getResults().get(0));
         }
     }
 
     @Override
     public void onFail() {
-        waitDialog.dismiss();
-        LogInActivity.self.onError("Echec lors de la tentative de connexion");
+        logInActivity.onLogInError("Echec lors de la tentative de connexion");
     }
 }

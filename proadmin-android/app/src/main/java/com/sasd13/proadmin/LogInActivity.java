@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.handler.LogInHandler;
@@ -19,6 +20,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public static LogInActivity self;
+    private WaitDialog waitDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class LogInActivity extends AppCompatActivity {
         self = this;
 
         setContentView(R.layout.activity_login);
+        LogInHandler.getInstance().init(this);
         buildLogInView();
     }
 
@@ -60,11 +63,18 @@ public class LogInActivity extends AppCompatActivity {
         LogInHandler.getInstance().logIn(number, password);
     }
 
-    public void onSuccess(Teacher teacher) {
+    public void onLogInLoad() {
+        waitDialog = new WaitDialog(this);
+        waitDialog.show();
+    }
+
+    public void onLogInSuccess(Teacher teacher) {
+        waitDialog.dismiss();
         SessionHelper.logIn(this, teacher);
     }
 
-    public void onError(String error) {
+    public void onLogInError(String error) {
+        waitDialog.dismiss();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }
