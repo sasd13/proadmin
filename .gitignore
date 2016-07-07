@@ -33,5 +33,7 @@ gradlew
 build/
 gradle/
 app/build/
+app/libs/
 androidex/build/
 target/
+*.aar
