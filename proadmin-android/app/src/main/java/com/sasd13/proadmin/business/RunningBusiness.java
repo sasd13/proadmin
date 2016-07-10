@@ -23,8 +23,8 @@ public class RunningBusiness {
     public static boolean prepareRunningToCreate(final Running runningToCreate, Context context) {
         boolean prepared = false;
 
-        Teacher teacher = Cache.load(SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID), Teacher.class);
-        Project project = Cache.load(SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID), Project.class);
+        Teacher teacher = Cache.load(SessionHelper.getExtraIdFromSession(context, Extra.TEACHER_ID), Teacher.class);
+        Project project = Cache.load(SessionHelper.getExtraIdFromSession(context, Extra.PROJECT_ID), Project.class);
 
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(Parameter.YEAR.getName(), new String[]{ String.valueOf(runningToCreate.getYear()) });

@@ -1,9 +1,13 @@
 package com.sasd13.proadmin.content.handler;
 
+import android.widget.Toast;
+
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.util.Promise;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.task.LogInTask;
 import com.sasd13.proadmin.ws.task.ReadTask;
@@ -13,23 +17,17 @@ import com.sasd13.proadmin.ws.task.ReadTask;
  */
 public class LogInHandler implements Promise {
 
-    private static class LogInHandlerHolder {
-        private static final LogInHandler INSTANCE = new LogInHandler();
-    }
-
     private LogInActivity logInActivity;
     private boolean isActionLogin;
     private LogInTask logInTask;
     private ReadTask<Teacher> readTaskTeacher;
+    private WaitDialog waitDialog;
     
-    private LogInHandler() {}
-
-    public static LogInHandler getInstance() {
-        return LogInHandlerHolder.INSTANCE;
+    public LogInHandler(LogInActivity logInActivity) {
+        this.logInActivity = logInActivity;
     }
 
-    public void logIn(LogInActivity logInActivity, String number, String password) {
-        this.logInActivity = logInActivity;
+    public void logIn(String number, String password) {
         logInTask = new LogInTask(this, number, password);
         isActionLogin = true;
 
@@ -39,7 +37,8 @@ public class LogInHandler implements Promise {
     @Override
     public void onLoad() {
         if (isActionLogin) {
-            logInActivity.onLogInLoad();
+            waitDialog = new WaitDialog(logInActivity);
+            waitDialog.show();
         }
     }
 
@@ -64,7 +63,7 @@ public class LogInHandler implements Promise {
         }
 
         if (error != null) {
-            logInActivity.onLogInError(error);
+            onError(error);
         } else {
             readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(logInTask.getResult());
@@ -81,14 +80,24 @@ public class LogInHandler implements Promise {
         }
 
         if (error != null) {
-            logInActivity.onLogInError(error);
+            onError(error);
         } else {
-            logInActivity.onLogInSuccess(readTaskTeacher.getResults().get(0));
+            onSuccess(readTaskTeacher.getResults().get(0));
         }
     }
 
     @Override
     public void onFail() {
-        logInActivity.onLogInError("Echec lors de la tentative de connexion");
+        onError("Echec lors de la tentative de connexion");
+    }
+
+    public void onSuccess(Teacher teacher) {
+        waitDialog.dismiss();
+        SessionHelper.logIn(logInActivity, teacher);
+    }
+
+    public void onError(String error) {
+        waitDialog.dismiss();
+        Toast.makeText(logInActivity, error, Toast.LENGTH_SHORT).show();
     }
 }

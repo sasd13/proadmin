@@ -62,7 +62,7 @@ public class SettingActivity extends MotherActivity implements Promise {
 
     private void readTeacher() {
         if (NetworkHelper.isConnected(this)) {
-            long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
+            long teacherId = SessionHelper.getExtraIdFromSession(this, Extra.TEACHER_ID);
 
             readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(teacherId);

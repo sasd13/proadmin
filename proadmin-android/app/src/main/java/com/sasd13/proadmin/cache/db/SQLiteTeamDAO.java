@@ -47,14 +47,16 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public void delete(Team team) {
-        String query = "UPDATE " + TABLE
-                + " SET "
-                    + COLUMN_DELETED + " = 1"
-                + " WHERE "
-                    + COLUMN_ID + " = " + team.getId();
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE ");
+        builder.append(TABLE);
+        builder.append(" SET ");
+        builder.append(COLUMN_DELETED + " = 1");
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = " + team.getId());
 
         try {
-            db.execSQL(query);
+            db.execSQL(builder.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,12 +66,15 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     public Team select(long id) {
         Team team = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ? AND "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
+        builder.append(" AND ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
             team = getCursorValues(cursor);
         }
@@ -83,12 +88,15 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         List<Team> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, TeamDAO.class) + " AND "
-                        + COLUMN_DELETED + " = ?";
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, TeamDAO.class));
+            builder.append(" AND ");
+            builder.append(COLUMN_DELETED + " = ?");
 
-            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
@@ -104,11 +112,13 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     public List<Team> selectAll() {
         List<Team> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }

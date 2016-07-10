@@ -5,13 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.handler.LogInHandler;
-import com.sasd13.proadmin.util.SessionHelper;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -20,13 +16,14 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public static LogInActivity self;
-    private WaitDialog waitDialog;
+    private LogInHandler logInHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         self = this;
+        logInHandler = new LogInHandler(this);
 
         setContentView(R.layout.activity_login);
         buildLogInView();
@@ -59,21 +56,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void logIn(String number, String password) {
-        LogInHandler.getInstance().logIn(this, number, password);
-    }
-
-    public void onLogInLoad() {
-        waitDialog = new WaitDialog(this);
-        waitDialog.show();
-    }
-
-    public void onLogInSuccess(Teacher teacher) {
-        waitDialog.dismiss();
-        SessionHelper.logIn(this, teacher);
-    }
-
-    public void onLogInError(String error) {
-        waitDialog.dismiss();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        logInHandler.logIn(number, password);
     }
 }

@@ -27,19 +27,19 @@ public class ProjectItem extends TabItem {
     public void update(Observable observable, Object o) {
         super.update(observable, o);
 
-        setCode((ProjectModel) observable);
-        setDescription((ProjectModel) observable);
+        setCode((ProjectItemModel) observable);
+        setDescription((ProjectItemModel) observable);
     }
 
-    private void setCode(ProjectModel projectModel) {
+    private void setCode(ProjectItemModel projectItemModel) {
         if (textViewCode != null) {
-            textViewCode.setText(projectModel.getCode());
+            textViewCode.setText(projectItemModel.getCode());
         }
     }
 
-    private void setDescription(ProjectModel projectModel) {
+    private void setDescription(ProjectItemModel projectItemModel) {
         if (textViewDescription != null) {
-            textViewDescription.setText(projectModel.getDescription());
+            textViewDescription.setText(projectItemModel.getDescription());
         }
     }
 }

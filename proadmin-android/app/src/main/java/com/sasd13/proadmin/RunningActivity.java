@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
+import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -16,8 +16,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.ActivityHelper;
-import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
@@ -34,7 +34,7 @@ public class RunningActivity extends MotherActivity implements Promise {
 
     private RunningViewHolder runningViewHolder;
     private View viewLoad, viewTab;
-    private Tab tabTeams;
+    private Recycler tab;
 
     private Running running;
     private List<Team> teams = new ArrayList<>();
@@ -78,7 +78,7 @@ public class RunningActivity extends MotherActivity implements Promise {
         long id = ActivityHelper.getCurrentExtraId(this, Extra.RUNNING_ID);
         running = Cache.load(id, Running.class);
 
-        long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
+        long projectId = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
         Project project = Cache.load(projectId, Project.class);
 
         fillRunningViewHolder(project);
@@ -176,7 +176,7 @@ public class RunningActivity extends MotherActivity implements Promise {
     }
 
     private void fillTabTeams() {
-        tabTeams.clear();
+        tab.clear();
 
         //addTeamsToTab();
     }

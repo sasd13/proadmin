@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
+import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -32,7 +32,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
 
     private TextView textViewProject;
     private View viewLoad, viewTab;
-    private Tab tabRunnings;
+    private Recycler tab;
 
     private List<Running> runnings = new ArrayList<>();
     private ParameterizedReadTask<Running> parameterizedReadTaskRunning;
@@ -67,7 +67,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
     protected void onStart() {
         super.onStart();
 
-        long id = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
+        long id = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
         Project project = Cache.load(id, Project.class);
 
         fillTextViewProject(project);
@@ -82,8 +82,8 @@ public class RunningsActivity extends MotherActivity implements Promise {
 
     private void refresh() {
         if (NetworkHelper.isConnected(this)) {
-            long teacherId = SessionHelper.getExtraIdFromSession(Extra.TEACHER_ID);
-            long projectId = SessionHelper.getExtraIdFromSession(Extra.PROJECT_ID);
+            long teacherId = SessionHelper.getExtraIdFromSession(this, Extra.TEACHER_ID);
+            long projectId = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
 
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
@@ -184,7 +184,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
     }
 
     public void fillTabRunnings() {
-        tabRunnings.clear();
+        tab.clear();
 
         RunningSorter.byYear(runnings, true);
         //addRunningsToTab();

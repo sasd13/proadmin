@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
+import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ProjectsActivity extends MotherActivity {
 
     private Spin spinAcademicLevels;
-    private Tab tabProjects;
+    private Recycler tab;
 
     private List<Project> projects = new ArrayList<>();
     private ReadTask<Project> readTaskProjects;
@@ -42,8 +42,8 @@ public class ProjectsActivity extends MotherActivity {
         spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                fillTabByAcademicLevel(AcademicLevel.getLevels()[position]);
             }
 
             @Override
@@ -54,8 +54,8 @@ public class ProjectsActivity extends MotherActivity {
     }
 
 
-    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        tabProjects.clear();
+    private void fillTabByAcademicLevel(AcademicLevel academicLevel) {
+        tab.clear();
 
         //addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
@@ -86,9 +86,13 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     private void fillSpinAcademicLevels() {
+        List<String> list = new ArrayList<>();
+
         for (AcademicLevel academicLevel : AcademicLevel.getLevels()) {
-            spinAcademicLevels.addItem(academicLevel.getName());
+            list.add(String.valueOf(academicLevel));
         }
+
+        spinAcademicLevels.addAll(list);
     }
 
     @Override
@@ -138,6 +142,6 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void fillTabProjects() {
-        fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
+        fillTabByAcademicLevel(AcademicLevel.getLevels()[spinAcademicLevels.getSelectedPosition()]);
     }
 }

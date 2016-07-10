@@ -59,11 +59,13 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
     public StudentTeam select(long id) {
         StudentTeam studentTeam = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id) });
         if (cursor.moveToNext()) {
             studentTeam = getCursorValues(cursor);
         }
@@ -77,11 +79,13 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
         List<StudentTeam> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, StudentTeamDAO.class);
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, StudentTeamDAO.class));
 
-            Cursor cursor = db.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(builder.toString(), null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }

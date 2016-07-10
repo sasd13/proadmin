@@ -59,11 +59,13 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
     public RunningTeam select(long id) {
         RunningTeam runningTeam = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id) });
         if (cursor.moveToNext()) {
             runningTeam = getCursorValues(cursor);
         }
@@ -77,11 +79,13 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
         List<RunningTeam> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, RunningTeamDAO.class);
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, RunningTeamDAO.class));
 
-            Cursor cursor = db.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(builder.toString(), null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }

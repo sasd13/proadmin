@@ -4,19 +4,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-import com.sasd13.androidex.db.ISQLiteDAO;
 import com.sasd13.proadmin.dao.DAO;
 
-public class SQLiteDAO extends DAO implements ISQLiteDAO {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static class SQLiteDAOHolder {
-        private static final SQLiteDAO INSTANCE = new SQLiteDAO();
-    }
+public class SQLiteDAO extends DAO {
+
+    private static List<SQLiteDAO> pool = new ArrayList<>();
 
     private SQLiteDBHandler dbHandler;
     private SQLiteDatabase db;
 
-    private SQLiteDAO() {
+    private SQLiteDAO(Context context) {
         super(
                 new SQLiteTeacherDAO(),
                 new SQLiteProjectDAO(),
@@ -27,15 +27,25 @@ public class SQLiteDAO extends DAO implements ISQLiteDAO {
                 new SQLiteRunningTeamDAO(),
                 new SQLiteReportDAO()
         );
-    }
 
-    public static SQLiteDAO getInstance() {
-        return SQLiteDAOHolder.INSTANCE;
-    }
-
-    @Override
-    public void init(Context context) {
         dbHandler = new SQLiteDBHandler(context, SQLiteDBInformation.DB, null, SQLiteDBInformation.VERSION);
+    }
+
+    public static SQLiteDAO create(Context context) {
+        for (SQLiteDAO dao : pool) {
+            if (!dao.isOpened()) {
+                return dao;
+            }
+        }
+
+        SQLiteDAO dao = new SQLiteDAO(context);
+        pool.add(dao);
+
+        return dao;
+    }
+
+    private boolean isOpened() {
+        return db.isOpen();
     }
 
     @Override

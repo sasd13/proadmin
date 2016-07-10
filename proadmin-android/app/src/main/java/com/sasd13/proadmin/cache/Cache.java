@@ -2,7 +2,6 @@ package com.sasd13.proadmin.cache;
 
 import android.content.Context;
 
-import com.sasd13.androidex.db.ISQLiteDAO;
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.ILayeredDAO;
 import com.sasd13.proadmin.cache.db.SQLiteDAO;
@@ -16,10 +15,10 @@ import java.util.Map;
  */
 public class Cache {
 
-    private static ILayeredDAO dao = SQLiteDAO.getInstance();
+    private static ILayeredDAO dao;
 
     public static void init(Context context) {
-        ((ISQLiteDAO) dao).init(context);
+        dao = SQLiteDAO.create(context);
     }
 
     public static <T> void keep(T t) {

@@ -26,12 +26,12 @@ public class RunningItem extends TabItem {
     public void update(Observable observable, Object o) {
         super.update(observable, o);
 
-        setYear((RunningModel) observable);
+        setYear((RunningItemModel) observable);
     }
 
-    private void setYear(RunningModel runningModel) {
+    private void setYear(RunningItemModel runningItemModel) {
         if (textViewYear != null) {
-            textViewYear.setText(runningModel.getYear());
+            textViewYear.setText(runningItemModel.getYear());
         }
     }
 }

@@ -11,9 +11,9 @@ public class ActivityHelper {
         long currentExtraId = activity.getIntent().getLongExtra(extraKey, 0);
 
         if (currentExtraId == 0) {
-            currentExtraId = SessionHelper.getExtraIdFromSession(extraKey);
+            currentExtraId = SessionHelper.getExtraIdFromSession(activity, extraKey);
         } else {
-            SessionHelper.setExtraIdInSession(extraKey, currentExtraId);
+            SessionHelper.setExtraIdInSession(activity, extraKey, currentExtraId);
         }
 
         return currentExtraId;
