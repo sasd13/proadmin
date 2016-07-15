@@ -62,7 +62,7 @@ public class HomeActivity extends MotherActivity {
                         mClass = ReportsActivity.class;
                         break;*/
                     case R.id.home_imageview_calendar:
-                        mClass = SettingActivity.class;
+                        mClass = SettingsActivity.class;
                         break;
                 }
 

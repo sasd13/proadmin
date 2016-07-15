@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Activity -->
+    <string name="activity_splashscreen">@string/app_name</string>
+    <string name="activity_login">Connexion</string>
+    <string name="activity_home">Accueil</string>
+    <string name="activity_projects">Projets</string>
+    <string name="activity_project">Projet</string>
+    <string name="activity_runnings">Gestions</string>
+    <string name="activity_running">Gestion</string>
+    <string name="activity_team">Groupe</string>
+    <string name="activity_settings">Paramètres</string>
+
+    <!-- Activity Log In -->
+    <string name="login_button_connect">Connexion</string>
+
+    <!-- Activity Projects -->
+    <string name="projects_textview_academiclevels">Niveau académique :</string>
+    <string name="projects_textview_projects">Projets</string>
+
+    <!-- Application -->
+    <string name="app_name">Proadmin</string>
+
+    <!-- Drawer -->
+    <string name="drawer_header_menu">Menu</string>
+    <string name="drawer_header_account">Compte</string>
+    <string name="drawer_label_logout">Déconnexion</string>
+
+    <!-- Textview -->
+    <string name="label_number">Matricule</string>
+    <string name="label_firstname">Prénom</string>
+    <string name="label_lastname">Nom</string>
+    <string name="label_email">Email</string>
+    <string name="title_identity">Identité</string>
+
+</resources>

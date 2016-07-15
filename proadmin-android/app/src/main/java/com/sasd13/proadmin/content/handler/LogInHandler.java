@@ -25,19 +25,19 @@ public class LogInHandler implements Promise {
     
     public LogInHandler(LogInActivity logInActivity) {
         this.logInActivity = logInActivity;
+        waitDialog = new WaitDialog(logInActivity);
     }
 
     public void logIn(String number, String password) {
-        logInTask = new LogInTask(this, number, password);
         isActionLogin = true;
 
+        logInTask = new LogInTask(this, number, password);
         logInTask.execute();
     }
 
     @Override
     public void onLoad() {
         if (isActionLogin) {
-            waitDialog = new WaitDialog(logInActivity);
             waitDialog.show();
         }
     }

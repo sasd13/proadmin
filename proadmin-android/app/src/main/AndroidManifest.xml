@@ -104,8 +104,8 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
-            android:name=".SettingActivity"
-            android:label="@string/activity_setting"
+            android:name=".SettingsActivity"
+            android:label="@string/activity_settings"
             android:theme="@style/ProadminBrown"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"

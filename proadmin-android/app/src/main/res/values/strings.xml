@@ -3,86 +3,35 @@
 
     <!-- Activity -->
     <string name="activity_splashscreen">@string/app_name</string>
-    <string name="activity_login">Connexion</string>
-    <string name="activity_sign">Inscription</string>
-    <string name="activity_home">Menu</string>
-    <string name="activity_projects">Projets</string>
-    <string name="activity_project">Projet</string>
-    <string name="activity_runnings">Gestions</string>
-    <string name="activity_running">Gestion</string>
-    <string name="activity_team">Groupe</string>
-    <string name="activity_setting">Options</string>
+    <string name="activity_login">Log in</string>
+    <string name="activity_home">Home</string>
+    <string name="activity_projects">Projects</string>
+    <string name="activity_project">Project</string>
+    <string name="activity_runnings">Runnings</string>
+    <string name="activity_running">Running</string>
+    <string name="activity_team">Team</string>
+    <string name="activity_settings">Settings</string>
 
-    <!-- Activity Login -->
-    <string name="login_button_connect">Connexion</string>
-    <string name="login_textview_sign">Inscription sur Proadmin</string>
-    <string name="login_textview_restorepassword">Mot de passe oublié ?</string>
-    <string name="login_dialog_title_error_login">Erreur connexion</string>
-    <string name="login_dialog_message_error_login">Identifiants invalides</string>
-
-    <!-- Activity Sign -->
-    <string name="sign_dialog_title_error_sign">Erreur inscription</string>
-    <string name="sign_dialog_message_error_sign">Remplir le formulaire d\'inscription</string>
-
-    <!-- Activity Home -->
-    <string name="home_dialog_title_welcome">Bienvenue</string>
-    <string name="home_dialog_message_welcome">Salut</string>
+    <!-- Activity Log In -->
+    <string name="login_button_connect">Connect</string>
 
     <!-- Activity Projects -->
-    <string name="projects_textview_academiclevels">NIVEAU ACADEMIQUE :</string>
-    <string name="projects_textview_projects">PROJETS</string>
-
-    <!-- Activity Project -->
-    <string name="project_textview_title_academiclevel">NIVEAU ACADEMIQUE</string>
-    <string name="project_textview_title_code">CODE</string>
-    <string name="project_textview_title_title">TITRE</string>
-    <string name="project_textview_title_description">DESCRIPTION</string>
-    <string name="project_textview_academiclevel">Niveau</string>
-    <string name="project_textview_code">Code</string>
-    <string name="project_textview_title">Titre</string>
-    <string name="project_textview_description">Description</string>
-
-    <!-- Activity Runnings -->
-    <string name="runnings_textview_title_project">PROJET</string>
-    <string name="runnings_textview_project">Projet</string>
-    <string name="runnings_textview_title_years">ANNEES</string>
-
-    <!-- Activity Running -->
-    <string name="running_textview_title_project">PROJET</string>
-    <string name="running_textview_project">Projet</string>
-    <string name="running_textview_title_year">ANNEE</string>
-    <string name="running_textview_year">Année</string>
-    <string name="running_textview_title_teams">GROUPES</string>
-
-    <!-- Activity Team -->
+    <string name="projects_textview_academiclevels">Academic levels :</string>
+    <string name="projects_textview_projects">Projects</string>
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
-
-    <!-- Dialog -->
-    <string name="dialog_title_request">Requête</string>
-    <string name="dialog_message_error_request_canceled">Requête annulée</string>
 
     <!-- Drawer -->
     <string name="drawer_header_menu">Menu</string>
     <string name="drawer_header_account">Account</string>
     <string name="drawer_label_logout">Log out</string>
 
-    <!-- EditText -->
-    <string name="edittext_hint_number">Matricule</string>
-
-    <!-- Form -->
-    <string name="form_textview_title_number">MATRICULE</string>
-
-    <!-- Menu -->
-    <string name="menuitem_projects_action_runnings">Mes gestions</string>
-
-    <!-- Tab -->
-    <string name="tabitem_textview_label">Label</string>
-    <string name="tabitem_project_textview_code">Code</string>
-    <string name="tabitem_project_textview_description">Description</string>
-    <string name="tabitem_running_textview_year">Année</string>
-    <string name="tabitem_running_textview_teams">Groupes</string>
-    <string name="tabitem_team_textview_code">Code</string>
+    <!-- Textview -->
+    <string name="label_number">Number</string>
+    <string name="label_firstname">First name</string>
+    <string name="label_lastname">Last name</string>
+    <string name="label_email">Email</string>
+    <string name="title_identity">Identity</string>
 
 </resources>
