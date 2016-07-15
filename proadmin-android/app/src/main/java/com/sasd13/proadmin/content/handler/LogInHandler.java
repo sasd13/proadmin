@@ -30,8 +30,8 @@ public class LogInHandler implements Promise {
 
     public void logIn(String number, String password) {
         isActionLogin = true;
-
         logInTask = new LogInTask(this, number, password);
+
         logInTask.execute();
     }
 
@@ -54,16 +54,10 @@ public class LogInHandler implements Promise {
     }
 
     private void onLogInTaskSucceeded() {
-        String error = null;
-
         if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
-            error = "Identifiant invalide";
+            onError("Identifiant invalide");
         } else if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue()) {
-            error = "Mot de passe incorrect";
-        }
-
-        if (error != null) {
-            onError(error);
+            onError("Mot de passe incorrect");
         } else {
             readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(logInTask.getResult());
@@ -71,33 +65,16 @@ public class LogInHandler implements Promise {
     }
 
     private void onReadTaskTeacherSucceeded() {
-        String error = null;
-
         try {
             Cache.keep(readTaskTeacher.getResults().get(0));
-        } catch (IndexOutOfBoundsException e) {
-            error = "Erreur de chargement des données";
-        }
-
-        if (error != null) {
-            onError(error);
-        } else {
             onSuccess(readTaskTeacher.getResults().get(0));
+        } catch (IndexOutOfBoundsException e) {
+            onError("Erreur de chargement des données");
         }
     }
 
     @Override
     public void onFail() {
         onError("Echec lors de la tentative de connexion");
-    }
-
-    public void onSuccess(Teacher teacher) {
-        waitDialog.dismiss();
-        SessionHelper.logIn(logInActivity, teacher);
-    }
-
-    public void onError(String error) {
-        waitDialog.dismiss();
-        Toast.makeText(logInActivity, error, Toast.LENGTH_SHORT).show();
     }
 }

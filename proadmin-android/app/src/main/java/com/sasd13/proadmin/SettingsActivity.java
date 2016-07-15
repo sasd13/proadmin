@@ -1,9 +1,11 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
@@ -23,7 +25,7 @@ public class SettingsActivity extends MotherActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_settings);
 
         settingsHandler = new SettingsHandler(this);
         settingsForm = new SettingsForm(this);
@@ -32,7 +34,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void buildSettingsView() {
-        Recycler form = RecyclerFactory.makeBuilder(FormType.FORM).build();
+        Recycler form = RecyclerFactory.makeBuilder(FormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
@@ -42,13 +44,7 @@ public class SettingsActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        readTeacher();
-    }
-
-    private void readTeacher() {
-        teacher = settingsHandler.readTeacher();
-
-        settingsForm.bindTeacher(teacher);
+        settingsHandler.readTeacher();
     }
 
     @Override
@@ -73,6 +69,20 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void updateTeacher() {
-        settingsHandler.updateTeacher(teacher);
+        settingsHandler.updateTeacher(teacher, settingsForm);
+    }
+
+    public void onReadSuccess(Teacher teacher) {
+        this.teacher = teacher;
+
+        settingsForm.bindTeacher(teacher);
+    }
+
+    public void onUpdateSuccess() {
+        Toast.makeText(this, getResources().getString(R.string.message_saved), Toast.LENGTH_SHORT).show();
+    }
+
+    public void onError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
