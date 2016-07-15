@@ -8,7 +8,7 @@ import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.ActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItemType;
+import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemType;
 import com.sasd13.proadmin.gui.widget.recycler.browser.Browser;
 import com.sasd13.proadmin.gui.widget.recycler.browser.BrowserItemModel;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -31,7 +31,7 @@ public abstract class MotherActivity extends DrawerActivity {
         RecyclerHolderPair pair;
 
         for (final BrowserItemModel browserItemModel : browser.getItems(this)) {
-            browserItemModel.setType(RecyclerItemType.DRAWER_NAV);
+            browserItemModel.setItemType(DrawerItemType.NAV);
 
             pair = new RecyclerHolderPair(browserItemModel);
             pair.addController(ActionEvent.CLICK, new IAction() {
@@ -48,11 +48,11 @@ public abstract class MotherActivity extends DrawerActivity {
     private void addAccountItems(RecyclerHolder recyclerHolder) {
         final BrowserItemModel browserItemModel = new BrowserItemModel(
                 getResources().getString(R.string.drawer_label_logout),
-                ContextCompat.getDrawable(this, R.drawable.ic_room_black_36dp),
+                null,
                 ContextCompat.getColor(this, R.color.greyBackground),
                 HomeActivity.class
         );
-        browserItemModel.setType(RecyclerItemType.DRAWER);
+        browserItemModel.setItemType(DrawerItemType.DRAWER);
 
         RecyclerHolderPair pair = new RecyclerHolderPair(browserItemModel);
         pair.addController(ActionEvent.CLICK, new IAction() {

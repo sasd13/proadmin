@@ -31,7 +31,6 @@ public class TeamActivity extends MotherActivity {
 
     private void createTeamViewHolder() {
         teamViewHolder = new TeamViewHolder();
-
     }
 
     @Override

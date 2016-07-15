@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.sasd13.androidex.gui.GUIConstants;
-import com.sasd13.androidex.util.DIContainer;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.gui.widget.recycler.MyRecyclerFactoryType;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -36,10 +34,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void init() {
-        for (MyRecyclerFactoryType type : MyRecyclerFactoryType.values()) {
-            DIContainer.register(type, type.getTarget());
-        }
-
         Cache.init(this);
     }
 

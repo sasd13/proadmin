@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.gui.widget.recycler.tab;
 
 import com.sasd13.androidex.gui.widget.ILabelizable;
-import com.sasd13.androidex.gui.widget.IType;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
+import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.gui.widget.recycler.MyRecyclerItemType;
 
 import java.util.Observable;
 
@@ -17,8 +16,8 @@ public class TeamItemModel extends Observable implements IRecyclerItemModel, ILa
     }
 
     @Override
-    public IType getType() {
-        return MyRecyclerItemType.TAB_TEAM;
+    public IRecyclerItemType getItemType() {
+        return MyTabItemType.TEAM;
     }
 
     @Override
