@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/runnings_textview_title_project"
+            android:text="Project"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runnings_dividerview_1"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/runnings_textview_project"
+            android:text="Project"
             android:textSize="@dimen/text_size_medium"
             android:ellipsize="end"/>
 
@@ -59,7 +59,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/runnings_textview_title_years"
+            android:text="Years"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />

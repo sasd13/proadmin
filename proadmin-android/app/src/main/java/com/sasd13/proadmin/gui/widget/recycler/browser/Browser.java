@@ -28,7 +28,7 @@ public class Browser {
     public List<BrowserItemModel> getItems(final Context context) {
         if (items.isEmpty()) {
             items.add(new BrowserItemModel(
-                    context.getResources().getString(R.string.activity_setting),
+                    context.getResources().getString(R.string.activity_settings),
                     ContextCompat.getDrawable(context, R.drawable.ic_setting_small),
                     ContextCompat.getColor(context, R.color.brown),
                     SettingsActivity.class

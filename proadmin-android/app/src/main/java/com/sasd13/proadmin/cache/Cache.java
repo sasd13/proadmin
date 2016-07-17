@@ -6,6 +6,7 @@ import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.ILayeredDAO;
 import com.sasd13.proadmin.cache.db.SQLiteDAO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -47,7 +52,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -61,7 +70,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return t;
@@ -77,7 +90,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return ts;
@@ -93,7 +110,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return ts;

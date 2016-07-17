@@ -29,7 +29,7 @@
         android:layout_below="@id/tabitem_textview_label"
         android:layout_marginTop="@dimen/view_margin_small"
         android:gravity="left|center_vertical"
-        android:text="@string/tabitem_project_textview_code"
+        android:text="code"
         android:textSize="@dimen/text_size_medium"
         android:singleLine="true"
         android:ellipsize="end"/>
@@ -41,7 +41,7 @@
         android:layout_below="@id/tabitem_project_textview_code"
         android:layout_marginBottom="@dimen/recycleritem_padding_vertical"
         android:gravity="left|center_vertical"
-        android:text="@string/tabitem_project_textview_description"
+        android:text="description"
         android:textSize="@dimen/text_size_medium"
         android:singleLine="true"
         android:ellipsize="end"/>

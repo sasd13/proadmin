@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/recycleritem_padding_horizontal"
         android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
         android:gravity="left|center_vertical"
-        android:text="@string/tabitem_team_textview_code"
+        android:text="code"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_xlarge"
         android:textStyle="bold"/>

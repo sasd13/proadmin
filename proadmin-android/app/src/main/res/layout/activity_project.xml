@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/project_textview_title_title"
+            android:text="Title"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"/>
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_dividerview_1"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/project_textview_title"
+            android:text="title"
             android:textSize="@dimen/text_size_medium"/>
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_textview_title"
             android:layout_marginTop="@dimen/viewgroup_margin_medium"
-            android:text="@string/project_textview_title_academiclevel"
+            android:text="Academic level"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"/>
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_dividerview_2"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/project_textview_academiclevel"
+            android:text="academic level"
             android:textSize="@dimen/text_size_medium"
             android:singleLine="true"/>
 
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_textview_academiclevel"
             android:layout_marginTop="@dimen/viewgroup_margin_medium"
-            android:text="@string/project_textview_title_code"
+            android:text="Code"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"/>
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_dividerview_3"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/project_textview_code"
+            android:text="code"
             android:textSize="@dimen/text_size_medium"
             android:singleLine="true"/>
 
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_textview_code"
             android:layout_marginTop="@dimen/viewgroup_margin_medium"
-            android:text="@string/project_textview_title_description"
+            android:text="Description"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"/>
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_dividerview_4"
             android:layout_marginTop="@dimen/view_margin_medium"
-            android:text="@string/project_textview_description"
+            android:text="description"
             android:textSize="@dimen/text_size_medium"/>
 
     </RelativeLayout>

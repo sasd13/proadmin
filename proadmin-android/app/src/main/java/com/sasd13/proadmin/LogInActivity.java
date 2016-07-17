@@ -18,7 +18,6 @@ public class LogInActivity extends AppCompatActivity {
         public EditText editTextNumber, editTextPassword;
     }
 
-    public static LogInActivity self;
     private LogInHandler logInHandler;
 
     @Override
@@ -27,7 +26,6 @@ public class LogInActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        self = this;
         logInHandler = new LogInHandler(this);
 
         buildLogInView();
@@ -63,7 +61,7 @@ public class LogInActivity extends AppCompatActivity {
         logInHandler.logIn(number, password);
     }
 
-    public void onSuccess(Teacher teacher) {
+    public void onLogInSucceeded(Teacher teacher) {
         SessionHelper.logIn(this, teacher);
     }
 

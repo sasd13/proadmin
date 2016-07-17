@@ -38,12 +38,6 @@ public class SettingsActivity extends MotherActivity {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         settingsHandler.readTeacher();
     }
 
@@ -72,13 +66,13 @@ public class SettingsActivity extends MotherActivity {
         settingsHandler.updateTeacher(teacher, settingsForm);
     }
 
-    public void onReadSuccess(Teacher teacher) {
+    public void onReadSucceeded(Teacher teacher) {
         this.teacher = teacher;
 
         settingsForm.bindTeacher(teacher);
     }
 
-    public void onUpdateSuccess() {
+    public void onUpdateSucceeded() {
         Toast.makeText(this, getResources().getString(R.string.message_saved), Toast.LENGTH_SHORT).show();
     }
 

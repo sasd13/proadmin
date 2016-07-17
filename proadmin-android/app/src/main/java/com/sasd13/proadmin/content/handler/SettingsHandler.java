@@ -24,7 +24,6 @@ public class SettingsHandler implements Promise {
 
     public SettingsHandler(SettingsActivity settingsActivity) {
         this.settingsActivity = settingsActivity;
-        waitDialog = new WaitDialog(settingsActivity);
     }
 
     public void readTeacher() {
@@ -38,7 +37,10 @@ public class SettingsHandler implements Promise {
 
     @Override
     public void onLoad() {
-        waitDialog.show();
+        if (isActionRead) {
+            waitDialog = new WaitDialog(settingsActivity);
+            waitDialog.show();
+        }
     }
 
     @Override
@@ -57,14 +59,15 @@ public class SettingsHandler implements Promise {
             Teacher teacher = readTaskTeacher.getResults().get(0);
 
             Cache.keep(teacher);
-            settingsActivity.onReadSuccess(teacher);
+            waitDialog.dismiss();
+            settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
             settingsActivity.onError("");
         }
     }
 
     private void onUpdateTaskSucceeded() {
-        settingsActivity.onUpdateSuccess();
+        settingsActivity.onUpdateSucceeded();
     }
 
     @Override
@@ -94,6 +97,6 @@ public class SettingsHandler implements Promise {
 
         teacher.setFirstName(teacherFromForm.getFirstName());
         teacher.setLastName(teacherFromForm.getLastName());
-        teacher.setEmail(teacherFromForm.getLastName());
+        teacher.setEmail(teacherFromForm.getEmail());
     }
 }

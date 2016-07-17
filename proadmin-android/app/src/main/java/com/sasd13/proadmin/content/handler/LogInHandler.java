@@ -1,13 +1,10 @@
 package com.sasd13.proadmin.content.handler;
 
-import android.widget.Toast;
-
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.util.Promise;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
 import com.sasd13.proadmin.ws.task.LogInTask;
 import com.sasd13.proadmin.ws.task.ReadTask;
@@ -55,9 +52,9 @@ public class LogInHandler implements Promise {
 
     private void onLogInTaskSucceeded() {
         if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
-            onError("Identifiant invalide");
+            logInActivity.onError("Identifiant invalide");
         } else if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue()) {
-            onError("Mot de passe incorrect");
+            logInActivity.onError("Mot de passe incorrect");
         } else {
             readTaskTeacher = new ReadTask<>(this, Teacher.class);
             readTaskTeacher.execute(logInTask.getResult());
@@ -67,14 +64,14 @@ public class LogInHandler implements Promise {
     private void onReadTaskTeacherSucceeded() {
         try {
             Cache.keep(readTaskTeacher.getResults().get(0));
-            onSuccess(readTaskTeacher.getResults().get(0));
+            logInActivity.onLogInSucceeded(readTaskTeacher.getResults().get(0));
         } catch (IndexOutOfBoundsException e) {
-            onError("Erreur de chargement des données");
+            logInActivity.onError("Erreur de chargement des données");
         }
     }
 
     @Override
     public void onFail() {
-        onError("Echec lors de la tentative de connexion");
+        logInActivity.onError("Echec lors de la tentative de connexion");
     }
 }

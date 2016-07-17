@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="@string/form_textview_title_number"
+                android:text="@string/label_number"
                 android:textColor="@color/orange"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -57,7 +57,7 @@
                 android:layout_below="@id/setting_form_user_dividerview_1"
                 android:layout_marginTop="@dimen/view_margin_medium"
                 android:singleLine="true"
-                android:text="@string/edittext_hint_number"
+                android:text="@string/label_number"
                 android:textSize="@dimen/text_size_medium" />
 
             <TextView
