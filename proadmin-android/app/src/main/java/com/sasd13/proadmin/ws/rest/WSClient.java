@@ -1,12 +1,13 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.javaex.net.http.HttpHeader;
+import com.sasd13.javaex.net.http.EnumHttpHeaderField;
+import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.net.http.HttpRequest;
-import com.sasd13.javaex.net.util.URLParameterEncoder;
+import com.sasd13.javaex.net.util.URLQueryEncoder;
 import com.sasd13.javaex.net.ws.rest.IWebServiceClient;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.util.MediaType;
+import com.sasd13.javaex.util.EnumMediaType;
 import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.WSInformation;
 
@@ -52,7 +53,7 @@ public class WSClient<T> implements IWebServiceClient<T> {
         String urlParams = "?id=" + id;
 
         try {
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.GET, new URL(url + urlParams));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.GET, new URL(url + urlParams));
             httpRequest.open(timeOut);
             setRequestHeaderAccept();
             setRequestHeaderDataRetrieve();
@@ -65,9 +66,9 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            MediaType respMediType = MediaType.find(respContentType);
+            EnumMediaType respMediType = EnumMediaType.find(respContentType);
 
-            t = (T) ParserFactory.make(respMediType).fromString(respData, mClass);
+            t = ParserFactory.make(respMediType).fromString(respData, mClass);
         } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
@@ -76,13 +77,13 @@ public class WSClient<T> implements IWebServiceClient<T> {
     }
 
     private void setRequestHeaderAccept() {
-        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_JSON.getMIMEType());
-        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_XML.getMIMEType());
+        httpRequest.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_XML.getMIMEType());
     }
 
     private void setRequestHeaderDataRetrieve() {
         if (dataRetrieveDeepEnabled) {
-            httpRequest.addHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName(), HttpHeader.DATA_RETRIEVE_VALUE_DEEP.getName());
+            httpRequest.addHeader(EnumHttpHeaderField.DATA_RETRIEVE.getName(), EnumHttpHeaderValue.DATA_RETRIEVE_DEEP.getName());
         }
     }
 
@@ -90,11 +91,11 @@ public class WSClient<T> implements IWebServiceClient<T> {
         List<T> ts = new ArrayList<>();
 
         try {
-            String urlParams = URLParameterEncoder.toEncodedURLString(parameters);
+            String urlParams = URLQueryEncoder.toEncodedURLString(parameters);
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.GET, new URL(url + urlParams));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.GET, new URL(url + urlParams));
             httpRequest.open(timeOut);
-            httpRequest.addHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName(), HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName());
+            httpRequest.addHeader(EnumHttpHeaderField.REQUEST_PARAMETERIZED.getName(), EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName());
             setRequestHeaderAccept();
             setRequestHeaderDataRetrieve();
             httpRequest.connect();
@@ -106,9 +107,9 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            MediaType respMediType = MediaType.find(respContentType);
+            EnumMediaType respMediType = EnumMediaType.find(respContentType);
 
-            Collections.addAll(ts, (T[]) ParserFactory.make(respMediType).fromString(respData, mClass));
+            Collections.addAll(ts, ParserFactory.make(respMediType).fromStringArray(respData, mClass));
         } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
@@ -121,7 +122,7 @@ public class WSClient<T> implements IWebServiceClient<T> {
         List<T> ts = new ArrayList<>();
 
         try {
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.GET, new URL(url));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.GET, new URL(url));
             httpRequest.open(timeOut);
             setRequestHeaderAccept();
             setRequestHeaderDataRetrieve();
@@ -134,9 +135,9 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            MediaType respMediType = MediaType.find(respContentType);
+            EnumMediaType respMediType = EnumMediaType.find(respContentType);
 
-            Collections.addAll(ts, (T[]) ParserFactory.make(respMediType).fromString(respData, mClass));
+            Collections.addAll(ts, ParserFactory.make(respMediType).fromStringArray(respData, mClass));
         } catch (IOException | ParserException e) {
             e.printStackTrace();
         }
@@ -148,15 +149,15 @@ public class WSClient<T> implements IWebServiceClient<T> {
     public long post(T t) {
         long id = 0;
 
-        MediaType reqMediaType = MediaType.APPLICATION_JSON;
+        EnumMediaType reqEnumMediaType = EnumMediaType.APPLICATION_JSON;
 
         try {
-            String reqData = ParserFactory.make(reqMediaType).toString(t);
+            String reqData = ParserFactory.make(reqEnumMediaType).toString(t);
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(url));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.POST, new URL(url));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());
+            httpRequest.addHeader(EnumHttpHeaderField.CONTENT_TYPE.getName(), reqEnumMediaType.getMIMEType());
             setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
@@ -168,9 +169,9 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
             httpRequest.disconnect();
 
-            MediaType respMediType = MediaType.find(respContentType);
+            EnumMediaType respMediType = EnumMediaType.find(respContentType);
 
-            id = (long) ParserFactory.make(respMediType).fromString(respData, Long.class);
+            id = ParserFactory.make(respMediType).fromString(respData, Long.class);
         } catch (ParserException | IOException e) {
             e.printStackTrace();
         }
@@ -180,15 +181,15 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void put(T t) {
-        MediaType reqMediaType = MediaType.APPLICATION_JSON;
+        EnumMediaType reqEnumMediaType = EnumMediaType.APPLICATION_JSON;
 
         try {
-            String reqData = ParserFactory.make(reqMediaType).toString(t);
+            String reqData = ParserFactory.make(reqEnumMediaType).toString(t);
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.PUT, new URL(url));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.PUT, new URL(url));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());
+            httpRequest.addHeader(EnumHttpHeaderField.CONTENT_TYPE.getName(), reqEnumMediaType.getMIMEType());
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
@@ -202,15 +203,16 @@ public class WSClient<T> implements IWebServiceClient<T> {
 
     @Override
     public void putAll(List<T> ts) {
-        MediaType reqMediaType = MediaType.APPLICATION_JSON;
+        EnumMediaType reqEnumMediaType = EnumMediaType.APPLICATION_JSON;
 
         try {
-            String reqData = ParserFactory.make(reqMediaType).toString(ts.toArray((T[]) Array.newInstance(mClass, ts.size())));
+            String reqData = ParserFactory.make(reqEnumMediaType).toString(ts.toArray((T[]) Array.newInstance(mClass, ts.size())));
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.PUT, new URL(url));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.PUT, new URL(url));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());
+            httpRequest.addHeader(EnumHttpHeaderField.CONTENT_TYPE.getName(), reqEnumMediaType.getMIMEType());
+            httpRequest.addHeader(EnumHttpHeaderField.DATA_COLLECTION.getName(), EnumHttpHeaderValue.DATA_COLLECTION_YES.getName());
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
 
@@ -227,7 +229,7 @@ public class WSClient<T> implements IWebServiceClient<T> {
         String urlParams = "?id=" + id;
 
         try {
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.DELETE, new URL(url + urlParams));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.DELETE, new URL(url + urlParams));
             httpRequest.open(timeOut);
             httpRequest.connect();
 

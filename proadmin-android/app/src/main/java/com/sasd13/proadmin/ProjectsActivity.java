@@ -10,7 +10,7 @@ import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.spin.Spin;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.ws.task.ReadTask;
@@ -43,7 +43,7 @@ public class ProjectsActivity extends MotherActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabByAcademicLevel(AcademicLevel.getLevels()[position]);
+                fillTabByAcademicLevel(EnumAcademicLevel.values()[position]);
             }
 
             @Override
@@ -54,7 +54,7 @@ public class ProjectsActivity extends MotherActivity {
     }
 
 
-    private void fillTabByAcademicLevel(AcademicLevel academicLevel) {
+    private void fillTabByAcademicLevel(EnumAcademicLevel academicLevel) {
         tab.clear();
 
         //addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
@@ -88,7 +88,7 @@ public class ProjectsActivity extends MotherActivity {
     private void fillSpinAcademicLevels() {
         List<String> list = new ArrayList<>();
 
-        for (AcademicLevel academicLevel : AcademicLevel.getLevels()) {
+        for (EnumAcademicLevel academicLevel : EnumAcademicLevel.values()) {
             list.add(String.valueOf(academicLevel));
         }
 
@@ -142,6 +142,6 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void fillTabProjects() {
-        fillTabByAcademicLevel(AcademicLevel.getLevels()[spinAcademicLevels.getSelectedPosition()]);
+        fillTabByAcademicLevel(EnumAcademicLevel.values()[spinAcademicLevels.getSelectedPosition()]);
     }
 }

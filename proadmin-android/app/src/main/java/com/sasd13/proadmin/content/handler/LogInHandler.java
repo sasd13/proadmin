@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.content.handler;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.util.Promise;
-import com.sasd13.proadmin.util.code.ws.LoginWebServiceCode;
+import com.sasd13.proadmin.util.code.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.task.LogInTask;
 import com.sasd13.proadmin.ws.task.ReadTask;
 
@@ -18,11 +17,9 @@ public class LogInHandler implements Promise {
     private boolean isActionLogin;
     private LogInTask logInTask;
     private ReadTask<Teacher> readTaskTeacher;
-    private WaitDialog waitDialog;
     
     public LogInHandler(LogInActivity logInActivity) {
         this.logInActivity = logInActivity;
-        waitDialog = new WaitDialog(logInActivity);
     }
 
     public void logIn(String number, String password) {
@@ -35,7 +32,7 @@ public class LogInHandler implements Promise {
     @Override
     public void onLoad() {
         if (isActionLogin) {
-            waitDialog.show();
+            logInActivity.onLoad();
         }
     }
 
@@ -51,9 +48,9 @@ public class LogInHandler implements Promise {
     }
 
     private void onLogInTaskSucceeded() {
-        if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_NUMBER.getValue()) {
+        if (logInTask.getResult() == EnumWSCode.LOGIN_ERROR_TEACHER_NUMBER.getValue()) {
             logInActivity.onError("Identifiant invalide");
-        } else if (logInTask.getResult() == LoginWebServiceCode.ERROR_TEACHER_PASSWORD.getValue()) {
+        } else if (logInTask.getResult() == EnumWSCode.LOGIN_ERROR_TEACHER_PASSWORD.getValue()) {
             logInActivity.onError("Mot de passe incorrect");
         } else {
             readTaskTeacher = new ReadTask<>(this, Teacher.class);

@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.db.DAOException;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.LeadEvaluationConditionExpression;
 
 /**
  *
@@ -213,7 +214,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, LeadEvaluationDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, LeadEvaluationConditionExpression.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

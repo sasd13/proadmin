@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.util;
 
-public enum Parameter {
-	
+public enum EnumParameter {
 	ACADEMICLEVEL("academiclevel"),
 	CODE("code"),
 	EMAIL("email"),
@@ -24,11 +23,21 @@ public enum Parameter {
 	
 	private String name;
 	
-	private Parameter(String name) {
+	private EnumParameter(String name) {
 		this.name = name;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public static EnumParameter find(String name) {
+		for (EnumParameter parameter : values()) {
+			if (parameter.name.equalsIgnoreCase(name)) {
+				return parameter;
+			}
+		}
+		
+		return null;
 	}
 }

@@ -3,12 +3,13 @@ package com.sasd13.proadmin.cache.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.StudentTeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.StudentTeamConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,14 +84,14 @@ public class SQLiteStudentTeamDAO extends SQLiteEntityDAO<StudentTeam> implement
             builder.append("SELECT * FROM ");
             builder.append(TABLE);
             builder.append(" WHERE ");
-            builder.append(ConditionBuilder.parse(parameters, StudentTeamDAO.class));
+            builder.append(ConditionBuilder.parse(parameters, StudentTeamConditionExpression.class));
 
             Cursor cursor = db.rawQuery(builder.toString(), null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 

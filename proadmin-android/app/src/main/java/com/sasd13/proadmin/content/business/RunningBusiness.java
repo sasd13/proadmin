@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.business;
+package com.sasd13.proadmin.content.business;
 
 import android.content.Context;
 
@@ -8,7 +8,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 
 import java.util.HashMap;
@@ -27,9 +27,9 @@ public class RunningBusiness {
         Project project = Cache.load(SessionHelper.getExtraIdFromSession(context, Extra.PROJECT_ID), Project.class);
 
         Map<String, String[]> parameters = new HashMap<>();
-        parameters.put(Parameter.YEAR.getName(), new String[]{ String.valueOf(runningToCreate.getYear()) });
-        parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacher.getId()) });
-        parameters.put(Parameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
+        parameters.put(EnumParameter.YEAR.getName(), new String[]{ String.valueOf(runningToCreate.getYear()) });
+        parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacher.getId()) });
+        parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
 
         List<Running> runnings = Cache.load(parameters, Running.class);
         if (!runnings.isEmpty()) {

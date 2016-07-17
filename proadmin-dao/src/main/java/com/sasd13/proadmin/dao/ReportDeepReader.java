@@ -10,7 +10,7 @@ import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
 	
@@ -27,7 +27,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 	@Override
 	protected void retrieveData(Report report) throws DAOException {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(Parameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
+		parameters.put(EnumParameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
 		
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 		report.getLeadEvaluation().setId(leadEvaluation.getId());

@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.db.DAOException;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.IndividualEvaluationConditionExpression;
 
 /**
  *
@@ -201,7 +202,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, IndividualEvaluationDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, IndividualEvaluationConditionExpression.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

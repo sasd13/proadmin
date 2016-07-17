@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.StudentDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.StudentConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
 
         student.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
         student.setNumber(cursor.getString(cursor.getColumnIndex(COLUMN_NUMBER)));
-        student.setAcademicLevel(AcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
+        student.setAcademicLevel(EnumAcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
         student.setFirstName(cursor.getString(cursor.getColumnIndex(COLUMN_FIRSTNAME)));
         student.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LASTNAME)));
         student.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
@@ -101,7 +102,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
             builder.append("SELECT * FROM ");
             builder.append(TABLE);
             builder.append(" WHERE ");
-            builder.append(ConditionBuilder.parse(parameters, StudentDAO.class));
+            builder.append(ConditionBuilder.parse(parameters, StudentConditionExpression.class));
             builder.append(" AND ");
             builder.append(COLUMN_DELETED + " = ?");
 
@@ -110,7 +111,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 

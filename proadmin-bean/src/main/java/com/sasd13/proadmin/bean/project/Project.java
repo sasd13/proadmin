@@ -1,11 +1,11 @@
 package com.sasd13.proadmin.bean.project;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 
 public class Project {
 	
 	private long id;
-	private AcademicLevel academicLevel;
+	private EnumAcademicLevel academicLevel;
 	private String code, title, description;
 	
 	public long getId() {
@@ -16,11 +16,11 @@ public class Project {
 		this.id = id;
 	}
 	
-	public AcademicLevel getAcademicLevel() {
+	public EnumAcademicLevel getAcademicLevel() {
 		return academicLevel;
 	}
 	
-	public void setAcademicLevel(AcademicLevel academicLevel) {
+	public void setAcademicLevel(EnumAcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
 	

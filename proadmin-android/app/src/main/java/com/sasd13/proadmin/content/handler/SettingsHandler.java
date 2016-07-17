@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.content.handler;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
@@ -20,7 +19,6 @@ public class SettingsHandler implements Promise {
     private SettingsActivity settingsActivity;
     private boolean isActionRead;
     private ReadTask<Teacher> readTaskTeacher;
-    private WaitDialog waitDialog;
 
     public SettingsHandler(SettingsActivity settingsActivity) {
         this.settingsActivity = settingsActivity;
@@ -38,8 +36,7 @@ public class SettingsHandler implements Promise {
     @Override
     public void onLoad() {
         if (isActionRead) {
-            waitDialog = new WaitDialog(settingsActivity);
-            waitDialog.show();
+            settingsActivity.onLoad();
         }
     }
 
@@ -59,7 +56,6 @@ public class SettingsHandler implements Promise {
             Teacher teacher = readTaskTeacher.getResults().get(0);
 
             Cache.keep(teacher);
-            waitDialog.dismiss();
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
             settingsActivity.onError("");

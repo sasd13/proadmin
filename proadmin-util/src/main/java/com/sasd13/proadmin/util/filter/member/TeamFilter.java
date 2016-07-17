@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class TeamFilter extends AndFilter<Team> {
 	
@@ -13,7 +13,7 @@ public class TeamFilter extends AndFilter<Team> {
 		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (Parameter.CODE.getName().equals(entry.getKey())) {
+				if (EnumParameter.CODE.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new CodeCriteria(value));
 				}
 			}

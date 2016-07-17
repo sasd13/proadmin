@@ -13,10 +13,10 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.content.business.RunningBusiness;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
@@ -86,8 +86,8 @@ public class RunningsActivity extends MotherActivity implements Promise {
             long projectId = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
 
             Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(Parameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
-            parameters.put(Parameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
+            parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
+            parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
 
             parameterizedReadTaskRunning = new ParameterizedReadTask<>(this, Running.class, parameters);
             parameterizedReadTaskRunning.setDeepReadEnabled(true);

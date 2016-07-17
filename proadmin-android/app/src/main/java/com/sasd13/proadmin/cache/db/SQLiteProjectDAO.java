@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         Project project = new Project();
 
         project.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-        project.setAcademicLevel(AcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
+        project.setAcademicLevel(EnumAcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
         project.setCode(cursor.getString(cursor.getColumnIndex(COLUMN_CODE)));
         project.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
         project.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
@@ -99,7 +100,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
             builder.append("SELECT * FROM ");
             builder.append(TABLE);
             builder.append(" WHERE ");
-            builder.append(ConditionBuilder.parse(parameters, ProjectDAO.class));
+            builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
             builder.append(" AND ");
             builder.append(COLUMN_DELETED + " = ?");
 
@@ -108,7 +109,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 

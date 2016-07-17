@@ -16,7 +16,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.ActivityHelper;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
@@ -96,7 +96,7 @@ public class RunningActivity extends MotherActivity implements Promise {
         isActionReadRunningTeams = true;
 
         Map<String, String[]> parameters = new HashMap<>();
-        parameters.put(Parameter.RUNNING.getName(), new String[]{ String.valueOf(running.getId()) });
+        parameters.put(EnumParameter.RUNNING.getName(), new String[]{ String.valueOf(running.getId()) });
 
         readTaskRunningTeams = new ParameterizedReadTask<>(this, RunningTeam.class, parameters);
         readTaskRunningTeams.setDeepReadEnabled(true);
@@ -155,7 +155,7 @@ public class RunningActivity extends MotherActivity implements Promise {
         if (!runningTeams.isEmpty()) {
             Map<String, String[]> parameters = new HashMap<>();
             for (RunningTeam runningTeam : runningTeams) {
-                parameters.put(Parameter.ID.getName(), new String[]{ String.valueOf(runningTeam.getTeam().getId()) });
+                parameters.put(EnumParameter.ID.getName(), new String[]{ String.valueOf(runningTeam.getTeam().getId()) });
             }
 
             readTaskTeams = new ParameterizedReadTask<>(this, Team.class, parameters);

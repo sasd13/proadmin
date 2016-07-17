@@ -7,9 +7,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.form.FormType;
+import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.form.SettingsForm;
@@ -20,6 +21,7 @@ public class SettingsActivity extends MotherActivity {
     private SettingsHandler settingsHandler;
     private SettingsForm settingsForm;
     private Teacher teacher;
+    private WaitDialog waitDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void buildSettingsView() {
-        Recycler form = RecyclerFactory.makeBuilder(FormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
@@ -66,17 +68,26 @@ public class SettingsActivity extends MotherActivity {
         settingsHandler.updateTeacher(teacher, settingsForm);
     }
 
+    public void onLoad() {
+        waitDialog = new WaitDialog(this);
+        waitDialog.show();
+    }
+
     public void onReadSucceeded(Teacher teacher) {
+        waitDialog.dismiss();
+
         this.teacher = teacher;
 
         settingsForm.bindTeacher(teacher);
     }
 
     public void onUpdateSucceeded() {
+        waitDialog.dismiss();
         Toast.makeText(this, getResources().getString(R.string.message_saved), Toast.LENGTH_SHORT).show();
     }
 
     public void onError(String message) {
+        waitDialog.dismiss();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

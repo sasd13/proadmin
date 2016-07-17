@@ -1,11 +1,12 @@
 package com.sasd13.proadmin.ws.rest;
 
-import com.sasd13.javaex.net.http.HttpHeader;
+import com.sasd13.javaex.net.http.EnumHttpHeaderField;
+import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.net.http.HttpRequest;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.util.MediaType;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.javaex.util.EnumMediaType;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.WSInformation;
 
@@ -35,20 +36,20 @@ public class LogInWSClient {
     public long logIn(String number, String password) {
         long id = 0;
 
-        MediaType reqMediaType = MediaType.APPLICATION_JSON;
+        EnumMediaType reqMediaType = EnumMediaType.APPLICATION_JSON;
 
         try {
             Map<String, String> logins = new HashMap<>();
-            logins.put(Parameter.NUMBER.getName(), number);
-            logins.put(Parameter.PASSWORD.getName(), password);
+            logins.put(EnumParameter.NUMBER.getName(), number);
+            logins.put(EnumParameter.PASSWORD.getName(), password);
 
             String reqData = ParserFactory.make(reqMediaType).toString(logins);
 
-            httpRequest = new HttpRequest(HttpRequest.HttpMethod.POST, new URL(WSInformation.URL_LOGIN));
+            httpRequest = new HttpRequest(HttpRequest.EnumMethod.POST, new URL(WSInformation.URL_LOGIN));
             httpRequest.open(timeOut);
             httpRequest.setOutPutEnabled(true);
-            httpRequest.addHeader(HttpHeader.CONTENT_TYPE_FIELD.getName(), reqMediaType.getMIMEType());
-            httpRequest.addHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName(), HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName());
+            httpRequest.addHeader(EnumHttpHeaderField.CONTENT_TYPE.getName(), reqMediaType.getMIMEType());
+            httpRequest.addHeader(EnumHttpHeaderField.REQUEST_PARAMETERIZED.getName(), EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName());
             setRequestHeaderAccept();
             httpRequest.connect();
             httpRequest.writeRequestData(reqData);
@@ -60,7 +61,7 @@ public class LogInWSClient {
 
             httpRequest.disconnect();
 
-            MediaType respMediaType = MediaType.find(respContentType);
+            EnumMediaType respMediaType = EnumMediaType.find(respContentType);
             id = (long) ParserFactory.make(respMediaType).fromString(respData, Long.class);
         } catch (ParserException | IOException e) {
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class LogInWSClient {
     }
 
     private void setRequestHeaderAccept() {
-        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_JSON.getMIMEType());
-        httpRequest.addHeader(HttpHeader.ACCEPT_FIELD.getName(), MediaType.APPLICATION_XML.getMIMEType());
+        httpRequest.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_JSON.getMIMEType());
+        httpRequest.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_XML.getMIMEType());
     }
 }
