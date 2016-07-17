@@ -1,13 +1,13 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -21,7 +21,8 @@ public class SettingsActivity extends MotherActivity {
     private SettingsHandler settingsHandler;
     private SettingsForm settingsForm;
     private Teacher teacher;
-    private WaitDialog waitDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean runSwipeRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,17 +37,39 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void buildSettingsView() {
+        buildSwipeRefreshLayout();
+        buildSettingsForm();
+
+        readTeacher(false);
+    }
+
+    private void readTeacher(boolean runSwipeRefresh) {
+        this.runSwipeRefresh = runSwipeRefresh;
+
+        settingsHandler.readTeacher();
+    }
+
+    private void buildSwipeRefreshLayout() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.settings_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                readTeacher(true);
+            }
+        });
+    }
+
+    private void buildSettingsForm() {
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
-        settingsHandler.readTeacher();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_setting, menu);
+        inflater.inflate(R.menu.menu_settings, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -54,8 +77,11 @@ public class SettingsActivity extends MotherActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_setting_action_accept:
+            case R.id.menu_settings_action_accept:
                 updateTeacher();
+                break;
+            case R.id.menu_settings_action_refresh:
+                readTeacher(true);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -69,12 +95,15 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onLoad() {
-        waitDialog = new WaitDialog(this);
-        waitDialog.show();
+        if (runSwipeRefresh) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     public void onReadSucceeded(Teacher teacher) {
-        waitDialog.dismiss();
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
         this.teacher = teacher;
 
@@ -82,12 +111,14 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onUpdateSucceeded() {
-        waitDialog.dismiss();
         Toast.makeText(this, getResources().getString(R.string.message_saved), Toast.LENGTH_SHORT).show();
     }
 
     public void onError(String message) {
-        waitDialog.dismiss();
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

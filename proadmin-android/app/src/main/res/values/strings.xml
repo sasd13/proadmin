@@ -27,6 +27,9 @@
     <string name="drawer_header_account">Account</string>
     <string name="drawer_label_logout">Log out</string>
 
+    <!-- Menu -->
+    <string name="menu_item_action_valid">Valid</string>
+
     <!-- Textview -->
     <string name="label_number">Number</string>
     <string name="label_firstname">First name</string>

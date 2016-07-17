@@ -27,6 +27,9 @@
     <string name="drawer_header_account">Compte</string>
     <string name="drawer_label_logout">Déconnexion</string>
 
+    <!-- Menu -->
+    <string name="menu_item_action_valid">Valider</string>
+
     <!-- Textview -->
     <string name="label_number">Matricule</string>
     <string name="label_firstname">Prénom</string>
