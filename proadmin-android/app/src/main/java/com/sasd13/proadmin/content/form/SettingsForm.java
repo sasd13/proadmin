@@ -16,7 +16,7 @@ public class SettingsForm extends Form {
     private EditTextItemModel modelNumber, modelFirstName, modelLastName, modelEmail;
 
     public SettingsForm(Context context) {
-        super();
+        super(context);
 
         String title = context.getResources().getString(R.string.title_identity);
 
