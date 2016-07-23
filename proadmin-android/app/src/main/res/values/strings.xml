@@ -27,6 +27,11 @@
     <string name="drawer_header_account">Account</string>
     <string name="drawer_label_logout">Log out</string>
 
+    <!-- Form -->
+    <string name="form_settings_message_error_firstname">Invalid first name</string>
+    <string name="form_settings_message_error_lastname">Invalid last name</string>
+    <string name="form_settings_message_error_email">Invalid email</string>
+
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>
 

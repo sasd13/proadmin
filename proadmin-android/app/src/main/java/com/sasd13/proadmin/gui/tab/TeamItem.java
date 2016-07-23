@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.gui.widget.recycler.tab;
+package com.sasd13.proadmin.gui.tab;
 
 import com.sasd13.androidex.gui.widget.recycler.tab.TabItem;
 import com.sasd13.proadmin.R;

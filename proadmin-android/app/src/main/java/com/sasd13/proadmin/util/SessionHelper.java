@@ -22,7 +22,7 @@ public class SessionHelper {
     }
 
     public static void logIn(final Activity activity, final Teacher teacher) {
-        setExtraIdInSession(activity, Extra.TEACHER_ID, teacher.getId());
+        setExtraId(activity, Extra.TEACHER_ID, teacher.getId());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
         final Intent intent = new Intent(activity, HomeActivity.class);
@@ -56,21 +56,21 @@ public class SessionHelper {
         }
     }
 
-    public static long getExtraIdFromSession(Context context, String extraKey) {
+    public static long getExtraId(Context context, String extraKey) {
         return Long.parseLong(Session.getAttribute(context, extraKey));
     }
 
-    public static void setExtraIdInSession(Context context, String extraKey, long id) {
+    public static void setExtraId(Context context, String extraKey, long id) {
         Session.setAttribute(context, extraKey, String.valueOf(id));
     }
 
-    public static long getCurrentExtraId(Activity activity, String extraKey) {
+    public static long getIntentExtraId(Activity activity, String extraKey) {
         long currentExtraId = activity.getIntent().getLongExtra(extraKey, 0);
 
         if (currentExtraId == 0) {
-            currentExtraId = getExtraIdFromSession(activity, extraKey);
+            currentExtraId = getExtraId(activity, extraKey);
         } else {
-            setExtraIdInSession(activity, extraKey, currentExtraId);
+            setExtraId(activity, extraKey, currentExtraId);
         }
 
         return currentExtraId;

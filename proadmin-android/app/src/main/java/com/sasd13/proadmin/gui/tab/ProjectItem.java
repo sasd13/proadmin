@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.gui.widget.recycler.tab;
+package com.sasd13.proadmin.gui.tab;
 
 import android.widget.TextView;
 

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.content.handler.LogInHandler;
+import com.sasd13.proadmin.handler.LogInHandler;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class LogInActivity extends AppCompatActivity {
@@ -30,10 +30,10 @@ public class LogInActivity extends AppCompatActivity {
 
         logInHandler = new LogInHandler(this);
 
-        buildLogInView();
+        buildView();
     }
 
-    private void buildLogInView() {
+    private void buildView() {
         LogInForm logInForm = new LogInForm();
         logInForm.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
         logInForm.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);

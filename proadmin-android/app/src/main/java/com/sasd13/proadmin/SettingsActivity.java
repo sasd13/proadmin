@@ -13,8 +13,8 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.content.form.SettingsForm;
-import com.sasd13.proadmin.content.handler.SettingsHandler;
+import com.sasd13.proadmin.form.SettingsForm;
+import com.sasd13.proadmin.handler.SettingsHandler;
 
 public class SettingsActivity extends MotherActivity {
 

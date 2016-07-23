@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.content.form;
+package com.sasd13.proadmin.form;
 
 /**
  * Created by ssaidali2 on 11/07/2016.

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.content.business;
+package com.sasd13.proadmin.business;
 
 import android.content.Context;
 
@@ -23,15 +23,15 @@ public class RunningBusiness {
     public static boolean prepareRunningToCreate(final Running runningToCreate, Context context) {
         boolean prepared = false;
 
-        Teacher teacher = Cache.load(SessionHelper.getExtraIdFromSession(context, Extra.TEACHER_ID), Teacher.class);
-        Project project = Cache.load(SessionHelper.getExtraIdFromSession(context, Extra.PROJECT_ID), Project.class);
+        Teacher teacher = Cache.load(context, SessionHelper.getExtraId(context, Extra.TEACHER_ID), Teacher.class);
+        Project project = Cache.load(context, SessionHelper.getExtraId(context, Extra.PROJECT_ID), Project.class);
 
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(EnumParameter.YEAR.getName(), new String[]{ String.valueOf(runningToCreate.getYear()) });
         parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacher.getId()) });
         parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
 
-        List<Running> runnings = Cache.load(parameters, Running.class);
+        List<Running> runnings = Cache.load(context, parameters, Running.class);
         if (!runnings.isEmpty()) {
             OptionDialog.showOkDialog(
                     context,

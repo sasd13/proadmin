@@ -10,9 +10,9 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.content.business.RunningBusiness;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -64,8 +64,8 @@ public class RunningsActivity extends MotherActivity implements Promise {
     protected void onStart() {
         super.onStart();
 
-        long id = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
-        Project project = Cache.load(id, Project.class);
+        long id = SessionHelper.getExtraId(this, Extra.PROJECT_ID);
+        Project project = Cache.load(this, id, Project.class);
 
         fillTextViewProject(project);
         refresh();
@@ -79,8 +79,8 @@ public class RunningsActivity extends MotherActivity implements Promise {
 
     private void refresh() {
         if (NetworkHelper.isConnected(this)) {
-            long teacherId = SessionHelper.getExtraIdFromSession(this, Extra.TEACHER_ID);
-            long projectId = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
+            long teacherId = SessionHelper.getExtraId(this, Extra.TEACHER_ID);
+            long projectId = SessionHelper.getExtraId(this, Extra.PROJECT_ID);
 
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
@@ -148,7 +148,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
 
                 fillTabRunnings();
                 Toast.makeText(this, "Running added", Toast.LENGTH_SHORT).show();
-                Cache.keep(runningToCreate);
+                Cache.keep(this, runningToCreate);
             }
         } catch (IndexOutOfBoundsException e) {
             OptionDialog.showOkDialog(
@@ -193,7 +193,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
         runnings.addAll(parameterizedReadTaskRunning.getResults());
 
         fillTabRunnings();
-        Cache.keepAll(runnings);
+        Cache.keepAll(this, runnings);
     }
 
     @Override

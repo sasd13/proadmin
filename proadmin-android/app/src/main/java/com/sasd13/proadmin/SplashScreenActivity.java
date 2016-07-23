@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -23,18 +22,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splashscreen);
-        createLogo();
-        init();
+        buildView();
         run();
     }
 
-    private void createLogo() {
+    private void buildView() {
         ImageView imageViewLogo = (ImageView) findViewById(R.id.splashscreen_imageview);
         imageViewLogo.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_app_logo));
-    }
-
-    private void init() {
-        Cache.init(this);
     }
 
     public void run() {

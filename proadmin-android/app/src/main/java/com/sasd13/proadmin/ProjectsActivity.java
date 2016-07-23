@@ -138,7 +138,7 @@ public class ProjectsActivity extends MotherActivity {
         projects.addAll(readTaskProjects.getResults());
 
         fillTabProjects();
-        Cache.keepAll(projects);
+        Cache.keepAll(this, projects);
     }
 
     public void fillTabProjects() {

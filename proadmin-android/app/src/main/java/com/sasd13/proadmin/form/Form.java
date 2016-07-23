@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.content.form;
+package com.sasd13.proadmin.form;
 
 import android.content.Context;
 

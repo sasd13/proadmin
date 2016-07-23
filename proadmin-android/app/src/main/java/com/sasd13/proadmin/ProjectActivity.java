@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.ActivityHelper;
+import com.sasd13.proadmin.util.SessionHelper;
 
 public class ProjectActivity extends MotherActivity {
 
@@ -40,8 +40,8 @@ public class ProjectActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        long id = ActivityHelper.getCurrentExtraId(this, Extra.PROJECT_ID);
-        Project project = Cache.load(id, Project.class);
+        long id = SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID);
+        Project project = Cache.load(this, id, Project.class);
 
         fillProjectViewHolder(project);
     }

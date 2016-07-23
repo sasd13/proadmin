@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.gui.widget.recycler.browser;
+package com.sasd13.proadmin.gui.browser;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;

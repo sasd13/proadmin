@@ -1,11 +1,11 @@
-package com.sasd13.proadmin.content.handler;
+package com.sasd13.proadmin.handler;
 
 import com.sasd13.proadmin.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.content.form.FormException;
-import com.sasd13.proadmin.content.form.SettingsForm;
+import com.sasd13.proadmin.form.FormException;
+import com.sasd13.proadmin.form.SettingsForm;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.ReadTask;
@@ -27,7 +27,7 @@ public class SettingsHandler implements Promise {
     public void readTeacher() {
         isActionRead = true;
 
-        long teacherId = SessionHelper.getExtraIdFromSession(settingsActivity, Extra.TEACHER_ID);
+        long teacherId = SessionHelper.getExtraId(settingsActivity, Extra.TEACHER_ID);
 
         readTaskTeacher = new ReadTask<>(this, Teacher.class);
         readTaskTeacher.execute(teacherId);
@@ -55,7 +55,7 @@ public class SettingsHandler implements Promise {
         try {
             Teacher teacher = readTaskTeacher.getResults().get(0);
 
-            Cache.keep(teacher);
+            Cache.keep(settingsActivity, teacher);
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
             settingsActivity.onError("");

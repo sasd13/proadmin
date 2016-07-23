@@ -27,6 +27,11 @@
     <string name="drawer_header_account">Compte</string>
     <string name="drawer_label_logout">Déconnexion</string>
 
+    <!-- Form -->
+    <string name="form_settings_message_error_firstname">Prénom invalide</string>
+    <string name="form_settings_message_error_lastname">Nom invalide</string>
+    <string name="form_settings_message_error_email">Email invalide</string>
+
     <!-- Menu -->
     <string name="menu_item_action_valid">Valider</string>
 

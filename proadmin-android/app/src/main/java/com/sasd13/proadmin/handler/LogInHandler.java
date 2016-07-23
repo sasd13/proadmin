@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.content.handler;
+package com.sasd13.proadmin.handler;
 
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -60,7 +60,7 @@ public class LogInHandler implements Promise {
 
     private void onReadTaskTeacherSucceeded() {
         try {
-            Cache.keep(readTaskTeacher.getResults().get(0));
+            Cache.keep(logInActivity, readTaskTeacher.getResults().get(0));
             logInActivity.onLogInSucceeded(readTaskTeacher.getResults().get(0));
         } catch (IndexOutOfBoundsException e) {
             logInActivity.onError("Erreur de chargement des données");

@@ -15,7 +15,6 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.ActivityHelper;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -75,11 +74,11 @@ public class RunningActivity extends MotherActivity implements Promise {
     protected void onStart() {
         super.onStart();
 
-        long id = ActivityHelper.getCurrentExtraId(this, Extra.RUNNING_ID);
-        running = Cache.load(id, Running.class);
+        long id = SessionHelper.getIntentExtraId(this, Extra.RUNNING_ID);
+        running = Cache.load(this, id, Running.class);
 
-        long projectId = SessionHelper.getExtraIdFromSession(this, Extra.PROJECT_ID);
-        Project project = Cache.load(projectId, Project.class);
+        long projectId = SessionHelper.getExtraId(this, Extra.PROJECT_ID);
+        Project project = Cache.load(this, projectId, Project.class);
 
         fillRunningViewHolder(project);
         refresh();
@@ -170,8 +169,8 @@ public class RunningActivity extends MotherActivity implements Promise {
         teams.addAll(readTaskTeams.getResults());
 
         fillTabTeams();
-        Cache.keepAll(teams);
-        Cache.keepAll(readTaskRunningTeams.getResults());
+        Cache.keepAll(this, teams);
+        Cache.keepAll(this, readTaskRunningTeams.getResults());
         switchToLoadView(false);
     }
 
