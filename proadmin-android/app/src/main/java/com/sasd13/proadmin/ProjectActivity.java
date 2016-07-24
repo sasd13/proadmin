@@ -25,10 +25,10 @@ public class ProjectActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_project);
-        createProjectViewHolder();
+        buildView();
     }
 
-    private void createProjectViewHolder() {
+    private void buildView() {
         projectViewHolder = new ProjectViewHolder();
         projectViewHolder.textViewTitle = (TextView) findViewById(R.id.project_textview_title);
         projectViewHolder.textViewAcademicLevel = (TextView) findViewById(R.id.project_textview_academiclevel);
@@ -43,10 +43,10 @@ public class ProjectActivity extends MotherActivity {
         long id = SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID);
         Project project = Cache.load(this, id, Project.class);
 
-        fillProjectViewHolder(project);
+        fillFormProject(project);
     }
 
-    private void fillProjectViewHolder(Project project) {
+    private void fillFormProject(Project project) {
         projectViewHolder.textViewTitle.setText(project.getTitle());
         projectViewHolder.textViewAcademicLevel.setText(project.getAcademicLevel().getName());
         projectViewHolder.textViewCode.setText(project.getCode());

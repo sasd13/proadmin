@@ -13,8 +13,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.SettingsForm;
 import com.sasd13.proadmin.handler.SettingsHandler;
+import com.sasd13.proadmin.util.SessionHelper;
 
 public class SettingsActivity extends MotherActivity {
 
@@ -33,20 +35,14 @@ public class SettingsActivity extends MotherActivity {
         settingsHandler = new SettingsHandler(this);
         settingsForm = new SettingsForm(this);
 
-        buildSettingsView();
+        buildView();
     }
 
-    private void buildSettingsView() {
+    private void buildView() {
         buildSwipeRefreshLayout();
         buildSettingsForm();
 
         readTeacher(false);
-    }
-
-    private void readTeacher(boolean runSwipeRefresh) {
-        this.runSwipeRefresh = runSwipeRefresh;
-
-        settingsHandler.readTeacher();
     }
 
     private void buildSwipeRefreshLayout() {
@@ -64,6 +60,12 @@ public class SettingsActivity extends MotherActivity {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
+    }
+
+    private void readTeacher(boolean runSwipeRefresh) {
+        this.runSwipeRefresh = runSwipeRefresh;
+
+        settingsHandler.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
     }
 
     @Override
@@ -105,6 +107,10 @@ public class SettingsActivity extends MotherActivity {
             swipeRefreshLayout.setRefreshing(false);
         }
 
+        fillView(teacher);
+    }
+
+    private void fillView(Teacher teacher) {
         this.teacher = teacher;
 
         settingsForm.bindTeacher(teacher);
@@ -118,6 +124,8 @@ public class SettingsActivity extends MotherActivity {
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+
+        fillView(settingsHandler.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID)));
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

@@ -3,6 +3,10 @@ package com.sasd13.proadmin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,8 +14,9 @@ import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.SessionHelper;
 
-public class HomeActivity extends MotherActivity {
+public class HomeActivity extends AppCompatActivity {
 
     public static HomeActivity self;
 
@@ -25,27 +30,27 @@ public class HomeActivity extends MotherActivity {
 
         self = this;
 
-        buildHomeView();
+        buildView();
     }
 
-    private void buildHomeView() {
+    private void buildView() {
         imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
         imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawablesToNavItems();
-        addListenersToNavItems();
+        addDrawablesToImages();
+        addListenersToImages();
     }
 
-    private void addDrawablesToNavItems() {
+    private void addDrawablesToImages() {
         imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
         imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
         imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
         imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
-    private void addListenersToNavItems() {
+    private void addListenersToImages() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,5 +104,26 @@ public class HomeActivity extends MotherActivity {
         }, GUIConstants.TIMEOUT_ACTIVITY).start();
 
         waitDialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_home_action_logout:
+                SessionHelper.logOut(this);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
     }
 }

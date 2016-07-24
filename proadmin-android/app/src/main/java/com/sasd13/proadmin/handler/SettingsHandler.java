@@ -3,11 +3,9 @@ package com.sasd13.proadmin.handler;
 import com.sasd13.proadmin.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.SettingsForm;
 import com.sasd13.proadmin.util.Promise;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.task.ReadTask;
 import com.sasd13.proadmin.ws.task.UpdateTask;
 
@@ -24,13 +22,11 @@ public class SettingsHandler implements Promise {
         this.settingsActivity = settingsActivity;
     }
 
-    public void readTeacher() {
+    public void readTeacher(long id) {
         isActionRead = true;
 
-        long teacherId = SessionHelper.getExtraId(settingsActivity, Extra.TEACHER_ID);
-
         readTaskTeacher = new ReadTask<>(this, Teacher.class);
-        readTaskTeacher.execute(teacherId);
+        readTaskTeacher.execute(id);
     }
 
     @Override
@@ -58,7 +54,7 @@ public class SettingsHandler implements Promise {
             Cache.keep(settingsActivity, teacher);
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            settingsActivity.onError("");
+            settingsActivity.onError("Erreur de chargement des données");
         }
     }
 
@@ -68,13 +64,7 @@ public class SettingsHandler implements Promise {
 
     @Override
     public void onFail() {
-        if (isActionRead) {
-            isActionRead = false;
-
-            settingsActivity.onError("Echec lors de la tentative de récupération des données");
-        } else {
-            settingsActivity.onError("Echec lors de la tentative de mise à jour des données");
-        }
+        settingsActivity.onError("Echec de la connexion au serveur");
     }
 
     public void updateTeacher(Teacher teacher, SettingsForm settingsForm) {
@@ -94,5 +84,9 @@ public class SettingsHandler implements Promise {
         teacher.setFirstName(teacherFromForm.getFirstName());
         teacher.setLastName(teacherFromForm.getLastName());
         teacher.setEmail(teacherFromForm.getEmail());
+    }
+
+    public Teacher readTeacherFromCache(long id) {
+        return Cache.load(settingsActivity, id, Teacher.class);
     }
 }

@@ -60,8 +60,10 @@ public class LogInHandler implements Promise {
 
     private void onReadTaskTeacherSucceeded() {
         try {
-            Cache.keep(logInActivity, readTaskTeacher.getResults().get(0));
-            logInActivity.onLogInSucceeded(readTaskTeacher.getResults().get(0));
+            Teacher teacher = readTaskTeacher.getResults().get(0);
+
+            Cache.keep(logInActivity, teacher);
+            logInActivity.onLogInSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
             logInActivity.onError("Erreur de chargement des données");
         }
@@ -69,6 +71,6 @@ public class LogInHandler implements Promise {
 
     @Override
     public void onFail() {
-        logInActivity.onError("Echec lors de la tentative de connexion");
+        logInActivity.onError("Echec de la connexion au serveur");
     }
 }

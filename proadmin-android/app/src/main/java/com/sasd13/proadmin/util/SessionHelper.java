@@ -2,13 +2,16 @@ package com.sasd13.proadmin.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.sasd13.androidex.gui.GUIConstants;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.HomeActivity;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 
@@ -41,7 +44,21 @@ public class SessionHelper {
         waitDialog.show();
     }
 
-    public static void logOut(Activity activity) {
+    public static void logOut(final Activity activity) {
+        OptionDialog.showOkCancelDialog(
+                activity,
+                activity.getResources().getString(R.string.button_logout),
+                activity.getResources().getString(R.string.message_confirm),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        exit(activity);
+                    }
+                }
+        );
+    }
+
+    private static void exit(Activity activity) {
         Session.clear(activity);
 
         if (HomeActivity.class.equals(activity.getClass())) {
