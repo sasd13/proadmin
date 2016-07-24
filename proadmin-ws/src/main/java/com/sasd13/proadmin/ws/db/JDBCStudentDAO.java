@@ -31,7 +31,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		preparedStatement.setString(2, student.getFirstName());
 		preparedStatement.setString(3, student.getLastName());
 		preparedStatement.setString(4, student.getEmail());
-		preparedStatement.setString(5, student.getAcademicLevel().getName());
+		preparedStatement.setString(5, student.getAcademicLevel().getCode());
 	}
 	
 	@Override

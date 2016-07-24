@@ -1,6 +1,8 @@
 package com.sasd13.proadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -8,35 +10,52 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.sasd13.androidex.gui.IAction;
+import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
+import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.ws.task.ReadTask;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.gui.tab.ProjectItemModel;
+import com.sasd13.proadmin.handler.ProjectsHandler;
+import com.sasd13.proadmin.util.EnumAcademicLevelRes;
+import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectsActivity extends MotherActivity {
 
+    private ProjectsHandler projectsHandler;
     private Spin spinAcademicLevels;
     private Recycler tab;
 
     private List<Project> projects = new ArrayList<>();
-    private ReadTask<Project> readTaskProjects;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
-        createSpinAcademicLevels();
-        createTabProjects();
-        fillSpinAcademicLevels();
+
+        projectsHandler = new ProjectsHandler(this);
+
+        buildView();
     }
 
-    private void createSpinAcademicLevels() {
+    private void buildView() {
+        buildSpinAcademicLevels();
+        buildProjectsTab();
+    }
+
+    private void buildSpinAcademicLevels() {
         Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
 
         spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
@@ -51,48 +70,56 @@ public class ProjectsActivity extends MotherActivity {
 
             }
         });
-    }
 
-
-    private void fillTabByAcademicLevel(EnumAcademicLevel academicLevel) {
-        tab.clear();
-
-        //addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
-    }
-    /*
-    private void addProjectsToTab(List<Project> list) {
-        ProjectItem tabItemProject;
-
-        for (final Project project : list) {
-            tabItemProject = new ProjectItem();
-            tabItemProject.setLabel(project.getTitle());
-            tabItemProject.setCode(project.getCode());
-            tabItemProject.setDescription(project.getDescription());
-
-            tabItemProject.setOnClickListener(new RecyclerItem.OnClickListener() {
-                @Override
-                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
-                    Intent intent = new Intent(ProjectsActivity.this, ProjectActivity.class);
-                    intent.putExtra(Extra.PROJECT_ID, project.getId());
-                }
-            });
-
-            tabProjects.addItem(tabItemProject);
-        }
-    }
-    */
-    private void createTabProjects() {
-        //tabProjects = new Tab((RecyclerView) findViewById(R.id.projects_recyclerview));
+        fillSpinAcademicLevels();
     }
 
     private void fillSpinAcademicLevels() {
         List<String> list = new ArrayList<>();
 
-        for (EnumAcademicLevel academicLevel : EnumAcademicLevel.values()) {
-            list.add(String.valueOf(academicLevel));
+        for (EnumAcademicLevelRes academicLevelsRes : EnumAcademicLevelRes.values()) {
+            list.add(getResources().getString(academicLevelsRes.getStringRes()));
         }
 
         spinAcademicLevels.addAll(list);
+    }
+
+    private void fillTabByAcademicLevel(EnumAcademicLevel academicLevel) {
+        tab.clear();
+
+        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
+    }
+
+    private void buildProjectsTab() {
+        tab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) findViewById(R.id.projects_recyclerview));
+    }
+
+    private void fillProjectsTab(List<Project> projects) {
+        tab.clear();
+
+        List<RecyclerHolderPair> pairs = new ArrayList<>();
+        RecyclerHolderPair pair;
+
+        for (final Project project : projects) {
+            pair = new RecyclerHolderPair(new ProjectItemModel(project));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    Intent intent = new Intent(ProjectsActivity.this, ProjectActivity.class);
+                    intent.putExtra(Extra.PROJECT_ID, project.getId());
+
+                    startActivity(intent);
+                }
+            });
+
+            pairs.add(pair);
+        }
+
+        RecyclerHolder recyclerHolder = new RecyclerHolder();
+        recyclerHolder.addAll(pairs);
+
+        RecyclerHelper.addAll(tab, recyclerHolder);
     }
 
     @Override

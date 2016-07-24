@@ -4,23 +4,23 @@ public enum EnumAcademicLevel {
 	L1("L1"),
 	L2("L2"),
 	L3("L3"),
-	M1("M1"),
-	M2("M2"),
+	L4("L4"),
+	L5("L5"),
 	;
 	
-	private String name;
+	private String code;
 	
-	private EnumAcademicLevel(String name) {
-		this.name = name;
+	private EnumAcademicLevel(String code) {
+		this.code = code;
 	}
 	
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
 	
-	public static EnumAcademicLevel find(String name) {
+	public static EnumAcademicLevel find(String code) {
 		for (EnumAcademicLevel academicLevel : values()) {
-			if (academicLevel.name.equalsIgnoreCase(name)) {
+			if (academicLevel.code.equalsIgnoreCase(code)) {
 				return academicLevel;
 			}
 		}

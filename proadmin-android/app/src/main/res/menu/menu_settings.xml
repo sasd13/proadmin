@@ -6,8 +6,4 @@
         android:icon="@drawable/ic_done_white_36dp"
         android:title="@string/menu_item_action_valid"
         flousy:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_settings_action_refresh"
-        android:title="@string/button_refresh"
-        flousy:showAsAction="never"/>
 </menu>

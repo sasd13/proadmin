@@ -42,7 +42,7 @@ public class SettingsActivity extends MotherActivity {
         buildSwipeRefreshLayout();
         buildSettingsForm();
 
-        readTeacher(false);
+        readTeacher();
     }
 
     private void buildSwipeRefreshLayout() {
@@ -50,7 +50,7 @@ public class SettingsActivity extends MotherActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                readTeacher(true);
+                readTeacher();
             }
         });
     }
@@ -62,8 +62,8 @@ public class SettingsActivity extends MotherActivity {
         RecyclerHelper.addAll(form, settingsForm.getHolder());
     }
 
-    private void readTeacher(boolean runSwipeRefresh) {
-        this.runSwipeRefresh = runSwipeRefresh;
+    private void readTeacher() {
+        runSwipeRefresh = true;
 
         settingsHandler.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
     }
@@ -81,9 +81,6 @@ public class SettingsActivity extends MotherActivity {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_accept:
                 updateTeacher();
-                break;
-            case R.id.menu_settings_action_refresh:
-                readTeacher(true);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,9 +100,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onReadSucceeded(Teacher teacher) {
-        if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
-        }
+        swipeRefreshLayout.setRefreshing(false);
 
         fillView(teacher);
     }

@@ -27,7 +27,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getAcademicLevel().getName());
+		preparedStatement.setString(1, project.getAcademicLevel().getCode());
 		preparedStatement.setString(2, project.getCode());
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());

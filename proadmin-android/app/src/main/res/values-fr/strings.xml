@@ -18,6 +18,18 @@
     <!-- Activity Projects -->
     <string name="projects_textview_academiclevels">Niveau académique :</string>
     <string name="projects_textview_projects">Projets</string>
+    <string name="academiclevel_l1">Licence 1</string>
+    <string name="academiclevel_l2">Licence 2</string>
+    <string name="academiclevel_l3">Licence 3</string>
+    <string name="academiclevel_l4">Master 1</string>
+    <string name="academiclevel_l5">Master 2</string>
+    <string-array name="academiclevels">
+        <item>@string/academiclevel_l1</item>
+        <item>@string/academiclevel_l2</item>
+        <item>@string/academiclevel_l3</item>
+        <item>@string/academiclevel_l4</item>
+        <item>@string/academiclevel_l5</item>
+    </string-array>
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
