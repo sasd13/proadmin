@@ -48,7 +48,7 @@ public class ProjectActivity extends MotherActivity {
 
     private void fillFormProject(Project project) {
         projectViewHolder.textViewTitle.setText(project.getTitle());
-        projectViewHolder.textViewAcademicLevel.setText(project.getAcademicLevel().getName());
+        projectViewHolder.textViewAcademicLevel.setText(project.getAcademicLevel().getCode());
         projectViewHolder.textViewCode.setText(project.getCode());
         projectViewHolder.textViewDescription.setText(project.getDescription());
     }

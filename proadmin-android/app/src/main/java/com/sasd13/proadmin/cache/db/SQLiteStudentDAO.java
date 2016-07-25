@@ -26,7 +26,7 @@ public class SQLiteStudentDAO extends SQLiteEntityDAO<Student> implements Studen
         values.put(COLUMN_FIRSTNAME, student.getFirstName());
         values.put(COLUMN_LASTNAME, student.getLastName());
         values.put(COLUMN_EMAIL, student.getEmail());
-        values.put(COLUMN_ACADEMICLEVEL, student.getAcademicLevel().getName());
+        values.put(COLUMN_ACADEMICLEVEL, student.getAcademicLevel().getCode());
 
         return values;
     }

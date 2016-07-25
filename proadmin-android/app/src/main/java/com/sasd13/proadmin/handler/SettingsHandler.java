@@ -1,18 +1,19 @@
 package com.sasd13.proadmin.handler;
 
+import com.sasd13.androidex.net.ws.IWSPromise;
+import com.sasd13.androidex.net.ws.rest.task.ReadTask;
+import com.sasd13.androidex.net.ws.rest.task.UpdateTask;
 import com.sasd13.proadmin.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.SettingsForm;
-import com.sasd13.proadmin.util.Promise;
-import com.sasd13.proadmin.ws.task.ReadTask;
-import com.sasd13.proadmin.ws.task.UpdateTask;
+import com.sasd13.proadmin.ws.WSInformation;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
  */
-public class SettingsHandler implements Promise {
+public class SettingsHandler implements IWSPromise {
 
     private SettingsActivity settingsActivity;
     private boolean isActionRead;
@@ -25,7 +26,7 @@ public class SettingsHandler implements Promise {
     public void readTeacher(long id) {
         isActionRead = true;
 
-        readTaskTeacher = new ReadTask<>(this, Teacher.class);
+        readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
         readTaskTeacher.execute(id);
     }
 
@@ -63,7 +64,7 @@ public class SettingsHandler implements Promise {
     }
 
     @Override
-    public void onFail() {
+    public void onFail(int httpResponseCode) {
         settingsActivity.onError("Echec de la connexion au serveur");
     }
 
@@ -71,7 +72,7 @@ public class SettingsHandler implements Promise {
         try {
             editTeacherWithForm(teacher, settingsForm);
 
-            UpdateTask<Teacher> updateTask = new UpdateTask<>(this, Teacher.class);
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
             updateTask.execute(teacher);
         } catch (FormException e) {
             settingsActivity.onError(e.getMessage());

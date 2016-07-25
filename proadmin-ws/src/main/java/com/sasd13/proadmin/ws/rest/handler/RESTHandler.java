@@ -11,18 +11,18 @@ import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.util.EnumMediaType;
+import com.sasd13.javaex.util.EnumMIMEType;
 
 public class RESTHandler {
 	
 	public static Object readAndParseDataFromRequest(HttpServletRequest req, Class<?> mClass, boolean isCollection) throws IOException, ParserException {
-		EnumMediaType mediaType = EnumMediaType.find(req.getContentType());
+		EnumMIMEType mimeType = EnumMIMEType.find(req.getContentType());
 		String data = Stream.readAndClose(req.getReader());
 		
 		if (isCollection) {
-			return ParserFactory.make(mediaType).fromStringArray(data, mClass);
+			return ParserFactory.make(mimeType).fromStringArray(data, mClass);
 		} else {
-			return ParserFactory.make(mediaType).fromString(data, mClass);
+			return ParserFactory.make(mimeType).fromString(data, mClass);
 		}
 	}
 	
@@ -33,8 +33,8 @@ public class RESTHandler {
 		setResponseHeaderAccept(resp);
 		setResponseHeaderDataCollection(resp, isCollection);
 		
-		EnumMediaType mediaType = EnumMediaType.find(contentType);
-		String sRespData = ParserFactory.make(mediaType).toString(respData);
+		EnumMIMEType mimeType = EnumMIMEType.find(contentType);
+		String sRespData = ParserFactory.make(mimeType).toString(respData);
 		
 		Stream.writeAndClose(resp.getWriter(), sRespData);
 	}
@@ -42,12 +42,12 @@ public class RESTHandler {
 	private static String getRequestAcceptMediaType(HttpServletRequest req) {
 		Enumeration<String> headerAccepts = req.getHeaders(EnumHttpHeaderField.ACCEPT.getName());
 		
-		String contentType = EnumMediaType.TEXT_PLAIN.getMIMEType(), headerAccept;
+		String contentType = EnumMIMEType.TEXT_PLAIN.toString(), headerAccept;
 		
 		while (headerAccepts.hasMoreElements()) {
 			headerAccept = headerAccepts.nextElement();
 			
-			if (EnumMediaType.APPLICATION_JSON.getMIMEType().equals(headerAccept) || EnumMediaType.APPLICATION_XML.getMIMEType().equals(headerAccept)) {
+			if (EnumMIMEType.APPLICATION_JSON.toString().equals(headerAccept) || EnumMIMEType.APPLICATION_XML.toString().equals(headerAccept)) {
 				contentType = headerAccept;
 				
 				break;
@@ -58,9 +58,9 @@ public class RESTHandler {
 	}
 	
 	private static void setResponseHeaderAccept(HttpServletResponse resp) {
-		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_JSON.getMIMEType());
-		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.APPLICATION_XML.getMIMEType());
-		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMediaType.TEXT_PLAIN.getMIMEType());
+		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.APPLICATION_JSON.toString());
+		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.APPLICATION_XML.toString());
+		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.TEXT_PLAIN.toString());
 	}
 	
 	private static void setResponseHeaderDataCollection(HttpServletResponse resp, boolean isCollection) {

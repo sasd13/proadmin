@@ -36,4 +36,8 @@ public abstract class Evaluation {
 	public Report getReport() {
 		return report;
 	}
+	
+	void setReport(Report report) {
+		this.report = report;
+	}
 }

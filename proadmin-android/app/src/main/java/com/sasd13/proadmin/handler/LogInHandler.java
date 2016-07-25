@@ -1,17 +1,18 @@
 package com.sasd13.proadmin.handler;
 
+import com.sasd13.androidex.net.ws.IWSPromise;
+import com.sasd13.androidex.net.ws.rest.task.LogInTask;
+import com.sasd13.androidex.net.ws.rest.task.ReadTask;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.code.ws.EnumWSCode;
-import com.sasd13.proadmin.ws.task.LogInTask;
-import com.sasd13.proadmin.ws.task.ReadTask;
+import com.sasd13.proadmin.ws.WSInformation;
 
 /**
  * Created by ssaidali2 on 03/07/2016.
  */
-public class LogInHandler implements Promise {
+public class LogInHandler implements IWSPromise {
 
     private LogInActivity logInActivity;
     private boolean isActionLogin;
@@ -24,7 +25,7 @@ public class LogInHandler implements Promise {
 
     public void logIn(String number, String password) {
         isActionLogin = true;
-        logInTask = new LogInTask(this, number, password);
+        logInTask = new LogInTask(WSInformation.URL_LOGIN, number, password, this);
 
         logInTask.execute();
     }
@@ -48,13 +49,15 @@ public class LogInHandler implements Promise {
     }
 
     private void onLogInTaskSucceeded() {
-        if (logInTask.getResult() == EnumWSCode.LOGIN_ERROR_TEACHER_NUMBER.getValue()) {
+        if (logInTask.getResult() >= 1) {
+            readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
+            readTaskTeacher.execute(logInTask.getResult());
+        } else if (logInTask.getResult() == EnumWSCode.LOGIN_ERROR_TEACHER_NUMBER.getValue()) {
             logInActivity.onError("Identifiant invalide");
         } else if (logInTask.getResult() == EnumWSCode.LOGIN_ERROR_TEACHER_PASSWORD.getValue()) {
             logInActivity.onError("Mot de passe incorrect");
         } else {
-            readTaskTeacher = new ReadTask<>(this, Teacher.class);
-            readTaskTeacher.execute(logInTask.getResult());
+            logInActivity.onError("Impossible de se connecter");
         }
     }
 
@@ -70,7 +73,7 @@ public class LogInHandler implements Promise {
     }
 
     @Override
-    public void onFail() {
+    public void onFail(int httpResponseCode) {
         logInActivity.onError("Echec de la connexion au serveur");
     }
 }

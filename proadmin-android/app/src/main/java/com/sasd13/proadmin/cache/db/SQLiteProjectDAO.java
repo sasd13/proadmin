@@ -22,7 +22,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_ID, project.getId());
-        values.put(COLUMN_ACADEMICLEVEL, project.getAcademicLevel().getName());
+        values.put(COLUMN_ACADEMICLEVEL, project.getAcademicLevel().getCode());
         values.put(COLUMN_CODE, project.getCode());
         values.put(COLUMN_TITLE, project.getTitle());
         values.put(COLUMN_DESCRIPTION, project.getDescription());

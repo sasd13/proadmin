@@ -27,7 +27,7 @@ public class Report {
 		this();
 		
 		this.runningTeam = runningTeam;
-		runningTeam.getReports().add(this);
+		runningTeam.addReport(this);
 	}
 	
 	public long getId() {
@@ -66,12 +66,30 @@ public class Report {
 		return leadEvaluation;
 	}
 	
-	public List<IndividualEvaluation> getIndividualEvaluations() {
-		return individualEvaluations;
+	public IndividualEvaluation[] getIndividualEvaluations() {
+		return individualEvaluations.toArray(new IndividualEvaluation[individualEvaluations.size()]);
+	}
+	
+	boolean addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
+		return !individualEvaluations.contains(individualEvaluation) && individualEvaluations.add(individualEvaluation);
+	}
+	
+	boolean removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
+		boolean removed = individualEvaluations.remove(individualEvaluation);
+		
+		if (removed) {
+			individualEvaluation.setReport(null);
+		}
+		
+		return removed;
 	}
 	
 	public RunningTeam getRunningTeam() {
 		return runningTeam;
+	}
+	
+	void setRunningTeam(RunningTeam runningTeam) {
+		this.runningTeam = runningTeam;
 	}
 	
 	@Override

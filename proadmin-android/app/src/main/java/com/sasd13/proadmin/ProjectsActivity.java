@@ -3,12 +3,10 @@ package com.sasd13.proadmin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -21,11 +19,11 @@ import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.handler.ProjectsHandler;
 import com.sasd13.proadmin.util.EnumAcademicLevelRes;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
 
 import java.util.ArrayList;
@@ -36,8 +34,7 @@ public class ProjectsActivity extends MotherActivity {
     private ProjectsHandler projectsHandler;
     private Spin spinAcademicLevels;
     private Recycler tab;
-
-    private List<Project> projects = new ArrayList<>();
+    private List<Project> projects;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class ProjectsActivity extends MotherActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabByAcademicLevel(EnumAcademicLevel.values()[position]);
+                fillProjectsTabByAcademicLevel(EnumAcademicLevel.values()[position]);
             }
 
             @Override
@@ -84,10 +81,10 @@ public class ProjectsActivity extends MotherActivity {
         spinAcademicLevels.addAll(list);
     }
 
-    private void fillTabByAcademicLevel(EnumAcademicLevel academicLevel) {
+    private void fillProjectsTabByAcademicLevel(EnumAcademicLevel academicLevel) {
         tab.clear();
 
-        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
+        fillProjectsTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
 
     private void buildProjectsTab() {
@@ -126,49 +123,18 @@ public class ProjectsActivity extends MotherActivity {
     protected void onStart() {
         super.onStart();
 
-        refresh();
+        projectsHandler.readProjects(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
     }
 
-    private void refresh() {
-        /*
-        if (NetworkHelper.isConnected(this)) {
-            readTaskProjects = new ReadTask<>(this, Project.class);
-            readTaskProjects.execute();
-        } else {
-            NetworkHelper.displayMessageNotConnected(this);
-        }*/
+    public void onSuccess(List<Project> projects) {
+        this.projects = projects;
+
+        fillProjectsTabByAcademicLevel(EnumAcademicLevel.values()[spinAcademicLevels.getSelectedPosition()]);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_projects, menu);
+    public void onError(String error) {
+        this.projects = projectsHandler.readProjectsFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
 
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_projects_action_refresh:
-                refresh();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
-
-    public void onSuccess() {
-        projects.clear();
-        projects.addAll(readTaskProjects.getResults());
-
-        fillTabProjects();
-        Cache.keepAll(this, projects);
-    }
-
-    public void fillTabProjects() {
-        fillTabByAcademicLevel(EnumAcademicLevel.values()[spinAcademicLevels.getSelectedPosition()]);
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

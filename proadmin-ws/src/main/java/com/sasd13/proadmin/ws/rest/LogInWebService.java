@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.db.DAOException;
+import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
@@ -31,7 +32,7 @@ import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
  * @author Samir
  */
 @WebServlet("/login")
-public class LoginWebService extends HttpServlet {
+public class LogInWebService extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,7 +42,7 @@ public class LoginWebService extends HttpServlet {
 		
 		try {
 			Map<String, String> credentials = (Map<String, String>) RESTHandler.readAndParseDataFromRequest(req, Map.class, false);
-			String number = credentials.get(EnumParameter.NUMBER.getName());
+			String number = credentials.get(LogInWSClient.PARAM_USERNAME);
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
@@ -53,7 +54,7 @@ public class LoginWebService extends HttpServlet {
 				id = EnumWSCode.LOGIN_ERROR_TEACHER_NUMBER.getValue();
 			} else {
 				Teacher teacher = list.get(0);			
-				String candidate = credentials.get(EnumParameter.PASSWORD.getName());
+				String candidate = credentials.get(LogInWSClient.PARAM_PASSWORD);
 				
 				id = (passwordMatches(dao, candidate, teacher)) 
 						? teacher.getId() 

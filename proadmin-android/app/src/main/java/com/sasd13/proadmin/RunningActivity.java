@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
+import com.sasd13.androidex.net.ws.IWSPromise;
+import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -16,16 +18,15 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
+import com.sasd13.proadmin.ws.WSInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningActivity extends MotherActivity implements Promise {
+public class RunningActivity extends MotherActivity implements IWSPromise {
 
     private static class RunningViewHolder {
         TextView textViewProject, textViewYear;
@@ -97,7 +98,7 @@ public class RunningActivity extends MotherActivity implements Promise {
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(EnumParameter.RUNNING.getName(), new String[]{ String.valueOf(running.getId()) });
 
-        readTaskRunningTeams = new ParameterizedReadTask<>(this, RunningTeam.class, parameters);
+        //readTaskRunningTeams = new ParameterizedReadTask<>();
         readTaskRunningTeams.setDeepReadEnabled(true);
         readTaskRunningTeams.execute();
     }
@@ -157,7 +158,7 @@ public class RunningActivity extends MotherActivity implements Promise {
                 parameters.put(EnumParameter.ID.getName(), new String[]{ String.valueOf(runningTeam.getTeam().getId()) });
             }
 
-            readTaskTeams = new ParameterizedReadTask<>(this, Team.class, parameters);
+            //readTaskTeams = new ParameterizedReadTask<>();
             readTaskTeams.execute();
         } else {
             switchToLoadView(false);
@@ -203,7 +204,7 @@ public class RunningActivity extends MotherActivity implements Promise {
     }*/
 
     @Override
-    public void onFail() {
+    public void onFail(int i) {
         switchToLoadView(false);
     }
 }

@@ -7,6 +7,9 @@ import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
+import com.sasd13.androidex.net.ws.IWSPromise;
+import com.sasd13.androidex.net.ws.rest.task.CreateTask;
+import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
 import com.sasd13.androidex.util.NetworkHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -14,18 +17,15 @@ import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.Promise;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.RunningSorter;
-import com.sasd13.proadmin.ws.task.CreateTask;
-import com.sasd13.proadmin.ws.task.ParameterizedReadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningsActivity extends MotherActivity implements Promise {
+public class RunningsActivity extends MotherActivity implements IWSPromise {
 
     private TextView textViewProject;
     private View viewLoad, viewTab;
@@ -86,11 +86,11 @@ public class RunningsActivity extends MotherActivity implements Promise {
             parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
             parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
 
-            parameterizedReadTaskRunning = new ParameterizedReadTask<>(this, Running.class, parameters);
+            //parameterizedReadTaskRunning = new ParameterizedReadTask<>(this, Running.class, parameters);
             parameterizedReadTaskRunning.setDeepReadEnabled(true);
             parameterizedReadTaskRunning.execute();
         } else {
-            NetworkHelper.displayMessageNotConnected(this);
+            //NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
@@ -102,11 +102,11 @@ public class RunningsActivity extends MotherActivity implements Promise {
             if (isPrepared) {
                 isActionCreateRunning = true;
 
-                createTaskRunning = new CreateTask<>(this, Running.class);
+                //createTaskRunning = new CreateTask<>(this, Running.class);
                 createTaskRunning.execute(runningToCreate);
             }
         } else {
-            NetworkHelper.displayMessageNotConnected(this);
+            //NetworkHelper.displayMessageNotConnected(this);
         }
     }
 
@@ -197,7 +197,7 @@ public class RunningsActivity extends MotherActivity implements Promise {
     }
 
     @Override
-    public void onFail() {
+    public void onFail(int i) {
         switchToLoadView(false);
     }
 }
