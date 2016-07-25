@@ -20,6 +20,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
+import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
@@ -45,6 +46,7 @@ public class ProjectsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
+        GUIHelper.colorTitles(this);
 
         projectsHandler = new ProjectsHandler(this);
         projects = new ArrayList<>();
@@ -55,6 +57,7 @@ public class ProjectsActivity extends MotherActivity {
     private void buildView() {
         buildSpinAcademicLevels();
         buildTabProjects();
+        readTeacher();
     }
 
     private void buildSpinAcademicLevels() {
@@ -88,6 +91,7 @@ public class ProjectsActivity extends MotherActivity {
 
     private void buildTabProjects() {
         tabProjects = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) findViewById(R.id.projects_recyclerview));
+        tabProjects.addDividerItemDecoration();
     }
 
     private void fillTabProjectsByAcademicLevel(EnumAcademicLevel academicLevel) {
@@ -122,13 +126,6 @@ public class ProjectsActivity extends MotherActivity {
         recyclerHolder.addAll(pairs);
 
         RecyclerHelper.addAll(tabProjects, recyclerHolder);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        readTeacher();
     }
 
     private void readTeacher() {
