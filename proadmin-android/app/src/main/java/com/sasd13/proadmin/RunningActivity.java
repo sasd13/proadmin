@@ -19,7 +19,6 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.ws.WSInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;

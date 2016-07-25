@@ -3,6 +3,9 @@ package com.sasd13.proadmin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
@@ -23,7 +27,6 @@ import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.handler.ProjectsHandler;
 import com.sasd13.proadmin.util.EnumAcademicLevelRes;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
 
 import java.util.ArrayList;
@@ -33,8 +36,9 @@ public class ProjectsActivity extends MotherActivity {
 
     private ProjectsHandler projectsHandler;
     private Spin spinAcademicLevels;
-    private Recycler tab;
+    private Recycler tabProjects;
     private List<Project> projects;
+    private WaitDialog waitDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,14 @@ public class ProjectsActivity extends MotherActivity {
         setContentView(R.layout.activity_projects);
 
         projectsHandler = new ProjectsHandler(this);
+        projects = new ArrayList<>();
 
         buildView();
     }
 
     private void buildView() {
         buildSpinAcademicLevels();
-        buildProjectsTab();
+        buildTabProjects();
     }
 
     private void buildSpinAcademicLevels() {
@@ -59,7 +64,7 @@ public class ProjectsActivity extends MotherActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillProjectsTabByAcademicLevel(EnumAcademicLevel.values()[position]);
+                fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
             }
 
             @Override
@@ -81,18 +86,18 @@ public class ProjectsActivity extends MotherActivity {
         spinAcademicLevels.addAll(list);
     }
 
-    private void fillProjectsTabByAcademicLevel(EnumAcademicLevel academicLevel) {
-        tab.clear();
-
-        fillProjectsTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
+    private void buildTabProjects() {
+        tabProjects = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) findViewById(R.id.projects_recyclerview));
     }
 
-    private void buildProjectsTab() {
-        tab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) findViewById(R.id.projects_recyclerview));
+    private void fillTabProjectsByAcademicLevel(EnumAcademicLevel academicLevel) {
+        tabProjects.clear();
+
+        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
 
-    private void fillProjectsTab(List<Project> projects) {
-        tab.clear();
+    private void addProjectsToTab(List<Project> projects) {
+        tabProjects.clear();
 
         List<RecyclerHolderPair> pairs = new ArrayList<>();
         RecyclerHolderPair pair;
@@ -116,25 +121,68 @@ public class ProjectsActivity extends MotherActivity {
         RecyclerHolder recyclerHolder = new RecyclerHolder();
         recyclerHolder.addAll(pairs);
 
-        RecyclerHelper.addAll(tab, recyclerHolder);
+        RecyclerHelper.addAll(tabProjects, recyclerHolder);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        projectsHandler.readProjects(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+        readTeacher();
     }
 
-    public void onSuccess(List<Project> projects) {
-        this.projects = projects;
-
-        fillProjectsTabByAcademicLevel(EnumAcademicLevel.values()[spinAcademicLevels.getSelectedPosition()]);
+    private void readTeacher() {
+        projectsHandler.readProjects();
     }
 
-    public void onError(String error) {
-        this.projects = projectsHandler.readProjectsFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_projects, menu);
 
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_projects_action_refresh:
+                readTeacher();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    public void onLoad() {
+        waitDialog = new WaitDialog(this);
+        waitDialog.show();
+    }
+
+    public void onReadSuccess(List<Project> projects) {
+        waitDialog.dismiss();
+
+        this.projects.clear();
+        this.projects.addAll(projects);
+
+        refreshView();
+    }
+
+    private void refreshView() {
+        int position = spinAcademicLevels.getSelectedPosition() > -1 ? spinAcademicLevels.getSelectedPosition() : 0;
+        fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
+    }
+
+    public void onError(String message) {
+        waitDialog.dismiss();
+
+        projects.clear();
+        projects.addAll(projectsHandler.readProjectsFromCache());
+
+        refreshView();
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

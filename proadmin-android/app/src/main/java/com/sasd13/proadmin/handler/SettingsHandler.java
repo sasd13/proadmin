@@ -30,6 +30,29 @@ public class SettingsHandler implements IWSPromise {
         readTaskTeacher.execute(id);
     }
 
+    public Teacher readTeacherFromCache(long id) {
+        return Cache.load(settingsActivity, id, Teacher.class);
+    }
+
+    public void updateTeacher(Teacher teacher, SettingsForm settingsForm) {
+        try {
+            editTeacherWithForm(teacher, settingsForm);
+
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
+            updateTask.execute(teacher);
+        } catch (FormException e) {
+            settingsActivity.onError(e.getMessage());
+        }
+    }
+
+    private void editTeacherWithForm(Teacher teacher, SettingsForm settingsForm) throws FormException {
+        Teacher teacherFromForm = settingsForm.getEditable();
+
+        teacher.setFirstName(teacherFromForm.getFirstName());
+        teacher.setLastName(teacherFromForm.getLastName());
+        teacher.setEmail(teacherFromForm.getEmail());
+    }
+
     @Override
     public void onLoad() {
         if (isActionRead) {
@@ -66,28 +89,5 @@ public class SettingsHandler implements IWSPromise {
     @Override
     public void onFail(int httpResponseCode) {
         settingsActivity.onError("Echec de la connexion au serveur");
-    }
-
-    public void updateTeacher(Teacher teacher, SettingsForm settingsForm) {
-        try {
-            editTeacherWithForm(teacher, settingsForm);
-
-            UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
-            updateTask.execute(teacher);
-        } catch (FormException e) {
-            settingsActivity.onError(e.getMessage());
-        }
-    }
-
-    private void editTeacherWithForm(Teacher teacher, SettingsForm settingsForm) throws FormException {
-        Teacher teacherFromForm = settingsForm.getEditable();
-
-        teacher.setFirstName(teacherFromForm.getFirstName());
-        teacher.setLastName(teacherFromForm.getLastName());
-        teacher.setEmail(teacherFromForm.getEmail());
-    }
-
-    public Teacher readTeacherFromCache(long id) {
-        return Cache.load(settingsActivity, id, Teacher.class);
     }
 }

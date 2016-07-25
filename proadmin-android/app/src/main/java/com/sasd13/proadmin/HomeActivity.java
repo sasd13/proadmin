@@ -39,18 +39,18 @@ public class HomeActivity extends AppCompatActivity {
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawablesToImages();
-        addListenersToImages();
+        setImageDrawables();
+        setImagesListeners();
     }
 
-    private void addDrawablesToImages() {
+    private void setImageDrawables() {
         imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
         imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
         imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
         imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
-    private void addListenersToImages() {
+    private void setImagesListeners() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -73,8 +73,8 @@ public class LogInActivity extends AppCompatActivity {
         SessionHelper.logIn(this, teacher);
     }
 
-    public void onError(String error) {
+    public void onError(String message) {
         waitDialog.dismiss();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
