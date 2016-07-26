@@ -1,8 +1,6 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.bean.project.Project;
@@ -23,13 +21,6 @@ public class ProjectsActivity extends MotherActivity {
 
     private void builView() {
         listProjects();
-    }
-
-    public void finishFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction().remove(fragment).commit();
-        fragmentManager.popBackStack();
     }
 
     public void listProjects() {

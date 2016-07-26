@@ -2,15 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_padding">
+    style="@style/AndroidEX.Activity">
 
     <RelativeLayout
         android:id="@+id/projects_relativelayout_academiclevels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding">
+        android:padding="@dimen/activity_padding">
 
         <TextView
             android:id="@+id/projects_textview_level"
@@ -18,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/projects_textview_academiclevels"
+            android:text="@string/label_academiclevel"
             android:textColor="@color/orange"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
@@ -46,7 +45,7 @@
         android:id="@+id/projects_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/AndroidEX.RecyclerWithPaddingHorizontal"
+        style="@style/AndroidEX.Recycler"
         android:layout_below="@id/projects_textview_projects"
         android:layout_gravity="center"
         android:scrollbars="vertical"

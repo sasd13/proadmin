@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
@@ -43,6 +44,8 @@ public class ProjectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         parentActivity = (ProjectsActivity) getActivity();
         projectHandler = new ProjectHandler(this);
         formProject = new ProjectForm(getContext());
@@ -74,20 +77,28 @@ public class ProjectFragment extends Fragment {
     private void buildFormProject(View view) {
         Recycler form = RecyclerFactory
                 .makeBuilder(EnumFormType.FORM)
-                .build((RecyclerView) view.findViewById(R.id.projects_recyclerview));
+                .build((RecyclerView) view.findViewById(R.id.project_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, formProject.getHolder());
-
-        refreshView();
+        bindFormWithProject();
     }
 
-    private void refreshView() {
+    private void bindFormWithProject() {
         formProject.bind(project);
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_project));
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.menu_project, menu);
     }
 
@@ -115,14 +126,15 @@ public class ProjectFragment extends Fragment {
     public void onReadSucceeded(Project project) {
         swipeRefreshLayout.setRefreshing(false);
         Binder.bind(this.project, project);
-        refreshView();
+        bindFormWithProject();
     }
 
     public void onError(String message) {
         swipeRefreshLayout.setRefreshing(false);
 
-        Project project = projectHandler.readProjectFromCache(this.project.getId());
-        Binder.bind(this.project, project);
-        refreshView();
+        Binder.bind(project, projectHandler.readProjectFromCache(project.getId()));
+        bindFormWithProject();
+
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -54,6 +54,8 @@ public class ProjectsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         parentActivity = (ProjectsActivity) getActivity();
         projectsHandler = new ProjectsHandler(this);
         projects = new ArrayList<>();
@@ -107,7 +109,7 @@ public class ProjectsFragment extends Fragment {
     private void addProjectsToTab(List<Project> projects) {
         tabProjects.clear();
 
-        List<RecyclerHolderPair> pairs = new ArrayList<>();
+        RecyclerHolder recyclerHolder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
         for (final Project project : projects) {
@@ -120,11 +122,8 @@ public class ProjectsFragment extends Fragment {
                 }
             });
 
-            pairs.add(pair);
+            recyclerHolder.add(pair);
         }
-
-        RecyclerHolder recyclerHolder = new RecyclerHolder();
-        recyclerHolder.addAll(pairs);
 
         RecyclerHelper.addAll(tabProjects, recyclerHolder);
     }
@@ -134,7 +133,21 @@ public class ProjectsFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_projects));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.menu_projects, menu);
     }
 
