@@ -2,9 +2,9 @@ package com.sasd13.proadmin.handler;
 
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
-import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.ws.WSInformation;
 
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class ProjectsHandler implements IWSPromise {
 
-    private ProjectsActivity projectsActivity;
+    private ProjectsFragment projectsFragment;
     private ReadTask<Project> readTask;
 
-    public ProjectsHandler(ProjectsActivity projectsActivity) {
-        this.projectsActivity = projectsActivity;
+    public ProjectsHandler(ProjectsFragment projectsFragment) {
+        this.projectsFragment = projectsFragment;
     }
 
     public void readProjects() {
@@ -27,12 +27,12 @@ public class ProjectsHandler implements IWSPromise {
     }
 
     public List<Project> readProjectsFromCache() {
-        return Cache.loadAll(projectsActivity, Project.class);
+        return Cache.loadAll(projectsFragment.getContext(), Project.class);
     }
 
     @Override
     public void onLoad() {
-        projectsActivity.onLoad();
+        projectsFragment.onLoad();
     }
 
     @Override
@@ -40,15 +40,15 @@ public class ProjectsHandler implements IWSPromise {
         try {
             List<Project> projects = readTask.getResults();
 
-            Cache.keepAll(projectsActivity, projects);
-            projectsActivity.onReadSuccess(projects);
+            Cache.keepAll(projectsFragment.getContext(), projects);
+            projectsFragment.onReadSucceeded(projects);
         } catch (IndexOutOfBoundsException e) {
-            projectsActivity.onError("Erreur de chargement des données");
+            projectsFragment.onError("Erreur de chargement des données");
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        projectsActivity.onError("Echec de la connexion au serveur");
+        projectsFragment.onError("Echec de la connexion au serveur");
     }
 }

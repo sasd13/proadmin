@@ -56,7 +56,9 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void buildFormSettings() {
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
+        Recycler form = RecyclerFactory
+                .makeBuilder(EnumFormType.FORM)
+                .build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, formSettings.getHolder());

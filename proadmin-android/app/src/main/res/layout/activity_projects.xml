@@ -1,56 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AndroidEX.Activity"
-    android:paddingTop="@dimen/activity_padding">
+    style="@style/AndroidEX.Activity">
 
-    <RelativeLayout
-        android:id="@+id/projects_relativelayout_academiclevels"
+    <FrameLayout
+        android:id="@+id/projects_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding">
+        android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/projects_textview_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/projects_textview_academiclevels"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/projects_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@id/projects_textview_level"/>
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/projects_textview_projects"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/AndroidEX.TitleWithTextAllCaps"
-        android:tag="title_0"
-        android:layout_below="@id/projects_relativelayout_academiclevels"
-        android:layout_marginTop="@dimen/viewgroup_margin_medium"
-        android:text="@string/projects_textview_projects"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/projects_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/AndroidEX.RecyclerWithPaddingHorizontal"
-        android:layout_below="@id/projects_textview_projects"
-        android:layout_gravity="center"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"/>
-
-</RelativeLayout>
+</FrameLayout>

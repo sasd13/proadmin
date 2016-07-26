@@ -16,7 +16,6 @@
     <string name="login_button_connect">Connect</string>
 
     <!-- Activity Projects -->
-    <string name="projects_textview_academiclevels">Academic levels :</string>
     <string name="projects_textview_projects">Projects</string>
     <string name="academiclevel_l1">Bachelor 1</string>
     <string name="academiclevel_l2">Bachelor 2</string>
@@ -52,6 +51,10 @@
     <string name="label_firstname">First name</string>
     <string name="label_lastname">Last name</string>
     <string name="label_email">Email</string>
+    <string name="label_title">Title</string>
+    <string name="label_academiclevel">Academic level</string>
+    <string name="label_code">Code</string>
+    <string name="label_description">Description</string>
     <string name="title_identity">Identity</string>
 
 </resources>
