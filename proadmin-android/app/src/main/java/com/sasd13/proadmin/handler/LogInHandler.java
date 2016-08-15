@@ -6,6 +6,7 @@ import com.sasd13.androidex.net.ws.rest.task.ReadTask;
 import com.sasd13.proadmin.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.util.EnumWSCodeRes;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.WSInformation;
 
@@ -49,15 +50,14 @@ public class LogInHandler implements IWSPromise {
     }
 
     private void onLogInTaskSucceeded() {
-        if (logInTask.getWSCode().getCode() == EnumWSCode.OK.getCode()) {
+        EnumWSCode wsCode = EnumWSCode.find(logInTask.getWSCode());
+
+        if (!wsCode.isError()) {
             readTaskTeacher = new ReadTask<>(WSInformation.URL_TEACHERS, this);
             readTaskTeacher.execute(logInTask.getResult());
-        } else if (logInTask.getWSCode().getCode() == EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER.getCode()) {
-            logInActivity.onError("Identifiant invalide");
-        } else if (logInTask.getWSCode().getCode() == EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD.getCode()) {
-            logInActivity.onError("Mot de passe incorrect");
         } else {
-            logInActivity.onError("Impossible de se connecter");
+            EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);
+            logInActivity.onError(logInActivity.getResources().getString(wsCodeRes.getStringRes()));
         }
     }
 

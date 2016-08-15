@@ -2,6 +2,7 @@ package com.sasd13.proadmin.ws.rest.handler;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,26 +18,24 @@ import com.sasd13.proadmin.util.ws.EnumWSCode;
 
 public class RESTHandler {
 	
-	public static Object readAndParseDataFromRequest(HttpServletRequest req, Class<?> mClass, boolean isCollection) throws IOException, ParserException {
+	public static <T> List<T> readAndParseDataFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		EnumMIMEType mimeType = EnumMIMEType.find(req.getContentType());
 		String data = Stream.readAndClose(req.getReader());
 		
-		if (isCollection) {
-			return ParserFactory.make(mimeType).fromStringArray(data, mClass);
-		} else {
-			return ParserFactory.make(mimeType).fromString(data, mClass);
-		}
+		HttpBody httpBody = ParserFactory.make(mimeType).fromString(data, HttpBody.class);
+		
+		return ;
 	}
 	
-	public static void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, Object respData, boolean isCollection) throws IOException, ParserException {
+	public static <T> void parseAndWriteDataToResponse(HttpServletRequest req, HttpServletResponse resp, EnumWSCode wsCode, List<T> data) throws IOException, ParserException {
 		String contentType = getRequestAcceptMediaType(req);
 		
 		resp.setContentType(contentType);
 		setResponseHeaderAccept(resp);
-		setResponseHeaderDataCollection(resp, isCollection);
 		
 		EnumMIMEType mimeType = EnumMIMEType.find(contentType);
-		HttpBody httpBody = new HttpBody(EnumWSCode.OK);
+		HttpBody<T> httpBody = new HttpBody<T>(wsCode.getCode());
+		httpBody.getContents().addAll(data);
 		
 		Stream.writeAndClose(resp.getWriter(), ParserFactory.make(mimeType).toString(httpBody));
 	}
@@ -63,11 +62,5 @@ public class RESTHandler {
 		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.APPLICATION_JSON.toString());
 		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.APPLICATION_XML.toString());
 		resp.addHeader(EnumHttpHeaderField.ACCEPT.getName(), EnumMIMEType.TEXT_PLAIN.toString());
-	}
-	
-	private static void setResponseHeaderDataCollection(HttpServletResponse resp, boolean isCollection) {
-		resp.addHeader(
-				EnumHttpHeaderField.DATA_COLLECTION.getName(), 
-				isCollection ? EnumHttpHeaderValue.DATA_COLLECTION_YES.getName() : EnumHttpHeaderValue.DATA_COLLECTION_NO.getName());
 	}
 }

@@ -5,11 +5,12 @@ import com.sasd13.javaex.net.IHttpCodifiable;
 public enum EnumWSCode implements IHttpCodifiable {
 	UNKNOWN							(0, 	"Unknown"),
 	OK								(100, 	"Ok"),
+	ERROR_GET						(-1, 	"Error GET"),
+	ERROR_POST						(-2, 	"Error POST"),
+	ERROR_PUT						(-3, 	"Error PUT"),
+	ERROR_DELETE					(-4, 	"Error DELETE"),
 	ERROR_LOGIN_TEACHER_NUMBER		(-100, 	"Error teacher number"),
 	ERROR_LOGIN_TEACHER_PASSWORD	(-101, 	"Error teacher password"),
-	ERROR_POST						(-200, 	"Error post"),
-	ERROR_PUT						(-201, 	"Error put"),
-	ERROR_DELETE					(-202, 	"Error delete"),
 	;
 	
 	private int code;

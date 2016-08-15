@@ -71,7 +71,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		}
 		
 		try {
-			RESTHandler.parseAndWriteDataToResponse(req, resp, respData, isCollection);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, respData, isCollection);
 		} catch (ParserException e) {
 			e.printStackTrace();
 		}
@@ -85,12 +85,12 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			long id = persistor.create(t);
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, id, false);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, id, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_POST.getCode(), false);
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_POST, null, false);
 			} catch (ParserException e1) {
 				e.printStackTrace();
 			}
@@ -112,12 +112,12 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 				persistor.update(t);
 			}
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK.getCode(), false);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_PUT.getCode(), false);
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_PUT, null, false);
 			} catch (ParserException e1) {
 				e1.printStackTrace();
 			}
@@ -132,12 +132,12 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			
 			persistor.delete(t);
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK.getCode(), false);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_DELETE.getCode(), false);
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_DELETE, null, false);
 			} catch (ParserException e1) {
 				e1.printStackTrace();
 			}

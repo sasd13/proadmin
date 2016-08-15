@@ -58,5 +58,18 @@
     <string name="title_identity">Identité</string>
     <string name="label_project">Projet</string>
     <string name="title_runnings">Gestions</string>
+    <string name="title_teams">Groupes</string>
+    <string name="label_team">Groupe</string>
+    <string name="label_year">Année</string>
+
+    <!-- Web service -->
+    <string name="ws_code_0">Erreur inconnue</string>
+    <string name="ws_code_100">Ok</string>
+    <string name="ws_code_error_1">Erreur de récupération des données</string>
+    <string name="ws_code_error_2">Erreur de création</string>
+    <string name="ws_code_error_3">Erreur demise à jour</string>
+    <string name="ws_code_error_4">Erreur lors de la suppression</string>
+    <string name="ws_code_error_100">Erreur de numéro</string>
+    <string name="ws_code_error_101">Erreur de mot de passe</string>
 
 </resources>

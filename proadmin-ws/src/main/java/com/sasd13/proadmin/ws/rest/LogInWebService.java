@@ -49,15 +49,15 @@ public class LogInWebService extends HttpServlet {
 			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
 			
 			if (list.isEmpty()) {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER.getCode(), false);
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER, null, false);
 			} else {
 				Teacher teacher = list.get(0);			
 				String candidate = credentials.get(LogInWSClient.PARAM_PASSWORD);
 				
 				if (passwordMatches(dao, candidate, teacher)) {
-					RESTHandler.parseAndWriteDataToResponse(req, resp, teacher.getId(), false);
+					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, teacher.getId(), false);
 				} else {
-					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD.getCode(), false);
+					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD, null, false);
 				}
 			}
 		} catch (ParserException | DAOException e) {

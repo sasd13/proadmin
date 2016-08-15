@@ -2,6 +2,7 @@ package com.sasd13.proadmin.handler;
 
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
@@ -25,24 +26,24 @@ public class RunningsHandler implements IWSPromise {
         parameters = new HashMap<>();
     }
 
-    public void readProjects(long projectId) {
-        setParameters(projectId);
+    public void readRunnings(Project project) {
+        setParameters(project);
 
         parameterizedReadTask = new ParameterizedReadTask<>(WSInformation.URL_RUNNINGS, parameters, this);
         parameterizedReadTask.setDeepReadEnabled(true);
         parameterizedReadTask.execute();
     }
 
-    private void setParameters(long projectId) {
+    private void setParameters(Project project) {
         parameters.clear();
         parameters.put(
                 EnumParameter.TEACHER.getName(),
                 new String[]{ String.valueOf(SessionHelper.getExtraId(runningsFragment.getContext(), Extra.TEACHER_ID)) });
-        parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
+        parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
     }
 
-    public List<Running> readRunningsFromCache(long projectId) {
-        setParameters(projectId);
+    public List<Running> readRunningsFromCache(Project project) {
+        setParameters(project);
         parameterizedReadTask.setDeepReadEnabled(true);
 
         return Cache.load(runningsFragment.getContext(), parameters, Running.class);

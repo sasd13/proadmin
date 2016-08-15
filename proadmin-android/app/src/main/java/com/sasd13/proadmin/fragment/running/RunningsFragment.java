@@ -3,6 +3,7 @@ package com.sasd13.proadmin.fragment.running;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,12 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
@@ -40,7 +39,7 @@ public class RunningsFragment extends Fragment {
     private RunningsHandler runningsHandler;
     private Recycler runningsTab;
     private List<Running> runnings;
-    private WaitDialog waitDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static RunningsFragment newInstance(Project project) {
         RunningsFragment runningsFragment = new RunningsFragment();
@@ -71,14 +70,18 @@ public class RunningsFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        buildProjectView(view);
         buildTabRunnings(view);
         readTeacher();
     }
 
-    private void buildProjectView(View view) {
-        TextView textView = (TextView) view.findViewById(R.id.runnings_textview_project);
-        textView.setText(project.getCode() + " - " + project.getTitle());
+    private void buildSwiperefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.project_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                runningsHandler.readRunnings(project);
+            }
+        });
     }
 
     private void buildTabRunnings(View view) {
@@ -112,7 +115,7 @@ public class RunningsFragment extends Fragment {
     }
 
     private void readTeacher() {
-        runningsHandler.readProjects(project.getId());
+        runningsHandler.readRunnings(project);
     }
 
     @Override
@@ -120,6 +123,7 @@ public class RunningsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
+        parentActivity.getSupportActionBar().setSubtitle(null);
     }
 
     @Override
@@ -143,12 +147,11 @@ public class RunningsFragment extends Fragment {
     }
 
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     public void onReadSucceeded(List<Running> runnings) {
-        waitDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
 
         this.runnings.clear();
         this.runnings.addAll(runnings);
@@ -157,10 +160,10 @@ public class RunningsFragment extends Fragment {
     }
 
     public void onError(String message) {
-        waitDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
 
         if (runnings.isEmpty()) {
-            runnings.addAll(runningsHandler.readRunningsFromCache(project.getId()));
+            runnings.addAll(runningsHandler.readRunningsFromCache(project));
 
             fillTabRunnings();
         }

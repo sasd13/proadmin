@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.builder.runing;
+package com.sasd13.proadmin.builder.running;
 
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.builder.IBuilder;

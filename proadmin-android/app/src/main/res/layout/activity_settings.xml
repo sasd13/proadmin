@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/AndroidEX.Recycler"
-        android:layout_gravity="center"
-        android:scrollbars="vertical"/>
+        android:layout_centerInParent="true"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/label_academiclevel"
-            android:textColor="@color/orange"
+            android:textColor="?attr/textColorPrimary"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/projects_textview_projects"
+        android:id="@+id/projects_textview_title_projects"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/AndroidEX.TitleWithTextAllCaps"
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/AndroidEX.Recycler"
-        android:layout_below="@id/projects_textview_projects"
+        android:layout_below="@id/projects_textview_title_projects"
         android:layout_gravity="center"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay"/>

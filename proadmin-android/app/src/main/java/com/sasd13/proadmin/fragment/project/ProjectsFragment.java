@@ -3,6 +3,7 @@ package com.sasd13.proadmin.fragment.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
@@ -44,7 +44,7 @@ public class ProjectsFragment extends Fragment {
     private Recycler projectsTab;
     private List<Project> projects;
     private Spin spinAcademicLevels;
-    private WaitDialog waitDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -72,9 +72,20 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void buildView(View view) {
+        buildSwiperefreshLayout(view);
         buildSpinAcademicLevels(view);
         buildTabProjects(view);
         readTeacher();
+    }
+
+    private void buildSwiperefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.project_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                projectsHandler.readProjects();
+            }
+        });
     }
 
     private void buildSpinAcademicLevels(View view) {
@@ -158,12 +169,11 @@ public class ProjectsFragment extends Fragment {
     }
 
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     public void onReadSucceeded(List<Project> projects) {
-        waitDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
 
         this.projects.clear();
         this.projects.addAll(projects);
@@ -177,7 +187,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     public void onError(String message) {
-        waitDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
 
         if (projects.isEmpty()) {
             projects.addAll(projectsHandler.readProjectsFromCache());

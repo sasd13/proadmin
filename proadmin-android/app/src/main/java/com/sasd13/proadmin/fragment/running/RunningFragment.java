@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -26,6 +26,9 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.handler.RunningHandler;
+import com.sasd13.proadmin.util.Sorter;
+
+import java.util.List;
 
 public class RunningFragment extends Fragment {
 
@@ -34,8 +37,8 @@ public class RunningFragment extends Fragment {
     private RunningsActivity parentActivity;
     private RunningHandler runningHandler;
     private RunningForm runningForm;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private boolean inModeEdit;
+    private WaitDialog waitDialog;
 
     public static RunningFragment newInstance(Project project) {
         RunningFragment runningFragment = new RunningFragment();
@@ -58,7 +61,15 @@ public class RunningFragment extends Fragment {
 
         parentActivity = (RunningsActivity) getActivity();
         runningHandler = new RunningHandler(this);
-        runningForm = new RunningForm(getContext());
+
+        createFormRunning();
+    }
+
+    private void createFormRunning() {
+        List<Project> projects = runningHandler.readProjects();
+        Sorter.sortProjectsByCodeAsc(runningHandler.readProjects());
+
+        runningForm = new RunningForm(getContext(), projects);
     }
 
     @Nullable
@@ -73,15 +84,11 @@ public class RunningFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.running_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                runningHandler.readRunning(running.getId());
-            }
-        });
-
         buildFormProject(view);
+
+        if (inModeEdit) {
+            refreshView();
+        }
     }
 
     private void buildFormProject(View view) {
@@ -89,18 +96,18 @@ public class RunningFragment extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningForm.getHolder());
-        bindFormWithProject();
     }
 
-    private void bindFormWithProject() {
-        runningForm.bind(project);
+    private void refreshView() {
+        runningForm.bind(running);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_project));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_running));
+        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_teams));
     }
 
     @Override
@@ -115,7 +122,7 @@ public class RunningFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
 
         if (!inModeEdit) {
-            menu.findItem(R.id.menu_operation_action_delete).setVisible(false);
+            menu.findItem(R.id.menu_running_action_delete).setVisible(false);
         }
     }
 
@@ -157,16 +164,24 @@ public class RunningFragment extends Fragment {
         );
     }
 
-    public void onCreateSucceeded(Running running) {
+    public void onLoad() {
+        waitDialog = new WaitDialog(getContext());
+        waitDialog.show();
+    }
+
+    public void onCreateSucceeded() {
+        waitDialog.dismiss();
         Toast.makeText(getContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
     public void onUpdateSucceeded() {
+        waitDialog.dismiss();
         Toast.makeText(getContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
     public void onDeleteSucceeded() {
+        waitDialog.dismiss();
         Toast.makeText(getContext(), R.string.message_deleted, Toast.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }

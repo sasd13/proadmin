@@ -58,5 +58,18 @@
     <string name="title_identity">Identity</string>
     <string name="label_project">Project</string>
     <string name="title_runnings">Runnings</string>
+    <string name="title_teams">Teams</string>
+    <string name="label_team">Team</string>
+    <string name="label_year">Year</string>
+    
+    <!-- Web service -->
+    <string name="ws_code_0">Error unknown</string>
+    <string name="ws_code_100">Ok</string>
+    <string name="ws_code_error_1">Error on data read</string>
+    <string name="ws_code_error_2">Error on data create</string>
+    <string name="ws_code_error_3">Error on data update</string>
+    <string name="ws_code_error_4">Error on data delete</string>
+    <string name="ws_code_error_100">Error in number</string>
+    <string name="ws_code_error_101">Error in password</string>
 
 </resources>
