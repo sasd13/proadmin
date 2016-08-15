@@ -30,7 +30,7 @@ public class ProjectFragment extends Fragment {
     private Project project;
     private ProjectsActivity parentActivity;
     private ProjectHandler projectHandler;
-    private ProjectForm formProject;
+    private ProjectForm projectForm;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProjectFragment newInstance(Project project) {
@@ -48,7 +48,7 @@ public class ProjectFragment extends Fragment {
 
         parentActivity = (ProjectsActivity) getActivity();
         projectHandler = new ProjectHandler(this);
-        formProject = new ProjectForm(getContext());
+        projectForm = new ProjectForm(getContext());
     }
 
     @Nullable
@@ -75,17 +75,15 @@ public class ProjectFragment extends Fragment {
     }
 
     private void buildFormProject(View view) {
-        Recycler form = RecyclerFactory
-                .makeBuilder(EnumFormType.FORM)
-                .build((RecyclerView) view.findViewById(R.id.project_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.project_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, formProject.getHolder());
+        RecyclerHelper.addAll(form, projectForm.getHolder());
         bindFormWithProject();
     }
 
     private void bindFormWithProject() {
-        formProject.bind(project);
+        projectForm.bind(project);
     }
 
     @Override

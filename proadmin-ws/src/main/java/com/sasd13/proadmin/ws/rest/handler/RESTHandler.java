@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
+import com.sasd13.javaex.net.http.HttpBody;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumMIMEType;
+import com.sasd13.proadmin.util.ws.EnumWSCode;
 
 public class RESTHandler {
 	
@@ -34,9 +36,9 @@ public class RESTHandler {
 		setResponseHeaderDataCollection(resp, isCollection);
 		
 		EnumMIMEType mimeType = EnumMIMEType.find(contentType);
-		String sRespData = ParserFactory.make(mimeType).toString(respData);
+		HttpBody httpBody = new HttpBody(EnumWSCode.OK);
 		
-		Stream.writeAndClose(resp.getWriter(), sRespData);
+		Stream.writeAndClose(resp.getWriter(), ParserFactory.make(mimeType).toString(httpBody));
 	}
 	
 	private static String getRequestAcceptMediaType(HttpServletRequest req) {

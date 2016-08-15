@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/AndroidEX.Activity">
+
+    <RelativeLayout
+        android:id="@+id/runnings_relativelayout_project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/runnings_textview_title_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            style="@style/AndroidEX.TitleWithTextAllCaps"
+            android:tag="title_0"
+            android:text="@string/label_project" />
+
+        <TextView
+            android:id="@+id/runnings_textview_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/runnings_textview_title_project"
+            android:text="@string/label_project"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/runnings_textview_runnings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AndroidEX.TitleWithTextAllCaps"
+        android:tag="title_1"
+        android:layout_below="@id/runnings_relativelayout_project"
+        android:layout_marginTop="@dimen/viewgroup_margin_medium"
+        android:text="@string/title_runnings"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/runnings_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/AndroidEX.Recycler"
+        android:layout_below="@id/runnings_textview_runnings"
+        android:layout_gravity="center"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"/>
+
+</RelativeLayout>

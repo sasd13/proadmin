@@ -22,7 +22,7 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.code.ws.EnumWSCode;
+import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
 import com.sasd13.proadmin.ws.db.JDBCPasswordDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
@@ -36,8 +36,6 @@ public class LogInWebService extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		long id = 0;
-		
 		JDBCDAO dao = JDBCDAO.create();
 		
 		try {
@@ -51,25 +49,21 @@ public class LogInWebService extends HttpServlet {
 			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
 			
 			if (list.isEmpty()) {
-				id = EnumWSCode.LOGIN_ERROR_TEACHER_NUMBER.getValue();
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER.getCode(), false);
 			} else {
 				Teacher teacher = list.get(0);			
 				String candidate = credentials.get(LogInWSClient.PARAM_PASSWORD);
 				
-				id = (passwordMatches(dao, candidate, teacher)) 
-						? teacher.getId() 
-						: EnumWSCode.LOGIN_ERROR_TEACHER_PASSWORD.getValue();
+				if (passwordMatches(dao, candidate, teacher)) {
+					RESTHandler.parseAndWriteDataToResponse(req, resp, teacher.getId(), false);
+				} else {
+					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD.getCode(), false);
+				}
 			}
 		} catch (ParserException | DAOException e) {
 			e.printStackTrace();
 		} finally {
 			dao.close();
-		}
-		
-		try {
-			RESTHandler.parseAndWriteDataToResponse(req, resp, id, false);
-		} catch (ParserException e) {
-			e.printStackTrace();
 		}
 	}
 	

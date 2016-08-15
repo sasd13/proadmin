@@ -1,203 +1,63 @@
 package com.sasd13.proadmin;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
 
-import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.gui.widget.recycler.Recycler;
-import com.sasd13.androidex.net.ws.IWSPromise;
-import com.sasd13.androidex.net.ws.rest.task.CreateTask;
-import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
-import com.sasd13.androidex.util.NetworkHelper;
+import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.business.RunningBusiness;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.fragment.running.RunningFragment;
+import com.sasd13.proadmin.fragment.running.RunningsFragment;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.sorter.RunningSorter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class RunningsActivity extends MotherActivity {
 
-public class RunningsActivity extends MotherActivity implements IWSPromise {
-
-    private TextView textViewProject;
-    private View viewLoad, viewTab;
-    private Recycler tab;
-
-    private List<Running> runnings = new ArrayList<>();
-    private ParameterizedReadTask<Running> parameterizedReadTaskRunning;
-    private Running runningToCreate;
-    private CreateTask<Running> createTaskRunning;
-    private boolean isActionCreateRunning;
+    private Project project;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_runnings);
-        createTextViewProject();
-        createSwicthableViews();
-        createTabRunnings();
+        GUIHelper.colorTitles(this);
+
+        builView();
     }
 
-    private void createTextViewProject() {
-        textViewProject = (TextView) findViewById(R.id.runnings_textview_project);
+    private void builView() {
+        project = Cache.load(
+                this,
+                SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID),
+                Project.class);
+
+        listRunnings();
     }
 
-    private void createSwicthableViews() {
-        viewTab = findViewById(R.id.runnings_view_tab);
-        viewLoad = findViewById(R.id.runnings_view_load);
+    public void listRunnings() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.runnings_fragment, RunningsFragment.newInstance(project))
+                .commit();
     }
 
-    private void createTabRunnings() {
-        //tabRunnings = new Tab((RecyclerView) findViewById(R.id.runnings_recyclerview));
+    public void newRunning() {
+        startFragment(RunningFragment.newInstance(project));
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        long id = SessionHelper.getExtraId(this, Extra.PROJECT_ID);
-        Project project = Cache.load(this, id, Project.class);
-
-        fillTextViewProject(project);
-        refresh();
+    public void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.runnings_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
-    private void fillTextViewProject(Project project) {
-        String text = project.getCode() + " - " + project.getTitle();
+    public void editRunning(Running running) {
+        RunningFragment runningFragment = RunningFragment.newInstance(project);
+        runningFragment.setRunning(running);
 
-        textViewProject.setText(text);
-    }
-
-    private void refresh() {
-        if (NetworkHelper.isConnected(this)) {
-            long teacherId = SessionHelper.getExtraId(this, Extra.TEACHER_ID);
-            long projectId = SessionHelper.getExtraId(this, Extra.PROJECT_ID);
-
-            Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacherId) });
-            parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(projectId) });
-
-            //parameterizedReadTaskRunning = new ParameterizedReadTask<>(this, Running.class, parameters);
-            parameterizedReadTaskRunning.setDeepReadEnabled(true);
-            parameterizedReadTaskRunning.execute();
-        } else {
-            //NetworkHelper.displayMessageNotConnected(this);
-        }
-    }
-
-    private void newRunning() {
-        if (NetworkHelper.isConnected(this)) {
-            runningToCreate = new Running();
-
-            boolean isPrepared = RunningBusiness.prepareRunningToCreate(runningToCreate, this);
-            if (isPrepared) {
-                isActionCreateRunning = true;
-
-                //createTaskRunning = new CreateTask<>(this, Running.class);
-                createTaskRunning.execute(runningToCreate);
-            }
-        } else {
-            //NetworkHelper.displayMessageNotConnected(this);
-        }
-    }
-
-    @Override
-    public void onLoad() {
-        switchToLoadView(true);
-    }
-
-    private void switchToLoadView(boolean switched) {
-        if (switched) {
-            viewLoad.setVisibility(View.VISIBLE);
-            viewTab.setVisibility(View.GONE);
-        } else {
-            viewTab.setVisibility(View.VISIBLE);
-            viewLoad.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onSuccess() {
-        if (isActionCreateRunning) {
-            isActionCreateRunning = false;
-
-            createTaskRunningSucceeded();
-        } else {
-            readTaskRunningsSucceeded();
-        }
-
-        switchToLoadView(false);
-    }
-
-    private void createTaskRunningSucceeded() {
-        try {
-            long id = createTaskRunning.getResults().get(0);
-
-            if (id > 0) {
-                runningToCreate.setId(id);
-                runnings.add(runningToCreate);
-
-                fillTabRunnings();
-                Toast.makeText(this, "Running added", Toast.LENGTH_SHORT).show();
-                Cache.keep(this, runningToCreate);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            OptionDialog.showOkDialog(
-                    this,
-                    getResources().getString(R.string.title_error),
-                    "Erreur de chargement des données"
-            );
-        }
-    }
-
-    public void fillTabRunnings() {
-        tab.clear();
-
-        RunningSorter.byYear(runnings, true);
-        //addRunningsToTab();
-    }
-
-    /*
-    private void addRunningsToTab() {
-        RunningItem tabItemRunning;
-
-        for (final Running running : runnings) {
-            tabItemRunning = new RunningItem();
-            tabItemRunning.setLabel("Running");
-            tabItemRunning.setYear(String.valueOf(running.getYear()));
-            tabItemRunning.setOnClickListener(new RecyclerItem.OnClickListener() {
-                @Override
-                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
-                    Intent intent = new Intent(RunningsActivity.this, RunningActivity.class);
-                    intent.putExtra(Extra.RUNNING_ID, running.getId());
-
-                    startActivity(intent);
-                }
-            });
-
-            tabRunnings.addItem(tabItemRunning);
-        }
-    }*/
-
-    private void readTaskRunningsSucceeded() {
-        runnings.clear();
-        runnings.addAll(parameterizedReadTaskRunning.getResults());
-
-        fillTabRunnings();
-        Cache.keepAll(this, runnings);
-    }
-
-    @Override
-    public void onFail(int i) {
-        switchToLoadView(false);
+        startFragment(runningFragment);
     }
 }

@@ -41,7 +41,7 @@ public class ProjectsFragment extends Fragment {
 
     private ProjectsActivity parentActivity;
     private ProjectsHandler projectsHandler;
-    private Recycler tabProjects;
+    private Recycler projectsTab;
     private List<Project> projects;
     private Spin spinAcademicLevels;
     private WaitDialog waitDialog;
@@ -96,20 +96,18 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void buildTabProjects(View view) {
-        tabProjects = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.projects_recyclerview));
-        tabProjects.addDividerItemDecoration();
+        projectsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.projects_recyclerview));
+        projectsTab.addDividerItemDecoration();
     }
 
     private void fillTabProjectsByAcademicLevel(EnumAcademicLevel academicLevel) {
-        tabProjects.clear();
+        projectsTab.clear();
 
         addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
 
     private void addProjectsToTab(List<Project> projects) {
-        tabProjects.clear();
-
-        RecyclerHolder recyclerHolder = new RecyclerHolder();
+        RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
         for (final Project project : projects) {
@@ -122,10 +120,10 @@ public class ProjectsFragment extends Fragment {
                 }
             });
 
-            recyclerHolder.add(pair);
+            holder.add(pair);
         }
 
-        RecyclerHelper.addAll(tabProjects, recyclerHolder);
+        RecyclerHelper.addAll(projectsTab, holder);
     }
 
     private void readTeacher() {
@@ -137,11 +135,6 @@ public class ProjectsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_projects));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -186,10 +179,11 @@ public class ProjectsFragment extends Fragment {
     public void onError(String message) {
         waitDialog.dismiss();
 
-        projects.clear();
-        projects.addAll(projectsHandler.readProjectsFromCache());
+        if (projects.isEmpty()) {
+            projects.addAll(projectsHandler.readProjectsFromCache());
 
-        refreshView();
+            refreshView();
+        }
 
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }

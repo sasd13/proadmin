@@ -22,7 +22,7 @@ public class ProjectsHandler implements IWSPromise {
     }
 
     public void readProjects() {
-        readTask = new ReadTask<>(Project.class, WSInformation.URL_PROJECTS, this, 10000);
+        readTask = new ReadTask<>(WSInformation.URL_PROJECTS, this, 10000);
         readTask.execute();
     }
 
