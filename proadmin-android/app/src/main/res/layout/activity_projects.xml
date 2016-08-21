@@ -1,110 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_padding">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/projects_relativelayout_academiclevels"
+    <FrameLayout
+        android:id="@+id/projects_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding">
+        android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/projects_textview_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/projects_textview_academiclevels"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/textsize_medium"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/projects_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@id/projects_textview_level"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/projects_relativelayout_academiclevels"
-        android:layout_marginTop="@dimen/viewgroup_margin">
-
-        <RelativeLayout
-            android:id="@+id/projects_view_tab_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_padding"
-            android:paddingRight="@dimen/activity_padding"
-            android:layout_alignParentTop="true">
-
-            <TextView
-                android:id="@+id/projects_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="@string/projects_textview_projects"
-                android:textColor="@color/orange"
-                android:textSize="@dimen/textsize_medium"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/projects_dividerview"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dividerview_height_medium"
-                android:layout_below="@id/projects_textview"
-                android:layout_marginTop="@dimen/dividerview_margintop"
-                android:background="@color/orange" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/projects_view_tab_title">
-
-            <RelativeLayout
-                android:id="@+id/projects_view_load"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ProgressBar
-                    android:id="@+id/projects_progressbar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/splashscreen_progressbar_margin"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/projects_view_tab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/projects_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:paddingLeft="@dimen/activity_padding"
-                    android:paddingRight="@dimen/activity_padding"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</FrameLayout>

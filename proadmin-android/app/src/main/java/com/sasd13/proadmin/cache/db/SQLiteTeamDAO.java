@@ -4,10 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.TeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.TeamConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +48,16 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
 
     @Override
     public void delete(Team team) {
-        String query = "UPDATE " + TABLE
-                + " SET "
-                    + COLUMN_DELETED + " = 1"
-                + " WHERE "
-                    + COLUMN_ID + " = " + team.getId();
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE ");
+        builder.append(TABLE);
+        builder.append(" SET ");
+        builder.append(COLUMN_DELETED + " = 1");
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = " + team.getId());
 
         try {
-            db.execSQL(query);
+            db.execSQL(builder.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,12 +67,15 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     public Team select(long id) {
         Team team = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ? AND "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
+        builder.append(" AND ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
             team = getCursorValues(cursor);
         }
@@ -83,17 +89,20 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
         List<Team> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, TeamDAO.class) + " AND "
-                        + COLUMN_DELETED + " = ?";
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, TeamConditionExpression.class));
+            builder.append(" AND ");
+            builder.append(COLUMN_DELETED + " = ?");
 
-            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 
@@ -104,11 +113,13 @@ public class SQLiteTeamDAO extends SQLiteEntityDAO<Team> implements TeamDAO {
     public List<Team> selectAll() {
         List<Team> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }

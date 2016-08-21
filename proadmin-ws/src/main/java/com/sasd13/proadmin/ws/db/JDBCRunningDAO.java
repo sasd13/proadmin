@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.RunningDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.RunningConditionExpression;
 
 /**
  *
@@ -191,7 +192,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, RunningDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, RunningConditionExpression.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

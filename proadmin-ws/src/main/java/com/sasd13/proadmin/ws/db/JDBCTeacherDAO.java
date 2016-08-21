@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.TeacherDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.TeacherConditionExpression;
 
 /**
  *
@@ -187,7 +188,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, TeacherDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, TeacherConditionExpression.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

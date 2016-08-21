@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.RunningTeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.RunningTeamConditionExpression;
 
 /**
  *
@@ -156,7 +157,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 		try {
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, RunningTeamDAO.class);
+						+ ConditionBuilder.parse(parameters, RunningTeamConditionExpression.class);
 			
 			statement = connection.createStatement();
 			

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.criteria.Criteria;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 
 public class AcademicLevelCriteria implements Criteria<Student> {
 	
-	private AcademicLevel academicLevel;
+	private EnumAcademicLevel academicLevel;
 	
-	public AcademicLevelCriteria(AcademicLevel academicLevel) {
+	public AcademicLevelCriteria(EnumAcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
 	

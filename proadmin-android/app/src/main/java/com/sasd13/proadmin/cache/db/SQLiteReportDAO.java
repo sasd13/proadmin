@@ -5,14 +5,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
 import com.sasd13.proadmin.dao.LeadEvaluationDAO;
 import com.sasd13.proadmin.dao.ReportDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.ReportConditionExpression;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -126,14 +127,16 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
             individualEvaluationDAO.delete(individualEvaluation);
         }
 
-        String query = "UPDATE " + TABLE
-                + " SET "
-                    + COLUMN_DELETED + " = 1"
-                + " WHERE "
-                    + COLUMN_ID + " = " + report.getId();
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE ");
+        builder.append(TABLE);
+        builder.append(" SET ");
+        builder.append(COLUMN_DELETED + " = 1");
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = " + report.getId());
 
         try {
-            db.execSQL(query);
+            db.execSQL(builder.toString());
 
             db.setTransactionSuccessful();
         } catch (SQLException e) {
@@ -147,12 +150,15 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
     public Report select(long id) {
         Report report = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ? AND "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
+        builder.append(" AND ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
             report = getCursorValues(cursor);
         }
@@ -166,17 +172,20 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
         List<Report> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, ReportDAO.class) + " AND "
-                        + COLUMN_DELETED + " = ?";
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, ReportConditionExpression.class));
+            builder.append(" AND ");
+            builder.append(COLUMN_DELETED + " = ?");
 
-            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 
@@ -187,11 +196,13 @@ public class SQLiteReportDAO extends SQLiteEntityDAO<Report> implements ReportDA
     public List<Report> selectAll() {
         List<Report> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }

@@ -9,7 +9,7 @@ public class IndividualEvaluation extends Evaluation {
 	public IndividualEvaluation(Report report) {
 		super(report);
 		
-		report.getIndividualEvaluations().add(this);
+		report.addIndividualEvaluation(this);
 	}
 	
 	public float getMark() {

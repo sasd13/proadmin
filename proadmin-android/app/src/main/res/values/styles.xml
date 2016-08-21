@@ -1,36 +1,60 @@
 <resources>
 
-    <style name="ActivityNoTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Proadmin" parent="AndroidEX">
 
     </style>
 
-    <style name="ActivityNoThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Proadmin.NoActionBar" parent="AndroidEX.NoActionBar">
 
     </style>
 
-    <style name="ActivityThemeOrange" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/orangeDark</item>
-    </style>
-
-    <style name="ActivityThemeOrangeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/orangeDark</item>
-    </style>
-
-    <style name="ActivityThemeGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="ProadminGreen" parent="Proadmin">
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/greenDark</item>
+        <item name="colorPrimaryDark">@color/greenMidDark</item>
+        <item name="colorSecondary">@color/greenMidLight</item>
+        <item name="colorAccent">@color/green</item>
     </style>
 
-    <style name="ActivityThemeBlue" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blueDark</item>
+    <style name="ProadminGreen.NoActionBar" parent="Proadmin.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/greenMidDark</item>
+        <item name="colorSecondary">@color/greenMidLight</item>
+        <item name="colorAccent">@color/green</item>
     </style>
 
-    <style name="ActivityThemeRed" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="ProadminRed" parent="Proadmin">
         <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/redDark</item>
+        <item name="colorPrimaryDark">@color/redMidDark</item>
+        <item name="colorSecondary">@color/redMidLight</item>
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <style name="ProadminOrange" parent="Proadmin">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orangeMidDark</item>
+        <item name="colorSecondary">@color/orangeMidLight</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
+
+    <style name="ProadminBlue" parent="Proadmin">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blueMidDark</item>
+        <item name="colorSecondary">@color/blueMidLight</item>
+        <item name="colorAccent">@color/blue</item>
+    </style>
+
+    <style name="ProadminPurple" parent="Proadmin">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/purpleMidDark</item>
+        <item name="colorSecondary">@color/purpleMidLight</item>
+        <item name="colorAccent">@color/purple</item>
+    </style>
+
+    <style name="ProadminBrown" parent="Proadmin">
+        <item name="colorPrimary">@color/brown</item>
+        <item name="colorPrimaryDark">@color/brownMidDark</item>
+        <item name="colorSecondary">@color/brownMidLight</item>
+        <item name="colorAccent">@color/brown</item>
     </style>
 
 </resources>

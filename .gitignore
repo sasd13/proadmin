@@ -20,5 +20,20 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-/build
-/target
+*.iml
+*.properties
+gradlew
+*.bat
+*.gradle
+*.orig
+*.pro
+
+.gradle/
+.idea/
+build/
+gradle/
+app/build/
+app/libs/
+androidex/build/
+target/
+*.aar

@@ -2,11 +2,11 @@ package com.sasd13.proadmin.cache;
 
 import android.content.Context;
 
-import com.sasd13.androidex.db.ISQLiteDAO;
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.ILayeredDAO;
 import com.sasd13.proadmin.cache.db.SQLiteDAO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +16,11 @@ import java.util.Map;
  */
 public class Cache {
 
-    private static ILayeredDAO dao = SQLiteDAO.getInstance();
+    private static ILayeredDAO dao;
 
-    public static void init(Context context) {
-        ((ISQLiteDAO) dao).init(context);
-    }
+    public static <T> void keep(Context context, T t) {
+        dao = SQLiteDAO.create(context);
 
-    public static <T> void keep(T t) {
         try {
             dao.open();
 
@@ -30,7 +28,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -38,7 +40,9 @@ public class Cache {
         ((IPersistable<T>) dao.getEntityDAO(t.getClass())).persist(t);
     }
 
-    public static <T> void keepAll(List<T> ts) {
+    public static <T> void keepAll(Context context, List<T> ts) {
+        dao = SQLiteDAO.create(context);
+
         try {
             dao.open();
 
@@ -48,12 +52,18 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static <T> T load(long id, Class<T> mClass) {
+    public static <T> T load(Context context, long id, Class<T> mClass) {
         T t = null;
+
+        dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -62,14 +72,20 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return t;
     }
 
-    public static <T> List<T> load(Map<String, String[]> parameters, Class<T> mClass) {
+    public static <T> List<T> load(Context context, Map<String, String[]> parameters, Class<T> mClass) {
         List<T> ts = new ArrayList<>();
+
+        dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -78,14 +94,20 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return ts;
     }
 
-    public static <T> List<T> loadAll(Class<T> mClass) {
+    public static <T> List<T> loadAll(Context context, Class<T> mClass) {
         List<T> ts = new ArrayList<>();
+
+        dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -94,7 +116,11 @@ public class Cache {
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
-            dao.close();
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return ts;

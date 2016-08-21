@@ -3,81 +3,73 @@
 
     <!-- Activity -->
     <string name="activity_splashscreen">@string/app_name</string>
-    <string name="activity_login">Connexion</string>
-    <string name="activity_sign">Inscription</string>
-    <string name="activity_home">Menu</string>
-    <string name="activity_projects">Projets</string>
-    <string name="activity_project">Projet</string>
-    <string name="activity_runnings">Gestions</string>
-    <string name="activity_running">Gestion</string>
-    <string name="activity_team">Groupe</string>
-    <string name="activity_setting">Options</string>
+    <string name="activity_login">Log in</string>
+    <string name="activity_home">Home</string>
+    <string name="activity_projects">Projects</string>
+    <string name="activity_project">Project</string>
+    <string name="activity_runnings">Runnings</string>
+    <string name="activity_running">Running</string>
+    <string name="activity_team">Team</string>
+    <string name="activity_settings">Settings</string>
 
-    <!-- Activity Login -->
-    <string name="login_button_connect">Connexion</string>
-    <string name="login_textview_sign">Inscription sur Proadmin</string>
-    <string name="login_textview_restorepassword">Mot de passe oublié ?</string>
-    <string name="login_dialog_title_error_login">Erreur connexion</string>
-    <string name="login_dialog_message_error_login">Identifiants invalides</string>
-
-    <!-- Activity Sign -->
-    <string name="sign_dialog_title_error_sign">Erreur inscription</string>
-    <string name="sign_dialog_message_error_sign">Remplir le formulaire d\'inscription</string>
-
-    <!-- Activity Home -->
-    <string name="home_dialog_title_welcome">Bienvenue</string>
-    <string name="home_dialog_message_welcome">Salut</string>
+    <!-- Activity Log In -->
+    <string name="login_button_connect">Connect</string>
 
     <!-- Activity Projects -->
-    <string name="projects_textview_academiclevels">NIVEAU ACADEMIQUE :</string>
-    <string name="projects_textview_projects">PROJETS</string>
-
-    <!-- Activity Project -->
-    <string name="project_textview_title_academiclevel">NIVEAU ACADEMIQUE</string>
-    <string name="project_textview_title_code">CODE</string>
-    <string name="project_textview_title_title">TITRE</string>
-    <string name="project_textview_title_description">DESCRIPTION</string>
-    <string name="project_textview_academiclevel">Niveau</string>
-    <string name="project_textview_code">Code</string>
-    <string name="project_textview_title">Titre</string>
-    <string name="project_textview_description">Description</string>
-
-    <!-- Activity Runnings -->
-    <string name="runnings_textview_title_project">PROJET</string>
-    <string name="runnings_textview_project">Projet</string>
-    <string name="runnings_textview_title_years">ANNEES</string>
-
-    <!-- Activity Running -->
-    <string name="running_textview_title_project">PROJET</string>
-    <string name="running_textview_project">Projet</string>
-    <string name="running_textview_title_year">ANNEE</string>
-    <string name="running_textview_year">Année</string>
-    <string name="running_textview_title_teams">GROUPES</string>
-
-    <!-- Activity Team -->
+    <string name="projects_textview_projects">Projects</string>
+    <string name="academiclevel_l1">Bachelor 1</string>
+    <string name="academiclevel_l2">Bachelor 2</string>
+    <string name="academiclevel_l3">Bachelor 3</string>
+    <string name="academiclevel_l4">Master 1</string>
+    <string name="academiclevel_l5">Master 2</string>
+    <string-array name="academiclevels">
+        <item>@string/academiclevel_l1</item>
+        <item>@string/academiclevel_l2</item>
+        <item>@string/academiclevel_l3</item>
+        <item>@string/academiclevel_l4</item>
+        <item>@string/academiclevel_l5</item>
+    </string-array>
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
 
-    <!-- Dialog -->
-    <string name="dialog_title_request">Requête</string>
-    <string name="dialog_message_error_request_canceled">Requête annulée</string>
-
-    <!-- EditText -->
-    <string name="edittext_hint_number">Matricule</string>
+    <!-- Drawer -->
+    <string name="drawer_header_menu">Menu</string>
+    <string name="drawer_header_account">Account</string>
+    <string name="drawer_label_logout">Log out</string>
 
     <!-- Form -->
-    <string name="form_textview_title_number">MATRICULE</string>
+    <string name="form_settings_message_error_firstname">Invalid first name</string>
+    <string name="form_settings_message_error_lastname">Invalid last name</string>
+    <string name="form_settings_message_error_email">Invalid email</string>
 
     <!-- Menu -->
-    <string name="menuitem_projects_action_runnings">Mes gestions</string>
+    <string name="menu_item_action_valid">Valid</string>
 
-    <!-- Tab -->
-    <string name="tabitem_textview_label">Label</string>
-    <string name="tabitem_project_textview_code">Code</string>
-    <string name="tabitem_project_textview_description">Description</string>
-    <string name="tabitem_running_textview_year">Année</string>
-    <string name="tabitem_running_textview_teams">Groupes</string>
-    <string name="tabitem_team_textview_code">Code</string>
+    <!-- Textview -->
+    <string name="label_number">Number</string>
+    <string name="label_firstname">First name</string>
+    <string name="label_lastname">Last name</string>
+    <string name="label_email">Email</string>
+    <string name="label_title">Title</string>
+    <string name="label_academiclevel">Academic level</string>
+    <string name="label_code">Code</string>
+    <string name="label_description">Description</string>
+    <string name="title_identity">Identity</string>
+    <string name="label_project">Project</string>
+    <string name="title_runnings">Runnings</string>
+    <string name="title_teams">Teams</string>
+    <string name="label_team">Team</string>
+    <string name="label_year">Year</string>
+    
+    <!-- Web service -->
+    <string name="ws_code_0">Error unknown</string>
+    <string name="ws_code_100">Ok</string>
+    <string name="ws_code_error_1">Error on data read</string>
+    <string name="ws_code_error_2">Error on data create</string>
+    <string name="ws_code_error_3">Error on data update</string>
+    <string name="ws_code_error_4">Error on data delete</string>
+    <string name="ws_code_error_100">Error in number</string>
+    <string name="ws_code_error_101">Error in password</string>
 
 </resources>

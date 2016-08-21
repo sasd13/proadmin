@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportFilter extends AndFilter<Report> {
 	
@@ -13,13 +13,13 @@ public class ReportFilter extends AndFilter<Report> {
 		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (Parameter.SESSIONNUMBER.getName().equals(entry.getKey())) {
+				if (EnumParameter.SESSIONNUMBER.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new SessionNumberCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (Parameter.RUNNINGTEAM.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.RUNNINGTEAM.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new RunningTeamCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {

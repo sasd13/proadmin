@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_ID, project.getId());
-        values.put(COLUMN_ACADEMICLEVEL, project.getAcademicLevel().getName());
+        values.put(COLUMN_ACADEMICLEVEL, project.getAcademicLevel().getCode());
         values.put(COLUMN_CODE, project.getCode());
         values.put(COLUMN_TITLE, project.getTitle());
         values.put(COLUMN_DESCRIPTION, project.getDescription());
@@ -34,7 +35,7 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         Project project = new Project();
 
         project.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-        project.setAcademicLevel(AcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
+        project.setAcademicLevel(EnumAcademicLevel.find(cursor.getString(cursor.getColumnIndex(COLUMN_ACADEMICLEVEL))));
         project.setCode(cursor.getString(cursor.getColumnIndex(COLUMN_CODE)));
         project.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
         project.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
@@ -54,14 +55,16 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
 
     @Override
     public void delete(Project project) {
-        String query = "UPDATE " + TABLE
-                + " SET "
-                    + COLUMN_DELETED + " = 1"
-                + " WHERE "
-                    + COLUMN_ID + " = " + project.getId();
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE ");
+        builder.append(TABLE);
+        builder.append(" SET ");
+        builder.append(COLUMN_DELETED + " = 1");
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = " + project.getId());
 
         try {
-            db.execSQL(query);
+            db.execSQL(builder.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,12 +74,15 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
     public Project select(long id) {
         Project project = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ? AND "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
+        builder.append(" AND ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id), String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id), String.valueOf(0) });
         if (cursor.moveToNext()) {
             project = getCursorValues(cursor);
         }
@@ -90,17 +96,20 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
         List<Project> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, ProjectDAO.class) + " AND "
-                        + COLUMN_DELETED + " = ?";
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
+            builder.append(" AND ");
+            builder.append(COLUMN_DELETED + " = ?");
 
-            Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+            Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 
@@ -111,11 +120,13 @@ public class SQLiteProjectDAO extends SQLiteEntityDAO<Project> implements Projec
     public List<Project> selectAll() {
         List<Project> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_DELETED + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_DELETED + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(0) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(0) });
         while (cursor.moveToNext()) {
             list.add(getCursorValues(cursor));
         }

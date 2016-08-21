@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.criteria.AndFilter;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningFilter extends AndFilter<Running> {
 	
@@ -13,19 +13,19 @@ public class RunningFilter extends AndFilter<Running> {
 		
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (Parameter.YEAR.getName().equals(entry.getKey())) {
+				if (EnumParameter.YEAR.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (Parameter.TEACHER.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (Parameter.PROJECT.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.PROJECT.getName().equals(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {

@@ -1,16 +1,16 @@
 package com.sasd13.proadmin.bean.member;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 
 public class Student extends Member {
 	
-	private AcademicLevel academicLevel;
+	private EnumAcademicLevel academicLevel;
 	
-	public AcademicLevel getAcademicLevel() {
+	public EnumAcademicLevel getAcademicLevel() {
 		return academicLevel;
 	}
 	
-	public void setAcademicLevel(AcademicLevel academicLevel) {
+	public void setAcademicLevel(EnumAcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
 	

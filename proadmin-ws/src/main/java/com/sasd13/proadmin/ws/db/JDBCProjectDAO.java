@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
+import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
 
 /**
  *
@@ -26,7 +27,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getAcademicLevel().getName());
+		preparedStatement.setString(1, project.getAcademicLevel().getCode());
 		preparedStatement.setString(2, project.getCode());
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
@@ -36,7 +37,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setId(resultSet.getLong(COLUMN_ID));
-		project.setAcademicLevel(AcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		project.setAcademicLevel(EnumAcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
@@ -188,7 +189,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		try {			
 			String query = "SELECT * FROM " + TABLE
 					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, ProjectDAO.class) + " AND "
+						+ ConditionBuilder.parse(parameters, ProjectConditionExpression.class) + " AND "
 						+ COLUMN_DELETED + " = false";
 			
 			statement = connection.createStatement();

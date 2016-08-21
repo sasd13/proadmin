@@ -3,15 +3,22 @@ package com.sasd13.proadmin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.sasd13.proadmin.constant.Extra;
+import com.sasd13.androidex.gui.GUIConstants;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.SessionHelper;
 
-public class HomeActivity extends MotherActivity {
+public class HomeActivity extends AppCompatActivity {
+
+    public static HomeActivity self;
 
     private ImageView imageViewProject, imageViewTeam, imageViewReport, imageViewCalendar;
 
@@ -20,27 +27,30 @@ public class HomeActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-        createNav();
+
+        self = this;
+
+        buildView();
     }
 
-    private void createNav() {
+    private void buildView() {
         imageViewProject = (ImageView) findViewById(R.id.home_imageview_project);
         imageViewTeam = (ImageView) findViewById(R.id.home_imageview_team);
         imageViewReport = (ImageView) findViewById(R.id.home_imageview_report);
         imageViewCalendar = (ImageView) findViewById(R.id.home_imageview_calendar);
 
-        addDrawablesToNavItems();
-        addListenersToNavItems();
+        setImageDrawables();
+        setImagesListeners();
     }
 
-    private void addDrawablesToNavItems() {
+    private void setImageDrawables() {
         imageViewCalendar.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_calendar));
         imageViewProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_project));
         imageViewTeam.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_team));
         imageViewReport.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.imageview_report));
     }
 
-    private void addListenersToNavItems() {
+    private void setImagesListeners() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,14 +67,11 @@ public class HomeActivity extends MotherActivity {
                         mClass = ReportsActivity.class;
                         break;*/
                     case R.id.home_imageview_calendar:
-                        mClass = SettingActivity.class;
+                        mClass = SettingsActivity.class;
                         break;
                 }
 
-                Intent intent = new Intent(HomeActivity.this, mClass);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                startActivity(intent);
+                startActivity(new Intent(HomeActivity.this, mClass));
             }
         };
 
@@ -84,12 +91,19 @@ public class HomeActivity extends MotherActivity {
         }
     }
 
-    private void exit() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public void exit() {
+        final WaitDialog waitDialog = new WaitDialog(this);
 
-        startActivity(intent);
-        finish();
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(HomeActivity.this, LogInActivity.class));
+                waitDialog.dismiss();
+                finish();
+            }
+        }, GUIConstants.TIMEOUT_ACTIVITY).start();
+
+        waitDialog.show();
     }
 
     @Override
@@ -97,14 +111,14 @@ public class HomeActivity extends MotherActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId()) {
             case R.id.menu_home_action_logout:
-                logOut();
+                SessionHelper.logOut(this);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

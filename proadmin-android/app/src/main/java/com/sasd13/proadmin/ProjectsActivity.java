@@ -1,178 +1,44 @@
 package com.sasd13.proadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
-import com.sasd13.androidex.gui.widget.recycler.tab.Tab;
-import com.sasd13.androidex.gui.widget.spin.Spin;
-import com.sasd13.androidex.net.NetworkHelper;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.constant.Extra;
-import com.sasd13.proadmin.gui.widget.recycler.tab.TabItemProject;
-import com.sasd13.proadmin.util.ILoader;
-import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
-import com.sasd13.proadmin.ws.task.LoaderReadTask;
+import com.sasd13.proadmin.fragment.project.ProjectFragment;
+import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ProjectsActivity extends MotherActivity implements ILoader {
-
-    private Spin spinAcademicLevels;
-    private View viewLoad, viewTab;
-    private Tab tabProjects;
-
-    private List<Project> projects = new ArrayList<>();
-    private LoaderReadTask<Project> readTaskProjects;
+public class ProjectsActivity extends MotherActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
-        createSpinAcademicLevels();
-        createSwicthableViews();
-        createTabProjects();
-        fillSpinAcademicLevels();
+        GUIHelper.colorTitles(this);
+
+        builView();
     }
 
-    private void createSpinAcademicLevels() {
-        Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
-
-        spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private void builView() {
+        listProjects();
     }
 
-    private void fillTabProjectsByAcademicLevel(AcademicLevel academicLevel) {
-        tabProjects.clearItems();
-
-        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
+    public void listProjects() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.projects_fragment, ProjectsFragment.newInstance())
+                .commit();
     }
 
-    private void addProjectsToTab(List<Project> list) {
-        TabItemProject tabItemProject;
-
-        for (final Project project : list) {
-            tabItemProject = new TabItemProject();
-            tabItemProject.setLabel(project.getTitle());
-            tabItemProject.setCode(project.getCode());
-            tabItemProject.setDescription(project.getDescription());
-
-            tabItemProject.setOnClickListener(new RecyclerItem.OnClickListener() {
-                @Override
-                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
-                    Intent intent = new Intent(ProjectsActivity.this, ProjectActivity.class);
-                    intent.putExtra(Extra.PROJECT_ID, project.getId());
-                }
-            });
-
-            tabProjects.addItem(tabItemProject);
-        }
+    public void showProject(Project project) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.projects_fragment, ProjectFragment.newInstance(project))
+                .addToBackStack(null)
+                .commit();
     }
 
-    private void createSwicthableViews() {
-        viewLoad = findViewById(R.id.projects_view_load);
-        viewTab = findViewById(R.id.projects_view_tab);
-    }
+    public void listRunnings(Project project) {
 
-    private void createTabProjects() {
-        tabProjects = new Tab((RecyclerView) findViewById(R.id.projects_recyclerview));
-    }
-
-    private void fillSpinAcademicLevels() {
-        for (AcademicLevel academicLevel : AcademicLevel.getLevels()) {
-            spinAcademicLevels.addItem(academicLevel.getName());
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        refresh();
-    }
-
-    private void refresh() {
-        if (NetworkHelper.isActive(this)) {
-            readTaskProjects = new LoaderReadTask<>(this, Project.class, this);
-            readTaskProjects.execute();
-        } else {
-            NetworkHelper.displayMessageNotActive(this);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_projects, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_projects_action_refresh:
-                refresh();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
-
-    @Override
-    public void onLoading() {
-        switchToLoadView(true);
-    }
-
-    private void switchToLoadView(boolean switched) {
-        if (switched) {
-            viewLoad.setVisibility(View.VISIBLE);
-            viewTab.setVisibility(View.GONE);
-        } else {
-            viewTab.setVisibility(View.VISIBLE);
-            viewLoad.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onLoadSucceeded() {
-        projects.clear();
-        projects.addAll(readTaskProjects.getResults());
-
-        fillTabProjects();
-        Cache.keepAll(projects);
-        switchToLoadView(false);
-    }
-
-    public void fillTabProjects() {
-        fillTabProjectsByAcademicLevel(AcademicLevel.find(spinAcademicLevels.getSelectedItem()));
-    }
-
-    @Override
-    public void onLoadFailed() {
-        switchToLoadView(false);
     }
 }

@@ -1,35 +1,72 @@
 package com.sasd13.proadmin;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 
 import com.sasd13.androidex.DrawerActivity;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerItem;
-import com.sasd13.androidex.gui.widget.recycler.drawer.DrawerItemNav;
-import com.sasd13.proadmin.gui.nav.Nav;
-import com.sasd13.proadmin.gui.nav.NavItem;
+import com.sasd13.androidex.gui.IAction;
+import com.sasd13.androidex.gui.widget.EnumActionEvent;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.gui.widget.recycler.drawer.EnumDrawerItemType;
+import com.sasd13.proadmin.gui.browser.Browser;
+import com.sasd13.proadmin.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.util.SessionHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MotherActivity extends DrawerActivity {
 
     @Override
-    protected void fillDrawer() {
-        Nav nav = Nav.getInstance(this);
-        DrawerItemNav drawerItemNav;
+    protected RecyclerHolder getDrawerHolder() {
+        RecyclerHolder recyclerHolder = new RecyclerHolder();
 
-        for (final NavItem navItem : nav.getItems()) {
-            drawerItemNav = new DrawerItemNav();
+        addBrowserItems(recyclerHolder);
+        addAccountItems(recyclerHolder);
 
-            drawerItemNav.setColor(navItem.getColor());
-            drawerItemNav.setLabel(navItem.getText());
-            drawerItemNav.setOnClickListener(new RecyclerItem.OnClickListener() {
+        return recyclerHolder;
+    }
+
+    private void addBrowserItems(RecyclerHolder recyclerHolder) {
+        List<BrowserItemModel> browserItemModels = Browser.getInstance().getItems(this);
+        List<RecyclerHolderPair> pairs = new ArrayList<>();
+        RecyclerHolderPair pair;
+
+        for (final BrowserItemModel browserItemModel : browserItemModels) {
+            browserItemModel.setItemType(EnumDrawerItemType.NAV);
+
+            pair = new RecyclerHolderPair(browserItemModel);
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
-                public void onClickOnRecyclerItem(RecyclerItem recyclerItem) {
-                    navItem.getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    startActivity(navItem.getIntent());
+                public void execute() {
+                    startActivity(new Intent(MotherActivity.this, browserItemModel.getTarget()));
                 }
             });
 
-            drawer.addItem(drawerItemNav);
+            pairs.add(pair);
         }
+
+        recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
+    }
+
+    private void addAccountItems(RecyclerHolder recyclerHolder) {
+        BrowserItemModel browserItemModel = new BrowserItemModel(
+                getResources().getString(R.string.drawer_label_logout),
+                ContextCompat.getDrawable(this, R.drawable.ic_exit_to_app_black_24dp),
+                ContextCompat.getColor(this, R.color.greyBackground),
+                HomeActivity.class
+        );
+        browserItemModel.setItemType(EnumDrawerItemType.NAV);
+
+        RecyclerHolderPair pair = new RecyclerHolderPair(browserItemModel);
+        pair.addController(EnumActionEvent.CLICK, new IAction() {
+            @Override
+            public void execute() {
+                SessionHelper.logOut(MotherActivity.this);
+            }
+        });
+
+        recyclerHolder.add(getResources().getString(R.string.drawer_header_account), pair);
     }
 }

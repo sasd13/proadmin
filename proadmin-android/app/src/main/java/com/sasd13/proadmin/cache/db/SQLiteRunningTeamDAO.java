@@ -3,12 +3,13 @@ package com.sasd13.proadmin.cache.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.javaex.db.condition.ConditionBuilderException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.RunningTeamDAO;
-import com.sasd13.proadmin.dao.condition.ConditionBuilder;
-import com.sasd13.proadmin.dao.condition.ConditionException;
+import com.sasd13.proadmin.dao.condition.RunningTeamConditionExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +60,13 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
     public RunningTeam select(long id) {
         RunningTeam runningTeam = null;
 
-        String query = "SELECT * FROM " + TABLE
-                + " WHERE "
-                    + COLUMN_ID + " = ?";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ");
+        builder.append(TABLE);
+        builder.append(" WHERE ");
+        builder.append(COLUMN_ID + " = ?");
 
-        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(id) });
+        Cursor cursor = db.rawQuery(builder.toString(), new String[]{ String.valueOf(id) });
         if (cursor.moveToNext()) {
             runningTeam = getCursorValues(cursor);
         }
@@ -77,16 +80,18 @@ public class SQLiteRunningTeamDAO extends SQLiteEntityDAO<RunningTeam> implement
         List<RunningTeam> list = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM " + TABLE
-                    + " WHERE "
-                        + ConditionBuilder.parse(parameters, RunningTeamDAO.class);
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM ");
+            builder.append(TABLE);
+            builder.append(" WHERE ");
+            builder.append(ConditionBuilder.parse(parameters, RunningTeamConditionExpression.class));
 
-            Cursor cursor = db.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(builder.toString(), null);
             while (cursor.moveToNext()) {
                 list.add(getCursorValues(cursor));
             }
             cursor.close();
-        } catch (ConditionException e) {
+        } catch (ConditionBuilderException e) {
             e.printStackTrace();
         }
 

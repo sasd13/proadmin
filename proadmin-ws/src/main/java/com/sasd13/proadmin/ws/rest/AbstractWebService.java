@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sasd13.javaex.db.LayeredPersistor;
-import com.sasd13.javaex.net.http.HttpHeader;
+import com.sasd13.javaex.net.http.EnumHttpHeaderField;
+import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 import com.sasd13.proadmin.ws.rest.handler.ReadHandler;
@@ -35,14 +37,15 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String headerRequestParameterized = (String) req.getHeader(HttpHeader.REQUEST_PARAMETERIZED_FIELD.getName());
-		String headerDataRetrieve = (String) req.getHeader(HttpHeader.DATA_RETRIEVE_FIELD.getName());
+		String headerRequestParameterized = (String) req.getHeader(EnumHttpHeaderField.REQUEST_PARAMETERIZED.getName());
+		String headerDataRetrieve = (String) req.getHeader(EnumHttpHeaderField.DATA_RETRIEVE.getName());
 		Map<String, String[]> parameters = req.getParameterMap();
 		
 		Object respData = null;
-		LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+		boolean isCollection = false;
+		LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 		
-		if (!HttpHeader.REQUEST_PARAMETERIZED_VALUE_YES.getName().equals(headerRequestParameterized)
+		if (!EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName().equalsIgnoreCase(headerRequestParameterized)
 				&& parameters.size() == 1 
 				&& parameters.containsKey(REQUEST_PARAMETER_ID) 
 				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
@@ -54,6 +57,8 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 				e.printStackTrace();
 			}
 		} else {
+			isCollection = true;
+			
 			List<T> list;
 			
 			if (parameters.isEmpty()) {
@@ -66,7 +71,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		}
 		
 		try {
-			RESTHandler.parseAndWriteDataToResponse(req, resp, respData);
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, respData, isCollection);
 		} catch (ParserException e) {
 			e.printStackTrace();
 		}
@@ -74,49 +79,68 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		long id = 0;
-		
 		try {
-			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
+			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
 			
-			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
-			id = persistor.create(t);
+			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
+			long id = persistor.create(t);
+			
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, id, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
-		}
-		
-		try {
-			RESTHandler.parseAndWriteDataToResponse(req, resp, id);
-		} catch (ParserException e) {
-			e.printStackTrace();
+			
+			try {
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_POST, null, false);
+			} catch (ParserException e1) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String headerDataCollection = (String) req.getHeader(EnumHttpHeaderField.DATA_COLLECTION.getName());
+		
 		try {
-			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
-			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			
-			if (reqData.getClass().isArray()) {
-				persistor.updateAll(Arrays.asList((T[]) reqData));
+			if (EnumHttpHeaderValue.DATA_COLLECTION_YES.getName().equalsIgnoreCase(headerDataCollection)) {
+				T[] ts = (T[]) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), true);
+				persistor.updateAll(Arrays.asList(ts));
 			} else {
-				persistor.update((T) reqData);
+				T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
+				persistor.update(t);
 			}
+			
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
+			
+			try {
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_PUT, null, false);
+			} catch (ParserException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Object reqData = RESTHandler.readAndParseDataFromRequest(req, getEntityClass());
-			LayeredPersistor persistor = new LayeredPersistor(new JDBCDAO());
+			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
+			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			
-			persistor.delete((T) reqData);
+			persistor.delete(t);
+			
+			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
 		} catch (ParserException e) {
 			e.printStackTrace();
+			
+			try {
+				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_DELETE, null, false);
+			} catch (ParserException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }

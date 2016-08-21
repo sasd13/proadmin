@@ -11,7 +11,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Parameter;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	
@@ -38,7 +38,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		runningTeam.getTeam().setCode(team.getCode());
 		
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(Parameter.RUNNINGTEAM.getName(), new String[]{ String.valueOf(runningTeam.getId()) });
+		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[]{ String.valueOf(runningTeam.getId()) });
 		
 		List<Report> reports = reportDAO.select(parameters);
 		Report reportToAdd;
