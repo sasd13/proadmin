@@ -1,9 +1,11 @@
 package com.sasd13.proadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.fragment.project.ProjectFragment;
 import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 
@@ -39,6 +41,9 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void listRunnings(Project project) {
+        Intent intent = new Intent(this, RunningsActivity.class);
+        intent.putExtra(Extra.PROJECT_ID, project.getId());
 
+        startActivity(intent);
     }
 }

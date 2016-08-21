@@ -39,7 +39,7 @@ public class LogInWebService extends HttpServlet {
 		JDBCDAO dao = JDBCDAO.create();
 		
 		try {
-			Map<String, String> credentials = (Map<String, String>) RESTHandler.readAndParseDataFromRequest(req, Map.class, false);
+			Map<String, String> credentials = (Map<String, String>) RESTHandler.readDataFromRequest(req, Map.class);
 			String number = credentials.get(LogInWSClient.PARAM_USERNAME);
 			
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
@@ -49,15 +49,15 @@ public class LogInWebService extends HttpServlet {
 			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
 			
 			if (list.isEmpty()) {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER, null, false);
+				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER, null);
 			} else {
 				Teacher teacher = list.get(0);			
 				String candidate = credentials.get(LogInWSClient.PARAM_PASSWORD);
 				
 				if (passwordMatches(dao, candidate, teacher)) {
-					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, teacher.getId(), false);
+					RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, teacher.getId());
 				} else {
-					RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD, null, false);
+					RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD, null);
 				}
 			}
 		} catch (ParserException | DAOException e) {

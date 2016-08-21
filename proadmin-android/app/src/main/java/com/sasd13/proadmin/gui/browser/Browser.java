@@ -3,6 +3,7 @@ package com.sasd13.proadmin.gui.browser;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
+import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.SettingsActivity;
 
@@ -29,9 +30,16 @@ public class Browser {
         if (items.isEmpty()) {
             items.add(new BrowserItemModel(
                     context.getResources().getString(R.string.activity_settings),
-                    ContextCompat.getDrawable(context, R.drawable.ic_setting_small),
+                    ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.brown),
                     SettingsActivity.class
+            ));
+
+            items.add(new BrowserItemModel(
+                    context.getResources().getString(R.string.activity_projects),
+                    ContextCompat.getDrawable(context, R.drawable.ic_project_small),
+                    ContextCompat.getColor(context, R.color.orange),
+                    ProjectsActivity.class
             ));
         }
 

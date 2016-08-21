@@ -66,8 +66,8 @@ public class RunningFragment extends Fragment {
     }
 
     private void createFormRunning() {
-        List<Project> projects = runningHandler.readProjects();
-        Sorter.sortProjectsByCodeAsc(runningHandler.readProjects());
+        List<Project> projects = runningHandler.readProjectsFromCache();
+        Sorter.sortProjectsByCodeAsc(runningHandler.readProjectsFromCache());
 
         runningForm = new RunningForm(getContext(), projects);
     }

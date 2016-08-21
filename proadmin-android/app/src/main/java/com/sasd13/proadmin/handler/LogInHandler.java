@@ -50,10 +50,10 @@ public class LogInHandler implements IWSPromise {
     }
 
     private void onLogInTaskSucceeded() {
-        EnumWSCode wsCode = EnumWSCode.find(logInTask.getWSCode());
+        EnumWSCode wsCode = EnumWSCode.find(logInTask.getWSReponseCode());
 
         if (!wsCode.isError()) {
-            readTaskTeacher = new ReadTask<>(WSInformation.URL_TEACHERS, this);
+            readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
             readTaskTeacher.execute(logInTask.getResult());
         } else {
             EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);

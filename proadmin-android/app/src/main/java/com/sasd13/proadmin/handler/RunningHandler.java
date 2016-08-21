@@ -40,7 +40,7 @@ public class RunningHandler implements IWSPromise {
         defaultRunningBuilder = new DefaultRunningBuilder();
     }
 
-    public List<Project> readProjects() {
+    public List<Project> readProjectsFromCache() {
         return Cache.loadAll(runningFragment.getContext(), Project.class);
     }
 
@@ -53,7 +53,7 @@ public class RunningHandler implements IWSPromise {
 
         try {
             running = getRunningToCreate(runningForm, project);
-            createTask = new CreateTask<>(WSInformation.URL_RUNNINGS, this);
+            createTask = new CreateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
 
             createTask.execute(running);
         } catch (FormException e) {
@@ -76,22 +76,26 @@ public class RunningHandler implements IWSPromise {
         return runningToCreate;
     }
 
-    public void updateRunning(Running running, RunningForm runningForm) {
+    public void updateRunning(Running runningToUpdate, RunningForm runningForm) {
         taskType = TASKTYPE_UPDATE;
 
         Running runningFromForm = runningForm.getEditable();
 
-        Binder.bind(running, runningFromForm);
-        this.running = running;
+        Binder.bind(runningToUpdate, runningFromForm);
+        running = runningToUpdate;
+        running.setTeacher(Cache.load(
+                runningFragment.getContext(),
+                SessionHelper.getExtraId(runningFragment.getContext(), Extra.TEACHER_ID),
+                Teacher.class));
 
-        updateTask = new UpdateTask<>(WSInformation.URL_RUNNINGS, this);
+        updateTask = new UpdateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
         updateTask.execute(running);
     }
 
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
 
-        deleteTask = new DeleteTask<>(WSInformation.URL_RUNNINGS, this);
+        deleteTask = new DeleteTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
         deleteTask.execute(running.getId());
     }
 
@@ -116,7 +120,7 @@ public class RunningHandler implements IWSPromise {
     }
 
     private void onCreateTaskSucceeded() {
-        if (!isWSError(createTask.getWSCode())) {
+        if (!isWSError(createTask.getWSResponseCode())) {
             try {
                 long id = createTask.getResults().get(0);
 
@@ -143,14 +147,14 @@ public class RunningHandler implements IWSPromise {
     }
 
     private void onUpdateTaskSucceeded() {
-        if (!isWSError(updateTask.getWSCode())) {
+        if (!isWSError(updateTask.getWSReponseCode())) {
             Cache.keep(runningFragment.getContext(), running);
             runningFragment.onUpdateSucceeded();
         }
     }
 
     private void onDeleteTaskSucceeded() {
-        if (!isWSError(deleteTask.getWSCode())) {
+        if (!isWSError(deleteTask.getWSReponseCode())) {
             runningFragment.onDeleteSucceeded();
         }
     }

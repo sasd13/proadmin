@@ -71,7 +71,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		}
 		
 		try {
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, respData, isCollection);
+			RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, respData);
 		} catch (ParserException e) {
 			e.printStackTrace();
 		}
@@ -80,17 +80,17 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
+			T t = (T) RESTHandler.readDataFromRequest(req, getEntityClass());
 			
 			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			long id = persistor.create(t);
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, id, false);
+			RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, id);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_POST, null, false);
+				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_POST, null);
 			} catch (ParserException e1) {
 				e.printStackTrace();
 			}
@@ -105,19 +105,19 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			
 			if (EnumHttpHeaderValue.DATA_COLLECTION_YES.getName().equalsIgnoreCase(headerDataCollection)) {
-				T[] ts = (T[]) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), true);
+				T[] ts = (T[]) RESTHandler.readArrayDataFromRequest(req, getEntityClass());
 				persistor.updateAll(Arrays.asList(ts));
 			} else {
-				T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
+				T t = (T) RESTHandler.readDataFromRequest(req, getEntityClass());
 				persistor.update(t);
 			}
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
+			RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, null);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_PUT, null, false);
+				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_PUT, null);
 			} catch (ParserException e1) {
 				e1.printStackTrace();
 			}
@@ -127,17 +127,17 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			T t = (T) RESTHandler.readAndParseDataFromRequest(req, getEntityClass(), false);
+			T t = (T) RESTHandler.readDataFromRequest(req, getEntityClass());
 			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
 			
 			persistor.delete(t);
 			
-			RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.OK, null, false);
+			RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, null);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			
 			try {
-				RESTHandler.parseAndWriteDataToResponse(req, resp, EnumWSCode.ERROR_DELETE, null, false);
+				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_DELETE, null);
 			} catch (ParserException e1) {
 				e1.printStackTrace();
 			}

@@ -17,5 +17,7 @@ public class Binder {
 
     public static void bind(Running target, Running source) {
         target.setYear(source.getYear());
+        target.setTeacher(source.getTeacher());
+        target.setProject(source.getProject());
     }
 }

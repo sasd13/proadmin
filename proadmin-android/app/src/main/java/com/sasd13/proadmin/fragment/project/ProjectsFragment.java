@@ -3,6 +3,7 @@ package com.sasd13.proadmin.fragment.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -73,37 +74,18 @@ public class ProjectsFragment extends Fragment {
 
     private void buildView(View view) {
         buildSwiperefreshLayout(view);
-        buildSpinAcademicLevels(view);
         buildTabProjects(view);
-        readTeacher();
+        readProjects();
     }
 
     private void buildSwiperefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.project_swiperefreshlayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.projects_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 projectsHandler.readProjects();
             }
         });
-    }
-
-    private void buildSpinAcademicLevels(View view) {
-        Spinner spinner = (Spinner) view.findViewById(R.id.projects_spinner);
-
-        spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        spinAcademicLevels.addAll(Arrays.asList(getResources().getStringArray(R.array.academiclevels)));
     }
 
     private void buildTabProjects(View view) {
@@ -137,7 +119,7 @@ public class ProjectsFragment extends Fragment {
         RecyclerHelper.addAll(projectsTab, holder);
     }
 
-    private void readTeacher() {
+    private void readProjects() {
         projectsHandler.readProjects();
     }
 
@@ -153,19 +135,26 @@ public class ProjectsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_projects, menu);
+
+        buildSpinAcademicLevels(menu.findItem(R.id.menu_projects_spinner));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_projects_action_refresh:
-                readTeacher();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void buildSpinAcademicLevels(MenuItem menuItem) {
+        Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
 
-        return true;
+        spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinAcademicLevels.addAll(Arrays.asList(getResources().getStringArray(R.array.academiclevels)));
     }
 
     public void onLoad() {
@@ -191,7 +180,6 @@ public class ProjectsFragment extends Fragment {
 
         if (projects.isEmpty()) {
             projects.addAll(projectsHandler.readProjectsFromCache());
-
             refreshView();
         }
 

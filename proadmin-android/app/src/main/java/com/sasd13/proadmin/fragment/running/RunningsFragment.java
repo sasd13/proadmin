@@ -70,12 +70,13 @@ public class RunningsFragment extends Fragment {
     }
 
     private void buildView(View view) {
+        buildSwiperefreshLayout(view);
         buildTabRunnings(view);
-        readTeacher();
+        readRunnings();
     }
 
     private void buildSwiperefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.project_swiperefreshlayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.runnings_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -114,7 +115,7 @@ public class RunningsFragment extends Fragment {
         RecyclerHelper.addAll(runningsTab, holder);
     }
 
-    private void readTeacher() {
+    private void readRunnings() {
         runningsHandler.readRunnings(project);
     }
 
@@ -124,26 +125,6 @@ public class RunningsFragment extends Fragment {
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
         parentActivity.getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_runnings, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_runnings_action_refresh:
-                readTeacher();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
     }
 
     public void onLoad() {
@@ -164,7 +145,6 @@ public class RunningsFragment extends Fragment {
 
         if (runnings.isEmpty()) {
             runnings.addAll(runningsHandler.readRunningsFromCache(project));
-
             fillTabRunnings();
         }
 

@@ -3,7 +3,6 @@ package com.sasd13.proadmin.fragment.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
@@ -22,16 +20,12 @@ import com.sasd13.proadmin.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.form.ProjectForm;
-import com.sasd13.proadmin.handler.ProjectHandler;
-import com.sasd13.proadmin.util.Binder;
 
 public class ProjectFragment extends Fragment {
 
     private Project project;
     private ProjectsActivity parentActivity;
-    private ProjectHandler projectHandler;
     private ProjectForm projectForm;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProjectFragment newInstance(Project project) {
         ProjectFragment projectFragment = new ProjectFragment();
@@ -47,7 +41,6 @@ public class ProjectFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        projectHandler = new ProjectHandler(this);
         projectForm = new ProjectForm(getContext());
     }
 
@@ -63,14 +56,6 @@ public class ProjectFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.project_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                projectHandler.readProjects(project.getId());
-            }
-        });
-
         buildFormProject(view);
     }
 
@@ -115,24 +100,5 @@ public class ProjectFragment extends Fragment {
 
     private void listRunnings() {
         parentActivity.listRunnings(project);
-    }
-
-    public void onLoad() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    public void onReadSucceeded(Project project) {
-        swipeRefreshLayout.setRefreshing(false);
-        Binder.bind(this.project, project);
-        bindFormWithProject();
-    }
-
-    public void onError(String message) {
-        swipeRefreshLayout.setRefreshing(false);
-
-        Binder.bind(project, projectHandler.readProjectFromCache(project.getId()));
-        bindFormWithProject();
-
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

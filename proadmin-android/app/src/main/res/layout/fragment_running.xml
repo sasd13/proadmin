@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/AndroidEX.Recycler"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay"/>
 

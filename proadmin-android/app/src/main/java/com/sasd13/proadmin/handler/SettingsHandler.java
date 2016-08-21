@@ -26,7 +26,7 @@ public class SettingsHandler implements IWSPromise {
     public void readTeacher(long id) {
         isActionRead = true;
 
-        readTaskTeacher = new ReadTask<>(WSInformation.URL_TEACHERS, this);
+        readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
         readTaskTeacher.execute(id);
     }
 
@@ -38,7 +38,7 @@ public class SettingsHandler implements IWSPromise {
         try {
             editTeacherWithForm(teacher, settingsForm);
 
-            UpdateTask<Teacher> updateTask = new UpdateTask<>(WSInformation.URL_TEACHERS, this);
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
             updateTask.execute(teacher);
         } catch (FormException e) {
             settingsActivity.onError(e.getMessage());

@@ -35,7 +35,8 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.sasd13.androidex:androidex@aar'
+	compile 'com.android.support:design:23.3.0'
+    compile 'com.sasd13.androidex:androidex-release@aar'
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
@@ -43,4 +44,5 @@ dependencies {
         exclude group: 'xmlpull', module: 'xmlpull'
     }
     compile 'commons-codec:commons-codec:1.4'
+    compile 'org.apache.commons:commons-lang3:3.4'
 }

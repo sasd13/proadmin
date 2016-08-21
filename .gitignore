@@ -21,10 +21,8 @@ $RECYCLE.BIN/
 *.lnk
 
 *.iml
-*.properties
 gradlew
 *.bat
-*.gradle
 *.orig
 *.pro
 
