@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -70,12 +67,12 @@ public class RunningsFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        buildSwiperefreshLayout(view);
+        buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
         readRunnings();
     }
 
-    private void buildSwiperefreshLayout(View view) {
+    private void buildSwipeRefreshLayout(View view) {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.runnings_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

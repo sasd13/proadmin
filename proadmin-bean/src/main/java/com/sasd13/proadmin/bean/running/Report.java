@@ -66,12 +66,12 @@ public class Report {
 		return leadEvaluation;
 	}
 	
-	public IndividualEvaluation[] getIndividualEvaluations() {
-		return individualEvaluations.toArray(new IndividualEvaluation[individualEvaluations.size()]);
+	public List<IndividualEvaluation> getIndividualEvaluations() {
+		return individualEvaluations;
 	}
 	
 	boolean addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		return !individualEvaluations.contains(individualEvaluation) && individualEvaluations.add(individualEvaluation);
+		return individualEvaluations.add(individualEvaluation);
 	}
 	
 	boolean removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {

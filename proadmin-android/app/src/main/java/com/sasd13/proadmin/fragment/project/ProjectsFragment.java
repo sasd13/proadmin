@@ -73,12 +73,37 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        buildSwiperefreshLayout(view);
+        buildSwipeRefreshLayout(view);
         buildTabProjects(view);
         readProjects();
     }
 
-    private void buildSwiperefreshLayout(View view) {
+    private void readProjects() {
+        if (projects.isEmpty()) {
+            readProjectsFromCache();
+            refreshView();
+        } else {
+            refreshView();
+            readProjectsFromWS();
+        }
+    }
+
+    private void readProjectsFromCache() {
+        projects.addAll(projectsHandler.readProjectsFromCache());
+    }
+
+    private void refreshView() {
+        int position = spinAcademicLevels != null && spinAcademicLevels.getSelectedPosition() > -1
+                ? spinAcademicLevels.getSelectedPosition()
+                : 0;
+        fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
+    }
+
+    private void readProjectsFromWS() {
+        projectsHandler.readProjects();
+    }
+
+    private void buildSwipeRefreshLayout(View view) {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.projects_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -117,10 +142,6 @@ public class ProjectsFragment extends Fragment {
         }
 
         RecyclerHelper.addAll(projectsTab, holder);
-    }
-
-    private void readProjects() {
-        projectsHandler.readProjects();
     }
 
     @Override
@@ -170,18 +191,8 @@ public class ProjectsFragment extends Fragment {
         refreshView();
     }
 
-    private void refreshView() {
-        int position = spinAcademicLevels.getSelectedPosition() > -1 ? spinAcademicLevels.getSelectedPosition() : 0;
-        fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
-    }
-
     public void onError(String message) {
         swipeRefreshLayout.setRefreshing(false);
-
-        if (projects.isEmpty()) {
-            projects.addAll(projectsHandler.readProjectsFromCache());
-            refreshView();
-        }
 
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }

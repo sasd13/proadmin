@@ -34,12 +34,12 @@ public class RunningTeam {
 		this.id = id;
 	}
 	
-	public Report[] getReports() {
-		return reports.toArray(new Report[reports.size()]);
+	public List<Report> getReports() {
+		return reports;
 	}
 	
 	boolean addReport(Report report) {
-		return !reports.contains(report) && reports.add(report);
+		return reports.add(report);
 	}
 	
 	boolean removeReport(Report report) {
