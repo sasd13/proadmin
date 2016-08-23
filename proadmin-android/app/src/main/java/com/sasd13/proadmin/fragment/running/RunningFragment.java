@@ -26,7 +26,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.handler.RunningHandler;
-import com.sasd13.proadmin.util.Sorter;
+import com.sasd13.proadmin.util.sorter.ProjectSorter;
 
 import java.util.List;
 
@@ -67,7 +67,8 @@ public class RunningFragment extends Fragment {
 
     private void createFormRunning() {
         List<Project> projects = runningHandler.readProjectsFromCache();
-        Sorter.sortProjectsByCodeAsc(runningHandler.readProjectsFromCache());
+
+        ProjectSorter.byCode(projects);
 
         runningForm = new RunningForm(getContext(), projects);
     }
