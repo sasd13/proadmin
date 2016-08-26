@@ -44,7 +44,6 @@ public class RunningsHandler implements IWSPromise {
 
     public List<Running> readRunningsFromCache(Project project) {
         setParameters(project);
-        parameterizedReadTask.setDeepReadEnabled(true);
 
         return Cache.load(runningsFragment.getContext(), parameters, Running.class);
     }

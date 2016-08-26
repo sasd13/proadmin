@@ -108,7 +108,7 @@ public class ProjectsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                projectsHandler.readProjects();
+                readProjectsFromWS();
             }
         });
     }
@@ -182,11 +182,11 @@ public class ProjectsFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    public void onReadSucceeded(List<Project> projects) {
+    public void onReadSucceeded(List<Project> projectsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
-        this.projects.clear();
-        this.projects.addAll(projects);
+        projects.clear();
+        projects.addAll(projectsFromWS);
 
         refreshView();
     }

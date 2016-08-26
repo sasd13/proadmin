@@ -87,7 +87,21 @@ public class RunningsFragment extends Fragment {
         runningsTab.addDividerItemDecoration();
     }
 
-    private void fillTabRunnings() {
+    private void readRunnings() {
+        if (runnings.isEmpty()) {
+            readRunningsFromCache();
+            refreshView();
+        } else {
+            refreshView();
+            readRunningsFromWS();
+        }
+    }
+
+    private void readRunningsFromCache() {
+        runnings.addAll(runningsHandler.readRunningsFromCache(project));
+    }
+
+    private void refreshView() {
         runningsTab.clear();
         addRunningsToTab();
     }
@@ -112,7 +126,7 @@ public class RunningsFragment extends Fragment {
         RecyclerHelper.addAll(runningsTab, holder);
     }
 
-    private void readRunnings() {
+    private void readRunningsFromWS() {
         runningsHandler.readRunnings(project);
     }
 
@@ -128,22 +142,17 @@ public class RunningsFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    public void onReadSucceeded(List<Running> runnings) {
+    public void onReadSucceeded(List<Running> runningsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
-        this.runnings.clear();
-        this.runnings.addAll(runnings);
+        runnings.clear();
+        runnings.addAll(runningsFromWS);
 
-        fillTabRunnings();
+        refreshView();
     }
 
     public void onError(String message) {
         swipeRefreshLayout.setRefreshing(false);
-
-        if (runnings.isEmpty()) {
-            runnings.addAll(runningsHandler.readRunningsFromCache(project));
-            fillTabRunnings();
-        }
 
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }

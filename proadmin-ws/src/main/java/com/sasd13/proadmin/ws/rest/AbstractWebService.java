@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sasd13.javaex.db.LayeredPersistor;
 import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
+import com.sasd13.javaex.net.util.URLQueryEncoder;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.db.JDBCDAO;
@@ -64,6 +65,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 			if (parameters.isEmpty()) {
 				list = ReadHandler.readAll(getEntityClass(), persistor, headerDataRetrieve);
 			} else {
+				URLQueryEncoder.decode(parameters);
 				list = ReadHandler.read(parameters, getEntityClass(), persistor, headerDataRetrieve);
 			}
 			

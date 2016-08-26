@@ -24,7 +24,6 @@ public class SettingsActivity extends MotherActivity {
     private SettingsForm formSettings;
     private Teacher teacher;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private boolean runSwipeRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class SettingsActivity extends MotherActivity {
     private void buildView() {
         buildSwipeRefreshLayout();
         buildFormSettings();
-
         readTeacher();
     }
 
@@ -50,9 +48,13 @@ public class SettingsActivity extends MotherActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                readTeacher();
+                readTeacherFromWS();
             }
         });
+    }
+
+    private void readTeacherFromWS() {
+        settingsHandler.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
     }
 
     private void buildFormSettings() {
@@ -65,9 +67,16 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacher() {
-        runSwipeRefresh = true;
+        readTeacherFromCache();
+        refreshView();
+    }
 
-        settingsHandler.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+    private void readTeacherFromCache() {
+        teacher = settingsHandler.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+    }
+
+    private void refreshView() {
+        formSettings.bindTeacher(teacher);
     }
 
     @Override
@@ -96,21 +105,15 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onLoad() {
-        if (runSwipeRefresh) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
+        swipeRefreshLayout.setRefreshing(true);
     }
 
-    public void onReadSucceeded(Teacher teacher) {
+    public void onReadSucceeded(Teacher teacherFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
-        fillView(teacher);
-    }
+        teacher = teacherFromWS;
 
-    private void fillView(Teacher teacher) {
-        this.teacher = teacher;
-
-        formSettings.bindTeacher(teacher);
+        refreshView();
     }
 
     public void onUpdateSucceeded() {
@@ -118,11 +121,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onError(String message) {
-        if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        fillView(settingsHandler.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID)));
+        swipeRefreshLayout.setRefreshing(false);
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
