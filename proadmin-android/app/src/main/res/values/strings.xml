@@ -13,6 +13,7 @@
     <string name="activity_settings">Settings</string>
 
     <!-- Activity Log In -->
+    <string name="login_hint_number">number</string>
     <string name="login_button_connect">Connect</string>
 
     <!-- Activity Projects -->
@@ -63,6 +64,8 @@
     <string name="label_year">Year</string>
     
     <!-- Web service -->
+    <string name="ws_error_server_connection_failed">Server connection failed</string>
+    <string name="ws_error_data_retrieval_error">Data retrieval error</string>
     <string name="ws_code_0">Error unknown</string>
     <string name="ws_code_100">Ok</string>
     <string name="ws_code_error_1">Error on data read</string>

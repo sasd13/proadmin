@@ -40,7 +40,8 @@ public class SettingsActivity extends MotherActivity {
     private void buildView() {
         buildSwipeRefreshLayout();
         buildFormSettings();
-        readTeacher();
+        readTeacherFromCache();
+        refreshView();
     }
 
     private void buildSwipeRefreshLayout() {
@@ -54,21 +55,14 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsHandler.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+        settingsHandler.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_ID));
     }
 
     private void buildFormSettings() {
-        Recycler form = RecyclerFactory
-                .makeBuilder(EnumFormType.FORM)
-                .build((RecyclerView) findViewById(R.id.settings_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, formSettings.getHolder());
-    }
-
-    private void readTeacher() {
-        readTeacherFromCache();
-        refreshView();
     }
 
     private void readTeacherFromCache() {

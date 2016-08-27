@@ -4,6 +4,7 @@ import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.CreateTask;
 import com.sasd13.androidex.net.ws.rest.task.DeleteTask;
 import com.sasd13.androidex.net.ws.rest.task.UpdateTask;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -78,10 +79,10 @@ public class RunningHandler implements IWSPromise {
 
     public void updateRunning(Running runningToUpdate, RunningForm runningForm) {
         taskType = TASKTYPE_UPDATE;
-
         Running runningFromForm = runningForm.getEditable();
 
         Binder.bind(runningToUpdate, runningFromForm);
+
         running = runningToUpdate;
         running.setTeacher(Cache.load(
                 runningFragment.getContext(),
@@ -94,8 +95,8 @@ public class RunningHandler implements IWSPromise {
 
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
-
         deleteTask = new DeleteTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
+
         deleteTask.execute(running.getId());
     }
 
@@ -120,47 +121,49 @@ public class RunningHandler implements IWSPromise {
     }
 
     private void onCreateTaskSucceeded() {
-        if (!isWSError(createTask.getWSResponseCode())) {
-            try {
-                long id = createTask.getResults().get(0);
+        EnumWSCode wsCode = EnumWSCode.find(createTask.getWSResponseCode());
 
-                if (id > 0) {
-                    running.setId(id);
-                    Cache.keep(runningFragment.getContext(), running);
-                    runningFragment.onCreateSucceeded();
-                }
+        if (wsCode.isError()) {
+            showError(wsCode);
+        } else {
+            try {
+                running.setId(createTask.getResults().get(0));
+                Cache.keep(runningFragment.getContext(), running);
+                runningFragment.onCreateSucceeded();
             } catch (IndexOutOfBoundsException e) {
-                runningFragment.onError("Erreur de chargement des données");
+                runningFragment.onError(runningFragment.getResources().getString(R.string.ws_error_data_retrieval_error));
             }
         }
     }
 
-    private boolean isWSError(int code) {
-        EnumWSCode wsCode = EnumWSCode.find(code);
-        if (wsCode.isError()) {
-            EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);
-            runningFragment.onError(runningFragment.getContext().getResources().getString(wsCodeRes.getStringRes()));
-            return true;
-        }
-
-        return false;
+    private void showError(EnumWSCode wsCode) {
+        EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);
+        runningFragment.onError(runningFragment.getResources().getString(wsCodeRes.getStringRes()));
     }
 
     private void onUpdateTaskSucceeded() {
-        if (!isWSError(updateTask.getWSReponseCode())) {
+        EnumWSCode wsCode = EnumWSCode.find(updateTask.getWSReponseCode());
+
+        if (wsCode.isError()) {
+            showError(wsCode);
+        } else {
             Cache.keep(runningFragment.getContext(), running);
             runningFragment.onUpdateSucceeded();
         }
     }
 
     private void onDeleteTaskSucceeded() {
-        if (!isWSError(deleteTask.getWSReponseCode())) {
+        EnumWSCode wsCode = EnumWSCode.find(deleteTask.getWSReponseCode());
+
+        if (wsCode.isError()) {
+            showError(wsCode);
+        } else {
             runningFragment.onDeleteSucceeded();
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        runningFragment.onError("Echec de la connexion au serveur");
+        runningFragment.onError(runningFragment.getResources().getString(R.string.ws_error_server_connection_failed));
     }
 }

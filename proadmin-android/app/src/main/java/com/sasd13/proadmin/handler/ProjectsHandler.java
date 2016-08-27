@@ -2,6 +2,7 @@ package com.sasd13.proadmin.handler;
 
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.fragment.project.ProjectsFragment;
@@ -23,6 +24,7 @@ public class ProjectsHandler implements IWSPromise {
 
     public void readProjects() {
         readTask = new ReadTask<>(Project.class, WSInformation.URL_PROJECTS, this, 10000);
+
         readTask.execute();
     }
 
@@ -43,12 +45,12 @@ public class ProjectsHandler implements IWSPromise {
             Cache.keepAll(projectsFragment.getContext(), projects);
             projectsFragment.onReadSucceeded(projects);
         } catch (IndexOutOfBoundsException e) {
-            projectsFragment.onError("Erreur de chargement des données");
+            projectsFragment.onError(projectsFragment.getResources().getString(R.string.ws_error_data_retrieval_error));
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        projectsFragment.onError("Echec de la connexion au serveur");
+        projectsFragment.onError(projectsFragment.getResources().getString(R.string.ws_error_server_connection_failed));
     }
 }

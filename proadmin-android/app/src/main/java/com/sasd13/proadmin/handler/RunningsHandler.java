@@ -2,6 +2,7 @@ package com.sasd13.proadmin.handler;
 
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
@@ -61,12 +62,12 @@ public class RunningsHandler implements IWSPromise {
             Cache.keepAll(runningsFragment.getContext(), runnings);
             runningsFragment.onReadSucceeded(runnings);
         } catch (IndexOutOfBoundsException e) {
-            runningsFragment.onError("Erreur de chargement des données");
+            runningsFragment.onError(runningsFragment.getResources().getString(R.string.ws_error_data_retrieval_error));
         }
     }
 
     @Override
     public void onFail(int i) {
-        runningsFragment.onError("Echec de la connexion au serveur");
+        runningsFragment.onError(runningsFragment.getResources().getString(R.string.ws_error_server_connection_failed));
     }
 }

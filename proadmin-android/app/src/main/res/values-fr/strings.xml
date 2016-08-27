@@ -13,6 +13,7 @@
     <string name="activity_settings">Paramètres</string>
 
     <!-- Activity Log In -->
+    <string name="login_hint_number">matricule</string>
     <string name="login_button_connect">Connexion</string>
 
     <!-- Activity Projects -->
@@ -63,6 +64,8 @@
     <string name="label_year">Année</string>
 
     <!-- Web service -->
+    <string name="ws_error_server_connection_failed">Connexion au serveur échouée</string>
+    <string name="ws_error_data_retrieval_error">Erreur de récupération des données</string>
     <string name="ws_code_0">Erreur inconnue</string>
     <string name="ws_code_100">Ok</string>
     <string name="ws_code_error_1">Erreur de récupération des données</string>

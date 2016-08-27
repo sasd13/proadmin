@@ -3,11 +3,13 @@ package com.sasd13.proadmin.handler;
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
 import com.sasd13.androidex.net.ws.rest.task.UpdateTask;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.SettingsForm;
+import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.ws.WSInformation;
 
 /**
@@ -25,8 +27,8 @@ public class SettingsHandler implements IWSPromise {
 
     public void readTeacher(long id) {
         isActionRead = true;
-
         readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
+
         readTaskTeacher.execute(id);
     }
 
@@ -36,21 +38,13 @@ public class SettingsHandler implements IWSPromise {
 
     public void updateTeacher(Teacher teacher, SettingsForm settingsForm) {
         try {
-            editTeacherWithForm(teacher, settingsForm);
+            Binder.bind(teacher, settingsForm.getEditable());
 
             UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
             updateTask.execute(teacher);
         } catch (FormException e) {
             settingsActivity.onError(e.getMessage());
         }
-    }
-
-    private void editTeacherWithForm(Teacher teacher, SettingsForm settingsForm) throws FormException {
-        Teacher teacherFromForm = settingsForm.getEditable();
-
-        teacher.setFirstName(teacherFromForm.getFirstName());
-        teacher.setLastName(teacherFromForm.getLastName());
-        teacher.setEmail(teacherFromForm.getEmail());
     }
 
     @Override
@@ -78,7 +72,7 @@ public class SettingsHandler implements IWSPromise {
             Cache.keep(settingsActivity, teacher);
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            settingsActivity.onError("Erreur de chargement des données");
+            settingsActivity.onError(settingsActivity.getResources().getString(R.string.ws_error_data_retrieval_error));
         }
     }
 
@@ -88,6 +82,6 @@ public class SettingsHandler implements IWSPromise {
 
     @Override
     public void onFail(int httpResponseCode) {
-        settingsActivity.onError("Echec de la connexion au serveur");
+        settingsActivity.onError(settingsActivity.getResources().getString(R.string.ws_error_server_connection_failed));
     }
 }

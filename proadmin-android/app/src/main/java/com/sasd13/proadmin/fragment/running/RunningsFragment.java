@@ -90,11 +90,10 @@ public class RunningsFragment extends Fragment {
     private void readRunnings() {
         if (runnings.isEmpty()) {
             readRunningsFromCache();
-            refreshView();
-        } else {
-            refreshView();
-            readRunningsFromWS();
         }
+
+        refreshView();
+        readRunningsFromWS();
     }
 
     private void readRunningsFromCache() {

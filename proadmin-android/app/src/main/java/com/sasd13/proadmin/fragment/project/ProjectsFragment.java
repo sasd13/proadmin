@@ -81,11 +81,10 @@ public class ProjectsFragment extends Fragment {
     private void readProjects() {
         if (projects.isEmpty()) {
             readProjectsFromCache();
-            refreshView();
-        } else {
-            refreshView();
-            readProjectsFromWS();
         }
+
+        refreshView();
+        readProjectsFromWS();
     }
 
     private void readProjectsFromCache() {

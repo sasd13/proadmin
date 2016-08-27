@@ -4,6 +4,7 @@ import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.LogInTask;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
 import com.sasd13.proadmin.LogInActivity;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.util.EnumWSCodeRes;
@@ -15,17 +16,20 @@ import com.sasd13.proadmin.ws.WSInformation;
  */
 public class LogInHandler implements IWSPromise {
 
+    private static final int TASKTYPE_LOGIN = 0;
+    private static final int TASKTYPE_READ = 1;
+
     private LogInActivity logInActivity;
-    private boolean isActionLogin;
     private LogInTask logInTask;
     private ReadTask<Teacher> readTaskTeacher;
+    private int taskType;
     
     public LogInHandler(LogInActivity logInActivity) {
         this.logInActivity = logInActivity;
     }
 
     public void logIn(String number, String password) {
-        isActionLogin = true;
+        taskType = TASKTYPE_LOGIN;
         logInTask = new LogInTask(WSInformation.URL_LOGIN, number, password, this);
 
         logInTask.execute();
@@ -33,31 +37,35 @@ public class LogInHandler implements IWSPromise {
 
     @Override
     public void onLoad() {
-        if (isActionLogin) {
-            logInActivity.onLoad();
+        switch (taskType) {
+            case TASKTYPE_LOGIN:
+                logInActivity.onLoad();
+                break;
         }
     }
 
     @Override
     public void onSuccess() {
-        if (isActionLogin) {
-            isActionLogin = false;
-
-            onLogInTaskSucceeded();
-        } else {
-            onReadTaskTeacherSucceeded();
+        switch (taskType) {
+            case TASKTYPE_LOGIN:
+                onLogInTaskSucceeded();
+                break;
+            case TASKTYPE_READ:
+                onReadTaskTeacherSucceeded();
+                break;
         }
     }
 
     private void onLogInTaskSucceeded() {
         EnumWSCode wsCode = EnumWSCode.find(logInTask.getWSReponseCode());
 
-        if (!wsCode.isError()) {
-            readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
-            readTaskTeacher.execute(logInTask.getResult());
+        if (wsCode.isError()) {
+            logInActivity.onError(logInActivity.getResources().getString(EnumWSCodeRes.find(wsCode).getStringRes()));
         } else {
-            EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);
-            logInActivity.onError(logInActivity.getResources().getString(wsCodeRes.getStringRes()));
+            taskType = TASKTYPE_READ;
+            readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
+
+            readTaskTeacher.execute(logInTask.getResult());
         }
     }
 
@@ -68,12 +76,12 @@ public class LogInHandler implements IWSPromise {
             Cache.keep(logInActivity, teacher);
             logInActivity.onLogInSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            logInActivity.onError("Erreur de chargement des données");
+            logInActivity.onError(logInActivity.getResources().getString(R.string.ws_error_data_retrieval_error));
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        logInActivity.onError("Echec de la connexion au serveur");
+        logInActivity.onError(logInActivity.getResources().getString(R.string.ws_error_server_connection_failed));
     }
 }
