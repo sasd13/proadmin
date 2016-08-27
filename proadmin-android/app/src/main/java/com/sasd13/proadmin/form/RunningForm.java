@@ -44,12 +44,24 @@ public class RunningForm extends Form {
         modelProject.setValue(projectsCodes.indexOf(running.getProject().getCode()));
     }
 
-    public Running getEditable() {
+    public Running getEditable() throws FormException {
+        validForm();
+
         Running running = new Running();
 
         running.setYear(Integer.parseInt(modelYear.getValue()));
         running.setProject(projects.get(modelProject.getValue()));
 
         return running;
+    }
+
+    private void validForm() throws FormException {
+        validProject();
+    }
+
+    private void validProject() throws FormException {
+        if (modelProject.getValue() <= 0) {
+            throw new FormException(context.getResources().getString(R.string.form_runnings_message_error_project));
+        }
     }
 }

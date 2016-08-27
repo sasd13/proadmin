@@ -21,7 +21,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 public class SettingsActivity extends MotherActivity {
 
     private SettingsHandler settingsHandler;
-    private SettingsForm formSettings;
+    private SettingsForm settingsForm;
     private Teacher teacher;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -32,7 +32,7 @@ public class SettingsActivity extends MotherActivity {
         setContentView(R.layout.activity_settings);
 
         settingsHandler = new SettingsHandler(this);
-        formSettings = new SettingsForm(this);
+        settingsForm = new SettingsForm(this);
 
         buildView();
     }
@@ -62,7 +62,7 @@ public class SettingsActivity extends MotherActivity {
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, formSettings.getHolder());
+        RecyclerHelper.addAll(form, settingsForm.getHolder());
     }
 
     private void readTeacherFromCache() {
@@ -70,7 +70,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void refreshView() {
-        formSettings.bindTeacher(teacher);
+        settingsForm.bindTeacher(teacher);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void updateTeacher() {
-        settingsHandler.updateTeacher(teacher, formSettings);
+        settingsHandler.updateTeacher(teacher, settingsForm);
     }
 
     public void onLoad() {

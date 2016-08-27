@@ -85,14 +85,16 @@ public class RunningFragment extends Fragment {
     }
 
     private void buildView(View view) {
-        buildFormProject(view);
+        buildFormRunning(view);
 
-        if (inModeEdit) {
-            refreshView();
+        if (!inModeEdit) {
+            setDefaultRunning();
         }
+
+        refreshView();
     }
 
-    private void buildFormProject(View view) {
+    private void buildFormRunning(View view) {
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.project_recyclerview));
         form.addDividerItemDecoration();
 
@@ -101,6 +103,11 @@ public class RunningFragment extends Fragment {
 
     private void refreshView() {
         runningForm.bind(running);
+    }
+
+    private void setDefaultRunning() {
+        running = runningHandler.getDefaultValueOfRunning();
+        running.setProject(project);
     }
 
     @Override
@@ -147,7 +154,7 @@ public class RunningFragment extends Fragment {
         if (inModeEdit) {
             runningHandler.updateRunning(running, runningForm);
         } else {
-            runningHandler.createRunning(runningForm, project);
+            runningHandler.createRunning(runningForm);
         }
     }
 
@@ -188,6 +195,7 @@ public class RunningFragment extends Fragment {
     }
 
     public void onError(String error) {
+        waitDialog.dismiss();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

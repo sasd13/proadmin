@@ -31,7 +31,7 @@ public class RunningBusiness {
         parameters.put(EnumParameter.TEACHER.getName(), new String[]{ String.valueOf(teacher.getId()) });
         parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
 
-        List<Running> runnings = Cache.load(context, parameters, Running.class);
+        List<Running> runnings = Cache.load(context, parameters, Running.class, true);
         if (!runnings.isEmpty()) {
             OptionDialog.showOkDialog(
                     context,

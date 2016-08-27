@@ -2,6 +2,7 @@ package com.sasd13.proadmin.fragment.running;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class RunningsFragment extends Fragment {
     private Recycler runningsTab;
     private List<Running> runnings;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton floatingActionButton;
 
     public static RunningsFragment newInstance(Project project) {
         RunningsFragment runningsFragment = new RunningsFragment();
@@ -69,6 +71,7 @@ public class RunningsFragment extends Fragment {
     private void buildView(View view) {
         buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
+        buildFloatingActionButton(view);
         readRunnings();
     }
 
@@ -85,6 +88,16 @@ public class RunningsFragment extends Fragment {
     private void buildTabRunnings(View view) {
         runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.runnings_recyclerview));
         runningsTab.addDividerItemDecoration();
+    }
+
+    private void buildFloatingActionButton(View view) {
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentActivity.newRunning();
+            }
+        });
     }
 
     private void readRunnings() {

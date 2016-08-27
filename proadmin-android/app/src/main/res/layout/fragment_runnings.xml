@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/runnings_swiperefreshlayout"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/AndroidEX.Activity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/runnings_recyclerview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/runnings_swiperefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/AndroidEX.Recycler"
-        android:layout_centerInParent="true"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"/>
+        android:layout_height="match_parent">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/runnings_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/AndroidEX.Recycler"
+            android:layout_centerInParent="true"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/runnings_floatingactionbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_padding"
+        android:src="@drawable/ic_add_white_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

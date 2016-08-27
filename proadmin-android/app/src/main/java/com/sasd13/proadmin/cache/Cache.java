@@ -3,6 +3,7 @@ package com.sasd13.proadmin.cache;
 import android.content.Context;
 
 import com.sasd13.javaex.db.DAOException;
+import com.sasd13.javaex.db.IEntityDAO;
 import com.sasd13.javaex.db.ILayeredDAO;
 import com.sasd13.proadmin.cache.db.SQLiteDAO;
 
@@ -61,6 +62,10 @@ public class Cache {
     }
 
     public static <T> T load(Context context, long id, Class<T> mClass) {
+        return load(context, id, mClass, false);
+    }
+
+    public static <T> T load(Context context, long id, Class<T> mClass, boolean deepRead) {
         T t = null;
 
         dao = SQLiteDAO.create(context);
@@ -68,7 +73,7 @@ public class Cache {
         try {
             dao.open();
 
-            t = dao.getEntityDAO(mClass).select(id);
+            t = deepRead ? dao.getDeepReader(mClass).select(id) : dao.getEntityDAO(mClass).select(id);
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
@@ -83,6 +88,10 @@ public class Cache {
     }
 
     public static <T> List<T> load(Context context, Map<String, String[]> parameters, Class<T> mClass) {
+        return load(context, parameters, mClass, false);
+    }
+
+    public static <T> List<T> load(Context context, Map<String, String[]> parameters, Class<T> mClass, boolean deepRead) {
         List<T> ts = new ArrayList<>();
 
         dao = SQLiteDAO.create(context);
@@ -90,7 +99,7 @@ public class Cache {
         try {
             dao.open();
 
-            ts = dao.getEntityDAO(mClass).select(parameters);
+            ts = deepRead ? dao.getDeepReader(mClass).select(parameters) : dao.getEntityDAO(mClass).select(parameters);
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
@@ -105,6 +114,10 @@ public class Cache {
     }
 
     public static <T> List<T> loadAll(Context context, Class<T> mClass) {
+        return loadAll(context, mClass, false);
+    }
+
+    public static <T> List<T> loadAll(Context context, Class<T> mClass, boolean deepRead) {
         List<T> ts = new ArrayList<>();
 
         dao = SQLiteDAO.create(context);
@@ -112,7 +125,7 @@ public class Cache {
         try {
             dao.open();
 
-            ts = dao.getEntityDAO(mClass).selectAll();
+            ts = deepRead ? dao.getDeepReader(mClass).selectAll() : dao.getEntityDAO(mClass).selectAll();
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
@@ -124,5 +137,21 @@ public class Cache {
         }
 
         return ts;
+    }
+
+    public static <T> void delete(Context context, T t) {
+        try {
+            dao.open();
+
+            ((IEntityDAO<T>) dao.getEntityDAO(t.getClass())).delete(t);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                dao.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

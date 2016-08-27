@@ -49,11 +49,11 @@ public class RunningHandler implements IWSPromise {
         return defaultRunningBuilder.build();
     }
 
-    public void createRunning(RunningForm runningForm, Project project) {
+    public void createRunning(RunningForm runningForm) {
         taskType = TASKTYPE_CREATE;
 
         try {
-            running = getRunningToCreate(runningForm, project);
+            running = getRunningToCreate(runningForm);
             createTask = new CreateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
 
             createTask.execute(running);
@@ -62,42 +62,47 @@ public class RunningHandler implements IWSPromise {
         }
     }
 
-    private Running getRunningToCreate(RunningForm runningForm, Project project) throws FormException {
+    private Running getRunningToCreate(RunningForm runningForm) throws FormException {
         Running runningFromForm = runningForm.getEditable();
         Running runningToCreate = new Running();
+
+        Binder.bind(runningToCreate, runningFromForm);
 
         runningToCreate.setTeacher(Cache.load(
                 runningFragment.getContext(),
                 SessionHelper.getExtraId(runningFragment.getContext(), Extra.TEACHER_ID),
                 Teacher.class));
-        runningToCreate.setProject(project);
-
-        Binder.bind(runningToCreate, runningFromForm);
 
         return runningToCreate;
     }
 
     public void updateRunning(Running runningToUpdate, RunningForm runningForm) {
         taskType = TASKTYPE_UPDATE;
-        Running runningFromForm = runningForm.getEditable();
 
-        Binder.bind(runningToUpdate, runningFromForm);
+        try {
+            Running runningFromForm = runningForm.getEditable();
 
-        running = runningToUpdate;
-        running.setTeacher(Cache.load(
-                runningFragment.getContext(),
-                SessionHelper.getExtraId(runningFragment.getContext(), Extra.TEACHER_ID),
-                Teacher.class));
+            Binder.bind(runningToUpdate, runningFromForm);
 
-        updateTask = new UpdateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
-        updateTask.execute(running);
+            running = runningToUpdate;
+            running.setTeacher(Cache.load(
+                    runningFragment.getContext(),
+                    SessionHelper.getExtraId(runningFragment.getContext(), Extra.TEACHER_ID),
+                    Teacher.class));
+
+            updateTask = new UpdateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
+            updateTask.execute(running);
+        } catch (FormException e) {
+            runningFragment.onError(e.getMessage());
+        }
     }
 
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
+        this.running = running;
         deleteTask = new DeleteTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
 
-        deleteTask.execute(running.getId());
+        deleteTask.execute(running);
     }
 
     @Override
@@ -158,6 +163,7 @@ public class RunningHandler implements IWSPromise {
         if (wsCode.isError()) {
             showError(wsCode);
         } else {
+            Cache.delete(runningFragment.getContext(), running);
             runningFragment.onDeleteSucceeded();
         }
     }
