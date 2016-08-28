@@ -24,7 +24,7 @@ import com.sasd13.proadmin.dao.condition.StudentConditionExpression;
  * @author Samir
  */
 public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO {
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Student student) throws SQLException {
 		preparedStatement.setString(1, student.getNumber());
@@ -33,7 +33,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		preparedStatement.setString(4, student.getEmail());
 		preparedStatement.setString(5, student.getAcademicLevel().getCode());
 	}
-	
+
 	@Override
 	protected Student getResultSetValues(ResultSet resultSet) throws SQLException {
 		Student student = new Student();
@@ -43,14 +43,14 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));
 		student.setAcademicLevel(EnumAcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
-		
+
 		return student;
 	}
-	
+
 	@Override
 	public long insert(Student student) {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -61,15 +61,15 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		builder.append(", " + COLUMN_EMAIL);
 		builder.append(", " + COLUMN_ACADEMICLEVEL);
 		builder.append(") VALUES (?, ?, ?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, student);
-			
+
 			preparedStatement.executeUpdate();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
@@ -86,29 +86,31 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(Student student) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_NUMBER + " = ?, " 
-					+ COLUMN_FIRSTNAME + " = ?, " 
-					+ COLUMN_LASTNAME + " = ?, " 
-					+ COLUMN_EMAIL + " = ?, " 
-					+ COLUMN_ACADEMICLEVEL + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_NUMBER + " = ?");
+		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
+		builder.append(", " + COLUMN_LASTNAME + " = ?");
+		builder.append(", " + COLUMN_EMAIL + " = ?");
+		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, student);
 			preparedStatement.setLong(6, student.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,22 +124,24 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(Student student) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, student.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -151,23 +155,26 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public Student select(long id) {
 		Student student = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				student = getResultSetValues(resultSet);
@@ -183,24 +190,27 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				}
 			}
 		}
-		
+
 		return student;
 	}
-	
+
 	public List<Student> select(Map<String, String[]> parameters) {
 		List<Student> list = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
+
 		try {
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, StudentConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, StudentConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				list.add(getResultSetValues(resultSet));
 			}
@@ -215,24 +225,26 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				}
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 	@Override
 	public List<Student> selectAll() {
 		List<Student> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				list.add(getResultSetValues(resultSet));
 			}
@@ -247,7 +259,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 				}
 			}
 		}
-		
+
 		return list;
 	}
 }

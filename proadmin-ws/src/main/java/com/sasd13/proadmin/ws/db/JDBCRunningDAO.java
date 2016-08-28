@@ -25,35 +25,35 @@ import com.sasd13.proadmin.dao.condition.RunningConditionExpression;
  * @author Samir
  */
 public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO {
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
 		preparedStatement.setInt(1, running.getYear());
 		preparedStatement.setLong(2, running.getTeacher().getId());
 		preparedStatement.setLong(3, running.getProject().getId());
 	}
-	
+
 	@Override
 	protected Running getResultSetValues(ResultSet resultSet) throws SQLException {
 		Running running = new Running();
 		running.setId(resultSet.getLong(COLUMN_ID));
 		running.setYear(resultSet.getInt(COLUMN_YEAR));
-		
+
 		Teacher teacher = new Teacher();
 		teacher.setId(resultSet.getLong(COLUMN_TEACHER_ID));
 		running.setTeacher(teacher);
-		
+
 		Project project = new Project();
 		project.setId(resultSet.getLong(COLUMN_PROJECT_ID));
 		running.setProject(project);
-		
+
 		return running;
 	}
-	
+
 	@Override
 	public long insert(Running running) {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -62,15 +62,15 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 		builder.append(", " + COLUMN_TEACHER_ID);
 		builder.append(", " + COLUMN_PROJECT_ID);
 		builder.append(") VALUES (?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, running);
-			
+
 			preparedStatement.executeUpdate();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
@@ -87,27 +87,29 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(Running running) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_YEAR + " = ?, " 
-					+ COLUMN_TEACHER_ID + " = ?, " 
-					+ COLUMN_PROJECT_ID + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(", " + COLUMN_TEACHER_ID + " = ?");
+		builder.append(", " + COLUMN_PROJECT_ID + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, running);
 			preparedStatement.setLong(4, running.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -121,22 +123,24 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(Running running) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, running.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -150,23 +154,26 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public Running select(long id) {
 		Running running = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				running = getResultSetValues(resultSet);
@@ -182,24 +189,27 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				}
 			}
 		}
-		
+
 		return running;
 	}
-	
+
 	public List<Running> select(Map<String, String[]> parameters) {
 		List<Running> runnings = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
+
 		try {
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, RunningConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, RunningConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				runnings.add(getResultSetValues(resultSet));
 			}
@@ -214,24 +224,26 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				}
 			}
 		}
-		
+
 		return runnings;
 	}
-	
+
 	@Override
 	public List<Running> selectAll() {
 		List<Running> runnings = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				runnings.add(getResultSetValues(resultSet));
 			}
@@ -246,7 +258,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements RunningDAO
 				}
 			}
 		}
-		
+
 		return runnings;
 	}
 }

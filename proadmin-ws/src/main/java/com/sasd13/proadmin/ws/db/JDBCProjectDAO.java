@@ -24,7 +24,7 @@ import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
  * @author Samir
  */
 public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO {
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getAcademicLevel().getCode());
@@ -32,7 +32,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
 	}
-	
+
 	@Override
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
@@ -41,14 +41,14 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
-		
+
 		return project;
 	}
-	
+
 	@Override
 	public long insert(Project project) {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -58,15 +58,15 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		builder.append(", " + COLUMN_TITLE);
 		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, project);
-			
+
 			preparedStatement.executeUpdate();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
@@ -83,28 +83,30 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(Project project) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_ACADEMICLEVEL + " = ?, " 
-					+ COLUMN_CODE + " = ?, " 
-					+ COLUMN_TITLE + " = ?, " 
-					+ COLUMN_DESCRIPTION + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_ACADEMICLEVEL + " = ?");
+		builder.append(", " + COLUMN_CODE + " = ?");
+		builder.append(", " + COLUMN_TITLE + " = ?");
+		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, project);
 			preparedStatement.setLong(5, project.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,22 +120,24 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(Project project) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, project.getId());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,23 +151,26 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 	}
-	
+
 	@Override
 	public Project select(long id) {
 		Project project = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				project = getResultSetValues(resultSet);
@@ -179,24 +186,27 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 				}
 			}
 		}
-		
+
 		return project;
 	}
-	
+
 	public List<Project> select(Map<String, String[]> parameters) {
 		List<Project> projects = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
-		try {			
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, ProjectConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+
+		try {
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				projects.add(getResultSetValues(resultSet));
 			}
@@ -211,24 +221,26 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 				}
 			}
 		}
-		
+
 		return projects;
 	}
-	
+
 	@Override
 	public List<Project> selectAll() {
 		List<Project> projects = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				projects.add(getResultSetValues(resultSet));
 			}
@@ -243,7 +255,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 				}
 			}
 		}
-		
+
 		return projects;
 	}
 }

@@ -26,7 +26,7 @@ import com.sasd13.proadmin.dao.condition.LeadEvaluationConditionExpression;
  * @author Samir
  */
 public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
@@ -36,30 +36,30 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		preparedStatement.setLong(5, leadEvaluation.getStudent().getId());
 		preparedStatement.setLong(6, leadEvaluation.getReport().getId());
 	}
-	
+
 	@Override
 	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
 		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
-		
+
 		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
 		leadEvaluation.setId(resultSet.getLong(COLUMN_ID));
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
-		
+
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
 		leadEvaluation.setStudent(student);
-		
+
 		return leadEvaluation;
 	}
-	
+
 	@Override
 	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -71,16 +71,16 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(", " + COLUMN_STUDENT_ID);
 		builder.append(", " + COLUMN_REPORT_ID);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, leadEvaluation);
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
@@ -100,30 +100,32 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(LeadEvaluation leadEvaluation) throws DAOException {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_PLANNINGMARK + " = ?, " 
-					+ COLUMN_PLANNINGCOMMENT + " = ?, " 
-					+ COLUMN_COMMUNICATIONMARK + " = ?, " 
-					+ COLUMN_COMMUNICATIONCOMMENT + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?, " 
-					+ COLUMN_REPORT_ID + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_PLANNINGMARK + " = ?");
+		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
+		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
+		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
+		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
+		builder.append(", " + COLUMN_REPORT_ID + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, leadEvaluation);
 			preparedStatement.setLong(7, leadEvaluation.getId());
-			
+
 			preparedStatement.executeUpdate();
 			if (!connection.getAutoCommit()) {
 				connection.commit();
@@ -141,22 +143,24 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) throws DAOException {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, leadEvaluation.getId());
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
@@ -172,23 +176,26 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			}
 		}
 	}
-	
+
 	@Override
 	public LeadEvaluation select(long id) {
 		LeadEvaluation leadEvaluation = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				leadEvaluation = getResultSetValues(resultSet);
@@ -204,24 +211,27 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				}
 			}
 		}
-		
+
 		return leadEvaluation;
 	}
-	
+
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
-		try {			
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, LeadEvaluationConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+
+		try {
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, LeadEvaluationConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
@@ -236,24 +246,26 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				}
 			}
 		}
-		
+
 		return leadEvaluations;
 	}
-	
+
 	@Override
 	public List<LeadEvaluation> selectAll() {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<LeadEvaluation>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
@@ -268,7 +280,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				}
 			}
 		}
-		
+
 		return leadEvaluations;
 	}
 }

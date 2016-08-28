@@ -26,34 +26,34 @@ import com.sasd13.proadmin.dao.condition.IndividualEvaluationConditionExpression
  * @author Samir
  */
 public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setLong(2, individualEvaluation.getStudent().getId());
 		preparedStatement.setLong(3, individualEvaluation.getReport().getId());
 	}
-	
+
 	@Override
 	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
 		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
-		
+
 		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
 		individualEvaluation.setId(resultSet.getLong(COLUMN_ID));
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));		
-		
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+
 		Student student = new Student();
 		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
 		individualEvaluation.setStudent(student);
-		
+
 		return individualEvaluation;
 	}
-	
+
 	@Override
 	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -62,16 +62,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		builder.append(", " + COLUMN_STUDENT_ID);
 		builder.append(", " + COLUMN_REPORT_ID);
 		builder.append(") VALUES (?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, individualEvaluation);
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
@@ -91,27 +91,29 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_MARK + " = ?, " 
-					+ COLUMN_STUDENT_ID + " = ?, "
-					+ COLUMN_REPORT_ID + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_MARK + " = ?");
+		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
+		builder.append(", " + COLUMN_REPORT_ID + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, individualEvaluation);
 			preparedStatement.setLong(4, individualEvaluation.getId());
-			
+
 			preparedStatement.executeUpdate();
 			if (!connection.getAutoCommit()) {
 				connection.commit();
@@ -129,22 +131,24 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, individualEvaluation.getId());
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
@@ -160,23 +164,26 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			}
 		}
 	}
-	
+
 	@Override
 	public IndividualEvaluation select(long id) {
 		IndividualEvaluation individualEvaluation = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				individualEvaluation = getResultSetValues(resultSet);
@@ -192,24 +199,27 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				}
 			}
 		}
-		
+
 		return individualEvaluation;
 	}
-	
+
 	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
-		try {			
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, IndividualEvaluationConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+
+		try {
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, IndividualEvaluationConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
@@ -224,24 +234,26 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				}
 			}
 		}
-		
+
 		return individualEvaluations;
 	}
-	
+
 	@Override
 	public List<IndividualEvaluation> selectAll() {
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
@@ -256,7 +268,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				}
 			}
 		}
-		
+
 		return individualEvaluations;
 	}
 }

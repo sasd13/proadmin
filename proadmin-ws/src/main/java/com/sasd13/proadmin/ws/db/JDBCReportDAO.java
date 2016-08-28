@@ -30,33 +30,33 @@ import com.sasd13.proadmin.dao.condition.ReportConditionExpression;
  * @author Samir
  */
 public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
-	
+
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-	
+
 	public JDBCReportDAO() {
 		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
 		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
 	}
-	
+
 	@Override
 	public LeadEvaluationDAO getLeadEvaluationDAO() {
 		return leadEvaluationDAO;
 	}
-	
+
 	@Override
 	public IndividualEvaluationDAO getIndividualEvaluationDAO() {
 		return individualEvaluationDAO;
 	}
-	
+
 	@Override
 	public void setConnection(Connection connection) {
 		super.setConnection(connection);
-		
+
 		leadEvaluationDAO.setConnection(connection);
 		individualEvaluationDAO.setConnection(connection);
 	}
-	
+
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, String.valueOf(report.getMeetingDate()));
@@ -64,25 +64,25 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setLong(4, report.getRunningTeam().getId());
 	}
-	
+
 	@Override
 	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
 		RunningTeam runningTeam = new RunningTeam();
 		runningTeam.setId(resultSet.getLong(COLUMN_RUNNINGTEAM));
-		
+
 		Report report = new Report(runningTeam);
 		report.setId(resultSet.getLong(COLUMN_ID));
 		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
 		report.setSessionNumber(resultSet.getInt(COLUMN_SESSIONNUMBER));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
-		
+
 		return report;
 	}
-	
+
 	@Override
 	public long insert(Report report) {
 		long id = 0;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -92,25 +92,25 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		builder.append(", " + COLUMN_COMMENT);
 		builder.append(", " + COLUMN_RUNNINGTEAM);
 		builder.append(") VALUES (?, ?, ?, ?, ?)");
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			connection.setAutoCommit(false);
-			
+
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, report);
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
-			
+
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				report.setId(id);
-				
+
 				leadEvaluationDAO.insert(report.getLeadEvaluation());
-				
+
 				for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 					individualEvaluationDAO.insert(individualEvaluation);
 				}
@@ -119,7 +119,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		} catch (SQLException | DAOException e) {
 			e.printStackTrace();
-			
+
 			try {
 				connection.rollback();
 			} catch (SQLException e2) {
@@ -134,40 +134,42 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				}
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 	@Override
 	public void update(Report report) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_MEETINGDATE + " = ?, " 
-					+ COLUMN_SESSIONNUMBER + " = ?, " 
-					+ COLUMN_COMMENT + " = ?, " 
-					+ COLUMN_RUNNINGTEAM + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_MEETINGDATE + " = ?");
+		builder.append(", " + COLUMN_SESSIONNUMBER + " = ?");
+		builder.append(", " + COLUMN_COMMENT + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			connection.setAutoCommit(false);
-			
-			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, report);
 			preparedStatement.setLong(6, report.getId());
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
-			
+
 			leadEvaluationDAO.update(report.getLeadEvaluation());
 			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 				individualEvaluationDAO.update(individualEvaluation);
 			}
 		} catch (SQLException | DAOException e) {
 			e.printStackTrace();
-			
+
 			try {
 				connection.rollback();
 			} catch (SQLException e2) {
@@ -183,35 +185,37 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 	}
-	
+
 	@Override
 	public void delete(Report report) {
-		String query = "UPDATE " + TABLE 
-				+ " SET " 
-					+ COLUMN_DELETED + " = ?" 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ?";
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			connection.setAutoCommit(false);
-			
+
 			leadEvaluationDAO.delete(report.getLeadEvaluation());
-			
+
 			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 				individualEvaluationDAO.delete(individualEvaluation);
 			}
-			
-			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setLong(2, report.getId());
-			
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException | DAOException e) {
 			e.printStackTrace();
-			
+
 			try {
 				connection.rollback();
 			} catch (SQLException e2) {
@@ -227,23 +231,26 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 	}
-	
+
 	@Override
 	public Report select(long id) {
 		Report report = null;
-		
-		String query = "SELECT * FROM " + TABLE 
-				+ " WHERE " 
-					+ COLUMN_ID + " = ? AND "
-					+ COLUMN_DELETED + " = ?";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_ID + " = ?");
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
 			preparedStatement.setBoolean(2, false);
-			
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				report = getResultSetValues(resultSet);
@@ -259,24 +266,27 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				}
 			}
 		}
-		
+
 		return report;
 	}
-	
+
 	public List<Report> select(Map<String, String[]> parameters) {
 		List<Report> reports = new ArrayList<>();
-		
+
 		Statement statement = null;
-		
-		try {			
-			String query = "SELECT * FROM " + TABLE
-					+ " WHERE " 
-						+ ConditionBuilder.parse(parameters, ReportConditionExpression.class) + " AND "
-						+ COLUMN_DELETED + " = false";
-			
+
+		try {
+			StringBuilder builder = new StringBuilder();
+			builder.append("SELECT * FROM ");
+			builder.append(TABLE);
+			builder.append(" WHERE ");
+			builder.append(ConditionBuilder.parse(parameters, ReportConditionExpression.class));
+			builder.append(" AND ");
+			builder.append(COLUMN_DELETED + " = ?");
+
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				reports.add(getResultSetValues(resultSet));
 			}
@@ -291,24 +301,26 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				}
 			}
 		}
-		
+
 		return reports;
 	}
-	
+
 	@Override
 	public List<Report> selectAll() {
 		List<Report> reports = new ArrayList<>();
-		
-		String query = "SELECT * FROM " + TABLE
-				+ " WHERE " 
-					+ COLUMN_DELETED + " = false";
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_DELETED + " = ?");
+
 		Statement statement = null;
-		
+
 		try {
 			statement = connection.createStatement();
-			
-			ResultSet resultSet = statement.executeQuery(query);
+
+			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
 				reports.add(getResultSetValues(resultSet));
 			}
@@ -323,7 +335,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 				}
 			}
 		}
-		
+
 		return reports;
 	}
 }
