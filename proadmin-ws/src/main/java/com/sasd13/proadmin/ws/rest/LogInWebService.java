@@ -33,27 +33,27 @@ import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
  */
 @WebServlet("/login")
 public class LogInWebService extends HttpServlet {
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		JDBCDAO dao = JDBCDAO.create();
-		
+
 		try {
 			Map<String, String> credentials = (Map<String, String>) RESTHandler.readDataFromRequest(req, Map.class);
 			String number = credentials.get(LogInWSClient.PARAM_USERNAME);
-			
+
 			Map<String, String[]> parameters = new HashMap<String, String[]>();
-			parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
-			
+			parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+
 			dao.open();
 			List<Teacher> list = ((TeacherDAO) dao.getEntityDAO(Teacher.class)).select(parameters);
-			
+
 			if (list.isEmpty()) {
 				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER, null);
 			} else {
-				Teacher teacher = list.get(0);			
+				Teacher teacher = list.get(0);
 				String candidate = credentials.get(LogInWSClient.PARAM_PASSWORD);
-				
+
 				if (passwordMatches(dao, candidate, teacher)) {
 					RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, teacher.getId());
 				} else {
@@ -66,7 +66,7 @@ public class LogInWebService extends HttpServlet {
 			dao.close();
 		}
 	}
-	
+
 	private boolean passwordMatches(JDBCDAO dao, String password, Teacher teacher) {
 		return new JDBCPasswordDAO(dao.getConnection()).contains(password, teacher.getId());
 	}

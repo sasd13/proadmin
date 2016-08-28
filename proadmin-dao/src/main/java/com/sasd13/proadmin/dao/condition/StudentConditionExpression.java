@@ -6,7 +6,7 @@ import com.sasd13.proadmin.dao.StudentDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class StudentConditionExpression implements IConditionExpression {
-	
+
 	@Override
 	public String build(String key, String value) throws ConditionBuilderException {
 		if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {

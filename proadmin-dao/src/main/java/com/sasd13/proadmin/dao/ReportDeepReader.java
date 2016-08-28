@@ -13,22 +13,22 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
-	
+
 	private LeadEvaluationDAO leadEvaluationDAO;
 	private IndividualEvaluationDAO individualEvaluationDAO;
-	
+
 	public ReportDeepReader(IEntityDAO<Report> entityDAO, LeadEvaluationDAO leadEvaluationDAO, IndividualEvaluationDAO individualEvaluationDAO) {
 		super(entityDAO);
-		
+
 		this.leadEvaluationDAO = leadEvaluationDAO;
 		this.individualEvaluationDAO = individualEvaluationDAO;
 	}
-	
+
 	@Override
 	protected void retrieveData(Report report) throws DAOException {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
-		
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
+
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 		report.getLeadEvaluation().setId(leadEvaluation.getId());
 		report.getLeadEvaluation().setPlanningMark(leadEvaluation.getPlanningMark());
@@ -36,7 +36,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		report.getLeadEvaluation().setCommunicationMark(leadEvaluation.getCommunicationMark());
 		report.getLeadEvaluation().setCommunicationComment(leadEvaluation.getCommunicationComment());
 		report.getLeadEvaluation().setStudent(leadEvaluation.getStudent());
-		
+
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		IndividualEvaluation individualEvaluationToAdd;
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {

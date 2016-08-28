@@ -48,18 +48,20 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	public long insert(Teacher teacher) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_NUMBER + ", " 
-					+ COLUMN_FIRSTNAME + ", " 
-					+ COLUMN_LASTNAME + ", " 
-					+ COLUMN_EMAIL
-				+ ") VALUES (?, ?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_NUMBER);
+		builder.append(", " + COLUMN_FIRSTNAME);
+		builder.append(", " + COLUMN_LASTNAME);
+		builder.append(", " + COLUMN_EMAIL);
+		builder.append(") VALUES (?, ?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, teacher);
 			
 			preparedStatement.executeUpdate();

@@ -6,7 +6,7 @@ import com.sasd13.proadmin.dao.RunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamConditionExpression implements IConditionExpression {
-	
+
 	@Override
 	public String build(String key, String value) throws ConditionBuilderException {
 		try {

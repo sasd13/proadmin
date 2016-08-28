@@ -22,16 +22,18 @@ public class JDBCPasswordDAO {
 	public long insert(String password, long teacherId) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_PASSWORD + ", " 
-					+ COLUMN_TEACHER_ID
-				+ ") VALUES (?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_PASSWORD);
+		builder.append(", " + COLUMN_TEACHER_ID);
+		builder.append(") VALUES (?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setString(1, password);
 			preparedStatement.setLong(2, teacherId);
 			

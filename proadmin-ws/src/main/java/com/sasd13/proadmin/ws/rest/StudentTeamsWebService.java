@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
  */
 @WebServlet("/studentteams")
 public class StudentTeamsWebService extends AbstractWebService<StudentTeam> {
-	
+
 	@Override
 	protected Class<StudentTeam> getEntityClass() {
 		return StudentTeam.class;

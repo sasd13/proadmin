@@ -17,14 +17,14 @@ import com.sasd13.javaex.db.IEntityDAO;
  * @author Samir
  */
 public abstract class JDBCEntityDAO<T> implements IEntityDAO<T> {
-	
+
 	protected Connection connection;
-	
+
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	protected abstract void editPreparedStatement(PreparedStatement preparedStatement, T t) throws SQLException;
-	
+
 	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
 }

@@ -14,32 +14,32 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
-	
+
 	private RunningDAO runningDAO;
 	private TeamDAO teamDAO;
 	private ReportDAO reportDAO;
-	
+
 	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, RunningDAO runningDAO, TeamDAO teamDAO, ReportDAO reportDAO) {
 		super(entityDAO);
-		
+
 		this.runningDAO = runningDAO;
 		this.teamDAO = teamDAO;
 		this.reportDAO = reportDAO;
 	}
-	
+
 	@Override
 	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
 		Running running = runningDAO.select(runningTeam.getRunning().getId());
 		runningTeam.getRunning().setYear(running.getYear());
 		runningTeam.getRunning().setTeacher(running.getTeacher());
 		runningTeam.getRunning().setProject(running.getProject());
-		
+
 		Team team = teamDAO.select(runningTeam.getTeam().getId());
 		runningTeam.getTeam().setCode(team.getCode());
-		
+
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[]{ String.valueOf(runningTeam.getId()) });
-		
+		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[] { String.valueOf(runningTeam.getId()) });
+
 		List<Report> reports = reportDAO.select(parameters);
 		Report reportToAdd;
 		for (Report report : reports) {

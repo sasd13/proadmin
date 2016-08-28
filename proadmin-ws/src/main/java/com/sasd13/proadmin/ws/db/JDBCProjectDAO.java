@@ -49,18 +49,20 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	public long insert(Project project) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_ACADEMICLEVEL + ", " 
-					+ COLUMN_CODE + ", " 
-					+ COLUMN_TITLE + ", " 
-					+ COLUMN_DESCRIPTION 
-				+ ") VALUES (?, ?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_ACADEMICLEVEL);
+		builder.append(", " + COLUMN_CODE);
+		builder.append(", " + COLUMN_TITLE);
+		builder.append(", " + COLUMN_DESCRIPTION);
+		builder.append(") VALUES (?, ?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, project);
 			
 			preparedStatement.executeUpdate();

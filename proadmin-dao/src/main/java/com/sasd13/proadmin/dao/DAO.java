@@ -16,7 +16,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public abstract class DAO implements ILayeredDAO {
-	
+
 	protected TeacherDAO teacherDAO;
 	protected ProjectDAO projectDAO;
 	protected StudentDAO studentDAO;
@@ -27,18 +27,23 @@ public abstract class DAO implements ILayeredDAO {
 	protected ReportDAO reportDAO;
 	private LeadEvaluationDAO leadEvaluationDAO;
 	private IndividualEvaluationDAO individualEvaluationDAO;
-	
+
 	private StudentTeamDeepReader studentTeamDeepReader;
 	private RunningDeepReader runningDeepReader;
 	private RunningTeamDeepReader runningTeamDeepReader;
 	private ReportDeepReader reportDeepReader;
 	private LeadEvaluationDeepReader leadEvaluationDeepReader;
 	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
-	
-	protected DAO(TeacherDAO teacherDAO, ProjectDAO projectDAO, 
-			StudentDAO studentDAO, TeamDAO teamDAO, StudentTeamDAO studentTeamDAO,
-			RunningDAO runningDAO, RunningTeamDAO runningTeamDAO, ReportDAO reportDAO) {
-		
+
+	protected DAO(TeacherDAO teacherDAO, 
+			ProjectDAO projectDAO, 
+			StudentDAO studentDAO, 
+			TeamDAO teamDAO, 
+			StudentTeamDAO studentTeamDAO, 
+			RunningDAO runningDAO, 
+			RunningTeamDAO runningTeamDAO,
+			ReportDAO reportDAO) {
+
 		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;
 		this.studentDAO = studentDAO;
@@ -49,7 +54,7 @@ public abstract class DAO implements ILayeredDAO {
 		this.reportDAO = reportDAO;
 		this.leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
 		this.individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
-		
+
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
 		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDAO);
@@ -57,7 +62,7 @@ public abstract class DAO implements ILayeredDAO {
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
-	
+
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DAOException {
 		if (Teacher.class.equals(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;
@@ -83,7 +88,7 @@ public abstract class DAO implements ILayeredDAO {
 			throw new DAOException("Class '" + mClass.getName() + "' has no entity dao");
 		}
 	}
-	
+
 	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DAOException {
 		if (StudentTeam.class.equals(mClass)) {
 			return (DeepReader<T>) studentTeamDeepReader;

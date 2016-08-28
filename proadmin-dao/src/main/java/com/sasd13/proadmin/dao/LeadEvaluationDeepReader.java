@@ -7,12 +7,12 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 
 public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
-	
+
 	private StudentDAO studentDAO;
 
 	public LeadEvaluationDeepReader(IEntityDAO<LeadEvaluation> entityDAO, StudentDAO studentDAO) {
 		super(entityDAO);
-		
+
 		this.studentDAO = studentDAO;
 	}
 

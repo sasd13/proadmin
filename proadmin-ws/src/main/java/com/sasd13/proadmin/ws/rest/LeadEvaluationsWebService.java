@@ -20,19 +20,19 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
  */
 @WebServlet("/leadevaluations")
 public class LeadEvaluationsWebService extends AbstractWebService<LeadEvaluation> {
-	
+
 	@Override
 	protected Class<LeadEvaluation> getEntityClass() {
 		return LeadEvaluation.class;
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//Do nothing
+		// Do nothing
 	}
-	
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//Do nothing
+		// Do nothing
 	}
 }

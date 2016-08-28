@@ -50,16 +50,18 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	public long insert(StudentTeam studentTeam) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_STUDENT_ID + ", " 
-					+ COLUMN_TEAM_ID 
-				+ ") VALUES (?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_STUDENT_ID);
+		builder.append(", " + COLUMN_TEAM_ID);
+		builder.append(") VALUES (?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, studentTeam);
 			
 			preparedStatement.executeUpdate();

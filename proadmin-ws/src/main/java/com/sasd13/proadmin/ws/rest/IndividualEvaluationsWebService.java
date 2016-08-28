@@ -20,19 +20,19 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
  */
 @WebServlet("/individualevaluations")
 public class IndividualEvaluationsWebService extends AbstractWebService<IndividualEvaluation> {
-	
+
 	@Override
 	protected Class<IndividualEvaluation> getEntityClass() {
 		return IndividualEvaluation.class;
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//Do nothing
+		// Do nothing
 	}
-	
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//Do nothing
+		// Do nothing
 	}
 }

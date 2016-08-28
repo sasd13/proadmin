@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.running.Running;
  */
 @WebServlet("/runnings")
 public class RunningsWebService extends AbstractWebService<Running> {
-	
+
 	@Override
 	protected Class<Running> getEntityClass() {
 		return Running.class;

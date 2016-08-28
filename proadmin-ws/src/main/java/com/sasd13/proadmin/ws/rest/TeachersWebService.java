@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.member.Teacher;
  */
 @WebServlet("/teachers")
 public class TeachersWebService extends AbstractWebService<Teacher> {
-	
+
 	@Override
 	protected Class<Teacher> getEntityClass() {
 		return Teacher.class;

@@ -50,16 +50,18 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements Ru
 	public long insert(RunningTeam runningTeam) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_RUNNING_ID + ", " 
-					+ COLUMN_TEAM_ID 
-				+ ") VALUES (?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_RUNNING_ID);
+		builder.append(", " + COLUMN_TEAM_ID);
+		builder.append(") VALUES (?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, runningTeam);
 			
 			preparedStatement.executeUpdate();

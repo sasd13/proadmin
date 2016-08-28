@@ -54,17 +54,19 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_MARK + ", "
-					+ COLUMN_STUDENT_ID + ", "
-					+ COLUMN_REPORT_ID
-				+ ") VALUES (?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_MARK);
+		builder.append(", " + COLUMN_STUDENT_ID);
+		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(") VALUES (?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, individualEvaluation);
 			
 			preparedStatement.executeUpdate();

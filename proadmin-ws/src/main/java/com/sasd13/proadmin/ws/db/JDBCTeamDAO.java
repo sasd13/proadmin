@@ -42,15 +42,17 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements TeamDAO {
 	public long insert(Team team) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_CODE
-				+ ") VALUES (?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_CODE);
+		builder.append(") VALUES (?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, team);
 			
 			preparedStatement.executeUpdate();

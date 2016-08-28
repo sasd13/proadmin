@@ -5,15 +5,15 @@ package com.sasd13.proadmin.business;
  */
 public class BusinessException extends Exception {
 
-    private String title;
+	private String title;
 
-    public BusinessException(String title, String message) {
-        super(message);
+	public BusinessException(String title, String message) {
+		super(message);
 
-        this.title = title;
-    }
+		this.title = title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 }

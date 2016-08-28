@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.project.Project;
  */
 @WebServlet("/projects")
 public class ProjectsWebService extends AbstractWebService<Project> {
-	
+
 	@Override
 	protected Class<Project> getEntityClass() {
 		return Project.class;

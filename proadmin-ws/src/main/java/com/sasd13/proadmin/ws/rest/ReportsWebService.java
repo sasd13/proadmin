@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.running.Report;
  */
 @WebServlet("/reports")
 public class ReportsWebService extends AbstractWebService<Report> {
-	
+
 	@Override
 	protected Class<Report> getEntityClass() {
 		return Report.class;

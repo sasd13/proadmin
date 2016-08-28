@@ -83,20 +83,22 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	public long insert(Report report) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_MEETINGDATE + ", "
-					+ COLUMN_SESSIONNUMBER + ", " 
-					+ COLUMN_COMMENT + ", " 
-					+ COLUMN_RUNNINGTEAM
-				+ ") VALUES (?, ?, ?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_MEETINGDATE);
+		builder.append(", " + COLUMN_SESSIONNUMBER);
+		builder.append(", " + COLUMN_COMMENT);
+		builder.append(", " + COLUMN_RUNNINGTEAM);
+		builder.append(") VALUES (?, ?, ?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
 			connection.setAutoCommit(false);
 			
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, report);
 			
 			preparedStatement.executeUpdate();

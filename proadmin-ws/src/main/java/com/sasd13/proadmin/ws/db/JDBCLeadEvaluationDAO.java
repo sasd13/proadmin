@@ -60,20 +60,22 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_PLANNINGMARK + ", " 
-					+ COLUMN_PLANNINGCOMMENT + ", " 
-					+ COLUMN_COMMUNICATIONMARK + ", " 
-					+ COLUMN_COMMUNICATIONCOMMENT + ", " 
-					+ COLUMN_STUDENT_ID + ", " 
-					+ COLUMN_REPORT_ID 
-				+ ") VALUES (?, ?, ?, ?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_PLANNINGMARK);
+		builder.append(", " + COLUMN_PLANNINGCOMMENT);
+		builder.append(", " + COLUMN_COMMUNICATIONMARK);
+		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT);
+		builder.append(", " + COLUMN_STUDENT_ID);
+		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, leadEvaluation);
 			
 			preparedStatement.executeUpdate();

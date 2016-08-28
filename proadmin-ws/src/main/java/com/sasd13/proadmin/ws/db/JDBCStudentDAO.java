@@ -51,19 +51,21 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 	public long insert(Student student) {
 		long id = 0;
 		
-		String query = "INSERT INTO " + TABLE 
-				+ "(" 
-					+ COLUMN_NUMBER + ", " 
-					+ COLUMN_FIRSTNAME + ", " 
-					+ COLUMN_LASTNAME + ", " 
-					+ COLUMN_EMAIL + ", " 
-					+ COLUMN_ACADEMICLEVEL 
-				+ ") VALUES (?, ?, ?, ?, ?)";
+		StringBuilder builder = new StringBuilder();
+		builder.append("INSERT INTO ");
+		builder.append(TABLE);
+		builder.append("(");
+		builder.append(COLUMN_NUMBER);
+		builder.append(", " + COLUMN_FIRSTNAME);
+		builder.append(", " + COLUMN_LASTNAME);
+		builder.append(", " + COLUMN_EMAIL);
+		builder.append(", " + COLUMN_ACADEMICLEVEL);
+		builder.append(") VALUES (?, ?, ?, ?, ?)");
 		
 		PreparedStatement preparedStatement = null;
 		
 		try {
-			preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 			editPreparedStatement(preparedStatement, student);
 			
 			preparedStatement.executeUpdate();

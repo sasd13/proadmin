@@ -14,7 +14,7 @@ public class ProjectSorter {
 
 	public static void byCode(List<Project> projects, final boolean byAsc) {
 		Collections.sort(projects, new Comparator<Project>() {
-			
+
 			@Override
 			public int compare(Project project1, Project project2) {
 				if (byAsc) {

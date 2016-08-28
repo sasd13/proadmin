@@ -19,11 +19,11 @@ import com.sasd13.proadmin.dao.DAO;
  * @author Samir
  */
 public class JDBCDAO extends DAO {
-	
+
 	private static List<JDBCDAO> pool = new ArrayList<>();
-	
+
 	private Connection connection;
-	
+
 	static {
 		try {
 			Class.forName(JDBCDatabaseInfo.DRIVER);
@@ -31,54 +31,54 @@ public class JDBCDAO extends DAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private JDBCDAO() {
 		super(
-			new JDBCTeacherDAO(),
-			new JDBCProjectDAO(),
-			new JDBCStudentDAO(),
-			new JDBCTeamDAO(),
-			new JDBCStudentTeamDAO(),
-			new JDBCRunningDAO(),
-			new JDBCRunningTeamDAO(),
-			new JDBCReportDAO()
+				new JDBCTeacherDAO(), 
+				new JDBCProjectDAO(), 
+				new JDBCStudentDAO(), 
+				new JDBCTeamDAO(), 
+				new JDBCStudentTeamDAO(), 
+				new JDBCRunningDAO(), 
+				new JDBCRunningTeamDAO(), 
+				new JDBCReportDAO()
 		);
 	}
-	
+
 	public static JDBCDAO create() {
 		for (JDBCDAO dao : pool) {
 			if (!dao.isOpened()) {
 				return dao;
 			}
 		}
-		
+
 		JDBCDAO dao = new JDBCDAO();
 		pool.add(dao);
-		
+
 		return dao;
 	}
-	
+
 	public Connection getConnection() {
 		return connection;
 	}
-	
+
 	private boolean isOpened() {
 		boolean opened = false;
-		
+
 		try {
 			opened = connection != null && !connection.isClosed();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return opened;
 	}
-	
+
 	@Override
 	public void open() throws DAOException {
 		try {
 			connection = DriverManager.getConnection(JDBCDatabaseInfo.URL, JDBCDatabaseInfo.USERNAME, JDBCDatabaseInfo.PASSWORD);
-			
+
 			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
@@ -91,7 +91,7 @@ public class JDBCDAO extends DAO {
 			throw new DAOException("Error connection to database");
 		}
 	}
-	
+
 	@Override
 	public void close() {
 		if (connection != null) {

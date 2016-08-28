@@ -6,7 +6,7 @@ import com.sasd13.proadmin.dao.ReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportConditionExpression implements IConditionExpression {
-	
+
 	@Override
 	public String build(String key, String value) throws ConditionBuilderException {
 		try {
