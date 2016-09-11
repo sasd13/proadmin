@@ -5,28 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCPasswordDAO {
+public class JDBCQualificationDAO {
 
-	private static final String TABLE = "passwords";
+	private static final String TABLE = "qualifications";
 
-	private static final String COLUMN_PASSWORD = "password";
+	private static final String COLUMN_QUALIFICATION = "qualification";
 	private static final String COLUMN_TEACHER_ID = "teacher_id";
-	private static final String COLUMN_DELETED = "deleted";
 
 	private Connection connection;
 
-	public JDBCPasswordDAO(Connection connection) {
+	public JDBCQualificationDAO(Connection connection) {
 		this.connection = connection;
 	}
 
-	public long insert(String password, long teacherId) {
-		long id = 0;
-
+	public boolean insert(String qualification, long teacherId) {
+		boolean inserted = false;
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_PASSWORD);
+		builder.append(COLUMN_QUALIFICATION);
 		builder.append(", " + COLUMN_TEACHER_ID);
 		builder.append(") VALUES (?, ?)");
 
@@ -34,14 +33,14 @@ public class JDBCPasswordDAO {
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, password);
+			preparedStatement.setString(1, qualification);
 			preparedStatement.setLong(2, teacherId);
 
 			preparedStatement.executeUpdate();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
+				inserted = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,15 +54,15 @@ public class JDBCPasswordDAO {
 			}
 		}
 
-		return id;
+		return inserted;
 	}
 
-	void update(String password, long teacherId) {
+	public void update(String qualification, long teacherId) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_PASSWORD + " = ?");
+		builder.append(COLUMN_QUALIFICATION + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_TEACHER_ID + " = ?");
 
@@ -71,7 +70,7 @@ public class JDBCPasswordDAO {
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, password);
+			preparedStatement.setString(1, qualification);
 			preparedStatement.setLong(2, teacherId);
 
 			preparedStatement.executeUpdate();
@@ -90,10 +89,8 @@ public class JDBCPasswordDAO {
 
 	public void delete(long teacherId) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
+		builder.append("DELETE FROM ");
 		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_TEACHER_ID + " = ?");
 
@@ -101,8 +98,7 @@ public class JDBCPasswordDAO {
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, teacherId);
+			preparedStatement.setLong(1, teacherId);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -118,26 +114,23 @@ public class JDBCPasswordDAO {
 		}
 	}
 
-	public boolean contains(String password, long teacherId) {
+	public boolean contains(String qualification, long teacherId) {
 		boolean contains = false;
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT " + COLUMN_PASSWORD + " FROM ");
+		builder.append("SELECT " + COLUMN_QUALIFICATION + " FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_PASSWORD + " = ?");
+		builder.append(COLUMN_QUALIFICATION + " = ?");
 		builder.append(" AND ");
 		builder.append(COLUMN_TEACHER_ID + " = ?");
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, password);
+			preparedStatement.setString(1, qualification);
 			preparedStatement.setLong(2, teacherId);
-			preparedStatement.setBoolean(3, false);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {

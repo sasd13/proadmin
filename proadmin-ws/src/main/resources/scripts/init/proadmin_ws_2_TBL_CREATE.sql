@@ -1,15 +1,3 @@
-DROP TABLE IF EXISTS individualevaluations;
-DROP TABLE IF EXISTS leadevaluations;
-DROP TABLE IF EXISTS reports;
-DROP TABLE IF EXISTS runningteams;
-DROP TABLE IF EXISTS runnings;
-DROP TABLE IF EXISTS studentteams;
-DROP TABLE IF EXISTS teams;
-DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS projects;
-DROP TABLE IF EXISTS passwords;
-DROP TABLE IF EXISTS teachers;
-
 CREATE TABLE teachers (
 	id SERIAL,
 	number VARCHAR(255) NOT NULL UNIQUE,
@@ -20,11 +8,10 @@ CREATE TABLE teachers (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE passwords (
+CREATE TABLE qualifications (
 	id SERIAL,
-	password VARCHAR(255) NOT NULL,
+	qualification VARCHAR(255) NOT NULL,
 	teacher_id BIGINT UNSIGNED NOT NULL,
-	deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (teacher_id) REFERENCES teachers (id)
 );

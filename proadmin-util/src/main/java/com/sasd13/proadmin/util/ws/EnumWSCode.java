@@ -9,8 +9,7 @@ public enum EnumWSCode implements IHttpCodifiable {
 	ERROR_POST(-2, "Error POST"), 
 	ERROR_PUT(-3, "Error PUT"), 
 	ERROR_DELETE(-4, "Error DELETE"), 
-	ERROR_LOGIN_TEACHER_NUMBER(-100, "Error teacher number"), 
-	ERROR_LOGIN_TEACHER_PASSWORD(-101, "Error teacher password"),
+	ERROR_LOGIN_TEACHER(-100, "Error teacher number"),
 	;
 
 	private int code;

@@ -282,7 +282,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			builder.append(" WHERE ");
 			builder.append(ConditionBuilder.parse(parameters, ReportConditionExpression.class));
 			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = ?");
+			builder.append(COLUMN_DELETED + " = false");
 
 			statement = connection.createStatement();
 
@@ -313,7 +313,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 

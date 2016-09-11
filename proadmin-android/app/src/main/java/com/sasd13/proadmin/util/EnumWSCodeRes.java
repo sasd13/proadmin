@@ -15,8 +15,7 @@ public enum EnumWSCodeRes {
     ERROR_POST                      (EnumWSCode.ERROR_POST,                     R.string.ws_code_error_2),
     ERROR_PUT                       (EnumWSCode.ERROR_PUT,                      R.string.ws_code_error_3),
     ERROR_DELETE                    (EnumWSCode.ERROR_DELETE,                   R.string.ws_code_error_4),
-    ERROR_LOGIN_TEACHER_NUMBER      (EnumWSCode.ERROR_LOGIN_TEACHER_NUMBER,     R.string.ws_code_error_100),
-    ERROR_LOGIN_TEACHER_PASSWORD    (EnumWSCode.ERROR_LOGIN_TEACHER_PASSWORD,   R.string.ws_code_error_101),
+    ERROR_LOGIN_TEACHER             (EnumWSCode.ERROR_LOGIN_TEACHER,            R.string.ws_code_error_100),
     ;
 
     private EnumWSCode wsCode;

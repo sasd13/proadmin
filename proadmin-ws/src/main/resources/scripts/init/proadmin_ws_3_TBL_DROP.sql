@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS individualevaluations;
+DROP TABLE IF EXISTS leadevaluations;
+DROP TABLE IF EXISTS reports;
+DROP TABLE IF EXISTS runningteams;
+DROP TABLE IF EXISTS runnings;
+DROP TABLE IF EXISTS studentteams;
+DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS qualifications;
+DROP TABLE IF EXISTS teachers;
+
+COMMIT;

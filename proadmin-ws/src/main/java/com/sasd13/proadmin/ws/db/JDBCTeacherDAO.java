@@ -201,7 +201,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			builder.append(" WHERE ");
 			builder.append(ConditionBuilder.parse(parameters, TeacherConditionExpression.class));
 			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = ?");
+			builder.append(COLUMN_DELETED + " = false");
 
 			statement = connection.createStatement();
 
@@ -232,7 +232,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 

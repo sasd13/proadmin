@@ -14,6 +14,8 @@ import com.sasd13.proadmin.util.SessionHelper;
 
 public class RunningsActivity extends MotherActivity {
 
+    private RunningsFragment runningsFragment;
+    private RunningFragment runningFragmentNew, runningFragmentEdit;
     private Project project;
 
     @Override
@@ -23,10 +25,10 @@ public class RunningsActivity extends MotherActivity {
         setContentView(R.layout.activity_runnings);
         GUIHelper.colorTitles(this);
 
-        builView();
+        buildView();
     }
 
-    private void builView() {
+    private void buildView() {
         project = Cache.load(
                 this,
                 SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID),
@@ -36,14 +38,22 @@ public class RunningsActivity extends MotherActivity {
     }
 
     public void listRunnings() {
+        if (runningsFragment == null) {
+            runningsFragment = RunningsFragment.newInstance(project);
+        }
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.runnings_fragment, RunningsFragment.newInstance(project))
+                .replace(R.id.runnings_fragment, runningsFragment)
                 .commit();
     }
 
     public void newRunning() {
-        startFragment(RunningFragment.newInstance(project));
+        if (runningFragmentNew == null) {
+            runningFragmentNew = RunningFragment.newInstance(project);
+        }
+
+        startFragment(runningFragmentNew);
     }
 
     public void startFragment(Fragment fragment) {
@@ -55,9 +65,12 @@ public class RunningsActivity extends MotherActivity {
     }
 
     public void editRunning(Running running) {
-        RunningFragment runningFragment = RunningFragment.newInstance(project);
-        runningFragment.setRunning(running);
+        if (runningFragmentEdit == null) {
+            runningFragmentEdit = RunningFragment.newInstance(project);
+        }
 
-        startFragment(runningFragment);
+        runningFragmentEdit.setRunning(running);
+
+        startFragment(runningFragmentEdit);
     }
 }

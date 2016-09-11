@@ -206,7 +206,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 			builder.append(" WHERE ");
 			builder.append(ConditionBuilder.parse(parameters, StudentConditionExpression.class));
 			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = ?");
+			builder.append(COLUMN_DELETED + " = false");
 
 			statement = connection.createStatement();
 
@@ -237,7 +237,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements StudentDAO
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 

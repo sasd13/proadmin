@@ -11,6 +11,8 @@ import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 
 public class ProjectsActivity extends MotherActivity {
 
+    private ProjectsFragment projectsFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,24 +20,30 @@ public class ProjectsActivity extends MotherActivity {
         setContentView(R.layout.activity_projects);
         GUIHelper.colorTitles(this);
 
-        builView();
+        buildView();
     }
 
-    private void builView() {
+    private void buildView() {
         listProjects();
     }
 
     public void listProjects() {
+        if (projectsFragment == null) {
+            projectsFragment = ProjectsFragment.newInstance();
+        }
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, ProjectsFragment.newInstance())
+                .replace(R.id.projects_fragment, projectsFragment)
                 .commit();
     }
 
     public void showProject(Project project) {
+        ProjectFragment projectFragment = ProjectFragment.newInstance(project);
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, ProjectFragment.newInstance(project))
+                .replace(R.id.projects_fragment, projectFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -45,5 +53,14 @@ public class ProjectsActivity extends MotherActivity {
         intent.putExtra(Extra.PROJECT_ID, project.getId());
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

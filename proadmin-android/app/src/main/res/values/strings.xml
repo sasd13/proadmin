@@ -73,7 +73,6 @@
     <string name="ws_code_error_2">Error on data create</string>
     <string name="ws_code_error_3">Error on data update</string>
     <string name="ws_code_error_4">Error on data delete</string>
-    <string name="ws_code_error_100">Error in number</string>
-    <string name="ws_code_error_101">Error in password</string>
+    <string name="ws_code_error_100">Error in username/password</string>
 
 </resources>

@@ -202,7 +202,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			builder.append(" WHERE ");
 			builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
 			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = ?");
+			builder.append(COLUMN_DELETED + " = false");
 
 			statement = connection.createStatement();
 
@@ -233,7 +233,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 
