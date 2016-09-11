@@ -11,8 +11,6 @@ import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 
 public class ProjectsActivity extends MotherActivity {
 
-    private ProjectsFragment projectsFragment;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,22 +26,16 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void listProjects() {
-        if (projectsFragment == null) {
-            projectsFragment = ProjectsFragment.newInstance();
-        }
-
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, projectsFragment)
+                .replace(R.id.projects_fragment, ProjectsFragment.newInstance())
                 .commit();
     }
 
     public void showProject(Project project) {
-        ProjectFragment projectFragment = ProjectFragment.newInstance(project);
-
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, projectFragment)
+                .replace(R.id.projects_fragment, ProjectFragment.newInstance(project))
                 .addToBackStack(null)
                 .commit();
     }
@@ -53,14 +45,5 @@ public class ProjectsActivity extends MotherActivity {
         intent.putExtra(Extra.PROJECT_ID, project.getId());
 
         startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            super.onBackPressed();
-        } else {
-            getSupportFragmentManager().popBackStack();
-        }
     }
 }

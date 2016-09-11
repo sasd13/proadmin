@@ -73,9 +73,10 @@ public class RunningFragment extends Fragment {
         runningForm = new RunningForm(getContext(), projects);
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.fragment_project, container, false);
 
         GUIHelper.colorTitles(view);

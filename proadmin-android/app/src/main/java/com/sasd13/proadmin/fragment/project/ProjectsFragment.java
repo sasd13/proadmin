@@ -64,7 +64,10 @@ public class ProjectsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
+        view.bringToFront();
 
         GUIHelper.colorTitles(view);
         buildView(view);

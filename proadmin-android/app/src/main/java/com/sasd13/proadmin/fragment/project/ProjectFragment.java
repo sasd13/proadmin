@@ -44,10 +44,12 @@ public class ProjectFragment extends Fragment {
         projectForm = new ProjectForm(getContext());
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.fragment_project, container, false);
+        view.bringToFront();
 
         GUIHelper.colorTitles(view);
         buildView(view);

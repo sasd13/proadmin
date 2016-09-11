@@ -14,8 +14,6 @@ import com.sasd13.proadmin.util.SessionHelper;
 
 public class RunningsActivity extends MotherActivity {
 
-    private RunningsFragment runningsFragment;
-    private RunningFragment runningFragmentNew, runningFragmentEdit;
     private Project project;
 
     @Override
@@ -38,25 +36,17 @@ public class RunningsActivity extends MotherActivity {
     }
 
     public void listRunnings() {
-        if (runningsFragment == null) {
-            runningsFragment = RunningsFragment.newInstance(project);
-        }
-
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.runnings_fragment, runningsFragment)
+                .replace(R.id.runnings_fragment, RunningsFragment.newInstance(project))
                 .commit();
     }
 
     public void newRunning() {
-        if (runningFragmentNew == null) {
-            runningFragmentNew = RunningFragment.newInstance(project);
-        }
-
-        startFragment(runningFragmentNew);
+        startFragment(RunningFragment.newInstance(project));
     }
 
-    public void startFragment(Fragment fragment) {
+    private void startFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.runnings_fragment, fragment)
@@ -65,12 +55,9 @@ public class RunningsActivity extends MotherActivity {
     }
 
     public void editRunning(Running running) {
-        if (runningFragmentEdit == null) {
-            runningFragmentEdit = RunningFragment.newInstance(project);
-        }
+        RunningFragment runningFragment = RunningFragment.newInstance(project);
+        runningFragment.setRunning(running);
 
-        runningFragmentEdit.setRunning(running);
-
-        startFragment(runningFragmentEdit);
+        startFragment(runningFragment);
     }
 }
