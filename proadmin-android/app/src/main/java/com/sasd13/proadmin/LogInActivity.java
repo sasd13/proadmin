@@ -15,7 +15,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private class LogInForm {
+    private static class LogInForm {
         public EditText editTextNumber, editTextPassword;
     }
 

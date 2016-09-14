@@ -6,12 +6,7 @@ import android.database.sqlite.SQLiteException;
 
 import com.sasd13.proadmin.dao.DAO;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SQLiteDAO extends DAO {
-
-    private static List<SQLiteDAO> pool = new ArrayList<>();
 
     private SQLiteDBHandler dbHandler;
     private SQLiteDatabase db;
@@ -32,20 +27,7 @@ public class SQLiteDAO extends DAO {
     }
 
     public static SQLiteDAO create(Context context) {
-        for (SQLiteDAO dao : pool) {
-            if (!dao.isOpened()) {
-                return dao;
-            }
-        }
-
-        SQLiteDAO dao = new SQLiteDAO(context);
-        pool.add(dao);
-
-        return dao;
-    }
-
-    private boolean isOpened() {
-        return db.isOpen();
+        return new SQLiteDAO(context);
     }
 
     @Override

@@ -100,6 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, LogInActivity.class));
                 waitDialog.dismiss();
                 finish();
+                self = null;
             }
         }, GUIConstants.TIMEOUT_ACTIVITY).start();
 

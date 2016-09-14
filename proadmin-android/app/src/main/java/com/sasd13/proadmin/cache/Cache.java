@@ -17,15 +17,13 @@ import java.util.Map;
  */
 public class Cache {
 
-    private static ILayeredDAO dao;
-
     public static <T> void keep(Context context, T t) {
-        dao = SQLiteDAO.create(context);
+        ILayeredDAO dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
 
-            performKeep(t);
+            performKeep(t, dao);
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {
@@ -37,18 +35,18 @@ public class Cache {
         }
     }
 
-    private static <T> void performKeep(T t) throws DAOException {
+    private static <T> void performKeep(T t, ILayeredDAO dao) throws DAOException {
         ((IPersistable<T>) dao.getEntityDAO(t.getClass())).persist(t);
     }
 
     public static <T> void keepAll(Context context, List<T> ts) {
-        dao = SQLiteDAO.create(context);
+        ILayeredDAO dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
 
             for (T t : ts) {
-                performKeep(t);
+                performKeep(t, dao);
             }
         } catch (DAOException e) {
             e.printStackTrace();
@@ -68,7 +66,7 @@ public class Cache {
     public static <T> T load(Context context, long id, Class<T> mClass, boolean deepRead) {
         T t = null;
 
-        dao = SQLiteDAO.create(context);
+        ILayeredDAO dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -94,7 +92,7 @@ public class Cache {
     public static <T> List<T> load(Context context, Map<String, String[]> parameters, Class<T> mClass, boolean deepRead) {
         List<T> ts = new ArrayList<>();
 
-        dao = SQLiteDAO.create(context);
+        ILayeredDAO dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -120,7 +118,7 @@ public class Cache {
     public static <T> List<T> loadAll(Context context, Class<T> mClass, boolean deepRead) {
         List<T> ts = new ArrayList<>();
 
-        dao = SQLiteDAO.create(context);
+        ILayeredDAO dao = SQLiteDAO.create(context);
 
         try {
             dao.open();
@@ -140,6 +138,8 @@ public class Cache {
     }
 
     public static <T> void delete(Context context, T t) {
+        ILayeredDAO dao = SQLiteDAO.create(context);
+
         try {
             dao.open();
 
