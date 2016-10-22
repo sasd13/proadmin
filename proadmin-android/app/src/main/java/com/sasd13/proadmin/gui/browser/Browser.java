@@ -3,9 +3,9 @@ package com.sasd13.proadmin.gui.browser;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
-import com.sasd13.proadmin.ProjectsActivity;
+import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.SettingsActivity;
+import com.sasd13.proadmin.activities.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

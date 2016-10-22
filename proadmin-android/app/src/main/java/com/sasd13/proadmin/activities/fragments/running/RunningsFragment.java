@@ -1,15 +1,16 @@
-package com.sasd13.proadmin.fragment.running;
+package com.sasd13.proadmin.activities.fragments.running;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -21,7 +22,7 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.RunningsActivity;
+import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
@@ -64,13 +65,13 @@ public class RunningsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_runnings, container, false);
 
-        GUIHelper.colorTitles(view);
         buildView(view);
 
         return view;
     }
 
     private void buildView(View view) {
+        GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
@@ -165,9 +166,8 @@ public class RunningsFragment extends Fragment {
         refreshView();
     }
 
-    public void onError(String message) {
+    public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
-
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

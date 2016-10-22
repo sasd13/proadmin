@@ -1,4 +1,4 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 

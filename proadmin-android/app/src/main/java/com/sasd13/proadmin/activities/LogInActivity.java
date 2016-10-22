@@ -1,14 +1,16 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.handler.LogInHandler;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -21,6 +23,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private LogInHandler logInHandler;
     private WaitDialog waitDialog;
+    private View contentView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         logInHandler = new LogInHandler(this);
+        contentView = findViewById(android.R.id.content);
 
         buildView();
     }
@@ -73,8 +77,8 @@ public class LogInActivity extends AppCompatActivity {
         SessionHelper.logIn(this, teacher);
     }
 
-    public void onError(String message) {
+    public void onError(@StringRes int message) {
         waitDialog.dismiss();
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

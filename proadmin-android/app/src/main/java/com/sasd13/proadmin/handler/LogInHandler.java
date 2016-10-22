@@ -3,7 +3,7 @@ package com.sasd13.proadmin.handler;
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.LogInTask;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
-import com.sasd13.proadmin.LogInActivity;
+import com.sasd13.proadmin.activities.LogInActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
@@ -60,7 +60,7 @@ public class LogInHandler implements IWSPromise {
         EnumWSCode wsCode = EnumWSCode.find(logInTask.getWSReponseCode());
 
         if (wsCode.isError()) {
-            logInActivity.onError(logInActivity.getResources().getString(EnumWSCodeRes.find(wsCode).getStringRes()));
+            logInActivity.onError(EnumWSCodeRes.find(wsCode).getStringRes());
         } else {
             taskType = TASKTYPE_READ;
             readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
@@ -76,12 +76,12 @@ public class LogInHandler implements IWSPromise {
             Cache.keep(logInActivity, teacher);
             logInActivity.onLogInSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            logInActivity.onError(logInActivity.getResources().getString(R.string.ws_error_data_retrieval_error));
+            logInActivity.onError(R.string.ws_error_data_retrieval_error);
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        logInActivity.onError(logInActivity.getResources().getString(R.string.ws_error_server_connection_failed));
+        logInActivity.onError(R.string.ws_error_server_connection_failed);
     }
 }

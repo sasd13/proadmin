@@ -1,13 +1,14 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.sasd13.androidex.util.GUIHelper;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.fragment.project.ProjectFragment;
-import com.sasd13.proadmin.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.activities.fragments.project.ProjectFragment;
+import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 
 public class ProjectsActivity extends MotherActivity {
 
@@ -16,12 +17,12 @@ public class ProjectsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_projects);
-        GUIHelper.colorTitles(this);
 
         buildView();
     }
 
     private void buildView() {
+        GUIHelper.colorTitles(this);
         listProjects();
     }
 

@@ -1,7 +1,9 @@
-package com.sasd13.proadmin.fragment.project;
+package com.sasd13.proadmin.activities.fragments.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -26,7 +27,7 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.ProjectsActivity;
+import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
@@ -67,15 +68,14 @@ public class ProjectsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
-        view.bringToFront();
 
-        GUIHelper.colorTitles(view);
         buildView(view);
 
         return view;
     }
 
     private void buildView(View view) {
+        GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabProjects(view);
         readProjects();
@@ -193,9 +193,8 @@ public class ProjectsFragment extends Fragment {
         refreshView();
     }
 
-    public void onError(String message) {
+    public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
-
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

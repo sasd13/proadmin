@@ -10,7 +10,7 @@ import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.HomeActivity;
+import com.sasd13.proadmin.activities.HomeActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;

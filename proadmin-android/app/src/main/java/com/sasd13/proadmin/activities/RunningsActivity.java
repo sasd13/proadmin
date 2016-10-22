@@ -1,15 +1,16 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.util.GUIHelper;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.fragment.running.RunningFragment;
-import com.sasd13.proadmin.fragment.running.RunningsFragment;
+import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
+import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class RunningsActivity extends MotherActivity {
@@ -21,17 +22,17 @@ public class RunningsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_runnings);
-        GUIHelper.colorTitles(this);
 
-        buildView();
-    }
-
-    private void buildView() {
         project = Cache.load(
                 this,
                 SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID),
                 Project.class);
 
+        buildView();
+    }
+
+    private void buildView() {
+        GUIHelper.colorTitles(this);
         listRunnings();
     }
 

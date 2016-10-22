@@ -1,4 +1,4 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +9,7 @@ import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.drawer.EnumDrawerItemType;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.gui.browser.Browser;
 import com.sasd13.proadmin.gui.browser.BrowserItemModel;
 import com.sasd13.proadmin.util.SessionHelper;

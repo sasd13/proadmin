@@ -1,4 +1,4 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;

@@ -4,7 +4,7 @@ import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.ReadTask;
 import com.sasd13.androidex.net.ws.rest.task.UpdateTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.SettingsActivity;
+import com.sasd13.proadmin.activities.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.form.FormException;
@@ -43,7 +43,7 @@ public class SettingsHandler implements IWSPromise {
             UpdateTask<Teacher> updateTask = new UpdateTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
             updateTask.execute(teacher);
         } catch (FormException e) {
-            settingsActivity.onError(e.getMessage());
+            settingsActivity.onError(e.getResMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class SettingsHandler implements IWSPromise {
             Cache.keep(settingsActivity, teacher);
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            settingsActivity.onError(settingsActivity.getResources().getString(R.string.ws_error_data_retrieval_error));
+            settingsActivity.onError(R.string.ws_error_data_retrieval_error);
         }
     }
 
@@ -82,6 +82,6 @@ public class SettingsHandler implements IWSPromise {
 
     @Override
     public void onFail(int httpResponseCode) {
-        settingsActivity.onError(settingsActivity.getResources().getString(R.string.ws_error_server_connection_failed));
+        settingsActivity.onError(R.string.ws_error_server_connection_failed);
     }
 }

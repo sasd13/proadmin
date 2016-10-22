@@ -1,17 +1,20 @@
-package com.sasd13.proadmin;
+package com.sasd13.proadmin.activities;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.SettingsForm;
@@ -24,6 +27,7 @@ public class SettingsActivity extends MotherActivity {
     private SettingsForm settingsForm;
     private Teacher teacher;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private View contentView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class SettingsActivity extends MotherActivity {
 
         settingsHandler = new SettingsHandler(this);
         settingsForm = new SettingsForm(this);
+        contentView = findViewById(android.R.id.content);
 
         buildView();
     }
@@ -111,12 +116,11 @@ public class SettingsActivity extends MotherActivity {
     }
 
     public void onUpdateSucceeded() {
-        Toast.makeText(this, getResources().getString(R.string.message_saved), Toast.LENGTH_SHORT).show();
+        Snackbar.make(contentView, R.string.message_saved, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void onError(String message) {
+    public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
-
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

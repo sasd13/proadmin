@@ -61,7 +61,7 @@ public class RunningForm extends Form {
 
     private void validProject() throws FormException {
         if (modelProject.getValue() <= 0) {
-            throw new FormException(context.getResources().getString(R.string.form_runnings_message_error_project));
+            throw new FormException(context, R.string.form_runnings_message_error_project);
         }
     }
 }

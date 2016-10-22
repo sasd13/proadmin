@@ -7,7 +7,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.fragment.running.RunningsFragment;
+import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.ws.WSInformation;
@@ -62,12 +62,12 @@ public class RunningsHandler implements IWSPromise {
             Cache.keepAll(runningsFragment.getContext(), runnings);
             runningsFragment.onReadSucceeded(runnings);
         } catch (IndexOutOfBoundsException e) {
-            runningsFragment.onError(runningsFragment.getResources().getString(R.string.ws_error_data_retrieval_error));
+            runningsFragment.onError(R.string.ws_error_data_retrieval_error);
         }
     }
 
     @Override
     public void onFail(int i) {
-        runningsFragment.onError(runningsFragment.getResources().getString(R.string.ws_error_server_connection_failed));
+        runningsFragment.onError(R.string.ws_error_server_connection_failed);
     }
 }

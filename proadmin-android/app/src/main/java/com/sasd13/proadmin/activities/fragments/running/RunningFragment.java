@@ -1,8 +1,10 @@
-package com.sasd13.proadmin.fragment.running;
+package com.sasd13.proadmin.activities.fragments.running;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
@@ -21,7 +22,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.RunningsActivity;
+import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
@@ -79,13 +80,13 @@ public class RunningFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_project, container, false);
 
-        GUIHelper.colorTitles(view);
         buildView(view);
 
         return view;
     }
 
     private void buildView(View view) {
+        GUIHelper.colorTitles(view);
         buildFormRunning(view);
 
         if (!inModeEdit) {
@@ -180,23 +181,23 @@ public class RunningFragment extends Fragment {
 
     public void onCreateSucceeded() {
         waitDialog.dismiss();
-        Toast.makeText(getContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
     public void onUpdateSucceeded() {
         waitDialog.dismiss();
-        Toast.makeText(getContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
     }
 
     public void onDeleteSucceeded() {
         waitDialog.dismiss();
-        Toast.makeText(getContext(), R.string.message_deleted, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
-    public void onError(String error) {
+    public void onError(@StringRes int message) {
         waitDialog.dismiss();
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

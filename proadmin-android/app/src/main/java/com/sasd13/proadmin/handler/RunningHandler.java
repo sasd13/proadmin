@@ -13,7 +13,7 @@ import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.RunningForm;
-import com.sasd13.proadmin.fragment.running.RunningFragment;
+import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumWSCodeRes;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -58,7 +58,7 @@ public class RunningHandler implements IWSPromise {
 
             createTask.execute(running);
         } catch (FormException e) {
-            runningFragment.onError(e.getMessage());
+            runningFragment.onError(e.getResMessage());
         }
     }
 
@@ -93,7 +93,7 @@ public class RunningHandler implements IWSPromise {
             updateTask = new UpdateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
             updateTask.execute(running);
         } catch (FormException e) {
-            runningFragment.onError(e.getMessage());
+            runningFragment.onError(e.getResMessage());
         }
     }
 
@@ -136,14 +136,14 @@ public class RunningHandler implements IWSPromise {
                 Cache.keep(runningFragment.getContext(), running);
                 runningFragment.onCreateSucceeded();
             } catch (IndexOutOfBoundsException e) {
-                runningFragment.onError(runningFragment.getResources().getString(R.string.ws_error_data_retrieval_error));
+                runningFragment.onError(R.string.ws_error_data_retrieval_error);
             }
         }
     }
 
     private void showError(EnumWSCode wsCode) {
         EnumWSCodeRes wsCodeRes = EnumWSCodeRes.find(wsCode);
-        runningFragment.onError(runningFragment.getResources().getString(wsCodeRes.getStringRes()));
+        runningFragment.onError(wsCodeRes.getStringRes());
     }
 
     private void onUpdateTaskSucceeded() {
@@ -170,6 +170,6 @@ public class RunningHandler implements IWSPromise {
 
     @Override
     public void onFail(int httpResponseCode) {
-        runningFragment.onError(runningFragment.getResources().getString(R.string.ws_error_server_connection_failed));
+        runningFragment.onError(R.string.ws_error_server_connection_failed);
     }
 }

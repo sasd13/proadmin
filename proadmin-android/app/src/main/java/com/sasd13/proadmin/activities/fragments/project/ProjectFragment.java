@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.fragment.project;
+package com.sasd13.proadmin.activities.fragments.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +16,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.ProjectsActivity;
+import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.form.ProjectForm;
@@ -49,15 +49,14 @@ public class ProjectFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_project, container, false);
-        view.bringToFront();
 
-        GUIHelper.colorTitles(view);
         buildView(view);
 
         return view;
     }
 
     private void buildView(View view) {
+        GUIHelper.colorTitles(view);
         buildFormProject(view);
     }
 
