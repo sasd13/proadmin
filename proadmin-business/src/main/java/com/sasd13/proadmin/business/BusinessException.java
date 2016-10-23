@@ -5,6 +5,10 @@ package com.sasd13.proadmin.business;
  */
 public class BusinessException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6941290925336484191L;
 	private String title;
 
 	public BusinessException(String title, String message) {

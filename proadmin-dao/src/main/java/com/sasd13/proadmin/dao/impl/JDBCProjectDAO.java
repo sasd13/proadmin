@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.db;
+package com.sasd13.proadmin.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,62 +14,63 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.db.condition.ConditionBuilder;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.TeacherDAO;
-import com.sasd13.proadmin.dao.condition.TeacherConditionExpression;
+import com.sasd13.proadmin.bean.EnumAcademicLevel;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.dao.ProjectDAO;
+import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
 
 /**
  *
  * @author Samir
  */
-public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO {
+public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO {
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
-		preparedStatement.setString(1, teacher.getNumber());
-		preparedStatement.setString(2, teacher.getFirstName());
-		preparedStatement.setString(3, teacher.getLastName());
-		preparedStatement.setString(4, teacher.getEmail());
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
+		preparedStatement.setString(1, project.getAcademicLevel().getCode());
+		preparedStatement.setString(2, project.getCode());
+		preparedStatement.setString(3, project.getTitle());
+		preparedStatement.setString(4, project.getDescription());
 	}
 
 	@Override
-	protected Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
-		Teacher teacher = new Teacher();
-		teacher.setId(resultSet.getLong(COLUMN_ID));
-		teacher.setNumber(resultSet.getString(COLUMN_NUMBER));
-		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
-		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
-		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));
+	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
+		Project project = new Project();
+		project.setId(resultSet.getLong(COLUMN_ID));
+		project.setAcademicLevel(EnumAcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
+		project.setCode(resultSet.getString(COLUMN_CODE));
+		project.setTitle(resultSet.getString(COLUMN_TITLE));
+		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 
-		return teacher;
+		return project;
 	}
 
 	@Override
-	public long insert(Teacher teacher) {
+	public long insert(Project project) {
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_NUMBER);
-		builder.append(", " + COLUMN_FIRSTNAME);
-		builder.append(", " + COLUMN_LASTNAME);
-		builder.append(", " + COLUMN_EMAIL);
+		builder.append(COLUMN_ACADEMICLEVEL);
+		builder.append(", " + COLUMN_CODE);
+		builder.append(", " + COLUMN_TITLE);
+		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, teacher);
+			editPreparedStatement(preparedStatement, project);
 
 			preparedStatement.executeUpdate();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				teacher.setId(id);
+				project.setId(id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,15 +88,15 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	}
 
 	@Override
-	public void update(Teacher teacher) {
+	public void update(Project project) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_NUMBER + " = ?");
-		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
-		builder.append(", " + COLUMN_LASTNAME + " = ?");
-		builder.append(", " + COLUMN_EMAIL + " = ?");
+		builder.append(COLUMN_ACADEMICLEVEL + " = ?");
+		builder.append(", " + COLUMN_CODE + " = ?");
+		builder.append(", " + COLUMN_TITLE + " = ?");
+		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
 
@@ -103,8 +104,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, teacher);
-			preparedStatement.setLong(5, teacher.getId());
+			editPreparedStatement(preparedStatement, project);
+			preparedStatement.setLong(5, project.getId());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -121,7 +122,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
+	public void delete(Project project) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -135,7 +136,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, teacher.getId());
+			preparedStatement.setLong(2, project.getId());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -152,8 +153,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 	}
 
 	@Override
-	public Teacher select(long id) {
-		Teacher teacher = null;
+	public Project select(long id) {
+		Project project = null;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -172,7 +173,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				teacher = getResultSetValues(resultSet);
+				project = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -186,11 +187,11 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			}
 		}
 
-		return teacher;
+		return project;
 	}
 
-	public List<Teacher> select(Map<String, String[]> parameters) {
-		List<Teacher> list = new ArrayList<>();
+	public List<Project> select(Map<String, String[]> parameters) {
+		List<Project> projects = new ArrayList<>();
 
 		Statement statement = null;
 
@@ -199,7 +200,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, TeacherConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 
@@ -207,7 +208,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
+				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -221,12 +222,12 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			}
 		}
 
-		return list;
+		return projects;
 	}
 
 	@Override
-	public List<Teacher> selectAll() {
-		List<Teacher> list = new ArrayList<>();
+	public List<Project> selectAll() {
+		List<Project> projects = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -241,7 +242,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
+				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -255,6 +256,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements TeacherDAO
 			}
 		}
 
-		return list;
+		return projects;
 	}
 }

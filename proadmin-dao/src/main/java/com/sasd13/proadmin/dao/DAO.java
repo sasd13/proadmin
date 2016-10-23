@@ -15,6 +15,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
+@SuppressWarnings("unchecked")
 public abstract class DAO implements ILayeredDAO {
 
 	protected TeacherDAO teacherDAO;

@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS studentteams;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS projects;
-DROP TABLE IF EXISTS qualifications;
 DROP TABLE IF EXISTS teachers;
 
 COMMIT;

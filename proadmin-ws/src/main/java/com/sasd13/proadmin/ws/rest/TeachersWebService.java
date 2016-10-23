@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.member.Teacher;
 @WebServlet("/teachers")
 public class TeachersWebService extends AbstractWebService<Teacher> {
 
+	private static final long serialVersionUID = -1181074139199836090L;
+
 	@Override
 	protected Class<Teacher> getEntityClass() {
 		return Teacher.class;

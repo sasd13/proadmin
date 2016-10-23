@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 @WebServlet("/studentteams")
 public class StudentTeamsWebService extends AbstractWebService<StudentTeam> {
 
+	private static final long serialVersionUID = -1702761496823324620L;
+
 	@Override
 	protected Class<StudentTeam> getEntityClass() {
 		return StudentTeam.class;

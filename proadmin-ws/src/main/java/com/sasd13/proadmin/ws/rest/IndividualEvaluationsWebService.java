@@ -21,6 +21,8 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 @WebServlet("/individualevaluations")
 public class IndividualEvaluationsWebService extends AbstractWebService<IndividualEvaluation> {
 
+	private static final long serialVersionUID = -2980193810543911111L;
+
 	@Override
 	protected Class<IndividualEvaluation> getEntityClass() {
 		return IndividualEvaluation.class;

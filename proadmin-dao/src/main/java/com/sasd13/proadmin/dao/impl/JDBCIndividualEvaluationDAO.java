@@ -3,103 +3,71 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.db;
+package com.sasd13.proadmin.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.condition.ConditionBuilder;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.LeadEvaluationDAO;
-import com.sasd13.proadmin.dao.ReportDAO;
-import com.sasd13.proadmin.dao.condition.ReportConditionExpression;
+import com.sasd13.proadmin.dao.condition.IndividualEvaluationConditionExpression;
 
 /**
  *
  * @author Samir
  */
-public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
+public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluation> implements IndividualEvaluationDAO {
 
-	private JDBCLeadEvaluationDAO leadEvaluationDAO;
-	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-
-	public JDBCReportDAO() {
-		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
-		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, individualEvaluation.getMark());
+		preparedStatement.setLong(2, individualEvaluation.getStudent().getId());
+		preparedStatement.setLong(3, individualEvaluation.getReport().getId());
 	}
 
 	@Override
-	public LeadEvaluationDAO getLeadEvaluationDAO() {
-		return leadEvaluationDAO;
+	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		Report report = new Report();
+		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
+
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
+		individualEvaluation.setId(resultSet.getLong(COLUMN_ID));
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+
+		Student student = new Student();
+		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
+		individualEvaluation.setStudent(student);
+
+		return individualEvaluation;
 	}
 
 	@Override
-	public IndividualEvaluationDAO getIndividualEvaluationDAO() {
-		return individualEvaluationDAO;
-	}
-
-	@Override
-	public void setConnection(Connection connection) {
-		super.setConnection(connection);
-
-		leadEvaluationDAO.setConnection(connection);
-		individualEvaluationDAO.setConnection(connection);
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, String.valueOf(report.getMeetingDate()));
-		preparedStatement.setInt(2, report.getSessionNumber());
-		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setLong(4, report.getRunningTeam().getId());
-	}
-
-	@Override
-	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeam();
-		runningTeam.setId(resultSet.getLong(COLUMN_RUNNINGTEAM));
-
-		Report report = new Report(runningTeam);
-		report.setId(resultSet.getLong(COLUMN_ID));
-		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
-		report.setSessionNumber(resultSet.getInt(COLUMN_SESSIONNUMBER));
-		report.setComment(resultSet.getString(COLUMN_COMMENT));
-
-		return report;
-	}
-
-	@Override
-	public long insert(Report report) {
+	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_MEETINGDATE);
-		builder.append(", " + COLUMN_SESSIONNUMBER);
-		builder.append(", " + COLUMN_COMMENT);
-		builder.append(", " + COLUMN_RUNNINGTEAM);
-		builder.append(") VALUES (?, ?, ?, ?, ?)");
+		builder.append(COLUMN_MARK);
+		builder.append(", " + COLUMN_STUDENT_ID);
+		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(") VALUES (?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection.setAutoCommit(false);
-
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, report);
+			editPreparedStatement(preparedStatement, individualEvaluation);
 
 			preparedStatement.executeUpdate();
 			connection.commit();
@@ -107,24 +75,13 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				report.setId(id);
-
-				leadEvaluationDAO.insert(report.getLeadEvaluation());
-
-				for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-					individualEvaluationDAO.insert(individualEvaluation);
-				}
+				individualEvaluation.setId(id);
 			} else {
-				throw new SQLException("Report not inserted: " + report);
+				throw new SQLException("IndividualEvaluation not inserted: " + individualEvaluation);
 			}
-		} catch (SQLException | DAOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			throw new DAOException("IndividualEvaluation not inserted: " + individualEvaluation);
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -139,42 +96,31 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	}
 
 	@Override
-	public void update(Report report) {
+	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_MEETINGDATE + " = ?");
-		builder.append(", " + COLUMN_SESSIONNUMBER + " = ?");
-		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
+		builder.append(COLUMN_MARK + " = ?");
+		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
+		builder.append(", " + COLUMN_REPORT_ID + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection.setAutoCommit(false);
-
 			preparedStatement = connection.prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, report);
-			preparedStatement.setLong(6, report.getId());
+			editPreparedStatement(preparedStatement, individualEvaluation);
+			preparedStatement.setLong(4, individualEvaluation.getId());
 
 			preparedStatement.executeUpdate();
-			connection.commit();
-
-			leadEvaluationDAO.update(report.getLeadEvaluation());
-			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-				individualEvaluationDAO.update(individualEvaluation);
+			if (!connection.getAutoCommit()) {
+				connection.commit();
 			}
-		} catch (SQLException | DAOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			throw new DAOException("IndividualEvaluation not updated: id=" + individualEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -187,7 +133,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	}
 
 	@Override
-	public void delete(Report report) {
+	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -199,28 +145,15 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection.setAutoCommit(false);
-
-			leadEvaluationDAO.delete(report.getLeadEvaluation());
-
-			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-				individualEvaluationDAO.delete(individualEvaluation);
-			}
-
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, report.getId());
+			preparedStatement.setLong(2, individualEvaluation.getId());
 
 			preparedStatement.executeUpdate();
 			connection.commit();
-		} catch (SQLException | DAOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			throw new DAOException("IndividualEvaluation not deleted: id=" + individualEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -233,8 +166,8 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 	}
 
 	@Override
-	public Report select(long id) {
-		Report report = null;
+	public IndividualEvaluation select(long id) {
+		IndividualEvaluation individualEvaluation = null;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -253,7 +186,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				report = getResultSetValues(resultSet);
+				individualEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -267,11 +200,11 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 
-		return report;
+		return individualEvaluation;
 	}
 
-	public List<Report> select(Map<String, String[]> parameters) {
-		List<Report> reports = new ArrayList<>();
+	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
+		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		Statement statement = null;
 
@@ -280,7 +213,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, ReportConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, IndividualEvaluationConditionExpression.class));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 
@@ -288,7 +221,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				reports.add(getResultSetValues(resultSet));
+				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -302,12 +235,12 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 
-		return reports;
+		return individualEvaluations;
 	}
 
 	@Override
-	public List<Report> selectAll() {
-		List<Report> reports = new ArrayList<>();
+	public List<IndividualEvaluation> selectAll() {
+		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -322,7 +255,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				reports.add(getResultSetValues(resultSet));
+				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -336,6 +269,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements ReportDAO {
 			}
 		}
 
-		return reports;
+		return individualEvaluations;
 	}
 }

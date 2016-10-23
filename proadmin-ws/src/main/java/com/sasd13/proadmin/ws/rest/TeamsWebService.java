@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.member.Team;
 @WebServlet("/teams")
 public class TeamsWebService extends AbstractWebService<Team> {
 
+	private static final long serialVersionUID = 6898026280422697826L;
+
 	@Override
 	protected Class<Team> getEntityClass() {
 		return Team.class;

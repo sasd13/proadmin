@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.db;
+package com.sasd13.proadmin.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,67 +13,84 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.db.condition.ConditionBuilder;
-import com.sasd13.proadmin.bean.EnumAcademicLevel;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.dao.ProjectDAO;
-import com.sasd13.proadmin.dao.condition.ProjectConditionExpression;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.dao.LeadEvaluationDAO;
+import com.sasd13.proadmin.dao.condition.LeadEvaluationConditionExpression;
 
 /**
  *
  * @author Samir
  */
-public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO {
+public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements LeadEvaluationDAO {
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getAcademicLevel().getCode());
-		preparedStatement.setString(2, project.getCode());
-		preparedStatement.setString(3, project.getTitle());
-		preparedStatement.setString(4, project.getDescription());
+	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
+		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
+		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
+		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
+		preparedStatement.setLong(5, leadEvaluation.getStudent().getId());
+		preparedStatement.setLong(6, leadEvaluation.getReport().getId());
 	}
 
 	@Override
-	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setId(resultSet.getLong(COLUMN_ID));
-		project.setAcademicLevel(EnumAcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
-		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setTitle(resultSet.getString(COLUMN_TITLE));
-		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
+	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		Report report = new Report();
+		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
 
-		return project;
+		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
+		leadEvaluation.setId(resultSet.getLong(COLUMN_ID));
+		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
+		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
+		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
+		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
+
+		Student student = new Student();
+		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
+		leadEvaluation.setStudent(student);
+
+		return leadEvaluation;
 	}
 
 	@Override
-	public long insert(Project project) {
+	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_ACADEMICLEVEL);
-		builder.append(", " + COLUMN_CODE);
-		builder.append(", " + COLUMN_TITLE);
-		builder.append(", " + COLUMN_DESCRIPTION);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		builder.append(COLUMN_PLANNINGMARK);
+		builder.append(", " + COLUMN_PLANNINGCOMMENT);
+		builder.append(", " + COLUMN_COMMUNICATIONMARK);
+		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT);
+		builder.append(", " + COLUMN_STUDENT_ID);
+		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, project);
+			editPreparedStatement(preparedStatement, leadEvaluation);
 
 			preparedStatement.executeUpdate();
+			connection.commit();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				project.setId(id);
+				leadEvaluation.setId(id);
+			} else {
+				throw new SQLException("LeadEvaluation not inserted: " + leadEvaluation);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not inserted: " + leadEvaluation);
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -88,15 +105,17 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	}
 
 	@Override
-	public void update(Project project) {
+	public void update(LeadEvaluation leadEvaluation) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_ACADEMICLEVEL + " = ?");
-		builder.append(", " + COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_TITLE + " = ?");
-		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
+		builder.append(COLUMN_PLANNINGMARK + " = ?");
+		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
+		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
+		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
+		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
+		builder.append(", " + COLUMN_REPORT_ID + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
 
@@ -104,12 +123,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, project);
-			preparedStatement.setLong(5, project.getId());
+			editPreparedStatement(preparedStatement, leadEvaluation);
+			preparedStatement.setLong(7, leadEvaluation.getId());
 
 			preparedStatement.executeUpdate();
+			if (!connection.getAutoCommit()) {
+				connection.commit();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not updated: id=" + leadEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -122,7 +145,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	}
 
 	@Override
-	public void delete(Project project) {
+	public void delete(LeadEvaluation leadEvaluation) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -136,11 +159,13 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, project.getId());
+			preparedStatement.setLong(2, leadEvaluation.getId());
 
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DAOException("LeadEvaluation not deleted: id=" + leadEvaluation.getId());
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -153,8 +178,8 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 	}
 
 	@Override
-	public Project select(long id) {
-		Project project = null;
+	public LeadEvaluation select(long id) {
+		LeadEvaluation leadEvaluation = null;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -173,7 +198,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				project = getResultSetValues(resultSet);
+				leadEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -187,11 +212,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 
-		return project;
+		return leadEvaluation;
 	}
 
-	public List<Project> select(Map<String, String[]> parameters) {
-		List<Project> projects = new ArrayList<>();
+	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		Statement statement = null;
 
@@ -200,7 +225,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, ProjectConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, LeadEvaluationConditionExpression.class));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 
@@ -208,7 +233,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				projects.add(getResultSetValues(resultSet));
+				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -222,12 +247,12 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 
-		return projects;
+		return leadEvaluations;
 	}
 
 	@Override
-	public List<Project> selectAll() {
-		List<Project> projects = new ArrayList<>();
+	public List<LeadEvaluation> selectAll() {
+		List<LeadEvaluation> leadEvaluations = new ArrayList<LeadEvaluation>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -242,7 +267,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				projects.add(getResultSetValues(resultSet));
+				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -256,6 +281,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements ProjectDAO
 			}
 		}
 
-		return projects;
+		return leadEvaluations;
 	}
 }

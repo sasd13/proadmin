@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.db;
+package com.sasd13.proadmin.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,47 +14,47 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.db.condition.ConditionBuilder;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.dao.StudentTeamDAO;
-import com.sasd13.proadmin.dao.condition.StudentTeamConditionExpression;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.dao.RunningTeamDAO;
+import com.sasd13.proadmin.dao.condition.RunningTeamConditionExpression;
 
 /**
  *
  * @author Samir
  */
-public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements StudentTeamDAO {
+public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements RunningTeamDAO {
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		preparedStatement.setLong(1, studentTeam.getStudent().getId());
-		preparedStatement.setLong(2, studentTeam.getTeam().getId());
+	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+		preparedStatement.setLong(1, runningTeam.getRunning().getId());
+		preparedStatement.setLong(2, runningTeam.getTeam().getId());
 	}
 
 	@Override
-	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		Student student = new Student();
-		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
+	protected RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		Running running = new Running();
+		running.setId(resultSet.getLong(COLUMN_RUNNING_ID));
 
 		Team team = new Team();
 		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
 
-		StudentTeam studentTeam = new StudentTeam(student, team);
-		studentTeam.setId(resultSet.getLong(COLUMN_ID));
+		RunningTeam runningTeam = new RunningTeam(running, team);
+		runningTeam.setId(resultSet.getLong(COLUMN_ID));
 
-		return studentTeam;
+		return runningTeam;
 	}
 
 	@Override
-	public long insert(StudentTeam studentTeam) {
+	public long insert(RunningTeam runningTeam) {
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_STUDENT_ID);
+		builder.append(COLUMN_RUNNING_ID);
 		builder.append(", " + COLUMN_TEAM_ID);
 		builder.append(") VALUES (?, ?)");
 
@@ -62,14 +62,14 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, studentTeam);
+			editPreparedStatement(preparedStatement, runningTeam);
 
 			preparedStatement.executeUpdate();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				studentTeam.setId(id);
+				runningTeam.setId(id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,12 +87,12 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	}
 
 	@Override
-	public void update(StudentTeam studentTeam) {
+	public void update(RunningTeam runningTeam) {
 		// Do nothing
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
+	public void delete(RunningTeam runningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELTE FROM ");
 		builder.append(TABLE);
@@ -104,7 +104,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, studentTeam.getId());
+			preparedStatement.setLong(2, runningTeam.getId());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -121,8 +121,8 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 	}
 
 	@Override
-	public StudentTeam select(long id) {
-		StudentTeam studentTeam = null;
+	public RunningTeam select(long id) {
+		RunningTeam runningTeam = null;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -138,7 +138,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				studentTeam = getResultSetValues(resultSet);
+				runningTeam = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,11 +152,11 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			}
 		}
 
-		return studentTeam;
+		return runningTeam;
 	}
 
-	public List<StudentTeam> select(Map<String, String[]> parameters) {
-		List<StudentTeam> studentTeams = new ArrayList<>();
+	public List<RunningTeam> select(Map<String, String[]> parameters) {
+		List<RunningTeam> runningTeams = new ArrayList<>();
 
 		Statement statement = null;
 
@@ -165,13 +165,13 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, StudentTeamConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, RunningTeamConditionExpression.class));
 
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				studentTeams.add(getResultSetValues(resultSet));
+				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,12 +185,12 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			}
 		}
 
-		return studentTeams;
+		return runningTeams;
 	}
 
 	@Override
-	public List<StudentTeam> selectAll() {
-		List<StudentTeam> studentTeams = new ArrayList<StudentTeam>();
+	public List<RunningTeam> selectAll() {
+		List<RunningTeam> runningTeams = new ArrayList<RunningTeam>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
@@ -203,7 +203,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
 			while (resultSet.next()) {
-				studentTeams.add(getResultSetValues(resultSet));
+				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -217,6 +217,6 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements St
 			}
 		}
 
-		return studentTeams;
+		return runningTeams;
 	}
 }

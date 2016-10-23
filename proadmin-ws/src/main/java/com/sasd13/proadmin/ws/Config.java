@@ -16,12 +16,6 @@ import java.util.Properties;
 public class Config {
 
 	private static final String FILE = "config.properties";
-
-	public static final String DB_DRIVER = "db_driver";
-	public static final String DB_URL = "db_url";
-	public static final String DB_USERNAME = "db_username";
-	public static final String DB_PASSWORD = "db_password";
-
 	private static Properties properties;
 
 	static {

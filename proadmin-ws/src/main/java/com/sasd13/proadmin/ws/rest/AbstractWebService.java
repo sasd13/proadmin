@@ -21,8 +21,11 @@ import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.net.util.URLQueryEncoder;
 import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.impl.JDBCDAO;
+import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
-import com.sasd13.proadmin.ws.db.JDBCDAO;
+import com.sasd13.proadmin.ws.Config;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 import com.sasd13.proadmin.ws.rest.handler.ReadHandler;
 
@@ -32,10 +35,35 @@ import com.sasd13.proadmin.ws.rest.handler.ReadHandler;
  */
 public abstract class AbstractWebService<T> extends HttpServlet {
 
+	private static final long serialVersionUID = 7016596177767882149L;
+
 	private static final String REQUEST_PARAMETER_ID = "id";
+
+	private DAO dao;
+
+	static {
+		try {
+			JDBCDAO.init(
+					Config.getInfo(Names.WS_DB_DRIVER), 
+					Config.getInfo(Names.WS_DB_URL), 
+					Config.getInfo(Names.WS_DB_USERNAME), 
+					Config.getInfo(Names.WS_DB_PASSWORD)
+			);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+
+		dao = new JDBCDAO();
+	}
 
 	protected abstract Class<T> getEntityClass();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String headerRequestParameterized = (String) req.getHeader(EnumHttpHeaderField.REQUEST_PARAMETERIZED.getName());
@@ -43,11 +71,9 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		Object respData = null;
-		boolean isCollection = false;
-		LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
+		LayeredPersistor persistor = new LayeredPersistor(dao);
 
-		if (!EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName().equalsIgnoreCase(headerRequestParameterized) && parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID)
-				&& parameters.get(REQUEST_PARAMETER_ID).length == 1) {
+		if (!EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName().equalsIgnoreCase(headerRequestParameterized) && parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {
 				long id = Long.parseLong(req.getParameter(REQUEST_PARAMETER_ID));
 
@@ -56,8 +82,6 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 				e.printStackTrace();
 			}
 		} else {
-			isCollection = true;
-
 			List<T> list;
 
 			if (parameters.isEmpty()) {
@@ -82,7 +106,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		try {
 			T t = (T) RESTHandler.readDataFromRequest(req, getEntityClass());
 
-			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
+			LayeredPersistor persistor = new LayeredPersistor(dao);
 			long id = persistor.create(t);
 
 			RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, id);
@@ -102,7 +126,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		String headerDataCollection = (String) req.getHeader(EnumHttpHeaderField.DATA_COLLECTION.getName());
 
 		try {
-			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
+			LayeredPersistor persistor = new LayeredPersistor(dao);
 
 			if (EnumHttpHeaderValue.DATA_COLLECTION_YES.getName().equalsIgnoreCase(headerDataCollection)) {
 				T[] ts = (T[]) RESTHandler.readArrayDataFromRequest(req, getEntityClass());
@@ -128,7 +152,7 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			T t = (T) RESTHandler.readDataFromRequest(req, getEntityClass());
-			LayeredPersistor persistor = new LayeredPersistor(JDBCDAO.create());
+			LayeredPersistor persistor = new LayeredPersistor(dao);
 
 			persistor.delete(t);
 

@@ -21,6 +21,8 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 @WebServlet("/leadevaluations")
 public class LeadEvaluationsWebService extends AbstractWebService<LeadEvaluation> {
 
+	private static final long serialVersionUID = 1073440009453108500L;
+
 	@Override
 	protected Class<LeadEvaluation> getEntityClass() {
 		return LeadEvaluation.class;

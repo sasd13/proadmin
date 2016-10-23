@@ -17,10 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+        exclude 'META-INF/spring.tooling'
+        exclude 'META-INF/spring.handlers'
+        exclude 'META-INF/spring.factories'
+        exclude 'META-INF/spring.schemas'
     }
 }
 
@@ -28,6 +31,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    mavenLocal()
 }
 
 dependencies {
@@ -37,6 +41,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
 	compile 'com.android.support:design:25.0.0'
     compile 'com.sasd13.androidex:androidex-release@aar'
+    compile 'com.sasd13.javaex:javaex:0.1'
+    compile 'com.sasd13.proadmin:proadmin-bean:0.1'
+    compile 'com.sasd13.proadmin:proadmin-util:0.1'
+    compile 'com.sasd13.proadmin:proadmin-dao:0.1'
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'

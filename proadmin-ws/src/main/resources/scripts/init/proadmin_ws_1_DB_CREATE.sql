@@ -1,3 +1,3 @@
-CREATE DATABASE proadmin CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE proadmin_ws CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 COMMIT;

@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.running.Report;
 @WebServlet("/reports")
 public class ReportsWebService extends AbstractWebService<Report> {
 
+	private static final long serialVersionUID = 1739619237509751567L;
+
 	@Override
 	protected Class<Report> getEntityClass() {
 		return Report.class;

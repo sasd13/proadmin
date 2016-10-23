@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 @WebServlet("/runningteams")
 public class RunningTeamsWebService extends AbstractWebService<RunningTeam> {
 
+	private static final long serialVersionUID = -6765834594099327539L;
+
 	@Override
 	protected Class<RunningTeam> getEntityClass() {
 		return RunningTeam.class;

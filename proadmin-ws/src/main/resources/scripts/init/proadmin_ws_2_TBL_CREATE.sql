@@ -8,14 +8,6 @@ CREATE TABLE teachers (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE qualifications (
-	id SERIAL,
-	qualification VARCHAR(255) NOT NULL,
-	teacher_id BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (teacher_id) REFERENCES teachers (id)
-);
-
 CREATE TABLE projects (
 	id SERIAL,
 	academiclevel VARCHAR(255) NOT NULL,

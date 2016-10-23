@@ -16,13 +16,20 @@
 	<name>proadmin-ws</name>
 	<url>http://maven.apache.org</url>
 
+	<build>
+		<finalName>proadmin-ws</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.maven</groupId>
 			<artifactId>tomcat7-maven-plugin</artifactId>
@@ -32,11 +39,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.38</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sasd13.javaex</groupId>
-			<artifactId>javaex</artifactId>
-			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
@@ -55,7 +57,4 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<finalName>proadmin-ws</finalName>
-	</build>
 </project>

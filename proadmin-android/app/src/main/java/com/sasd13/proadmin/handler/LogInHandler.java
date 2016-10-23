@@ -2,14 +2,18 @@ package com.sasd13.proadmin.handler;
 
 import com.sasd13.androidex.net.ws.IWSPromise;
 import com.sasd13.androidex.net.ws.rest.task.LogInTask;
-import com.sasd13.androidex.net.ws.rest.task.ReadTask;
-import com.sasd13.proadmin.activities.LogInActivity;
+import com.sasd13.androidex.net.ws.rest.task.ParameterizedReadTask;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activities.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.cache.Cache;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.EnumWSCodeRes;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.WSInformation;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 03/07/2016.
@@ -20,8 +24,9 @@ public class LogInHandler implements IWSPromise {
     private static final int TASKTYPE_READ = 1;
 
     private LogInActivity logInActivity;
+    private String number;
     private LogInTask logInTask;
-    private ReadTask<Teacher> readTaskTeacher;
+    private ParameterizedReadTask<Teacher> parameterizedReadTaskTeacher;
     private int taskType;
     
     public LogInHandler(LogInActivity logInActivity) {
@@ -30,7 +35,8 @@ public class LogInHandler implements IWSPromise {
 
     public void logIn(String number, String password) {
         taskType = TASKTYPE_LOGIN;
-        logInTask = new LogInTask(WSInformation.URL_LOGIN, number, password, this);
+        this.number = number;
+        logInTask = new LogInTask(WSInformation.URL_AAA_LOGIN, number, password, this);
 
         logInTask.execute();
     }
@@ -63,15 +69,18 @@ public class LogInHandler implements IWSPromise {
             logInActivity.onError(EnumWSCodeRes.find(wsCode).getStringRes());
         } else {
             taskType = TASKTYPE_READ;
-            readTaskTeacher = new ReadTask<>(Teacher.class, WSInformation.URL_TEACHERS, this);
 
-            readTaskTeacher.execute(logInTask.getResult());
+            Map<String, String[]> parameters = new HashMap<>();
+            parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
+
+            parameterizedReadTaskTeacher = new ParameterizedReadTask<>(Teacher.class, WSInformation.URL_WS_TEACHERS, parameters, this);
+            parameterizedReadTaskTeacher.execute();
         }
     }
 
     private void onReadTaskTeacherSucceeded() {
         try {
-            Teacher teacher = readTaskTeacher.getResults().get(0);
+            Teacher teacher = parameterizedReadTaskTeacher.getResults().get(0);
 
             Cache.keep(logInActivity, teacher);
             logInActivity.onLogInSucceeded(teacher);

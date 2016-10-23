@@ -54,7 +54,7 @@ public class RunningHandler implements IWSPromise {
 
         try {
             running = getRunningToCreate(runningForm);
-            createTask = new CreateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
+            createTask = new CreateTask<>(Running.class, WSInformation.URL_WS_RUNNINGS, this);
 
             createTask.execute(running);
         } catch (FormException e) {
@@ -90,7 +90,7 @@ public class RunningHandler implements IWSPromise {
                     SessionHelper.getExtraId(runningFragment.getContext(), Extra.TEACHER_ID),
                     Teacher.class));
 
-            updateTask = new UpdateTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
+            updateTask = new UpdateTask<>(Running.class, WSInformation.URL_WS_RUNNINGS, this);
             updateTask.execute(running);
         } catch (FormException e) {
             runningFragment.onError(e.getResMessage());
@@ -100,7 +100,7 @@ public class RunningHandler implements IWSPromise {
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
         this.running = running;
-        deleteTask = new DeleteTask<>(Running.class, WSInformation.URL_RUNNINGS, this);
+        deleteTask = new DeleteTask<>(Running.class, WSInformation.URL_WS_RUNNINGS, this);
 
         deleteTask.execute(running);
     }

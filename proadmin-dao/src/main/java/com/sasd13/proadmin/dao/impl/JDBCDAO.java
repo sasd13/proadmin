@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.db;
+package com.sasd13.proadmin.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.proadmin.dao.DAO;
@@ -20,19 +18,11 @@ import com.sasd13.proadmin.dao.DAO;
  */
 public class JDBCDAO extends DAO {
 
-	private static List<JDBCDAO> pool = new ArrayList<>();
-
+	private static String url, username, password;
+	
 	private Connection connection;
 
-	static {
-		try {
-			Class.forName(JDBCDatabaseInfo.DRIVER);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private JDBCDAO() {
+	public JDBCDAO() {
 		super(
 				new JDBCTeacherDAO(), 
 				new JDBCProjectDAO(), 
@@ -44,40 +34,19 @@ public class JDBCDAO extends DAO {
 				new JDBCReportDAO()
 		);
 	}
-
-	public static JDBCDAO create() {
-		for (JDBCDAO dao : pool) {
-			if (!dao.isOpened()) {
-				return dao;
-			}
-		}
-
-		JDBCDAO dao = new JDBCDAO();
-		pool.add(dao);
-
-		return dao;
-	}
-
-	public Connection getConnection() {
-		return connection;
-	}
-
-	private boolean isOpened() {
-		boolean opened = false;
-
-		try {
-			opened = connection != null && !connection.isClosed();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return opened;
+	
+	public static void init(String driver, String url, String username, String password) throws ClassNotFoundException {
+		Class.forName(driver);
+		
+		JDBCDAO.url = url;
+		JDBCDAO.username = username;
+		JDBCDAO.password = password;
 	}
 
 	@Override
 	public void open() throws DAOException {
 		try {
-			connection = DriverManager.getConnection(JDBCDatabaseInfo.URL, JDBCDatabaseInfo.USERNAME, JDBCDatabaseInfo.PASSWORD);
+			connection = DriverManager.getConnection(url, username, password);
 
 			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);

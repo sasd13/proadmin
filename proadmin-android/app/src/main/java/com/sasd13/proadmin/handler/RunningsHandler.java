@@ -30,7 +30,7 @@ public class RunningsHandler implements IWSPromise {
     public void readRunnings(Project project) {
         setParameters(project);
 
-        parameterizedReadTask = new ParameterizedReadTask<>(Running.class, WSInformation.URL_RUNNINGS, parameters, this);
+        parameterizedReadTask = new ParameterizedReadTask<>(Running.class, WSInformation.URL_WS_RUNNINGS, parameters, this);
         parameterizedReadTask.setDeepReadEnabled(true);
         parameterizedReadTask.execute();
     }

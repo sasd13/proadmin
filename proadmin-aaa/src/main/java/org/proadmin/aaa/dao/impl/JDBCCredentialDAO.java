@@ -1,40 +1,74 @@
-package com.sasd13.proadmin.ws.db;
+package org.proadmin.aaa.dao.impl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCQualificationDAO {
+import org.proadmin.aaa.Config;
+import org.proadmin.aaa.Credential;
+import org.proadmin.aaa.Infra;
+import org.proadmin.aaa.dao.CredentialDAO;
 
-	private static final String TABLE = "qualifications";
+import com.sasd13.javaex.db.DAOException;
 
-	private static final String COLUMN_QUALIFICATION = "qualification";
-	private static final String COLUMN_TEACHER_ID = "teacher_id";
+public class JDBCCredentialDAO implements CredentialDAO {
+
+	private static String url, username, password;
 
 	private Connection connection;
 
-	public JDBCQualificationDAO(Connection connection) {
-		this.connection = connection;
+	static {
+		try {
+			Class.forName(Config.getInfo(Infra.DB_DRIVER));
+
+			JDBCCredentialDAO.url = Config.getInfo(Infra.DB_URL);
+			JDBCCredentialDAO.username = Config.getInfo(Infra.DB_USERNAME);
+			JDBCCredentialDAO.password = Config.getInfo(Infra.DB_PASSWORD);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public boolean insert(String qualification, long teacherId) {
+	@Override
+	public void open() throws DAOException {
+		try {
+			connection = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			throw new DAOException("Error connection to database");
+		}
+	}
+
+	@Override
+	public void close() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public boolean insert(Credential credential) {
 		boolean inserted = false;
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_QUALIFICATION);
-		builder.append(", " + COLUMN_TEACHER_ID);
+		builder.append(COLUMN_USERNAME);
+		builder.append(", " + COLUMN_PASSWORD);
 		builder.append(") VALUES (?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, qualification);
-			preparedStatement.setLong(2, teacherId);
+			preparedStatement.setString(1, credential.getUsername());
+			preparedStatement.setString(2, credential.getPassword());
 
 			preparedStatement.executeUpdate();
 
@@ -57,21 +91,22 @@ public class JDBCQualificationDAO {
 		return inserted;
 	}
 
-	public void update(String qualification, long teacherId) {
+	@Override
+	public void update(Credential credential) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_QUALIFICATION + " = ?");
+		builder.append(COLUMN_USERNAME + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_TEACHER_ID + " = ?");
+		builder.append(COLUMN_PASSWORD + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, qualification);
-			preparedStatement.setLong(2, teacherId);
+			preparedStatement.setString(1, credential.getUsername());
+			preparedStatement.setString(2, credential.getPassword());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -87,18 +122,19 @@ public class JDBCQualificationDAO {
 		}
 	}
 
-	public void delete(long teacherId) {
+	@Override
+	public void delete(String username) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_TEACHER_ID + " = ?");
+		builder.append(COLUMN_USERNAME + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, teacherId);
+			preparedStatement.setString(1, username);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -114,23 +150,24 @@ public class JDBCQualificationDAO {
 		}
 	}
 
-	public boolean contains(String qualification, long teacherId) {
+	@Override
+	public boolean contains(Credential credential) {
 		boolean contains = false;
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT " + COLUMN_QUALIFICATION + " FROM ");
+		builder.append("SELECT " + COLUMN_PASSWORD + " FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_QUALIFICATION + " = ?");
+		builder.append(COLUMN_USERNAME + " = ?");
 		builder.append(" AND ");
-		builder.append(COLUMN_TEACHER_ID + " = ?");
+		builder.append(COLUMN_PASSWORD + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, qualification);
-			preparedStatement.setLong(2, teacherId);
+			preparedStatement.setString(1, credential.getUsername());
+			preparedStatement.setString(2, credential.getPassword());
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {

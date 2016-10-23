@@ -16,6 +16,8 @@ import com.sasd13.proadmin.bean.running.Running;
 @WebServlet("/runnings")
 public class RunningsWebService extends AbstractWebService<Running> {
 
+	private static final long serialVersionUID = 2160938684786805190L;
+
 	@Override
 	protected Class<Running> getEntityClass() {
 		return Running.class;
