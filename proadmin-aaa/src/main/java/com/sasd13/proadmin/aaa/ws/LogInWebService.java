@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.proadmin.aaa.ws;
+package com.sasd13.proadmin.aaa.ws;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.proadmin.aaa.Credential;
-import org.proadmin.aaa.dao.CredentialDAO;
-import org.proadmin.aaa.dao.impl.JDBCCredentialDAO;
-import org.proadmin.aaa.ws.handler.RESTHandler;
-
 import com.sasd13.javaex.db.DAOException;
 import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.proadmin.aaa.Credential;
+import com.sasd13.proadmin.aaa.dao.CredentialDAO;
+import com.sasd13.proadmin.aaa.dao.impl.JDBCCredentialDAO;
+import com.sasd13.proadmin.aaa.ws.handler.RESTHandler;
 
 /**
  *

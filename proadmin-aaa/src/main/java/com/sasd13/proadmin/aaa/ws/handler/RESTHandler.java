@@ -1,4 +1,4 @@
-package org.proadmin.aaa.ws.handler;
+package com.sasd13.proadmin.aaa.ws.handler;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -6,13 +6,12 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.proadmin.aaa.ws.EnumWSCode;
-
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumMIMEType;
+import com.sasd13.proadmin.aaa.ws.EnumWSCode;
 
 public class RESTHandler {
 

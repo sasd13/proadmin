@@ -1,4 +1,4 @@
-package org.proadmin.aaa;
+package com.sasd13.proadmin.aaa;
 
 public interface Infra {
 

@@ -1,4 +1,4 @@
-package org.proadmin.aaa.ws;
+package com.sasd13.proadmin.aaa.ws;
 
 import com.sasd13.javaex.net.IHttpCodifiable;
 

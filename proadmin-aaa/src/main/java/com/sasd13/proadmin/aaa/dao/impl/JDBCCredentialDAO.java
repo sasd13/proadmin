@@ -1,4 +1,4 @@
-package org.proadmin.aaa.dao.impl;
+package com.sasd13.proadmin.aaa.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,12 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.proadmin.aaa.Config;
-import org.proadmin.aaa.Credential;
-import org.proadmin.aaa.Infra;
-import org.proadmin.aaa.dao.CredentialDAO;
-
 import com.sasd13.javaex.db.DAOException;
+import com.sasd13.proadmin.aaa.Config;
+import com.sasd13.proadmin.aaa.Credential;
+import com.sasd13.proadmin.aaa.Infra;
+import com.sasd13.proadmin.aaa.dao.CredentialDAO;
 
 public class JDBCCredentialDAO implements CredentialDAO {
 
