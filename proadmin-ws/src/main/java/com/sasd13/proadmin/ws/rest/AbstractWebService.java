@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sasd13.javaex.db.LayeredPersistor;
+import com.sasd13.javaex.dao.LayeredPersistor;
 import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
-import com.sasd13.javaex.net.util.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.dao.impl.JDBCDAO;
+import com.sasd13.proadmin.dao.JDBCDAO;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
 import com.sasd13.proadmin.ws.Config;

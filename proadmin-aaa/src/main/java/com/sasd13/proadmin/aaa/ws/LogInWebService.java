@@ -18,9 +18,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
-import com.sasd13.proadmin.aaa.Credential;
+import com.sasd13.proadmin.aaa.entity.Credential;
+import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
-import com.sasd13.proadmin.aaa.service.impl.CredentialReadService;
 import com.sasd13.proadmin.aaa.ws.handler.RESTHandler;
 
 /**
@@ -38,7 +38,7 @@ public class LogInWebService extends HttpServlet {
 		try {
 			Credential credential = getCredentialFromRequest(req);
 			ICredentialReadService credentialReadService = new CredentialReadService();
-			
+
 			if (credentialReadService.containsCredential(credential)) {
 				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, null);
 			} else {
@@ -46,16 +46,13 @@ public class LogInWebService extends HttpServlet {
 			}
 		} catch (ParserException e) {
 			LOG.error(e);
-		}		
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private Credential getCredentialFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		Map<String, String> map = (Map<String, String>) RESTHandler.readDataFromRequest(req, Map.class);
-		Credential credential = new Credential(
-				map.get(LogInWSClient.PARAM_USERNAME), 
-				map.get(LogInWSClient.PARAM_PASSWORD)
-		);
-		return credential;
+
+		return new Credential(map.get(LogInWSClient.PARAM_USERNAME), map.get(LogInWSClient.PARAM_PASSWORD));
 	}
 }

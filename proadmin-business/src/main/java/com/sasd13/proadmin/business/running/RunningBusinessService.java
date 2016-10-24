@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.db.ILayeredDAO;
+import com.sasd13.javaex.dao.ILayeredDAO;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;

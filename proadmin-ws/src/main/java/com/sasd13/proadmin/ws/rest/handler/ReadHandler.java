@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.rest.handler;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.db.LayeredPersistor;
+import com.sasd13.javaex.dao.LayeredPersistor;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 
 public class ReadHandler {

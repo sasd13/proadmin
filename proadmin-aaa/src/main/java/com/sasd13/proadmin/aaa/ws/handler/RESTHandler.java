@@ -18,13 +18,15 @@ public class RESTHandler {
 	public static <T> T readDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, ParserException {
 		return ParserFactory
 				.make(EnumMIMEType.find(req.getContentType()))
-				.fromString(Stream.readAndClose(req.getReader()), mClass);
+				.fromString(Stream.readAndClose(req.getReader()), mClass)
+		;
 	}
 
 	public static <T> T[] readArrayDataFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException, ParserException {
 		return ParserFactory
 				.make(EnumMIMEType.find(req.getContentType()))
-				.fromStringArray(Stream.readAndClose(req.getReader()), mClass);
+				.fromStringArray(Stream.readAndClose(req.getReader()), mClass)
+		;
 	}
 
 	public static void writeDataToResponse(HttpServletRequest req, HttpServletResponse resp, EnumWSCode wsCode, Object data) throws IOException, ParserException {
@@ -33,19 +35,23 @@ public class RESTHandler {
 		resp.setContentType(contentType);
 		setWSResponseCode(resp, wsCode);
 		setResponseHeaderAccept(resp);
-
-		Stream.writeAndClose(resp.getWriter(), ParserFactory.make(EnumMIMEType.find(contentType)).toString(data));
+		Stream.writeAndClose(
+				resp.getWriter(), 
+				ParserFactory
+					.make(EnumMIMEType.find(contentType))
+					.toString(data)
+		);
 	}
 
 	private static String getRequestAcceptMediaType(HttpServletRequest req) {
 		Enumeration<String> headerAccepts = req.getHeaders(EnumHttpHeaderField.ACCEPT.getName());
-
 		String contentType = EnumMIMEType.TEXT_PLAIN.toString(), headerAccept;
 
 		while (headerAccepts.hasMoreElements()) {
 			headerAccept = headerAccepts.nextElement();
 
-			if (EnumMIMEType.APPLICATION_JSON.toString().equals(headerAccept) || EnumMIMEType.APPLICATION_XML.toString().equals(headerAccept)) {
+			if (EnumMIMEType.APPLICATION_JSON.toString().equals(headerAccept) 
+					|| EnumMIMEType.APPLICATION_XML.toString().equals(headerAccept)) {
 				contentType = headerAccept;
 
 				break;
