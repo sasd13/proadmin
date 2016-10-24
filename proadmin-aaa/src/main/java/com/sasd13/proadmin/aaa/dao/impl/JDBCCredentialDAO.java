@@ -91,7 +91,9 @@ public class JDBCCredentialDAO implements CredentialDAO {
 	}
 
 	@Override
-	public void update(Credential credential) {
+	public boolean update(Credential credential) {
+		int rowCount = 0;
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -107,7 +109,7 @@ public class JDBCCredentialDAO implements CredentialDAO {
 			preparedStatement.setString(1, credential.getUsername());
 			preparedStatement.setString(2, credential.getPassword());
 
-			preparedStatement.executeUpdate();
+			rowCount = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -119,10 +121,14 @@ public class JDBCCredentialDAO implements CredentialDAO {
 				}
 			}
 		}
+		
+		return rowCount > 0;
 	}
 
 	@Override
-	public void delete(String username) {
+	public boolean delete(String username) {
+		int rowCount = 0;
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -135,7 +141,7 @@ public class JDBCCredentialDAO implements CredentialDAO {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setString(1, username);
 
-			preparedStatement.executeUpdate();
+			rowCount = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -147,6 +153,8 @@ public class JDBCCredentialDAO implements CredentialDAO {
 				}
 			}
 		}
+		
+		return rowCount > 0;
 	}
 
 	@Override

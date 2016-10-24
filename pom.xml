@@ -24,7 +24,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
 		<junit.version>4.12</junit.version>
-		<log4j.version>2.7</log4j.version>
+		<log4j.version>1.2.17</log4j.version>
 		<springframework.version>4.3.3.RELEASE</springframework.version>
 		<jackson.version>2.8.4</jackson.version>
 		<xstream.version>1.4.7</xstream.version>
@@ -53,13 +53,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>

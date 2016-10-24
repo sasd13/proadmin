@@ -12,9 +12,9 @@ public interface CredentialDAO extends IDAO {
 	
 	boolean insert(Credential credential);
 	
-	void update(Credential credential);
+	boolean update(Credential credential);
 	
-	void delete(String username);
+	boolean delete(String username);
 	
 	boolean contains(Credential credential);
 }
