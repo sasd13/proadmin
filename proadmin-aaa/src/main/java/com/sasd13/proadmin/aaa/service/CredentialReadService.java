@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.dao.JDBCCredentialDAO;
 import com.sasd13.proadmin.aaa.entity.Credential;
 
 public class CredentialReadService implements ICredentialReadService {
@@ -16,7 +16,7 @@ public class CredentialReadService implements ICredentialReadService {
 	private ICredentialDAO dao;
 
 	public CredentialReadService() {
-		dao = new JDBCCredentialDAO();
+		dao = DAOManager.create();
 	}
 
 	@Override
@@ -25,7 +25,6 @@ public class CredentialReadService implements ICredentialReadService {
 
 		try {
 			LOG.info("Check credential for user : " + credential.getUsername());
-
 			dao.open();
 
 			contains = dao.contains(credential);

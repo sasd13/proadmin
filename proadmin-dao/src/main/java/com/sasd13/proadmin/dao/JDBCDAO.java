@@ -25,11 +25,10 @@ import com.sasd13.proadmin.dao.running.JDBCRunningTeamDAO;
  */
 public class JDBCDAO extends DAO {
 
-	private static String url, username, password;
-	
+	private String url, username, password;
 	private Connection connection;
 
-	public JDBCDAO() {
+	public JDBCDAO(String url, String username, String password) {
 		super(
 				new JDBCTeacherDAO(), 
 				new JDBCProjectDAO(), 
@@ -40,29 +39,25 @@ public class JDBCDAO extends DAO {
 				new JDBCRunningTeamDAO(), 
 				new JDBCReportDAO()
 		);
-	}
-	
-	public static void init(String driver, String url, String username, String password) throws ClassNotFoundException {
-		Class.forName(driver);
 		
-		JDBCDAO.url = url;
-		JDBCDAO.username = username;
-		JDBCDAO.password = password;
+		this.url = url;
+		this.username = username;
+		this.password = password;
 	}
 
 	@Override
 	public void open() throws DAOException {
 		try {
 			connection = DriverManager.getConnection(url, username, password);
-
-			((JDBCEntityDAO<?>) iTeacherDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iProjectDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iStudentDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iTeamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iStudentTeamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iRunningDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iRunningTeamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) iReportDAO).setConnection(connection);
+			
+			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) runningTeamDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
 		} catch (SQLException e) {
 			throw new DAOException("Error connection to database");
 		}

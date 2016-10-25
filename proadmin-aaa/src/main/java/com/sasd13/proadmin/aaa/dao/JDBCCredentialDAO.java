@@ -7,26 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.aaa.Config;
-import com.sasd13.proadmin.aaa.Infra;
 import com.sasd13.proadmin.aaa.entity.Credential;
 
 public class JDBCCredentialDAO implements ICredentialDAO {
 
-	private static String url, username, password;
-
+	private String url, username, password;
 	private Connection connection;
 
-	static {
-		try {
-			Class.forName(Config.getInfo(Infra.DB_DRIVER));
-
-			JDBCCredentialDAO.url = Config.getInfo(Infra.DB_URL);
-			JDBCCredentialDAO.username = Config.getInfo(Infra.DB_USERNAME);
-			JDBCCredentialDAO.password = Config.getInfo(Infra.DB_PASSWORD);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public JDBCCredentialDAO(String url, String username, String password) {
+		this.url = url;
+		this.username = username;
+		this.password = password;
 	}
 
 	@Override

@@ -21,11 +21,7 @@ import com.sasd13.javaex.net.http.EnumHttpHeaderField;
 import com.sasd13.javaex.net.http.EnumHttpHeaderValue;
 import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.javaex.parser.ParserException;
-import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.dao.JDBCDAO;
-import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.ws.EnumWSCode;
-import com.sasd13.proadmin.ws.Config;
 import com.sasd13.proadmin.ws.rest.handler.RESTHandler;
 import com.sasd13.proadmin.ws.rest.handler.ReadHandler;
 
@@ -39,28 +35,6 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 
 	private static final String REQUEST_PARAMETER_ID = "id";
 
-	private DAO dao;
-
-	static {
-		try {
-			JDBCDAO.init(
-					Config.getInfo(Names.WS_DB_DRIVER), 
-					Config.getInfo(Names.WS_DB_URL), 
-					Config.getInfo(Names.WS_DB_USERNAME), 
-					Config.getInfo(Names.WS_DB_PASSWORD)
-			);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void init() throws ServletException {
-		super.init();
-
-		dao = new JDBCDAO();
-	}
-
 	protected abstract Class<T> getEntityClass();
 
 	@SuppressWarnings("unchecked")
@@ -71,7 +45,6 @@ public abstract class AbstractWebService<T> extends HttpServlet {
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		Object respData = null;
-		LayeredPersistor persistor = new LayeredPersistor(dao);
 
 		if (!EnumHttpHeaderValue.REQUEST_PARAMETERIZED_YES.getName().equalsIgnoreCase(headerRequestParameterized) && parameters.size() == 1 && parameters.containsKey(REQUEST_PARAMETER_ID) && parameters.get(REQUEST_PARAMETER_ID).length == 1) {
 			try {

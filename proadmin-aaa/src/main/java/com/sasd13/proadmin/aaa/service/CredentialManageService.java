@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.dao.JDBCCredentialDAO;
 import com.sasd13.proadmin.aaa.entity.Credential;
 
 public class CredentialManageService implements ICredentialManageService {
@@ -16,7 +16,7 @@ public class CredentialManageService implements ICredentialManageService {
 	private ICredentialDAO dao;
 
 	public CredentialManageService() {
-		dao = new JDBCCredentialDAO();
+		dao = DAOManager.create();
 	}
 
 	@Override
@@ -25,7 +25,6 @@ public class CredentialManageService implements ICredentialManageService {
 
 		try {
 			LOG.info("Insert credential for user : " + credential.getUsername());
-
 			dao.open();
 
 			inserted = dao.insert(credential);
@@ -48,7 +47,6 @@ public class CredentialManageService implements ICredentialManageService {
 
 		try {
 			LOG.info("Update credential for user : " + credential.getUsername());
-
 			dao.open();
 
 			updated = dao.update(credential);

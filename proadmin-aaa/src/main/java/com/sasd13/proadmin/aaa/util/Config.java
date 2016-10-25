@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.aaa;
+package com.sasd13.proadmin.aaa.util;
 
 import java.io.IOException;
 import java.io.InputStream;

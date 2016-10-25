@@ -34,16 +34,16 @@ import com.sasd13.proadmin.dao.running.RunningTeamDeepReader;
 @SuppressWarnings("unchecked")
 public abstract class DAO implements ILayeredDAO {
 
-	protected ITeacherDAO iTeacherDAO;
-	protected IProjectDAO iProjectDAO;
-	protected IStudentDAO iStudentDAO;
-	protected ITeamDAO iTeamDAO;
-	protected IStudentTeamDAO iStudentTeamDAO;
-	protected IRunningDAO iRunningDAO;
-	protected IRunningTeamDAO iRunningTeamDAO;
-	protected IReportDAO iReportDAO;
-	private ILeadEvaluationDAO iLeadEvaluationDAO;
-	private IIndividualEvaluationDAO iIndividualEvaluationDAO;
+	protected ITeacherDAO teacherDAO;
+	protected IProjectDAO projectDAO;
+	protected IStudentDAO studentDAO;
+	protected ITeamDAO teamDAO;
+	protected IStudentTeamDAO studentTeamDAO;
+	protected IRunningDAO runningDAO;
+	protected IRunningTeamDAO runningTeamDAO;
+	protected IReportDAO reportDAO;
+	private ILeadEvaluationDAO leadEvaluationDAO;
+	private IIndividualEvaluationDAO individualEvaluationDAO;
 
 	private StudentTeamDeepReader studentTeamDeepReader;
 	private RunningDeepReader runningDeepReader;
@@ -52,55 +52,55 @@ public abstract class DAO implements ILayeredDAO {
 	private LeadEvaluationDeepReader leadEvaluationDeepReader;
 	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
 
-	protected DAO(ITeacherDAO iTeacherDAO, 
-			IProjectDAO iProjectDAO, 
-			IStudentDAO iStudentDAO, 
-			ITeamDAO iTeamDAO, 
-			IStudentTeamDAO iStudentTeamDAO, 
-			IRunningDAO iRunningDAO, 
-			IRunningTeamDAO iRunningTeamDAO,
-			IReportDAO iReportDAO) {
+	protected DAO(ITeacherDAO teacherDAO, 
+			IProjectDAO projectDAO, 
+			IStudentDAO studentDAO, 
+			ITeamDAO teamDAO, 
+			IStudentTeamDAO studentTeamDAO, 
+			IRunningDAO runningDAO, 
+			IRunningTeamDAO runningTeamDAO,
+			IReportDAO reportDAO) {
 
-		this.iTeacherDAO = iTeacherDAO;
-		this.iProjectDAO = iProjectDAO;
-		this.iStudentDAO = iStudentDAO;
-		this.iTeamDAO = iTeamDAO;
-		this.iStudentTeamDAO = iStudentTeamDAO;
-		this.iRunningDAO = iRunningDAO;
-		this.iRunningTeamDAO = iRunningTeamDAO;
-		this.iReportDAO = iReportDAO;
-		this.iLeadEvaluationDAO = iReportDAO.getLeadEvaluationDAO();
-		this.iIndividualEvaluationDAO = iReportDAO.getIndividualEvaluationDAO();
+		this.teacherDAO = teacherDAO;
+		this.projectDAO = projectDAO;
+		this.studentDAO = studentDAO;
+		this.teamDAO = teamDAO;
+		this.studentTeamDAO = studentTeamDAO;
+		this.runningDAO = runningDAO;
+		this.runningTeamDAO = runningTeamDAO;
+		this.reportDAO = reportDAO;
+		this.leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
+		this.individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
 
-		studentTeamDeepReader = new StudentTeamDeepReader(iStudentTeamDAO, iStudentDAO, iTeamDAO);
-		runningDeepReader = new RunningDeepReader(iRunningDAO, iTeacherDAO, iProjectDAO);
-		runningTeamDeepReader = new RunningTeamDeepReader(iRunningTeamDAO, iRunningDAO, iTeamDAO, iReportDAO);
-		reportDeepReader = new ReportDeepReader(iReportDAO, iLeadEvaluationDAO, iIndividualEvaluationDAO);
-		leadEvaluationDeepReader = new LeadEvaluationDeepReader(iLeadEvaluationDAO, iStudentDAO);
-		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(iIndividualEvaluationDAO, iStudentDAO);
+		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
+		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDAO);
+		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDAO, individualEvaluationDAO);
+		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
+		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
 
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DAOException {
 		if (Teacher.class.equals(mClass)) {
-			return (IEntityDAO<T>) iTeacherDAO;
+			return (IEntityDAO<T>) teacherDAO;
 		} else if (Project.class.equals(mClass)) {
-			return (IEntityDAO<T>) iProjectDAO;
+			return (IEntityDAO<T>) projectDAO;
 		} else if (Student.class.equals(mClass)) {
-			return (IEntityDAO<T>) iStudentDAO;
+			return (IEntityDAO<T>) studentDAO;
 		} else if (Team.class.equals(mClass)) {
-			return (IEntityDAO<T>) iTeamDAO;
+			return (IEntityDAO<T>) teamDAO;
 		} else if (StudentTeam.class.equals(mClass)) {
-			return (IEntityDAO<T>) iStudentTeamDAO;
+			return (IEntityDAO<T>) studentTeamDAO;
 		} else if (Running.class.equals(mClass)) {
-			return (IEntityDAO<T>) iRunningDAO;
+			return (IEntityDAO<T>) runningDAO;
 		} else if (RunningTeam.class.equals(mClass)) {
-			return (IEntityDAO<T>) iRunningTeamDAO;
+			return (IEntityDAO<T>) runningTeamDAO;
 		} else if (Report.class.equals(mClass)) {
-			return (IEntityDAO<T>) iReportDAO;
+			return (IEntityDAO<T>) reportDAO;
 		} else if (LeadEvaluation.class.equals(mClass)) {
-			return (IEntityDAO<T>) iLeadEvaluationDAO;
+			return (IEntityDAO<T>) leadEvaluationDAO;
 		} else if (IndividualEvaluation.class.equals(mClass)) {
-			return (IEntityDAO<T>) iIndividualEvaluationDAO;
+			return (IEntityDAO<T>) individualEvaluationDAO;
 		} else {
 			throw new DAOException("Class '" + mClass.getName() + "' has no entity dao");
 		}
