@@ -16,12 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.aaa.entity.Credential;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
-import com.sasd13.proadmin.aaa.ws.handler.RESTHandler;
+import com.sasd13.proadmin.aaa.util.Config;
+import com.sasd13.proadmin.aaa.util.Names;
 
 /**
  *
@@ -31,28 +34,38 @@ import com.sasd13.proadmin.aaa.ws.handler.RESTHandler;
 public class LogInWebService extends HttpServlet {
 
 	private static final long serialVersionUID = 4147483186176202467L;
+
 	private static final Logger LOG = Logger.getLogger(LogInWebService.class);
+	private static final String RESPONSE_CONTENT_TYPE = Config.getInfo(Names.AAA_RESPONSE_CONTENT_TYPE);
+
+	private ICredentialReadService credentialReadService;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		try {
-			Credential credential = getCredentialFromRequest(req);
-			ICredentialReadService credentialReadService = new CredentialReadService();
+	public void init() throws ServletException {
+		super.init();
 
-			if (credentialReadService.containsCredential(credential)) {
-				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.OK, null);
-			} else {
-				RESTHandler.writeDataToResponse(req, resp, EnumWSCode.ERROR_LOGIN_TEACHER, null);
-			}
-		} catch (ParserException e) {
-			LOG.error(e);
-		}
+		credentialReadService = new CredentialReadService();
 	}
 
 	@SuppressWarnings("unchecked")
-	private Credential getCredentialFromRequest(HttpServletRequest req) throws IOException, ParserException {
-		Map<String, String> map = (Map<String, String>) RESTHandler.readDataFromRequest(req, Map.class);
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
+			Credential credential = new Credential(map.get(LogInWSClient.PARAMETER_USERNAME), map.get(LogInWSClient.PARAMETER_PASSWORD));
 
-		return new Credential(map.get(LogInWSClient.PARAM_USERNAME), map.get(LogInWSClient.PARAM_PASSWORD));
+			if (credentialReadService.containsCredential(credential)) {
+				resp.setContentType(RESPONSE_CONTENT_TYPE);
+
+				// TODO : Send token
+				// Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString());
+			} else {
+				// TODO : Send error
+				// resp.setHeader(EnumHttpHeader.WS_ERROR, );
+			}
+		} catch (ParserException e) {
+			LOG.error(e);
+			// TODO : Send error
+		}
 	}
 }

@@ -16,6 +16,7 @@ import java.util.Properties;
 public class Config {
 
 	private static final String FILE = "config.properties";
+	
 	private static Properties properties;
 
 	static {
