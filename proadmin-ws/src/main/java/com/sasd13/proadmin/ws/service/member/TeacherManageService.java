@@ -7,7 +7,8 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.ws.service.DAOManager;
+import com.sasd13.proadmin.ws.WSException;
+import com.sasd13.proadmin.ws.dao.DAOManager;
 import com.sasd13.proadmin.ws.service.IManageService;
 
 public class TeacherManageService implements IManageService<Teacher> {
@@ -21,21 +22,22 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public long create(Teacher teacher) {
+	public long create(Teacher teacher) throws WSException {
 		long id = 0;
 
 		try {
-			LOG.error("Insert teacher : " + teacher.getNumber());
+			LOG.error("TeacherManageService --> create : " + teacher.getNumber());
 			dao.open();
 
 			id = dao.getEntityDAO(Teacher.class).insert(teacher);
 		} catch (DAOException e) {
-			LOG.error("Insert failed", e);
+			LOG.error(e);
+			throw new WSException("TeacherManageService --> create failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 
@@ -43,35 +45,37 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void update(Teacher teacher) {
+	public void update(Teacher teacher) throws WSException {
 		try {
-			LOG.error("Update teacher : " + teacher.getNumber());
+			LOG.error("TeacherManageService --> update : " + teacher.getNumber());
 			dao.open();
 			dao.getEntityDAO(Teacher.class).update(teacher);
 		} catch (DAOException e) {
-			LOG.error("Update failed", e);
+			LOG.error(e);
+			throw new WSException("TeacherManageService --> update failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
+	public void delete(Teacher teacher) throws WSException {
 		try {
-			LOG.error("Delete teacher : " + teacher.getNumber());
+			LOG.error("TeacherManageService --> delete : " + teacher.getNumber());
 			dao.open();
 			dao.getEntityDAO(Teacher.class).update(teacher);
 		} catch (DAOException e) {
-			LOG.error("Delete failed", e);
+			LOG.error(e);
+			throw new WSException("TeacherManageService --> delete failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 	}

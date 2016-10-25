@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.dao.JDBCDAO;

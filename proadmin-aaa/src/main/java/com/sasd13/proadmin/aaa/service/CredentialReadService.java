@@ -5,9 +5,10 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.entity.Credential;
 
 public class CredentialReadService implements ICredentialReadService {
 
@@ -20,21 +21,22 @@ public class CredentialReadService implements ICredentialReadService {
 	}
 
 	@Override
-	public boolean containsCredential(Credential credential) {
+	public boolean containsCredential(Credential credential) throws AAAException {
 		boolean contains = false;
 
 		try {
-			LOG.info("Check credential for user : " + credential.getUsername());
+			LOG.info("CredentialReadService --> contains : " + credential.getUsername());
 			dao.open();
 
 			contains = dao.contains(credential);
 		} catch (DAOException e) {
-			LOG.error("Check failed", e);
+			LOG.error(e);
+			throw new AAAException("CredentialReadService --> contains failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 

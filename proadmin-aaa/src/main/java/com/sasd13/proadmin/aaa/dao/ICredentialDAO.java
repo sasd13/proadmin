@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.aaa.dao;
 
 import com.sasd13.javaex.dao.IDAO;
-import com.sasd13.proadmin.aaa.entity.Credential;
+import com.sasd13.proadmin.aaa.bean.Credential;
 
 public interface ICredentialDAO extends IDAO {
 

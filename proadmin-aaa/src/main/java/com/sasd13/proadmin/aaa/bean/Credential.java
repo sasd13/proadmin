@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa.entity;
+package com.sasd13.proadmin.aaa.bean;
 
 public class Credential {
 

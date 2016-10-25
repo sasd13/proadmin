@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.aaa.service;
 
-import com.sasd13.proadmin.aaa.entity.Credential;
+import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.bean.Credential;
 
 public interface ICredentialReadService {
 
-	boolean containsCredential(Credential credential);
+	boolean containsCredential(Credential credential) throws AAAException;
 }

@@ -5,9 +5,10 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.entity.Credential;
 
 public class CredentialManageService implements ICredentialManageService {
 
@@ -20,21 +21,22 @@ public class CredentialManageService implements ICredentialManageService {
 	}
 
 	@Override
-	public boolean createCredential(Credential credential) {
+	public boolean createCredential(Credential credential) throws AAAException {
 		boolean inserted = false;
 
 		try {
-			LOG.info("Insert credential for user : " + credential.getUsername());
+			LOG.info("CredentialManageService --> create : " + credential.getUsername());
 			dao.open();
 
 			inserted = dao.insert(credential);
 		} catch (DAOException e) {
-			LOG.error("Insert failed", e);
+			LOG.error(e);
+			throw new AAAException("CredentialManageService --> create failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 
@@ -42,21 +44,22 @@ public class CredentialManageService implements ICredentialManageService {
 	}
 
 	@Override
-	public boolean updateCredential(Credential credential) {
+	public boolean updateCredential(Credential credential) throws AAAException {
 		boolean updated = false;
 
 		try {
-			LOG.info("Update credential for user : " + credential.getUsername());
+			LOG.info("CredentialManageService --> update : " + credential.getUsername());
 			dao.open();
 
 			updated = dao.update(credential);
 		} catch (DAOException e) {
-			LOG.error("Update failed", e);
+			LOG.error(e);
+			throw new AAAException("CredentialManageService --> update failed");
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.warn(e);
 			}
 		}
 

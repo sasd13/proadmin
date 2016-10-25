@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.aaa.entity.Credential;
+import com.sasd13.proadmin.aaa.bean.Credential;
 
 public class JDBCCredentialDAO implements ICredentialDAO {
 

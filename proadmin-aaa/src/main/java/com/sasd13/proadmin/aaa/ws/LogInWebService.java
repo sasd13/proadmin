@@ -6,6 +6,8 @@
 package com.sasd13.proadmin.aaa.ws;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,17 +16,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.util.SessionIdGenerator;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.aaa.entity.Credential;
+import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
 import com.sasd13.proadmin.aaa.util.Config;
 import com.sasd13.proadmin.aaa.util.Names;
+import com.sasd13.proadmin.util.ws.EnumAAAError;
+import com.sasd13.proadmin.util.ws.EnumAAASessionInfo;
 
 /**
  *
@@ -39,12 +46,14 @@ public class LogInWebService extends HttpServlet {
 	private static final String RESPONSE_CONTENT_TYPE = Config.getInfo(Names.AAA_RESPONSE_CONTENT_TYPE);
 
 	private ICredentialReadService credentialReadService;
+	private SessionIdGenerator sessionIdGenerator;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
 		credentialReadService = new CredentialReadService();
+		sessionIdGenerator = new SessionIdGenerator();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -56,16 +65,27 @@ public class LogInWebService extends HttpServlet {
 
 			if (credentialReadService.containsCredential(credential)) {
 				resp.setContentType(RESPONSE_CONTENT_TYPE);
-
-				// TODO : Send token
-				// Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString());
+				Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(getSessionInfos(credential)));
 			} else {
-				// TODO : Send error
-				// resp.setHeader(EnumHttpHeader.WS_ERROR, );
+				resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(EnumAAAError.ERROR_LOGIN.getCode()));
 			}
-		} catch (ParserException e) {
+		} catch (ParserException | AAAException e) {
 			LOG.error(e);
-			// TODO : Send error
+
+			EnumAAAError aaaError = AAAErrorFactory.make(e);
+
+			resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
+			Stream.writeAndClose(resp.getWriter(), aaaError.getLabel());
 		}
+	}
+
+	private Map<String, String> getSessionInfos(Credential credential) {
+		Map<String, String> map = new HashMap<>();
+
+		map.put(EnumAAASessionInfo.USERNAME.getName(), credential.getUsername());
+		map.put(EnumAAASessionInfo.TOKEN.getName(), sessionIdGenerator.generateSessionId());
+		map.put(EnumAAASessionInfo.BEGIN.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
+
+		return map;
 	}
 }

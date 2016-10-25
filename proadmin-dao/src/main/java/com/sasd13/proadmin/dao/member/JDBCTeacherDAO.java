@@ -198,7 +198,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, TeacherConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, new TeacherConditionExpression()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

@@ -202,7 +202,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, RunningConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, new RunningConditionExpression()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

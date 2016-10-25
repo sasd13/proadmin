@@ -203,7 +203,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, StudentConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, new StudentConditionExpression()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

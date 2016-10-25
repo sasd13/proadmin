@@ -6,6 +6,8 @@
 package com.sasd13.proadmin.ws.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,11 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.io.Stream;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
+import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.Names;
+import com.sasd13.proadmin.util.ws.EnumWSError;
 import com.sasd13.proadmin.ws.Config;
+import com.sasd13.proadmin.ws.WSException;
 import com.sasd13.proadmin.ws.service.IManageService;
 import com.sasd13.proadmin.ws.service.IReadService;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
@@ -46,33 +52,44 @@ public class IndividualEvaluationsWebService extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 
-		readService = ReadServiceFactory.make(IndividualEvaluation.class);
-		manageService = ManageServiceFactory.make(IndividualEvaluation.class);
+		try {
+			readService = ReadServiceFactory.make(IndividualEvaluation.class);
+			manageService = ManageServiceFactory.make(IndividualEvaluation.class);
+		} catch (WSException e) {
+			LOG.error(e);
+		}
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doGet(req, resp);
-		
+
+		List<IndividualEvaluation> individualEvaluationsToResponse = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
-			if (parameters.isEmpty()) {
-				//Inflate parameters to entity
-				IndividualEvaluation individualEvaluationFromRequest = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), IndividualEvaluation.class);
-				IndividualEvaluation individualEvaluationToResponse = readService.read(individualEvaluationFromRequest);
+			URLQueryEncoder.decode(parameters);
+
+			if (!parameters.isEmpty()) {
+				individualEvaluationsToResponse.addAll(readService.read(parameters));
 			} else {
-				
+				individualEvaluationsToResponse.addAll(readService.readAll());
 			}
-			
-			
 
 			resp.setContentType(RESPONSE_CONTENT_TYPE);
-			Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(individualEvaluationToResponse));
-		} catch (ParserException e) {
-			LOG.error(e);
-			// TODO : Send errors
+			Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(individualEvaluationsToResponse));
+		} catch (ParserException | WSException e) {
+			catchError(e, resp);
 		}
+	}
+
+	private void catchError(Exception e, HttpServletResponse resp) throws IOException {
+		LOG.error(e);
+
+		EnumWSError wsError = WSErrorFactory.make(e);
+
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(wsError.getCode()));
+		Stream.writeAndClose(resp.getWriter(), wsError.getLabel());
 	}
 
 	@Override
@@ -81,9 +98,8 @@ public class IndividualEvaluationsWebService extends HttpServlet {
 			IndividualEvaluation individualEvaluation = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), IndividualEvaluation.class);
 
 			manageService.create(individualEvaluation);
-		} catch (ParserException e) {
-			LOG.error(e);
-			// TODO : Send errors
+		} catch (ParserException | WSException e) {
+			catchError(e, resp);
 		}
 	}
 
@@ -93,9 +109,8 @@ public class IndividualEvaluationsWebService extends HttpServlet {
 			IndividualEvaluation individualEvaluation = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), IndividualEvaluation.class);
 
 			manageService.update(individualEvaluation);
-		} catch (ParserException e) {
-			LOG.error(e);
-			// TODO : Send errors
+		} catch (ParserException | WSException e) {
+			catchError(e, resp);
 		}
 	}
 
@@ -105,9 +120,8 @@ public class IndividualEvaluationsWebService extends HttpServlet {
 			IndividualEvaluation individualEvaluation = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), IndividualEvaluation.class);
 
 			manageService.delete(individualEvaluation);
-		} catch (ParserException e) {
-			LOG.error(e);
-			// TODO : Send errors
+		} catch (ParserException | WSException e) {
+			catchError(e, resp);
 		}
 	}
 }

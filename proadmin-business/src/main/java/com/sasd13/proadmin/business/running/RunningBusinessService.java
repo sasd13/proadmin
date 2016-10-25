@@ -18,10 +18,6 @@ import com.sasd13.proadmin.util.EnumParameter;
  */
 public class RunningBusinessService extends BusinessService<Running> {
 
-	public RunningBusinessService(ILayeredDAO layeredDAO) {
-		super(layeredDAO);
-	}
-
 	public Running createRunning(Teacher teacher, Project project) throws BusinessException {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -30,10 +26,10 @@ public class RunningBusinessService extends BusinessService<Running> {
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(teacher.getId()) });
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { String.valueOf(project.getId()) });
 
-		List<Running> runnings = persistor.read(parameters, Running.class);
+		/*List<Running> runnings = persistor.read(parameters, Running.class);
 		if (!runnings.isEmpty()) {
 			throw new BusinessException("Running error", "Cannot have two runnings for project '" + project.getCode() + "' at year '" + year + "'");
-		}
+		}*/
 
 		Running runningToCreate = new Running();
 		runningToCreate.setYear(year);

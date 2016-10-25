@@ -186,7 +186,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, TeamConditionExpression.class));
+			builder.append(ConditionBuilder.parse(parameters, new TeamConditionExpression()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 
