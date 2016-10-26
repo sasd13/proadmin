@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.AAAException;
 import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
@@ -21,17 +21,15 @@ public class CredentialManageService implements ICredentialManageService {
 	}
 
 	@Override
-	public boolean createCredential(Credential credential) throws AAAException {
-		boolean inserted = false;
+	public void createCredential(Credential credential) throws AAAException {
+		LOG.info("CredentialManageService --> createCredential : " + credential.getUsername());
 
 		try {
-			LOG.info("CredentialManageService --> create : " + credential.getUsername());
 			dao.open();
-
-			inserted = dao.insert(credential);
+			dao.insert(credential);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new AAAException("CredentialManageService --> create failed");
+			LOG.error("CredentialManageService --> createCredential failed");
+			throw new AAAException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -39,22 +37,18 @@ public class CredentialManageService implements ICredentialManageService {
 				LOG.warn(e);
 			}
 		}
-
-		return inserted;
 	}
 
 	@Override
-	public boolean updateCredential(Credential credential) throws AAAException {
-		boolean updated = false;
+	public void updateCredential(Credential credential) throws AAAException {
+		LOG.info("CredentialManageService --> updateCredential : " + credential.getUsername());
 
 		try {
-			LOG.info("CredentialManageService --> update : " + credential.getUsername());
 			dao.open();
-
-			updated = dao.update(credential);
+			dao.update(credential);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new AAAException("CredentialManageService --> update failed");
+			LOG.error("CredentialManageService --> updateCredential failed");
+			throw new AAAException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -62,8 +56,6 @@ public class CredentialManageService implements ICredentialManageService {
 				LOG.warn(e);
 			}
 		}
-
-		return updated;
 	}
 
 }

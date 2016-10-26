@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -24,6 +27,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IStudentTeamDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCStudentTeamDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
@@ -46,7 +51,9 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	}
 
 	@Override
-	public long insert(StudentTeam studentTeam) {
+	public long insert(StudentTeam studentTeam) throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> insert");
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -71,27 +78,23 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeam.setId(id);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCStudentTeamDAO --> insert failed", "StudentTeam not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
 	}
 
 	@Override
-	public void update(StudentTeam studentTeam) {
-		// Do nothing
+	public void update(StudentTeam studentTeam) throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> update unavailable");
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
+	public void delete(StudentTeam studentTeam) throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> delete");
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELTE FROM ");
 		builder.append(TABLE);
@@ -107,20 +110,16 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCStudentTeamDAO --> delete failed", "StudentTeam not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public StudentTeam select(long id) {
+	public StudentTeam select(long id) throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> select : " + id);
+
 		StudentTeam studentTeam = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -140,21 +139,17 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeam = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCStudentTeamDAO --> select failed", "StudentTeam not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return studentTeam;
 	}
 
-	public List<StudentTeam> select(Map<String, String[]> parameters) {
+	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> select");
+
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		Statement statement = null;
@@ -173,22 +168,18 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCStudentTeamDAO --> select failed", "StudentTeams not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return studentTeams;
 	}
 
 	@Override
-	public List<StudentTeam> selectAll() {
+	public List<StudentTeam> selectAll() throws DAOException {
+		LOG.info("JDBCStudentTeamDAO --> selectAll");
+
 		List<StudentTeam> studentTeams = new ArrayList<StudentTeam>();
 
 		StringBuilder builder = new StringBuilder();
@@ -205,15 +196,9 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCStudentTeamDAO --> selectAll failed", "StudentTeams not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return studentTeams;

@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.ws.rest;
 
 import com.sasd13.javaex.parser.ParserException;
-import com.sasd13.proadmin.util.ws.EnumWSError;
+import com.sasd13.proadmin.util.net.EnumWSError;
 import com.sasd13.proadmin.ws.WSException;
 
 public class WSErrorFactory {

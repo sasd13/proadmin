@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Samir
  */
 public class Config {
 
+	private static final Logger LOG = Logger.getLogger(Config.class);
 	private static final String FILE = "config.properties";
 
 	private static Properties properties;
@@ -28,13 +31,13 @@ public class Config {
 
 			properties.load(in);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.fatal(e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOG.warn(e);
 				}
 			}
 		}

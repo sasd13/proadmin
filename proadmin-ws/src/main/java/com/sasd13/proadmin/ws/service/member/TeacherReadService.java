@@ -29,7 +29,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			LOG.error("TeacherReadService --> read...");
+			LOG.error("TeacherReadService --> read");
 			dao.open();
 
 			teachers = dao.getEntityDAO(Teacher.class).select(parameters);
@@ -52,7 +52,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			LOG.error("TeacherReadService --> readAll...");
+			LOG.error("TeacherReadService --> readAll");
 			dao.open();
 
 			teachers = dao.getEntityDAO(Teacher.class).selectAll();

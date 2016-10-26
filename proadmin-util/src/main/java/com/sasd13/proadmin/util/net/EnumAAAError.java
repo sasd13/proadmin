@@ -1,10 +1,10 @@
-package com.sasd13.proadmin.util.ws;
+package com.sasd13.proadmin.util.net;
 
 public enum EnumAAAError {
 	UNKNOWN(0, "Unknown"), 
-	ERROR_TECHNICAL(-1, "Technical error"), 
-	ERROR_LOGIN(-100, "Error matching username/password"), 
-	ERROR_PARSING_CREDENTIAL(-101, "Error parsing credential"),
+	ERROR_SERVICE(-1, "Service error"), 
+	ERROR_LOGIN(-100, "Login error : matching username/password"), 
+	ERROR_PARSING_CREDENTIAL(-101, "Parsing error : credential"),
 	;
 
 	private int code;

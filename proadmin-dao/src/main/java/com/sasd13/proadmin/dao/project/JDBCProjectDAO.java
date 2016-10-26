@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
@@ -23,6 +26,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCProjectDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
@@ -45,7 +50,9 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	}
 
 	@Override
-	public long insert(Project project) {
+	public long insert(Project project) throws DAOException {
+		LOG.info("JDBCProjectDAO --> insert : " + project.getCode());
+		
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -72,22 +79,18 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				project.setId(id);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> insert failed", "Project not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
 	}
 
 	@Override
-	public void update(Project project) {
+	public void update(Project project) throws DAOException {
+		LOG.info("JDBCProjectDAO --> update : " + project.getCode());
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -108,20 +111,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> update failed", "Project not updated");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public void delete(Project project) {
+	public void delete(Project project) throws DAOException {
+		LOG.info("JDBCProjectDAO --> delete : " + project.getCode());
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -139,20 +138,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> delete failed", "Project not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public Project select(long id) {
+	public Project select(long id) throws DAOException {
+		LOG.info("JDBCProjectDAO --> select : " + id);
+		
 		Project project = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -175,21 +170,17 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				project = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> select failed", "Project not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return project;
 	}
 
-	public List<Project> select(Map<String, String[]> parameters) {
+	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCProjectDAO --> select");
+		
 		List<Project> projects = new ArrayList<>();
 
 		Statement statement = null;
@@ -210,22 +201,18 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> select failed", "Projects not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return projects;
 	}
 
 	@Override
-	public List<Project> selectAll() {
+	public List<Project> selectAll() throws DAOException {
+		LOG.info("JDBCProjectDAO --> selectAll");
+		
 		List<Project> projects = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -244,15 +231,9 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCProjectDAO --> selectAll failed", "Projects not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return projects;

@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.aaa.dao;
 
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IDAO;
 import com.sasd13.proadmin.aaa.bean.Credential;
 
@@ -9,11 +10,11 @@ public interface ICredentialDAO extends IDAO {
 	String COLUMN_USERNAME = "username";
 	String COLUMN_PASSWORD = "password";
 
-	boolean insert(Credential credential);
+	long insert(Credential credential) throws DAOException;
 
-	boolean update(Credential credential);
+	void update(Credential credential) throws DAOException;
 
-	boolean delete(String username);
+	void delete(String username) throws DAOException;
 
-	boolean contains(Credential credential);
+	boolean contains(Credential credential) throws DAOException;
 }

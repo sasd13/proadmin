@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.ws;
+package com.sasd13.proadmin.util.net;
 
 public enum EnumWSError {
 	UNKNOWN(0, "Unknown"), 

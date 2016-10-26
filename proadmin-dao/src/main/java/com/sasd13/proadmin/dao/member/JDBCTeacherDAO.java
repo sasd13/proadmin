@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.JDBCEntityDAO;
@@ -22,6 +25,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCTeacherDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
@@ -44,7 +49,9 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 	}
 
 	@Override
-	public long insert(Teacher teacher) {
+	public long insert(Teacher teacher) throws DAOException {
+		LOG.info("JDBCTeacherDAO --> insert : " + teacher.getNumber());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -71,22 +78,18 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				teacher.setId(id);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> insert failed", "Teacher not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
 	}
 
 	@Override
-	public void update(Teacher teacher) {
+	public void update(Teacher teacher) throws DAOException {
+		LOG.info("JDBCTeacherDAO --> update : " + teacher.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -107,20 +110,16 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> update failed", "Teacher not updated");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
+	public void delete(Teacher teacher) throws DAOException {
+		LOG.info("JDBCTeacherDAO --> delete : " + teacher.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -138,20 +137,16 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> delete failed", "Teacher not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public Teacher select(long id) {
+	public Teacher select(long id) throws DAOException {
+		LOG.info("JDBCTeacherDAO --> select : " + id);
+
 		Teacher teacher = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -174,21 +169,17 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				teacher = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teacher not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return teacher;
 	}
 
-	public List<Teacher> select(Map<String, String[]> parameters) {
+	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCTeacherDAO --> select");
+
 		List<Teacher> list = new ArrayList<>();
 
 		Statement statement = null;
@@ -209,22 +200,18 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teachers not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return list;
 	}
 
 	@Override
-	public List<Teacher> selectAll() {
+	public List<Teacher> selectAll() throws DAOException {
+		LOG.info("JDBCTeacherDAO --> selectAll");
+
 		List<Teacher> list = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -243,15 +230,9 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCTeacherDAO --> selectAll failed", "Teachers not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return list;

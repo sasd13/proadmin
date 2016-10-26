@@ -24,14 +24,14 @@ import com.sasd13.javaex.net.ws.rest.LogInWSClient;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.proadmin.aaa.bean.AAAException;
+import com.sasd13.proadmin.aaa.AAAException;
 import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
 import com.sasd13.proadmin.aaa.util.Config;
 import com.sasd13.proadmin.aaa.util.Names;
-import com.sasd13.proadmin.util.ws.EnumAAAError;
-import com.sasd13.proadmin.util.ws.EnumAAASessionInfo;
+import com.sasd13.proadmin.util.net.EnumAAAError;
+import com.sasd13.proadmin.util.net.EnumAAASessionInfo;
 
 /**
  *
@@ -59,6 +59,8 @@ public class LogInWebService extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		LOG.info("LogInWebService --> doPost");
+		
 		try {
 			Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
 			Credential credential = new Credential(map.get(LogInWSClient.PARAMETER_USERNAME), map.get(LogInWSClient.PARAMETER_PASSWORD));
@@ -70,13 +72,18 @@ public class LogInWebService extends HttpServlet {
 				resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(EnumAAAError.ERROR_LOGIN.getCode()));
 			}
 		} catch (ParserException | AAAException e) {
-			LOG.error(e);
-
-			EnumAAAError aaaError = AAAErrorFactory.make(e);
-
-			resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
-			Stream.writeAndClose(resp.getWriter(), aaaError.getLabel());
+			doCatch(e, "LogInWebService --> doPost failed", resp);
 		}
+	}
+
+	private void doCatch(Exception e, String logMessage, HttpServletResponse resp) throws IOException {
+		LOG.error(logMessage, e);
+
+		EnumAAAError aaaError = AAAErrorFactory.make(e);
+
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
+		resp.setContentType(RESPONSE_CONTENT_TYPE);
+		Stream.writeAndClose(resp.getWriter(), aaaError.getLabel());
 	}
 
 	private Map<String, String> getSessionInfos(Credential credential) {

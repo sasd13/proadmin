@@ -25,7 +25,7 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.Names;
-import com.sasd13.proadmin.util.ws.EnumWSError;
+import com.sasd13.proadmin.util.net.EnumWSError;
 import com.sasd13.proadmin.ws.Config;
 import com.sasd13.proadmin.ws.WSException;
 import com.sasd13.proadmin.ws.service.IManageService;

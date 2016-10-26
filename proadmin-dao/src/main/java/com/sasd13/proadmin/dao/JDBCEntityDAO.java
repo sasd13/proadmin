@@ -9,7 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IEntityDAO;
 
 /**
@@ -27,4 +31,19 @@ public abstract class JDBCEntityDAO<T> implements IEntityDAO<T> {
 	protected abstract void editPreparedStatement(PreparedStatement preparedStatement, T t) throws SQLException;
 
 	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
+
+	protected void doCatch(SQLException e, Logger log, String logMessage, String errorMessage) throws DAOException {
+		log.error(logMessage, e);
+		throw new DAOException(errorMessage);
+	}
+
+	protected void doFinally(Statement statement, Logger log) {
+		if (statement != null) {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				log.warn(e);
+			}
+		}
+	}
 }
