@@ -11,8 +11,10 @@ public class ReportConditionExpression implements IConditionExpression {
 		try {
 			if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {
 				return IReportDAO.COLUMN_ID + " = " + Long.parseLong(value);
-			} else if (EnumParameter.SESSIONNUMBER.getName().equalsIgnoreCase(key)) {
-				return IReportDAO.COLUMN_SESSIONNUMBER + " = " + Integer.parseInt(value);
+			} else if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+				return IReportDAO.COLUMN_NUMBER + " = " + value;
+			} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
+				return IReportDAO.COLUMN_SESSION + " = " + Integer.parseInt(value);
 			} else if (EnumParameter.RUNNINGTEAM.getName().equalsIgnoreCase(key)) {
 				return IReportDAO.COLUMN_RUNNINGTEAM + " = " + Long.parseLong(value);
 			} else {

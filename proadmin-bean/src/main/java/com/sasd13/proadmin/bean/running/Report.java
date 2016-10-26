@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Report {
 
 	private long id;
+	private String number, comment;
 	private Timestamp meetingDate;
-	private int sessionNumber;
-	private String comment;
+	private int session;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
 	private RunningTeam runningTeam;
@@ -46,12 +46,12 @@ public class Report {
 		this.meetingDate = meetingDate;
 	}
 
-	public int getSessionNumber() {
-		return sessionNumber;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setSessionNumber(int sessionNumber) {
-		this.sessionNumber = sessionNumber;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public String getComment() {
@@ -60,6 +60,14 @@ public class Report {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public int getSession() {
+		return session;
+	}
+
+	public void setSession(int session) {
+		this.session = session;
 	}
 
 	public LeadEvaluation getLeadEvaluation() {
@@ -98,8 +106,9 @@ public class Report {
 
 		builder.append("Report [");
 		builder.append("id=" + getId());
+		builder.append(", number=" + getNumber());
 		builder.append(", meetingDate=" + getMeetingDate());
-		builder.append(", sessionNumber=" + getSessionNumber());
+		builder.append(", session=" + getSession());
 		builder.append(", comment=" + getComment());
 		builder.append("]");
 

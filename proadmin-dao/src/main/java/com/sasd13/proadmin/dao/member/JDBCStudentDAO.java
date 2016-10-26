@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.JDBCEntityDAO;
@@ -53,7 +54,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public long insert(Student student) throws DAOException {
-		LOG.info("JDBCStudentDAO --> insert : " + student.getNumber());
+		LOG.info("JDBCStudentDAO --> insert : number=" + student.getNumber());
 
 		long id = 0;
 
@@ -80,6 +81,8 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				student.setId(id);
+			} else {
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
 			doCatch(e, LOG, "JDBCStudentDAO --> insert failed", "Student not inserted");
@@ -92,7 +95,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public void update(Student student) throws DAOException {
-		LOG.info("JDBCStudentDAO --> update : " + student.getNumber());
+		LOG.info("JDBCStudentDAO --> update : number=" + student.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -123,7 +126,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public void delete(Student student) throws DAOException {
-		LOG.info("JDBCStudentDAO --> delete : " + student.getNumber());
+		LOG.info("JDBCStudentDAO --> delete : number=" + student.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -150,7 +153,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public Student select(long id) throws DAOException {
-		LOG.info("JDBCStudentDAO --> select : " + id);
+		LOG.info("JDBCStudentDAO --> select : id=" + id);
 
 		Student student = null;
 
@@ -183,7 +186,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 	}
 
 	public List<Student> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCStudentDAO --> select");
+		LOG.info("JDBCStudentDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
 
 		List<Student> list = new ArrayList<>();
 

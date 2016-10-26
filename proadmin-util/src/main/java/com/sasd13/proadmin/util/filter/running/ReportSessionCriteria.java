@@ -6,12 +6,12 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.running.Report;
 
-public class RunningTeamCriteria implements Criteria<Report> {
+public class ReportSessionCriteria implements Criteria<Report> {
 
-	private long id;
+	private int session;
 
-	public RunningTeamCriteria(long id) {
-		this.id = id;
+	public ReportSessionCriteria(int session) {
+		this.session = session;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class RunningTeamCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (id == report.getRunningTeam().getId()) {
+			if (session == report.getSession()) {
 				results.add(report);
 			}
 		}

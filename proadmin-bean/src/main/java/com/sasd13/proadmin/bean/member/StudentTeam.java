@@ -6,7 +6,8 @@ public class StudentTeam {
 	private Student student;
 	private Team team;
 
-	public StudentTeam() {}
+	public StudentTeam() {
+	}
 
 	public StudentTeam(Student student, Team team) {
 		this.student = student;

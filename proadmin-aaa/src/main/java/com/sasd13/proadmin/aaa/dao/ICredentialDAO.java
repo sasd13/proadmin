@@ -14,7 +14,7 @@ public interface ICredentialDAO extends IDAO {
 
 	void update(Credential credential) throws DAOException;
 
-	void delete(String username) throws DAOException;
+	void delete(Credential credential) throws DAOException;
 
 	boolean contains(Credential credential) throws DAOException;
 }

@@ -54,7 +54,7 @@ public class Project {
 
 		builder.append("Project [");
 		builder.append("id=" + getId());
-		builder.append(", academicLevel=" + getAcademicLevel());
+		builder.append(", academicLevel=" + getAcademicLevel() != null ? getAcademicLevel().getCode() : null);
 		builder.append(", code=" + getCode());
 		builder.append(", title=" + getTitle());
 		builder.append(", description=" + getDescription());

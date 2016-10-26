@@ -19,13 +19,13 @@ public class RunningTeamFilter extends AndFilter<RunningTeam> {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.RUNNING.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new RunningCriteria(Long.parseLong(value)));
+						multiAndCriteria.addCriteria(new RunningTeamRunningIdCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
 				} else if (EnumParameter.TEAM.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new TeamCriteria(Long.parseLong(value)));
+						multiAndCriteria.addCriteria(new RunningTeamTeamIdCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}

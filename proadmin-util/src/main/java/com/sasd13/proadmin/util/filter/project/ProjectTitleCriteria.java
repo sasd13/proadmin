@@ -6,12 +6,12 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.project.Project;
 
-public class CodeCriteria implements Criteria<Project> {
+public class ProjectTitleCriteria implements Criteria<Project> {
 
-	private String code;
+	private String title;
 
-	public CodeCriteria(String code) {
-		this.code = code;
+	public ProjectTitleCriteria(String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class CodeCriteria implements Criteria<Project> {
 		List<Project> results = new ArrayList<Project>();
 
 		for (Project project : list) {
-			if (code.equalsIgnoreCase(project.getCode())) {
+			if (title.equalsIgnoreCase(project.getTitle())) {
 				results.add(project);
 			}
 		}

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.aaa.ws;
+package com.sasd13.proadmin.aaa.ws.rest;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -30,6 +30,7 @@ import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
 import com.sasd13.proadmin.aaa.util.Config;
 import com.sasd13.proadmin.aaa.util.Names;
+import com.sasd13.proadmin.aaa.ws.AAAErrorFactory;
 import com.sasd13.proadmin.util.net.EnumAAAError;
 import com.sasd13.proadmin.util.net.EnumAAASessionInfo;
 

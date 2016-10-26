@@ -6,12 +6,12 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.running.Report;
 
-public class SessionNumberCriteria implements Criteria<Report> {
+public class ReportNumberCriteria implements Criteria<Report> {
 
-	private int sessionNumber;
+	private String number;
 
-	public SessionNumberCriteria(int sessionNumber) {
-		this.sessionNumber = sessionNumber;
+	public ReportNumberCriteria(String number) {
+		this.number = number;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class SessionNumberCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (sessionNumber == report.getSessionNumber()) {
+			if (number.equalsIgnoreCase(report.getNumber())) {
 				results.add(report);
 			}
 		}

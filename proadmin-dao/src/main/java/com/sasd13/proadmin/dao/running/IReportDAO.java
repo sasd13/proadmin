@@ -7,8 +7,9 @@ public interface IReportDAO extends IEntityDAO<Report> {
 
 	String TABLE = "reports";
 	String COLUMN_ID = "id";
+	String COLUMN_NUMBER = "number";
 	String COLUMN_MEETINGDATE = "meetingdate";
-	String COLUMN_SESSIONNUMBER = "sessionnumber";
+	String COLUMN_SESSION = "session";
 	String COLUMN_COMMENT = "comment";
 	String COLUMN_RUNNINGTEAM = "runningteam_id";
 

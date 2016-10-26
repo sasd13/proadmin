@@ -9,17 +9,17 @@ import com.sasd13.proadmin.dao.member.IStudentDAO;
 
 public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 
-	private IStudentDAO iStudentDAO;
+	private IStudentDAO studentDAO;
 
-	public LeadEvaluationDeepReader(IEntityDAO<LeadEvaluation> entityDAO, IStudentDAO iStudentDAO) {
+	public LeadEvaluationDeepReader(IEntityDAO<LeadEvaluation> entityDAO, IStudentDAO studentDAO) {
 		super(entityDAO);
 
-		this.iStudentDAO = iStudentDAO;
+		this.studentDAO = studentDAO;
 	}
 
 	@Override
 	protected void retrieveData(LeadEvaluation leadEvaluation) throws DAOException {
-		Student student = iStudentDAO.select(leadEvaluation.getStudent().getId());
+		Student student = studentDAO.select(leadEvaluation.getStudent().getId());
 		leadEvaluation.setStudent(student);
 	}
 }

@@ -6,12 +6,12 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.member.Member;
 
-public class FirstNameCriteria<T extends Member> implements Criteria<T> {
+public class MemberNumberCriteria<T extends Member> implements Criteria<T> {
 
-	private String firstName;
+	private String number;
 
-	public FirstNameCriteria(String firstName) {
-		this.firstName = firstName;
+	public MemberNumberCriteria(String number) {
+		this.number = number;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class FirstNameCriteria<T extends Member> implements Criteria<T> {
 		List<T> results = new ArrayList<>();
 
 		for (T t : list) {
-			if (firstName.equalsIgnoreCase(t.getFirstName())) {
+			if (number.equalsIgnoreCase(t.getNumber())) {
 				results.add(t);
 			}
 		}

@@ -7,11 +7,11 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 
-public class AcademicLevelCriteria implements Criteria<Project> {
+public class ProjectAcademicLevelCriteria implements Criteria<Project> {
 
 	private EnumAcademicLevel academicLevel;
 
-	public AcademicLevelCriteria(EnumAcademicLevel academicLevel) {
+	public ProjectAcademicLevelCriteria(EnumAcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
 	}
 

@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
@@ -27,6 +30,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCReportDAO.class);
 
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
@@ -56,10 +61,11 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, String.valueOf(report.getMeetingDate()));
-		preparedStatement.setInt(2, report.getSessionNumber());
-		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setLong(4, report.getRunningTeam().getId());
+		preparedStatement.setString(1, report.getNumber());
+		preparedStatement.setString(2, String.valueOf(report.getMeetingDate()));
+		preparedStatement.setInt(3, report.getSession());
+		preparedStatement.setString(4, report.getComment());
+		preparedStatement.setLong(5, report.getRunningTeam().getId());
 	}
 
 	@Override
@@ -69,23 +75,27 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 		Report report = new Report(runningTeam);
 		report.setId(resultSet.getLong(COLUMN_ID));
+		report.setNumber(resultSet.getString(COLUMN_NUMBER));
 		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
-		report.setSessionNumber(resultSet.getInt(COLUMN_SESSIONNUMBER));
+		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
 		return report;
 	}
 
 	@Override
-	public long insert(Report report) {
+	public long insert(Report report) throws DAOException {
+		LOG.info("JDBCReportDAO --> insert : number=" + report.getNumber());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_MEETINGDATE);
-		builder.append(", " + COLUMN_SESSIONNUMBER);
+		builder.append(COLUMN_NUMBER);
+		builder.append(", " + COLUMN_MEETINGDATE);
+		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
 		builder.append(", " + COLUMN_RUNNINGTEAM);
 		builder.append(") VALUES (?, ?, ?, ?, ?)");
@@ -99,7 +109,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			editPreparedStatement(preparedStatement, report);
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -111,38 +120,31 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 					individualEvaluationDAO.insert(individualEvaluation);
 				}
+
+				connection.commit();
 			} else {
-				throw new SQLException("Report not inserted: " + report);
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException | DAOException e) {
-			e.printStackTrace();
-
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			doCatchWithRollback(e, LOG, "JDBCReportDAO --> insert failed. Rollback...", "Report not inserted", "JDBCReportDAO --> rollback failed");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
 	}
 
 	@Override
-	public void update(Report report) {
+	public void update(Report report) throws DAOException {
+		LOG.info("JDBCReportDAO --> update : number=" + report.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_MEETINGDATE + " = ?");
-		builder.append(", " + COLUMN_SESSIONNUMBER + " = ?");
+		builder.append(COLUMN_NUMBER + " = ?");
+		builder.append(", " + COLUMN_MEETINGDATE + " = ?");
+		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
 		builder.append(" WHERE ");
@@ -158,33 +160,25 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			preparedStatement.setLong(6, report.getId());
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 
 			leadEvaluationDAO.update(report.getLeadEvaluation());
+
 			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 				individualEvaluationDAO.update(individualEvaluation);
 			}
-		} catch (SQLException | DAOException e) {
-			e.printStackTrace();
 
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			connection.commit();
+		} catch (SQLException | DAOException e) {
+			doCatchWithRollback(e, LOG, "JDBCReportDAO --> update failed. Rollback...", "Report not updated", "JDBCReportDAO --> rollback failed");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public void delete(Report report) {
+	public void delete(Report report) throws DAOException {
+		LOG.info("JDBCReportDAO --> delete : number=" + report.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -211,26 +205,16 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException | DAOException e) {
-			e.printStackTrace();
-
-			try {
-				connection.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
+			doCatchWithRollback(e, LOG, "JDBCReportDAO --> delete failed. Rollback...", "Report not deleted", "JDBCReportDAO --> rollback failed");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public Report select(long id) {
+	public Report select(long id) throws DAOException {
+		LOG.info("JDBCReportDAO --> select : id=" + id);
+
 		Report report = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -253,21 +237,17 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				report = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Report not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return report;
 	}
 
-	public List<Report> select(Map<String, String[]> parameters) {
+	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCReportDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+
 		List<Report> reports = new ArrayList<>();
 
 		Statement statement = null;
@@ -288,22 +268,18 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Reports not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return reports;
 	}
 
 	@Override
-	public List<Report> selectAll() {
+	public List<Report> selectAll() throws DAOException {
+		LOG.info("JDBCReportDAO --> selectAll");
+
 		List<Report> reports = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -322,15 +298,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCReportDAO --> selectAll failed", "Reports not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return reports;

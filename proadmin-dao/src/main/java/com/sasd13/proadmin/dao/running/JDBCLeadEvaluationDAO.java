@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -25,6 +28,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements ILeadEvaluationDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCLeadEvaluationDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
@@ -57,6 +62,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	@Override
 	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> insert : studentNumber=" + leadEvaluation.getStudent().getNumber());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -78,26 +85,18 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			editPreparedStatement(preparedStatement, leadEvaluation);
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				leadEvaluation.setId(id);
 			} else {
-				throw new SQLException("LeadEvaluation not inserted: " + leadEvaluation);
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("LeadEvaluation not inserted: " + leadEvaluation);
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> insert failed", "LeadEvaluation not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
@@ -105,6 +104,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	@Override
 	public void update(LeadEvaluation leadEvaluation) throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> update : studentNumber=" + leadEvaluation.getStudent().getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -126,25 +127,17 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			preparedStatement.setLong(7, leadEvaluation.getId());
 
 			preparedStatement.executeUpdate();
-			if (!connection.getAutoCommit()) {
-				connection.commit();
-			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("LeadEvaluation not updated: id=" + leadEvaluation.getId());
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> update failed", "LeadEvaluation not updated");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> delete : studentNumber=" + leadEvaluation.getStudent().getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -161,23 +154,17 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			preparedStatement.setLong(2, leadEvaluation.getId());
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("LeadEvaluation not deleted: id=" + leadEvaluation.getId());
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> delete failed", "LeadEvaluation not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public LeadEvaluation select(long id) {
+	public LeadEvaluation select(long id) throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> select : id=" + id);
+
 		LeadEvaluation leadEvaluation = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -200,21 +187,17 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluation not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return leadEvaluation;
 	}
 
-	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
+	public List<LeadEvaluation> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		Statement statement = null;
@@ -235,22 +218,18 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return leadEvaluations;
 	}
 
 	@Override
-	public List<LeadEvaluation> selectAll() {
+	public List<LeadEvaluation> selectAll() throws DAOException {
+		LOG.info("JDBCLeadEvaluationDAO --> selectAll");
+
 		List<LeadEvaluation> leadEvaluations = new ArrayList<LeadEvaluation>();
 
 		StringBuilder builder = new StringBuilder();
@@ -269,15 +248,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return leadEvaluations;

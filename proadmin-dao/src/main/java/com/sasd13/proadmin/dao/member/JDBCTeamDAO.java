@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.JDBCEntityDAO;
 
@@ -44,7 +45,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public long insert(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> insert : " + team.getCode());
+		LOG.info("JDBCTeamDAO --> insert : code=" + team.getCode());
 		
 		long id = 0;
 
@@ -67,6 +68,8 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				team.setId(id);
+			} else {
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
 			doCatch(e, LOG, "JDBCTeamDAO --> insert failed", "Team not inserted");
@@ -79,7 +82,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public void update(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> update : " + team.getCode());
+		LOG.info("JDBCTeamDAO --> update : code=" + team.getCode());
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -106,7 +109,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public void delete(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> delete : " + team.getCode());
+		LOG.info("JDBCTeamDAO --> delete : code=" + team.getCode());
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -133,7 +136,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public Team select(long id) throws DAOException {
-		LOG.info("JDBCTeamDAO --> select : " + id);
+		LOG.info("JDBCTeamDAO --> select : id=" + id);
 		
 		Team team = null;
 
@@ -166,7 +169,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	}
 
 	public List<Team> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCTeamDAO --> select");
+		LOG.info("JDBCTeamDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
 		
 		List<Team> list = new ArrayList<>();
 

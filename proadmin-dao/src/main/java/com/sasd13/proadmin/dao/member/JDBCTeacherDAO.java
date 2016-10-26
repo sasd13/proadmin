@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.JDBCEntityDAO;
 
@@ -50,7 +51,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public long insert(Teacher teacher) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> insert : " + teacher.getNumber());
+		LOG.info("JDBCTeacherDAO --> insert : number=" + teacher.getNumber());
 
 		long id = 0;
 
@@ -76,6 +77,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				teacher.setId(id);
+			} else {
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
 			doCatch(e, LOG, "JDBCTeacherDAO --> insert failed", "Teacher not inserted");
@@ -88,7 +91,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public void update(Teacher teacher) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> update : " + teacher.getNumber());
+		LOG.info("JDBCTeacherDAO --> update : number=" + teacher.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -118,7 +121,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public void delete(Teacher teacher) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> delete : " + teacher.getNumber());
+		LOG.info("JDBCTeacherDAO --> delete : number=" + teacher.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -145,7 +148,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public Teacher select(long id) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> select : " + id);
+		LOG.info("JDBCTeacherDAO --> select : id=" + id);
 
 		Teacher teacher = null;
 
@@ -178,7 +181,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 	}
 
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> select");
+		LOG.info("JDBCTeacherDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
 
 		List<Teacher> list = new ArrayList<>();
 

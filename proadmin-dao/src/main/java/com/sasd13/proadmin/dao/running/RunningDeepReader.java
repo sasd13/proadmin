@@ -11,22 +11,22 @@ import com.sasd13.proadmin.dao.project.IProjectDAO;
 
 public class RunningDeepReader extends DeepReader<Running> {
 
-	private ITeacherDAO iTeacherDAO;
-	private IProjectDAO iProjectDAO;
+	private ITeacherDAO teacherDAO;
+	private IProjectDAO projectDAO;
 
-	public RunningDeepReader(IEntityDAO<Running> entityDAO, ITeacherDAO iTeacherDAO, IProjectDAO iProjectDAO) {
+	public RunningDeepReader(IEntityDAO<Running> entityDAO, ITeacherDAO teacherDAO, IProjectDAO projectDAO) {
 		super(entityDAO);
 
-		this.iTeacherDAO = iTeacherDAO;
-		this.iProjectDAO = iProjectDAO;
+		this.teacherDAO = teacherDAO;
+		this.projectDAO = projectDAO;
 	}
 
 	@Override
 	protected void retrieveData(Running running) throws DAOException {
-		Teacher teacher = iTeacherDAO.select(running.getTeacher().getId());
+		Teacher teacher = teacherDAO.select(running.getTeacher().getId());
 		running.setTeacher(teacher);
 
-		Project project = iProjectDAO.select(running.getProject().getId());
+		Project project = projectDAO.select(running.getProject().getId());
 		running.setProject(project);
 	}
 }

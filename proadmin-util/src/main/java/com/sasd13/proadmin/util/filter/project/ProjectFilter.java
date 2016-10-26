@@ -19,11 +19,11 @@ public class ProjectFilter extends AndFilter<Project> {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(EnumAcademicLevel.find(value)));
+					multiAndCriteria.addCriteria(new ProjectAcademicLevelCriteria(EnumAcademicLevel.find(value)));
 				} else if (EnumParameter.CODE.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new CodeCriteria(value));
+					multiAndCriteria.addCriteria(new ProjectCodeCriteria(value));
 				} else if (EnumParameter.TITLE.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new TitleCriteria(value));
+					multiAndCriteria.addCriteria(new ProjectTitleCriteria(value));
 				}
 			}
 		}

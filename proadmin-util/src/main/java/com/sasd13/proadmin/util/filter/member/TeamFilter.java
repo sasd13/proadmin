@@ -18,7 +18,7 @@ public class TeamFilter extends AndFilter<Team> {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.CODE.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new CodeCriteria(value));
+					multiAndCriteria.addCriteria(new TeamCodeCriteria(value));
 				}
 			}
 		}

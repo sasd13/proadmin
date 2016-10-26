@@ -16,38 +16,39 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
-	private IRunningDAO iRunningDAO;
-	private ITeamDAO iTeamDAO;
-	private IReportDAO iReportDAO;
+	private IRunningDAO runningDAO;
+	private ITeamDAO teamDAO;
+	private IReportDAO reportDAO;
 
-	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, IRunningDAO iRunningDAO, ITeamDAO iTeamDAO, IReportDAO iReportDAO) {
+	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, IReportDAO reportDAO) {
 		super(entityDAO);
 
-		this.iRunningDAO = iRunningDAO;
-		this.iTeamDAO = iTeamDAO;
-		this.iReportDAO = iReportDAO;
+		this.runningDAO = runningDAO;
+		this.teamDAO = teamDAO;
+		this.reportDAO = reportDAO;
 	}
 
 	@Override
 	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
-		Running running = iRunningDAO.select(runningTeam.getRunning().getId());
+		Running running = runningDAO.select(runningTeam.getRunning().getId());
 		runningTeam.getRunning().setYear(running.getYear());
 		runningTeam.getRunning().setTeacher(running.getTeacher());
 		runningTeam.getRunning().setProject(running.getProject());
 
-		Team team = iTeamDAO.select(runningTeam.getTeam().getId());
+		Team team = teamDAO.select(runningTeam.getTeam().getId());
 		runningTeam.getTeam().setCode(team.getCode());
 
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[] { String.valueOf(runningTeam.getId()) });
 
-		List<Report> reports = iReportDAO.select(parameters);
+		List<Report> reports = reportDAO.select(parameters);
 		Report reportToAdd;
 		for (Report report : reports) {
 			reportToAdd = new Report(runningTeam);
 			reportToAdd.setId(report.getId());
+			reportToAdd.setNumber(report.getNumber());
 			reportToAdd.setMeetingDate(report.getMeetingDate());
-			reportToAdd.setSessionNumber(report.getSessionNumber());
+			reportToAdd.setSession(report.getSession());
 			reportToAdd.setComment(report.getComment());
 		}
 	}

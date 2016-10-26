@@ -6,11 +6,11 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 
-public class TeamCriteria implements Criteria<StudentTeam> {
+public class StudenTeamStudentIdCriteria implements Criteria<StudentTeam> {
 
 	private long id;
 
-	public TeamCriteria(long id) {
+	public StudenTeamStudentIdCriteria(long id) {
 		this.id = id;
 	}
 
@@ -19,7 +19,7 @@ public class TeamCriteria implements Criteria<StudentTeam> {
 		List<StudentTeam> results = new ArrayList<>();
 
 		for (StudentTeam studentTeam : list) {
-			if (id == studentTeam.getTeam().getId()) {
+			if (id == studentTeam.getStudent().getId()) {
 				results.add(studentTeam);
 			}
 		}

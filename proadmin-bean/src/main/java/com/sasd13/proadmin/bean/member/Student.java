@@ -24,7 +24,7 @@ public class Student extends Member {
 		builder.append(", firstName=" + getFirstName());
 		builder.append(", lastName=" + getLastName());
 		builder.append(", email=" + getEmail());
-		builder.append(", academicLevel=" + getAcademicLevel());
+		builder.append(", academicLevel=" + getAcademicLevel() != null ? getAcademicLevel().getCode() : null);
 		builder.append("]");
 
 		return builder.toString();

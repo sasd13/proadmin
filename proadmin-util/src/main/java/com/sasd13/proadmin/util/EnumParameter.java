@@ -13,7 +13,7 @@ public enum EnumParameter {
 	REPORT("report"), 
 	RUNNING("running"), 
 	RUNNINGTEAM("runningteam"), 
-	SESSIONNUMBER("sessionnumber"), 
+	SESSION("session"), 
 	STUDENT("student"), 
 	STUDENTTEAM("studentteam"), 
 	TEACHER("teacher"), 

@@ -10,40 +10,34 @@ import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
 
-	private ILeadEvaluationDAO iLeadEvaluationDAO;
-	private IIndividualEvaluationDAO iIndividualEvaluationDAO;
+	private ILeadEvaluationDAO leadEvaluationDAO;
+	private IIndividualEvaluationDAO individualEvaluationDAO;
 
-	public ReportDeepReader(IEntityDAO<Report> entityDAO, ILeadEvaluationDAO iLeadEvaluationDAO, IIndividualEvaluationDAO iIndividualEvaluationDAO) {
+	public ReportDeepReader(IEntityDAO<Report> entityDAO, ILeadEvaluationDAO leadEvaluationDAO, IIndividualEvaluationDAO individualEvaluationDAO) {
 		super(entityDAO);
 
-		this.iLeadEvaluationDAO = iLeadEvaluationDAO;
-		this.iIndividualEvaluationDAO = iIndividualEvaluationDAO;
+		this.leadEvaluationDAO = leadEvaluationDAO;
+		this.individualEvaluationDAO = individualEvaluationDAO;
 	}
 
 	@Override
 	protected void retrieveData(Report report) throws DAOException {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
+		parameters.put(EnumParameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
 
-		LeadEvaluation leadEvaluation = iLeadEvaluationDAO.select(parameters).get(0);
-		report.getLeadEvaluation().setId(leadEvaluation.getId());
-		report.getLeadEvaluation().setPlanningMark(leadEvaluation.getPlanningMark());
-		report.getLeadEvaluation().setPlanningComment(leadEvaluation.getPlanningComment());
-		report.getLeadEvaluation().setCommunicationMark(leadEvaluation.getCommunicationMark());
-		report.getLeadEvaluation().setCommunicationComment(leadEvaluation.getCommunicationComment());
-		report.getLeadEvaluation().setStudent(leadEvaluation.getStudent());
+		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
+		Binder.bind(report.getLeadEvaluation(), leadEvaluation);
 
-		List<IndividualEvaluation> individualEvaluations = iIndividualEvaluationDAO.select(parameters);
+		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		IndividualEvaluation individualEvaluationToAdd;
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
 			individualEvaluationToAdd = new IndividualEvaluation(report);
-			individualEvaluationToAdd.setId(individualEvaluation.getId());
-			individualEvaluationToAdd.setMark(individualEvaluation.getMark());
-			individualEvaluationToAdd.setStudent(individualEvaluation.getStudent());
+			Binder.bind(individualEvaluationToAdd, individualEvaluation);
 		}
 	}
 }

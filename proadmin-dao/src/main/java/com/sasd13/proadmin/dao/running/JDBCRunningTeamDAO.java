@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
@@ -24,6 +28,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IRunningTeamDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCRunningTeamDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
@@ -46,7 +52,9 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	}
 
 	@Override
-	public long insert(RunningTeam runningTeam) {
+	public long insert(RunningTeam runningTeam) throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> insert : teamCode=" + runningTeam.getTeam().getCode());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -69,29 +77,27 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				runningTeam.setId(id);
+			} else {
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> insert failed", "RunningTeam not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
 	}
 
 	@Override
-	public void update(RunningTeam runningTeam) {
-		// Do nothing
+	public void update(RunningTeam runningTeam) throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> update unavailable");
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) {
+	public void delete(RunningTeam runningTeam) throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> delete : teamCode=" + runningTeam.getTeam().getCode());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELTE FROM ");
 		builder.append(TABLE);
@@ -107,20 +113,16 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> delete failed", "RunningTeam not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public RunningTeam select(long id) {
+	public RunningTeam select(long id) throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> select : id=" + id);
+
 		RunningTeam runningTeam = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -140,21 +142,17 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeam = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeam not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return runningTeam;
 	}
 
-	public List<RunningTeam> select(Map<String, String[]> parameters) {
+	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+
 		List<RunningTeam> runningTeams = new ArrayList<>();
 
 		Statement statement = null;
@@ -173,22 +171,18 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeams not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return runningTeams;
 	}
 
 	@Override
-	public List<RunningTeam> selectAll() {
+	public List<RunningTeam> selectAll() throws DAOException {
+		LOG.info("JDBCRunningTeamDAO --> selectAll");
+
 		List<RunningTeam> runningTeams = new ArrayList<RunningTeam>();
 
 		StringBuilder builder = new StringBuilder();
@@ -205,15 +199,9 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> selectAll failed", "RunningTeams not inserted");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return runningTeams;

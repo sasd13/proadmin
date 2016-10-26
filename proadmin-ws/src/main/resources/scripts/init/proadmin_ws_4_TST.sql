@@ -16,7 +16,7 @@ INSERT INTO teams (code) VALUES ('L1A1');
 INSERT INTO studentteams (student_id, team_id) VALUES (1, 1);
 INSERT INTO runnings (year, teacher_id, project_id) VALUES (2016, 1, 1);
 INSERT INTO runningteams (running_id, team_id) VALUES (1, 1);
-INSERT INTO reports (meetingdate, sessionnumber, comment, runningteam_id) VALUES ('2016-01-01 00:00:00', 1, '', 1);
+INSERT INTO reports (number, meetingdate, session, comment, runningteam_id) VALUES ('201601-0001', '2016-01-01 00:00:00', 1, '', 1);
 INSERT INTO leadevaluations (planningmark, planningcomment, communicationmark, communicationcomment, student_id, report_id) VALUES (0, '', 0, '', 1, 1);
 INSERT INTO individualevaluations (mark, student_id, report_id) VALUES (0, 1, 1);
 

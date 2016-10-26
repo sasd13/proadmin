@@ -6,11 +6,11 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.running.Running;
 
-public class TeacherCriteria implements Criteria<Running> {
+public class RunningProjectIdCriteria implements Criteria<Running> {
 
 	private long id;
 
-	public TeacherCriteria(long id) {
+	public RunningProjectIdCriteria(long id) {
 		this.id = id;
 	}
 
@@ -19,7 +19,7 @@ public class TeacherCriteria implements Criteria<Running> {
 		List<Running> results = new ArrayList<Running>();
 
 		for (Running running : list) {
-			if (id == running.getTeacher().getId()) {
+			if (id == running.getProject().getId()) {
 				results.add(running);
 			}
 		}

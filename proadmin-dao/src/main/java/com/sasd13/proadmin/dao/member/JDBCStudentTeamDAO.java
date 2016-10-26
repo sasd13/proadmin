@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
@@ -52,7 +53,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 	@Override
 	public long insert(StudentTeam studentTeam) throws DAOException {
-		LOG.info("JDBCStudentTeamDAO --> insert");
+		LOG.info("JDBCStudentTeamDAO --> insert : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getCode());
 
 		long id = 0;
 
@@ -76,6 +77,8 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				studentTeam.setId(id);
+			} else {
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
 			doCatch(e, LOG, "JDBCStudentTeamDAO --> insert failed", "StudentTeam not inserted");
@@ -93,7 +96,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 	@Override
 	public void delete(StudentTeam studentTeam) throws DAOException {
-		LOG.info("JDBCStudentTeamDAO --> delete");
+		LOG.info("JDBCStudentTeamDAO --> delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getCode());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELTE FROM ");
@@ -118,7 +121,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 	@Override
 	public StudentTeam select(long id) throws DAOException {
-		LOG.info("JDBCStudentTeamDAO --> select : " + id);
+		LOG.info("JDBCStudentTeamDAO --> select : id=" + id);
 
 		StudentTeam studentTeam = null;
 
@@ -148,7 +151,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	}
 
 	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCStudentTeamDAO --> select");
+		LOG.info("JDBCStudentTeamDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 

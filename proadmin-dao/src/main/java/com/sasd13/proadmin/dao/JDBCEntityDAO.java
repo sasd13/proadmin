@@ -32,9 +32,21 @@ public abstract class JDBCEntityDAO<T> implements IEntityDAO<T> {
 
 	protected abstract T getResultSetValues(ResultSet resultSet) throws SQLException;
 
-	protected void doCatch(SQLException e, Logger log, String logMessage, String errorMessage) throws DAOException {
-		log.error(logMessage, e);
-		throw new DAOException(errorMessage);
+	protected void doCatch(Exception e, Logger log, String logErrorMessage, String exceptionErrorMessage) throws DAOException {
+		log.error(logErrorMessage, e);
+		throw new DAOException(exceptionErrorMessage);
+	}
+
+	protected void doCatchWithRollback(Exception e, Logger log, String logErrorMessage, String exceptionErrorMessage, String rollbackLogErrorMessage) throws DAOException {
+		log.error(logErrorMessage);
+
+		try {
+			connection.rollback();
+		} catch (SQLException e2) {
+			log.error(rollbackLogErrorMessage, e2);
+		}
+
+		throw new DAOException(exceptionErrorMessage);
 	}
 
 	protected void doFinally(Statement statement, Logger log) {

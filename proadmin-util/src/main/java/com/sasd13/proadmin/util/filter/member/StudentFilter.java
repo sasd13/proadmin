@@ -19,15 +19,15 @@ public class StudentFilter extends AndFilter<Student> {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.NUMBER.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new NumberCriteria<Student>(value));
+					multiAndCriteria.addCriteria(new MemberNumberCriteria<Student>(value));
 				} else if (EnumParameter.FIRSTNAME.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new FirstNameCriteria<Student>(value));
+					multiAndCriteria.addCriteria(new MemberFirstNameCriteria<Student>(value));
 				} else if (EnumParameter.LASTNAME.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new LastNameCriteria<Student>(value));
+					multiAndCriteria.addCriteria(new MemberLastNameCriteria<Student>(value));
 				} else if (EnumParameter.EMAIL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new EmailCriteria<Student>(value));
+					multiAndCriteria.addCriteria(new MemberEmailCriteria<Student>(value));
 				} else if (EnumParameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new AcademicLevelCriteria(EnumAcademicLevel.find(entry.getKey())));
+					multiAndCriteria.addCriteria(new StudentAcademicLevelCriteria(EnumAcademicLevel.find(entry.getKey())));
 				}
 			}
 		}

@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -25,6 +28,8 @@ import com.sasd13.proadmin.dao.JDBCEntityDAO;
  * @author Samir
  */
 public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluation> implements IIndividualEvaluationDAO {
+
+	private static final Logger LOG = Logger.getLogger(JDBCIndividualEvaluationDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
@@ -51,6 +56,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	@Override
 	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> insert : studentNumber=" + individualEvaluation.getStudent().getNumber());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -69,26 +76,18 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			editPreparedStatement(preparedStatement, individualEvaluation);
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
 				individualEvaluation.setId(id);
 			} else {
-				throw new SQLException("IndividualEvaluation not inserted: " + individualEvaluation);
+				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("IndividualEvaluation not inserted: " + individualEvaluation);
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> insert failed", "IndividualEvaluation not inserted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return id;
@@ -96,6 +95,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	@Override
 	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> update : studentNumber=" + individualEvaluation.getStudent().getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -114,25 +115,17 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			preparedStatement.setLong(4, individualEvaluation.getId());
 
 			preparedStatement.executeUpdate();
-			if (!connection.getAutoCommit()) {
-				connection.commit();
-			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("IndividualEvaluation not updated: id=" + individualEvaluation.getId());
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> update failed", "IndividualEvaluation not updated");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> delete : studentNumber=" + individualEvaluation.getStudent().getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -149,23 +142,17 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			preparedStatement.setLong(2, individualEvaluation.getId());
 
 			preparedStatement.executeUpdate();
-			connection.commit();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException("IndividualEvaluation not deleted: id=" + individualEvaluation.getId());
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> delete failed", "IndividualEvaluation not deleted");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 	}
 
 	@Override
-	public IndividualEvaluation select(long id) {
+	public IndividualEvaluation select(long id) throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> select : id=" + id);
+
 		IndividualEvaluation individualEvaluation = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -188,21 +175,17 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluation not selected");
 		} finally {
-			if (preparedStatement != null) {
-				try {
-					preparedStatement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(preparedStatement, LOG);
 		}
 
 		return individualEvaluation;
 	}
 
-	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
+	public List<IndividualEvaluation> select(Map<String, String[]> parameters) throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		Statement statement = null;
@@ -223,22 +206,18 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluations not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return individualEvaluations;
 	}
 
 	@Override
-	public List<IndividualEvaluation> selectAll() {
+	public List<IndividualEvaluation> selectAll() throws DAOException {
+		LOG.info("JDBCIndividualEvaluationDAO --> selectAll");
+
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -257,15 +236,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> selectAll failed", "IndividualEvaluations not selected");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			doFinally(statement, LOG);
 		}
 
 		return individualEvaluations;

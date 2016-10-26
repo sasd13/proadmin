@@ -19,19 +19,19 @@ public class RunningFilter extends AndFilter<Running> {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.YEAR.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new YearCriteria(Integer.parseInt(value)));
+						multiAndCriteria.addCriteria(new RunningYearCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
 				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new TeacherCriteria(Long.parseLong(value)));
+						multiAndCriteria.addCriteria(new RunningTeacherIdCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
 				} else if (EnumParameter.PROJECT.getName().equals(entry.getKey())) {
 					try {
-						multiAndCriteria.addCriteria(new ProjectCriteria(Long.parseLong(value)));
+						multiAndCriteria.addCriteria(new RunningProjectIdCriteria(Long.parseLong(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}

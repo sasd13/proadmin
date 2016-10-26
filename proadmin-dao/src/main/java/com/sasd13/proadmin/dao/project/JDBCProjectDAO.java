@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.net.http.URLQueryEncoder;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.JDBCEntityDAO;
@@ -51,7 +52,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public long insert(Project project) throws DAOException {
-		LOG.info("JDBCProjectDAO --> insert : " + project.getCode());
+		LOG.info("JDBCProjectDAO --> insert : code=" + project.getCode());
 		
 		long id = 0;
 
@@ -89,7 +90,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public void update(Project project) throws DAOException {
-		LOG.info("JDBCProjectDAO --> update : " + project.getCode());
+		LOG.info("JDBCProjectDAO --> update : code=" + project.getCode());
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -119,7 +120,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public void delete(Project project) throws DAOException {
-		LOG.info("JDBCProjectDAO --> delete : " + project.getCode());
+		LOG.info("JDBCProjectDAO --> delete : code=" + project.getCode());
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -146,7 +147,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public Project select(long id) throws DAOException {
-		LOG.info("JDBCProjectDAO --> select : " + id);
+		LOG.info("JDBCProjectDAO --> select : id=" + id);
 		
 		Project project = null;
 
@@ -179,7 +180,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	}
 
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCProjectDAO --> select");
+		LOG.info("JDBCProjectDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
 		
 		List<Project> projects = new ArrayList<>();
 
