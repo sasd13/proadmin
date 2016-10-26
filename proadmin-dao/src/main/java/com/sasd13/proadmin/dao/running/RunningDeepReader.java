@@ -8,6 +8,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.member.ITeacherDAO;
 import com.sasd13.proadmin.dao.project.IProjectDAO;
+import com.sasd13.proadmin.util.Binder;
 
 public class RunningDeepReader extends DeepReader<Running> {
 
@@ -24,9 +25,9 @@ public class RunningDeepReader extends DeepReader<Running> {
 	@Override
 	protected void retrieveData(Running running) throws DAOException {
 		Teacher teacher = teacherDAO.select(running.getTeacher().getId());
-		running.setTeacher(teacher);
+		Binder.bind(running.getTeacher(), teacher);
 
 		Project project = projectDAO.select(running.getProject().getId());
-		running.setProject(project);
+		Binder.bind(running.getProject(), project);
 	}
 }

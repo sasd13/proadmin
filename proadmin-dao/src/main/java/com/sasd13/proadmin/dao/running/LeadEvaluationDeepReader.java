@@ -6,6 +6,7 @@ import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.member.IStudentDAO;
+import com.sasd13.proadmin.util.Binder;
 
 public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 
@@ -20,6 +21,6 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 	@Override
 	protected void retrieveData(LeadEvaluation leadEvaluation) throws DAOException {
 		Student student = studentDAO.select(leadEvaluation.getStudent().getId());
-		leadEvaluation.setStudent(student);
+		Binder.bind(leadEvaluation.getStudent(), student);
 	}
 }

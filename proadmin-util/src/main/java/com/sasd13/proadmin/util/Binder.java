@@ -1,5 +1,7 @@
 package com.sasd13.proadmin.util;
 
+import java.util.List;
+
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -64,6 +66,17 @@ public class Binder {
 		target.setMeetingDate(source.getMeetingDate());
 		target.setSession(source.getSession());
 		target.setComment(source.getComment());
+
+		bind(target.getLeadEvaluation(), source.getLeadEvaluation());
+
+		target.getIndividualEvaluations().clear();
+
+		List<IndividualEvaluation> individualEvaluations = source.getIndividualEvaluations();
+		IndividualEvaluation individualEvaluationToAdd;
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			individualEvaluationToAdd = new IndividualEvaluation(target);
+			bind(individualEvaluationToAdd, individualEvaluation);
+		}
 	}
 
 	public static void bind(LeadEvaluation target, LeadEvaluation source) {

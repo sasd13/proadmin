@@ -6,6 +6,7 @@ import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.util.Binder;
 
 public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
@@ -22,13 +23,9 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	@Override
 	protected void retrieveData(StudentTeam studentTeam) throws DAOException {
 		Student student = studentDAO.select(studentTeam.getStudent().getId());
-		studentTeam.getStudent().setAcademicLevel(student.getAcademicLevel());
-		studentTeam.getStudent().setNumber(student.getNumber());
-		studentTeam.getStudent().setFirstName(student.getFirstName());
-		studentTeam.getStudent().setLastName(student.getLastName());
-		studentTeam.getStudent().setEmail(student.getEmail());
+		Binder.bind(studentTeam.getStudent(), student);
 
 		Team team = teamDAO.select(studentTeam.getTeam().getId());
-		studentTeam.getTeam().setCode(team.getCode());
+		Binder.bind(studentTeam.getTeam(), team);
 	}
 }

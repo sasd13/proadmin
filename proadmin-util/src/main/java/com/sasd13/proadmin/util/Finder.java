@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.finder;
+package com.sasd13.proadmin.util;
 
 import java.util.List;
 

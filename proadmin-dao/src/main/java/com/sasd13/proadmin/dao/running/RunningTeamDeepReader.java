@@ -12,44 +12,39 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.member.ITeamDAO;
+import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
 	private IRunningDAO runningDAO;
 	private ITeamDAO teamDAO;
-	private IReportDAO reportDAO;
+	private ReportDeepReader reportDeepReader;
 
-	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, IReportDAO reportDAO) {
+	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, ReportDeepReader reportDeepReader) {
 		super(entityDAO);
 
 		this.runningDAO = runningDAO;
 		this.teamDAO = teamDAO;
-		this.reportDAO = reportDAO;
+		this.reportDeepReader = reportDeepReader;
 	}
 
 	@Override
 	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
 		Running running = runningDAO.select(runningTeam.getRunning().getId());
-		runningTeam.getRunning().setYear(running.getYear());
-		runningTeam.getRunning().setTeacher(running.getTeacher());
-		runningTeam.getRunning().setProject(running.getProject());
+		Binder.bind(runningTeam.getRunning(), running);
 
 		Team team = teamDAO.select(runningTeam.getTeam().getId());
-		runningTeam.getTeam().setCode(team.getCode());
+		Binder.bind(runningTeam.getTeam(), team);
 
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[] { String.valueOf(runningTeam.getId()) });
 
-		List<Report> reports = reportDAO.select(parameters);
+		List<Report> reports = reportDeepReader.select(parameters);
 		Report reportToAdd;
 		for (Report report : reports) {
 			reportToAdd = new Report(runningTeam);
-			reportToAdd.setId(report.getId());
-			reportToAdd.setNumber(report.getNumber());
-			reportToAdd.setMeetingDate(report.getMeetingDate());
-			reportToAdd.setSession(report.getSession());
-			reportToAdd.setComment(report.getComment());
+			Binder.bind(reportToAdd, report);
 		}
 	}
 }

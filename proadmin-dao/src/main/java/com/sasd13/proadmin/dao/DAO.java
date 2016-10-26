@@ -52,13 +52,14 @@ public abstract class DAO implements ILayeredDAO {
 	private LeadEvaluationDeepReader leadEvaluationDeepReader;
 	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
 
-	protected DAO(ITeacherDAO teacherDAO, 
+	protected DAO(
+			ITeacherDAO teacherDAO, 
 			IProjectDAO projectDAO, 
 			IStudentDAO studentDAO, 
 			ITeamDAO teamDAO, 
 			IStudentTeamDAO studentTeamDAO, 
 			IRunningDAO runningDAO, 
-			IRunningTeamDAO runningTeamDAO,
+			IRunningTeamDAO runningTeamDAO, 
 			IReportDAO reportDAO) {
 
 		this.teacherDAO = teacherDAO;
@@ -74,8 +75,8 @@ public abstract class DAO implements ILayeredDAO {
 
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
-		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDAO, individualEvaluationDAO);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDeepReader);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
