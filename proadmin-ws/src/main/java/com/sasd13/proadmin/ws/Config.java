@@ -9,38 +9,75 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import com.sasd13.proadmin.util.Names;
+
 /**
  *
  * @author Samir
  */
 public class Config {
 
-	private static final String FILE = "config.properties";
-	
-	private static Properties properties;
+	private static class ConfigHolder {
+		private static final Config INSTANCE = new Config();
+	}
 
-	static {
-		properties = new Properties();
+	private static final Logger LOG = Logger.getLogger(Config.class);
+	private static final String FILE_PROPERTIES_LOG4J = "log4j.properties";
+
+	private Config() {
+	}
+
+	public static Config getInstance() {
+		return ConfigHolder.INSTANCE;
+	}
+
+	public void init() {
+		initLogger();
+		AppProperties.init();
+		initDBDriver();
+	}
+
+	private void initLogger() {
+		Properties properties = new Properties();
 		InputStream in = null;
 
 		try {
-			in = Config.class.getClassLoader().getResourceAsStream(FILE);
+			in = Config.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES_LOG4J);
 
-			properties.load(in);
+			if (in != null) {
+				properties.load(in);
+				PropertyConfigurator.configure(properties);
+			} else {
+				BasicConfigurator.configure();
+				Logger.getLogger(Config.class).error("LOG4J configuration file not found: " + System.getProperty(FILE_PROPERTIES_LOG4J));
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			if (LOG != null) {
+				LOG.fatal(e);
+			} else {
+				BasicConfigurator.configure();
+				Logger.getLogger(Config.class).fatal(e);
+			}
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOG.warn(e);
 				}
 			}
 		}
 	}
 
-	public static String getInfo(String key) {
-		return properties.getProperty(key);
+	private void initDBDriver() {
+		try {
+			Class.forName(AppProperties.getProperty(Names.WS_DB_DRIVER));
+		} catch (ClassNotFoundException e) {
+			LOG.fatal(e);
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.rest.beans;
+package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -16,11 +16,11 @@ import com.sasd13.proadmin.bean.member.Team;
  * @author Samir
  */
 @WebServlet("/teams")
-public class TeamsWebService extends BeansWebService<Team> {
+public class TeamsServlet extends BeansServlet<Team> {
 
 	private static final long serialVersionUID = -416118742023104197L;
 
-	private static final Logger LOG = Logger.getLogger(TeamsWebService.class);
+	private static final Logger LOG = Logger.getLogger(TeamsServlet.class);
 
 	@Override
 	protected Class<Team> getBeanClass() {

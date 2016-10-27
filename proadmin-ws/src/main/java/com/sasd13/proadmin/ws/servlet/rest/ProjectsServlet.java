@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.rest.beans;
+package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -16,11 +16,11 @@ import com.sasd13.proadmin.bean.project.Project;
  * @author Samir
  */
 @WebServlet("/projects")
-public class ProjectsWebService extends BeansWebService<Project> {
+public class ProjectsServlet extends BeansServlet<Project> {
 
 	private static final long serialVersionUID = 1622591818424740680L;
 
-	private static final Logger LOG = Logger.getLogger(ProjectsWebService.class);
+	private static final Logger LOG = Logger.getLogger(ProjectsServlet.class);
 
 	@Override
 	protected Class<Project> getBeanClass() {

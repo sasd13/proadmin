@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa.ws.rest;
+package com.sasd13.proadmin.aaa.util;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

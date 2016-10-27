@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.rest.beans;
+package com.sasd13.proadmin.ws.servlet.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.net.EnumAAAError;
-import com.sasd13.proadmin.ws.Config;
+import com.sasd13.proadmin.ws.AppProperties;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
 import com.sasd13.proadmin.ws.service.WSException;
@@ -36,11 +36,11 @@ import com.sasd13.proadmin.ws.service.WSException;
  *
  * @author Samir
  */
-public abstract class BeansWebService<T> extends HttpServlet {
+public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	private static final String RESPONSE_CONTENT_TYPE = Config.getInfo(Names.WS_RESPONSE_CONTENT_TYPE);
+	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
 
 	IReadService<T> readService;
 	IManageService<T> manageService;
@@ -80,9 +80,13 @@ public abstract class BeansWebService<T> extends HttpServlet {
 			} else {
 				tsToResponse.addAll(readService.readAll());
 			}
+			
+			String results = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(tsToResponse);
 
 			resp.setContentType(RESPONSE_CONTENT_TYPE);
-			Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(tsToResponse));
+			Stream.writeAndClose(resp.getWriter(), results);
+			
+			Logger.getLogger(getBeanClass()).debug("Message send from WS:" + results);
 		} catch (ParserException e) {
 			doCatch(e, getWebServiceName() + " --> doGet failed", EnumAAAError.ERROR_PARSING_DATA, resp);
 		} catch (ServiceException e) {

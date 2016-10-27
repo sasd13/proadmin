@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sasd13.proadmin.ws.rest.beans;
+package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -16,11 +16,11 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
  * @author Samir
  */
 @WebServlet("/leadevaluations")
-public class LeadEvaluationsWebService extends BeansWebService<LeadEvaluation> {
+public class LeadEvaluationsServlet extends BeansServlet<LeadEvaluation> {
 
 	private static final long serialVersionUID = 9187941265220564458L;
 
-	private static final Logger LOG = Logger.getLogger(LeadEvaluationsWebService.class);
+	private static final Logger LOG = Logger.getLogger(LeadEvaluationsServlet.class);
 
 	@Override
 	protected Class<LeadEvaluation> getBeanClass() {

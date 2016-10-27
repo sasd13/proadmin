@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa;
+package com.sasd13.proadmin.ws;
 
 import java.io.IOException;
 import java.io.InputStream;

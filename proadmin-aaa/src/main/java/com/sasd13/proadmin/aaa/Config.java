@@ -21,16 +21,27 @@ import com.sasd13.proadmin.aaa.util.Names;
  */
 public class Config {
 
+	private static class ConfigHolder {
+		private static final Config INSTANCE = new Config();
+	}
+
 	private static final Logger LOG = Logger.getLogger(Config.class);
 	private static final String FILE_PROPERTIES_LOG4J = "log4j.properties";
 
-	static {
+	private Config() {
+	}
+
+	public static Config getInstance() {
+		return ConfigHolder.INSTANCE;
+	}
+
+	public void init() {
 		initLogger();
 		AppProperties.init();
 		initDBDriver();
 	}
 
-	public static void initLogger() {
+	private void initLogger() {
 		Properties properties = new Properties();
 		InputStream in = null;
 
@@ -42,7 +53,7 @@ public class Config {
 				PropertyConfigurator.configure(properties);
 			} else {
 				BasicConfigurator.configure();
-				Logger.getLogger(Config.class).error("LOG4J confiduration file not found: " + System.getProperty(FILE_PROPERTIES_LOG4J));
+				Logger.getLogger(Config.class).error("LOG4J configuration file not found: " + System.getProperty(FILE_PROPERTIES_LOG4J));
 			}
 		} catch (IOException e) {
 			if (LOG != null) {
@@ -62,7 +73,7 @@ public class Config {
 		}
 	}
 
-	public static void initDBDriver() {
+	private void initDBDriver() {
 		try {
 			Class.forName(AppProperties.getProperty(Names.AAA_DB_DRIVER));
 		} catch (ClassNotFoundException e) {
