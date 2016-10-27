@@ -21,10 +21,10 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.aaa.AAAException;
+import com.sasd13.proadmin.aaa.AppProperties;
 import com.sasd13.proadmin.aaa.bean.Credential;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.service.ICredentialReadService;
-import com.sasd13.proadmin.aaa.util.Config;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.util.net.EnumAAAError;
 
@@ -40,7 +40,7 @@ public class LogInWebService extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(LogInWebService.class);
 	private static final String PARAMETER_USERNAME = "username";
 	private static final String PARAMETER_PASSWORD = "password";
-	private static final String RESPONSE_CONTENT_TYPE = Config.getInfo(Names.AAA_RESPONSE_CONTENT_TYPE);
+	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_CONTENT_TYPE);
 
 	private ICredentialReadService credentialReadService;
 
