@@ -5,11 +5,11 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.service.IManageService;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.ws.WSException;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.IManageService;
+import com.sasd13.proadmin.ws.service.WSException;
 
 public class TeacherManageService implements IManageService<Teacher> {
 
@@ -22,14 +22,11 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public long create(Teacher teacher) throws WSException {
-		long id = 0;
-
+	public void create(Teacher teacher) throws WSException {
 		try {
 			LOG.error("TeacherManageService --> create : " + teacher.getNumber());
 			dao.open();
-
-			id = dao.getEntityDAO(Teacher.class).insert(teacher);
+			dao.getEntityDAO(Teacher.class).insert(teacher);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new WSException("TeacherManageService --> create failed");
@@ -40,8 +37,6 @@ public class TeacherManageService implements IManageService<Teacher> {
 				LOG.warn(e);
 			}
 		}
-
-		return id;
 	}
 
 	@Override

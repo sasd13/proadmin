@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.util.net;
 
 public enum EnumAAAError {
-	UNKNOWN(0, "Unknown"), 
-	ERROR_SERVICE(-1, "Service error"), 
-	ERROR_LOGIN(-100, "Login error : matching username/password"), 
-	ERROR_PARSING_CREDENTIAL(-101, "Parsing error : credential"),
+	ERROR_UNKNOWN(0, "Error unknown"), 
+	ERROR_PARSING_DATA(-1, "Error parsing data"), 
+	ERROR_SERVICE(-100, "Error service"),
 	;
 
 	private int code;
@@ -30,6 +29,6 @@ public enum EnumAAAError {
 			}
 		}
 
-		return UNKNOWN;
+		return ERROR_UNKNOWN;
 	}
 }

@@ -18,12 +18,12 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.SettingsForm;
-import com.sasd13.proadmin.handler.SettingsHandler;
+import com.sasd13.proadmin.service.SettingsService;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SettingsActivity extends MotherActivity {
 
-    private SettingsHandler settingsHandler;
+    private SettingsService settingsService;
     private SettingsForm settingsForm;
     private Teacher teacher;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -35,7 +35,7 @@ public class SettingsActivity extends MotherActivity {
 
         setContentView(R.layout.activity_settings);
 
-        settingsHandler = new SettingsHandler(this);
+        settingsService = new SettingsService(this);
         settingsForm = new SettingsForm(this);
         contentView = findViewById(android.R.id.content);
 
@@ -60,7 +60,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsHandler.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_ID));
+        settingsService.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_ID));
     }
 
     private void buildFormSettings() {
@@ -71,7 +71,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromCache() {
-        teacher = settingsHandler.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+        teacher = settingsService.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
     }
 
     private void refreshView() {
@@ -100,7 +100,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void updateTeacher() {
-        settingsHandler.updateTeacher(teacher, settingsForm);
+        settingsService.updateTeacher(teacher, settingsForm);
     }
 
     public void onLoad() {

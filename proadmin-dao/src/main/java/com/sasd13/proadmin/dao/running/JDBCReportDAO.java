@@ -257,7 +257,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new ReportConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new ReportExpressionBuilder()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

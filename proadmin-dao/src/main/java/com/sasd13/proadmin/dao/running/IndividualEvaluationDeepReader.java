@@ -2,7 +2,6 @@ package com.sasd13.proadmin.dao.running;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.member.IStudentDAO;
@@ -12,8 +11,8 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 
 	private IStudentDAO studentDAO;
 
-	public IndividualEvaluationDeepReader(IEntityDAO<IndividualEvaluation> entityDAO, IStudentDAO studentDAO) {
-		super(entityDAO);
+	public IndividualEvaluationDeepReader(IIndividualEvaluationDAO individualEvaluationDAO, IStudentDAO studentDAO) {
+		super(individualEvaluationDAO);
 
 		this.studentDAO = studentDAO;
 	}

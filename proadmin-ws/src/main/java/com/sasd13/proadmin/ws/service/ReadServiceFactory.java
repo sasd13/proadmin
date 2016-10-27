@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.ws.service;
 
+import com.sasd13.javaex.service.IReadService;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.ws.WSException;
 import com.sasd13.proadmin.ws.service.member.TeacherReadService;
 
 public class ReadServiceFactory {

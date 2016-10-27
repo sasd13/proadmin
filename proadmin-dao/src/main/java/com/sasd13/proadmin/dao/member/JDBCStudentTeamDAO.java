@@ -162,7 +162,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new StudentTeamConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new StudentTeamExpressionBuilder()));
 
 			statement = connection.createStatement();
 

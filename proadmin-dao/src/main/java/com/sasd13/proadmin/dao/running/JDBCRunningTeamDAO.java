@@ -162,7 +162,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new RunningTeamConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new RunningTeamExpressionBuilder()));
 
 			statement = connection.createStatement();
 

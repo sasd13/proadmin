@@ -2,7 +2,6 @@ package com.sasd13.proadmin.dao.member;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
@@ -13,8 +12,8 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	private IStudentDAO studentDAO;
 	private ITeamDAO teamDAO;
 
-	public StudentTeamDeepReader(IEntityDAO<StudentTeam> entityDAO, IStudentDAO studentDAO, ITeamDAO teamDAO) {
-		super(entityDAO);
+	public StudentTeamDeepReader(IStudentTeamDAO studentTeamDAO, IStudentDAO studentDAO, ITeamDAO teamDAO) {
+		super(studentTeamDAO);
 
 		this.studentDAO = studentDAO;
 		this.teamDAO = teamDAO;

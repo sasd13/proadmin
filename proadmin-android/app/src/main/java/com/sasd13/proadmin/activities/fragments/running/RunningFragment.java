@@ -26,7 +26,7 @@ import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
-import com.sasd13.proadmin.handler.RunningHandler;
+import com.sasd13.proadmin.service.RunningService;
 import com.sasd13.proadmin.util.sorter.ProjectSorter;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class RunningFragment extends Fragment {
     private Project project;
     private Running running;
     private RunningsActivity parentActivity;
-    private RunningHandler runningHandler;
+    private RunningService runningService;
     private RunningForm runningForm;
     private boolean inModeEdit;
     private WaitDialog waitDialog;
@@ -61,13 +61,13 @@ public class RunningFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
-        runningHandler = new RunningHandler(this);
+        runningService = new RunningService(this);
 
         createFormRunning();
     }
 
     private void createFormRunning() {
-        List<Project> projects = runningHandler.readProjectsFromCache();
+        List<Project> projects = runningService.readProjectsFromCache();
 
         ProjectSorter.byCode(projects);
 
@@ -108,7 +108,7 @@ public class RunningFragment extends Fragment {
     }
 
     private void setDefaultRunning() {
-        running = runningHandler.getDefaultValueOfRunning();
+        running = runningService.getDefaultValueOfRunning();
         running.setProject(project);
     }
 
@@ -154,9 +154,9 @@ public class RunningFragment extends Fragment {
 
     public void saveOperation() {
         if (inModeEdit) {
-            runningHandler.updateRunning(running, runningForm);
+            runningService.updateRunning(running, runningForm);
         } else {
-            runningHandler.createRunning(runningForm);
+            runningService.createRunning(runningForm);
         }
     }
 
@@ -168,7 +168,7 @@ public class RunningFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        runningHandler.deleteRunning(running);
+                        runningService.deleteRunning(running);
                     }
                 }
         );

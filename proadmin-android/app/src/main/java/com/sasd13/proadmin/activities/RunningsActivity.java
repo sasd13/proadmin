@@ -5,13 +5,10 @@ import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.cache.Cache;
-import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
-import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 
 public class RunningsActivity extends MotherActivity {
 
@@ -23,10 +20,8 @@ public class RunningsActivity extends MotherActivity {
 
         setContentView(R.layout.activity_runnings);
 
-        project = Cache.load(
-                this,
-                SessionHelper.getIntentExtraId(this, Extra.PROJECT_ID),
-                Project.class);
+        //TODO : load from savedInstanceState or parcel
+        //project = Cache.load();
 
         buildView();
     }

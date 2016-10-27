@@ -27,13 +27,13 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
-import com.sasd13.proadmin.handler.ProjectsHandler;
-import com.sasd13.proadmin.util.filter.project.AcademicLevelCriteria;
+import com.sasd13.proadmin.service.ProjectsService;
+import com.sasd13.proadmin.util.filter.project.ProjectAcademicLevelCriteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +42,7 @@ import java.util.List;
 public class ProjectsFragment extends Fragment {
 
     private ProjectsActivity parentActivity;
-    private ProjectsHandler projectsHandler;
+    private ProjectsService projectsService;
     private Recycler projectsTab;
     private List<Project> projects;
     private Spin spinAcademicLevels;
@@ -59,7 +59,7 @@ public class ProjectsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        projectsHandler = new ProjectsHandler(this);
+        projectsService = new ProjectsService(this);
         projects = new ArrayList<>();
     }
 
@@ -91,7 +91,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void readProjectsFromCache() {
-        projects.addAll(projectsHandler.readProjectsFromCache());
+        projects.addAll(projectsService.readProjectsFromCache());
     }
 
     private void refreshView() {
@@ -102,7 +102,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void readProjectsFromWS() {
-        projectsHandler.readProjects();
+        projectsService.readProjects();
     }
 
     private void buildSwipeRefreshLayout(View view) {
@@ -123,7 +123,7 @@ public class ProjectsFragment extends Fragment {
     private void fillTabProjectsByAcademicLevel(EnumAcademicLevel academicLevel) {
         projectsTab.clear();
 
-        addProjectsToTab(new AcademicLevelCriteria(academicLevel).meetCriteria(projects));
+        addProjectsToTab(new ProjectAcademicLevelCriteria(academicLevel).meetCriteria(projects));
     }
 
     private void addProjectsToTab(List<Project> projects) {

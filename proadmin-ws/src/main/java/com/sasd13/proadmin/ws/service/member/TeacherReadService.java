@@ -8,11 +8,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.service.IReadService;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.ws.WSException;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.IReadService;
+import com.sasd13.proadmin.ws.service.WSException;
 
 public class TeacherReadService implements IReadService<Teacher> {
 

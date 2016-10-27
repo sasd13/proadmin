@@ -2,7 +2,6 @@ package com.sasd13.proadmin.dao.running;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -15,8 +14,8 @@ public class RunningDeepReader extends DeepReader<Running> {
 	private ITeacherDAO teacherDAO;
 	private IProjectDAO projectDAO;
 
-	public RunningDeepReader(IEntityDAO<Running> entityDAO, ITeacherDAO teacherDAO, IProjectDAO projectDAO) {
-		super(entityDAO);
+	public RunningDeepReader(IRunningDAO runningDAO, ITeacherDAO teacherDAO, IProjectDAO projectDAO) {
+		super(runningDAO);
 
 		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;

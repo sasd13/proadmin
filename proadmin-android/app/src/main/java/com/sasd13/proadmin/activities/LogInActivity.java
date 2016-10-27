@@ -12,7 +12,7 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.handler.LogInHandler;
+import com.sasd13.proadmin.service.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class LogInActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class LogInActivity extends AppCompatActivity {
         public EditText editTextNumber, editTextPassword;
     }
 
-    private LogInHandler logInHandler;
+    private LogInService logInService;
     private WaitDialog waitDialog;
     private View contentView;
 
@@ -31,7 +31,7 @@ public class LogInActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        logInHandler = new LogInHandler(this);
+        logInService = new LogInService(this);
         contentView = findViewById(android.R.id.content);
 
         buildView();
@@ -64,7 +64,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void logIn(String number, String password) {
-        logInHandler.logIn(number, password);
+        logInService.logIn(number, password);
     }
 
     public void onLoad() {

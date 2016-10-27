@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.cache.Cache;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 
@@ -40,7 +39,7 @@ public class TeamActivity extends MotherActivity {
 
         if (isInExtraModeEdit()) {
             long id = SessionHelper.getIntentExtraId(this, Extra.TEAM_ID);
-            team = Cache.load(this, id, Team.class);
+            //TODO : load team from savedInstance or parcel
 
             fillTeamViewHolder();
         }

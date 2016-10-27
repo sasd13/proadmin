@@ -195,7 +195,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new IndividualEvaluationConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new IndividualEvaluationExpressionBuilder()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

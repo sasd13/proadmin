@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
                 self = null;
             }
-        }, GUIConstants.TIMEOUT_ACTIVITY).start();
+        }).start(GUIConstants.TIMEOUT_ACTIVITY);
 
         waitDialog.show();
     }

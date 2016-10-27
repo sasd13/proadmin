@@ -26,7 +26,7 @@ import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
-import com.sasd13.proadmin.handler.RunningsHandler;
+import com.sasd13.proadmin.service.RunningsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class RunningsFragment extends Fragment {
 
     private Project project;
     private RunningsActivity parentActivity;
-    private RunningsHandler runningsHandler;
+    private RunningsService runningsService;
     private Recycler runningsTab;
     private List<Running> runnings;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,7 +55,7 @@ public class RunningsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
-        runningsHandler = new RunningsHandler(this);
+        runningsService = new RunningsService(this);
         runnings = new ArrayList<>();
     }
 
@@ -83,7 +83,7 @@ public class RunningsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                runningsHandler.readRunnings(project);
+                runningsService.readRunnings(project);
             }
         });
     }
@@ -113,7 +113,7 @@ public class RunningsFragment extends Fragment {
     }
 
     private void readRunningsFromCache() {
-        runnings.addAll(runningsHandler.readRunningsFromCache(project));
+        runnings.addAll(runningsService.readRunningsFromCache(project));
     }
 
     private void refreshView() {
@@ -142,7 +142,7 @@ public class RunningsFragment extends Fragment {
     }
 
     private void readRunningsFromWS() {
-        runningsHandler.readRunnings(project);
+        runningsService.readRunnings(project);
     }
 
     @Override

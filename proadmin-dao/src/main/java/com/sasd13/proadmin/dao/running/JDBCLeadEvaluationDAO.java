@@ -207,7 +207,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new LeadEvaluationConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new LeadEvaluationExpressionBuilder()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

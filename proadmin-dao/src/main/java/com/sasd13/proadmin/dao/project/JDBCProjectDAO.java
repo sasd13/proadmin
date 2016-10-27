@@ -191,7 +191,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 			builder.append("SELECT * FROM ");
 			builder.append(TABLE);
 			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new ProjectConditionExpression()));
+			builder.append(ConditionBuilder.parse(parameters, new ProjectExpressionBuilder()));
 			builder.append(" AND ");
 			builder.append(COLUMN_DELETED + " = false");
 

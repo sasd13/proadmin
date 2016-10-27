@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
@@ -21,8 +20,8 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	private ITeamDAO teamDAO;
 	private ReportDeepReader reportDeepReader;
 
-	public RunningTeamDeepReader(IEntityDAO<RunningTeam> entityDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, ReportDeepReader reportDeepReader) {
-		super(entityDAO);
+	public RunningTeamDeepReader(IRunningTeamDAO runningTeamDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, ReportDeepReader reportDeepReader) {
+		super(runningTeamDAO);
 
 		this.runningDAO = runningDAO;
 		this.teamDAO = teamDAO;
@@ -39,6 +38,8 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[] { String.valueOf(runningTeam.getId()) });
+
+		runningTeam.getReports().clear();
 
 		List<Report> reports = reportDeepReader.select(parameters);
 		Report reportToAdd;

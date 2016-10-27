@@ -54,3 +54,7 @@ dependencies {
     compile 'commons-codec:commons-codec:1.4'
     compile 'org.apache.commons:commons-lang3:3.4'
 }
+
+/* configurations {
+    compile.exclude group: 'commons-logging', module:'commons-logging'
+}*/

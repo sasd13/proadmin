@@ -46,7 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 startActivity(new Intent(SplashScreenActivity.this, mClass));
             }
-        }, TIMEOUT).start();
+        }).start(TIMEOUT);
     }
 
     @Override

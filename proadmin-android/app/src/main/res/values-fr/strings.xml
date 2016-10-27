@@ -67,12 +67,5 @@
     <!-- Web service -->
     <string name="ws_error_server_connection_failed">Connexion au serveur échouée</string>
     <string name="ws_error_data_retrieval_error">Erreur de récupération des données</string>
-    <string name="ws_code_0">Erreur inconnue</string>
-    <string name="ws_code_100">Ok</string>
-    <string name="ws_code_error_1">Erreur de récupération des données</string>
-    <string name="ws_code_error_2">Erreur de création</string>
-    <string name="ws_code_error_3">Erreur de mise à jour</string>
-    <string name="ws_code_error_4">Erreur de suppression</string>
-    <string name="ws_code_error_100">Erreur de nom d\'utilisateur/mot de passe</string>
 
 </resources>

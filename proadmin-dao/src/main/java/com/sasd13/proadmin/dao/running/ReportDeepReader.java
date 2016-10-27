@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -18,20 +17,22 @@ public class ReportDeepReader extends DeepReader<Report> {
 	private ILeadEvaluationDAO leadEvaluationDAO;
 	private IIndividualEvaluationDAO individualEvaluationDAO;
 
-	public ReportDeepReader(IEntityDAO<Report> entityDAO, ILeadEvaluationDAO leadEvaluationDAO, IIndividualEvaluationDAO individualEvaluationDAO) {
-		super(entityDAO);
+	public ReportDeepReader(IReportDAO reportDAO) {
+		super(reportDAO);
 
-		this.leadEvaluationDAO = leadEvaluationDAO;
-		this.individualEvaluationDAO = individualEvaluationDAO;
+		leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
+		individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
 	}
 
 	@Override
 	protected void retrieveData(Report report) throws DAOException {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.REPORT.getName(), new String[]{ String.valueOf(report.getId()) });
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
 
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 		Binder.bind(report.getLeadEvaluation(), leadEvaluation);
+
+		report.getIndividualEvaluations().clear();
 
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		IndividualEvaluation individualEvaluationToAdd;
