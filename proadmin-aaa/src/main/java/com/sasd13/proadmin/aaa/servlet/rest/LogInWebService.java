@@ -55,8 +55,6 @@ public class LogInWebService extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
-
 		LOG.info("LogInWebService --> doPost");
 
 		try {
