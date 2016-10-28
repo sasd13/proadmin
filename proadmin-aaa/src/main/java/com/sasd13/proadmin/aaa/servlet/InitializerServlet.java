@@ -31,7 +31,7 @@ public class InitializerServlet extends HttpServlet {
 		Config config = Config.getInstance();
 
 		config.initLogger(LOG4J_PROPERTIES);
-		config.initAppProperties(getClass().getClassLoader(), new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
+		config.initAppProperties(new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
 		config.initDBDriver(AppProperties.getProperty(Names.AAA_DB_DRIVER));
 	}
 }

@@ -82,25 +82,25 @@ public abstract class DAO implements ILayeredDAO {
 	}
 
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DAOException {
-		if (Teacher.class.equals(mClass)) {
+		if (Teacher.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;
-		} else if (Project.class.equals(mClass)) {
+		} else if (Project.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) projectDAO;
-		} else if (Student.class.equals(mClass)) {
+		} else if (Student.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) studentDAO;
-		} else if (Team.class.equals(mClass)) {
+		} else if (Team.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) teamDAO;
-		} else if (StudentTeam.class.equals(mClass)) {
+		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) studentTeamDAO;
-		} else if (Running.class.equals(mClass)) {
+		} else if (Running.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) runningDAO;
-		} else if (RunningTeam.class.equals(mClass)) {
+		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) runningTeamDAO;
-		} else if (Report.class.equals(mClass)) {
+		} else if (Report.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) reportDAO;
-		} else if (LeadEvaluation.class.equals(mClass)) {
+		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) leadEvaluationDAO;
-		} else if (IndividualEvaluation.class.equals(mClass)) {
+		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) individualEvaluationDAO;
 		} else {
 			throw new DAOException("Class '" + mClass.getName() + "' has no entity dao");
@@ -108,17 +108,17 @@ public abstract class DAO implements ILayeredDAO {
 	}
 
 	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DAOException {
-		if (StudentTeam.class.equals(mClass)) {
+		if (StudentTeam.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) studentTeamDeepReader;
-		} else if (Running.class.equals(mClass)) {
+		} else if (Running.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) runningDeepReader;
-		} else if (RunningTeam.class.equals(mClass)) {
+		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) runningTeamDeepReader;
-		} else if (Report.class.equals(mClass)) {
+		} else if (Report.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) reportDeepReader;
-		} else if (LeadEvaluation.class.equals(mClass)) {
+		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) leadEvaluationDeepReader;
-		} else if (IndividualEvaluation.class.equals(mClass)) {
+		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) individualEvaluationDeepReader;
 		} else {
 			throw new DAOException("Class '" + mClass.getName() + "' has no deep reader");

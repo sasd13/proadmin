@@ -61,7 +61,7 @@ public class SessionHelper {
     private static void exit(Activity activity) {
         Session.clear(activity);
 
-        if (HomeActivity.class.equals(activity.getClass())) {
+        if (HomeActivity.class.isAssignableFrom(activity.getClass())) {
             HomeActivity.self.exit();
         } else {
             Intent intent = HomeActivity.self.getIntent();
