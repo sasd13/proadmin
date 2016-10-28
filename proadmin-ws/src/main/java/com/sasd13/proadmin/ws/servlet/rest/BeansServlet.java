@@ -25,9 +25,9 @@ import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.javaex.util.conf.AppProperties;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.net.EnumAAAError;
-import com.sasd13.proadmin.ws.AppProperties;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
 import com.sasd13.proadmin.ws.service.WSException;
@@ -80,13 +80,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			} else {
 				tsToResponse.addAll(readService.readAll());
 			}
-			
+
 			String results = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(tsToResponse);
 
 			resp.setContentType(RESPONSE_CONTENT_TYPE);
-			Stream.writeAndClose(resp.getWriter(), results);
-			
-			Logger.getLogger(getBeanClass()).debug("Message send from WS:" + results);
+			Stream.write(resp.getWriter(), results);
+
+			getLogger().info("Message send from WS:" + results);
 		} catch (ParserException e) {
 			doCatch(e, getWebServiceName() + " --> doGet failed", EnumAAAError.ERROR_PARSING_DATA, resp);
 		} catch (ServiceException e) {
@@ -98,7 +98,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().error(logMessage, e);
 		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
-		Stream.writeAndClose(resp.getWriter(), e.getMessage());
+		Stream.write(resp.getWriter(), e.getMessage());
 	}
 
 	@Override

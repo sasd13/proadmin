@@ -8,7 +8,9 @@ package com.sasd13.proadmin.aaa.servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import com.sasd13.proadmin.aaa.Config;
+import com.sasd13.javaex.util.conf.AppProperties;
+import com.sasd13.javaex.util.conf.Config;
+import com.sasd13.proadmin.aaa.util.Names;
 
 /**
  *
@@ -18,10 +20,18 @@ public class InitializerServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7528145890196166782L;
 
+	private static final String LOG4J_PROPERTIES = "log4j.properties";
+	private static final String INFRA_PROPERTIES = "infra.properties";
+	private static final String OPE_PROPERTIES = "ope.properties";
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
-		Config.getInstance().init();
+		Config config = Config.getInstance();
+
+		config.initLogger(LOG4J_PROPERTIES);
+		config.initAppProperties(getClass().getClassLoader(), new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
+		config.initDBDriver(AppProperties.getProperty(Names.AAA_DB_DRIVER));
 	}
 }

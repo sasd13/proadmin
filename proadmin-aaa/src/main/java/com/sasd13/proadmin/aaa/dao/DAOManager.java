@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.aaa.dao;
 
-import com.sasd13.proadmin.aaa.AppProperties;
+import com.sasd13.javaex.util.conf.AppProperties;
 import com.sasd13.proadmin.aaa.util.Names;
 
 public class DAOManager {
