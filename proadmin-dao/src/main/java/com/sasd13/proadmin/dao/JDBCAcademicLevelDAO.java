@@ -150,17 +150,17 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 		List<AcademicLevel> list = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new AcademicLevelExpressionBuilder()));
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = false");
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new AcademicLevelExpressionBuilder()));
-			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = false");
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());

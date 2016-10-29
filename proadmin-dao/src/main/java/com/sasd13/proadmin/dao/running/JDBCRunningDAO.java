@@ -43,10 +43,10 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	protected Running getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_PROJECT_CODE));
-		
+
 		Teacher teacher = new Teacher();
 		teacher.setNumber(resultSet.getString(COLUMN_TEACHER_CODE));
-		
+
 		Running running = new Running(project);
 		running.setYear(resultSet.getInt(COLUMN_YEAR));
 		running.setTeacher(teacher);
@@ -57,7 +57,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	@Override
 	public long insert(Running running) throws DAOException {
 		ValidatorUtils.validate(running);
-		
+
 		LOG.info("JDBCRunningDAO --> insert : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		long id = 0;
@@ -97,7 +97,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	@Override
 	public void update(Running running) throws DAOException {
 		ValidatorUtils.validate(running);
-		
+
 		LOG.info("JDBCRunningDAO --> update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		StringBuilder builder = new StringBuilder();
@@ -130,7 +130,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	@Override
 	public void delete(Running running) throws DAOException {
 		ValidatorUtils.validate(running);
-		
+
 		LOG.info("JDBCRunningDAO --> delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		StringBuilder builder = new StringBuilder();
@@ -197,17 +197,17 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 		List<Running> runnings = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new RunningExpressionBuilder()));
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = false");
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new RunningExpressionBuilder()));
-			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = false");
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());

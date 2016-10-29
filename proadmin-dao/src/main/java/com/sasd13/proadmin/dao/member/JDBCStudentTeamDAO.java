@@ -160,15 +160,15 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new StudentTeamExpressionBuilder()));
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new StudentTeamExpressionBuilder()));
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());

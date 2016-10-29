@@ -281,17 +281,17 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 		List<Report> reports = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new ReportExpressionBuilder()));
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = false");
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new ReportExpressionBuilder()));
-			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = false");
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());

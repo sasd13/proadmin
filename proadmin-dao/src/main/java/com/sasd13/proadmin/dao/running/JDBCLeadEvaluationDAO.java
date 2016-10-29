@@ -209,17 +209,17 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new LeadEvaluationExpressionBuilder()));
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = false");
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new LeadEvaluationExpressionBuilder()));
-			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = false");
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());

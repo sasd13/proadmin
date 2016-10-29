@@ -197,17 +197,17 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT * FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(ConditionBuilder.parse(parameters, new IndividualEvaluationExpressionBuilder()));
+		builder.append(" AND ");
+		builder.append(COLUMN_DELETED + " = false");
+
 		Statement statement = null;
 
 		try {
-			StringBuilder builder = new StringBuilder();
-			builder.append("SELECT * FROM ");
-			builder.append(TABLE);
-			builder.append(" WHERE ");
-			builder.append(ConditionBuilder.parse(parameters, new IndividualEvaluationExpressionBuilder()));
-			builder.append(" AND ");
-			builder.append(COLUMN_DELETED + " = false");
-
 			statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(builder.toString());
