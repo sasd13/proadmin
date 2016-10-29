@@ -17,15 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.javaex.util.conf.AppProperties;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.net.EnumAAAError;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
@@ -71,7 +71,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
-			URLQueryEncoder.decode(parameters);
+			URLQueryUtils.decode(parameters);
 
 			if (!parameters.isEmpty()) {
 				tsToResponse.addAll(readService.read(parameters));

@@ -8,8 +8,8 @@ package com.sasd13.proadmin.ws.servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import com.sasd13.javaex.util.conf.AppProperties;
-import com.sasd13.javaex.util.conf.Config;
+import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.javaex.conf.Config;
 import com.sasd13.proadmin.util.Names;
 
 /**

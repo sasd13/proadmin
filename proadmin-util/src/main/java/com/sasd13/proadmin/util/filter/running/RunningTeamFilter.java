@@ -17,18 +17,14 @@ public class RunningTeamFilter extends AndFilter<RunningTeam> {
 	protected void setCriterias(Map<String, String[]> parameters, MultiAndCriteria<RunningTeam> multiAndCriteria) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.RUNNING.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new RunningTeamRunningIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+				if (EnumParameter.PROJECT.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new RunningTeamProjectCriteria(value));
+				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new RunningTeamTeacherCriteria(value));
 				} else if (EnumParameter.TEAM.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new RunningTeamTeamIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new RunningTeamTeamCriteria(value));
+				} else if (EnumParameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new RunningTeamAcademicLevelCriteria(value));
 				}
 			}
 		}

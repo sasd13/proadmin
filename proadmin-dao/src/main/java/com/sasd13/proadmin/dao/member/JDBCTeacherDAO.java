@@ -16,10 +16,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -40,8 +41,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 	@Override
 	protected Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
 		Teacher teacher = new Teacher();
-		teacher.setId(resultSet.getLong(COLUMN_ID));
-		teacher.setNumber(resultSet.getString(COLUMN_NUMBER));
+		teacher.setNumber(resultSet.getString(COLUMN_CODE));
 		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));
@@ -51,6 +51,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public long insert(Teacher teacher) throws DAOException {
+		ValidatorUtils.validate(teacher);
+
 		LOG.info("JDBCTeacherDAO --> insert : number=" + teacher.getNumber());
 
 		long id = 0;
@@ -59,7 +61,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_NUMBER);
+		builder.append(COLUMN_CODE);
 		builder.append(", " + COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
@@ -76,7 +78,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				teacher.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -91,25 +92,27 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public void update(Teacher teacher) throws DAOException {
+		ValidatorUtils.validate(teacher);
+
 		LOG.info("JDBCTeacherDAO --> update : number=" + teacher.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_NUMBER + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
 		builder.append(", " + COLUMN_LASTNAME + " = ?");
 		builder.append(", " + COLUMN_EMAIL + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, teacher);
-			preparedStatement.setLong(5, teacher.getId());
+			preparedStatement.setString(5, teacher.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -121,6 +124,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public void delete(Teacher teacher) throws DAOException {
+		ValidatorUtils.validate(teacher);
+
 		LOG.info("JDBCTeacherDAO --> delete : number=" + teacher.getNumber());
 
 		StringBuilder builder = new StringBuilder();
@@ -129,14 +134,14 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, teacher.getId());
+			preparedStatement.setString(2, teacher.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -172,7 +177,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				teacher = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teacher not selected");
+			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teacher not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -181,7 +186,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 	}
 
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCTeacherDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCTeacherDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Teacher> list = new ArrayList<>();
 
@@ -203,7 +208,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teachers not selected");
+			doCatch(e, LOG, "JDBCTeacherDAO --> select failed", "Teachers not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -233,7 +238,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeacherDAO --> selectAll failed", "Teachers not selected");
+			doCatch(e, LOG, "JDBCTeacherDAO --> selectAll failed", "Teachers not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

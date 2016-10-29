@@ -2,16 +2,7 @@ package com.sasd13.proadmin.bean.member;
 
 public abstract class Member {
 
-	private long id;
 	private String number, firstName, lastName, email;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getNumber() {
 		return number;

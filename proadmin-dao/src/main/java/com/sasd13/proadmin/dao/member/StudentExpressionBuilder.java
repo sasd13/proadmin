@@ -12,12 +12,10 @@ public class StudentExpressionBuilder implements IExpressionBuilder {
 			try {
 				return IStudentDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				throw new ConditionException("Student key '" + key + "' parameter parsing error");
+				throw new ConditionException("Student key '" + key + "' parsing error");
 			}
 		} else if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_NUMBER + " = '" + value + "'";
-		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
+			return IStudentDAO.COLUMN_CODE + " = '" + value + "'";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {

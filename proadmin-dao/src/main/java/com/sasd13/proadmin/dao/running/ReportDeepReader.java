@@ -27,12 +27,23 @@ public class ReportDeepReader extends DeepReader<Report> {
 	@Override
 	protected void retrieveData(Report report) throws DAOException {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.REPORT.getName(), new String[] { String.valueOf(report.getId()) });
+
+		retrieveDataLeadEvaluation(report, parameters);
+		retrieveDataIndividualEvaluations(report, parameters);
+	}
+
+	private void retrieveDataLeadEvaluation(Report report, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 		Binder.bind(report.getLeadEvaluation(), leadEvaluation);
+	}
 
+	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) throws DAOException {
 		report.getIndividualEvaluations().clear();
+		parameters.clear();
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
 		IndividualEvaluation individualEvaluationToAdd;

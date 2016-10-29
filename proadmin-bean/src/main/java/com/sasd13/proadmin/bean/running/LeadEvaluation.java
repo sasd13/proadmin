@@ -5,8 +5,6 @@ public class LeadEvaluation extends Evaluation {
 	private float planningMark, communicationMark;
 	private String planningComment, communicationComment;
 
-	public LeadEvaluation() {}
-
 	public LeadEvaluation(Report report) {
 		super(report);
 	}
@@ -48,8 +46,7 @@ public class LeadEvaluation extends Evaluation {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("LeadEvaluation [");
-		builder.append("id=" + getId());
-		builder.append(", planningMark=" + getPlanningMark());
+		builder.append("planningMark=" + getPlanningMark());
 		builder.append(", planningComment=" + getPlanningComment());
 		builder.append(", communicationMark=" + getCommunicationMark());
 		builder.append(", communicationComment=" + getCommunicationComment());

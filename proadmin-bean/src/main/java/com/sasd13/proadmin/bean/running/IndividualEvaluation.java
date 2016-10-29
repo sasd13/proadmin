@@ -4,8 +4,6 @@ public class IndividualEvaluation extends Evaluation {
 
 	private float mark;
 
-	public IndividualEvaluation() {}
-
 	public IndividualEvaluation(Report report) {
 		super(report);
 
@@ -25,8 +23,7 @@ public class IndividualEvaluation extends Evaluation {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("IndividualEvaluation [");
-		builder.append("id=" + getId());
-		builder.append(", mark=" + getMark());
+		builder.append("mark=" + getMark());
 		builder.append("]");
 
 		return builder.toString();

@@ -2,23 +2,14 @@ package com.sasd13.proadmin.bean.member;
 
 public class Team {
 
-	private long id;
-	private String code;
+	private String number;
 
-	public long getId() {
-		return id;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	@Override
@@ -26,8 +17,7 @@ public class Team {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Team [");
-		builder.append("id=" + getId());
-		builder.append(", code=" + getCode());
+		builder.append("number=" + getNumber());
 		builder.append("]");
 
 		return builder.toString();

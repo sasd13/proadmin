@@ -16,12 +16,16 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -33,27 +37,37 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		preparedStatement.setLong(1, runningTeam.getRunning().getId());
-		preparedStatement.setLong(2, runningTeam.getTeam().getId());
+		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
+		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
+		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
 	}
 
 	@Override
 	protected RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		Running running = new Running();
-		running.setId(resultSet.getLong(COLUMN_RUNNING_ID));
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_RUNNING_PROJECT_CODE));
+
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
+
+		Running running = new Running(project);
+		running.setTeacher(teacher);
 
 		Team team = new Team();
-		team.setId(resultSet.getLong(COLUMN_TEAM_ID));
+		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
 
 		RunningTeam runningTeam = new RunningTeam(running, team);
-		runningTeam.setId(resultSet.getLong(COLUMN_ID));
+		runningTeam.setAcademicLevel(new AcademicLevel(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)));
 
 		return runningTeam;
 	}
 
 	@Override
 	public long insert(RunningTeam runningTeam) throws DAOException {
-		LOG.info("JDBCRunningTeamDAO --> insert : teamCode=" + runningTeam.getTeam().getCode());
+		ValidatorUtils.validate(runningTeam);
+
+		LOG.info("JDBCRunningTeamDAO --> insert : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		long id = 0;
 
@@ -61,8 +75,10 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_RUNNING_ID);
-		builder.append(", " + COLUMN_TEAM_ID);
+		builder.append(COLUMN_RUNNING_PROJECT_CODE);
+		builder.append(", " + COLUMN_RUNNING_TEACHER_CODE);
+		builder.append(", " + COLUMN_TEAM_CODE);
+		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE);
 		builder.append(") VALUES (?, ?)");
 
 		PreparedStatement preparedStatement = null;
@@ -76,7 +92,6 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				runningTeam.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -96,20 +111,27 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	@Override
 	public void delete(RunningTeam runningTeam) throws DAOException {
-		LOG.info("JDBCRunningTeamDAO --> delete : teamCode=" + runningTeam.getTeam().getCode());
+		ValidatorUtils.validate(runningTeam);
+
+		LOG.info("JDBCRunningTeamDAO --> delete : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELTE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_RUNNING_PROJECT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
+		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, runningTeam.getId());
+			preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
+			preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
+			preparedStatement.setString(3, runningTeam.getTeam().getNumber());
+			preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -142,7 +164,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeam = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeam not selected");
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeam not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -151,7 +173,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	}
 
 	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCRunningTeamDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCRunningTeamDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<RunningTeam> runningTeams = new ArrayList<>();
 
@@ -171,7 +193,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeams not selected");
+			doCatch(e, LOG, "JDBCRunningTeamDAO --> select failed", "RunningTeams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

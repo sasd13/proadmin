@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
@@ -26,16 +27,17 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> read(Map<String, String[]> parameters) throws WSException {
+		LOG.info("TeacherReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			LOG.info("TeacherReadService --> read");
 			dao.open();
 
 			teachers = dao.getEntityDAO(Teacher.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new WSException("TeacherReadService --> read failed");
+			LOG.error("TeacherReadService --> read failed", e);
+			throw new WSException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -49,16 +51,17 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> readAll() throws WSException {
+		LOG.info("TeacherReadService --> readAll");
+
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			LOG.info("TeacherReadService --> readAll");
 			dao.open();
 
 			teachers = dao.getEntityDAO(Teacher.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new WSException("TeacherReadService --> readAll failed");
+			LOG.error("TeacherReadService --> readAll failed", e);
+			throw new WSException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

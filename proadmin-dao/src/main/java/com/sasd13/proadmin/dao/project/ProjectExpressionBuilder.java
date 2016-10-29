@@ -16,8 +16,6 @@ public class ProjectExpressionBuilder implements IExpressionBuilder {
 			}
 		} else if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
 			return IProjectDAO.COLUMN_CODE + " = '" + value + "'";
-		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_ACADEMICLEVEL + " = '" + value + "'";
 		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
 			return IProjectDAO.COLUMN_TITLE + " = '" + value + "'";
 		} else {

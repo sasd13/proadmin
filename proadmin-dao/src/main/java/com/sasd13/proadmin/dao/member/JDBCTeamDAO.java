@@ -16,37 +16,39 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
  * @author Samir
  */
 public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
-	
+
 	private static final Logger LOG = Logger.getLogger(JDBCTeamDAO.class);
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getCode());
+		preparedStatement.setString(1, team.getNumber());
 	}
 
 	@Override
 	protected Team getResultSetValues(ResultSet resultSet) throws SQLException {
 		Team team = new Team();
-		team.setId(resultSet.getLong(COLUMN_ID));
-		team.setCode(resultSet.getString(COLUMN_CODE));
+		team.setNumber(resultSet.getString(COLUMN_CODE));
 
 		return team;
 	}
 
 	@Override
 	public long insert(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> insert : code=" + team.getCode());
-		
+		ValidatorUtils.validate(team);
+
+		LOG.info("JDBCTeamDAO --> insert : number=" + team.getNumber());
+
 		long id = 0;
 
 		StringBuilder builder = new StringBuilder();
@@ -67,7 +69,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				team.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -82,22 +83,24 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public void update(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> update : code=" + team.getCode());
-		
+		ValidatorUtils.validate(team);
+
+		LOG.info("JDBCTeamDAO --> update : number=" + team.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_CODE + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, team);
-			preparedStatement.setLong(2, team.getId());
+			preparedStatement.setString(2, team.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -109,22 +112,24 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public void delete(Team team) throws DAOException {
-		LOG.info("JDBCTeamDAO --> delete : code=" + team.getCode());
-		
+		ValidatorUtils.validate(team);
+
+		LOG.info("JDBCTeamDAO --> delete : number=" + team.getNumber());
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, team.getId());
+			preparedStatement.setString(2, team.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -137,7 +142,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	@Override
 	public Team select(long id) throws DAOException {
 		LOG.info("JDBCTeamDAO --> select : id=" + id);
-		
+
 		Team team = null;
 
 		StringBuilder builder = new StringBuilder();
@@ -160,7 +165,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				team = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeamDAO --> select failed", "Team not selected");
+			doCatch(e, LOG, "JDBCTeamDAO --> select failed", "Team not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -169,8 +174,8 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	}
 
 	public List<Team> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCTeamDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
-		
+		LOG.info("JDBCTeamDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
+
 		List<Team> list = new ArrayList<>();
 
 		Statement statement = null;
@@ -191,7 +196,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeamDAO --> select failed", "Teams not selected");
+			doCatch(e, LOG, "JDBCTeamDAO --> select failed", "Teams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -202,7 +207,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	@Override
 	public List<Team> selectAll() throws DAOException {
 		LOG.info("JDBCTeamDAO --> selectAll");
-		
+
 		List<Team> list = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -221,7 +226,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCTeamDAO --> selectAll failed", "Teams not selected");
+			doCatch(e, LOG, "JDBCTeamDAO --> selectAll failed", "Teams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

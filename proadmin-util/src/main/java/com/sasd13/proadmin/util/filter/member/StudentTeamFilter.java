@@ -18,17 +18,9 @@ public class StudentTeamFilter extends AndFilter<StudentTeam> {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.STUDENT.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new StudenTeamStudentIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new StudentTeamStudentCriteria(value));
 				} else if (EnumParameter.TEAM.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new StudentTeamTeamIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new StudentTeamTeamCriteria(value));
 				}
 			}
 		}

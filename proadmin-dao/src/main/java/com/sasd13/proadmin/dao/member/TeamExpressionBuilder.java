@@ -12,9 +12,9 @@ public class TeamExpressionBuilder implements IExpressionBuilder {
 			try {
 				return ITeamDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				throw new ConditionException("Team key '" + key + "' parameter parsing error");
+				throw new ConditionException("Team key '" + key + "' parsing error");
 			}
-		} else if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+		} else if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return ITeamDAO.COLUMN_CODE + " = '" + value + "'";
 		} else {
 			throw new ConditionException("Team key '" + key + "' is not a declared parameter");

@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.aaa.AAAException;
-import com.sasd13.proadmin.aaa.bean.Credential;
+import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.service.ICredentialManageService;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 

@@ -16,12 +16,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -37,24 +38,23 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
-		preparedStatement.setLong(5, leadEvaluation.getStudent().getId());
-		preparedStatement.setLong(6, leadEvaluation.getReport().getId());
+		preparedStatement.setString(5, leadEvaluation.getReport().getNumber());
+		preparedStatement.setString(6, leadEvaluation.getStudent().getNumber());
 	}
 
 	@Override
 	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
-		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
+		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
 
 		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
-		leadEvaluation.setId(resultSet.getLong(COLUMN_ID));
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
-
-		Student student = new Student();
-		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
 		leadEvaluation.setStudent(student);
 
 		return leadEvaluation;
@@ -62,7 +62,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	@Override
 	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
-		LOG.info("JDBCLeadEvaluationDAO --> insert : studentNumber=" + leadEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(leadEvaluation);
+
+		LOG.info("JDBCLeadEvaluationDAO --> insert : reportNumber=" + leadEvaluation.getReport().getNumber() + ", studentNumber=" + leadEvaluation.getStudent().getNumber());
 
 		long id = 0;
 
@@ -74,8 +76,8 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(", " + COLUMN_PLANNINGCOMMENT);
 		builder.append(", " + COLUMN_COMMUNICATIONMARK);
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT);
-		builder.append(", " + COLUMN_STUDENT_ID);
-		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(", " + COLUMN_REPORT_CODE);
+		builder.append(", " + COLUMN_STUDENT_CODE);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
@@ -89,7 +91,6 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				leadEvaluation.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -104,7 +105,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	@Override
 	public void update(LeadEvaluation leadEvaluation) throws DAOException {
-		LOG.info("JDBCLeadEvaluationDAO --> update : studentNumber=" + leadEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(leadEvaluation);
+
+		LOG.info("JDBCLeadEvaluationDAO --> update : reportNumber=" + leadEvaluation.getReport().getNumber() + ", studentNumber=" + leadEvaluation.getStudent().getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -114,17 +117,19 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
-		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
-		builder.append(", " + COLUMN_REPORT_ID + " = ?");
+		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(", " + COLUMN_REPORT_CODE + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_REPORT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, leadEvaluation);
-			preparedStatement.setLong(7, leadEvaluation.getId());
+			preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
+			preparedStatement.setString(8, leadEvaluation.getStudent().getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -136,7 +141,9 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) throws DAOException {
-		LOG.info("JDBCLeadEvaluationDAO --> delete : studentNumber=" + leadEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(leadEvaluation);
+
+		LOG.info("JDBCLeadEvaluationDAO --> delete : reportNumber=" + leadEvaluation.getReport().getNumber() + ", studentNumber=" + leadEvaluation.getStudent().getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -144,14 +151,16 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_REPORT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, leadEvaluation.getId());
+			preparedStatement.setString(2, leadEvaluation.getReport().getNumber());
+			preparedStatement.setString(3, leadEvaluation.getStudent().getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -187,7 +196,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluation not selected");
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluation not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -196,7 +205,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCLeadEvaluationDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCLeadEvaluationDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
@@ -218,7 +227,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not selected");
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -248,7 +257,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not selected");
+			doCatch(e, LOG, "JDBCLeadEvaluationDAO --> select failed", "LeadEvaluations not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

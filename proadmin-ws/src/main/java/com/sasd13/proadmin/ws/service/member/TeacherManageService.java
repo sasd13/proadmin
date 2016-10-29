@@ -23,13 +23,14 @@ public class TeacherManageService implements IManageService<Teacher> {
 
 	@Override
 	public void create(Teacher teacher) throws WSException {
+		LOG.info("TeacherManageService --> create : number=" + teacher.getNumber());
+
 		try {
-			LOG.error("TeacherManageService --> create : " + teacher.getNumber());
 			dao.open();
 			dao.getEntityDAO(Teacher.class).insert(teacher);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new WSException("TeacherManageService --> create failed");
+			LOG.error("TeacherManageService --> create failed", e);
+			throw new WSException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,13 +42,14 @@ public class TeacherManageService implements IManageService<Teacher> {
 
 	@Override
 	public void update(Teacher teacher) throws WSException {
+		LOG.info("TeacherManageService --> update : number=" + teacher.getNumber());
+
 		try {
-			LOG.error("TeacherManageService --> update : " + teacher.getNumber());
 			dao.open();
 			dao.getEntityDAO(Teacher.class).update(teacher);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new WSException("TeacherManageService --> update failed");
+			LOG.error("TeacherManageService --> update failed", e);
+			throw new WSException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -59,13 +61,14 @@ public class TeacherManageService implements IManageService<Teacher> {
 
 	@Override
 	public void delete(Teacher teacher) throws WSException {
+		LOG.info("TeacherManageService --> delete : number=" + teacher.getNumber());
+
 		try {
-			LOG.error("TeacherManageService --> delete : " + teacher.getNumber());
 			dao.open();
 			dao.getEntityDAO(Teacher.class).update(teacher);
 		} catch (DAOException e) {
-			LOG.error(e);
-			throw new WSException("TeacherManageService --> delete failed");
+			LOG.error("TeacherManageService --> delete failed", e);
+			throw new WSException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

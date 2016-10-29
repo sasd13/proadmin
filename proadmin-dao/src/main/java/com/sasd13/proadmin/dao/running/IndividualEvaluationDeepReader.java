@@ -1,11 +1,15 @@
 package com.sasd13.proadmin.dao.running;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.member.IStudentDAO;
 import com.sasd13.proadmin.util.Binder;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluation> {
 
@@ -19,7 +23,16 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 
 	@Override
 	protected void retrieveData(IndividualEvaluation individualEvaluation) throws DAOException {
-		Student student = studentDAO.select(individualEvaluation.getStudent().getId());
+		Map<String, String[]> parameters = new HashMap<>();
+
+		retrieveDataStudent(individualEvaluation, parameters);
+	}
+
+	private void retrieveDataStudent(IndividualEvaluation individualEvaluation, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.STUDENT.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
+
+		Student student = studentDAO.select(parameters).get(0);
 		Binder.bind(individualEvaluation.getStudent(), student);
 	}
 }

@@ -8,18 +8,18 @@ public class IndividualEvaluationExpressionBuilder implements IExpressionBuilder
 
 	@Override
 	public String build(String key, String value) throws ConditionException {
-		try {
-			if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {
+		if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {
+			try {
 				return IIndividualEvaluationDAO.COLUMN_ID + " = " + Long.parseLong(value);
-			} else if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-				return IIndividualEvaluationDAO.COLUMN_REPORT_ID + " = " + Long.parseLong(value);
-			} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-				return IIndividualEvaluationDAO.COLUMN_STUDENT_ID + " = " + Long.parseLong(value);
-			} else {
-				throw new ConditionException("IndividualEvaluation key '" + key + "' is not a declared parameter");
+			} catch (NumberFormatException e) {
+				throw new ConditionException("IndividualEvaluation key '" + key + "' parsing error");
 			}
-		} catch (NumberFormatException e) {
-			throw new ConditionException("IndividualEvaluation key '" + key + "' parameter parsing error");
+		} else if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
+			return IIndividualEvaluationDAO.COLUMN_REPORT_CODE + " = " + value;
+		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+			return IIndividualEvaluationDAO.COLUMN_STUDENT_CODE + " = " + value;
+		} else {
+			throw new ConditionException("IndividualEvaluation key '" + key + "' is not a declared parameter");
 		}
 	}
 }

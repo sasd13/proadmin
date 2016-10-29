@@ -18,12 +18,18 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -65,17 +71,31 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		preparedStatement.setString(2, String.valueOf(report.getMeetingDate()));
 		preparedStatement.setInt(3, report.getSession());
 		preparedStatement.setString(4, report.getComment());
-		preparedStatement.setLong(5, report.getRunningTeam().getId());
+		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
+		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
 	}
 
 	@Override
 	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeam();
-		runningTeam.setId(resultSet.getLong(COLUMN_RUNNINGTEAM));
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE));
+
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE));
+
+		Running running = new Running(project);
+		running.setTeacher(teacher);
+
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE));
+
+		RunningTeam runningTeam = new RunningTeam(running, team);
+		runningTeam.setAcademicLevel(new AcademicLevel(resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE)));
 
 		Report report = new Report(runningTeam);
-		report.setId(resultSet.getLong(COLUMN_ID));
-		report.setNumber(resultSet.getString(COLUMN_NUMBER));
+		report.setNumber(resultSet.getString(COLUMN_CODE));
 		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
@@ -85,6 +105,8 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	@Override
 	public long insert(Report report) throws DAOException {
+		ValidatorUtils.validate(report);
+
 		LOG.info("JDBCReportDAO --> insert : number=" + report.getNumber());
 
 		long id = 0;
@@ -93,12 +115,15 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_NUMBER);
+		builder.append(COLUMN_CODE);
 		builder.append(", " + COLUMN_MEETINGDATE);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
-		builder.append(", " + COLUMN_RUNNINGTEAM);
-		builder.append(") VALUES (?, ?, ?, ?, ?)");
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE);
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE);
+		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE);
+		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE);
+		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
@@ -113,7 +138,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				report.setId(id);
 
 				leadEvaluationDAO.insert(report.getLeadEvaluation());
 
@@ -136,19 +160,24 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	@Override
 	public void update(Report report) throws DAOException {
+		ValidatorUtils.validate(report);
+
 		LOG.info("JDBCReportDAO --> update : number=" + report.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_NUMBER + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 		builder.append(", " + COLUMN_MEETINGDATE + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
@@ -157,7 +186,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, report);
-			preparedStatement.setLong(6, report.getId());
+			preparedStatement.setString(9, report.getNumber());
 
 			preparedStatement.executeUpdate();
 
@@ -177,6 +206,8 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	@Override
 	public void delete(Report report) throws DAOException {
+		ValidatorUtils.validate(report);
+
 		LOG.info("JDBCReportDAO --> delete : number=" + report.getNumber());
 
 		StringBuilder builder = new StringBuilder();
@@ -185,7 +216,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
@@ -200,7 +231,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, report.getId());
+			preparedStatement.setString(2, report.getNumber());
 
 			preparedStatement.executeUpdate();
 			connection.commit();
@@ -237,7 +268,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				report = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Report not selected");
+			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Report not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -246,7 +277,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	}
 
 	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCReportDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCReportDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Report> reports = new ArrayList<>();
 
@@ -268,7 +299,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Reports not selected");
+			doCatch(e, LOG, "JDBCReportDAO --> select failed", "Reports not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -298,7 +329,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCReportDAO --> selectAll failed", "Reports not selected");
+			doCatch(e, LOG, "JDBCReportDAO --> selectAll failed", "Reports not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

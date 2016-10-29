@@ -4,6 +4,7 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.dao.ILayeredDAO;
+import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -40,6 +41,7 @@ public abstract class DAO implements ILayeredDAO {
 	protected ITeamDAO teamDAO;
 	protected IStudentTeamDAO studentTeamDAO;
 	protected IRunningDAO runningDAO;
+	protected IAcademicLevelDAO academicLevelDAO;
 	protected IRunningTeamDAO runningTeamDAO;
 	protected IReportDAO reportDAO;
 	private ILeadEvaluationDAO leadEvaluationDAO;
@@ -59,6 +61,7 @@ public abstract class DAO implements ILayeredDAO {
 			ITeamDAO teamDAO, 
 			IStudentTeamDAO studentTeamDAO, 
 			IRunningDAO runningDAO, 
+			IAcademicLevelDAO academicLevelDAO,
 			IRunningTeamDAO runningTeamDAO, 
 			IReportDAO reportDAO) {
 
@@ -68,6 +71,7 @@ public abstract class DAO implements ILayeredDAO {
 		this.teamDAO = teamDAO;
 		this.studentTeamDAO = studentTeamDAO;
 		this.runningDAO = runningDAO;
+		this.academicLevelDAO = academicLevelDAO;
 		this.runningTeamDAO = runningTeamDAO;
 		this.reportDAO = reportDAO;
 		this.leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
@@ -76,7 +80,7 @@ public abstract class DAO implements ILayeredDAO {
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO);
-		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDAO, teamDAO, reportDeepReader);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, reportDeepReader);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
@@ -94,6 +98,8 @@ public abstract class DAO implements ILayeredDAO {
 			return (IEntityDAO<T>) studentTeamDAO;
 		} else if (Running.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) runningDAO;
+		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
+			return (IEntityDAO<T>) academicLevelDAO;
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) runningTeamDAO;
 		} else if (Report.class.isAssignableFrom(mClass)) {

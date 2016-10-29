@@ -1,5 +1,8 @@
 package com.sasd13.proadmin.dao.running;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -8,6 +11,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.member.ITeacherDAO;
 import com.sasd13.proadmin.dao.project.IProjectDAO;
 import com.sasd13.proadmin.util.Binder;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningDeepReader extends DeepReader<Running> {
 
@@ -23,10 +27,25 @@ public class RunningDeepReader extends DeepReader<Running> {
 
 	@Override
 	protected void retrieveData(Running running) throws DAOException {
-		Teacher teacher = teacherDAO.select(running.getTeacher().getId());
-		Binder.bind(running.getTeacher(), teacher);
+		Map<String, String[]> parameters = new HashMap<>();
 
-		Project project = projectDAO.select(running.getProject().getId());
+		retrieveDatatProject(running, parameters);
+		retrieveDataTeacher(running, parameters);
+	}
+
+	private void retrieveDatatProject(Running running, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { running.getProject().getCode() });
+
+		Project project = projectDAO.select(parameters).get(0);
 		Binder.bind(running.getProject(), project);
+	}
+
+	private void retrieveDataTeacher(Running running, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { running.getTeacher().getNumber() });
+
+		Teacher teacher = teacherDAO.select(parameters).get(0);
+		Binder.bind(running.getTeacher(), teacher);
 	}
 }

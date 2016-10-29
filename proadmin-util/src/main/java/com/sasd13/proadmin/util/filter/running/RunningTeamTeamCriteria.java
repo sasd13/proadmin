@@ -6,12 +6,12 @@ import java.util.List;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
-public class RunningTeamRunningIdCriteria implements Criteria<RunningTeam> {
+public class RunningTeamTeamCriteria implements Criteria<RunningTeam> {
 
-	private long id;
+	private String number;
 
-	public RunningTeamRunningIdCriteria(long id) {
-		this.id = id;
+	public RunningTeamTeamCriteria(String number) {
+		this.number = number;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class RunningTeamRunningIdCriteria implements Criteria<RunningTeam> {
 		List<RunningTeam> results = new ArrayList<RunningTeam>();
 
 		for (RunningTeam runningTeam : list) {
-			if (id == runningTeam.getRunning().getId()) {
+			if (number.equalsIgnoreCase(runningTeam.getTeam().getNumber())) {
 				results.add(runningTeam);
 			}
 		}

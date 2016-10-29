@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in individualEvaluation Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -16,12 +16,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -34,21 +35,20 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
-		preparedStatement.setLong(2, individualEvaluation.getStudent().getId());
-		preparedStatement.setLong(3, individualEvaluation.getReport().getId());
+		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(3, individualEvaluation.getStudent().getNumber());
 	}
 
 	@Override
 	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
-		report.setId(resultSet.getLong(COLUMN_REPORT_ID));
-
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
-		individualEvaluation.setId(resultSet.getLong(COLUMN_ID));
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
 
 		Student student = new Student();
-		student.setId(resultSet.getLong(COLUMN_STUDENT_ID));
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 		individualEvaluation.setStudent(student);
 
 		return individualEvaluation;
@@ -56,7 +56,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	@Override
 	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
-		LOG.info("JDBCIndividualEvaluationDAO --> insert : studentNumber=" + individualEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(individualEvaluation);
+
+		LOG.info("JDBCIndividualEvaluationDAO --> insert : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
 
 		long id = 0;
 
@@ -65,8 +67,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		builder.append(TABLE);
 		builder.append("(");
 		builder.append(COLUMN_MARK);
-		builder.append(", " + COLUMN_STUDENT_ID);
-		builder.append(", " + COLUMN_REPORT_ID);
+		builder.append(", " + COLUMN_REPORT_CODE);
+		builder.append(", " + COLUMN_STUDENT_CODE);
 		builder.append(") VALUES (?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
@@ -80,7 +82,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				individualEvaluation.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -95,24 +96,28 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	@Override
 	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
-		LOG.info("JDBCIndividualEvaluationDAO --> update : studentNumber=" + individualEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(individualEvaluation);
+
+		LOG.info("JDBCIndividualEvaluationDAO --> update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_STUDENT_ID + " = ?");
-		builder.append(", " + COLUMN_REPORT_ID + " = ?");
+		builder.append(", " + COLUMN_REPORT_CODE + " = ?");
+		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_REPORT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, individualEvaluation);
-			preparedStatement.setLong(4, individualEvaluation.getId());
+			preparedStatement.setString(4, individualEvaluation.getReport().getNumber());
+			preparedStatement.setString(5, individualEvaluation.getStudent().getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -124,7 +129,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
-		LOG.info("JDBCIndividualEvaluationDAO --> delete : studentNumber=" + individualEvaluation.getStudent().getNumber());
+		ValidatorUtils.validate(individualEvaluation);
+
+		LOG.info("JDBCIndividualEvaluationDAO --> delete : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -132,14 +139,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_REPORT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, individualEvaluation.getId());
+			preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
+			preparedStatement.setString(3, individualEvaluation.getStudent().getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -175,7 +184,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluation = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluation not selected");
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluation not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -184,7 +193,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	}
 
 	public List<IndividualEvaluation> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCIndividualEvaluationDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCIndividualEvaluationDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -206,7 +215,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluations not selected");
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> select failed", "IndividualEvaluations not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -236,7 +245,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> selectAll failed", "IndividualEvaluations not selected");
+			doCatch(e, LOG, "JDBCIndividualEvaluationDAO --> selectAll failed", "IndividualEvaluations not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

@@ -16,30 +16,51 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
-	private IRunningDAO runningDAO;
+	private RunningDeepReader runningDeepReader;
 	private ITeamDAO teamDAO;
 	private ReportDeepReader reportDeepReader;
 
-	public RunningTeamDeepReader(IRunningTeamDAO runningTeamDAO, IRunningDAO runningDAO, ITeamDAO teamDAO, ReportDeepReader reportDeepReader) {
+	public RunningTeamDeepReader(IRunningTeamDAO runningTeamDAO, RunningDeepReader runningDeepReader, ITeamDAO teamDAO, ReportDeepReader reportDeepReader) {
 		super(runningTeamDAO);
 
-		this.runningDAO = runningDAO;
+		this.runningDeepReader = runningDeepReader;
 		this.teamDAO = teamDAO;
 		this.reportDeepReader = reportDeepReader;
 	}
 
 	@Override
 	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
-		Running running = runningDAO.select(runningTeam.getRunning().getId());
-		Binder.bind(runningTeam.getRunning(), running);
-
-		Team team = teamDAO.select(runningTeam.getTeam().getId());
-		Binder.bind(runningTeam.getTeam(), team);
-
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
-		parameters.put(EnumParameter.RUNNINGTEAM.getName(), new String[] { String.valueOf(runningTeam.getId()) });
 
+		retrieveDataRunning(runningTeam, parameters);
+		retrieveDataTeam(runningTeam, parameters);
+		retrieveDataReports(runningTeam, parameters);
+	}
+
+	private void retrieveDataRunning(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { String.valueOf(runningTeam.getRunning().getProject().getCode()) });
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(runningTeam.getRunning().getTeacher().getNumber()) });
+
+		Running running = runningDeepReader.select(parameters).get(0);
+		Binder.bind(runningTeam.getRunning(), running);
+	}
+
+	private void retrieveDataTeam(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });
+
+		Team team = teamDAO.select(parameters).get(0);
+		Binder.bind(runningTeam.getTeam(), team);
+	}
+
+	private void retrieveDataReports(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
 		runningTeam.getReports().clear();
+		parameters.clear();
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { String.valueOf(runningTeam.getRunning().getProject().getCode()) });
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(runningTeam.getRunning().getTeacher().getNumber()) });
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });
+		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { String.valueOf(runningTeam.getAcademicLevel().getCode()) });
 
 		List<Report> reports = reportDeepReader.select(parameters);
 		Report reportToAdd;

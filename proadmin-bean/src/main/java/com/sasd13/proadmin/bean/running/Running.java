@@ -5,17 +5,16 @@ import com.sasd13.proadmin.bean.project.Project;
 
 public class Running {
 
-	private long id;
+	private Project project;
 	private int year;
 	private Teacher teacher;
-	private Project project;
 
-	public long getId() {
-		return id;
+	public Running(Project project) {
+		this.project = project;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public Project getProject() {
+		return project;
 	}
 
 	public int getYear() {
@@ -34,21 +33,12 @@ public class Running {
 		this.teacher = teacher;
 	}
 
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Running [");
-		builder.append("id=" + getId());
-		builder.append(", year=" + getYear());
+		builder.append("year=" + getYear());
 		builder.append("]");
 
 		return builder.toString();

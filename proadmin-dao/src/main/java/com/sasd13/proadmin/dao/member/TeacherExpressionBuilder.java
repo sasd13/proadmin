@@ -12,10 +12,10 @@ public class TeacherExpressionBuilder implements IExpressionBuilder {
 			try {
 				return ITeacherDAO.COLUMN_ID + " = " + Long.parseLong(value);
 			} catch (NumberFormatException e) {
-				throw new ConditionException("Teacher key '" + key + "' parameter parsing error");
+				throw new ConditionException("Teacher key '" + key + "' parsing error");
 			}
 		} else if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_NUMBER + " = '" + value + "'";
+			return ITeacherDAO.COLUMN_CODE + " = '" + value + "'";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
 			return ITeacherDAO.COLUMN_FIRSTNAME + " = '" + value + "'";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {

@@ -1,11 +1,15 @@
 package com.sasd13.proadmin.dao.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.Binder;
+import com.sasd13.proadmin.util.EnumParameter;
 
 public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
@@ -21,10 +25,25 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
 	@Override
 	protected void retrieveData(StudentTeam studentTeam) throws DAOException {
-		Student student = studentDAO.select(studentTeam.getStudent().getId());
-		Binder.bind(studentTeam.getStudent(), student);
+		Map<String, String[]> parameters = new HashMap<>();
 
-		Team team = teamDAO.select(studentTeam.getTeam().getId());
+		retrieveDataStudent(studentTeam, parameters);
+		retrieveDataTeam(studentTeam, parameters);
+	}
+
+	private void retrieveDataStudent(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentTeam.getStudent().getNumber() });
+
+		Student student = studentDAO.select(parameters).get(0);
+		Binder.bind(studentTeam.getStudent(), student);
+	}
+
+	private void retrieveDataTeam(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
+		parameters.clear();
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { studentTeam.getTeam().getNumber() });
+
+		Team team = teamDAO.select(parameters).get(0);
 		Binder.bind(studentTeam.getTeam(), team);
 	}
 }

@@ -8,20 +8,24 @@ public class RunningExpressionBuilder implements IExpressionBuilder {
 
 	@Override
 	public String build(String key, String value) throws ConditionException {
-		try {
-			if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {
+		if (EnumParameter.ID.getName().equalsIgnoreCase(key)) {
+			try {
 				return IRunningDAO.COLUMN_ID + " = " + Long.parseLong(value);
-			} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-				return IRunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
-			} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-				return IRunningDAO.COLUMN_TEACHER_ID + " = " + Long.parseLong(value);
-			} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-				return IRunningDAO.COLUMN_PROJECT_ID + " = " + Long.parseLong(value);
-			} else {
-				throw new ConditionException("Running key '" + key + "' is not a declared parameter");
+			} catch (NumberFormatException e) {
+				throw new ConditionException("Running key '" + key + "' parsing error");
 			}
-		} catch (NumberFormatException e) {
-			throw new ConditionException("Running key '" + key + "' parameter parsing error");
+		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			try {
+				return IRunningDAO.COLUMN_YEAR + " = " + Integer.parseInt(value);
+			} catch (NumberFormatException e) {
+				throw new ConditionException("Running key '" + key + "' parsing error");
+			}
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			return IRunningDAO.COLUMN_PROJECT_CODE + " = " + value;
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			return IRunningDAO.COLUMN_TEACHER_CODE + " = " + value;
+		} else {
+			throw new ConditionException("Running key '" + key + "' is not a declared parameter");
 		}
 	}
 }

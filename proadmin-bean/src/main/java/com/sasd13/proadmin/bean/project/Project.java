@@ -1,28 +1,8 @@
 package com.sasd13.proadmin.bean.project;
 
-import com.sasd13.proadmin.bean.EnumAcademicLevel;
-
 public class Project {
 
-	private long id;
-	private EnumAcademicLevel academicLevel;
 	private String code, title, description;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public EnumAcademicLevel getAcademicLevel() {
-		return academicLevel;
-	}
-
-	public void setAcademicLevel(EnumAcademicLevel academicLevel) {
-		this.academicLevel = academicLevel;
-	}
 
 	public String getCode() {
 		return code;
@@ -53,9 +33,7 @@ public class Project {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Project [");
-		builder.append("id=" + getId());
-		builder.append(", academicLevel=" + getAcademicLevel() != null ? getAcademicLevel().getCode() : null);
-		builder.append(", code=" + getCode());
+		builder.append("code=" + getCode());
 		builder.append(", title=" + getTitle());
 		builder.append(", description=" + getDescription());
 		builder.append("]");

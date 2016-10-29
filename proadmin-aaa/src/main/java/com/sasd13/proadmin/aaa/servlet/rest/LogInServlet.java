@@ -16,15 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
+import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.service.ICredentialReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.javaex.util.conf.AppProperties;
-import com.sasd13.proadmin.aaa.AAAException;
-import com.sasd13.proadmin.aaa.bean.Credential;
+import com.sasd13.proadmin.aaa.service.AAAException;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
-import com.sasd13.proadmin.aaa.service.ICredentialReadService;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.util.net.EnumAAAError;
@@ -34,11 +35,11 @@ import com.sasd13.proadmin.util.net.EnumAAAError;
  * @author Samir
  */
 @WebServlet("/login")
-public class LogInWebService extends HttpServlet {
+public class LogInServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4147483186176202467L;
 
-	private static final Logger LOG = Logger.getLogger(LogInWebService.class);
+	private static final Logger LOG = Logger.getLogger(LogInServlet.class);
 	private static final String PARAMETER_USERNAME = "username";
 	private static final String PARAMETER_PASSWORD = "password";
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_CONTENT_TYPE);
@@ -69,7 +70,7 @@ public class LogInWebService extends HttpServlet {
 			}
 		} catch (ParserException e) {
 			doCatch(e, "LogInWebService --> doPost failed", EnumAAAError.ERROR_PARSING_DATA, resp);
-		} catch (AAAException e) {
+		} catch (ServiceException e) {
 			doCatch(e, "LogInWebService --> doPost failed", EnumAAAError.ERROR_SERVICE, resp);
 		}
 	}

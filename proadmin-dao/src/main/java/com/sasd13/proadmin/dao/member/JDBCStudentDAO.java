@@ -16,11 +16,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.net.http.URLQueryEncoder;
-import com.sasd13.proadmin.bean.EnumAcademicLevel;
+import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.dao.JDBCEntityDAO;
+import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -36,24 +36,23 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 		preparedStatement.setString(2, student.getFirstName());
 		preparedStatement.setString(3, student.getLastName());
 		preparedStatement.setString(4, student.getEmail());
-		preparedStatement.setString(5, student.getAcademicLevel().getCode());
 	}
 
 	@Override
 	protected Student getResultSetValues(ResultSet resultSet) throws SQLException {
 		Student student = new Student();
-		student.setId(resultSet.getLong(COLUMN_ID));
-		student.setNumber(resultSet.getString(COLUMN_NUMBER));
+		student.setNumber(resultSet.getString(COLUMN_CODE));
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));
-		student.setAcademicLevel(EnumAcademicLevel.find(resultSet.getString(COLUMN_ACADEMICLEVEL)));
 
 		return student;
 	}
 
 	@Override
 	public long insert(Student student) throws DAOException {
+		ValidatorUtils.validate(student);
+
 		LOG.info("JDBCStudentDAO --> insert : number=" + student.getNumber());
 
 		long id = 0;
@@ -62,12 +61,11 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_NUMBER);
+		builder.append(COLUMN_CODE);
 		builder.append(", " + COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
-		builder.append(", " + COLUMN_ACADEMICLEVEL);
-		builder.append(") VALUES (?, ?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
@@ -80,7 +78,6 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				id = generatedKeys.getLong(1);
-				student.setId(id);
 			} else {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
@@ -95,26 +92,27 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public void update(Student student) throws DAOException {
+		ValidatorUtils.validate(student);
+
 		LOG.info("JDBCStudentDAO --> update : number=" + student.getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_NUMBER + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
 		builder.append(", " + COLUMN_LASTNAME + " = ?");
 		builder.append(", " + COLUMN_EMAIL + " = ?");
-		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, student);
-			preparedStatement.setLong(6, student.getId());
+			preparedStatement.setString(5, student.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -126,6 +124,8 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 	@Override
 	public void delete(Student student) throws DAOException {
+		ValidatorUtils.validate(student);
+
 		LOG.info("JDBCStudentDAO --> delete : number=" + student.getNumber());
 
 		StringBuilder builder = new StringBuilder();
@@ -134,14 +134,14 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 		builder.append(" SET ");
 		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setBoolean(1, true);
-			preparedStatement.setLong(2, student.getId());
+			preparedStatement.setString(2, student.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -161,9 +161,9 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
+		builder.append(COLUMN_CODE + " = ?");
 		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = ?");
+		builder.append(COLUMN_ID + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
@@ -177,7 +177,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				student = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCStudentDAO --> select failed", "Student not selected");
+			doCatch(e, LOG, "JDBCStudentDAO --> select failed", "Student not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -186,7 +186,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 	}
 
 	public List<Student> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCStudentDAO --> select : parameters=" + URLQueryEncoder.toString(parameters));
+		LOG.info("JDBCStudentDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Student> list = new ArrayList<>();
 
@@ -208,7 +208,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCStudentDAO --> select failed", "Students not selected");
+			doCatch(e, LOG, "JDBCStudentDAO --> select failed", "Students not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -238,7 +238,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCStudentDAO --> selectAll failed", "Students not selected");
+			doCatch(e, LOG, "JDBCStudentDAO --> selectAll failed", "Students not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

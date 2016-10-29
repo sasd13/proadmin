@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.filter.AndFilter;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
-import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
 
@@ -26,8 +25,6 @@ public class StudentFilter extends AndFilter<Student> {
 					multiAndCriteria.addCriteria(new MemberLastNameCriteria<Student>(value));
 				} else if (EnumParameter.EMAIL.getName().equals(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberEmailCriteria<Student>(value));
-				} else if (EnumParameter.ACADEMICLEVEL.getName().equals(entry.getKey())) {
-					multiAndCriteria.addCriteria(new StudentAcademicLevelCriteria(EnumAcademicLevel.find(entry.getKey())));
 				}
 			}
 		}

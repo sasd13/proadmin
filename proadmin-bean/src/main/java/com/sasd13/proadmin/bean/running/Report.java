@@ -10,32 +10,32 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Report {
 
-	private long id;
+	private RunningTeam runningTeam;
 	private String number, comment;
 	private Timestamp meetingDate;
 	private int session;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
-	private RunningTeam runningTeam;
 
 	public Report() {
 		leadEvaluation = new LeadEvaluation(this);
 		individualEvaluations = new ArrayList<>();
+
+		runningTeam.addReport(this);
 	}
 
 	public Report(RunningTeam runningTeam) {
 		this();
 
 		this.runningTeam = runningTeam;
-		runningTeam.addReport(this);
 	}
 
-	public long getId() {
-		return id;
+	public RunningTeam getRunningTeam() {
+		return runningTeam;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	void setRunningTeam(RunningTeam runningTeam) {
+		this.runningTeam = runningTeam;
 	}
 
 	public Timestamp getMeetingDate() {
@@ -92,21 +92,12 @@ public class Report {
 		return removed;
 	}
 
-	public RunningTeam getRunningTeam() {
-		return runningTeam;
-	}
-
-	void setRunningTeam(RunningTeam runningTeam) {
-		this.runningTeam = runningTeam;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Report [");
-		builder.append("id=" + getId());
-		builder.append(", number=" + getNumber());
+		builder.append("number=" + getNumber());
 		builder.append(", meetingDate=" + getMeetingDate());
 		builder.append(", session=" + getSession());
 		builder.append(", comment=" + getComment());

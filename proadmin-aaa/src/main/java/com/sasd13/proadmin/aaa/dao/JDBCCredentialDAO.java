@@ -10,7 +10,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.aaa.bean.Credential;
+import com.sasd13.javaex.security.Credential;
 
 public class JDBCCredentialDAO implements ICredentialDAO {
 
@@ -41,7 +41,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				LOG.warn("JDBCCredentialDAO --> close failed", e);
+				LOG.warn(e);
 			}
 		}
 	}

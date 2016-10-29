@@ -3,7 +3,6 @@ package com.sasd13.proadmin.util;
 import java.util.List;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 
 public class Finder {
 
@@ -11,16 +10,6 @@ public class Finder {
 		for (Project project : projects) {
 			if (project.getCode().equals(code)) {
 				return project;
-			}
-		}
-
-		return null;
-	}
-
-	public static IndividualEvaluation findIndividualEvaluationById(long id, List<IndividualEvaluation> individualEvaluations) {
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			if (individualEvaluation.getId() == id) {
-				return individualEvaluation;
 			}
 		}
 

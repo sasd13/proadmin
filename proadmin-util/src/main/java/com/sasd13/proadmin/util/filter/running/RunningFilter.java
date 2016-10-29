@@ -23,18 +23,10 @@ public class RunningFilter extends AndFilter<Running> {
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new RunningTeacherIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
 				} else if (EnumParameter.PROJECT.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new RunningProjectIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+					multiAndCriteria.addCriteria(new RunningProjectCriteria(value));
+				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new RunningTeacherCriteria(value));
 				}
 			}
 		}

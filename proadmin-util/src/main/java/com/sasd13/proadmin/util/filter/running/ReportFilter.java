@@ -25,12 +25,8 @@ public class ReportFilter extends AndFilter<Report> {
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (EnumParameter.RUNNINGTEAM.getName().equals(entry.getKey())) {
-					try {
-						multiAndCriteria.addCriteria(new ReportRunningTeamIdCriteria(Long.parseLong(value)));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+				} else if (EnumParameter.TEAM.getName().equals(entry.getKey())) {
+					multiAndCriteria.addCriteria(new ReportTeamCriteria(value));
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.proadmin.dao.member.JDBCStudentDAO;
 import com.sasd13.proadmin.dao.member.JDBCStudentTeamDAO;
 import com.sasd13.proadmin.dao.member.JDBCTeacherDAO;
@@ -36,10 +37,11 @@ public class JDBCDAO extends DAO {
 				new JDBCTeamDAO(), 
 				new JDBCStudentTeamDAO(), 
 				new JDBCRunningDAO(), 
+				new JDBCAcademicLevelDAO(),
 				new JDBCRunningTeamDAO(), 
 				new JDBCReportDAO()
 		);
-		
+
 		this.url = url;
 		this.username = username;
 		this.password = password;
@@ -49,7 +51,7 @@ public class JDBCDAO extends DAO {
 	public void open() throws DAOException {
 		try {
 			connection = DriverManager.getConnection(url, username, password);
-			
+
 			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
