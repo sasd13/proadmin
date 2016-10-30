@@ -22,7 +22,7 @@ public class CredentialReadService implements ICredentialReadService {
 
 	@Override
 	public boolean contains(Credential credential) throws AAAException {
-		LOG.info("contains : username=" + credential.getUsername());
+		LOG.info("check : username=" + credential.getUsername());
 
 		boolean contains = false;
 
@@ -31,7 +31,7 @@ public class CredentialReadService implements ICredentialReadService {
 
 			contains = dao.contains(credential);
 		} catch (DAOException e) {
-			LOG.error("contains failed");
+			LOG.error("check failed");
 			throw new AAAException(e.getMessage());
 		} finally {
 			try {

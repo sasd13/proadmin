@@ -4,7 +4,7 @@ public enum EnumAAASession {
 	UNKNOWN("unknown"), 
 	USERNAME("username"),
 	TOKEN("token"),
-	BEGIN("begin"),
+	START("start"),
 	;
 
 	private String name;

@@ -10,9 +10,6 @@ import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by ssaidali2 on 03/07/2016.
  */
@@ -67,10 +64,9 @@ public class LogInService implements IWSPromise {
         } else {
             taskType = TASKTYPE_READ;
 
-            Map<String, String[]> parameters = new HashMap<>();
-            parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
-
             readTaskTeacher = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
+            readTaskTeacher.setTimeout(WSConstants.DEFAULT_TIMEOUT);
+            readTaskTeacher.putParameter(EnumParameter.NUMBER.getName(), new String[]{ number });
             readTaskTeacher.execute();
         }
     }

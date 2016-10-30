@@ -16,7 +16,7 @@ public class SessionBuilder {
 
 		map.put(EnumAAASession.USERNAME.getName(), credential.getUsername());
 		map.put(EnumAAASession.TOKEN.getName(), new SessionIdGenerator().generateSessionId());
-		map.put(EnumAAASession.BEGIN.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
+		map.put(EnumAAASession.START.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
 
 		return map;
 	}

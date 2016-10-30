@@ -31,7 +31,7 @@ import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
-import com.sasd13.proadmin.util.ws.EnumCommonError;
+import com.sasd13.proadmin.util.ws.EnumError;
 
 /**
  *
@@ -68,17 +68,18 @@ public class LogInServlet extends HttpServlet {
 			validator.validate(credential);
 
 			if (credentialReadService.contains(credential)) {
+				LOG.info("checked !");
 				resp.setContentType(RESPONSE_CONTENT_TYPE);
 				Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential)));
 			} else {
 				throw new AAAException("Username/password not matching");
 			}
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
 		}
 	}
 
@@ -89,9 +90,9 @@ public class LogInServlet extends HttpServlet {
 		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
 	}
 
-	private void doCatch(Exception e, String logMessage, EnumCommonError aaaError, HttpServletResponse resp) throws IOException {
-		LOG.error(logMessage, e);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
+	private void doCatch(Exception e, String logErrorMessage, EnumError error, HttpServletResponse resp) throws IOException {
+		LOG.error(logErrorMessage, e);
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.writeAndClose(resp.getWriter(), e.getMessage());
 	}

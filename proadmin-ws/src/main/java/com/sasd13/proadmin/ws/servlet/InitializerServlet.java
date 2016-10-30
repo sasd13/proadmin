@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.conf.Config;
+import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.proadmin.util.Names;
 
 /**
@@ -33,5 +34,11 @@ public class InitializerServlet extends HttpServlet {
 		config.initLogger(LOG4J_PROPERTIES);
 		config.initAppProperties(new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
 		config.initDBDriver(AppProperties.getProperty(Names.WS_DB_DRIVER));
+
+		TranslationBundle.init(
+				AppProperties.getProperty(Names.WS_TRANSLATION_DIRECTORY_PATH), 
+				AppProperties.getProperty(Names.WS_TRANSLATION_FILE_PREFIX), 
+				AppProperties.getProperty(Names.WS_TRANSLATION_DEFAULT_LANGUAGE)
+		);
 	}
 }

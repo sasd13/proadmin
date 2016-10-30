@@ -55,6 +55,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 }
 
-/* configurations {
+configurations {
     compile.exclude group: 'commons-logging', module:'commons-logging'
-}*/
+}

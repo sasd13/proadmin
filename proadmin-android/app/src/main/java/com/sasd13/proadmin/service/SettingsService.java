@@ -29,7 +29,7 @@ public class SettingsService implements IWSPromise {
         isActionRead = true;
 
         readTaskTeacher = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
-        readTaskTeacher.addParameter(EnumParameter.NUMBER.getName(), number);
+        readTaskTeacher.putParameter(EnumParameter.NUMBER.getName(), new String[]{ number });
     }
 
     public Teacher readTeacherFromCache(String number) {

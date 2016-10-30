@@ -30,7 +30,7 @@ import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
-import com.sasd13.proadmin.util.ws.EnumCommonError;
+import com.sasd13.proadmin.util.ws.EnumError;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
 import com.sasd13.proadmin.ws.service.WSException;
@@ -91,13 +91,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			getLogger().info("Message send from WS:" + results);
 		} catch (ParserException e) {
-			doCatch(e, "doGet failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doGet failed", EnumError.DATA_PARSING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doGet failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doGet failed", EnumError.SERVICE, resp);
 		}
 	}
 
-	private void doCatch(Exception e, String logMessage, EnumCommonError aaaError, HttpServletResponse resp) throws IOException {
+	private void doCatch(Exception e, String logMessage, EnumError aaaError, HttpServletResponse resp) throws IOException {
 		getLogger().error(logMessage, e);
 		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
@@ -114,11 +114,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			validator.validate(t);
 			manageService.create(t);
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
 		}
 	}
 
@@ -132,11 +132,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			validator.validate(t);
 			manageService.update(t);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
 		}
 	}
 
@@ -150,11 +150,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			validator.validate(t);
 			manageService.delete(t);
 		} catch (ParserException e) {
-			doCatch(e, "doDelete failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doDelete failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doDelete failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doDelete failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doDelete failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doDelete failed", EnumError.SERVICE, resp);
 		}
 	}
 }

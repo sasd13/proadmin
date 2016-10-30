@@ -29,7 +29,7 @@ import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.aaa.service.CredentialManageService;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
 import com.sasd13.proadmin.util.Names;
-import com.sasd13.proadmin.util.ws.EnumCommonError;
+import com.sasd13.proadmin.util.ws.EnumError;
 
 /**
  *
@@ -66,11 +66,11 @@ public class SignServlet extends HttpServlet {
 			validator.validate(credential);
 			manageService.create(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class SignServlet extends HttpServlet {
 		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
 	}
 
-	private void doCatch(Exception e, String logMessage, EnumCommonError aaaError, HttpServletResponse resp) throws IOException {
+	private void doCatch(Exception e, String logMessage, EnumError aaaError, HttpServletResponse resp) throws IOException {
 		LOG.error(logMessage, e);
 		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
@@ -98,11 +98,11 @@ public class SignServlet extends HttpServlet {
 			validator.validate(credential);
 			manageService.update(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
 		}
 	}
 
@@ -116,11 +116,11 @@ public class SignServlet extends HttpServlet {
 			validator.validate(credential);
 			manageService.delete(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_PARSING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_VALIDATING_DATA, resp);
+			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumCommonError.ERROR_SERVICE, resp);
+			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
 		}
 	}
 }

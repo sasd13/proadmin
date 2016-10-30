@@ -64,8 +64,11 @@
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
     
-    <!-- Web service -->
-    <string name="ws_error_server_connection_failed">Server connection failed</string>
-    <string name="ws_error_data_retrieval_error">Data retrieval error</string>
+    <!-- Error -->
+    <string name="error_aaa_unknown">Unknown error</string>
+    <string name="error_common_unknown">Unknown error</string>
+    <string name="error_common_server_connection_failed">Server connection failed</string>
+    <string name="error_common_data_retrieval_error">Data retrieval error</string>
+    <string name="error_ws_unknown">Unknown error</string>
 
 </resources>
