@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class ProjectManageService implements IManageService<Project> {
 
@@ -22,7 +22,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void create(Project project) throws WSException {
+	public void create(Project project) throws ServiceException {
 		LOG.info("create : code=" + project.getCode());
 
 		try {
@@ -30,7 +30,7 @@ public class ProjectManageService implements IManageService<Project> {
 			dao.getEntityDAO(Project.class).insert(project);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void update(Project project) throws WSException {
+	public void update(Project project) throws ServiceException {
 		LOG.info("update : code=" + project.getCode());
 
 		try {
@@ -49,7 +49,7 @@ public class ProjectManageService implements IManageService<Project> {
 			dao.getEntityDAO(Project.class).update(project);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -60,7 +60,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void delete(Project project) throws WSException {
+	public void delete(Project project) throws ServiceException {
 		LOG.info("delete : code=" + project.getCode());
 
 		try {
@@ -68,7 +68,7 @@ public class ProjectManageService implements IManageService<Project> {
 			dao.getEntityDAO(Project.class).delete(project);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

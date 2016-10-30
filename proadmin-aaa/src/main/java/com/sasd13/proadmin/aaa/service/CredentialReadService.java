@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICredentialReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 
@@ -21,7 +22,7 @@ public class CredentialReadService implements ICredentialReadService {
 	}
 
 	@Override
-	public boolean contains(Credential credential) throws AAAException {
+	public boolean contains(Credential credential) throws ServiceException {
 		LOG.info("check : username=" + credential.getUsername());
 
 		boolean contains = false;
@@ -32,7 +33,7 @@ public class CredentialReadService implements ICredentialReadService {
 			contains = dao.contains(credential);
 		} catch (DAOException e) {
 			LOG.error("check failed");
-			throw new AAAException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

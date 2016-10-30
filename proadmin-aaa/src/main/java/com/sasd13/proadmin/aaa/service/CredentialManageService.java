@@ -22,7 +22,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void create(Credential credential) throws AAAException {
+	public void create(Credential credential) throws ServiceException {
 		LOG.info("create : username=" + credential.getUsername());
 
 		try {
@@ -30,7 +30,7 @@ public class CredentialManageService implements IManageService<Credential> {
 			dao.insert(credential);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new AAAException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void update(Credential credential) throws AAAException {
+	public void update(Credential credential) throws ServiceException {
 		LOG.info("update : username=" + credential.getUsername());
 
 		try {
@@ -49,7 +49,7 @@ public class CredentialManageService implements IManageService<Credential> {
 			dao.update(credential);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new AAAException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -68,7 +68,7 @@ public class CredentialManageService implements IManageService<Credential> {
 			dao.delete(credential);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new AAAException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

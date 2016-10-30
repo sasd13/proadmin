@@ -2,8 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="error.unknown">Unknown error</entry>
-	<entry key="error.data_parsing">Data parsing error</entry>
-	<entry key="error.data_validating">Data validating error</entry>
-	<entry key="error.service">Service error</entry>
-	<entry key="error.database.open">"Database connection error"</entry>
+	<entry key="exception.aaa">AAA exception</entry>
+	<entry key="exception.data_parsing">Data parsing exception</entry>
+	<entry key="exception.data_validating">Data validating exception</entry>
+	<entry key="exception.service">Service exception</entry>
+	<entry key="exception.ws">Web service exception</entry>
+	<entry key="error.user_login_failed">Username/password not matched</entry>
 </properties>

@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class TeacherManageService implements IManageService<Teacher> {
 
@@ -22,7 +22,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void create(Teacher teacher) throws WSException {
+	public void create(Teacher teacher) throws ServiceException {
 		LOG.info("create : number=" + teacher.getNumber());
 
 		try {
@@ -30,7 +30,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 			dao.getEntityDAO(Teacher.class).insert(teacher);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void update(Teacher teacher) throws WSException {
+	public void update(Teacher teacher) throws ServiceException {
 		LOG.info("update : number=" + teacher.getNumber());
 
 		try {
@@ -49,7 +49,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 			dao.getEntityDAO(Teacher.class).update(teacher);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -60,7 +60,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void delete(Teacher teacher) throws WSException {
+	public void delete(Teacher teacher) throws ServiceException {
 		LOG.info("delete : number=" + teacher.getNumber());
 
 		try {
@@ -68,7 +68,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 			dao.getEntityDAO(Teacher.class).delete(teacher);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

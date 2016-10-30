@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class LeadEvaluationManageService implements IManageService<LeadEvaluation> {
 
@@ -22,13 +22,13 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 	}
 
 	@Override
-	public void create(LeadEvaluation leadEvaluation) throws WSException {
+	public void create(LeadEvaluation leadEvaluation) throws ServiceException {
 		LOG.info("create unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void update(LeadEvaluation leadEvaluation) throws WSException {
+	public void update(LeadEvaluation leadEvaluation) throws ServiceException {
 		LOG.info("update : studentNumber=" + leadEvaluation.getStudent().getNumber());
 
 		try {
@@ -36,7 +36,7 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 			dao.getEntityDAO(LeadEvaluation.class).update(leadEvaluation);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -47,8 +47,8 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 	}
 
 	@Override
-	public void delete(LeadEvaluation leadEvaluation) throws WSException {
+	public void delete(LeadEvaluation leadEvaluation) throws ServiceException {
 		LOG.info("delete unavailable");
-		throw new WSException("Delete unavailable");
+		throw new ServiceException("Delete unavailable");
 	}
 }

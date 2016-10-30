@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class TeamManageService implements IManageService<Team> {
 
@@ -22,7 +22,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void create(Team team) throws WSException {
+	public void create(Team team) throws ServiceException {
 		LOG.info("create : code=" + team.getNumber());
 
 		try {
@@ -30,7 +30,7 @@ public class TeamManageService implements IManageService<Team> {
 			dao.getEntityDAO(Team.class).insert(team);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void update(Team team) throws WSException {
+	public void update(Team team) throws ServiceException {
 		LOG.info("update : code=" + team.getNumber());
 
 		try {
@@ -49,7 +49,7 @@ public class TeamManageService implements IManageService<Team> {
 			dao.getEntityDAO(Team.class).update(team);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -60,7 +60,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void delete(Team team) throws WSException {
+	public void delete(Team team) throws ServiceException {
 		LOG.info("delete : code=" + team.getNumber());
 
 		try {
@@ -68,7 +68,7 @@ public class TeamManageService implements IManageService<Team> {
 			dao.getEntityDAO(Team.class).update(team);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

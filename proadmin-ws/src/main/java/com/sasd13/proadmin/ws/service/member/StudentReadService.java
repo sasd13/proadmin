@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class StudentReadService implements IReadService<Student> {
 
@@ -26,7 +26,7 @@ public class StudentReadService implements IReadService<Student> {
 	}
 
 	@Override
-	public List<Student> read(Map<String, String[]> parameters) throws WSException {
+	public List<Student> read(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Student> students = new ArrayList<>();
@@ -37,7 +37,7 @@ public class StudentReadService implements IReadService<Student> {
 			students = dao.getEntityDAO(Student.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("read failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -50,7 +50,7 @@ public class StudentReadService implements IReadService<Student> {
 	}
 
 	@Override
-	public List<Student> readAll() throws WSException {
+	public List<Student> readAll() throws ServiceException {
 		LOG.info("readAll");
 
 		List<Student> students = new ArrayList<>();
@@ -61,7 +61,7 @@ public class StudentReadService implements IReadService<Student> {
 			students = dao.getEntityDAO(Student.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("readAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -74,14 +74,14 @@ public class StudentReadService implements IReadService<Student> {
 	}
 
 	@Override
-	public List<Student> deepRead(Map<String, String[]> parameters) throws WSException {
+	public List<Student> deepRead(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("deepRead unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public List<Student> deepReadAll() throws WSException {
+	public List<Student> deepReadAll() throws ServiceException {
 		LOG.info("deepRead unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 }

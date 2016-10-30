@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class TeamReadService implements IReadService<Team> {
 
@@ -26,7 +26,7 @@ public class TeamReadService implements IReadService<Team> {
 	}
 
 	@Override
-	public List<Team> read(Map<String, String[]> parameters) throws WSException {
+	public List<Team> read(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Team> teams = new ArrayList<>();
@@ -37,7 +37,7 @@ public class TeamReadService implements IReadService<Team> {
 			teams = dao.getEntityDAO(Team.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("read failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -50,7 +50,7 @@ public class TeamReadService implements IReadService<Team> {
 	}
 
 	@Override
-	public List<Team> readAll() throws WSException {
+	public List<Team> readAll() throws ServiceException {
 		LOG.info("readAll");
 
 		List<Team> teams = new ArrayList<>();
@@ -61,7 +61,7 @@ public class TeamReadService implements IReadService<Team> {
 			teams = dao.getEntityDAO(Team.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("readAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -74,14 +74,14 @@ public class TeamReadService implements IReadService<Team> {
 	}
 
 	@Override
-	public List<Team> deepRead(Map<String, String[]> parameters) throws WSException {
+	public List<Team> deepRead(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("deepRead unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public List<Team> deepReadAll() throws WSException {
+	public List<Team> deepReadAll() throws ServiceException {
 		LOG.info("deepReadAll unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 }

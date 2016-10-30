@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class RunningTeamReadService implements IReadService<RunningTeam> {
 
@@ -26,7 +26,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 	}
 
 	@Override
-	public List<RunningTeam> read(Map<String, String[]> parameters) throws WSException {
+	public List<RunningTeam> read(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<RunningTeam> runningTeams = new ArrayList<>();
@@ -37,7 +37,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 			runningTeams = dao.getEntityDAO(RunningTeam.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("read failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -50,7 +50,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 	}
 
 	@Override
-	public List<RunningTeam> readAll() throws WSException {
+	public List<RunningTeam> readAll() throws ServiceException {
 		LOG.info("readAll");
 
 		List<RunningTeam> runningTeams = new ArrayList<>();
@@ -61,7 +61,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 			runningTeams = dao.getEntityDAO(RunningTeam.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("readAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -74,7 +74,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 	}
 
 	@Override
-	public List<RunningTeam> deepRead(Map<String, String[]> parameters) throws WSException {
+	public List<RunningTeam> deepRead(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<RunningTeam> runningTeams = new ArrayList<>();
@@ -85,7 +85,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 			runningTeams = dao.getDeepReader(RunningTeam.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("deepRead failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -98,7 +98,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 	}
 
 	@Override
-	public List<RunningTeam> deepReadAll() throws WSException {
+	public List<RunningTeam> deepReadAll() throws ServiceException {
 		LOG.info("deepReadAll");
 
 		List<RunningTeam> runningTeams = new ArrayList<>();
@@ -109,7 +109,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 			runningTeams = dao.getDeepReader(RunningTeam.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("deepReadAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

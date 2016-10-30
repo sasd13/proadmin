@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service;
 
 import com.sasd13.javaex.service.IReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -26,7 +27,7 @@ import com.sasd13.proadmin.ws.service.running.RunningTeamReadService;
 public class ReadServiceFactory {
 
 	@SuppressWarnings("unchecked")
-	public static <T> IReadService<T> make(Class<T> mClass) throws WSException {
+	public static <T> IReadService<T> make(Class<T> mClass) throws ServiceException {
 		if (Project.class.isAssignableFrom(mClass)) {
 			return (IReadService<T>) new ProjectReadService();
 		} else if (Teacher.class.isAssignableFrom(mClass)) {
@@ -50,7 +51,7 @@ public class ReadServiceFactory {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IReadService<T>) new IndividualEvaluationReadService();
 		} else {
-			throw new WSException("Class '" + mClass.getName() + "' has not manageService");
+			throw new ServiceException("Class '" + mClass.getName() + "' has not manageService");
 		}
 	}
 }

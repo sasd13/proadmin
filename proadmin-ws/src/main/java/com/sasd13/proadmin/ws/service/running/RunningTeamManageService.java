@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class RunningTeamManageService implements IManageService<RunningTeam> {
 
@@ -22,7 +22,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 	}
 
 	@Override
-	public void create(RunningTeam runningTeam) throws WSException {
+	public void create(RunningTeam runningTeam) throws ServiceException {
 		LOG.info("create : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
@@ -30,7 +30,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			dao.getEntityDAO(RunningTeam.class).insert(runningTeam);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 	}
 
 	@Override
-	public void update(RunningTeam runningTeam) throws WSException {
+	public void update(RunningTeam runningTeam) throws ServiceException {
 		LOG.info("update : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
@@ -49,7 +49,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			dao.getEntityDAO(RunningTeam.class).update(runningTeam);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -60,7 +60,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) throws WSException {
+	public void delete(RunningTeam runningTeam) throws ServiceException {
 		LOG.info("delete : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
@@ -68,7 +68,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			dao.getEntityDAO(RunningTeam.class).delete(runningTeam);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

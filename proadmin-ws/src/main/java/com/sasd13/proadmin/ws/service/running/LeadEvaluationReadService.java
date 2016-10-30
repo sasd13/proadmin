@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
@@ -26,7 +26,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 	}
 
 	@Override
-	public List<LeadEvaluation> read(Map<String, String[]> parameters) throws WSException {
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
@@ -37,7 +37,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("read failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -50,7 +50,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 	}
 
 	@Override
-	public List<LeadEvaluation> readAll() throws WSException {
+	public List<LeadEvaluation> readAll() throws ServiceException {
 		LOG.info("readAll");
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
@@ -61,7 +61,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("readAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -74,7 +74,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 	}
 
 	@Override
-	public List<LeadEvaluation> deepRead(Map<String, String[]> parameters) throws WSException {
+	public List<LeadEvaluation> deepRead(Map<String, String[]> parameters) throws ServiceException {
 		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
@@ -85,7 +85,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error("deepRead failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -98,7 +98,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 	}
 
 	@Override
-	public List<LeadEvaluation> deepReadAll() throws WSException {
+	public List<LeadEvaluation> deepReadAll() throws ServiceException {
 		LOG.info("deepReadAll");
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
@@ -109,7 +109,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error("deepReadAll failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

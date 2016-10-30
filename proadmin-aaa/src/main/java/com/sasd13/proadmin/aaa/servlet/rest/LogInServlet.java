@@ -24,16 +24,14 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICredentialReadService;
-import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.javaex.validator.ValidatorException;
-import com.sasd13.proadmin.aaa.service.AAAException;
 import com.sasd13.proadmin.aaa.service.CredentialReadService;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
-import com.sasd13.proadmin.util.ws.EnumError;
+import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.util.exception.ErrorFactory;
 
 /**
  *
@@ -78,9 +76,16 @@ public class LogInServlet extends HttpServlet {
 		Stream.writeAndClose(resp.getWriter(), message);
 	}
 
-	private void doCatch(String logMessage, HttpServletResponse resp, EnumError error) throws IOException {
+	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
+	}
+
+	private void doCatch(Exception e, String logMessage, HttpServletResponse resp) throws IOException {
 		LOG.error(logMessage);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
+
+		EnumError error = ErrorFactory.make(e);
+
+		writeError(resp, error);
 		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 
@@ -99,14 +104,10 @@ public class LogInServlet extends HttpServlet {
 				writeToResponse(resp, message);
 				LOG.info("Message send by AAA: " + message);
 			} else {
-				throw new AAAException("Username/password not matched");
+				writeError(resp, EnumError.USER_LOGIN_FAILED);
 			}
-		} catch (ParserException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
-		} catch (ValidatorException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
-		} catch (ServiceException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.SERVICE);
+		} catch (Exception e) {
+			doCatch(e, "doPost failed. " + e.getMessage(), resp);
 		}
 	}
 }

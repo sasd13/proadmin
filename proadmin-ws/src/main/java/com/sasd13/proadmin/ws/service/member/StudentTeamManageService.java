@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class StudentTeamManageService implements IManageService<StudentTeam> {
 
@@ -22,7 +22,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void create(StudentTeam studentTeam) throws WSException {
+	public void create(StudentTeam studentTeam) throws ServiceException {
 		LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
 
 		try {
@@ -30,7 +30,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 			dao.getEntityDAO(StudentTeam.class).insert(studentTeam);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,13 +41,13 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void update(StudentTeam studentTeam) throws WSException {
+	public void update(StudentTeam studentTeam) throws ServiceException {
 		LOG.info("update unavailable");
-		throw new WSException("Service unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) throws WSException {
+	public void delete(StudentTeam studentTeam) throws ServiceException {
 		LOG.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
 
 		try {
@@ -55,7 +55,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 			dao.getEntityDAO(StudentTeam.class).delete(studentTeam);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();

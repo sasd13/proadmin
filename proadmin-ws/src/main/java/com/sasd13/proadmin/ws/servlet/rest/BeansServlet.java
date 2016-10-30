@@ -30,11 +30,11 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.util.Names;
+import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.util.exception.ErrorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
-import com.sasd13.proadmin.util.ws.EnumError;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
-import com.sasd13.proadmin.ws.service.WSException;
 
 /**
  *
@@ -65,7 +65,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			validator = ValidatorFactory.make(getBeanClass());
 			readService = ReadServiceFactory.make(getBeanClass());
 			manageService = ManageServiceFactory.make(getBeanClass());
-		} catch (ValidatorException | WSException e) {
+		} catch (ValidatorException | ServiceException e) {
 			getLogger().error(e);
 		}
 	}
@@ -79,9 +79,16 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		Stream.write(resp.getWriter(), message);
 	}
 
-	private void doCatch(String logMessage, HttpServletResponse resp, EnumError error) throws IOException {
+	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
+	}
+
+	private void doCatch(Exception e, String logMessage, HttpServletResponse resp) throws IOException {
 		getLogger().error(logMessage);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
+
+		EnumError error = ErrorFactory.make(e);
+
+		writeError(resp, error);
 		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 
@@ -99,10 +106,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			writeToResponse(resp, message);
 			getLogger().info("Message send by WS: " + message);
-		} catch (ParserException e) {
-			doCatch("doGet failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
-		} catch (ServiceException e) {
-			doCatch("doGet failed. " + e.getMessage(), resp, EnumError.SERVICE);
+		} catch (Exception e) {
+			doCatch(e, "doGet failed. " + e.getMessage(), resp);
 		}
 	}
 
@@ -115,12 +120,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			validator.validate(t);
 			manageService.create(t);
-		} catch (ParserException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
-		} catch (ValidatorException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
-		} catch (ServiceException e) {
-			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.SERVICE);
+		} catch (Exception e) {
+			doCatch(e, "doPost failed. " + e.getMessage(), resp);
 		}
 	}
 
@@ -133,12 +134,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			validator.validate(t);
 			manageService.update(t);
-		} catch (ParserException e) {
-			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
-		} catch (ValidatorException e) {
-			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
-		} catch (ServiceException e) {
-			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.SERVICE);
+		} catch (Exception e) {
+			doCatch(e, "doPut failed. " + e.getMessage(), resp);
 		}
 	}
 
@@ -151,12 +148,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			validator.validate(t);
 			manageService.delete(t);
-		} catch (ParserException e) {
-			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
-		} catch (ValidatorException e) {
-			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
-		} catch (ServiceException e) {
-			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.SERVICE);
+		} catch (Exception e) {
+			doCatch(e, "doDelete failed. " + e.getMessage(), resp);
 		}
 	}
 }

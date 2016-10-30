@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.IManageService;
+import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
-import com.sasd13.proadmin.ws.service.WSException;
 
 public class RunningManageService implements IManageService<Running> {
 
@@ -22,7 +22,7 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void create(Running running) throws WSException {
+	public void create(Running running) throws ServiceException {
 		LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
@@ -30,7 +30,7 @@ public class RunningManageService implements IManageService<Running> {
 			dao.getEntityDAO(Running.class).insert(running);
 		} catch (DAOException e) {
 			LOG.error("create failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -41,7 +41,7 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void update(Running running) throws WSException {
+	public void update(Running running) throws ServiceException {
 		LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
@@ -49,7 +49,7 @@ public class RunningManageService implements IManageService<Running> {
 			dao.getEntityDAO(Running.class).update(running);
 		} catch (DAOException e) {
 			LOG.error("update failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
@@ -60,7 +60,7 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void delete(Running running) throws WSException {
+	public void delete(Running running) throws ServiceException {
 		LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
@@ -68,7 +68,7 @@ public class RunningManageService implements IManageService<Running> {
 			dao.getEntityDAO(Running.class).delete(running);
 		} catch (DAOException e) {
 			LOG.error("delete failed");
-			throw new WSException(e.getMessage());
+			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
