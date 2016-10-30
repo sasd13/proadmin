@@ -72,19 +72,19 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		getLogger().info("doGet");
 
-		List<T> tsToResponse = new ArrayList<>();
+		List<T> list = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
 			URLQueryUtils.decode(parameters);
 
 			if (!parameters.isEmpty()) {
-				tsToResponse.addAll(readService.read(parameters));
+				list = readService.read(parameters);
 			} else {
-				tsToResponse.addAll(readService.readAll());
+				list = readService.readAll();
 			}
 
-			String results = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(tsToResponse);
+			String results = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(list);
 
 			resp.setContentType(RESPONSE_CONTENT_TYPE);
 			Stream.write(resp.getWriter(), results);

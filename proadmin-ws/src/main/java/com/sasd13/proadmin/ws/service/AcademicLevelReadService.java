@@ -25,8 +25,26 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 	@Override
 	public List<AcademicLevel> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("read unavailable");
-		throw new WSException("Service unavailable");
+		LOG.info("read");
+
+		List<AcademicLevel> academicLevels = new ArrayList<>();
+
+		try {
+			dao.open();
+
+			academicLevels = dao.getEntityDAO(AcademicLevel.class).select(parameters);
+		} catch (DAOException e) {
+			LOG.error("read failed");
+			throw new WSException(e.getMessage());
+		} finally {
+			try {
+				dao.close();
+			} catch (IOException e) {
+				LOG.warn(e);
+			}
+		}
+
+		return academicLevels;
 	}
 
 	@Override
