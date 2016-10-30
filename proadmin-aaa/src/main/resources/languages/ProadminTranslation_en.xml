@@ -5,4 +5,5 @@
 	<entry key="error.data_parsing">Data parsing error</entry>
 	<entry key="error.data_validating">Data validating error</entry>
 	<entry key="error.service">Service error</entry>
+	<entry key="error.database.open">"Database connection error"</entry>
 </properties>

@@ -6,8 +6,8 @@
 package com.sasd13.proadmin.ws.servlet.rest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserException;
@@ -45,116 +46,117 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
 
-	IValidator<T> validator;
-	IReadService<T> readService;
-	IManageService<T> manageService;
+	private TranslationBundle bundle;
+	private IValidator<T> validator;
+	private IReadService<T> readService;
+	private IManageService<T> manageService;
+
+	protected abstract Class<T> getBeanClass();
+
+	protected abstract Logger getLogger();
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
+		bundle = new TranslationBundle(Locale.ENGLISH);
+
 		try {
 			validator = ValidatorFactory.make(getBeanClass());
 			readService = ReadServiceFactory.make(getBeanClass());
 			manageService = ManageServiceFactory.make(getBeanClass());
-		} catch (WSException | ValidatorException e) {
+		} catch (ValidatorException | WSException e) {
 			getLogger().error(e);
 		}
 	}
 
-	protected abstract Class<T> getBeanClass();
+	private T readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+		return ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), getBeanClass());
+	}
 
-	protected abstract String getWebServiceName();
+	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+		resp.setContentType(RESPONSE_CONTENT_TYPE);
+		Stream.write(resp.getWriter(), message);
+	}
 
-	protected abstract Logger getLogger();
+	private void doCatch(String logMessage, HttpServletResponse resp, EnumError error) throws IOException {
+		getLogger().error(logMessage);
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
+		writeToResponse(resp, bundle.getString(error.getBundleKey()));
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		getLogger().info("doGet");
 
-		List<T> list = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
+		URLQueryUtils.decode(parameters);
+
 		try {
-			URLQueryUtils.decode(parameters);
+			List<T> results = !parameters.isEmpty() ? readService.read(parameters) : readService.readAll();
+			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
 
-			if (!parameters.isEmpty()) {
-				list = readService.read(parameters);
-			} else {
-				list = readService.readAll();
-			}
-
-			String results = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(list);
-
-			resp.setContentType(RESPONSE_CONTENT_TYPE);
-			Stream.write(resp.getWriter(), results);
-
-			getLogger().info("Message send from WS:" + results);
+			writeToResponse(resp, message);
+			getLogger().info("Message send by WS: " + message);
 		} catch (ParserException e) {
-			doCatch(e, "doGet failed", EnumError.DATA_PARSING, resp);
+			doCatch("doGet failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ServiceException e) {
-			doCatch(e, "doGet failed", EnumError.SERVICE, resp);
+			doCatch("doGet failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
-	}
-
-	private void doCatch(Exception e, String logMessage, EnumError aaaError, HttpServletResponse resp) throws IOException {
-		getLogger().error(logMessage, e);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
-		resp.setContentType(RESPONSE_CONTENT_TYPE);
-		Stream.write(resp.getWriter(), e.getMessage());
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info(getWebServiceName() + " --> doPost");
+		getLogger().info("doPost");
 
 		try {
-			T t = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), getBeanClass());
+			T t = readFromRequest(req);
 
 			validator.validate(t);
 			manageService.create(t);
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
 	}
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info(getWebServiceName() + " --> doPut");
+		getLogger().info("doPut");
 
 		try {
-			T t = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), getBeanClass());
+			T t = readFromRequest(req);
 
 			validator.validate(t);
 			manageService.update(t);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
 	}
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info(getWebServiceName() + " --> doDelete");
+		getLogger().info("doDelete");
 
 		try {
-			T t = ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), getBeanClass());
+			T t = readFromRequest(req);
 
 			validator.validate(t);
 			manageService.delete(t);
 		} catch (ParserException e) {
-			doCatch(e, "doDelete failed", EnumError.DATA_PARSING, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doDelete failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doDelete failed", EnumError.SERVICE, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
 	}
 }

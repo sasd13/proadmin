@@ -28,11 +28,6 @@ public class ReportsServlet extends BeansServlet<Report> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "ReportsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

@@ -28,11 +28,6 @@ public class AcademicLevelsServlet extends BeansServlet<AcademicLevel> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "AcademicLevelWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

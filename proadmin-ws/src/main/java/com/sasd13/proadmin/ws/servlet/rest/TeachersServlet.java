@@ -28,11 +28,6 @@ public class TeachersServlet extends BeansServlet<Teacher> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "TeachersWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

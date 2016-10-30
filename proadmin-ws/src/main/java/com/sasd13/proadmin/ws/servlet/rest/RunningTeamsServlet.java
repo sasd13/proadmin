@@ -28,11 +28,6 @@ public class RunningTeamsServlet extends BeansServlet<RunningTeam> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "RunningTeamsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

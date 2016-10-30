@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
@@ -27,8 +29,8 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.aaa.service.CredentialManageService;
+import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
-import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.ws.EnumError;
 
 /**
@@ -41,19 +43,43 @@ public class SignServlet extends HttpServlet {
 	private static final long serialVersionUID = 1073440009453108500L;
 
 	private static final Logger LOG = Logger.getLogger(SignServlet.class);
-	private static final String PARAMETER_USERNAME = "username";
-	private static final String PARAMETER_PASSWORD = "password";
-	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
+	private static final String PARAMETER_USERNAME = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_USERNAME);
+	private static final String PARAMETER_PASSWORD = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_PASSWORD);
+	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_CONTENT_TYPE);
 
-	IValidator<Credential> validator;
-	IManageService<Credential> manageService;
+	private TranslationBundle bundle;
+	private IValidator<Credential> validator;
+	private IManageService<Credential> manageService;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
+		bundle = new TranslationBundle(Locale.ENGLISH);
 		validator = new CredentialValidator();
 		manageService = new CredentialManageService();
+	}
+
+	@SuppressWarnings("unchecked")
+	private Credential readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
+
+		if (!map.containsKey(PARAMETER_USERNAME) || !map.containsKey(PARAMETER_PASSWORD)) {
+			throw new ParserException("Credential username/password not send");
+		}
+
+		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
+	}
+
+	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+		resp.setContentType(RESPONSE_CONTENT_TYPE);
+		Stream.writeAndClose(resp.getWriter(), message);
+	}
+
+	private void doCatch(String logMessage, HttpServletResponse resp, EnumError error) throws IOException {
+		LOG.error(logMessage);
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
+		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 
 	@Override
@@ -61,31 +87,17 @@ public class SignServlet extends HttpServlet {
 		LOG.info("doPost");
 
 		try {
-			Credential credential = getCredentialFromRequest(req);
+			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
 			manageService.create(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private Credential getCredentialFromRequest(HttpServletRequest req) throws ParserException, IOException {
-		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
-
-		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
-	}
-
-	private void doCatch(Exception e, String logMessage, EnumError aaaError, HttpServletResponse resp) throws IOException {
-		LOG.error(logMessage, e);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(aaaError.getCode()));
-		resp.setContentType(RESPONSE_CONTENT_TYPE);
-		Stream.writeAndClose(resp.getWriter(), e.getMessage());
 	}
 
 	@Override
@@ -93,16 +105,16 @@ public class SignServlet extends HttpServlet {
 		LOG.info("doPut");
 
 		try {
-			Credential credential = getCredentialFromRequest(req);
+			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
 			manageService.update(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
+			doCatch("doPut failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
 	}
 
@@ -111,16 +123,16 @@ public class SignServlet extends HttpServlet {
 		LOG.info("doDelete");
 
 		try {
-			Credential credential = getCredentialFromRequest(req);
+			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
 			manageService.delete(credential);
 		} catch (ParserException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_PARSING, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPut failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPut failed", EnumError.SERVICE, resp);
+			doCatch("doDelete failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
 	}
 }

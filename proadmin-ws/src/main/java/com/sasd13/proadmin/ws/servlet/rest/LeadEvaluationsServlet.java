@@ -28,11 +28,6 @@ public class LeadEvaluationsServlet extends BeansServlet<LeadEvaluation> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "LeadEvaluationsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

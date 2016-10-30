@@ -84,9 +84,9 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		return id;
 	}
 
-	private void doCatch(String logErrorMessage, String exceptionErrorMessage) throws DAOException {
-		LOG.error(logErrorMessage);
-		throw new DAOException(exceptionErrorMessage);
+	private void doCatch(String logMessage, String exceptionMessage) throws DAOException {
+		LOG.error(logMessage);
+		throw new DAOException(exceptionMessage);
 	}
 
 	private void doFinally(Statement statement) {

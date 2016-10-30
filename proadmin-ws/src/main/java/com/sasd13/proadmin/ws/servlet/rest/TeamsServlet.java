@@ -28,11 +28,6 @@ public class TeamsServlet extends BeansServlet<Team> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "TeamsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

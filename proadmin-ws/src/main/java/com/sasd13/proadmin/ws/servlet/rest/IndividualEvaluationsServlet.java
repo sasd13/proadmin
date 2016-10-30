@@ -28,11 +28,6 @@ public class IndividualEvaluationsServlet extends BeansServlet<IndividualEvaluat
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "IndividualEvaluationsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

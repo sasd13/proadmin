@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
@@ -43,19 +45,43 @@ public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 4147483186176202467L;
 
 	private static final Logger LOG = Logger.getLogger(LogInServlet.class);
-	private static final String PARAMETER_USERNAME = "username";
-	private static final String PARAMETER_PASSWORD = "password";
+	private static final String PARAMETER_USERNAME = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_USERNAME);
+	private static final String PARAMETER_PASSWORD = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_PASSWORD);
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_CONTENT_TYPE);
 
-	IValidator<Credential> validator;
+	private TranslationBundle bundle;
+	private IValidator<Credential> validator;
 	private ICredentialReadService credentialReadService;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
+		bundle = new TranslationBundle(Locale.ENGLISH);
 		validator = new CredentialValidator();
 		credentialReadService = new CredentialReadService();
+	}
+
+	@SuppressWarnings("unchecked")
+	private Credential readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
+
+		if (!map.containsKey(PARAMETER_USERNAME) || !map.containsKey(PARAMETER_PASSWORD)) {
+			throw new ParserException("Credential username/password not send");
+		}
+
+		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
+	}
+
+	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+		resp.setContentType(RESPONSE_CONTENT_TYPE);
+		Stream.writeAndClose(resp.getWriter(), message);
+	}
+
+	private void doCatch(String logMessage, HttpServletResponse resp, EnumError error) throws IOException {
+		LOG.error(logMessage);
+		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
+		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 
 	@Override
@@ -63,37 +89,24 @@ public class LogInServlet extends HttpServlet {
 		LOG.info("doPost");
 
 		try {
-			Credential credential = getCredentialFromRequest(req);
+			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
 
 			if (credentialReadService.contains(credential)) {
-				LOG.info("checked !");
-				resp.setContentType(RESPONSE_CONTENT_TYPE);
-				Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential)));
+				String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential));
+
+				writeToResponse(resp, message);
+				LOG.info("Message send by AAA: " + message);
 			} else {
-				throw new AAAException("Username/password not matching");
+				throw new AAAException("Username/password not matched");
 			}
 		} catch (ParserException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_PARSING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_PARSING);
 		} catch (ValidatorException e) {
-			doCatch(e, "doPost failed", EnumError.DATA_VALIDATING, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.DATA_VALIDATING);
 		} catch (ServiceException e) {
-			doCatch(e, "doPost failed", EnumError.SERVICE, resp);
+			doCatch("doPost failed. " + e.getMessage(), resp, EnumError.SERVICE);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private Credential getCredentialFromRequest(HttpServletRequest req) throws ParserException, IOException {
-		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
-
-		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
-	}
-
-	private void doCatch(Exception e, String logErrorMessage, EnumError error, HttpServletResponse resp) throws IOException {
-		LOG.error(logErrorMessage, e);
-		resp.setHeader(EnumHttpHeader.WS_ERROR.getName(), String.valueOf(error.getCode()));
-		resp.setContentType(RESPONSE_CONTENT_TYPE);
-		Stream.writeAndClose(resp.getWriter(), e.getMessage());
 	}
 }

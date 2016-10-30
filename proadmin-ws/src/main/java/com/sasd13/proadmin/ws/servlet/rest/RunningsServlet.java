@@ -28,11 +28,6 @@ public class RunningsServlet extends BeansServlet<Running> {
 	}
 
 	@Override
-	protected String getWebServiceName() {
-		return "RunningsWebService";
-	}
-
-	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}

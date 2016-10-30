@@ -38,7 +38,7 @@ public class InitializerServlet extends HttpServlet {
 		TranslationBundle.init(
 				AppProperties.getProperty(Names.AAA_TRANSLATION_DIRECTORY_PATH), 
 				AppProperties.getProperty(Names.AAA_TRANSLATION_FILE_PREFIX), 
-				AppProperties.getProperty(Names.AAA_TRANSLATION_DEFAULT_LANGUAGE)
+				AppProperties.getProperty(Names.AAA_TRANSLATION_LANGUAGE_DEFAULT)
 		);
 	}
 }
