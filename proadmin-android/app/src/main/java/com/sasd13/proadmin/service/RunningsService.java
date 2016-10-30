@@ -9,7 +9,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.ws.WSInformation;
+import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,7 @@ public class RunningsService implements IWSPromise {
     public void readRunnings(Project project) {
         setParameters(project);
 
-        readTask = new ReadTask<>(WSInformation.URL_WS_RUNNINGS, this, Running.class);
+        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
         readTask.execute();
     }
 
@@ -37,8 +37,8 @@ public class RunningsService implements IWSPromise {
         parameters.clear();
         parameters.put(
                 EnumParameter.TEACHER.getName(),
-                new String[]{ String.valueOf(SessionHelper.getExtraId(runningsFragment.getContext(), Extra.TEACHER_ID)) });
-        parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getId()) });
+                new String[]{ String.valueOf(SessionHelper.getExtraId(runningsFragment.getContext(), Extra.TEACHER_NUMBER)) });
+        parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getCode()) });
     }
 
     public List<Running> readRunningsFromCache(Project project) {

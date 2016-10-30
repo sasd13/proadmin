@@ -1,6 +1,7 @@
 CREATE TABLE projects (
 	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
+	datecreation VARCHAR(255) NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	description TEXT NOT NULL,
 	PRIMARY KEY (code)
@@ -71,7 +72,7 @@ CREATE TABLE runningteams (
 CREATE TABLE reports (
 	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
-	meetingdate VARCHAR(255) NOT NULL,
+	datemeeting VARCHAR(255) NOT NULL,
 	session INT NOT NULL,
 	comment TEXT,
 	runningteam_running_project_code VARCHAR(50) NOT NULL,

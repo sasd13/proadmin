@@ -12,7 +12,7 @@ DELETE FROM projects;
 
 -- PROJECTS
 
-INSERT INTO projects(code,title,description) VALUES ('2016PR01','Projet A','Description du projet A');
+INSERT INTO projects(code,datecreation,title,description) VALUES ('2016PR01','2016-01-01 00:00:00','Projet A','Description du projet A');
 
 -- TEACHERS
 
@@ -48,7 +48,7 @@ INSERT INTO runningteams(running_project_code,running_teacher_code,team_code,aca
 
 -- REPORTS
 
-INSERT INTO reports(code,meetingdate,session,comment,runningteam_running_project_code,runningteam_running_teacher_code,runningteam_team_code,runningteam_academiclevel_code) VALUES ('2016RE0001','2016-01-01 00:00:00',1,null,'2016RU01','21010013','2016TE01','L1');
+INSERT INTO reports(code,datemeeting,session,comment,runningteam_running_project_code,runningteam_running_teacher_code,runningteam_team_code,runningteam_academiclevel_code) VALUES ('2016RE0001','2016-01-01 00:00:00',1,null,'2016RU01','21010013','2016TE01','L1');
 
 -- LEADEVALUATIONS
 

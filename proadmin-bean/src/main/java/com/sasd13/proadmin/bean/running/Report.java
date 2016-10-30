@@ -12,7 +12,7 @@ public class Report {
 
 	private RunningTeam runningTeam;
 	private String number, comment;
-	private Timestamp meetingDate;
+	private Timestamp dateMeeting;
 	private int session;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
@@ -38,12 +38,12 @@ public class Report {
 		this.runningTeam = runningTeam;
 	}
 
-	public Timestamp getMeetingDate() {
-		return meetingDate;
+	public Timestamp getDateMeeting() {
+		return dateMeeting;
 	}
 
-	public void setMeetingDate(Timestamp meetingDate) {
-		this.meetingDate = meetingDate;
+	public void setDateMeeting(Timestamp dateMeeting) {
+		this.dateMeeting = dateMeeting;
 	}
 
 	public String getNumber() {
@@ -98,7 +98,7 @@ public class Report {
 
 		builder.append("Report [");
 		builder.append("number=" + getNumber());
-		builder.append(", meetingDate=" + getMeetingDate());
+		builder.append(", dateMeeting=" + getDateMeeting());
 		builder.append(", session=" + getSession());
 		builder.append(", comment=" + getComment());
 		builder.append("]");

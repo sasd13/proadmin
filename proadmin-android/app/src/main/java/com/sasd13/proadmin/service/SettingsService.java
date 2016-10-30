@@ -9,7 +9,8 @@ import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.SettingsForm;
 import com.sasd13.proadmin.util.Binder;
-import com.sasd13.proadmin.ws.WSInformation;
+import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.ws.WSResources;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
@@ -24,13 +25,14 @@ public class SettingsService implements IWSPromise {
         this.settingsActivity = settingsActivity;
     }
 
-    public void readTeacher(long id) {
+    public void readTeacher(String number) {
         isActionRead = true;
 
-        readTaskTeacher = new ReadTask<>(WSInformation.URL_WS_TEACHERS, this, Teacher.class);
+        readTaskTeacher = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
+        readTaskTeacher.addParameter(EnumParameter.NUMBER.getName(), number);
     }
 
-    public Teacher readTeacherFromCache(long id) {
+    public Teacher readTeacherFromCache(String number) {
         return null;
     }
 
@@ -38,7 +40,7 @@ public class SettingsService implements IWSPromise {
         try {
             Binder.bind(teacher, settingsForm.getEditable());
 
-            UpdateTask<Teacher> updateTask = new UpdateTask<>(WSInformation.URL_WS_TEACHERS, this);
+            UpdateTask<Teacher> updateTask = new UpdateTask<>(WSResources.URL_WS_TEACHERS, this);
             updateTask.execute(teacher);
         } catch (FormException e) {
             settingsActivity.onError(e.getResMessage());

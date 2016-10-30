@@ -7,7 +7,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.ws.WSInformation;
+import com.sasd13.proadmin.util.ws.WSConstants;
+import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,8 @@ public class LogInService implements IWSPromise {
     public void logIn(String number, String password) {
         taskType = TASKTYPE_LOGIN;
         this.number = number;
-        logInTask = new LogInTask(WSInformation.URL_AAA_LOGIN, this, number, password);
+        logInTask = new LogInTask(WSResources.URL_AAA_LOGIN, this, number, password);
+        logInTask.setTimeout(WSConstants.DEFAULT_TIMEOUT);
 
         logInTask.execute();
     }
@@ -68,7 +70,7 @@ public class LogInService implements IWSPromise {
             Map<String, String[]> parameters = new HashMap<>();
             parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
 
-            readTaskTeacher = new ReadTask<>(WSInformation.URL_WS_TEACHERS, this, Teacher.class);
+            readTaskTeacher = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
             readTaskTeacher.execute();
         }
     }

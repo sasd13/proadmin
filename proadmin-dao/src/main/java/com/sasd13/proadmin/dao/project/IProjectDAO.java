@@ -7,6 +7,7 @@ public interface IProjectDAO extends IEntityDAO<Project> {
 
 	String TABLE = "projects";
 	String COLUMN_CODE = "code";
+	String COLUMN_DATECREATION = "datecreation";
 	String COLUMN_TITLE = "title";
 	String COLUMN_DESCRIPTION = "description";
 }

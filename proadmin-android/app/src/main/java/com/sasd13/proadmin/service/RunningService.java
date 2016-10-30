@@ -12,7 +12,7 @@ import com.sasd13.proadmin.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.util.Binder;
-import com.sasd13.proadmin.ws.WSInformation;
+import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 
@@ -23,7 +23,6 @@ public class RunningService implements IWSPromise {
     private static final int TASKTYPE_DELETE = 2;
 
     private RunningFragment runningFragment;
-    private DefaultRunningBuilder defaultRunningBuilder;
     private CreateTask<Running> createTask;
     private UpdateTask<Running> updateTask;
     private DeleteTask<Running> deleteTask;
@@ -32,23 +31,22 @@ public class RunningService implements IWSPromise {
 
     public RunningService(RunningFragment runningFragment) {
         this.runningFragment = runningFragment;
-        defaultRunningBuilder = new DefaultRunningBuilder();
     }
 
     public List<Project> readProjectsFromCache() {
         return null;
     }
 
-    public Running getDefaultValueOfRunning() {
-        return defaultRunningBuilder.build();
+    public Running getDefaultValueOfRunning(Project project) {
+        return new DefaultRunningBuilder(project).build();
     }
 
-    public void createRunning(RunningForm runningForm) {
+    public void createRunning(RunningForm runningForm, Project project) {
         taskType = TASKTYPE_CREATE;
 
         try {
-            running = getRunningToCreate(runningForm);
-            createTask = new CreateTask<>(WSInformation.URL_WS_RUNNINGS, this);
+            running = getRunningToCreate(runningForm, project);
+            createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
             createTask.execute(running);
         } catch (FormException e) {
@@ -56,9 +54,9 @@ public class RunningService implements IWSPromise {
         }
     }
 
-    private Running getRunningToCreate(RunningForm runningForm) throws FormException {
+    private Running getRunningToCreate(RunningForm runningForm, Project project) throws FormException {
         Running runningFromForm = runningForm.getEditable();
-        Running runningToCreate = new Running();
+        Running runningToCreate = new Running(project);
 
         Binder.bind(runningToCreate, runningFromForm);
 
@@ -67,7 +65,7 @@ public class RunningService implements IWSPromise {
         return runningToCreate;
     }
 
-    public void updateRunning(Running runningToUpdate, RunningForm runningForm) {
+    public void updateRunning(RunningForm runningForm, Running runningToUpdate) {
         taskType = TASKTYPE_UPDATE;
 
         try {
@@ -78,7 +76,7 @@ public class RunningService implements IWSPromise {
             running = runningToUpdate;
             //running.setTeacher();
 
-            updateTask = new UpdateTask<>(WSInformation.URL_WS_RUNNINGS, this);
+            updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
             updateTask.execute(running);
         } catch (FormException e) {
             runningFragment.onError(e.getResMessage());
@@ -88,7 +86,7 @@ public class RunningService implements IWSPromise {
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
         this.running = running;
-        deleteTask = new DeleteTask<>(WSInformation.URL_WS_RUNNINGS, this);
+        deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 
         deleteTask.execute(running);
     }

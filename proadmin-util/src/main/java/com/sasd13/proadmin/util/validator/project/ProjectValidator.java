@@ -25,5 +25,9 @@ public class ProjectValidator implements IValidator<Project> {
 		if (StringUtils.isBlank(project.getDescription())) {
 			throw new ValidatorException("Project: description is not valid");
 		}
+
+		if (project.getDateCreation() == null) {
+			throw new ValidatorException("Project: dateCreation is not valid");
+		}
 	}
 }

@@ -6,12 +6,12 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.service.ICredentialManageService;
+import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 
-public class CredentialManageService implements ICredentialManageService {
+public class CredentialManageService implements IManageService<Credential> {
 
 	private static final Logger LOG = Logger.getLogger(CredentialManageService.class);
 

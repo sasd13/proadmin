@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.builder.running;
 
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.builder.IBuilder;
 
@@ -10,9 +11,15 @@ import java.util.Calendar;
  */
 public class DefaultRunningBuilder implements IBuilder<Running> {
 
+    private Project project;
+
+    public DefaultRunningBuilder(Project project) {
+        this.project = project;
+    }
+
     @Override
     public Running build() {
-        Running running = new Running();
+        Running running = new Running(project);
         running.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
         return running;

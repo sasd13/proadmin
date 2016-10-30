@@ -3,7 +3,7 @@
     xmlns:proadmin="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_projects_spinner"
-        android:title="@string/label_academiclevel"
+        android:title="@string/label_year"
         proadmin:showAsAction="ifRoom"
         proadmin:actionViewClass="android.widget.Spinner"/>
 </menu>

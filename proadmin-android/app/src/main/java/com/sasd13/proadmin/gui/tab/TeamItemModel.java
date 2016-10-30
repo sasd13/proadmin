@@ -22,6 +22,6 @@ public class TeamItemModel extends Observable implements IRecyclerItemModel, ILa
 
     @Override
     public String getLabel() {
-        return team.getCode();
+        return team.getNumber();
     }
 }

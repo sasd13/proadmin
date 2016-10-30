@@ -71,7 +71,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
-		preparedStatement.setString(2, String.valueOf(report.getMeetingDate()));
+		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
 		preparedStatement.setInt(3, report.getSession());
 		preparedStatement.setString(4, report.getComment());
 		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
@@ -99,7 +99,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 		Report report = new Report(runningTeam);
 		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setMeetingDate(Timestamp.valueOf(resultSet.getString(COLUMN_MEETINGDATE)));
+		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
@@ -117,7 +117,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(TABLE);
 		builder.append("(");
 		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_MEETINGDATE);
+		builder.append(", " + COLUMN_DATEMEETING);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE);
@@ -168,7 +168,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_MEETINGDATE + " = ?");
+		builder.append(", " + COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?");

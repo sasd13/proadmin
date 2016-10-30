@@ -44,8 +44,8 @@ public class ReportValidator implements IValidator<Report> {
 			throw new ValidatorException("Report: runningTeam -> running -> teacher is not valid");
 		}
 
-		if (report.getMeetingDate() == null) {
-			throw new ValidatorException("Report: meetingDate is not valid");
+		if (report.getDateMeeting() == null) {
+			throw new ValidatorException("Report: dateMeeting is not valid");
 		}
 	}
 }

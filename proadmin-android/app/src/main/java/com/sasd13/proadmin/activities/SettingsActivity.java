@@ -60,7 +60,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsService.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_ID));
+        settingsService.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_NUMBER));
     }
 
     private void buildFormSettings() {
@@ -71,7 +71,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromCache() {
-        teacher = settingsService.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_ID));
+        teacher = settingsService.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
     }
 
     private void refreshView() {

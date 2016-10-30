@@ -66,8 +66,8 @@ public class LogInServlet extends HttpServlet {
 			Credential credential = getCredentialFromRequest(req);
 
 			validator.validate(credential);
-			
-			if (credentialReadService.containsCredential(credential)) {
+
+			if (credentialReadService.contains(credential)) {
 				resp.setContentType(RESPONSE_CONTENT_TYPE);
 				Stream.writeAndClose(resp.getWriter(), ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential)));
 			} else {

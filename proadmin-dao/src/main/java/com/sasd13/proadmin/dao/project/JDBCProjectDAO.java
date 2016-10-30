@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +40,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setString(2, project.getTitle());
-		preparedStatement.setString(3, project.getDescription());
+		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
+		preparedStatement.setString(3, project.getTitle());
+		preparedStatement.setString(4, project.getDescription());
 	}
 
 	@Override
 	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_CODE));
+		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 
@@ -64,6 +67,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(TABLE);
 		builder.append("(");
 		builder.append(COLUMN_CODE);
+		builder.append(", " + COLUMN_DATECREATION);
 		builder.append(", " + COLUMN_TITLE);
 		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?)");
@@ -98,6 +102,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_CODE + " = ?");
+		builder.append(", " + COLUMN_DATECREATION + " = ?");
 		builder.append(", " + COLUMN_TITLE + " = ?");
 		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
 		builder.append(" WHERE ");
@@ -108,7 +113,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, project);
-			preparedStatement.setString(4, project.getCode());
+			preparedStatement.setString(5, project.getCode());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

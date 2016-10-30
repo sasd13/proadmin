@@ -29,11 +29,10 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.ProjectsActivity;
-import com.sasd13.proadmin.bean.EnumAcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.service.ProjectsService;
-import com.sasd13.proadmin.util.filter.project.ProjectAcademicLevelCriteria;
+import com.sasd13.proadmin.util.filter.project.ProjectDateCreatedCriteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +44,7 @@ public class ProjectsFragment extends Fragment {
     private ProjectsService projectsService;
     private Recycler projectsTab;
     private List<Project> projects;
-    private Spin spinAcademicLevels;
+    private Spin spinYears;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProjectsFragment newInstance() {
@@ -95,10 +94,10 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void refreshView() {
-        int position = spinAcademicLevels != null && spinAcademicLevels.getSelectedPosition() > -1
-                ? spinAcademicLevels.getSelectedPosition()
+        int position = spinYears != null && spinYears.getSelectedPosition() > -1
+                ? spinYears.getSelectedPosition()
                 : 0;
-        fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
+        //fillTabProjectsByYearCreated();
     }
 
     private void readProjectsFromWS() {
@@ -120,10 +119,10 @@ public class ProjectsFragment extends Fragment {
         projectsTab.addDividerItemDecoration();
     }
 
-    private void fillTabProjectsByAcademicLevel(EnumAcademicLevel academicLevel) {
+    private void fillTabProjectsByYearCreated(int year) {
         projectsTab.clear();
 
-        addProjectsToTab(new ProjectAcademicLevelCriteria(academicLevel).meetCriteria(projects));
+        addProjectsToTab(new ProjectDateCreatedCriteria(year).meetCriteria(projects));
     }
 
     private void addProjectsToTab(List<Project> projects) {
@@ -165,11 +164,11 @@ public class ProjectsFragment extends Fragment {
     private void buildSpinAcademicLevels(MenuItem menuItem) {
         Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
 
-        spinAcademicLevels = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
+        spinYears = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabProjectsByAcademicLevel(EnumAcademicLevel.values()[position]);
+                //fillTabProjectsByYearCreated();
             }
 
             @Override
@@ -177,7 +176,7 @@ public class ProjectsFragment extends Fragment {
 
             }
         });
-        spinAcademicLevels.addAll(Arrays.asList(getResources().getStringArray(R.array.academiclevels)));
+        spinYears.addAll(Arrays.asList(getResources().getStringArray(R.array.academiclevels)));
     }
 
     public void onLoad() {

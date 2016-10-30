@@ -5,7 +5,7 @@ import com.sasd13.androidex.ws.rest.task.ReadTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.ws.WSInformation;
+import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class ProjectsService implements IWSPromise {
     }
 
     public void readProjects() {
-        readTask = new ReadTask<>(WSInformation.URL_WS_PROJECTS, this, Project.class);
+        readTask = new ReadTask<>(WSResources.URL_WS_PROJECTS, this, Project.class);
 
         readTask.execute();
     }

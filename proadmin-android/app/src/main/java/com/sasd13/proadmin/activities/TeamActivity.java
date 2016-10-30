@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +37,7 @@ public class TeamActivity extends MotherActivity {
         super.onStart();
 
         if (isInExtraModeEdit()) {
-            long id = SessionHelper.getIntentExtraId(this, Extra.TEAM_ID);
+            String id = SessionHelper.getIntentExtraId(this, Extra.TEAM_NUMBER);
             //TODO : load team from savedInstance or parcel
 
             fillTeamViewHolder();
@@ -70,7 +69,6 @@ public class TeamActivity extends MotherActivity {
                 } else {
                     createTeam();
                 }
-                listRunnings();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -85,12 +83,5 @@ public class TeamActivity extends MotherActivity {
 
     public void createTeam() {
 
-    }
-
-    private void listRunnings() {
-        Intent intent = new Intent(this, RunningsActivity.class);
-        intent.putExtra(Extra.PROJECT_ID, team.getId());
-
-        startActivity(intent);
     }
 }

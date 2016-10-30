@@ -108,8 +108,7 @@ public class RunningFragment extends Fragment {
     }
 
     private void setDefaultRunning() {
-        running = runningService.getDefaultValueOfRunning();
-        running.setProject(project);
+        running = runningService.getDefaultValueOfRunning(project);
     }
 
     @Override
@@ -154,9 +153,9 @@ public class RunningFragment extends Fragment {
 
     public void saveOperation() {
         if (inModeEdit) {
-            runningService.updateRunning(running, runningForm);
+            runningService.updateRunning(runningForm, running);
         } else {
-            runningService.createRunning(runningForm);
+            runningService.createRunning(runningForm, project);
         }
     }
 

@@ -6,7 +6,6 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.EnumAcademicLevelRes;
 
 /**
  * Created by ssaidali2 on 26/07/2016.
@@ -23,11 +22,6 @@ public class ProjectForm extends Form {
         modelTitle.setLabel(context.getResources().getString(R.string.label_title));
         holder.add(new RecyclerHolderPair(modelTitle));
 
-        modelAcademicLevel = new TextItemModel();
-        modelAcademicLevel.setReadOnly(true);
-        modelAcademicLevel.setLabel(context.getResources().getString(R.string.label_academiclevel));
-        holder.add(new RecyclerHolderPair(modelAcademicLevel));
-
         modelCode = new TextItemModel();
         modelCode.setReadOnly(true);
         modelCode.setLabel(context.getResources().getString(R.string.label_code));
@@ -41,9 +35,6 @@ public class ProjectForm extends Form {
 
     public void bind(Project project) {
         modelTitle.setValue(project.getTitle());
-
-        EnumAcademicLevelRes academicLevelRes = EnumAcademicLevelRes.find(project.getAcademicLevel());
-        modelAcademicLevel.setValue(context.getResources().getString(academicLevelRes.getStringRes()));
 
         modelCode.setValue(project.getCode());
         modelDescription.setValue(project.getDescription());

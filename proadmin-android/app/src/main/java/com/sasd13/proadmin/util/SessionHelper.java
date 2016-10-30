@@ -21,11 +21,11 @@ import com.sasd13.proadmin.content.Extra;
 public class SessionHelper {
 
     public static boolean isLogged(Context context) {
-        return Session.containsAttribute(context, Extra.TEACHER_ID);
+        return Session.containsAttribute(context, Extra.TEACHER_NUMBER);
     }
 
     public static void logIn(final Activity activity, final Teacher teacher) {
-        setExtraId(activity, Extra.TEACHER_ID, teacher.getId());
+        setExtraId(activity, Extra.TEACHER_NUMBER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
         final Intent intent = new Intent(activity, HomeActivity.class);
@@ -73,18 +73,18 @@ public class SessionHelper {
         }
     }
 
-    public static long getExtraId(Context context, String extraKey) {
-        return Long.parseLong(Session.getAttribute(context, extraKey));
+    public static String getExtraId(Context context, String extraKey) {
+        return Session.getAttribute(context, extraKey);
     }
 
-    public static void setExtraId(Context context, String extraKey, long id) {
+    public static void setExtraId(Context context, String extraKey, String id) {
         Session.setAttribute(context, extraKey, String.valueOf(id));
     }
 
-    public static long getIntentExtraId(Activity activity, String extraKey) {
-        long currentExtraId = activity.getIntent().getLongExtra(extraKey, 0);
+    public static String getIntentExtraId(Activity activity, String extraKey) {
+        String currentExtraId = activity.getIntent().getStringExtra(extraKey);
 
-        if (currentExtraId == 0) {
+        if (currentExtraId == null) {
             currentExtraId = getExtraId(activity, extraKey);
         } else {
             setExtraId(activity, extraKey, currentExtraId);

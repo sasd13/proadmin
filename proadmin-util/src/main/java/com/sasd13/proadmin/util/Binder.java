@@ -22,6 +22,7 @@ public class Binder {
 
 	public static void bind(Project target, Project source) {
 		target.setCode(source.getCode());
+		target.setDateCreation(source.getDateCreation());
 		target.setTitle(source.getTitle());
 		target.setDescription(source.getDescription());
 	}
@@ -59,7 +60,7 @@ public class Binder {
 
 	public static void bind(Report target, Report source) {
 		target.setNumber(source.getNumber());
-		target.setMeetingDate(source.getMeetingDate());
+		target.setDateMeeting(source.getDateMeeting());
 		target.setSession(source.getSession());
 		target.setComment(source.getComment());
 

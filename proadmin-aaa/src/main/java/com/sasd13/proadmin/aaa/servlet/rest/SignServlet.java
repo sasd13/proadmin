@@ -21,7 +21,7 @@ import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.service.ICredentialManageService;
+import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
@@ -46,7 +46,7 @@ public class SignServlet extends HttpServlet {
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
 
 	IValidator<Credential> validator;
-	ICredentialManageService manageService;
+	IManageService<Credential> manageService;
 
 	@Override
 	public void init() throws ServletException {
