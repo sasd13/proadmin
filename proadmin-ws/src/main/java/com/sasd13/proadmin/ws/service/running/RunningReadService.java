@@ -27,7 +27,7 @@ public class RunningReadService implements IReadService<Running> {
 
 	@Override
 	public List<Running> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("RunningReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Running> runnings = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class RunningReadService implements IReadService<Running> {
 
 			runnings = dao.getEntityDAO(Running.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("RunningReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class RunningReadService implements IReadService<Running> {
 
 	@Override
 	public List<Running> readAll() throws WSException {
-		LOG.info("RunningReadService --> readAll");
+		LOG.info("readAll");
 
 		List<Running> runnings = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class RunningReadService implements IReadService<Running> {
 
 			runnings = dao.getEntityDAO(Running.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("RunningReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,7 +75,7 @@ public class RunningReadService implements IReadService<Running> {
 
 	@Override
 	public List<Running> deepRead(Map<String, String[]> parameters) throws WSException {
-		LOG.info("RunningReadService --> deepRead : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Running> runnings = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class RunningReadService implements IReadService<Running> {
 
 			runnings = dao.getDeepReader(Running.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("RunningReadService --> deepRead failed", e);
+			LOG.error("deepRead failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -99,7 +99,7 @@ public class RunningReadService implements IReadService<Running> {
 
 	@Override
 	public List<Running> deepReadAll() throws WSException {
-		LOG.info("RunningReadService --> deepReadAll");
+		LOG.info("deepReadAll");
 
 		List<Running> runnings = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class RunningReadService implements IReadService<Running> {
 
 			runnings = dao.getDeepReader(Running.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("RunningReadService --> deepReadAll failed", e);
+			LOG.error("deepReadAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

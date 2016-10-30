@@ -27,7 +27,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("TeacherReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Teacher> teachers = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 			teachers = dao.getEntityDAO(Teacher.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("TeacherReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> readAll() throws WSException {
-		LOG.info("TeacherReadService --> readAll");
+		LOG.info("readAll");
 
 		List<Teacher> teachers = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 			teachers = dao.getEntityDAO(Teacher.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("TeacherReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,11 +75,13 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> deepRead(Map<String, String[]> parameters) throws WSException {
-		throw new WSException("TeacherReadService --> deepRead unavailable");
+		LOG.info("deepRead unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public List<Teacher> deepReadAll() throws WSException {
-		throw new WSException("TeacherReadService --> deepReadAll unavailable");
+		LOG.info("deepReadAll unavailable");
+		throw new WSException("Service unavailable");
 	}
 }

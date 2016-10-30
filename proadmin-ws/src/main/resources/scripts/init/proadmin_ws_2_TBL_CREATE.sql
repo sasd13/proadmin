@@ -3,7 +3,6 @@ CREATE TABLE projects (
 	code VARCHAR(50) NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	description TEXT NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (code)
 );
 
@@ -13,7 +12,6 @@ CREATE TABLE teachers (
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (code)
 );
 
@@ -23,14 +21,12 @@ CREATE TABLE students (
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (code)
 );
 
 CREATE TABLE teams (
 	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (code)
 );
 
@@ -48,7 +44,6 @@ CREATE TABLE runnings (
 	year INT NOT NULL,
 	project_code VARCHAR(50) NOT NULL,
 	teacher_code VARCHAR(50) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (project_code, teacher_code),
 	FOREIGN KEY (project_code) REFERENCES projects (code),
 	FOREIGN KEY (teacher_code) REFERENCES teachers (code)
@@ -83,7 +78,6 @@ CREATE TABLE reports (
 	runningteam_running_teacher_code VARCHAR(50) NOT NULL,
 	runningteam_team_code VARCHAR(50) NOT NULL,
 	runningteam_academiclevel_code VARCHAR(50) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (code),
 	FOREIGN KEY (runningteam_running_project_code) REFERENCES runningteams (running_project_code),
 	FOREIGN KEY (runningteam_running_teacher_code) REFERENCES runningteams (running_teacher_code),
@@ -99,7 +93,6 @@ CREATE TABLE leadevaluations (
 	communicationcomment TEXT,
 	report_code VARCHAR(50) NOT NULL,
 	student_code VARCHAR(50) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (report_code, student_code),
 	FOREIGN KEY (report_code) REFERENCES reports (code),
 	FOREIGN KEY (student_code) REFERENCES students (code)
@@ -110,7 +103,6 @@ CREATE TABLE individualevaluations (
 	mark DOUBLE NOT NULL,
 	report_code VARCHAR(50) NOT NULL,
 	student_code VARCHAR(50) NOT NULL,
-	_deleted BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (report_code, student_code),
 	FOREIGN KEY (report_code) REFERENCES reports (code),
 	FOREIGN KEY (student_code) REFERENCES students (code)

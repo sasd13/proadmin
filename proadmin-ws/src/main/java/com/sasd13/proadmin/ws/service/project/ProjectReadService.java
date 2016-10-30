@@ -27,7 +27,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("ProjectReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Project> projects = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 			projects = dao.getEntityDAO(Project.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("ProjectReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> readAll() throws WSException {
-		LOG.info("ProjectReadService --> readAll");
+		LOG.info("readAll");
 
 		List<Project> projects = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 			projects = dao.getEntityDAO(Project.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("ProjectReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,11 +75,13 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> deepRead(Map<String, String[]> parameters) throws WSException {
-		throw new WSException("ProjectReadService --> deepRead unavailable");
+		LOG.info("deepRead unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public List<Project> deepReadAll() throws WSException {
-		throw new WSException("ProjectReadService --> deepReadAll unavailable");
+		LOG.info("deepRead unavailable");
+		throw new WSException("Service unavailable");
 	}
 }

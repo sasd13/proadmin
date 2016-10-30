@@ -27,7 +27,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("StudentTeamReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getEntityDAO(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> readAll() throws WSException {
-		LOG.info("StudentTeamReadService --> readAll");
+		LOG.info("readAll");
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getEntityDAO(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,16 +75,16 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> deepRead(Map<String, String[]> parameters) throws WSException {
-		LOG.info("StudentTeamReadService --> deepRead : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			studentTeams = dao.getEntityDAO(StudentTeam.class).select(parameters);
+			studentTeams = dao.getDeepReader(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> deepRead failed", e);
+			LOG.error("deepRead failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -99,7 +99,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> deepReadAll() throws WSException {
-		LOG.info("StudentTeamReadService --> deepReadAll");
+		LOG.info("deepReadAll");
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getDeepReader(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> deepReadAll failed", e);
+			LOG.error("deepReadAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

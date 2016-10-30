@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.proadmin.dao.member.JDBCStudentDAO;
@@ -26,6 +28,8 @@ import com.sasd13.proadmin.dao.running.JDBCRunningTeamDAO;
  */
 public class JDBCDAO extends DAO {
 
+	private static final Logger LOG = Logger.getLogger(JDBCDAO.class);
+
 	private String url, username, password;
 	private Connection connection;
 
@@ -37,7 +41,7 @@ public class JDBCDAO extends DAO {
 				new JDBCTeamDAO(), 
 				new JDBCStudentTeamDAO(), 
 				new JDBCRunningDAO(), 
-				new JDBCAcademicLevelDAO(),
+				new JDBCAcademicLevelDAO(), 
 				new JDBCRunningTeamDAO(), 
 				new JDBCReportDAO()
 		);
@@ -58,10 +62,12 @@ public class JDBCDAO extends DAO {
 			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
+			((JDBCEntityDAO<?>) academicLevelDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) runningTeamDAO).setConnection(connection);
 			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
 		} catch (SQLException e) {
-			throw new DAOException("Error connection to database");
+			LOG.error(e);
+			throw new DAOException("Database connection error");
 		}
 	}
 
@@ -71,7 +77,7 @@ public class JDBCDAO extends DAO {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.warn(e);
 			}
 		}
 	}

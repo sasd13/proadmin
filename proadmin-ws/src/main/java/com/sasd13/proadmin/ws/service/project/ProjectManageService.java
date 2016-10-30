@@ -23,13 +23,13 @@ public class ProjectManageService implements IManageService<Project> {
 
 	@Override
 	public void create(Project project) throws WSException {
-		LOG.info("ProjectManageService --> create : code=" + project.getCode());
+		LOG.info("create : code=" + project.getCode());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Project.class).insert(project);
 		} catch (DAOException e) {
-			LOG.error("ProjectManageService --> create failed", e);
+			LOG.error("create failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -42,13 +42,13 @@ public class ProjectManageService implements IManageService<Project> {
 
 	@Override
 	public void update(Project project) throws WSException {
-		LOG.info("ProjectManageService --> update : code=" + project.getCode());
+		LOG.info("update : code=" + project.getCode());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Project.class).update(project);
 		} catch (DAOException e) {
-			LOG.error("ProjectManageService --> update failed", e);
+			LOG.error("update failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -61,13 +61,13 @@ public class ProjectManageService implements IManageService<Project> {
 
 	@Override
 	public void delete(Project project) throws WSException {
-		LOG.info("ProjectManageService --> delete : code=" + project.getCode());
+		LOG.info("delete : code=" + project.getCode());
 
 		try {
 			dao.open();
-			dao.getEntityDAO(Project.class).update(project);
+			dao.getEntityDAO(Project.class).delete(project);
 		} catch (DAOException e) {
-			LOG.error("ProjectManageService --> delete failed", e);
+			LOG.error("delete failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

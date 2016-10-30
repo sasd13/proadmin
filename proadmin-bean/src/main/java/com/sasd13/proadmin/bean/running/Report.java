@@ -20,14 +20,14 @@ public class Report {
 	public Report() {
 		leadEvaluation = new LeadEvaluation(this);
 		individualEvaluations = new ArrayList<>();
-
-		runningTeam.addReport(this);
 	}
 
 	public Report(RunningTeam runningTeam) {
 		this();
 
 		this.runningTeam = runningTeam;
+
+		runningTeam.addReport(this);
 	}
 
 	public RunningTeam getRunningTeam() {

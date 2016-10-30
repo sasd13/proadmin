@@ -27,7 +27,7 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("TeamReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Team> teams = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class TeamReadService implements IReadService<Team> {
 
 			teams = dao.getEntityDAO(Team.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("TeamReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> readAll() throws WSException {
-		LOG.info("TeamReadService --> readAll");
+		LOG.info("readAll");
 
 		List<Team> teams = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class TeamReadService implements IReadService<Team> {
 
 			teams = dao.getEntityDAO(Team.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("TeamReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,11 +75,13 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> deepRead(Map<String, String[]> parameters) throws WSException {
-		throw new WSException("TeamReadService --> deepRead unavailable");
+		LOG.info("deepRead unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public List<Team> deepReadAll() throws WSException {
-		throw new WSException("TeamReadService --> deepReadAll unavailable");
+		LOG.info("deepReadAll unavailable");
+		throw new WSException("Service unavailable");
 	}
 }

@@ -1,9 +1,9 @@
-package com.sasd13.proadmin.util.dao.validator;
+package com.sasd13.proadmin.util.validator;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sasd13.javaex.dao.validator.IValidator;
-import com.sasd13.javaex.dao.validator.ValidatorException;
+import com.sasd13.javaex.validator.IValidator;
+import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 
 public class AcademicLevelValidator implements IValidator<AcademicLevel> {

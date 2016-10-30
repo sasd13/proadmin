@@ -23,13 +23,13 @@ public class RunningManageService implements IManageService<Running> {
 
 	@Override
 	public void create(Running running) throws WSException {
-		LOG.info("RunningManageService --> create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Running.class).insert(running);
 		} catch (DAOException e) {
-			LOG.error("RunningManageService --> create failed", e);
+			LOG.error("create failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -42,13 +42,13 @@ public class RunningManageService implements IManageService<Running> {
 
 	@Override
 	public void update(Running running) throws WSException {
-		LOG.info("RunningManageService --> update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Running.class).update(running);
 		} catch (DAOException e) {
-			LOG.error("RunningManageService --> update failed", e);
+			LOG.error("update failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -61,13 +61,13 @@ public class RunningManageService implements IManageService<Running> {
 
 	@Override
 	public void delete(Running running) throws WSException {
-		LOG.info("RunningManageService --> delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
 			dao.open();
-			dao.getEntityDAO(Running.class).update(running);
+			dao.getEntityDAO(Running.class).delete(running);
 		} catch (DAOException e) {
-			LOG.error("RunningManageService --> delete failed", e);
+			LOG.error("delete failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

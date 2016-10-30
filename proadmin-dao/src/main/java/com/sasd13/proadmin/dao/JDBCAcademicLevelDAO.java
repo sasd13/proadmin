@@ -18,9 +18,9 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.dao.condition.IExpressionBuilder;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -29,6 +29,12 @@ import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implements IAcademicLevelDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCAcademicLevelDAO.class);
+
+	private IExpressionBuilder expressionBuilder;
+
+	public JDBCAcademicLevelDAO() {
+		expressionBuilder = new AcademicLevelExpressionBuilder();
+	}
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
@@ -44,9 +50,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	@Override
 	public long insert(AcademicLevel academicLevel) throws DAOException {
-		ValidatorUtils.validate(academicLevel);
-
-		LOG.info("JDBCAcademicLevelDAO --> insert : code=" + academicLevel.getCode());
+		LOG.info("insert : code=" + academicLevel.getCode());
 
 		long id = 0;
 
@@ -72,7 +76,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCAcademicLevelDAO --> insert failed", "AcademicLevel not inserted");
+			doCatch(LOG, "insert failed", "AcademicLevel not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -82,17 +86,16 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	@Override
 	public void update(AcademicLevel academicLevel) throws DAOException {
-		LOG.info("JDBCAcademicLevelDAO --> update unavailable");
+		LOG.info("update unavailable");
+		throw new DAOException("Update unavailable");
 	}
 
 	@Override
 	public void delete(AcademicLevel academicLevel) throws DAOException {
-		ValidatorUtils.validate(academicLevel);
-
-		LOG.info("JDBCAcademicLevelDAO --> delete : code=" + academicLevel.getCode());
+		LOG.info("delete : code=" + academicLevel.getCode());
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELTE FROM ");
+		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
@@ -105,7 +108,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCAcademicLevelDAO --> delete failed", "AcademicLevel not deleted");
+			doCatch(LOG, "delete failed", "AcademicLevel not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -113,7 +116,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	@Override
 	public AcademicLevel select(long id) throws DAOException {
-		LOG.info("JDBCAcademicLevelDAO --> select : id=" + id);
+		LOG.info("select : id=" + id);
 
 		AcademicLevel academicLevel = null;
 
@@ -122,22 +125,19 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
-			preparedStatement.setBoolean(2, false);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				academicLevel = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCAcademicLevelDAO --> select failed", "AcademicLevel not readed");
+			doCatch(LOG, "select failed", "AcademicLevel not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -146,7 +146,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 	}
 
 	public List<AcademicLevel> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCAcademicLevelDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<AcademicLevel> list = new ArrayList<>();
 
@@ -154,9 +154,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, new AcademicLevelExpressionBuilder()));
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = false");
+		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 
 		Statement statement = null;
 
@@ -168,7 +166,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCAcademicLevelDAO --> select failed", "AcademicLevels not readed");
+			doCatch(LOG, "select failed", "AcademicLevels not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -178,15 +176,13 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	@Override
 	public List<AcademicLevel> selectAll() throws DAOException {
-		LOG.info("JDBCAcademicLevelDAO --> selectAll");
+		LOG.info("selectAll");
 
 		List<AcademicLevel> list = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 
@@ -198,7 +194,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCAcademicLevelDAO --> selectAll failed", "AcademicLevels not readed");
+			doCatch(LOG, "selectAll failed", "AcademicLevels not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

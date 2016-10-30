@@ -23,13 +23,13 @@ public class TeamManageService implements IManageService<Team> {
 
 	@Override
 	public void create(Team team) throws WSException {
-		LOG.info("TeamManageService --> create : code=" + team.getNumber());
+		LOG.info("create : code=" + team.getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Team.class).insert(team);
 		} catch (DAOException e) {
-			LOG.error("TeamManageService --> create failed", e);
+			LOG.error("create failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -42,13 +42,13 @@ public class TeamManageService implements IManageService<Team> {
 
 	@Override
 	public void update(Team team) throws WSException {
-		LOG.info("TeamManageService --> update : code=" + team.getNumber());
+		LOG.info("update : code=" + team.getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Team.class).update(team);
 		} catch (DAOException e) {
-			LOG.error("TeamManageService --> update failed", e);
+			LOG.error("update failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -61,13 +61,13 @@ public class TeamManageService implements IManageService<Team> {
 
 	@Override
 	public void delete(Team team) throws WSException {
-		LOG.info("TeamManageService --> delete : code=" + team.getNumber());
+		LOG.info("delete : code=" + team.getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(Team.class).update(team);
 		} catch (DAOException e) {
-			LOG.error("TeamManageService --> delete failed", e);
+			LOG.error("delete failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

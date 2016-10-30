@@ -1,15 +1,16 @@
-package com.sasd13.proadmin.util.net;
+package com.sasd13.proadmin.util.ws;
 
-public enum EnumAAAError {
+public enum EnumCommonError {
 	ERROR_UNKNOWN(0, "Error unknown"), 
 	ERROR_PARSING_DATA(-1, "Error parsing data"), 
+	ERROR_VALIDATING_DATA(-2, "Error validating data"), 
 	ERROR_SERVICE(-100, "Error service"),
 	;
 
 	private int code;
 	private String label;
 
-	private EnumAAAError(int code, String label) {
+	private EnumCommonError(int code, String label) {
 		this.code = code;
 		this.label = label;
 	}
@@ -22,8 +23,8 @@ public enum EnumAAAError {
 		return label;
 	}
 
-	public static EnumAAAError find(int code) {
-		for (EnumAAAError aaaError : values()) {
+	public static EnumCommonError find(int code) {
+		for (EnumCommonError aaaError : values()) {
 			if (code == aaaError.code) {
 				return aaaError;
 			}

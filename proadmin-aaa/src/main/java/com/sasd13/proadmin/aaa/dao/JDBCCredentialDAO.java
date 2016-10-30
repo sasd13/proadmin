@@ -30,8 +30,8 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		try {
 			connection = DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
-			LOG.error("JDBCCredentialDAO --> open failed", e);
-			throw new DAOException("Database connection not opened");
+			LOG.error(e);
+			throw new DAOException("Database connection error");
 		}
 	}
 
@@ -48,7 +48,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 	@Override
 	public long insert(Credential credential) throws DAOException {
-		LOG.info("JDBCCredentialDAO --> insert : username=" + credential.getUsername());
+		LOG.info("insert : username=" + credential.getUsername());
 
 		long id = 0;
 
@@ -76,7 +76,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(e, "JDBCCredentialDAO --> insert failed", "Credential not inserted");
+			doCatch("insert failed", "Credential not inserted");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -84,8 +84,8 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		return id;
 	}
 
-	private void doCatch(Exception e, String logErrorMessage, String exceptionErrorMessage) throws DAOException {
-		LOG.error(logErrorMessage, e);
+	private void doCatch(String logErrorMessage, String exceptionErrorMessage) throws DAOException {
+		LOG.error(logErrorMessage);
 		throw new DAOException(exceptionErrorMessage);
 	}
 
@@ -101,26 +101,26 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 	@Override
 	public void update(Credential credential) throws DAOException {
-		LOG.info("JDBCCredentialDAO --> update : username=" + credential.getUsername());
+		LOG.info("update : username=" + credential.getUsername());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_USERNAME + " = ?");
-		builder.append(" WHERE ");
 		builder.append(COLUMN_PASSWORD + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_USERNAME + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, credential.getUsername());
-			preparedStatement.setString(2, credential.getPassword());
+			preparedStatement.setString(1, credential.getPassword());
+			preparedStatement.setString(2, credential.getUsername());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, "JDBCCredentialDAO --> update failed", "Credential not updated");
+			doCatch("update failed", "Credential not updated");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -128,7 +128,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 	@Override
 	public void delete(Credential credential) throws DAOException {
-		LOG.info("JDBCCredentialDAO --> delete : username=" + credential.getUsername());
+		LOG.info("delete : username=" + credential.getUsername());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
@@ -144,7 +144,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, "JDBCCredentialDAO --> delete failed", "Credential not deleted");
+			doCatch("delete failed", "Credential not deleted");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -152,7 +152,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 	@Override
 	public boolean contains(Credential credential) throws DAOException {
-		LOG.info("JDBCCredentialDAO --> contains : username=" + credential.getUsername());
+		LOG.info("check : username=" + credential.getUsername());
 
 		boolean contains = false;
 
@@ -176,7 +176,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 				contains = true;
 			}
 		} catch (SQLException e) {
-			doCatch(e, "JDBCCredentialDAO --> contains failed", "Credential not checked");
+			doCatch("check failed", "Credential not checked");
 		} finally {
 			doFinally(preparedStatement);
 		}

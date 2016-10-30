@@ -10,12 +10,12 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
 import com.sasd13.proadmin.ws.service.WSException;
 
-public class LeadEvaluationReadService implements IReadService<StudentTeam> {
+public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
 	private static final Logger LOG = Logger.getLogger(LeadEvaluationReadService.class);
 
@@ -26,17 +26,17 @@ public class LeadEvaluationReadService implements IReadService<StudentTeam> {
 	}
 
 	@Override
-	public List<StudentTeam> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("StudentTeamReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) throws WSException {
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
-		List<StudentTeam> studentTeams = new ArrayList<>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			studentTeams = dao.getEntityDAO(StudentTeam.class).select(parameters);
+			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -46,21 +46,21 @@ public class LeadEvaluationReadService implements IReadService<StudentTeam> {
 			}
 		}
 
-		return studentTeams;
+		return leadEvaluations;
 	}
 
 	@Override
-	public List<StudentTeam> readAll() throws WSException {
-		LOG.info("StudentTeamReadService --> readAll");
+	public List<LeadEvaluation> readAll() throws WSException {
+		LOG.info("readAll");
 
-		List<StudentTeam> studentTeams = new ArrayList<>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			studentTeams = dao.getEntityDAO(StudentTeam.class).selectAll();
+			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -70,21 +70,21 @@ public class LeadEvaluationReadService implements IReadService<StudentTeam> {
 			}
 		}
 
-		return studentTeams;
+		return leadEvaluations;
 	}
 
 	@Override
-	public List<StudentTeam> deepRead(Map<String, String[]> parameters) throws WSException {
-		LOG.info("StudentTeamReadService --> deepRead : parameters=" + URLQueryUtils.toString(parameters));
+	public List<LeadEvaluation> deepRead(Map<String, String[]> parameters) throws WSException {
+		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
-		List<StudentTeam> studentTeams = new ArrayList<>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			studentTeams = dao.getEntityDAO(StudentTeam.class).select(parameters);
+			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> deepRead failed", e);
+			LOG.error("deepRead failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -94,21 +94,21 @@ public class LeadEvaluationReadService implements IReadService<StudentTeam> {
 			}
 		}
 
-		return studentTeams;
+		return leadEvaluations;
 	}
 
 	@Override
-	public List<StudentTeam> deepReadAll() throws WSException {
-		LOG.info("StudentTeamReadService --> deepReadAll");
+	public List<LeadEvaluation> deepReadAll() throws WSException {
+		LOG.info("deepReadAll");
 
-		List<StudentTeam> studentTeams = new ArrayList<>();
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			studentTeams = dao.getDeepReader(StudentTeam.class).selectAll();
+			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("StudentTeamReadService --> deepReadAll failed", e);
+			LOG.error("deepReadAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -118,6 +118,6 @@ public class LeadEvaluationReadService implements IReadService<StudentTeam> {
 			}
 		}
 
-		return studentTeams;
+		return leadEvaluations;
 	}
 }

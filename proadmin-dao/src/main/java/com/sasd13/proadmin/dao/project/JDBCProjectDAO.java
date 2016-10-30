@@ -18,9 +18,9 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.dao.condition.IExpressionBuilder;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -29,6 +29,12 @@ import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCProjectDAO.class);
+
+	private IExpressionBuilder expressionBuilder;
+
+	public JDBCProjectDAO() {
+		expressionBuilder = new ProjectExpressionBuilder();
+	}
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
@@ -49,9 +55,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public long insert(Project project) throws DAOException {
-		ValidatorUtils.validate(project);
-
-		LOG.info("JDBCProjectDAO --> insert : code=" + project.getCode());
+		LOG.info("insert : code=" + project.getCode());
 
 		long id = 0;
 
@@ -77,7 +81,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				id = generatedKeys.getLong(1);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> insert failed", "Project not inserted");
+			doCatch(LOG, "insert failed", "Project not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -87,9 +91,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public void update(Project project) throws DAOException {
-		ValidatorUtils.validate(project);
-
-		LOG.info("JDBCProjectDAO --> update : code=" + project.getCode());
+		LOG.info("update : code=" + project.getCode());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -110,7 +112,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> update failed", "Project not updated");
+			doCatch(LOG, "update failed", "Project not updated");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -118,15 +120,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public void delete(Project project) throws DAOException {
-		ValidatorUtils.validate(project);
-
-		LOG.info("JDBCProjectDAO --> delete : code=" + project.getCode());
+		LOG.info("delete : code=" + project.getCode());
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
+		builder.append("DELETE FROM ");
 		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
@@ -134,12 +132,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setBoolean(1, true);
-			preparedStatement.setString(2, project.getCode());
+			preparedStatement.setString(1, project.getCode());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> delete failed", "Project not deleted");
+			doCatch(LOG, "delete failed", "Project not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -147,7 +144,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public Project select(long id) throws DAOException {
-		LOG.info("JDBCProjectDAO --> select : id=" + id);
+		LOG.info("select : id=" + id);
 
 		Project project = null;
 
@@ -156,22 +153,19 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
-			preparedStatement.setBoolean(2, false);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				project = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> select failed", "Project not readed");
+			doCatch(LOG, "select failed", "Project not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -180,7 +174,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	}
 
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCProjectDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Project> projects = new ArrayList<>();
 
@@ -188,9 +182,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, new ProjectExpressionBuilder()));
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = false");
+		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 
 		Statement statement = null;
 
@@ -202,7 +194,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> select failed", "Projects not readed");
+			doCatch(LOG, "select failed", "Projects not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -212,15 +204,13 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public List<Project> selectAll() throws DAOException {
-		LOG.info("JDBCProjectDAO --> selectAll");
+		LOG.info("selectAll");
 
 		List<Project> projects = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 
@@ -232,7 +222,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCProjectDAO --> selectAll failed", "Projects not readed");
+			doCatch(LOG, "selectAll failed", "Projects not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

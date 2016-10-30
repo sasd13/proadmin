@@ -18,11 +18,11 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.condition.ConditionBuilder;
+import com.sasd13.javaex.dao.condition.IExpressionBuilder;
 import com.sasd13.javaex.net.http.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 
 /**
  *
@@ -31,6 +31,12 @@ import com.sasd13.proadmin.util.dao.validator.ValidatorUtils;
 public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCRunningDAO.class);
+
+	private IExpressionBuilder expressionBuilder;
+
+	public JDBCRunningDAO() {
+		expressionBuilder = new RunningExpressionBuilder();
+	}
 
 	@Override
 	protected void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
@@ -56,9 +62,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public long insert(Running running) throws DAOException {
-		ValidatorUtils.validate(running);
-
-		LOG.info("JDBCRunningDAO --> insert : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("insert : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		long id = 0;
 
@@ -69,7 +73,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append(COLUMN_YEAR);
 		builder.append(", " + COLUMN_PROJECT_CODE);
 		builder.append(", " + COLUMN_TEACHER_CODE);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?)");
 
 		PreparedStatement preparedStatement = null;
 
@@ -86,7 +90,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> insert failed", "Running not inserted");
+			doCatch(LOG, "insert failed", "Running not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -96,9 +100,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public void update(Running running) throws DAOException {
-		ValidatorUtils.validate(running);
-
-		LOG.info("JDBCRunningDAO --> update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
@@ -121,7 +123,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> update failed", "Running not updated");
+			doCatch(LOG, "update failed", "Running not updated");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -129,15 +131,11 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public void delete(Running running) throws DAOException {
-		ValidatorUtils.validate(running);
-
-		LOG.info("JDBCRunningDAO --> delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
+		builder.append("DELETE FROM ");
 		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_DELETED + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
@@ -146,13 +144,12 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setBoolean(1, true);
-			preparedStatement.setString(2, running.getProject().getCode());
-			preparedStatement.setString(3, running.getTeacher().getNumber());
+			preparedStatement.setString(1, running.getProject().getCode());
+			preparedStatement.setString(2, running.getTeacher().getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> delete failed", "Running not deleted");
+			doCatch(LOG, "delete failed", "Running not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -160,7 +157,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public Running select(long id) throws DAOException {
-		LOG.info("JDBCRunningDAO --> select : id=" + id);
+		LOG.info("select : id=" + id);
 
 		Running running = null;
 
@@ -169,22 +166,19 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_ID + " = ?");
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = ?");
 
 		PreparedStatement preparedStatement = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(builder.toString());
 			preparedStatement.setLong(1, id);
-			preparedStatement.setBoolean(2, false);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				running = getResultSetValues(resultSet);
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> select failed", "Running not readed");
+			doCatch(LOG, "select failed", "Running not readed");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -193,7 +187,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	}
 
 	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("JDBCRunningDAO --> select : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Running> runnings = new ArrayList<>();
 
@@ -201,9 +195,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, new RunningExpressionBuilder()));
-		builder.append(" AND ");
-		builder.append(COLUMN_DELETED + " = false");
+		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 
 		Statement statement = null;
 
@@ -215,7 +207,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> select failed", "Runnings not readed");
+			doCatch(LOG, "select failed", "Runnings not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -225,15 +217,13 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public List<Running> selectAll() throws DAOException {
-		LOG.info("JDBCRunningDAO --> selectAll");
+		LOG.info("selectAll");
 
 		List<Running> runnings = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_DELETED + " = false");
 
 		Statement statement = null;
 
@@ -245,7 +235,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(e, LOG, "JDBCRunningDAO --> selectAll failed", "Runnings not readed");
+			doCatch(LOG, "selectAll failed", "Runnings not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

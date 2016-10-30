@@ -1,9 +1,9 @@
-package com.sasd13.proadmin.util.dao.validator.running;
+package com.sasd13.proadmin.util.validator.running;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sasd13.javaex.dao.validator.IValidator;
-import com.sasd13.javaex.dao.validator.ValidatorException;
+import com.sasd13.javaex.validator.IValidator;
+import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.bean.running.Running;
 
 public class RunningValidator implements IValidator<Running> {

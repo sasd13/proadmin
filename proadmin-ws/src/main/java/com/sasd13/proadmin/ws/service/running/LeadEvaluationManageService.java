@@ -23,18 +23,19 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 
 	@Override
 	public void create(LeadEvaluation leadEvaluation) throws WSException {
-		throw new WSException("LeadEvaluationManageService --> create unavailable");
+		LOG.info("create unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public void update(LeadEvaluation leadEvaluation) throws WSException {
-		LOG.info("LeadEvaluationManageService --> update : studentNumber=" + leadEvaluation.getStudent().getNumber());
+		LOG.info("update : studentNumber=" + leadEvaluation.getStudent().getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(LeadEvaluation.class).update(leadEvaluation);
 		} catch (DAOException e) {
-			LOG.error("LeadEvaluationManageService --> update failed", e);
+			LOG.error("update failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -47,6 +48,7 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) throws WSException {
-		throw new WSException("LeadEvaluationManageService --> delete unavailable");
+		LOG.info("delete unavailable");
+		throw new WSException("Delete unavailable");
 	}
 }

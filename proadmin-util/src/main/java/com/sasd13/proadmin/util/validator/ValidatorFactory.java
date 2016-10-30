@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.util.dao.validator;
+package com.sasd13.proadmin.util.validator;
 
-import com.sasd13.javaex.dao.validator.IValidator;
-import com.sasd13.javaex.dao.validator.ValidatorException;
+import com.sasd13.javaex.validator.IValidator;
+import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -13,16 +13,16 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.dao.validator.member.StudentTeamValidator;
-import com.sasd13.proadmin.util.dao.validator.member.StudentValidator;
-import com.sasd13.proadmin.util.dao.validator.member.TeacherValidator;
-import com.sasd13.proadmin.util.dao.validator.member.TeamValidator;
-import com.sasd13.proadmin.util.dao.validator.project.ProjectValidator;
-import com.sasd13.proadmin.util.dao.validator.running.IndividualEvaluationValidator;
-import com.sasd13.proadmin.util.dao.validator.running.LeadEvaluationValidator;
-import com.sasd13.proadmin.util.dao.validator.running.ReportValidator;
-import com.sasd13.proadmin.util.dao.validator.running.RunningTeamValidator;
-import com.sasd13.proadmin.util.dao.validator.running.RunningValidator;
+import com.sasd13.proadmin.util.validator.member.StudentTeamValidator;
+import com.sasd13.proadmin.util.validator.member.StudentValidator;
+import com.sasd13.proadmin.util.validator.member.TeacherValidator;
+import com.sasd13.proadmin.util.validator.member.TeamValidator;
+import com.sasd13.proadmin.util.validator.project.ProjectValidator;
+import com.sasd13.proadmin.util.validator.running.IndividualEvaluationValidator;
+import com.sasd13.proadmin.util.validator.running.LeadEvaluationValidator;
+import com.sasd13.proadmin.util.validator.running.ReportValidator;
+import com.sasd13.proadmin.util.validator.running.RunningTeamValidator;
+import com.sasd13.proadmin.util.validator.running.RunningValidator;
 
 public class ValidatorFactory {
 

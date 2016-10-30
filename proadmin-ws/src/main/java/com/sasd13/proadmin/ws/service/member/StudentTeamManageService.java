@@ -23,13 +23,13 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 
 	@Override
 	public void create(StudentTeam studentTeam) throws WSException {
-		LOG.info("StudentTeamManageService --> create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+		LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(StudentTeam.class).insert(studentTeam);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamManageService --> create failed", e);
+			LOG.error("create failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -42,32 +42,19 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 
 	@Override
 	public void update(StudentTeam studentTeam) throws WSException {
-		LOG.info("StudentTeamManageService --> update : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-
-		try {
-			dao.open();
-			dao.getEntityDAO(StudentTeam.class).update(studentTeam);
-		} catch (DAOException e) {
-			LOG.error("StudentTeamManageService --> update failed", e);
-			throw new WSException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOG.warn(e);
-			}
-		}
+		LOG.info("update unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public void delete(StudentTeam studentTeam) throws WSException {
-		LOG.info("StudentTeamManageService --> delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+		LOG.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
 
 		try {
 			dao.open();
-			dao.getEntityDAO(StudentTeam.class).update(studentTeam);
+			dao.getEntityDAO(StudentTeam.class).delete(studentTeam);
 		} catch (DAOException e) {
-			LOG.error("StudentTeamManageService --> delete failed", e);
+			LOG.error("delete failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

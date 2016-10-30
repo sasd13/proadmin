@@ -27,7 +27,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> read(Map<String, String[]> parameters) throws WSException {
-		LOG.info("IndividualEvaluationReadService --> read : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getEntityDAO(IndividualEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("IndividualEvaluationReadService --> read failed", e);
+			LOG.error("read failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -51,7 +51,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> readAll() throws WSException {
-		LOG.info("IndividualEvaluationReadService --> readAll");
+		LOG.info("readAll");
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getEntityDAO(IndividualEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("IndividualEvaluationReadService --> readAll failed", e);
+			LOG.error("readAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -75,16 +75,16 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> deepRead(Map<String, String[]> parameters) throws WSException {
-		LOG.info("IndividualEvaluationReadService --> deepRead : parameters=" + URLQueryUtils.toString(parameters));
+		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		try {
 			dao.open();
 
-			individualEvaluations = dao.getEntityDAO(IndividualEvaluation.class).select(parameters);
+			individualEvaluations = dao.getDeepReader(IndividualEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("IndividualEvaluationReadService --> deepRead failed", e);
+			LOG.error("deepRead failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -99,7 +99,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> deepReadAll() throws WSException {
-		LOG.info("IndividualEvaluationReadService --> deepReadAll");
+		LOG.info("deepReadAll");
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getDeepReader(IndividualEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("IndividualEvaluationReadService --> deepReadAll failed", e);
+			LOG.error("deepReadAll failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {

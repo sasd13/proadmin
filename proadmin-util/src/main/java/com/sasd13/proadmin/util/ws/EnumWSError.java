@@ -1,9 +1,7 @@
-package com.sasd13.proadmin.util.net;
+package com.sasd13.proadmin.util.ws;
 
 public enum EnumWSError {
-	ERROR_UNKNOWN(0, "Error unknown"), 
-	ERROR_PARSING_DATA(-1, "Error parsing data"), 
-	ERROR_SERVICE(-100, "Error service"), 
+	ERROR_UNKNOWN(0, "Error unknown"),
 	;
 
 	private int code;

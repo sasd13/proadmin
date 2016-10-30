@@ -23,18 +23,19 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 
 	@Override
 	public void create(IndividualEvaluation individualEvaluation) throws WSException {
-		throw new WSException("IndividualEvaluationManageService --> create unavailable");
+		LOG.info("create unavailable");
+		throw new WSException("Service unavailable");
 	}
 
 	@Override
 	public void update(IndividualEvaluation individualEvaluation) throws WSException {
-		LOG.info("IndividualEvaluationManageService --> update : studentNumber=" + individualEvaluation.getStudent().getNumber());
+		LOG.info("update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
 
 		try {
 			dao.open();
 			dao.getEntityDAO(IndividualEvaluation.class).update(individualEvaluation);
 		} catch (DAOException e) {
-			LOG.error("IndividualEvaluationManageService --> update failed", e);
+			LOG.error("update failed");
 			throw new WSException(e.getMessage());
 		} finally {
 			try {
@@ -47,6 +48,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) throws WSException {
-		throw new WSException("IndividualEvaluationManageService --> delete unavailable");
+		LOG.info("delete unavailable");
+		throw new WSException("Service unavailable");
 	}
 }
