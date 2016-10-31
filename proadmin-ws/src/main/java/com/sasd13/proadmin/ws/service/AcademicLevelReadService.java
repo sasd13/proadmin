@@ -35,7 +35,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 			academicLevels = dao.getEntityDAO(AcademicLevel.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("read failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -59,7 +59,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 			academicLevels = dao.getEntityDAO(AcademicLevel.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("readAll failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

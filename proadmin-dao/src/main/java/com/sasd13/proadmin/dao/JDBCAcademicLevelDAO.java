@@ -77,7 +77,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "AcademicLevel not inserted");
+			doCatchWithThrow(e, "AcademicLevel not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -109,7 +109,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "AcademicLevel not deleted");
+			doCatchWithThrow(e, "AcademicLevel not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -134,7 +134,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -147,7 +147,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "AcademicLevels not readed");
+			doCatchWithThrow(e, "AcademicLevels not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -175,7 +175,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "AcademicLevels not readed");
+			doCatchWithThrow(e, "AcademicLevels not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

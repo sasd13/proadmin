@@ -34,7 +34,7 @@ public class CredentialManageService implements IManageService<Credential> {
 				LOG.info("created with id=" + id);
 			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -55,7 +55,7 @@ public class CredentialManageService implements IManageService<Credential> {
 				dao.update(credential);
 			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -76,7 +76,7 @@ public class CredentialManageService implements IManageService<Credential> {
 				dao.delete(credential);
 			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

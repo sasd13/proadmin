@@ -87,7 +87,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "StudentTeam not inserted");
+			doCatchWithThrow(e, "StudentTeam not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -121,7 +121,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "StudentTeam not deleted");
+			doCatchWithThrow(e, "StudentTeam not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -146,7 +146,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -159,7 +159,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "StudentTeams not readed");
+			doCatchWithThrow(e, "StudentTeams not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -187,7 +187,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "StudentTeams not readed");
+			doCatchWithThrow(e, "StudentTeams not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

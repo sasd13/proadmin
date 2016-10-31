@@ -101,7 +101,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "RunningTeam not inserted");
+			doCatchWithThrow(e, "RunningTeam not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -139,7 +139,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "RunningTeam not deleted");
+			doCatchWithThrow(e, "RunningTeam not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -164,7 +164,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -177,7 +177,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "RunningTeams not readed");
+			doCatchWithThrow(e, "RunningTeams not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -205,7 +205,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "RunningTeams not inserted");
+			doCatchWithThrow(e, "RunningTeams not inserted", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

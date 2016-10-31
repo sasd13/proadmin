@@ -91,7 +91,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "Running not inserted");
+			doCatchWithThrow(e, "Running not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -124,7 +124,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "Running not updated");
+			doCatchWithThrow(e, "Running not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -150,7 +150,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "Running not deleted");
+			doCatchWithThrow(e, "Running not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -175,7 +175,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -188,7 +188,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Runnings not readed");
+			doCatchWithThrow(e, "Runnings not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -216,7 +216,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Runnings not readed");
+			doCatchWithThrow(e, "Runnings not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

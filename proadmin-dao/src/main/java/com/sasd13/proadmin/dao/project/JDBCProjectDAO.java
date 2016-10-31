@@ -86,7 +86,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				id = generatedKeys.getLong(1);
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "Project not inserted");
+			doCatchWithThrow(e, "Project not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -118,7 +118,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "Project not updated");
+			doCatchWithThrow(e, "Project not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -142,7 +142,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "Project not deleted");
+			doCatchWithThrow(e, "Project not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -167,7 +167,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Paramaters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -180,7 +180,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Projects not readed");
+			doCatchWithThrow(e, "Projects not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -208,7 +208,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 				projects.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Projects not readed");
+			doCatchWithThrow(e, "Projects not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

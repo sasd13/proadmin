@@ -40,7 +40,7 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 				leadEvaluationDAO.update(leadEvaluation);
 			}
 		} catch (DAOException e) {
-			LOG.error("update failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

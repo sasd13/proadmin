@@ -91,7 +91,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "IndividualEvaluation not inserted");
+			doCatchWithThrow(e, "IndividualEvaluation not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -124,7 +124,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "IndividualEvaluation not updated");
+			doCatchWithThrow(e, "IndividualEvaluation not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -150,7 +150,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "IndividualEvaluation not deleted");
+			doCatchWithThrow(e, "IndividualEvaluation not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -175,7 +175,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -188,7 +188,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "IndividualEvaluations not readed");
+			doCatchWithThrow(e, "IndividualEvaluations not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -216,7 +216,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 				individualEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "IndividualEvaluations not readed");
+			doCatchWithThrow(e, "IndividualEvaluations not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

@@ -36,7 +36,7 @@ public class ReportReadService implements IReadService<Report> {
 
 			reports = dao.getEntityDAO(Report.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("read failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class ReportReadService implements IReadService<Report> {
 
 			reports = dao.getEntityDAO(Report.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("readAll failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -84,7 +84,7 @@ public class ReportReadService implements IReadService<Report> {
 
 			reports = dao.getDeepReader(Report.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("deepRead failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -108,7 +108,7 @@ public class ReportReadService implements IReadService<Report> {
 
 			reports = dao.getDeepReader(Report.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("deepReadAll failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

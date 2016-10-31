@@ -85,8 +85,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
-	private void doCatch(Exception e, String logMessage, HttpServletResponse resp) throws IOException {
-		getLogger().error(logMessage);
+	private void doCatch(Exception e, HttpServletResponse resp) throws IOException {
+		getLogger().error(e);
 
 		EnumError error = ErrorFactory.make(e);
 		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
@@ -109,7 +109,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			writeToResponse(resp, message);
 		} catch (Exception e) {
-			doCatch(e, "doGet failed. " + e.getMessage(), resp);
+			doCatch(e, resp);
 		}
 	}
 
@@ -126,7 +126,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.create(ts);
 		} catch (Exception e) {
-			doCatch(e, "doPost failed. " + e.getMessage(), resp);
+			doCatch(e, resp);
 		}
 	}
 
@@ -143,7 +143,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.update(ts);
 		} catch (Exception e) {
-			doCatch(e, "doPut failed. " + e.getMessage(), resp);
+			doCatch(e, resp);
 		}
 	}
 
@@ -160,7 +160,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.delete(ts);
 		} catch (Exception e) {
-			doCatch(e, "doDelete failed. " + e.getMessage(), resp);
+			doCatch(e, resp);
 		}
 	}
 }

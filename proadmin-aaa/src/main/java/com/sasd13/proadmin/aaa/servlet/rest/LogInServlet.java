@@ -67,7 +67,7 @@ public class LogInServlet extends AAAServlet {
 				writeError(resp, EnumError.AAA_LOGIN_FAILED);
 			}
 		} catch (Exception e) {
-			doCatch(e, "doPost failed. " + e.getMessage(), resp);
+			doCatch(e, resp);
 		}
 	}
 }

@@ -87,7 +87,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "Student not inserted");
+			doCatchWithThrow(e, "Student not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -119,7 +119,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "Student not updated");
+			doCatchWithThrow(e, "Student not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -143,7 +143,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "Student not deleted");
+			doCatchWithThrow(e, "Student not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -168,7 +168,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "select failed", LOG);
 		}
 
 		Statement statement = null;
@@ -181,7 +181,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Students not readed");
+			doCatchWithThrow(e, "Students not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -209,7 +209,7 @@ public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Students not readed");
+			doCatchWithThrow(e, "Students not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

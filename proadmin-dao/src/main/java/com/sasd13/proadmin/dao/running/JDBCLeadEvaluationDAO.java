@@ -100,7 +100,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "LeadEvaluation not inserted");
+			doCatchWithThrow(e, "LeadEvaluation not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -136,7 +136,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "LeadEvaluation not updated");
+			doCatchWithThrow(e, "LeadEvaluation not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -162,7 +162,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "LeadEvaluation not deleted");
+			doCatchWithThrow(e, "LeadEvaluation not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -187,7 +187,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -200,7 +200,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "LeadEvaluations not readed");
+			doCatchWithThrow(e, "LeadEvaluations not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -228,7 +228,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 				leadEvaluations.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "LeadEvaluations not readed");
+			doCatchWithThrow(e, "LeadEvaluations not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

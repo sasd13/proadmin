@@ -72,8 +72,8 @@ public abstract class AAAServlet extends HttpServlet {
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
-	protected void doCatch(Exception e, String logMessage, HttpServletResponse resp) throws IOException {
-		getLogger().error(logMessage);
+	protected void doCatch(Exception e, HttpServletResponse resp) throws IOException {
+		getLogger().error(e);
 
 		EnumError error = ErrorFactory.make(e);
 		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());

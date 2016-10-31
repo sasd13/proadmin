@@ -32,7 +32,7 @@ public class CredentialReadService implements ICredentialReadService {
 
 			contains = dao.contains(credential);
 		} catch (DAOException e) {
-			LOG.error("check failed");
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

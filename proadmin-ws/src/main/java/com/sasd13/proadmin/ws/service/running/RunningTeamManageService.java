@@ -37,7 +37,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 				LOG.info("created with id=" + id);
 			}
 		} catch (DAOException e) {
-			LOG.error("create failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 				runningTeamDAO.update(runningTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error("update failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -83,7 +83,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 				runningTeamDAO.delete(runningTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error("delete failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

@@ -36,7 +36,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
 			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("read failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
 			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("readAll failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -84,7 +84,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
 			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("deepRead failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -108,7 +108,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 
 			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("deepReadAll failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

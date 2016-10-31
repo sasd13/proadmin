@@ -40,7 +40,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 				individualEvaluationDAO.update(individualEvaluation);
 			}
 		} catch (DAOException e) {
-			LOG.error("update failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

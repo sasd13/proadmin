@@ -87,7 +87,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "Teacher not inserted");
+			doCatchWithThrow(e, "Teacher not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -119,7 +119,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "Teacher not updated");
+			doCatchWithThrow(e, "Teacher not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -143,7 +143,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "Teacher not deleted");
+			doCatchWithThrow(e, "Teacher not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -168,7 +168,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -181,7 +181,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Teachers not readed");
+			doCatchWithThrow(e, "Teachers not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -209,7 +209,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Teachers not readed");
+			doCatchWithThrow(e, "Teachers not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

@@ -152,7 +152,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException | DAOException e) {
-			doCatchWithThrowInTransaction(LOG, "insert failed", "Report not inserted");
+			doCatchWithThrowInTransaction(e, "Report not inserted", LOG);
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -198,7 +198,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 			connection.commit();
 		} catch (SQLException | DAOException e) {
-			doCatchWithThrowInTransaction(LOG, "update failed", "Report not update");
+			doCatchWithThrowInTransaction(e, "Report not update", LOG);
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -231,7 +231,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException | DAOException e) {
-			doCatchWithThrowInTransaction(LOG, "delete failed", "Report not deleted");
+			doCatchWithThrowInTransaction(e, "Report not deleted", LOG);
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -256,7 +256,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -269,7 +269,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Reports not readed");
+			doCatchWithThrow(e, "Reports not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -297,7 +297,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Reports not readed");
+			doCatchWithThrow(e, "Reports not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

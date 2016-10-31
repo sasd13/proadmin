@@ -76,7 +76,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch("insert failed", "Credential not inserted");
+			doCatchWithThrow(e, "Credential not inserted");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -84,8 +84,8 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		return id;
 	}
 
-	private void doCatch(String logMessage, String exceptionMessage) throws DAOException {
-		LOG.error(logMessage);
+	private void doCatchWithThrow(Exception e, String exceptionMessage) throws DAOException {
+		LOG.error(e);
 		throw new DAOException(exceptionMessage);
 	}
 
@@ -120,7 +120,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch("update failed", "Credential not updated");
+			doCatchWithThrow(e, "Credential not updated");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -144,7 +144,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch("delete failed", "Credential not deleted");
+			doCatchWithThrow(e, "Credential not deleted");
 		} finally {
 			doFinally(preparedStatement);
 		}
@@ -176,7 +176,7 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 				contains = true;
 			}
 		} catch (SQLException e) {
-			doCatch("check failed", "Credential not checked");
+			doCatchWithThrow(e, "Credential not checked");
 		} finally {
 			doFinally(preparedStatement);
 		}

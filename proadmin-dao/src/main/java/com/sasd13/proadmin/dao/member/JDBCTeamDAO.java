@@ -78,7 +78,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "insert failed", "Team not inserted");
+			doCatchWithThrow(e, "Team not inserted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -107,7 +107,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "update failed", "Team not updated");
+			doCatchWithThrow(e, "Team not updated", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -131,7 +131,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "delete failed", "Team not deleted");
+			doCatchWithThrow(e, "Team not deleted", LOG);
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -156,7 +156,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		try {
 			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
 		} catch (ConditionException e) {
-			doCatchWithThrow(LOG, "select failed", e.getMessage());
+			doCatchWithThrow(e, "Parameters parsing error", LOG);
 		}
 
 		Statement statement = null;
@@ -169,7 +169,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "select failed", "Teams not readed");
+			doCatchWithThrow(e, "Teams not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -197,7 +197,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatchWithThrow(LOG, "selectAll failed", "Teams not readed");
+			doCatchWithThrow(e, "Teams not readed", LOG);
 		} finally {
 			doFinally(statement, LOG);
 		}

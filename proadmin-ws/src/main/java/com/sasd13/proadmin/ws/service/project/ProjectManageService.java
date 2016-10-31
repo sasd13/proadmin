@@ -37,7 +37,7 @@ public class ProjectManageService implements IManageService<Project> {
 				LOG.info("created with id=" + id);
 			}
 		} catch (DAOException e) {
-			LOG.error("create failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class ProjectManageService implements IManageService<Project> {
 				projectDAO.update(project);
 			}
 		} catch (DAOException e) {
-			LOG.error("update failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -83,7 +83,7 @@ public class ProjectManageService implements IManageService<Project> {
 				projectDAO.delete(project);
 			}
 		} catch (DAOException e) {
-			LOG.error("delete failed. " + e.getMessage());
+			LOG.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
