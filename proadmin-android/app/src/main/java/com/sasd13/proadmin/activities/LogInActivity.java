@@ -79,6 +79,6 @@ public class LogInActivity extends AppCompatActivity {
 
     public void onError(@StringRes int message) {
         waitDialog.dismiss();
-        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(contentView, message, Snackbar.LENGTH_LONG).show();
     }
 }
