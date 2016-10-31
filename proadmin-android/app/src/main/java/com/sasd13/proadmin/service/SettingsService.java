@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IWSPromise;
-import com.sasd13.androidex.ws.rest.task.ReadTask;
-import com.sasd13.androidex.ws.rest.task.UpdateTask;
+import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.androidex.ws.rest.UpdateTask;
+import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.SettingsActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -10,12 +10,13 @@ import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.SettingsForm;
 import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
  */
-public class SettingsService implements IWSPromise {
+public class SettingsService implements IHttpCallback {
 
     private SettingsActivity settingsActivity;
     private boolean isActionRead;
@@ -27,13 +28,11 @@ public class SettingsService implements IWSPromise {
 
     public void readTeacher(String number) {
         isActionRead = true;
-
         readTaskTeacher = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
-        readTaskTeacher.putParameter(EnumParameter.NUMBER.getName(), new String[]{ number });
-    }
 
-    public Teacher readTeacherFromCache(String number) {
-        return null;
+        readTaskTeacher.putParameter(EnumParameter.NUMBER.getName(), new String[]{ number });
+        readTaskTeacher.setTimeout(WSConstants.DEFAULT_TIMEOUT);
+        readTaskTeacher.execute();
     }
 
     public void updateTeacher(Teacher teacher, SettingsForm settingsForm) {

@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IWSPromise;
-import com.sasd13.androidex.ws.rest.task.LogInTask;
-import com.sasd13.androidex.ws.rest.task.ReadTask;
+import com.sasd13.androidex.ws.rest.LogInTask;
+import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -15,7 +15,7 @@ import com.sasd13.proadmin.util.ws.WSResources;
 /**
  * Created by ssaidali2 on 03/07/2016.
  */
-public class LogInService implements IWSPromise {
+public class LogInService implements IHttpCallback {
 
     private static final int TASKTYPE_LOGIN = 0;
     private static final int TASKTYPE_READ = 1;
@@ -61,7 +61,7 @@ public class LogInService implements IWSPromise {
     }
 
     private void onLogInTaskSucceeded() {
-        if (logInTask.hasResponseErrors()) {
+        if (!logInTask.getResponseErrors().isEmpty()) {
             EnumError error = EnumError.find(Integer.parseInt(logInTask.getResponseErrors().get(0)));
 
             logInActivity.onError(EnumErrorRes.find(error).getStringRes());

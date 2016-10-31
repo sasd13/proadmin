@@ -2,13 +2,13 @@ package com.sasd13.proadmin.content;
 
 public interface Extra {
 
-    String EXIT = "EXIT";
+    String EXIT = "exit";
 
-    String MODE = "MODE";
+    String MODE = "mode";
     int MODE_NEW = 1;
     int MODE_EDIT = 2;
 
-    String TEACHER_NUMBER = "TEACHER_NUMBER";
-    String PROJECT_CODE = "PROJECT_CODE";
-    String TEAM_NUMBER = "TEAM_NUMBER";
+    String TEACHER = "teacher";
+    String PROJECT = "project";
+    String TEAM = "team";
 }

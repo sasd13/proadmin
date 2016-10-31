@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IWSPromise;
-import com.sasd13.androidex.ws.rest.task.CreateTask;
-import com.sasd13.androidex.ws.rest.task.DeleteTask;
-import com.sasd13.androidex.ws.rest.task.UpdateTask;
+import com.sasd13.androidex.ws.rest.CreateTask;
+import com.sasd13.androidex.ws.rest.DeleteTask;
+import com.sasd13.androidex.ws.rest.UpdateTask;
+import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.bean.project.Project;
@@ -18,7 +18,7 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 
-public class RunningService implements IWSPromise {
+public class RunningService implements IHttpCallback {
 
     private static final int TASKTYPE_CREATE = 0;
     private static final int TASKTYPE_UPDATE = 1;
@@ -114,7 +114,7 @@ public class RunningService implements IWSPromise {
     }
 
     private void onCreateTaskSucceeded() {
-        if (createTask.hasResponseErrors()) {
+        if (!createTask.getResponseErrors().isEmpty()) {
             EnumError error = EnumError.find(Integer.parseInt(createTask.getResponseErrors().get(0)));
 
             runningFragment.onError(EnumErrorRes.find(error).getStringRes());
@@ -128,7 +128,7 @@ public class RunningService implements IWSPromise {
     }
 
     private void onUpdateTaskSucceeded() {
-        if (updateTask.hasResponseErrors()) {
+        if (!updateTask.getResponseErrors().isEmpty()) {
             EnumError error = EnumError.find(Integer.parseInt(updateTask.getResponseErrors().get(0)));
 
             runningFragment.onError(EnumErrorRes.find(error).getStringRes());
@@ -138,7 +138,7 @@ public class RunningService implements IWSPromise {
     }
 
     private void onDeleteTaskSucceeded() {
-        if (deleteTask.hasResponseErrors()) {
+        if (!deleteTask.getResponseErrors().isEmpty()) {
             EnumError error = EnumError.find(Integer.parseInt(deleteTask.getResponseErrors().get(0)));
 
             runningFragment.onError(EnumErrorRes.find(error).getStringRes());

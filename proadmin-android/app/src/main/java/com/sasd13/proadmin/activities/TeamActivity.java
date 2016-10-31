@@ -37,7 +37,7 @@ public class TeamActivity extends MotherActivity {
         super.onStart();
 
         if (isInExtraModeEdit()) {
-            String id = SessionHelper.getIntentExtraId(this, Extra.TEAM_NUMBER);
+            String id = SessionHelper.getIntentExtraId(this, Extra.TEAM);
             //TODO : load team from savedInstance or parcel
 
             fillTeamViewHolder();

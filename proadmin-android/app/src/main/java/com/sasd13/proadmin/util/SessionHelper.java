@@ -21,11 +21,11 @@ import com.sasd13.proadmin.content.Extra;
 public class SessionHelper {
 
     public static boolean isLogged(Context context) {
-        return Session.containsAttribute(context, Extra.TEACHER_NUMBER);
+        return Session.containsAttribute(context, Extra.TEACHER);
     }
 
     public static void logIn(final Activity activity, final Teacher teacher) {
-        setExtraId(activity, Extra.TEACHER_NUMBER, teacher.getNumber());
+        setExtraId(activity, Extra.TEACHER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
         final Intent intent = new Intent(activity, HomeActivity.class);
@@ -61,16 +61,12 @@ public class SessionHelper {
     private static void exit(Activity activity) {
         Session.clear(activity);
 
-        if (HomeActivity.class.isAssignableFrom(activity.getClass())) {
-            HomeActivity.self.exit();
-        } else {
-            Intent intent = HomeActivity.self.getIntent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra(Extra.EXIT, true);
+        Intent intent = new Intent(activity, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Extra.EXIT, true);
 
-            activity.startActivity(intent);
-            activity.finish();
-        }
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     public static String getExtraId(Context context, String extraKey) {

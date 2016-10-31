@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IWSPromise;
-import com.sasd13.androidex.ws.rest.task.ReadTask;
+import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
 import com.sasd13.proadmin.bean.project.Project;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunningsService implements IWSPromise {
+public class RunningsService implements IHttpCallback {
 
     private RunningsFragment runningsFragment;
     private Map<String, String[]> parameters;
@@ -37,7 +37,7 @@ public class RunningsService implements IWSPromise {
         parameters.clear();
         parameters.put(
                 EnumParameter.TEACHER.getName(),
-                new String[]{ String.valueOf(SessionHelper.getExtraId(runningsFragment.getContext(), Extra.TEACHER_NUMBER)) });
+                new String[]{ String.valueOf(SessionHelper.getExtraId(runningsFragment.getContext(), Extra.TEACHER)) });
         parameters.put(EnumParameter.PROJECT.getName(), new String[]{ String.valueOf(project.getCode()) });
     }
 

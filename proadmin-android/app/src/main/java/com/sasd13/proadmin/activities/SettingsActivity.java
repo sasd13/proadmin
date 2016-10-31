@@ -25,9 +25,9 @@ public class SettingsActivity extends MotherActivity {
 
     private SettingsService settingsService;
     private SettingsForm settingsForm;
-    private Teacher teacher;
     private SwipeRefreshLayout swipeRefreshLayout;
     private View contentView;
+    private Teacher teacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,17 +36,15 @@ public class SettingsActivity extends MotherActivity {
         setContentView(R.layout.activity_settings);
 
         settingsService = new SettingsService(this);
-        settingsForm = new SettingsForm(this);
         contentView = findViewById(android.R.id.content);
 
         buildView();
+        bindView();
     }
 
     private void buildView() {
         buildSwipeRefreshLayout();
         buildFormSettings();
-        readTeacherFromCache();
-        refreshView();
     }
 
     private void buildSwipeRefreshLayout() {
@@ -60,22 +58,20 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsService.readTeacher(SessionHelper.getExtraId(SettingsActivity.this, Extra.TEACHER_NUMBER));
+        settingsService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER));
     }
 
     private void buildFormSettings() {
+        settingsForm = new SettingsForm(this);
+
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
     }
 
-    private void readTeacherFromCache() {
-        teacher = settingsService.readTeacherFromCache(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
-    }
-
-    private void refreshView() {
-        settingsForm.bindTeacher(teacher);
+    private void bindView() {
+        readTeacherFromWS();
     }
 
     @Override
@@ -90,7 +86,7 @@ public class SettingsActivity extends MotherActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_accept:
-                updateTeacher();
+                settingsService.updateTeacher(teacher, settingsForm);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -99,20 +95,16 @@ public class SettingsActivity extends MotherActivity {
         return true;
     }
 
-    private void updateTeacher() {
-        settingsService.updateTeacher(teacher, settingsForm);
-    }
-
     public void onLoad() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    public void onReadSucceeded(Teacher teacherFromWS) {
+    public void onReadSucceeded(Teacher teacher) {
         swipeRefreshLayout.setRefreshing(false);
 
-        teacher = teacherFromWS;
+        this.teacher = teacher;
 
-        refreshView();
+        settingsForm.bindTeacher(teacher);
     }
 
     public void onUpdateSucceeded() {

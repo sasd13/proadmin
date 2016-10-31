@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IWSPromise;
-import com.sasd13.androidex.ws.rest.task.ReadTask;
+import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 24/07/2016.
  */
-public class ProjectsService implements IWSPromise {
+public class ProjectsService implements IHttpCallback {
 
     private ProjectsFragment projectsFragment;
     private ReadTask<Project> readTask;

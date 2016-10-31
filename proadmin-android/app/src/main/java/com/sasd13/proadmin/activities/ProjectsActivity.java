@@ -43,7 +43,7 @@ public class ProjectsActivity extends MotherActivity {
 
     public void listRunnings(Project project) {
         Intent intent = new Intent(this, RunningsActivity.class);
-        intent.putExtra(Extra.PROJECT_CODE, project.getCode());
+        intent.putExtra(Extra.PROJECT, project.getCode());
 
         startActivity(intent);
     }
