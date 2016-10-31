@@ -3,9 +3,9 @@
 <properties>
 	<entry key="error.unknown">Erreur inconnue</entry>
 	<entry key="exception.aaa">Exception AAA</entry>
-	<entry key="exception.data_parsing">Exception parsing des données</entry>
-	<entry key="exception.data_validating">Exception validation des données</entry>
+	<entry key="exception.parsing.data">Exception parsing des données</entry>
+	<entry key="exception.validating.data">Exception validation des données</entry>
 	<entry key="exception.service">Exception de service</entry>
 	<entry key="exception.ws">Exception Web service</entry>
-	<entry key="error.user_login_failed">Nom d'utilisateur/mot de passe invalide</entry>
+	<entry key="error.aaa.login.failed">Nom d'utilisateur/mot de passe invalide</entry>
 </properties>

@@ -75,11 +75,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+		getLogger().info("Message send by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
 	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+		getLogger().info("Error send by WS : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
@@ -105,7 +107,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
 
 			writeToResponse(resp, message);
-			getLogger().info("Message send by WS: " + message);
 		} catch (Exception e) {
 			doCatch(e, "doGet failed. " + e.getMessage(), resp);
 		}

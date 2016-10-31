@@ -71,7 +71,7 @@ public class SettingsService implements IWSPromise {
 
             settingsActivity.onReadSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            settingsActivity.onError(R.string.ws_error_data_retrieval_error);
+            settingsActivity.onError(R.string.error_ws_retrieve_data);
         }
     }
 
@@ -81,6 +81,6 @@ public class SettingsService implements IWSPromise {
 
     @Override
     public void onFail(int httpResponseCode) {
-        settingsActivity.onError(R.string.ws_error_server_connection_failed);
+        settingsActivity.onError(R.string.error_ws_server_connection);
     }
 }

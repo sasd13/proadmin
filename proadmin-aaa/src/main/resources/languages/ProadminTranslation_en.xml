@@ -7,5 +7,5 @@
 	<entry key="exception.data_validating">Data validating exception</entry>
 	<entry key="exception.service">Service exception</entry>
 	<entry key="exception.ws">Web service exception</entry>
-	<entry key="error.user_login_failed">Username/password not matched</entry>
+	<entry key="error.aaa.login.failed">Username/password not matched</entry>
 </properties>

@@ -6,7 +6,9 @@ import com.sasd13.androidex.ws.rest.task.ReadTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.LogInActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
@@ -59,8 +61,10 @@ public class LogInService implements IWSPromise {
     }
 
     private void onLogInTaskSucceeded() {
-        if (logInTask.hasResponseWSErrors()) {
-            //TODO : manage AAA errors
+        if (logInTask.hasResponseErrors()) {
+            EnumError error = EnumError.find(Integer.parseInt(logInTask.getResponseErrors().get(0)));
+
+            logInActivity.onError(EnumErrorRes.find(error).getStringRes());
         } else {
             taskType = TASKTYPE_READ;
 
@@ -77,12 +81,12 @@ public class LogInService implements IWSPromise {
 
             logInActivity.onLogInSucceeded(teacher);
         } catch (IndexOutOfBoundsException e) {
-            logInActivity.onError(R.string.ws_error_data_retrieval_error);
+            logInActivity.onError(R.string.error_ws_retrieve_data);
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        logInActivity.onError(R.string.ws_error_server_connection_failed);
+        logInActivity.onError(R.string.error_ws_server_connection);
     }
 }

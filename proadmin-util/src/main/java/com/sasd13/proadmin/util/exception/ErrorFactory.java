@@ -10,9 +10,9 @@ public class ErrorFactory {
 		if (AAAException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.AAA;
 		} else if (ParserException.class.isAssignableFrom(e.getClass())) {
-			return EnumError.DATA_PARSING;
+			return EnumError.PARSING_DATA;
 		} else if (ValidatorException.class.isAssignableFrom(e.getClass())) {
-			return EnumError.DATA_VALIDATING;
+			return EnumError.VALIDATING_DATA;
 		} else if (ServiceException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.SERVICE;
 		} else if (WSException.class.isAssignableFrom(e.getClass())) {

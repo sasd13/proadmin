@@ -43,12 +43,12 @@ public class ProjectsService implements IWSPromise {
 
             projectsFragment.onReadSucceeded(projects);
         } catch (IndexOutOfBoundsException e) {
-            projectsFragment.onError(R.string.ws_error_data_retrieval_error);
+            projectsFragment.onError(R.string.error_ws_retrieve_data);
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        projectsFragment.onError(R.string.ws_error_server_connection_failed);
+        projectsFragment.onError(R.string.error_ws_server_connection);
     }
 }

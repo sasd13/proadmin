@@ -72,11 +72,13 @@ public class LogInServlet extends HttpServlet {
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+		LOG.info("Message send by AAA : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
-		Stream.writeAndClose(resp.getWriter(), message);
+		Stream.write(resp.getWriter(), message);
 	}
 
 	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+		LOG.info("Error send by AAA : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
@@ -102,9 +104,8 @@ public class LogInServlet extends HttpServlet {
 				String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential));
 
 				writeToResponse(resp, message);
-				LOG.info("Message send by AAA: " + message);
 			} else {
-				writeError(resp, EnumError.USER_LOGIN_FAILED);
+				writeError(resp, EnumError.AAA_LOGIN_FAILED);
 			}
 		} catch (Exception e) {
 			doCatch(e, "doPost failed. " + e.getMessage(), resp);

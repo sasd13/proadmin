@@ -12,6 +12,8 @@ import com.sasd13.proadmin.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.util.Binder;
+import com.sasd13.proadmin.util.EnumErrorRes;
+import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
@@ -112,28 +114,34 @@ public class RunningService implements IWSPromise {
     }
 
     private void onCreateTaskSucceeded() {
-        if (createTask.hasResponseWSErrors()) {
-            //TODO : manage WS errors
+        if (createTask.hasResponseErrors()) {
+            EnumError error = EnumError.find(Integer.parseInt(createTask.getResponseErrors().get(0)));
+
+            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
         } else {
             try {
                 runningFragment.onCreateSucceeded();
             } catch (IndexOutOfBoundsException e) {
-                runningFragment.onError(R.string.ws_error_data_retrieval_error);
+                runningFragment.onError(R.string.error_ws_retrieve_data);
             }
         }
     }
 
     private void onUpdateTaskSucceeded() {
-        if (updateTask.hasResponseWSErrors()) {
-            //TODO : manage WS errors
+        if (updateTask.hasResponseErrors()) {
+            EnumError error = EnumError.find(Integer.parseInt(updateTask.getResponseErrors().get(0)));
+
+            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
         } else {
             runningFragment.onUpdateSucceeded();
         }
     }
 
     private void onDeleteTaskSucceeded() {
-        if (deleteTask.hasResponseWSErrors()) {
-            //TODO : manage WS errors
+        if (deleteTask.hasResponseErrors()) {
+            EnumError error = EnumError.find(Integer.parseInt(deleteTask.getResponseErrors().get(0)));
+
+            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
         } else {
             runningFragment.onDeleteSucceeded();
         }
@@ -141,6 +149,6 @@ public class RunningService implements IWSPromise {
 
     @Override
     public void onFail(int httpResponseCode) {
-        runningFragment.onError(R.string.ws_error_server_connection_failed);
+        runningFragment.onError(R.string.error_ws_server_connection);
     }
 }

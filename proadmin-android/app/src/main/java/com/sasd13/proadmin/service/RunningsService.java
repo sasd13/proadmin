@@ -59,12 +59,12 @@ public class RunningsService implements IWSPromise {
 
             runningsFragment.onReadSucceeded(runnings);
         } catch (IndexOutOfBoundsException e) {
-            runningsFragment.onError(R.string.ws_error_data_retrieval_error);
+            runningsFragment.onError(R.string.error_ws_retrieve_data);
         }
     }
 
     @Override
     public void onFail(int i) {
-        runningsFragment.onError(R.string.ws_error_server_connection_failed);
+        runningsFragment.onError(R.string.error_ws_server_connection);
     }
 }

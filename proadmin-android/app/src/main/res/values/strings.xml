@@ -63,12 +63,16 @@
     <string name="title_teams">Teams</string>
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
-    
-    <!-- Error -->
-    <string name="error_aaa_unknown">Unknown error</string>
-    <string name="error_common_unknown">Unknown error</string>
-    <string name="error_common_server_connection_failed">Server connection failed</string>
-    <string name="error_common_data_retrieval_error">Data retrieval error</string>
-    <string name="error_ws_unknown">Unknown error</string>
+
+    <!-- Web service -->
+    <string name="error_unknown">Unknown error</string>
+    <string name="exception_aaa">AAA exception</string>
+    <string name="exception_parsing_data">Data parsing exception</string>
+    <string name="exception_validating_data">Data validating exception</string>
+    <string name="exception_service">Service exception</string>
+    <string name="exception_ws">Web service exception</string>
+    <string name="error_aaa_login_failed">Username/password not matched</string>
+    <string name="error_ws_retrieve_data">Data synchronizing error</string>
+    <string name="error_ws_server_connection">Server connection error</string>
 
 </resources>
