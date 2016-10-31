@@ -5,7 +5,6 @@ public enum EnumParameter {
 	CODE("code"), 
 	EMAIL("email"), 
 	FIRSTNAME("firstname"), 
-	ID("id"), 
 	LASTNAME("lastname"), 
 	NUMBER("number"), 
 	PASSWORD("password"), 

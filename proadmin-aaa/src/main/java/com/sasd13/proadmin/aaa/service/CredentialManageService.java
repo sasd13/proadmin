@@ -22,12 +22,17 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void create(Credential credential) throws ServiceException {
-		LOG.info("create : username=" + credential.getUsername());
-
+	public void create(Credential[] credentials) throws ServiceException {
 		try {
 			dao.open();
-			dao.insert(credential);
+
+			for (Credential credential : credentials) {
+				LOG.info("create : username=" + credential.getUsername());
+
+				long id = dao.insert(credential);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
 			LOG.error("create failed");
 			throw new ServiceException(e.getMessage());
@@ -41,12 +46,14 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void update(Credential credential) throws ServiceException {
-		LOG.info("update : username=" + credential.getUsername());
-
+	public void update(Credential[] credentials) throws ServiceException {
 		try {
 			dao.open();
-			dao.update(credential);
+
+			for (Credential credential : credentials) {
+				LOG.info("update : username=" + credential.getUsername());
+				dao.update(credential);
+			}
 		} catch (DAOException e) {
 			LOG.error("update failed");
 			throw new ServiceException(e.getMessage());
@@ -60,12 +67,14 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void delete(Credential credential) throws ServiceException {
-		LOG.info("delete : username=" + credential.getUsername());
-
+	public void delete(Credential[] credentials) throws ServiceException {
 		try {
 			dao.open();
-			dao.delete(credential);
+
+			for (Credential credential : credentials) {
+				LOG.info("delete : username=" + credential.getUsername());
+				dao.delete(credential);
+			}
 		} catch (DAOException e) {
 			LOG.error("delete failed");
 			throw new ServiceException(e.getMessage());

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.project.Project;
@@ -22,14 +23,21 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void create(Project project) throws ServiceException {
-		LOG.info("create : code=" + project.getCode());
-
+	public void create(Project[] projects) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Project.class).insert(project);
+
+			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+
+			for (Project project : projects) {
+				LOG.info("create : code=" + project.getCode());
+
+				long id = projectDAO.insert(project);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,14 +49,18 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void update(Project project) throws ServiceException {
-		LOG.info("update : code=" + project.getCode());
-
+	public void update(Project[] projects) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Project.class).update(project);
+
+			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+
+			for (Project project : projects) {
+				LOG.info("update : code=" + project.getCode());
+				projectDAO.update(project);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,14 +72,18 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void delete(Project project) throws ServiceException {
-		LOG.info("delete : code=" + project.getCode());
-
+	public void delete(Project[] projects) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Project.class).delete(project);
+
+			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+
+			for (Project project : projects) {
+				LOG.info("delete : code=" + project.getCode());
+				projectDAO.delete(project);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

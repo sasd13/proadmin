@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Report;
@@ -22,14 +23,21 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void create(Report report) throws ServiceException {
-		LOG.info("create : number=" + report.getNumber());
-
+	public void create(Report[] reports) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Report.class).insert(report);
+
+			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+
+			for (Report report : reports) {
+				LOG.info("create : number=" + report.getNumber());
+
+				long id = reportDAO.insert(report);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,14 +49,18 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void update(Report report) throws ServiceException {
-		LOG.info("update : number=" + report.getNumber());
-
+	public void update(Report[] reports) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Report.class).update(report);
+
+			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+
+			for (Report report : reports) {
+				LOG.info("update : number=" + report.getNumber());
+				reportDAO.update(report);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,14 +72,18 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void delete(Report report) throws ServiceException {
-		LOG.info("delete : number=" + report.getNumber());
-
+	public void delete(Report[] reports) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Report.class).delete(report);
+
+			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+
+			for (Report report : reports) {
+				LOG.info("delete : number=" + report.getNumber());
+				reportDAO.delete(report);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

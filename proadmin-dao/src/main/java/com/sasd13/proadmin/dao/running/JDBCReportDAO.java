@@ -17,11 +17,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.ConditionBuilder;
+import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.dao.condition.IExpressionBuilder;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -151,7 +152,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException | DAOException e) {
-			doCatchInTransaction(LOG, "insert failed. Rollback...", "Report not inserted", "rollback failed");
+			doCatchWithThrowInTransaction(LOG, "insert failed", "Report not inserted");
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -197,7 +198,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 			connection.commit();
 		} catch (SQLException | DAOException e) {
-			doCatchInTransaction(LOG, "update failed. Rollback...", "Report not update", "rollback failed");
+			doCatchWithThrowInTransaction(LOG, "update failed", "Report not update");
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -230,7 +231,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException | DAOException e) {
-			doCatchInTransaction(LOG, "delete failed. Rollback...", "Report not deleted", "rollback failed");
+			doCatchWithThrowInTransaction(LOG, "delete failed", "Report not deleted");
 		} finally {
 			doFinallyInTransaction(preparedStatement, LOG);
 		}
@@ -238,33 +239,8 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	@Override
 	public Report select(long id) throws DAOException {
-		LOG.info("select : id=" + id);
-
-		Report report = null;
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
-
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, id);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				report = getResultSetValues(resultSet);
-			}
-		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Report not readed");
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return report;
+		LOG.info("select unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
@@ -276,7 +252,12 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+
+		try {
+			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+		} catch (ConditionException e) {
+			doCatchWithThrow(LOG, "select failed", e.getMessage());
+		}
 
 		Statement statement = null;
 
@@ -288,7 +269,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Reports not readed");
+			doCatchWithThrow(LOG, "select failed", "Reports not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -316,7 +297,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 				reports.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "selectAll failed", "Reports not readed");
+			doCatchWithThrow(LOG, "selectAll failed", "Reports not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

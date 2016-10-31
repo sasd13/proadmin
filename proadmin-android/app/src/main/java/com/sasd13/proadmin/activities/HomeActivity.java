@@ -19,8 +19,6 @@ import com.sasd13.proadmin.util.SessionHelper;
 
 public class HomeActivity extends AppCompatActivity {
 
-    public static HomeActivity self;
-
     private ImageView imageViewProject, imageViewTeam, imageViewReport, imageViewCalendar;
 
     @Override
@@ -28,8 +26,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-
-        self = this;
 
         buildView();
     }
@@ -92,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void exit() {
+    private void exit() {
         final WaitDialog waitDialog = new WaitDialog(this);
 
         new TaskPlanner(new Runnable() {
@@ -101,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, LogInActivity.class));
                 waitDialog.dismiss();
                 finish();
-                self = null;
             }
         }).start(GUIConstants.TIMEOUT_ACTIVITY);
 

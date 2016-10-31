@@ -11,7 +11,7 @@ public class AcademicLevelValidator implements IValidator<AcademicLevel> {
 	@Override
 	public void validate(AcademicLevel academicLevel) throws ValidatorException {
 		if (academicLevel == null) {
-			throw new ValidatorException("AcademicLevel: null");
+			throw new ValidatorException("AcademicLevel is not valid");
 		}
 
 		if (StringUtils.isBlank(academicLevel.getCode())) {

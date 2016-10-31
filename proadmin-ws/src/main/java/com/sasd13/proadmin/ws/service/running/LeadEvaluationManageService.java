@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
@@ -22,20 +23,24 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 	}
 
 	@Override
-	public void create(LeadEvaluation leadEvaluation) throws ServiceException {
+	public void create(LeadEvaluation[] leadEvaluations) throws ServiceException {
 		LOG.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void update(LeadEvaluation leadEvaluation) throws ServiceException {
-		LOG.info("update : studentNumber=" + leadEvaluation.getStudent().getNumber());
-
+	public void update(LeadEvaluation[] leadEvaluations) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(LeadEvaluation.class).update(leadEvaluation);
+
+			IEntityDAO<LeadEvaluation> leadEvaluationDAO = dao.getEntityDAO(LeadEvaluation.class);
+
+			for (LeadEvaluation leadEvaluation : leadEvaluations) {
+				LOG.info("update : studentNumber=" + leadEvaluation.getStudent().getNumber());
+				leadEvaluationDAO.update(leadEvaluation);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -47,8 +52,8 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 	}
 
 	@Override
-	public void delete(LeadEvaluation leadEvaluation) throws ServiceException {
+	public void delete(LeadEvaluation[] leadEvaluations) throws ServiceException {
 		LOG.info("delete unavailable");
-		throw new ServiceException("Delete unavailable");
+		throw new ServiceException("Service unavailable");
 	}
 }

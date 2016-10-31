@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.service.IManageService;
@@ -70,8 +70,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
-	private T readFromRequest(HttpServletRequest req) throws ParserException, IOException {
-		return ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), getBeanClass());
+	private T[] readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.readAndClose(req.getReader()), getBeanClass());
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
@@ -89,9 +89,10 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().error(logMessage);
 
 		EnumError error = ErrorFactory.make(e);
+		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
 
 		writeError(resp, error);
-		writeToResponse(resp, bundle.getString(error.getBundleKey()));
+		writeToResponse(resp, message);
 	}
 
 	@Override
@@ -117,10 +118,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doPost");
 
 		try {
-			T t = readFromRequest(req);
+			T[] ts = readFromRequest(req);
 
-			validator.validate(t);
-			manageService.create(t);
+			for (T t : ts) {
+				validator.validate(t);
+			}
+
+			manageService.create(ts);
 		} catch (Exception e) {
 			doCatch(e, "doPost failed. " + e.getMessage(), resp);
 		}
@@ -131,10 +135,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doPut");
 
 		try {
-			T t = readFromRequest(req);
+			T[] ts = readFromRequest(req);
 
-			validator.validate(t);
-			manageService.update(t);
+			for (T t : ts) {
+				validator.validate(t);
+			}
+
+			manageService.update(ts);
 		} catch (Exception e) {
 			doCatch(e, "doPut failed. " + e.getMessage(), resp);
 		}
@@ -145,10 +152,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doDelete");
 
 		try {
-			T t = readFromRequest(req);
+			T[] ts = readFromRequest(req);
 
-			validator.validate(t);
-			manageService.delete(t);
+			for (T t : ts) {
+				validator.validate(t);
+			}
+
+			manageService.delete(ts);
 		} catch (Exception e) {
 			doCatch(e, "doDelete failed. " + e.getMessage(), resp);
 		}

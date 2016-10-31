@@ -13,7 +13,7 @@ public class ReportValidator implements IValidator<Report> {
 	@Override
 	public void validate(Report report) throws ValidatorException {
 		if (report == null) {
-			throw new ValidatorException("Report: null");
+			throw new ValidatorException("Report is not valid");
 		}
 
 		if (StringUtils.isBlank(report.getNumber())) {

@@ -15,11 +15,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.ConditionBuilder;
+import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.dao.condition.IExpressionBuilder;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
@@ -86,7 +87,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "insert failed", "StudentTeam not inserted");
+			doCatchWithThrow(LOG, "insert failed", "StudentTeam not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -97,7 +98,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	@Override
 	public void update(StudentTeam studentTeam) throws DAOException {
 		LOG.info("update unavailable");
-		throw new DAOException("Update unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	@Override
@@ -120,7 +121,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "delete failed", "StudentTeam not deleted");
+			doCatchWithThrow(LOG, "delete failed", "StudentTeam not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -128,33 +129,8 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 	@Override
 	public StudentTeam select(long id) throws DAOException {
-		LOG.info("select : id=" + id);
-
-		StudentTeam studentTeam = null;
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
-
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, id);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				studentTeam = getResultSetValues(resultSet);
-			}
-		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "StudentTeam not readed");
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return studentTeam;
+		LOG.info("select unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
@@ -166,7 +142,12 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+
+		try {
+			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+		} catch (ConditionException e) {
+			doCatchWithThrow(LOG, "select failed", e.getMessage());
+		}
 
 		Statement statement = null;
 
@@ -178,7 +159,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "StudentTeams not readed");
+			doCatchWithThrow(LOG, "select failed", "StudentTeams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -206,7 +187,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 				studentTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "selectAll failed", "StudentTeams not readed");
+			doCatchWithThrow(LOG, "selectAll failed", "StudentTeams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

@@ -55,7 +55,7 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.create(credential);
+			manageService.create(new Credential[] { credential });
 		} catch (Exception e) {
 			doCatch(e, "doPost failed. " + e.getMessage(), resp);
 		}
@@ -69,7 +69,7 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.update(credential);
+			manageService.update(new Credential[] { credential });
 		} catch (Exception e) {
 			doCatch(e, "doPut failed. " + e.getMessage(), resp);
 		}
@@ -83,7 +83,7 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.delete(credential);
+			manageService.delete(new Credential[] { credential });
 		} catch (Exception e) {
 			doCatch(e, "doDelete failed. " + e.getMessage(), resp);
 		}

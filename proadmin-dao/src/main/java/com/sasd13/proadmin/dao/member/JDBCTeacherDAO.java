@@ -15,11 +15,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.ConditionBuilder;
+import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.dao.condition.IExpressionBuilder;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 
 /**
@@ -86,7 +87,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "insert failed", "Teacher not inserted");
+			doCatchWithThrow(LOG, "insert failed", "Teacher not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -118,7 +119,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "update failed", "Teacher not updated");
+			doCatchWithThrow(LOG, "update failed", "Teacher not updated");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -142,7 +143,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "delete failed", "Teacher not deleted");
+			doCatchWithThrow(LOG, "delete failed", "Teacher not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -150,33 +151,8 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public Teacher select(long id) throws DAOException {
-		LOG.info("select : id=" + id);
-
-		Teacher teacher = null;
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
-
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, id);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				teacher = getResultSetValues(resultSet);
-			}
-		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Teacher not readed");
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return teacher;
+		LOG.info("select unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
@@ -188,7 +164,12 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+
+		try {
+			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+		} catch (ConditionException e) {
+			doCatchWithThrow(LOG, "select failed", e.getMessage());
+		}
 
 		Statement statement = null;
 
@@ -200,7 +181,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Teachers not readed");
+			doCatchWithThrow(LOG, "select failed", "Teachers not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -228,7 +209,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 				list.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "selectAll failed", "Teachers not readed");
+			doCatchWithThrow(LOG, "selectAll failed", "Teachers not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

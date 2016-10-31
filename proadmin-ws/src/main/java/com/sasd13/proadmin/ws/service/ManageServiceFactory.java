@@ -51,7 +51,7 @@ public class ManageServiceFactory {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IManageService<T>) new IndividualEvaluationManageService();
 		} else {
-			throw new ServiceException("Class '" + mClass.getName() + "' has not manageService");
+			throw new ServiceException("Entity " + mClass.getSimpleName() + " has no manageService");
 		}
 	}
 }

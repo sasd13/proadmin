@@ -12,7 +12,7 @@ public class RunningTeamValidator implements IValidator<RunningTeam> {
 	@Override
 	public void validate(RunningTeam runningTeam) throws ValidatorException {
 		if (runningTeam == null) {
-			throw new ValidatorException("RunningTeam: null");
+			throw new ValidatorException("RunningTeam is not valid");
 		}
 
 		if (runningTeam.getAcademicLevel() == null || StringUtils.isBlank(runningTeam.getAcademicLevel().getCode())) {

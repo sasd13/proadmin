@@ -11,7 +11,7 @@ public class IndividualEvaluationValidator implements IValidator<IndividualEvalu
 	@Override
 	public void validate(IndividualEvaluation individualEvaluation) throws ValidatorException {
 		if (individualEvaluation == null) {
-			throw new ValidatorException("IndividualEvaluation: null");
+			throw new ValidatorException("IndividualEvaluation is not valid");
 		}
 
 		if (individualEvaluation.getReport() == null || StringUtils.isBlank(individualEvaluation.getReport().getNumber())) {

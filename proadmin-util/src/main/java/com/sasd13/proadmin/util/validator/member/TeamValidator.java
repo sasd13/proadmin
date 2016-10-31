@@ -11,7 +11,7 @@ public class TeamValidator implements IValidator<Team> {
 	@Override
 	public void validate(Team team) throws ValidatorException {
 		if (team == null) {
-			throw new ValidatorException("Team: null");
+			throw new ValidatorException("Team is not valid");
 		}
 
 		if (StringUtils.isBlank(team.getNumber())) {

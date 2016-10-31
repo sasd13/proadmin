@@ -15,11 +15,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.ConditionBuilder;
+import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.dao.condition.IExpressionBuilder;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -90,7 +91,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "insert failed", "Running not inserted");
+			doCatchWithThrow(LOG, "insert failed", "Running not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -123,7 +124,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "update failed", "Running not updated");
+			doCatchWithThrow(LOG, "update failed", "Running not updated");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -149,7 +150,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "delete failed", "Running not deleted");
+			doCatchWithThrow(LOG, "delete failed", "Running not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -157,33 +158,8 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 
 	@Override
 	public Running select(long id) throws DAOException {
-		LOG.info("select : id=" + id);
-
-		Running running = null;
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
-
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, id);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				running = getResultSetValues(resultSet);
-			}
-		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Running not readed");
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return running;
+		LOG.info("select unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
@@ -195,7 +171,12 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+
+		try {
+			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+		} catch (ConditionException e) {
+			doCatchWithThrow(LOG, "select failed", e.getMessage());
+		}
 
 		Statement statement = null;
 
@@ -207,7 +188,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "Runnings not readed");
+			doCatchWithThrow(LOG, "select failed", "Runnings not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -235,7 +216,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 				runnings.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "selectAll failed", "Runnings not readed");
+			doCatchWithThrow(LOG, "selectAll failed", "Runnings not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}

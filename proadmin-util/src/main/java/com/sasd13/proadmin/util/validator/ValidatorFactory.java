@@ -51,7 +51,7 @@ public class ValidatorFactory {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IValidator<T>) new IndividualEvaluationValidator();
 		} else {
-			throw new ValidatorException("Class '" + mClass.getName() + "' has no validator");
+			throw new ValidatorException("Entity " + mClass.getSimpleName() + " has no validator");
 		}
 	}
 }

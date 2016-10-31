@@ -76,8 +76,9 @@ public abstract class AAAServlet extends HttpServlet {
 		getLogger().error(logMessage);
 
 		EnumError error = ErrorFactory.make(e);
+		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
 
 		writeError(resp, error);
-		writeToResponse(resp, bundle.getString(error.getBundleKey()));
+		writeToResponse(resp, message);
 	}
 }

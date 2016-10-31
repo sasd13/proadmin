@@ -11,7 +11,7 @@ public class CredentialValidator implements IValidator<Credential> {
 	@Override
 	public void validate(Credential credential) throws ValidatorException {
 		if (credential == null) {
-			throw new ValidatorException("Credential : null");
+			throw new ValidatorException("Credential is not valid");
 		}
 
 		if (StringUtils.isBlank(credential.getUsername())) {

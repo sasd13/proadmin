@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
@@ -22,20 +23,24 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 	}
 
 	@Override
-	public void create(IndividualEvaluation individualEvaluation) throws ServiceException {
+	public void create(IndividualEvaluation[] individualEvaluations) throws ServiceException {
 		LOG.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void update(IndividualEvaluation individualEvaluation) throws ServiceException {
-		LOG.info("update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
-
+	public void update(IndividualEvaluation[] individualEvaluations) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(IndividualEvaluation.class).update(individualEvaluation);
+
+			IEntityDAO<IndividualEvaluation> individualEvaluationDAO = dao.getEntityDAO(IndividualEvaluation.class);
+
+			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+				LOG.info("update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
+				individualEvaluationDAO.update(individualEvaluation);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -47,7 +52,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 	}
 
 	@Override
-	public void delete(IndividualEvaluation individualEvaluation) throws ServiceException {
+	public void delete(IndividualEvaluation[] individualEvaluations) throws ServiceException {
 		LOG.info("delete unavailable");
 		throw new ServiceException("Service unavailable");
 	}

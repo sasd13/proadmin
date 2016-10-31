@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -22,14 +23,21 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void create(StudentTeam studentTeam) throws ServiceException {
-		LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-
+	public void create(StudentTeam[] studentTeams) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(StudentTeam.class).insert(studentTeam);
+
+			IEntityDAO<StudentTeam> studentTeamDAO = dao.getEntityDAO(StudentTeam.class);
+
+			for (StudentTeam studentTeam : studentTeams) {
+				LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+
+				long id = studentTeamDAO.insert(studentTeam);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,20 +49,24 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void update(StudentTeam studentTeam) throws ServiceException {
+	public void update(StudentTeam[] studentTeams) throws ServiceException {
 		LOG.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) throws ServiceException {
-		LOG.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-
+	public void delete(StudentTeam[] studentTeams) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(StudentTeam.class).delete(studentTeam);
+
+			IEntityDAO<StudentTeam> studentTeamDAO = dao.getEntityDAO(StudentTeam.class);
+
+			for (StudentTeam studentTeam : studentTeams) {
+				LOG.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+				studentTeamDAO.delete(studentTeam);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.AcademicLevel;
@@ -22,14 +23,21 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 	}
 
 	@Override
-	public void create(AcademicLevel academicLevel) throws ServiceException {
-		LOG.info("create : code=" + academicLevel.getCode());
-
+	public void create(AcademicLevel[] academicLevels) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(AcademicLevel.class).insert(academicLevel);
+
+			IEntityDAO<AcademicLevel> academicLevelDAO = dao.getEntityDAO(AcademicLevel.class);
+
+			for (AcademicLevel academicLevel : academicLevels) {
+				LOG.info("create : code=" + academicLevel.getCode());
+
+				long id = academicLevelDAO.insert(academicLevel);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,20 +49,24 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 	}
 
 	@Override
-	public void update(AcademicLevel academicLevel) throws ServiceException {
+	public void update(AcademicLevel[] academicLevels) throws ServiceException {
 		LOG.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(AcademicLevel academicLevel) throws ServiceException {
-		LOG.info("delete : code=" + academicLevel.getCode());
-
+	public void delete(AcademicLevel[] academicLevels) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(AcademicLevel.class).delete(academicLevel);
+
+			IEntityDAO<AcademicLevel> academicLevelDAO = dao.getEntityDAO(AcademicLevel.class);
+
+			for (AcademicLevel academicLevel : academicLevels) {
+				LOG.info("delete : code=" + academicLevel.getCode());
+				academicLevelDAO.delete(academicLevel);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

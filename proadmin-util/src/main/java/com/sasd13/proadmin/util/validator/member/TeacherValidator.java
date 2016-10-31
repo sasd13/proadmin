@@ -11,7 +11,7 @@ public class TeacherValidator implements IValidator<Teacher> {
 	@Override
 	public void validate(Teacher teacher) throws ValidatorException {
 		if (teacher == null) {
-			throw new ValidatorException("Teacher: null");
+			throw new ValidatorException("Teacher is not valid");
 		}
 
 		if (StringUtils.isBlank(teacher.getNumber())) {

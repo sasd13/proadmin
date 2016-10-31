@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Running;
@@ -22,14 +23,21 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void create(Running running) throws ServiceException {
-		LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-
+	public void create(Running[] runnings) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Running.class).insert(running);
+
+			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+
+			for (Running running : runnings) {
+				LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+
+				long id = runningDAO.insert(running);
+
+				LOG.info("created with id=" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,14 +49,18 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void update(Running running) throws ServiceException {
-		LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-
+	public void update(Running[] runnings) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Running.class).update(running);
+
+			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+
+			for (Running running : runnings) {
+				LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				runningDAO.update(running);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,14 +72,18 @@ public class RunningManageService implements IManageService<Running> {
 	}
 
 	@Override
-	public void delete(Running running) throws ServiceException {
-		LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-
+	public void delete(Running[] runnings) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Running.class).delete(running);
+
+			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+
+			for (Running running : runnings) {
+				LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				runningDAO.delete(running);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

@@ -11,7 +11,7 @@ public class StudentTeamValidator implements IValidator<StudentTeam> {
 	@Override
 	public void validate(StudentTeam studentTeam) throws ValidatorException {
 		if (studentTeam == null) {
-			throw new ValidatorException("StudentTeam: null");
+			throw new ValidatorException("StudentTeam is not valid");
 		}
 
 		if (studentTeam.getStudent() == null || StringUtils.isBlank(studentTeam.getStudent().getNumber())) {

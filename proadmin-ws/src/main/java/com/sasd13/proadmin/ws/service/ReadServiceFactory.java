@@ -51,7 +51,7 @@ public class ReadServiceFactory {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IReadService<T>) new IndividualEvaluationReadService();
 		} else {
-			throw new ServiceException("Class '" + mClass.getName() + "' has not manageService");
+			throw new ServiceException("Entity " + mClass.getName() + " has no readService");
 		}
 	}
 }

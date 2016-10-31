@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -36,7 +36,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getEntityDAO(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("read failed");
+			LOG.error("read failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,7 +60,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getEntityDAO(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("readAll failed");
+			LOG.error("readAll failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -84,7 +84,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getDeepReader(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error("deepRead failed");
+			LOG.error("deepRead failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -108,7 +108,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getDeepReader(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error("deepReadAll failed");
+			LOG.error("deepReadAll failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

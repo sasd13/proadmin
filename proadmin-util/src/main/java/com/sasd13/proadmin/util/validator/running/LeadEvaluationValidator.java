@@ -11,15 +11,15 @@ public class LeadEvaluationValidator implements IValidator<LeadEvaluation> {
 	@Override
 	public void validate(LeadEvaluation leadEvaluation) throws ValidatorException {
 		if (leadEvaluation == null) {
-			throw new ValidatorException("IndividualEvaluation: null");
+			throw new ValidatorException("LeadEvaluation is not valid");
 		}
 
 		if (leadEvaluation.getReport() == null || StringUtils.isBlank(leadEvaluation.getReport().getNumber())) {
-			throw new ValidatorException("IndividualEvaluation: report is not valid");
+			throw new ValidatorException("LeadEvaluation: report is not valid");
 		}
 
 		if (leadEvaluation.getStudent() == null || StringUtils.isBlank(leadEvaluation.getStudent().getNumber())) {
-			throw new ValidatorException("IndividualEvaluation: student is not valid");
+			throw new ValidatorException("LeadEvaluation: student is not valid");
 		}
 	}
 }

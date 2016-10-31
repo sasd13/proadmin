@@ -11,7 +11,7 @@ public class ProjectValidator implements IValidator<Project> {
 	@Override
 	public void validate(Project project) throws ValidatorException {
 		if (project == null) {
-			throw new ValidatorException("Project: null");
+			throw new ValidatorException("Project is not valid");
 		}
 
 		if (StringUtils.isBlank(project.getCode())) {

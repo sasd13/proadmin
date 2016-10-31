@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IEntityDAO;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Student;
@@ -22,14 +23,21 @@ public class StudentManageService implements IManageService<Student> {
 	}
 
 	@Override
-	public void create(Student student) throws ServiceException {
-		LOG.info("create : number=" + student.getNumber());
-
+	public void create(Student[] students) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Student.class).insert(student);
+
+			IEntityDAO<Student> studentDAO = dao.getEntityDAO(Student.class);
+
+			for (Student student : students) {
+				LOG.info("create : number=" + student.getNumber());
+
+				long id = studentDAO.insert(student);
+
+				LOG.info("created with id =" + id);
+			}
 		} catch (DAOException e) {
-			LOG.error("create failed");
+			LOG.error("create failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -41,14 +49,18 @@ public class StudentManageService implements IManageService<Student> {
 	}
 
 	@Override
-	public void update(Student student) throws ServiceException {
-		LOG.info("update : number=" + student.getNumber());
-
+	public void update(Student[] students) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Student.class).update(student);
+
+			IEntityDAO<Student> studentDAO = dao.getEntityDAO(Student.class);
+
+			for (Student student : students) {
+				LOG.info("update : number=" + student.getNumber());
+				studentDAO.update(student);
+			}
 		} catch (DAOException e) {
-			LOG.error("update failed");
+			LOG.error("update failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
@@ -60,14 +72,18 @@ public class StudentManageService implements IManageService<Student> {
 	}
 
 	@Override
-	public void delete(Student student) throws ServiceException {
-		LOG.info("delete : number=" + student.getNumber());
-
+	public void delete(Student[] students) throws ServiceException {
 		try {
 			dao.open();
-			dao.getEntityDAO(Student.class).delete(student);
+
+			IEntityDAO<Student> studentDAO = dao.getEntityDAO(Student.class);
+
+			for (Student student : students) {
+				LOG.info("delete : number=" + student.getNumber());
+				studentDAO.delete(student);
+			}
 		} catch (DAOException e) {
-			LOG.error("delete failed");
+			LOG.error("delete failed. " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {

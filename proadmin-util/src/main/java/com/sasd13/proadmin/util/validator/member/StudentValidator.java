@@ -11,7 +11,7 @@ public class StudentValidator implements IValidator<Student> {
 	@Override
 	public void validate(Student student) throws ValidatorException {
 		if (student == null) {
-			throw new ValidatorException("Student: null");
+			throw new ValidatorException("Student is not valid");
 		}
 
 		if (StringUtils.isBlank(student.getNumber())) {

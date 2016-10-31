@@ -109,7 +109,7 @@ public abstract class DAO implements ILayeredDAO {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) individualEvaluationDAO;
 		} else {
-			throw new DAOException("Class '" + mClass.getName() + "' has no entity dao");
+			throw new DAOException("Entity " + mClass.getSimpleName() + " is unknown");
 		}
 	}
 
@@ -127,7 +127,7 @@ public abstract class DAO implements ILayeredDAO {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) individualEvaluationDeepReader;
 		} else {
-			throw new DAOException("Class '" + mClass.getName() + "' has no deep reader");
+			throw new DAOException("DeepReader " + mClass.getSimpleName() + " is unknown");
 		}
 	}
 }

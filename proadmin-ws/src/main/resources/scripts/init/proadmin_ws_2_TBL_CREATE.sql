@@ -1,5 +1,4 @@
 CREATE TABLE projects (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	datecreation VARCHAR(255) NOT NULL,
 	title VARCHAR(255) NOT NULL,
@@ -8,7 +7,6 @@ CREATE TABLE projects (
 );
 
 CREATE TABLE teachers (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
@@ -17,7 +15,6 @@ CREATE TABLE teachers (
 );
 
 CREATE TABLE students (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
@@ -26,13 +23,11 @@ CREATE TABLE students (
 );
 
 CREATE TABLE teams (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (code)
 );
 
 CREATE TABLE studentteams (
-	_id SERIAL,
 	student_code VARCHAR(50) NOT NULL,
 	team_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (student_code, team_code),
@@ -41,7 +36,6 @@ CREATE TABLE studentteams (
 );
 
 CREATE TABLE runnings (
-	_id SERIAL,
 	year INT NOT NULL,
 	project_code VARCHAR(50) NOT NULL,
 	teacher_code VARCHAR(50) NOT NULL,
@@ -51,13 +45,11 @@ CREATE TABLE runnings (
 );
 
 CREATE TABLE academiclevels (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (code)
 );
 
 CREATE TABLE runningteams (
-	_id SERIAL,
 	running_project_code VARCHAR(50) NOT NULL,
 	running_teacher_code VARCHAR(50) NOT NULL,
 	team_code VARCHAR(50) NOT NULL,
@@ -70,7 +62,6 @@ CREATE TABLE runningteams (
 );
 
 CREATE TABLE reports (
-	_id SERIAL,
 	code VARCHAR(50) NOT NULL,
 	datemeeting VARCHAR(255) NOT NULL,
 	session INT NOT NULL,
@@ -87,7 +78,6 @@ CREATE TABLE reports (
 );
 
 CREATE TABLE leadevaluations (
-	_id SERIAL,
 	planningmark DOUBLE NOT NULL,
 	planningcomment TEXT,
 	communicationmark DOUBLE NOT NULL,
@@ -100,7 +90,6 @@ CREATE TABLE leadevaluations (
 );
 
 CREATE TABLE individualevaluations (
-	_id SERIAL,
 	mark DOUBLE NOT NULL,
 	report_code VARCHAR(50) NOT NULL,
 	student_code VARCHAR(50) NOT NULL,

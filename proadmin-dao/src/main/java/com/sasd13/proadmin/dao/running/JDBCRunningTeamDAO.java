@@ -15,11 +15,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.ConditionBuilder;
+import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.condition.ConditionBuilder;
-import com.sasd13.javaex.dao.condition.IExpressionBuilder;
-import com.sasd13.javaex.net.http.URLQueryUtils;
+import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -100,7 +101,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				throw new SQLException("Insert failed. No ID obtained");
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "insert failed", "RunningTeam not inserted");
+			doCatchWithThrow(LOG, "insert failed", "RunningTeam not inserted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -111,7 +112,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	@Override
 	public void update(RunningTeam runningTeam) throws DAOException {
 		LOG.info("update unavailable");
-		throw new DAOException("Update unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	@Override
@@ -138,7 +139,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatch(LOG, "delete failed", "RunningTeam not deleted");
+			doCatchWithThrow(LOG, "delete failed", "RunningTeam not deleted");
 		} finally {
 			doFinally(preparedStatement, LOG);
 		}
@@ -146,33 +147,8 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	@Override
 	public RunningTeam select(long id) throws DAOException {
-		LOG.info("select : id=" + id);
-
-		RunningTeam runningTeam = null;
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_ID + " = ?");
-
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setLong(1, id);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				runningTeam = getResultSetValues(resultSet);
-			}
-		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "RunningTeam not readed");
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return runningTeam;
+		LOG.info("select unavailable");
+		throw new DAOException("Request unavailable");
 	}
 
 	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
@@ -184,7 +160,12 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append("SELECT * FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+
+		try {
+			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
+		} catch (ConditionException e) {
+			doCatchWithThrow(LOG, "select failed", e.getMessage());
+		}
 
 		Statement statement = null;
 
@@ -196,7 +177,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "select failed", "RunningTeams not readed");
+			doCatchWithThrow(LOG, "select failed", "RunningTeams not readed");
 		} finally {
 			doFinally(statement, LOG);
 		}
@@ -224,7 +205,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 				runningTeams.add(getResultSetValues(resultSet));
 			}
 		} catch (SQLException e) {
-			doCatch(LOG, "selectAll failed", "RunningTeams not inserted");
+			doCatchWithThrow(LOG, "selectAll failed", "RunningTeams not inserted");
 		} finally {
 			doFinally(statement, LOG);
 		}

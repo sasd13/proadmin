@@ -11,15 +11,15 @@ public class RunningValidator implements IValidator<Running> {
 	@Override
 	public void validate(Running running) throws ValidatorException {
 		if (running == null) {
-			throw new ValidatorException("Running: null");
+			throw new ValidatorException("Running is not valid");
 		}
 
 		if (running.getProject() == null || StringUtils.isBlank(running.getProject().getCode())) {
-			throw new ValidatorException("IndividualEvaluation: project is not valid");
+			throw new ValidatorException("Running: project is not valid");
 		}
 
 		if (running.getTeacher() == null || StringUtils.isBlank(running.getTeacher().getNumber())) {
-			throw new ValidatorException("IndividualEvaluation: teacher is not valid");
+			throw new ValidatorException("Running: teacher is not valid");
 		}
 	}
 }
