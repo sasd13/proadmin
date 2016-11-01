@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -34,34 +33,6 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 
 	public JDBCLeadEvaluationDAO() {
 		expressionBuilder = new LeadEvaluationExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
-		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
-		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
-		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
-		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
-		preparedStatement.setString(5, leadEvaluation.getReport().getNumber());
-		preparedStatement.setString(6, leadEvaluation.getStudent().getNumber());
-	}
-
-	@Override
-	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
-
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
-
-		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
-		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
-		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
-		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
-		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
-		leadEvaluation.setStudent(student);
-
-		return leadEvaluation;
 	}
 
 	@Override
@@ -97,20 +68,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, leadEvaluation);
-			preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
-			preparedStatement.setString(8, leadEvaluation.getStudent().getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "LeadEvaluation not updated");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.update(this, builder.toString(), leadEvaluation);
 	}
 
 	@Override
@@ -122,19 +80,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
-			preparedStatement.setString(2, leadEvaluation.getStudent().getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "LeadEvaluation not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), leadEvaluation);
 	}
 
 	@Override
@@ -150,5 +96,49 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	@Override
 	public List<LeadEvaluation> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
+		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
+		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
+		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
+		preparedStatement.setString(5, leadEvaluation.getReport().getNumber());
+		preparedStatement.setString(6, leadEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, leadEvaluation);
+
+		preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
+		preparedStatement.setString(8, leadEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, leadEvaluation);
+
+		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
+		preparedStatement.setString(2, leadEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		Report report = new Report();
+		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
+		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
+		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
+		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
+		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
+		leadEvaluation.setStudent(student);
+
+		return leadEvaluation;
 	}
 }

@@ -15,7 +15,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -33,25 +32,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	public JDBCProjectDAO() {
 		expressionBuilder = new ProjectExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
-		preparedStatement.setString(3, project.getTitle());
-		preparedStatement.setString(4, project.getDescription());
-	}
-
-	@Override
-	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
-		project.setTitle(resultSet.getString(COLUMN_TITLE));
-		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
-
-		return project;
 	}
 
 	@Override
@@ -82,19 +62,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, project);
-			preparedStatement.setString(5, project.getCode());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Project not updated");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.update(this, builder.toString(), project);
 	}
 
 	@Override
@@ -105,18 +73,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, project.getCode());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Project not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), project);
 	}
 
 	@Override
@@ -132,5 +89,38 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	@Override
 	public List<Project> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
+		preparedStatement.setString(1, project.getCode());
+		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
+		preparedStatement.setString(3, project.getTitle());
+		preparedStatement.setString(4, project.getDescription());
+	}
+
+	@Override
+	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Project project) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, project);
+
+		preparedStatement.setString(5, project.getCode());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, project);
+
+		preparedStatement.setString(1, project.getCode());
+	}
+
+	@Override
+	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_CODE));
+		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
+		project.setTitle(resultSet.getString(COLUMN_TITLE));
+		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
+
+		return project;
 	}
 }

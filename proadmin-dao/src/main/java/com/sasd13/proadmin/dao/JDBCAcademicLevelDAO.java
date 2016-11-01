@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -32,18 +31,6 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	public JDBCAcademicLevelDAO() {
 		expressionBuilder = new AcademicLevelExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
-		preparedStatement.setString(1, academicLevel.getCode());
-	}
-
-	@Override
-	protected AcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
-		AcademicLevel academicLevel = new AcademicLevel(resultSet.getString(COLUMN_CODE));
-
-		return academicLevel;
 	}
 
 	@Override
@@ -72,18 +59,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, academicLevel.getCode());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "AcademicLevel not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), academicLevel);
 	}
 
 	@Override
@@ -99,5 +75,24 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 	@Override
 	public List<AcademicLevel> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
+		preparedStatement.setString(1, academicLevel.getCode());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, academicLevel);
+
+		preparedStatement.setString(1, academicLevel.getCode());
+	}
+
+	@Override
+	protected AcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
+		AcademicLevel academicLevel = new AcademicLevel(resultSet.getString(COLUMN_CODE));
+
+		return academicLevel;
 	}
 }

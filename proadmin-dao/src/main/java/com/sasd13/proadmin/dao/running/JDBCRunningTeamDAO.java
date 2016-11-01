@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -37,34 +36,6 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	public JDBCRunningTeamDAO() {
 		expressionBuilder = new RunningTeamExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
-		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
-		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
-		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
-	}
-
-	@Override
-	protected RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_RUNNING_PROJECT_CODE));
-
-		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
-
-		Running running = new Running(project);
-		running.setTeacher(teacher);
-
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
-
-		RunningTeam runningTeam = new RunningTeam(running, team);
-		runningTeam.setAcademicLevel(new AcademicLevel(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)));
-
-		return runningTeam;
 	}
 
 	@Override
@@ -99,21 +70,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
 		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
-			preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
-			preparedStatement.setString(3, runningTeam.getTeam().getNumber());
-			preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "RunningTeam not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), runningTeam);
 	}
 
 	@Override
@@ -129,5 +86,43 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	@Override
 	public List<RunningTeam> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
+		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
+		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, runningTeam);
+
+		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
+		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
+		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
+	}
+
+	@Override
+	protected RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_RUNNING_PROJECT_CODE));
+
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
+
+		Running running = new Running(project);
+		running.setTeacher(teacher);
+
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
+
+		RunningTeam runningTeam = new RunningTeam(running, team);
+		runningTeam.setAcademicLevel(new AcademicLevel(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)));
+
+		return runningTeam;
 	}
 }

@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -32,19 +31,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	public JDBCTeamDAO() {
 		expressionBuilder = new TeamExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getNumber());
-	}
-
-	@Override
-	protected Team getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_CODE));
-
-		return team;
 	}
 
 	@Override
@@ -69,19 +55,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, team);
-			preparedStatement.setString(2, team.getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Team not updated");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.update(this, builder.toString(), team);
 	}
 
 	@Override
@@ -92,18 +66,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, team.getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Team not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), team);
 	}
 
 	@Override
@@ -119,5 +82,32 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	@Override
 	public List<Team> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
+		preparedStatement.setString(1, team.getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Team team) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, team);
+
+		preparedStatement.setString(2, team.getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, team);
+
+		preparedStatement.setString(1, team.getNumber());
+	}
+
+	@Override
+	protected Team getResultSetValues(ResultSet resultSet) throws SQLException {
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_CODE));
+
+		return team;
 	}
 }

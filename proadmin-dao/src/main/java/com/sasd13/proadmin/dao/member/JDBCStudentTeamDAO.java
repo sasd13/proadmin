@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -34,25 +33,6 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 
 	public JDBCStudentTeamDAO() {
 		expressionBuilder = new StudentTeamExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
-		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
-	}
-
-	@Override
-	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
-
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
-
-		StudentTeam studentTeam = new StudentTeam(student, team);
-
-		return studentTeam;
 	}
 
 	@Override
@@ -83,19 +63,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		builder.append(COLUMN_STUDENT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, studentTeam.getStudent().getNumber());
-			preparedStatement.setString(2, studentTeam.getTeam().getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "StudentTeam not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), studentTeam);
 	}
 
 	@Override
@@ -111,5 +79,32 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	@Override
 	public List<StudentTeam> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
+		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, studentTeam);
+
+		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
+		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
+	}
+
+	@Override
+	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
+
+		StudentTeam studentTeam = new StudentTeam(student, team);
+
+		return studentTeam;
 	}
 }

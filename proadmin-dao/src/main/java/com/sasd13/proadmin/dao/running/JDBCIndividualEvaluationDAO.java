@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -34,28 +33,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 
 	public JDBCIndividualEvaluationDAO() {
 		expressionBuilder = new IndividualEvaluationExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		preparedStatement.setFloat(1, individualEvaluation.getMark());
-		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
-		preparedStatement.setString(3, individualEvaluation.getStudent().getNumber());
-	}
-
-	@Override
-	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
-
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
-
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
-		individualEvaluation.setStudent(student);
-
-		return individualEvaluation;
 	}
 
 	@Override
@@ -85,20 +62,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, individualEvaluation);
-			preparedStatement.setString(4, individualEvaluation.getReport().getNumber());
-			preparedStatement.setString(5, individualEvaluation.getStudent().getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "IndividualEvaluation not updated");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.update(this, builder.toString(), individualEvaluation);
 	}
 
 	@Override
@@ -110,19 +74,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, individualEvaluation.getReport().getNumber());
-			preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "IndividualEvaluation not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), individualEvaluation);
 	}
 
 	@Override
@@ -138,5 +90,43 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 	@Override
 	public List<IndividualEvaluation> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, individualEvaluation.getMark());
+		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(3, individualEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, individualEvaluation);
+
+		preparedStatement.setString(4, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(5, individualEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, individualEvaluation);
+
+		preparedStatement.setString(1, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	protected IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		Report report = new Report();
+		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		individualEvaluation.setStudent(student);
+
+		return individualEvaluation;
 	}
 }

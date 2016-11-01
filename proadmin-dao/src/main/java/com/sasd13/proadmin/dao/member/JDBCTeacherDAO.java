@@ -14,7 +14,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
 import com.sasd13.javaex.dao.QueryUtils;
@@ -32,25 +31,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	public JDBCTeacherDAO() {
 		expressionBuilder = new TeacherExpressionBuilder();
-	}
-
-	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
-		preparedStatement.setString(1, teacher.getNumber());
-		preparedStatement.setString(2, teacher.getFirstName());
-		preparedStatement.setString(3, teacher.getLastName());
-		preparedStatement.setString(4, teacher.getEmail());
-	}
-
-	@Override
-	protected Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
-		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_CODE));
-		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
-		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
-		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));
-
-		return teacher;
 	}
 
 	@Override
@@ -81,19 +61,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			editPreparedStatement(preparedStatement, teacher);
-			preparedStatement.setString(5, teacher.getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Teacher not updated");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.update(this, builder.toString(), teacher);
 	}
 
 	@Override
@@ -104,18 +72,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = getConnection().prepareStatement(builder.toString());
-			preparedStatement.setString(1, teacher.getNumber());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			DAOUtils.doCatchWithThrow(e, "Teacher not deleted");
-		} finally {
-			DAOUtils.doFinally(preparedStatement);
-		}
+		QueryUtils.delete(this, builder.toString(), teacher);
 	}
 
 	@Override
@@ -131,5 +88,38 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 	@Override
 	public List<Teacher> selectAll() throws DAOException {
 		return QueryUtils.selectAll(this, TABLE);
+	}
+
+	@Override
+	protected void editPreparedStatement(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
+		preparedStatement.setString(1, teacher.getNumber());
+		preparedStatement.setString(2, teacher.getFirstName());
+		preparedStatement.setString(3, teacher.getLastName());
+		preparedStatement.setString(4, teacher.getEmail());
+	}
+
+	@Override
+	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, teacher);
+
+		preparedStatement.setString(5, teacher.getNumber());
+	}
+
+	@Override
+	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, teacher);
+
+		preparedStatement.setString(1, teacher.getNumber());
+	}
+
+	@Override
+	protected Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_CODE));
+		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
+		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
+		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));
+
+		return teacher;
 	}
 }
