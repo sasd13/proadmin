@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.project.Project;
 
 /**
@@ -46,7 +46,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?)");
 
-		return QueryUtils.insert(this, builder.toString(), project);
+		return JDBCUtils.insert(this, builder.toString(), project);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.update(this, builder.toString(), project);
+		JDBCUtils.update(this, builder.toString(), project);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), project);
+		JDBCUtils.delete(this, builder.toString(), project);
 	}
 
 	@Override
@@ -83,16 +83,16 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	}
 
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Project> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
 		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
 		preparedStatement.setString(3, project.getTitle());
@@ -100,21 +100,21 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 	}
 
 	@Override
-	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Project project) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Project project) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, project);
 
 		preparedStatement.setString(5, project.getCode());
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, project);
 
 		preparedStatement.setString(1, project.getCode());
 	}
 
 	@Override
-	protected Project getResultSetValues(ResultSet resultSet) throws SQLException {
+	public Project getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_CODE));
 		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));

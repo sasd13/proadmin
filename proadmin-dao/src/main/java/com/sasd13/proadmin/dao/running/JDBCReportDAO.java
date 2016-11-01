@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -37,7 +37,6 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-
 	private IExpressionBuilder expressionBuilder;
 	private ReportTransation transaction;
 
@@ -82,7 +81,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-		return QueryUtils.insertInTransaction(this, transaction, builder.toString(), report);
+		transaction.editTransaction(builder.toString(), report);
+
+		return JDBCUtils.insertInTransaction(this, transaction);
 	}
 
 	@Override
@@ -102,7 +103,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.updateInTransaction(this, transaction, builder.toString(), report);
+		transaction.editTransaction(builder.toString(), report);
+
+		JDBCUtils.updateInTransaction(this, transaction);
 	}
 
 	@Override
@@ -113,7 +116,9 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.deleteInTransaction(this, transaction, builder.toString(), report);
+		transaction.editTransaction(builder.toString(), report);
+
+		JDBCUtils.deleteInTransaction(this, transaction);
 	}
 
 	@Override
@@ -123,16 +128,16 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	}
 
 	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Report> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
 		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
 		preparedStatement.setInt(3, report.getSession());
@@ -144,21 +149,21 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	}
 
 	@Override
-	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Report report) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Report report) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, report);
 
 		preparedStatement.setString(9, report.getNumber());
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, report);
 
 		preparedStatement.setString(1, report.getNumber());
 	}
 
 	@Override
-	protected Report getResultSetValues(ResultSet resultSet) throws SQLException {
+	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE));
 

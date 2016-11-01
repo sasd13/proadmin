@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Team;
 
 /**
@@ -42,7 +42,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(COLUMN_CODE);
 		builder.append(") VALUES (?)");
 
-		return QueryUtils.insert(this, builder.toString(), team);
+		return JDBCUtils.insert(this, builder.toString(), team);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.update(this, builder.toString(), team);
+		JDBCUtils.update(this, builder.toString(), team);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), team);
+		JDBCUtils.delete(this, builder.toString(), team);
 	}
 
 	@Override
@@ -76,35 +76,35 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 	}
 
 	public List<Team> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Team> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
 		preparedStatement.setString(1, team.getNumber());
 	}
 
 	@Override
-	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Team team) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Team team) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, team);
 
 		preparedStatement.setString(2, team.getNumber());
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, team);
 
 		preparedStatement.setString(1, team.getNumber());
 	}
 
 	@Override
-	protected Team getResultSetValues(ResultSet resultSet) throws SQLException {
+	public Team getResultSetValues(ResultSet resultSet) throws SQLException {
 		Team team = new Team();
 		team.setNumber(resultSet.getString(COLUMN_CODE));
 

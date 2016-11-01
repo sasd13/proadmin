@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -49,7 +49,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(", " + COLUMN_STUDENT_CODE);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 
-		return QueryUtils.insert(this, builder.toString(), leadEvaluation);
+		return JDBCUtils.insert(this, builder.toString(), leadEvaluation);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		QueryUtils.update(this, builder.toString(), leadEvaluation);
+		JDBCUtils.update(this, builder.toString(), leadEvaluation);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), leadEvaluation);
+		JDBCUtils.delete(this, builder.toString(), leadEvaluation);
 	}
 
 	@Override
@@ -90,16 +90,16 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<LeadEvaluation> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
@@ -109,7 +109,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 
 	@Override
-	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, leadEvaluation);
 
 		preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
@@ -117,7 +117,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, leadEvaluation);
 
 		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
@@ -125,7 +125,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 	}
 
 	@Override
-	protected LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+	public LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
 		Report report = new Report();
 		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
 

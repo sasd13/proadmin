@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
@@ -45,7 +45,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		builder.append(", " + COLUMN_TEAM_CODE);
 		builder.append(") VALUES (?, ?)");
 
-		return QueryUtils.insert(this, builder.toString(), studentTeam);
+		return JDBCUtils.insert(this, builder.toString(), studentTeam);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		builder.append(COLUMN_STUDENT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), studentTeam);
+		JDBCUtils.delete(this, builder.toString(), studentTeam);
 	}
 
 	@Override
@@ -73,22 +73,22 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	}
 
 	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<StudentTeam> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
 		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, studentTeam);
 
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
@@ -96,7 +96,7 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 	}
 
 	@Override
-	protected StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+	public StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
 		Student student = new Student();
 		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
 

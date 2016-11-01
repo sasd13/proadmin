@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -46,7 +46,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append(", " + COLUMN_TEACHER_CODE);
 		builder.append(") VALUES (?, ?, ?)");
 
-		return QueryUtils.insert(this, builder.toString(), running);
+		return JDBCUtils.insert(this, builder.toString(), running);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append(COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
 
-		QueryUtils.update(this, builder.toString(), running);
+		JDBCUtils.update(this, builder.toString(), running);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		builder.append(COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), running);
+		JDBCUtils.delete(this, builder.toString(), running);
 	}
 
 	@Override
@@ -84,23 +84,23 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	}
 
 	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Running> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
 		preparedStatement.setInt(1, running.getYear());
 		preparedStatement.setString(2, running.getProject().getCode());
 		preparedStatement.setString(3, running.getTeacher().getNumber());
 	}
 
 	@Override
-	protected void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Running running) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Running running) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, running);
 
 		preparedStatement.setString(4, running.getProject().getCode());
@@ -108,7 +108,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, running);
 
 		preparedStatement.setString(1, running.getProject().getCode());
@@ -116,7 +116,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 	}
 
 	@Override
-	protected Running getResultSetValues(ResultSet resultSet) throws SQLException {
+	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_PROJECT_CODE));
 

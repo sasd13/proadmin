@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.QueryUtils;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -50,7 +50,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE);
 		builder.append(") VALUES (?, ?, ?, ?)");
 
-		return QueryUtils.insert(this, builder.toString(), runningTeam);
+		return JDBCUtils.insert(this, builder.toString(), runningTeam);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
 		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
 
-		QueryUtils.delete(this, builder.toString(), runningTeam);
+		JDBCUtils.delete(this, builder.toString(), runningTeam);
 	}
 
 	@Override
@@ -80,16 +80,16 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	}
 
 	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
-		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<RunningTeam> selectAll() throws DAOException {
-		return QueryUtils.selectAll(this, TABLE);
+		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	protected void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+	public void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
 		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
 		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
 		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
@@ -97,7 +97,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	}
 
 	@Override
-	protected void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, runningTeam);
 
 		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
@@ -107,7 +107,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 	}
 
 	@Override
-	protected RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
 		Project project = new Project();
 		project.setCode(resultSet.getString(COLUMN_RUNNING_PROJECT_CODE));
 
