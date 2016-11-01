@@ -8,19 +8,16 @@ package com.sasd13.proadmin.dao.member;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.ConditionBuilder;
-import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.dao.QueryUtils;
 import com.sasd13.proadmin.bean.member.Team;
 
 /**
@@ -52,10 +49,6 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 
 	@Override
 	public long insert(Team team) throws DAOException {
-		LOG.info("insert : number=" + team.getNumber());
-
-		long id = 0;
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -63,33 +56,11 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		builder.append(COLUMN_CODE);
 		builder.append(") VALUES (?)");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, team);
-
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			} else {
-				throw new SQLException("Insert failed. No ID obtained");
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Team not inserted", LOG);
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return id;
+		return QueryUtils.insert(this, builder.toString(), team);
 	}
 
 	@Override
 	public void update(Team team) throws DAOException {
-		LOG.info("update : number=" + team.getNumber());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -101,22 +72,20 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, team);
 			preparedStatement.setString(2, team.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Team not updated", LOG);
+			DAOUtils.doCatchWithThrow(e, "Team not updated");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public void delete(Team team) throws DAOException {
-		LOG.info("delete : number=" + team.getNumber());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -126,82 +95,29 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			preparedStatement.setString(1, team.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Team not deleted", LOG);
+			DAOUtils.doCatchWithThrow(e, "Team not deleted");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public Team select(long id) throws DAOException {
-		LOG.info("select unavailable");
+		LOG.error("select unavailable");
 		throw new DAOException("Request unavailable");
 	}
 
 	public List<Team> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<Team> list = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-
-		try {
-			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
-		} catch (ConditionException e) {
-			doCatchWithThrow(e, "Parameters parsing error", LOG);
-		}
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teams not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return list;
+		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Team> selectAll() throws DAOException {
-		LOG.info("selectAll");
-
-		List<Team> list = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teams not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return list;
+		return QueryUtils.selectAll(this, TABLE);
 	}
 }

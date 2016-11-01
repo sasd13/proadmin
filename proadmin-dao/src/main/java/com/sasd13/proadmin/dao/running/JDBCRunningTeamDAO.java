@@ -8,19 +8,16 @@ package com.sasd13.proadmin.dao.running;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.ConditionBuilder;
-import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.dao.QueryUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -72,10 +69,6 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	@Override
 	public long insert(RunningTeam runningTeam) throws DAOException {
-		LOG.info("insert : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
-
-		long id = 0;
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -86,39 +79,17 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE);
 		builder.append(") VALUES (?, ?, ?, ?)");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, runningTeam);
-
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			} else {
-				throw new SQLException("Insert failed. No ID obtained");
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "RunningTeam not inserted", LOG);
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return id;
+		return QueryUtils.insert(this, builder.toString(), runningTeam);
 	}
 
 	@Override
 	public void update(RunningTeam runningTeam) throws DAOException {
-		LOG.info("update unavailable");
+		LOG.error("update unavailable");
 		throw new DAOException("Request unavailable");
 	}
 
 	@Override
 	public void delete(RunningTeam runningTeam) throws DAOException {
-		LOG.info("delete : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -131,7 +102,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
 			preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
 			preparedStatement.setString(3, runningTeam.getTeam().getNumber());
@@ -139,77 +110,24 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "RunningTeam not deleted", LOG);
+			DAOUtils.doCatchWithThrow(e, "RunningTeam not deleted");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public RunningTeam select(long id) throws DAOException {
-		LOG.info("select unavailable");
+		LOG.error("select unavailable");
 		throw new DAOException("Request unavailable");
 	}
 
 	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<RunningTeam> runningTeams = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-
-		try {
-			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
-		} catch (ConditionException e) {
-			doCatchWithThrow(e, "Parameters parsing error", LOG);
-		}
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				runningTeams.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "RunningTeams not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return runningTeams;
+		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<RunningTeam> selectAll() throws DAOException {
-		LOG.info("selectAll");
-
-		List<RunningTeam> runningTeams = new ArrayList<RunningTeam>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				runningTeams.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "RunningTeams not inserted", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return runningTeams;
+		return QueryUtils.selectAll(this, TABLE);
 	}
 }

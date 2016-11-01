@@ -8,20 +8,17 @@ package com.sasd13.proadmin.dao.project;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.ConditionBuilder;
-import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.dao.QueryUtils;
 import com.sasd13.proadmin.bean.project.Project;
 
 /**
@@ -59,10 +56,6 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 
 	@Override
 	public long insert(Project project) throws DAOException {
-		LOG.info("insert : code=" + project.getCode());
-
-		long id = 0;
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -73,31 +66,11 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?)");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, project);
-
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Project not inserted", LOG);
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return id;
+		return QueryUtils.insert(this, builder.toString(), project);
 	}
 
 	@Override
 	public void update(Project project) throws DAOException {
-		LOG.info("update : code=" + project.getCode());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -112,22 +85,20 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, project);
 			preparedStatement.setString(5, project.getCode());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Project not updated", LOG);
+			DAOUtils.doCatchWithThrow(e, "Project not updated");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public void delete(Project project) throws DAOException {
-		LOG.info("delete : code=" + project.getCode());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -137,82 +108,29 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			preparedStatement.setString(1, project.getCode());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Project not deleted", LOG);
+			DAOUtils.doCatchWithThrow(e, "Project not deleted");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public Project select(long id) throws DAOException {
-		LOG.info("select unavailable");
+		LOG.error("select unavailable");
 		throw new DAOException("Request unavailable");
 	}
 
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<Project> projects = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-
-		try {
-			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
-		} catch (ConditionException e) {
-			doCatchWithThrow(e, "Paramaters parsing error", LOG);
-		}
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				projects.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Projects not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return projects;
+		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Project> selectAll() throws DAOException {
-		LOG.info("selectAll");
-
-		List<Project> projects = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				projects.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Projects not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return projects;
+		return QueryUtils.selectAll(this, TABLE);
 	}
 }

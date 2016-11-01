@@ -8,19 +8,16 @@ package com.sasd13.proadmin.dao.member;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.ConditionBuilder;
-import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.DAOUtils;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.dao.QueryUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 
 /**
@@ -58,10 +55,6 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 
 	@Override
 	public long insert(Teacher teacher) throws DAOException {
-		LOG.info("insert : number=" + teacher.getNumber());
-
-		long id = 0;
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -72,33 +65,11 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		builder.append(", " + COLUMN_EMAIL);
 		builder.append(") VALUES (?, ?, ?, ?)");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-			editPreparedStatement(preparedStatement, teacher);
-
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			} else {
-				throw new SQLException("Insert failed. No ID obtained");
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teacher not inserted", LOG);
-		} finally {
-			doFinally(preparedStatement, LOG);
-		}
-
-		return id;
+		return QueryUtils.insert(this, builder.toString(), teacher);
 	}
 
 	@Override
 	public void update(Teacher teacher) throws DAOException {
-		LOG.info("update : number=" + teacher.getNumber());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -113,22 +84,20 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			editPreparedStatement(preparedStatement, teacher);
 			preparedStatement.setString(5, teacher.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teacher not updated", LOG);
+			DAOUtils.doCatchWithThrow(e, "Teacher not updated");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public void delete(Teacher teacher) throws DAOException {
-		LOG.info("delete : number=" + teacher.getNumber());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -138,82 +107,29 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		PreparedStatement preparedStatement = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
+			preparedStatement = getConnection().prepareStatement(builder.toString());
 			preparedStatement.setString(1, teacher.getNumber());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teacher not deleted", LOG);
+			DAOUtils.doCatchWithThrow(e, "Teacher not deleted");
 		} finally {
-			doFinally(preparedStatement, LOG);
+			DAOUtils.doFinally(preparedStatement);
 		}
 	}
 
 	@Override
 	public Teacher select(long id) throws DAOException {
-		LOG.info("select unavailable");
+		LOG.error("select unavailable");
 		throw new DAOException("Request unavailable");
 	}
 
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
-		LOG.info("select : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<Teacher> list = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-
-		try {
-			builder.append(ConditionBuilder.parse(parameters, expressionBuilder));
-		} catch (ConditionException e) {
-			doCatchWithThrow(e, "Parameters parsing error", LOG);
-		}
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teachers not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return list;
+		return QueryUtils.select(this, TABLE, parameters, expressionBuilder);
 	}
 
 	@Override
 	public List<Teacher> selectAll() throws DAOException {
-		LOG.info("selectAll");
-
-		List<Teacher> list = new ArrayList<>();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT * FROM ");
-		builder.append(TABLE);
-
-		Statement statement = null;
-
-		try {
-			statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(builder.toString());
-			while (resultSet.next()) {
-				list.add(getResultSetValues(resultSet));
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Teachers not readed", LOG);
-		} finally {
-			doFinally(statement, LOG);
-		}
-
-		return list;
+		return QueryUtils.selectAll(this, TABLE);
 	}
 }
