@@ -81,6 +81,7 @@ public class JDBCTeacherDAO extends JDBCEntityDAO<Teacher> implements ITeacherDA
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

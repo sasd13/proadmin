@@ -82,6 +82,7 @@ public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDA
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

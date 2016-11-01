@@ -15,7 +15,7 @@ public class TeamValidator implements IValidator<Team> {
 		}
 
 		if (StringUtils.isBlank(team.getNumber())) {
-			throw new ValidatorException("Team: number is not valid");
+			throw new ValidatorException("Team : number is not valid");
 		}
 	}
 }

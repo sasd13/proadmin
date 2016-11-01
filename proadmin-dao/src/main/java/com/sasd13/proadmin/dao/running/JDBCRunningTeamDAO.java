@@ -79,6 +79,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

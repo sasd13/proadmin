@@ -32,9 +32,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 			for (StudentTeam studentTeam : studentTeams) {
 				LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
 
-				long id = studentTeamDAO.insert(studentTeam);
-
-				LOG.info("created with id=" + id);
+				studentTeamDAO.insert(studentTeam);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

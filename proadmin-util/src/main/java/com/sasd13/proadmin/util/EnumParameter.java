@@ -1,13 +1,13 @@
 package com.sasd13.proadmin.util;
 
 public enum EnumParameter {
+	UNKNOWN("unknown"), 
 	ACADEMICLEVEL("academiclevel"), 
 	CODE("code"), 
 	EMAIL("email"), 
 	FIRSTNAME("firstname"), 
 	LASTNAME("lastname"), 
 	NUMBER("number"), 
-	PASSWORD("password"), 
 	PROJECT("project"), 
 	REPORT("report"), 
 	RUNNING("running"), 
@@ -38,6 +38,6 @@ public enum EnumParameter {
 			}
 		}
 
-		return null;
+		return UNKNOWN;
 	}
 }

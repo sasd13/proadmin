@@ -4,20 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.ITransaction;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 
-public class ReportTransation implements ITransaction {
+public class ReportTransaction implements ITransaction {
 
 	private JDBCReportDAO reportDAO;
 	private String query;
 	private Report report;
 
-	public ReportTransation(JDBCReportDAO reportDAO) {
+	public ReportTransaction(JDBCReportDAO reportDAO) {
 		this.reportDAO = reportDAO;
 	}
 
@@ -41,8 +40,7 @@ public class ReportTransation implements ITransaction {
 
 			reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
 
-			List<IndividualEvaluation> individualEvaluations = report.getIndividualEvaluations();
-			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 				reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
 			}
 		} else {
@@ -61,8 +59,7 @@ public class ReportTransation implements ITransaction {
 
 		reportDAO.getLeadEvaluationDAO().update(report.getLeadEvaluation());
 
-		List<IndividualEvaluation> individualEvaluations = report.getIndividualEvaluations();
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 			reportDAO.getIndividualEvaluationDAO().update(individualEvaluation);
 		}
 	}
@@ -71,8 +68,7 @@ public class ReportTransation implements ITransaction {
 	public void delete(Connection connection) throws SQLException, DAOException {
 		reportDAO.getLeadEvaluationDAO().delete(report.getLeadEvaluation());
 
-		List<IndividualEvaluation> individualEvaluations = report.getIndividualEvaluations();
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
 			reportDAO.getIndividualEvaluationDAO().delete(individualEvaluation);
 		}
 

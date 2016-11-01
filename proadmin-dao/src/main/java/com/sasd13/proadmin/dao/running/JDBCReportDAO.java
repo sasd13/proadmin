@@ -38,13 +38,13 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
 	private IExpressionBuilder expressionBuilder;
-	private ReportTransation transaction;
+	private ReportTransaction transaction;
 
 	public JDBCReportDAO() {
 		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
 		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
 		expressionBuilder = new ReportExpressionBuilder();
-		transaction = new ReportTransation(this);
+		transaction = new ReportTransaction(this);
 	}
 
 	@Override
@@ -127,6 +127,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

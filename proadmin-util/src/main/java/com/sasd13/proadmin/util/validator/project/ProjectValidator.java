@@ -15,19 +15,19 @@ public class ProjectValidator implements IValidator<Project> {
 		}
 
 		if (StringUtils.isBlank(project.getCode())) {
-			throw new ValidatorException("Project: code is not valid");
+			throw new ValidatorException("Project : code is not valid");
 		}
 
 		if (StringUtils.isBlank(project.getTitle())) {
-			throw new ValidatorException("Project: title is not valid");
+			throw new ValidatorException("Project : title is not valid");
 		}
 
 		if (StringUtils.isBlank(project.getDescription())) {
-			throw new ValidatorException("Project: description is not valid");
+			throw new ValidatorException("Project : description is not valid");
 		}
 
 		if (project.getDateCreation() == null) {
-			throw new ValidatorException("Project: dateCreation is not valid");
+			throw new ValidatorException("Project : dateCreation is not valid");
 		}
 	}
 }

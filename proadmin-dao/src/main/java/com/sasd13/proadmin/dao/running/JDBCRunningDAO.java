@@ -83,6 +83,7 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

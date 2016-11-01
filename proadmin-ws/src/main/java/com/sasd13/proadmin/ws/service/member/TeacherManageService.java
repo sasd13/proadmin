@@ -32,9 +32,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 			for (Teacher teacher : teachers) {
 				LOG.info("create : number=" + teacher.getNumber());
 
-				long id = teacherDAO.insert(teacher);
-
-				LOG.info("created with id=" + id);
+				teacherDAO.insert(teacher);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

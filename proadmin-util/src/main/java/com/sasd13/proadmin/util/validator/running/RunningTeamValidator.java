@@ -16,21 +16,21 @@ public class RunningTeamValidator implements IValidator<RunningTeam> {
 		}
 
 		if (runningTeam.getAcademicLevel() == null || StringUtils.isBlank(runningTeam.getAcademicLevel().getCode())) {
-			throw new ValidatorException("RunningTeam: academicLevel is not valid");
+			throw new ValidatorException("RunningTeam : academicLevel is not valid");
 		}
 
 		Running running = runningTeam.getRunning();
 
 		if (running == null) {
-			throw new ValidatorException("RunningTeam: running is not valid");
+			throw new ValidatorException("RunningTeam : running is not valid");
 		}
 
 		if (running.getProject() == null || StringUtils.isBlank(running.getProject().getCode())) {
-			throw new ValidatorException("RunningTeam: running -> project is not valid");
+			throw new ValidatorException("RunningTeam : running -> project is not valid");
 		}
 
 		if (running.getTeacher() == null || StringUtils.isBlank(running.getTeacher().getNumber())) {
-			throw new ValidatorException("RunningTeam: running -> teacher is not valid");
+			throw new ValidatorException("RunningTeam : running -> teacher is not valid");
 		}
 	}
 }

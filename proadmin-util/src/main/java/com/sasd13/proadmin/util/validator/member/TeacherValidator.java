@@ -15,19 +15,19 @@ public class TeacherValidator implements IValidator<Teacher> {
 		}
 
 		if (StringUtils.isBlank(teacher.getNumber())) {
-			throw new ValidatorException("Teacher: number is not valid");
+			throw new ValidatorException("Teacher : number is not valid");
 		}
 
 		if (StringUtils.isBlank(teacher.getFirstName())) {
-			throw new ValidatorException("Teacher: firstName is not valid");
+			throw new ValidatorException("Teacher : firstName is not valid");
 		}
 
 		if (StringUtils.isBlank(teacher.getLastName())) {
-			throw new ValidatorException("Teacher: lastName is not valid");
+			throw new ValidatorException("Teacher : lastName is not valid");
 		}
 
 		if (StringUtils.isBlank(teacher.getEmail())) {
-			throw new ValidatorException("Teacher: email is not valid");
+			throw new ValidatorException("Teacher : email is not valid");
 		}
 	}
 }

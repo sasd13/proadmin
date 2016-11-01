@@ -68,6 +68,7 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<AcademicLevel> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

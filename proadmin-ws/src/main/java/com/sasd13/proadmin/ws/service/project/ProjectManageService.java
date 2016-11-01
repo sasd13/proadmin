@@ -32,9 +32,7 @@ public class ProjectManageService implements IManageService<Project> {
 			for (Project project : projects) {
 				LOG.info("create : code=" + project.getCode());
 
-				long id = projectDAO.insert(project);
-
-				LOG.info("created with id=" + id);
+				projectDAO.insert(project);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

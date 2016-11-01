@@ -32,9 +32,7 @@ public class TeamManageService implements IManageService<Team> {
 			for (Team team : teams) {
 				LOG.info("create : code=" + team.getNumber());
 
-				long id = teamDAO.insert(team);
-
-				LOG.info("created with id=" + id);
+				teamDAO.insert(team);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

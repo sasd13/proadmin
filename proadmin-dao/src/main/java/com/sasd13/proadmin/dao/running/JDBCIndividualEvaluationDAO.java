@@ -83,6 +83,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<IndividualEvaluation> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

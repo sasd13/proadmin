@@ -61,7 +61,7 @@ public abstract class DAO implements ILayeredDAO {
 			ITeamDAO teamDAO, 
 			IStudentTeamDAO studentTeamDAO, 
 			IRunningDAO runningDAO, 
-			IAcademicLevelDAO academicLevelDAO,
+			IAcademicLevelDAO academicLevelDAO, 
 			IRunningTeamDAO runningTeamDAO, 
 			IReportDAO reportDAO) {
 
@@ -85,6 +85,7 @@ public abstract class DAO implements ILayeredDAO {
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}
 
+	@Override
 	public <T> IEntityDAO<T> getEntityDAO(Class<T> mClass) throws DAOException {
 		if (Teacher.class.isAssignableFrom(mClass)) {
 			return (IEntityDAO<T>) teacherDAO;
@@ -113,6 +114,7 @@ public abstract class DAO implements ILayeredDAO {
 		}
 	}
 
+	@Override
 	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DAOException {
 		if (StudentTeam.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) studentTeamDeepReader;

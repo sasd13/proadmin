@@ -32,9 +32,7 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 			for (AcademicLevel academicLevel : academicLevels) {
 				LOG.info("create : code=" + academicLevel.getCode());
 
-				long id = academicLevelDAO.insert(academicLevel);
-
-				LOG.info("created with id=" + id);
+				academicLevelDAO.insert(academicLevel);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

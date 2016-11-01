@@ -32,9 +32,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			for (RunningTeam runningTeam : runningTeams) {
 				LOG.info("create : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
-				long id = runningTeamDAO.insert(runningTeam);
-
-				LOG.info("created with id=" + id);
+				runningTeamDAO.insert(runningTeam);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

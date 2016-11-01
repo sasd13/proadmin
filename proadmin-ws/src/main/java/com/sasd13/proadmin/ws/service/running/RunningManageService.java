@@ -32,9 +32,7 @@ public class RunningManageService implements IManageService<Running> {
 			for (Running running : runnings) {
 				LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
-				long id = runningDAO.insert(running);
-
-				LOG.info("created with id=" + id);
+				runningDAO.insert(running);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

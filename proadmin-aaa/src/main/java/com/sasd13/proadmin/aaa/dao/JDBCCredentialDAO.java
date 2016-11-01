@@ -3,26 +3,33 @@ package com.sasd13.proadmin.aaa.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.JDBCCheckerDAO;
+import com.sasd13.javaex.dao.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
 
-public class JDBCCredentialDAO implements ICredentialDAO {
+public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICredentialDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCCredentialDAO.class);
 
 	private String url, username, password;
 	private Connection connection;
+	private Map<String, String[]> parameters;
+	private IExpressionBuilder expressionBuilder;
 
 	public JDBCCredentialDAO(String url, String username, String password) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
+		parameters = new HashMap<>();
+		expressionBuilder = new CredentialExpressionBuilder();
 	}
 
 	@Override
@@ -48,10 +55,6 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 
 	@Override
 	public long insert(Credential credential) throws DAOException {
-		LOG.info("insert : username=" + credential.getUsername());
-
-		long id = 0;
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -60,49 +63,11 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		builder.append(", " + COLUMN_PASSWORD);
 		builder.append(") VALUES (?, ?)");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, credential.getUsername());
-			preparedStatement.setString(2, credential.getPassword());
-
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			} else {
-				throw new SQLException("Insert failed. No ID obtained");
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Credential not inserted");
-		} finally {
-			doFinally(preparedStatement);
-		}
-
-		return id;
-	}
-
-	private void doCatchWithThrow(Exception e, String exceptionMessage) throws DAOException {
-		LOG.error(e);
-		throw new DAOException(exceptionMessage);
-	}
-
-	private void doFinally(Statement statement) {
-		if (statement != null) {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				LOG.warn(e);
-			}
-		}
+		return JDBCUtils.insert(this, builder.toString(), credential);
 	}
 
 	@Override
 	public void update(Credential credential) throws DAOException {
-		LOG.info("update : username=" + credential.getUsername());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -111,76 +76,46 @@ public class JDBCCredentialDAO implements ICredentialDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_USERNAME + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, credential.getPassword());
-			preparedStatement.setString(2, credential.getUsername());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Credential not updated");
-		} finally {
-			doFinally(preparedStatement);
-		}
+		JDBCUtils.update(this, builder.toString(), credential);
 	}
 
 	@Override
 	public void delete(Credential credential) throws DAOException {
-		LOG.info("delete : username=" + credential.getUsername());
-
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_USERNAME + " = ?");
 
-		PreparedStatement preparedStatement = null;
-
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, credential.getUsername());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Credential not deleted");
-		} finally {
-			doFinally(preparedStatement);
-		}
+		JDBCUtils.delete(this, builder.toString(), credential);
 	}
 
 	@Override
 	public boolean contains(Credential credential) throws DAOException {
-		LOG.info("check : username=" + credential.getUsername());
+		parameters.clear();
+		parameters.put(COLUMN_USERNAME, new String[] { credential.getUsername() });
+		parameters.put(COLUMN_PASSWORD, new String[] { credential.getPassword() });
 
-		boolean contains = false;
+		return JDBCUtils.contains(this, TABLE, parameters, expressionBuilder);
+	}
 
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT " + COLUMN_PASSWORD + " FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_USERNAME + " = ?");
-		builder.append(" AND ");
-		builder.append(COLUMN_PASSWORD + " = ?");
+	@Override
+	public void editPreparedStatement(PreparedStatement preparedStatement, Credential credential) throws SQLException {
+		preparedStatement.setString(1, credential.getPassword());
+		preparedStatement.setString(2, credential.getUsername());
+	}
 
-		PreparedStatement preparedStatement = null;
+	@Override
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Credential credential) throws SQLException {
+		super.editPreparedStatementForUpdate(preparedStatement, credential);
 
-		try {
-			preparedStatement = connection.prepareStatement(builder.toString());
-			preparedStatement.setString(1, credential.getUsername());
-			preparedStatement.setString(2, credential.getPassword());
+		preparedStatement.setString(3, credential.getUsername());
+	}
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				contains = true;
-			}
-		} catch (SQLException e) {
-			doCatchWithThrow(e, "Credential not checked");
-		} finally {
-			doFinally(preparedStatement);
-		}
+	@Override
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Credential credential) throws SQLException {
+		super.editPreparedStatementForDelete(preparedStatement, credential);
 
-		return contains;
+		preparedStatement.setString(1, credential.getUsername());
 	}
 }

@@ -15,7 +15,7 @@ public class AcademicLevelValidator implements IValidator<AcademicLevel> {
 		}
 
 		if (StringUtils.isBlank(academicLevel.getCode())) {
-			throw new ValidatorException("AcademicLevel: code is not valid");
+			throw new ValidatorException("AcademicLevel : code is not valid");
 		}
 	}
 }

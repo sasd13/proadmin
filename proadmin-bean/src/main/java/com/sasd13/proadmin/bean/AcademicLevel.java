@@ -12,6 +12,10 @@ public class AcademicLevel {
 		return code;
 	}
 
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

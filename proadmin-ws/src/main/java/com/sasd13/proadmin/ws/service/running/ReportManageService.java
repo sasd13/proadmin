@@ -32,9 +32,7 @@ public class ReportManageService implements IManageService<Report> {
 			for (Report report : reports) {
 				LOG.info("create : number=" + report.getNumber());
 
-				long id = reportDAO.insert(report);
-
-				LOG.info("created with id=" + id);
+				reportDAO.insert(report);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

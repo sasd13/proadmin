@@ -1,7 +1,5 @@
 package com.sasd13.proadmin.util;
 
-import java.util.List;
-
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -17,7 +15,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 public class Binder {
 
 	public static void bind(AcademicLevel target, AcademicLevel source) {
-		// Do nothing
+		target.setCode(source.getCode());
 	}
 
 	public static void bind(Project target, Project source) {
@@ -83,9 +81,8 @@ public class Binder {
 	private static void bindIndividualEvaluations(Report target, Report source) {
 		target.getIndividualEvaluations().clear();
 
-		List<IndividualEvaluation> individualEvaluations = source.getIndividualEvaluations();
 		IndividualEvaluation individualEvaluationToAdd;
-		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+		for (IndividualEvaluation individualEvaluation : source.getIndividualEvaluations()) {
 			individualEvaluationToAdd = new IndividualEvaluation(target);
 			bind(individualEvaluationToAdd, individualEvaluation);
 		}

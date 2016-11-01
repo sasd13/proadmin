@@ -75,6 +75,7 @@ public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<Team> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

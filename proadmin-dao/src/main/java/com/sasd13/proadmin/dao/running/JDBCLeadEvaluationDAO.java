@@ -89,6 +89,7 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		throw new DAOException("Request unavailable");
 	}
 
+	@Override
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) throws DAOException {
 		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
 	}

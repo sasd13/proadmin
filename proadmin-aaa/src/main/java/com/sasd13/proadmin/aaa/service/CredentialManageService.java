@@ -29,9 +29,7 @@ public class CredentialManageService implements IManageService<Credential> {
 			for (Credential credential : credentials) {
 				LOG.info("create : username=" + credential.getUsername());
 
-				long id = dao.insert(credential);
-
-				LOG.info("created with id=" + id);
+				dao.insert(credential);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);
