@@ -3,6 +3,7 @@ package com.sasd13.proadmin.aaa.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 	public void open() throws DAOException {
 		try {
 			connection = DriverManager.getConnection(url, username, password);
+
+			setConnection(connection);
 		} catch (SQLException e) {
 			LOG.error(e);
 			throw new DAOException("Database connection error");
@@ -72,7 +75,8 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_PASSWORD + " = ?");
+		builder.append(COLUMN_USERNAME + " = ?");
+		builder.append(" AND " + COLUMN_PASSWORD + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_USERNAME + " = ?");
 
@@ -101,8 +105,8 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 
 	@Override
 	public void editPreparedStatement(PreparedStatement preparedStatement, Credential credential) throws SQLException {
-		preparedStatement.setString(1, credential.getPassword());
-		preparedStatement.setString(2, credential.getUsername());
+		preparedStatement.setString(1, credential.getUsername());
+		preparedStatement.setString(2, credential.getPassword());
 	}
 
 	@Override
@@ -117,5 +121,12 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 		super.editPreparedStatementForDelete(preparedStatement, credential);
 
 		preparedStatement.setString(1, credential.getUsername());
+	}
+
+	@Override
+	public Credential getResultSetValues(ResultSet resultSet) throws SQLException {
+		Credential credential = new Credential(resultSet.getString(COLUMN_USERNAME), resultSet.getString(COLUMN_PASSWORD));
+
+		return credential;
 	}
 }
