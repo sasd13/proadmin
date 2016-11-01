@@ -31,7 +31,6 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 
 			for (StudentTeam studentTeam : studentTeams) {
 				LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-
 				studentTeamDAO.insert(studentTeam);
 			}
 		} catch (DAOException e) {

@@ -44,11 +44,11 @@ INSERT INTO academiclevels(code) VALUES ('M2');
 
 -- RUNNINGTEAMS
 
-INSERT INTO runningteams(running_project_code,running_teacher_code,team_code,academiclevel_code) VALUES ('2016RU01','21010013','2016TE01','L1');
+INSERT INTO runningteams(running_project_code,running_teacher_code,team_code,academiclevel_code) VALUES ('2016PR01','21010013','2016TE01','L1');
 
 -- REPORTS
 
-INSERT INTO reports(code,datemeeting,session,comment,runningteam_running_project_code,runningteam_running_teacher_code,runningteam_team_code,runningteam_academiclevel_code) VALUES ('2016RE0001','2016-01-01 00:00:00',1,null,'2016RU01','21010013','2016TE01','L1');
+INSERT INTO reports(code,datemeeting,session,comment,runningteam_running_project_code,runningteam_running_teacher_code,runningteam_team_code,runningteam_academiclevel_code) VALUES ('2016RE0001','2016-01-01 00:00:00',1,null,'2016PR01','21010013','2016TE01','L1');
 
 -- LEADEVALUATIONS
 

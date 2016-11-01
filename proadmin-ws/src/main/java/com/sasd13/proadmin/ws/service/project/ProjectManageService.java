@@ -31,7 +31,6 @@ public class ProjectManageService implements IManageService<Project> {
 
 			for (Project project : projects) {
 				LOG.info("create : code=" + project.getCode());
-
 				projectDAO.insert(project);
 			}
 		} catch (DAOException e) {

@@ -104,7 +104,9 @@ public class JDBCStudentTeamDAO extends JDBCEntityDAO<StudentTeam> implements IS
 		Team team = new Team();
 		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
 
-		StudentTeam studentTeam = new StudentTeam(student, team);
+		StudentTeam studentTeam = new StudentTeam();
+		studentTeam.setStudent(student);
+		studentTeam.setTeam(team);
 
 		return studentTeam;
 	}

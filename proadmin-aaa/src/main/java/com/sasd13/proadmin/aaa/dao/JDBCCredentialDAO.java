@@ -21,7 +21,6 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 	private static final Logger LOG = Logger.getLogger(JDBCCredentialDAO.class);
 
 	private String url, username, password;
-	private Connection connection;
 	private Map<String, String[]> parameters;
 	private IExpressionBuilder expressionBuilder;
 
@@ -36,7 +35,7 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 	@Override
 	public void open() throws DAOException {
 		try {
-			connection = DriverManager.getConnection(url, username, password);
+			Connection connection = DriverManager.getConnection(url, username, password);
 
 			setConnection(connection);
 		} catch (SQLException e) {
@@ -47,9 +46,9 @@ public class JDBCCredentialDAO extends JDBCCheckerDAO<Credential> implements ICr
 
 	@Override
 	public void close() {
-		if (connection != null) {
+		if (getConnection() != null) {
 			try {
-				connection.close();
+				getConnection().close();
 			} catch (SQLException e) {
 				LOG.warn(e);
 			}

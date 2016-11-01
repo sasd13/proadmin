@@ -31,7 +31,6 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 
 			for (RunningTeam runningTeam : runningTeams) {
 				LOG.info("create : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
-
 				runningTeamDAO.insert(runningTeam);
 			}
 		} catch (DAOException e) {

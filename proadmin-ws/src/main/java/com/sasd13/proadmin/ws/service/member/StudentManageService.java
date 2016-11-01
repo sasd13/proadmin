@@ -31,7 +31,6 @@ public class StudentManageService implements IManageService<Student> {
 
 			for (Student student : students) {
 				LOG.info("create : number=" + student.getNumber());
-
 				studentDAO.insert(student);
 			}
 		} catch (DAOException e) {

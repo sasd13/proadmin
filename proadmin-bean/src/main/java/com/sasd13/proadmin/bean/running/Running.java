@@ -6,23 +6,15 @@ import com.sasd13.proadmin.bean.project.Project;
 public class Running {
 
 	private Project project;
-	private int year;
 	private Teacher teacher;
-
-	public Running(Project project) {
-		this.project = project;
-	}
+	private int year;
 
 	public Project getProject() {
 		return project;
 	}
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public Teacher getTeacher() {
@@ -31,6 +23,14 @@ public class Running {
 
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 	@Override

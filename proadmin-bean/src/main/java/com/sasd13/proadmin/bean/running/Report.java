@@ -4,17 +4,22 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Report {
 
+	@JsonManagedReference("runningteam")
 	private RunningTeam runningTeam;
+
 	private String number, comment;
 	private Timestamp dateMeeting;
 	private int session;
+
+	@JsonBackReference("leadevaluation")
 	private LeadEvaluation leadEvaluation;
+
+	@JsonBackReference("individualevaluations")
 	private List<IndividualEvaluation> individualEvaluations;
 
 	public Report() {
@@ -38,14 +43,6 @@ public class Report {
 		this.runningTeam = runningTeam;
 	}
 
-	public Timestamp getDateMeeting() {
-		return dateMeeting;
-	}
-
-	public void setDateMeeting(Timestamp dateMeeting) {
-		this.dateMeeting = dateMeeting;
-	}
-
 	public String getNumber() {
 		return number;
 	}
@@ -54,12 +51,12 @@ public class Report {
 		this.number = number;
 	}
 
-	public String getComment() {
-		return comment;
+	public Timestamp getDateMeeting() {
+		return dateMeeting;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setDateMeeting(Timestamp dateMeeting) {
+		this.dateMeeting = dateMeeting;
 	}
 
 	public int getSession() {
@@ -68,6 +65,14 @@ public class Report {
 
 	public void setSession(int session) {
 		this.session = session;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public LeadEvaluation getLeadEvaluation() {

@@ -124,9 +124,10 @@ public class JDBCRunningDAO extends JDBCEntityDAO<Running> implements IRunningDA
 		Teacher teacher = new Teacher();
 		teacher.setNumber(resultSet.getString(COLUMN_TEACHER_CODE));
 
-		Running running = new Running(project);
-		running.setYear(resultSet.getInt(COLUMN_YEAR));
+		Running running = new Running();
+		running.setProject(project);
 		running.setTeacher(teacher);
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
 
 		return running;
 	}

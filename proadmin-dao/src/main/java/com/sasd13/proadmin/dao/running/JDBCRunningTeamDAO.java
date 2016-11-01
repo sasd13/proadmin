@@ -115,14 +115,20 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		Teacher teacher = new Teacher();
 		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
 
-		Running running = new Running(project);
+		Running running = new Running();
+		running.setProject(project);
 		running.setTeacher(teacher);
 
 		Team team = new Team();
 		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
 
-		RunningTeam runningTeam = new RunningTeam(running, team);
-		runningTeam.setAcademicLevel(new AcademicLevel(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)));
+		AcademicLevel academicLevel = new AcademicLevel();
+		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE));
+
+		RunningTeam runningTeam = new RunningTeam();
+		runningTeam.setRunning(running);
+		runningTeam.setTeam(team);
+		runningTeam.setAcademicLevel(new AcademicLevel());
 
 		return runningTeam;
 	}

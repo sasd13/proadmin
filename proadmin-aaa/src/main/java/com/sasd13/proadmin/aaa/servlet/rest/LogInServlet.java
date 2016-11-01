@@ -16,9 +16,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.service.ICredentialReadService;
+import com.sasd13.javaex.service.ICheckService;
 import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.proadmin.aaa.service.CredentialReadService;
+import com.sasd13.proadmin.aaa.service.CredentialCheckService;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
 import com.sasd13.proadmin.util.exception.EnumError;
@@ -35,7 +35,7 @@ public class LogInServlet extends AAAServlet {
 	private static final Logger LOG = Logger.getLogger(LogInServlet.class);
 
 	private IValidator<Credential> validator;
-	private ICredentialReadService credentialReadService;
+	private ICheckService<Credential> checkService;
 
 	@Override
 	protected Logger getLogger() {
@@ -47,7 +47,7 @@ public class LogInServlet extends AAAServlet {
 		super.init();
 
 		validator = new CredentialValidator();
-		credentialReadService = new CredentialReadService();
+		checkService = new CredentialCheckService();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class LogInServlet extends AAAServlet {
 
 			validator.validate(credential);
 
-			if (credentialReadService.contains(credential)) {
+			if (checkService.contains(credential)) {
 				String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential));
 
 				writeToResponse(resp, message);
@@ -67,7 +67,7 @@ public class LogInServlet extends AAAServlet {
 				writeError(resp, EnumError.AAA_LOGIN_FAILED);
 			}
 		} catch (Exception e) {
-			doCatch(e, resp);
+			handleError(e, resp);
 		}
 	}
 }

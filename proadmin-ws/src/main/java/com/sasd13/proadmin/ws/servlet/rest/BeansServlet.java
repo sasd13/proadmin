@@ -85,7 +85,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
-	private void doCatch(Exception e, HttpServletResponse resp) throws IOException {
+	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		getLogger().error(e);
 
 		EnumError error = ErrorFactory.make(e);
@@ -106,10 +106,12 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		try {
 			List<T> results = !parameters.isEmpty() ? readService.read(parameters) : readService.readAll();
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
+			
+			T[] ts = ParserFactory.make(RESPONSE_CONTENT_TYPE).fromStringArray(message, getBeanClass());
 
 			writeToResponse(resp, message);
 		} catch (Exception e) {
-			doCatch(e, resp);
+			handleError(e, resp);
 		}
 	}
 
@@ -126,7 +128,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.create(ts);
 		} catch (Exception e) {
-			doCatch(e, resp);
+			handleError(e, resp);
 		}
 	}
 
@@ -143,7 +145,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.update(ts);
 		} catch (Exception e) {
-			doCatch(e, resp);
+			handleError(e, resp);
 		}
 	}
 
@@ -160,7 +162,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 			manageService.delete(ts);
 		} catch (Exception e) {
-			doCatch(e, resp);
+			handleError(e, resp);
 		}
 	}
 }

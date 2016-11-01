@@ -5,17 +5,20 @@ public class StudentTeam {
 	private Student student;
 	private Team team;
 
-	public StudentTeam(Student student, Team team) {
-		this.student = student;
-		this.team = team;
-	}
-
 	public Student getStudent() {
 		return student;
 	}
 
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
 	public Team getTeam() {
 		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	@Override

@@ -11,11 +11,13 @@ import com.sasd13.proadmin.util.ws.EnumAAASession;
 
 public class SessionBuilder {
 
+	private static SessionIdGenerator generator = new SessionIdGenerator();
+
 	public static Map<String, String> build(Credential credential) {
 		Map<String, String> map = new HashMap<>();
 
 		map.put(EnumAAASession.USERNAME.getName(), credential.getUsername());
-		map.put(EnumAAASession.TOKEN.getName(), new SessionIdGenerator().generateSessionId());
+		map.put(EnumAAASession.TOKEN.getName(), generator.generateSessionId());
 		map.put(EnumAAASession.START.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
 
 		return map;

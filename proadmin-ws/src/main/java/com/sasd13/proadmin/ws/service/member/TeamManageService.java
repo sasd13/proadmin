@@ -31,7 +31,6 @@ public class TeamManageService implements IManageService<Team> {
 
 			for (Team team : teams) {
 				LOG.info("create : code=" + team.getNumber());
-
 				teamDAO.insert(team);
 			}
 		} catch (DAOException e) {

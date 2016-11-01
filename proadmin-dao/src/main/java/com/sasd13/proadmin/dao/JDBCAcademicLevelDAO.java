@@ -92,7 +92,8 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 
 	@Override
 	public AcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
-		AcademicLevel academicLevel = new AcademicLevel(resultSet.getString(COLUMN_CODE));
+		AcademicLevel academicLevel = new AcademicLevel();
+		academicLevel.setCode(resultSet.getString(COLUMN_CODE));
 
 		return academicLevel;
 	}

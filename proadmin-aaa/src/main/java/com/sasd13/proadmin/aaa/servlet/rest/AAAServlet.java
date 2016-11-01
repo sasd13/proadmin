@@ -72,7 +72,7 @@ public abstract class AAAServlet extends HttpServlet {
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
-	protected void doCatch(Exception e, HttpServletResponse resp) throws IOException {
+	protected void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		getLogger().error(e);
 
 		EnumError error = ErrorFactory.make(e);

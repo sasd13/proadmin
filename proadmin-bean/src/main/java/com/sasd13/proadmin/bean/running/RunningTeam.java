@@ -3,23 +3,37 @@ package com.sasd13.proadmin.bean.running;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class RunningTeam {
 
 	private Running running;
 	private Team team;
 	private AcademicLevel academicLevel;
+
+	@JsonBackReference("reports")
 	private List<Report> reports;
 
-	public RunningTeam(Running running, Team team) {
-		this.running = running;
-		this.team = team;
+	public RunningTeam() {
 		reports = new ArrayList<>();
+	}
+
+	public Running getRunning() {
+		return running;
+	}
+
+	public void setRunning(Running running) {
+		this.running = running;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	public AcademicLevel getAcademicLevel() {
@@ -28,14 +42,6 @@ public class RunningTeam {
 
 	public void setAcademicLevel(AcademicLevel academicLevel) {
 		this.academicLevel = academicLevel;
-	}
-
-	public Running getRunning() {
-		return running;
-	}
-
-	public Team getTeam() {
-		return team;
 	}
 
 	public List<Report> getReports() {

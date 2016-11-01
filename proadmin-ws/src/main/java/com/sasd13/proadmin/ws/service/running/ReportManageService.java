@@ -31,7 +31,6 @@ public class ReportManageService implements IManageService<Report> {
 
 			for (Report report : reports) {
 				LOG.info("create : number=" + report.getNumber());
-
 				reportDAO.insert(report);
 			}
 		} catch (DAOException e) {
