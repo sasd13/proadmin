@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,8 @@ import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.proadmin.aaa.service.CredentialManageService;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  *
@@ -47,6 +50,7 @@ public class SignServlet extends AAAServlet {
 		manageService = new CredentialManageService();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOG.info("doPost");
@@ -55,12 +59,13 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.create(new Credential[] { credential });
+			manageService.create((List<Credential>) Arrays.asList(new Credential[] { credential }));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOG.info("doPut");
@@ -69,12 +74,13 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.update(new Credential[] { credential });
+			manageService.update((List<Credential>) Arrays.asList(new Credential[] { credential }));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOG.info("doDelete");
@@ -83,7 +89,7 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.delete(new Credential[] { credential });
+			manageService.delete((List<Credential>) Arrays.asList(new Credential[] { credential }));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

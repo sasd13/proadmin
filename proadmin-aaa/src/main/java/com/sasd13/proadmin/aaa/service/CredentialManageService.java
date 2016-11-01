@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.aaa.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -22,7 +23,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void create(Credential[] credentials) throws ServiceException {
+	public void create(List<Credential> credentials) throws ServiceException {
 		try {
 			dao.open();
 
@@ -43,7 +44,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void update(Credential[] credentials) throws ServiceException {
+	public void update(List<Credential> credentials) throws ServiceException {
 		try {
 			dao.open();
 
@@ -64,7 +65,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void delete(Credential[] credentials) throws ServiceException {
+	public void delete(List<Credential> credentials) throws ServiceException {
 		try {
 			dao.open();
 

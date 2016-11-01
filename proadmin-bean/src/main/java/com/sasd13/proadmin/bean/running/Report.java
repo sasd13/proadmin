@@ -4,22 +4,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Report {
 
-	@JsonManagedReference("runningteam")
 	private RunningTeam runningTeam;
-
 	private String number, comment;
 	private Timestamp dateMeeting;
 	private int session;
-
-	@JsonBackReference("leadevaluation")
 	private LeadEvaluation leadEvaluation;
-
-	@JsonBackReference("individualevaluations")
 	private List<IndividualEvaluation> individualEvaluations;
 
 	public Report() {
@@ -27,7 +23,7 @@ public class Report {
 		individualEvaluations = new ArrayList<>();
 	}
 
-	public Report(RunningTeam runningTeam) {
+	public Report(@JsonProperty("runningTeam") RunningTeam runningTeam) {
 		this();
 
 		this.runningTeam = runningTeam;

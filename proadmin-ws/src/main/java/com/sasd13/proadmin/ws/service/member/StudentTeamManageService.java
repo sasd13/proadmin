@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.member;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void create(StudentTeam[] studentTeams) throws ServiceException {
+	public void create(List<StudentTeam> studentTeams) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,13 +47,13 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void update(StudentTeam[] studentTeams) throws ServiceException {
+	public void update(List<StudentTeam> studentTeams) throws ServiceException {
 		LOG.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(StudentTeam[] studentTeams) throws ServiceException {
+	public void delete(List<StudentTeam> studentTeams) throws ServiceException {
 		try {
 			dao.open();
 

@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.member;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void create(Teacher[] teachers) throws ServiceException {
+	public void create(List<Teacher> teachers) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,7 +47,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void update(Teacher[] teachers) throws ServiceException {
+	public void update(List<Teacher> teachers) throws ServiceException {
 		try {
 			dao.open();
 
@@ -69,7 +70,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 	}
 
 	@Override
-	public void delete(Teacher[] teachers) throws ServiceException {
+	public void delete(List<Teacher> teachers) throws ServiceException {
 		try {
 			dao.open();
 

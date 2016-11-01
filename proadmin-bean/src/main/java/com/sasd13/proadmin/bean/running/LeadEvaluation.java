@@ -1,11 +1,13 @@
 package com.sasd13.proadmin.bean.running;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LeadEvaluation extends Evaluation {
 
 	private float planningMark, communicationMark;
 	private String planningComment, communicationComment;
 
-	public LeadEvaluation(Report report) {
+	public LeadEvaluation(@JsonProperty("report") Report report) {
 		super(report);
 	}
 

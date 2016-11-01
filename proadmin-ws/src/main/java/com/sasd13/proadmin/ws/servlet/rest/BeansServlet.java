@@ -70,7 +70,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
-	private T[] readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+	private List<T> readFromRequest(HttpServletRequest req) throws ParserException, IOException {
 		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), getBeanClass());
 	}
 
@@ -106,8 +106,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		try {
 			List<T> results = !parameters.isEmpty() ? readService.read(parameters) : readService.readAll();
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
-			
-			T[] ts = ParserFactory.make(RESPONSE_CONTENT_TYPE).fromStringArray(message, getBeanClass());
+
+			List<T> ts = ParserFactory.make(RESPONSE_CONTENT_TYPE).fromStringArray(message, getBeanClass());
 
 			writeToResponse(resp, message);
 		} catch (Exception e) {
@@ -120,7 +120,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doPost");
 
 		try {
-			T[] ts = readFromRequest(req);
+			List<T> ts = readFromRequest(req);
 
 			for (T t : ts) {
 				validator.validate(t);
@@ -137,7 +137,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doPut");
 
 		try {
-			T[] ts = readFromRequest(req);
+			List<T> ts = readFromRequest(req);
 
 			for (T t : ts) {
 				validator.validate(t);
@@ -154,7 +154,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		getLogger().info("doDelete");
 
 		try {
-			T[] ts = readFromRequest(req);
+			List<T> ts = readFromRequest(req);
 
 			for (T t : ts) {
 				validator.validate(t);

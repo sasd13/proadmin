@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.project;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void create(Project[] projects) throws ServiceException {
+	public void create(List<Project> projects) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,7 +47,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void update(Project[] projects) throws ServiceException {
+	public void update(List<Project> projects) throws ServiceException {
 		try {
 			dao.open();
 
@@ -69,7 +70,7 @@ public class ProjectManageService implements IManageService<Project> {
 	}
 
 	@Override
-	public void delete(Project[] projects) throws ServiceException {
+	public void delete(List<Project> projects) throws ServiceException {
 		try {
 			dao.open();
 

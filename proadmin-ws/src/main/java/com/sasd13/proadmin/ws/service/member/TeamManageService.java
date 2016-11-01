@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.member;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void create(Team[] teams) throws ServiceException {
+	public void create(List<Team> teams) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,7 +47,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void update(Team[] teams) throws ServiceException {
+	public void update(List<Team> teams) throws ServiceException {
 		try {
 			dao.open();
 
@@ -69,7 +70,7 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void delete(Team[] teams) throws ServiceException {
+	public void delete(List<Team> teams) throws ServiceException {
 		try {
 			dao.open();
 

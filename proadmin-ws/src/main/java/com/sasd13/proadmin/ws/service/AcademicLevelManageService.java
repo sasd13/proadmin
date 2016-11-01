@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 	}
 
 	@Override
-	public void create(AcademicLevel[] academicLevels) throws ServiceException {
+	public void create(List<AcademicLevel> academicLevels) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,13 +47,13 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 	}
 
 	@Override
-	public void update(AcademicLevel[] academicLevels) throws ServiceException {
+	public void update(List<AcademicLevel> academicLevels) throws ServiceException {
 		LOG.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(AcademicLevel[] academicLevels) throws ServiceException {
+	public void delete(List<AcademicLevel> academicLevels) throws ServiceException {
 		try {
 			dao.open();
 

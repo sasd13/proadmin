@@ -1,10 +1,12 @@
 package com.sasd13.proadmin.bean.running;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IndividualEvaluation extends Evaluation {
 
 	private float mark;
 
-	public IndividualEvaluation(Report report) {
+	public IndividualEvaluation(@JsonProperty("report") Report report) {
 		super(report);
 
 		report.addIndividualEvaluation(this);

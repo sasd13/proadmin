@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.running;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void create(Report[] reports) throws ServiceException {
+	public void create(List<Report> reports) throws ServiceException {
 		try {
 			dao.open();
 
@@ -46,7 +47,7 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void update(Report[] reports) throws ServiceException {
+	public void update(List<Report> reports) throws ServiceException {
 		try {
 			dao.open();
 
@@ -69,7 +70,7 @@ public class ReportManageService implements IManageService<Report> {
 	}
 
 	@Override
-	public void delete(Report[] reports) throws ServiceException {
+	public void delete(List<Report> reports) throws ServiceException {
 		try {
 			dao.open();
 

@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.running;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,13 +24,13 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 	}
 
 	@Override
-	public void create(IndividualEvaluation[] individualEvaluations) throws ServiceException {
+	public void create(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
 		LOG.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void update(IndividualEvaluation[] individualEvaluations) throws ServiceException {
+	public void update(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
 		try {
 			dao.open();
 
@@ -52,7 +53,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 	}
 
 	@Override
-	public void delete(IndividualEvaluation[] individualEvaluations) throws ServiceException {
+	public void delete(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
 		LOG.info("delete unavailable");
 		throw new ServiceException("Service unavailable");
 	}
