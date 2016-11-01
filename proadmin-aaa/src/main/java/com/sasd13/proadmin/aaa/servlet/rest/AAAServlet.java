@@ -52,7 +52,7 @@ public abstract class AAAServlet extends HttpServlet {
 
 	@SuppressWarnings("unchecked")
 	protected Credential readFromRequest(HttpServletRequest req) throws ParserException, IOException {
-		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.readAndClose(req.getReader()), Map.class);
+		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.read(req.getReader()), Map.class);
 
 		if (!map.containsKey(PARAMETER_USERNAME) || !map.containsKey(PARAMETER_PASSWORD)) {
 			throw new ParserException("Credential username/password not send");

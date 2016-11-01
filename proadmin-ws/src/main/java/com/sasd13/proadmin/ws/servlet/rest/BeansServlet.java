@@ -71,7 +71,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private T[] readFromRequest(HttpServletRequest req) throws ParserException, IOException {
-		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.readAndClose(req.getReader()), getBeanClass());
+		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), getBeanClass());
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
