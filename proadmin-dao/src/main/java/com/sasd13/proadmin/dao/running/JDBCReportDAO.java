@@ -186,11 +186,14 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		runningTeam.setTeam(team);
 		runningTeam.setAcademicLevel(academicLevel);
 
-		Report report = new Report(runningTeam);
+		Report report = new Report();
+		report.setRunningTeam(runningTeam);
 		report.setNumber(resultSet.getString(COLUMN_CODE));
 		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
+
+		// TODO : dependency binder
 
 		return report;
 	}

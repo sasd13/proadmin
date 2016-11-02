@@ -33,6 +33,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 		parameters.put(EnumParameter.STUDENT.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
+
 		Binder.bind(individualEvaluation.getStudent(), student);
 	}
 }

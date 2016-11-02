@@ -44,15 +44,19 @@ public class Binder {
 	}
 
 	public static void bind(StudentTeam target, StudentTeam source) {
-		// Do nothing
+		target.setStudent(source.getStudent());
+		target.setTeam(source.getTeam());
 	}
 
 	public static void bind(Running target, Running source) {
-		target.setYear(source.getYear());
+		target.setProject(source.getProject());
 		target.setTeacher(source.getTeacher());
+		target.setYear(source.getYear());
 	}
 
 	public static void bind(RunningTeam target, RunningTeam source) {
+		target.setRunning(source.getRunning());
+		target.setTeam(source.getTeam());
 		target.setAcademicLevel(source.getAcademicLevel());
 	}
 
@@ -61,35 +65,18 @@ public class Binder {
 		target.setDateMeeting(source.getDateMeeting());
 		target.setSession(source.getSession());
 		target.setComment(source.getComment());
-
-		bindLeadEvaluation(target, source);
-		bindIndividualEvaluations(target, source);
-	}
-
-	private static void bindLeadEvaluation(Report target, Report source) {
-		bind(target.getLeadEvaluation(), source.getLeadEvaluation());
 	}
 
 	public static void bind(LeadEvaluation target, LeadEvaluation source) {
+		target.setStudent(source.getStudent());
 		target.setPlanningMark(source.getPlanningMark());
 		target.setPlanningComment(source.getPlanningComment());
 		target.setCommunicationMark(source.getCommunicationMark());
 		target.setCommunicationComment(source.getCommunicationComment());
-		target.setStudent(source.getStudent());
-	}
-
-	private static void bindIndividualEvaluations(Report target, Report source) {
-		target.getIndividualEvaluations().clear();
-
-		IndividualEvaluation individualEvaluationToAdd;
-		for (IndividualEvaluation individualEvaluation : source.getIndividualEvaluations()) {
-			individualEvaluationToAdd = new IndividualEvaluation(target);
-			bind(individualEvaluationToAdd, individualEvaluation);
-		}
 	}
 
 	public static void bind(IndividualEvaluation target, IndividualEvaluation source) {
-		target.setMark(source.getMark());
 		target.setStudent(source.getStudent());
+		target.setMark(source.getMark());
 	}
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
@@ -19,23 +18,17 @@ public class Report {
 	private List<IndividualEvaluation> individualEvaluations;
 
 	public Report() {
-		leadEvaluation = new LeadEvaluation(this);
+		leadEvaluation = new LeadEvaluation();
 		individualEvaluations = new ArrayList<>();
-	}
 
-	public Report(@JsonProperty("runningTeam") RunningTeam runningTeam) {
-		this();
-
-		this.runningTeam = runningTeam;
-
-		runningTeam.addReport(this);
+		leadEvaluation.setReport(this);
 	}
 
 	public RunningTeam getRunningTeam() {
 		return runningTeam;
 	}
 
-	void setRunningTeam(RunningTeam runningTeam) {
+	public void setRunningTeam(RunningTeam runningTeam) {
 		this.runningTeam = runningTeam;
 	}
 
@@ -75,22 +68,16 @@ public class Report {
 		return leadEvaluation;
 	}
 
+	public void setLeadEvaluation(LeadEvaluation leadEvaluation) {
+		this.leadEvaluation = leadEvaluation;
+	}
+
 	public List<IndividualEvaluation> getIndividualEvaluations() {
 		return individualEvaluations;
 	}
 
-	boolean addIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		return individualEvaluations.add(individualEvaluation);
-	}
-
-	boolean removeIndividualEvaluation(IndividualEvaluation individualEvaluation) {
-		boolean removed = individualEvaluations.remove(individualEvaluation);
-
-		if (removed) {
-			individualEvaluation.setReport(null);
-		}
-
-		return removed;
+	public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+		this.individualEvaluations = individualEvaluations;
 	}
 
 	@Override

@@ -107,8 +107,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			List<T> results = !parameters.isEmpty() ? readService.read(parameters) : readService.readAll();
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
 
-			List<T> ts = ParserFactory.make(RESPONSE_CONTENT_TYPE).fromStringArray(message, getBeanClass());
-
 			writeToResponse(resp, message);
 		} catch (Exception e) {
 			handleError(e, resp);

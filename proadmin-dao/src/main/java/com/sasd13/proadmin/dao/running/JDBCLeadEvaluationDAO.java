@@ -133,12 +133,15 @@ public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> impleme
 		Student student = new Student();
 		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
 
-		LeadEvaluation leadEvaluation = new LeadEvaluation(report);
+		LeadEvaluation leadEvaluation = new LeadEvaluation();
+		leadEvaluation.setReport(report);
+		leadEvaluation.setStudent(student);
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
-		leadEvaluation.setStudent(student);
+
+		// TODO : dependency binder
 
 		return leadEvaluation;
 	}

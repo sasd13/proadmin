@@ -43,6 +43,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(runningTeam.getRunning().getTeacher().getNumber()) });
 
 		Running running = runningDeepReader.select(parameters).get(0);
+
 		Binder.bind(runningTeam.getRunning(), running);
 	}
 
@@ -51,6 +52,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });
 
 		Team team = teamDAO.select(parameters).get(0);
+
 		Binder.bind(runningTeam.getTeam(), team);
 	}
 
@@ -63,10 +65,14 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { String.valueOf(runningTeam.getAcademicLevel().getCode()) });
 
 		List<Report> reports = reportDeepReader.select(parameters);
+
 		Report reportToAdd;
 		for (Report report : reports) {
-			reportToAdd = new Report(runningTeam);
+			reportToAdd = new Report();
+
+			runningTeam.getReports().add(report);
 			Binder.bind(reportToAdd, report);
+			// TODO : dependency binder
 		}
 	}
 }

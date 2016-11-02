@@ -38,6 +38,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { running.getProject().getCode() });
 
 		Project project = projectDAO.select(parameters).get(0);
+
 		Binder.bind(running.getProject(), project);
 	}
 
@@ -46,6 +47,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { running.getTeacher().getNumber() });
 
 		Teacher teacher = teacherDAO.select(parameters).get(0);
+
 		Binder.bind(running.getTeacher(), teacher);
 	}
 }

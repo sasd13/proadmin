@@ -37,7 +37,10 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
+
+		report.setLeadEvaluation(leadEvaluation);
 		Binder.bind(report.getLeadEvaluation(), leadEvaluation);
+		// TODO : dependency binder
 	}
 
 	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) throws DAOException {
@@ -46,10 +49,14 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
+
 		IndividualEvaluation individualEvaluationToAdd;
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			individualEvaluationToAdd = new IndividualEvaluation(report);
+			individualEvaluationToAdd = new IndividualEvaluation();
+
+			report.getIndividualEvaluations().add(individualEvaluation);
 			Binder.bind(individualEvaluationToAdd, individualEvaluation);
+			// TODO : dependency binder
 		}
 	}
 }

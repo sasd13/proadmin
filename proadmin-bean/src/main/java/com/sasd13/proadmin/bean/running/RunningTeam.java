@@ -48,18 +48,8 @@ public class RunningTeam {
 		return reports;
 	}
 
-	boolean addReport(Report report) {
-		return reports.add(report);
-	}
-
-	boolean removeReport(Report report) {
-		boolean removed = reports.remove(report);
-
-		if (removed) {
-			report.setRunningTeam(null);
-		}
-
-		return removed;
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
 	}
 
 	@Override

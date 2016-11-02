@@ -36,6 +36,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentTeam.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
+
 		Binder.bind(studentTeam.getStudent(), student);
 	}
 
@@ -44,6 +45,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { studentTeam.getTeam().getNumber() });
 
 		Team team = teamDAO.select(parameters).get(0);
+
 		Binder.bind(studentTeam.getTeam(), team);
 	}
 }

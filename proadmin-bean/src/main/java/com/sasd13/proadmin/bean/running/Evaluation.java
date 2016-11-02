@@ -10,15 +10,11 @@ public abstract class Evaluation {
 	private Report report;
 	private Student student;
 
-	protected Evaluation(Report report) {
-		this.report = report;
-	}
-
 	public Report getReport() {
 		return report;
 	}
 
-	void setReport(Report report) {
+	public void setReport(Report report) {
 		this.report = report;
 	}
 

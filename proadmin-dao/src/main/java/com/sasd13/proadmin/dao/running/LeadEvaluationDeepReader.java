@@ -33,6 +33,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 		parameters.put(EnumParameter.STUDENT.getName(), new String[] { leadEvaluation.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
+
 		Binder.bind(leadEvaluation.getStudent(), student);
 	}
 }

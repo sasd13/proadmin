@@ -124,9 +124,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCEntityDAO<IndividualEvaluat
 		Student student = new Student();
 		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
 
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation(report);
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
+		individualEvaluation.setReport(report);
 		individualEvaluation.setStudent(student);
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+
+		// TODO : dependency binder
 
 		return individualEvaluation;
 	}
