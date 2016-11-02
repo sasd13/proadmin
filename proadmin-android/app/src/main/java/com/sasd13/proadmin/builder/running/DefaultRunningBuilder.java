@@ -19,7 +19,8 @@ public class DefaultRunningBuilder implements IBuilder<Running> {
 
     @Override
     public Running build() {
-        Running running = new Running(project);
+        Running running = new Running();
+        running.setProject(project);
         running.setYear(Calendar.getInstance().get(Calendar.YEAR));
 
         return running;

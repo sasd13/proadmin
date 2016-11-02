@@ -17,15 +17,15 @@ public class ReportFilter extends AndFilter<Report> {
 	protected void setCriterias(Map<String, String[]> parameters, MultiAndCriteria<Report> multiAndCriteria) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.NUMBER.getName().equals(entry.getKey())) {
+				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportNumberCriteria(value));
-				} else if (EnumParameter.SESSION.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new ReportSessionCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (EnumParameter.TEAM.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportTeamCriteria(value));
 				}
 			}

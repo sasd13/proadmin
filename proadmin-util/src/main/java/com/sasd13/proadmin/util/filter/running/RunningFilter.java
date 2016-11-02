@@ -17,15 +17,15 @@ public class RunningFilter extends AndFilter<Running> {
 	protected void setCriterias(Map<String, String[]> parameters, MultiAndCriteria<Running> multiAndCriteria) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.YEAR.getName().equals(entry.getKey())) {
+				if (EnumParameter.YEAR.getName().equalsIgnoreCase(entry.getKey())) {
 					try {
 						multiAndCriteria.addCriteria(new RunningYearCriteria(Integer.parseInt(value)));
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-				} else if (EnumParameter.PROJECT.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new RunningProjectCriteria(value));
-				} else if (EnumParameter.TEACHER.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new RunningTeacherCriteria(value));
 				}
 			}

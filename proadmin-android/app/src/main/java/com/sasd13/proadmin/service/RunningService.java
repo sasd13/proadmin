@@ -58,8 +58,9 @@ public class RunningService implements IHttpCallback {
 
     private Running getRunningToCreate(RunningForm runningForm, Project project) throws FormException {
         Running runningFromForm = runningForm.getEditable();
-        Running runningToCreate = new Running(project);
+        Running runningToCreate = new Running();
 
+        runningToCreate.setProject(project);
         Binder.bind(runningToCreate, runningFromForm);
 
         //runningToCreate.setTeacher();

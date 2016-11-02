@@ -17,9 +17,9 @@ public class ProjectFilter extends AndFilter<Project> {
 	protected void setCriterias(Map<String, String[]> parameters, MultiAndCriteria<Project> multiAndCriteria) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.CODE.getName().equals(entry.getKey())) {
+				if (EnumParameter.CODE.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ProjectCodeCriteria(value));
-				} else if (EnumParameter.TITLE.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ProjectTitleCriteria(value));
 				}
 			}

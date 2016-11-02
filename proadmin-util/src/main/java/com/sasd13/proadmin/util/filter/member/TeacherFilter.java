@@ -17,13 +17,13 @@ public class TeacherFilter extends AndFilter<Teacher> {
 	protected void setCriterias(Map<String, String[]> parameters, MultiAndCriteria<Teacher> multiAndCriteria) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.NUMBER.getName().equals(entry.getKey())) {
+				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberNumberCriteria<Teacher>(value));
-				} else if (EnumParameter.FIRSTNAME.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberFirstNameCriteria<Teacher>(value));
-				} else if (EnumParameter.LASTNAME.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberLastNameCriteria<Teacher>(value));
-				} else if (EnumParameter.EMAIL.getName().equals(entry.getKey())) {
+				} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberEmailCriteria<Teacher>(value));
 				}
 			}

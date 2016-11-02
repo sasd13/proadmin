@@ -7,8 +7,6 @@ package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 
 /**
@@ -20,15 +18,8 @@ public class IndividualEvaluationsServlet extends BeansServlet<IndividualEvaluat
 
 	private static final long serialVersionUID = 1072007946993925027L;
 
-	private static final Logger LOG = Logger.getLogger(IndividualEvaluationsServlet.class);
-
 	@Override
 	protected Class<IndividualEvaluation> getBeanClass() {
 		return IndividualEvaluation.class;
-	}
-
-	@Override
-	protected Logger getLogger() {
-		return LOG;
 	}
 }

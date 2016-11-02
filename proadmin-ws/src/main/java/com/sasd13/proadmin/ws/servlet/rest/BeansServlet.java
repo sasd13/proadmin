@@ -44,6 +44,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
+	private static final Logger LOG = Logger.getLogger(BeansServlet.class);
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -52,8 +53,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private IManageService<T> manageService;
 
 	protected abstract Class<T> getBeanClass();
-
-	protected abstract Logger getLogger();
 
 	@Override
 	public void init() throws ServletException {
@@ -66,7 +65,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			readService = ReadServiceFactory.make(getBeanClass());
 			manageService = ManageServiceFactory.make(getBeanClass());
 		} catch (ValidatorException | ServiceException e) {
-			getLogger().error(e);
+			LOG.error(e);
 		}
 	}
 
@@ -75,18 +74,18 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		getLogger().info("Message send by WS : " + message);
+		LOG.info("Message send by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
 	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
-		getLogger().info("Error send by WS : code=" + error.getCode());
+		LOG.info("Error send by WS : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 	}
 
 	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
-		getLogger().error(e);
+		LOG.error(e);
 
 		EnumError error = ErrorFactory.make(e);
 		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
@@ -97,7 +96,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info("doGet");
+		LOG.info("doGet");
 
 		Map<String, String[]> parameters = req.getParameterMap();
 
@@ -115,7 +114,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info("doPost");
+		LOG.info("doPost");
 
 		try {
 			List<T> ts = readFromRequest(req);
@@ -132,7 +131,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info("doPut");
+		LOG.info("doPut");
 
 		try {
 			List<T> ts = readFromRequest(req);
@@ -149,7 +148,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getLogger().info("doDelete");
+		LOG.info("doDelete");
 
 		try {
 			List<T> ts = readFromRequest(req);

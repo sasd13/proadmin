@@ -7,8 +7,6 @@ package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.proadmin.bean.member.Team;
 
 /**
@@ -20,15 +18,8 @@ public class TeamsServlet extends BeansServlet<Team> {
 
 	private static final long serialVersionUID = -416118742023104197L;
 
-	private static final Logger LOG = Logger.getLogger(TeamsServlet.class);
-
 	@Override
 	protected Class<Team> getBeanClass() {
 		return Team.class;
-	}
-
-	@Override
-	protected Logger getLogger() {
-		return LOG;
 	}
 }

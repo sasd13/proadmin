@@ -47,8 +47,8 @@ public class RunningForm extends Form {
     public Running getEditable() throws FormException {
         validForm();
 
-        Running running = new Running(projects.get(modelProject.getValue()));
-
+        Running running = new Running();
+        running.setProject(projects.get(modelProject.getValue()));
         running.setYear(Integer.parseInt(modelYear.getValue()));
 
         return running;
