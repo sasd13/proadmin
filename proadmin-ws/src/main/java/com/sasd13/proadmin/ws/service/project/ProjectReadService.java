@@ -34,7 +34,7 @@ public class ProjectReadService implements IReadService<Project> {
 		try {
 			dao.open();
 
-			projects = dao.getEntityDAO(Project.class).select(parameters);
+			projects = dao.getSession(Project.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class ProjectReadService implements IReadService<Project> {
 		try {
 			dao.open();
 
-			projects = dao.getEntityDAO(Project.class).selectAll();
+			projects = dao.getSession(Project.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

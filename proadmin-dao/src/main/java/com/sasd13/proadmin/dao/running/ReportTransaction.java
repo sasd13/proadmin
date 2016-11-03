@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.ITransaction;
+import com.sasd13.javaex.dao.jdbc.IJDBCTransaction;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 
-public class ReportTransaction implements ITransaction {
+public class ReportTransaction implements IJDBCTransaction {
 
 	private JDBCReportDAO reportDAO;
 	private String query;

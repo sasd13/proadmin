@@ -34,7 +34,7 @@ public class ReportReadService implements IReadService<Report> {
 		try {
 			dao.open();
 
-			reports = dao.getEntityDAO(Report.class).select(parameters);
+			reports = dao.getSession(Report.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class ReportReadService implements IReadService<Report> {
 		try {
 			dao.open();
 
-			reports = dao.getEntityDAO(Report.class).selectAll();
+			reports = dao.getSession(Report.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

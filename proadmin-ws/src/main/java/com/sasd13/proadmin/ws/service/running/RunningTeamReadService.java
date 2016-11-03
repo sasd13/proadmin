@@ -34,7 +34,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 		try {
 			dao.open();
 
-			runningTeams = dao.getEntityDAO(RunningTeam.class).select(parameters);
+			runningTeams = dao.getSession(RunningTeam.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class RunningTeamReadService implements IReadService<RunningTeam> {
 		try {
 			dao.open();
 
-			runningTeams = dao.getEntityDAO(RunningTeam.class).selectAll();
+			runningTeams = dao.getSession(RunningTeam.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

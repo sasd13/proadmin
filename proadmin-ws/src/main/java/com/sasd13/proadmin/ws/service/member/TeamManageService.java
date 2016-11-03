@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
@@ -28,7 +28,7 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			IEntityDAO<Team> teamDAO = dao.getEntityDAO(Team.class);
+			IManager<Team> teamDAO = dao.getSession(Team.class);
 
 			for (Team team : teams) {
 				LOG.info("create : code=" + team.getNumber());
@@ -51,7 +51,7 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			IEntityDAO<Team> teamDAO = dao.getEntityDAO(Team.class);
+			IManager<Team> teamDAO = dao.getSession(Team.class);
 
 			for (Team team : teams) {
 				LOG.info("update : code=" + team.getNumber());
@@ -74,7 +74,7 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			IEntityDAO<Team> teamDAO = dao.getEntityDAO(Team.class);
+			IManager<Team> teamDAO = dao.getSession(Team.class);
 
 			for (Team team : teams) {
 				LOG.info("delete : code=" + team.getNumber());

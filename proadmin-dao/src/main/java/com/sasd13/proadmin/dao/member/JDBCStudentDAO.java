@@ -15,15 +15,15 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
 
 /**
  *
  * @author Samir
  */
-public class JDBCStudentDAO extends JDBCEntityDAO<Student> implements IStudentDAO {
+public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCStudentDAO.class);
 

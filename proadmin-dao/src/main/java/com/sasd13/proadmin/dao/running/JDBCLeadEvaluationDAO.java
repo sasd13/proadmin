@@ -15,8 +15,8 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -25,7 +25,7 @@ import com.sasd13.proadmin.bean.running.Report;
  *
  * @author Samir
  */
-public class JDBCLeadEvaluationDAO extends JDBCEntityDAO<LeadEvaluation> implements ILeadEvaluationDAO {
+public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implements ILeadEvaluationDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCLeadEvaluationDAO.class);
 

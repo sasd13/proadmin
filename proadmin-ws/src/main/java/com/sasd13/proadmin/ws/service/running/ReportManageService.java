@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Report;
@@ -28,7 +28,7 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+			IManager<Report> reportDAO = dao.getSession(Report.class);
 
 			for (Report report : reports) {
 				LOG.info("create : number=" + report.getNumber());
@@ -51,7 +51,7 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+			IManager<Report> reportDAO = dao.getSession(Report.class);
 
 			for (Report report : reports) {
 				LOG.info("update : number=" + report.getNumber());
@@ -74,7 +74,7 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			IEntityDAO<Report> reportDAO = dao.getEntityDAO(Report.class);
+			IManager<Report> reportDAO = dao.getSession(Report.class);
 
 			for (Report report : reports) {
 				LOG.info("delete : number=" + report.getNumber());

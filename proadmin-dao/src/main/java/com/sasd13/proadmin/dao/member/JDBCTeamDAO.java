@@ -15,15 +15,15 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Team;
 
 /**
  *
  * @author Samir
  */
-public class JDBCTeamDAO extends JDBCEntityDAO<Team> implements ITeamDAO {
+public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCTeamDAO.class);
 

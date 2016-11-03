@@ -34,7 +34,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 		try {
 			dao.open();
 
-			individualEvaluations = dao.getEntityDAO(IndividualEvaluation.class).select(parameters);
+			individualEvaluations = dao.getSession(IndividualEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 		try {
 			dao.open();
 
-			individualEvaluations = dao.getEntityDAO(IndividualEvaluation.class).selectAll();
+			individualEvaluations = dao.getSession(IndividualEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

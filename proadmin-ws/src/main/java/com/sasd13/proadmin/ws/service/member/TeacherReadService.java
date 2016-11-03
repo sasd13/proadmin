@@ -34,7 +34,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 		try {
 			dao.open();
 
-			teachers = dao.getEntityDAO(Teacher.class).select(parameters);
+			teachers = dao.getSession(Teacher.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 		try {
 			dao.open();
 
-			teachers = dao.getEntityDAO(Teacher.class).selectAll();
+			teachers = dao.getSession(Teacher.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

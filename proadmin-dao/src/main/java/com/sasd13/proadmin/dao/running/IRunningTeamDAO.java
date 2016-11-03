@@ -1,9 +1,10 @@
 package com.sasd13.proadmin.dao.running;
 
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
+import com.sasd13.javaex.dao.IReader;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
-public interface IRunningTeamDAO extends IEntityDAO<RunningTeam> {
+public interface IRunningTeamDAO extends IManager<RunningTeam>, IReader<RunningTeam> {
 
 	String TABLE = "runningteams";
 	String COLUMN_RUNNING_YEAR = "running_year";

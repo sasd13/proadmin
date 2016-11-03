@@ -16,15 +16,15 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.project.Project;
 
 /**
  *
  * @author Samir
  */
-public class JDBCProjectDAO extends JDBCEntityDAO<Project> implements IProjectDAO {
+public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCProjectDAO.class);
 

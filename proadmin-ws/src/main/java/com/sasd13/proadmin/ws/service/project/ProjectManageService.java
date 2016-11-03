@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.project.Project;
@@ -28,7 +28,7 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+			IManager<Project> projectDAO = dao.getSession(Project.class);
 
 			for (Project project : projects) {
 				LOG.info("create : code=" + project.getCode());
@@ -51,7 +51,7 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+			IManager<Project> projectDAO = dao.getSession(Project.class);
 
 			for (Project project : projects) {
 				LOG.info("update : code=" + project.getCode());
@@ -74,7 +74,7 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			IEntityDAO<Project> projectDAO = dao.getEntityDAO(Project.class);
+			IManager<Project> projectDAO = dao.getSession(Project.class);
 
 			for (Project project : projects) {
 				LOG.info("delete : code=" + project.getCode());

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
@@ -34,7 +34,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 		try {
 			dao.open();
 
-			IEntityDAO<IndividualEvaluation> individualEvaluationDAO = dao.getEntityDAO(IndividualEvaluation.class);
+			IManager<IndividualEvaluation> individualEvaluationDAO = dao.getSession(IndividualEvaluation.class);
 
 			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
 				LOG.info("update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());

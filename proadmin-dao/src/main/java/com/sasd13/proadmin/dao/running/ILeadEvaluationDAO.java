@@ -1,9 +1,10 @@
 package com.sasd13.proadmin.dao.running;
 
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
+import com.sasd13.javaex.dao.IReader;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 
-public interface ILeadEvaluationDAO extends IEntityDAO<LeadEvaluation> {
+public interface ILeadEvaluationDAO extends IManager<LeadEvaluation>, IReader<LeadEvaluation> {
 
 	String TABLE = "leadevaluations";
 	String COLUMN_PLANNINGMARK = "planningmark";

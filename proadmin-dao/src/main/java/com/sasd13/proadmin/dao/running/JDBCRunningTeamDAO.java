@@ -15,8 +15,8 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
@@ -28,7 +28,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
  *
  * @author Samir
  */
-public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IRunningTeamDAO {
+public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCRunningTeamDAO.class);
 

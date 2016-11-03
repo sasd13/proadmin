@@ -15,15 +15,15 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
-import com.sasd13.javaex.dao.JDBCUtils;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
+import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 
 /**
  *
  * @author Samir
  */
-public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implements IAcademicLevelDAO {
+public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements IAcademicLevelDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCAcademicLevelDAO.class);
 
@@ -79,14 +79,17 @@ public class JDBCAcademicLevelDAO extends JDBCEntityDAO<AcademicLevel> implement
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
 		preparedStatement.setString(1, academicLevel.getCode());
+	}
+	
+	@Override
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, AcademicLevel t) throws SQLException {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, academicLevel);
-
 		preparedStatement.setString(1, academicLevel.getCode());
 	}
 

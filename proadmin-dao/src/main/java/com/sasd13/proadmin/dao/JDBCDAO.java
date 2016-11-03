@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.JDBCEntityDAO;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.proadmin.dao.member.JDBCStudentDAO;
 import com.sasd13.proadmin.dao.member.JDBCStudentTeamDAO;
 import com.sasd13.proadmin.dao.member.JDBCTeacherDAO;
@@ -56,15 +56,15 @@ public class JDBCDAO extends DAO {
 		try {
 			connection = DriverManager.getConnection(url, username, password);
 
-			((JDBCEntityDAO<?>) teacherDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) projectDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) studentDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) teamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) studentTeamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) runningDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) academicLevelDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) runningTeamDAO).setConnection(connection);
-			((JDBCEntityDAO<?>) reportDAO).setConnection(connection);
+			((JDBCSession<?>) teacherDAO).setConnection(connection);
+			((JDBCSession<?>) projectDAO).setConnection(connection);
+			((JDBCSession<?>) studentDAO).setConnection(connection);
+			((JDBCSession<?>) teamDAO).setConnection(connection);
+			((JDBCSession<?>) studentTeamDAO).setConnection(connection);
+			((JDBCSession<?>) runningDAO).setConnection(connection);
+			((JDBCSession<?>) academicLevelDAO).setConnection(connection);
+			((JDBCSession<?>) runningTeamDAO).setConnection(connection);
+			((JDBCSession<?>) reportDAO).setConnection(connection);
 		} catch (SQLException e) {
 			LOG.error(e);
 			throw new DAOException("Database connection error");

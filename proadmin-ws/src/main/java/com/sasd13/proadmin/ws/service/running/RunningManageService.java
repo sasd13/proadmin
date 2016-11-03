@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IEntityDAO;
+import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Running;
@@ -28,7 +28,7 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+			IManager<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
 				LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
@@ -51,7 +51,7 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+			IManager<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
 				LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
@@ -74,7 +74,7 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			IEntityDAO<Running> runningDAO = dao.getEntityDAO(Running.class);
+			IManager<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
 				LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());

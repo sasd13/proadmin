@@ -34,7 +34,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 		try {
 			dao.open();
 
-			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).select(parameters);
+			leadEvaluations = dao.getSession(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +58,7 @@ public class LeadEvaluationReadService implements IReadService<LeadEvaluation> {
 		try {
 			dao.open();
 
-			leadEvaluations = dao.getEntityDAO(LeadEvaluation.class).selectAll();
+			leadEvaluations = dao.getSession(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());

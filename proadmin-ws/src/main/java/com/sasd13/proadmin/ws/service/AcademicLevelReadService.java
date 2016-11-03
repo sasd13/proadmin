@@ -33,7 +33,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 		try {
 			dao.open();
 
-			academicLevels = dao.getEntityDAO(AcademicLevel.class).select(parameters);
+			academicLevels = dao.getSession(AcademicLevel.class).select(parameters);
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
@@ -57,7 +57,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 		try {
 			dao.open();
 
-			academicLevels = dao.getEntityDAO(AcademicLevel.class).selectAll();
+			academicLevels = dao.getSession(AcademicLevel.class).selectAll();
 		} catch (DAOException e) {
 			LOG.error(e);
 			throw new ServiceException(e.getMessage());
