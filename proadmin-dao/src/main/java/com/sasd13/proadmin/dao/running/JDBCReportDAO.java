@@ -156,7 +156,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Report report) throws SQLException {
 		super.editPreparedStatementForUpdate(preparedStatement, report);
 
-		preparedStatement.setString(9, report.getNumber());
+		preparedStatement.setString(10, report.getNumber());
 	}
 
 	@Override

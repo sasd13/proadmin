@@ -69,7 +69,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
-	private List<T> readFromRequest(HttpServletRequest req) throws ParserException, IOException {
+	private List<T> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), getBeanClass());
 	}
 
