@@ -8,7 +8,9 @@ public class RunningTeamExpressionBuilder implements IExpressionBuilder {
 
 	@Override
 	public String build(String key, String value) throws ConditionException {
-		if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			return IRunningTeamDAO.COLUMN_RUNNING_YEAR + " = '" + value + "'";
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
 			return IRunningTeamDAO.COLUMN_RUNNING_PROJECT_CODE + " = '" + value + "'";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
 			return IRunningTeamDAO.COLUMN_RUNNING_TEACHER_CODE + " = " + value;

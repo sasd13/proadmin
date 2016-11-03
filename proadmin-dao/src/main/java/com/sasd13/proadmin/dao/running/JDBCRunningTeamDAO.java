@@ -44,11 +44,12 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_RUNNING_PROJECT_CODE);
+		builder.append(COLUMN_RUNNING_YEAR);
+		builder.append(", " + COLUMN_RUNNING_PROJECT_CODE);
 		builder.append(", " + COLUMN_RUNNING_TEACHER_CODE);
 		builder.append(", " + COLUMN_TEAM_CODE);
 		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), runningTeam);
 	}
@@ -65,7 +66,8 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_RUNNING_PROJECT_CODE + " = ?");
+		builder.append(COLUMN_RUNNING_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
 		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
@@ -91,20 +93,22 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 
 	@Override
 	public void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
-		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
-		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
-		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
+		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
+		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getNumber());
+		preparedStatement.setString(4, runningTeam.getTeam().getNumber());
+		preparedStatement.setString(5, runningTeam.getAcademicLevel().getCode());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
 		super.editPreparedStatementForDelete(preparedStatement, runningTeam);
 
-		preparedStatement.setString(1, runningTeam.getRunning().getProject().getCode());
-		preparedStatement.setString(2, runningTeam.getRunning().getTeacher().getNumber());
-		preparedStatement.setString(3, runningTeam.getTeam().getNumber());
-		preparedStatement.setString(4, runningTeam.getAcademicLevel().getCode());
+		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
+		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getNumber());
+		preparedStatement.setString(4, runningTeam.getTeam().getNumber());
+		preparedStatement.setString(5, runningTeam.getAcademicLevel().getCode());
 	}
 
 	@Override
@@ -116,6 +120,7 @@ public class JDBCRunningTeamDAO extends JDBCEntityDAO<RunningTeam> implements IR
 		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
 
 		Running running = new Running();
+		running.setYear(resultSet.getInt(COLUMN_RUNNING_YEAR));
 		running.setProject(project);
 		running.setTeacher(teacher);
 

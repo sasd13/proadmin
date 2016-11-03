@@ -16,6 +16,8 @@ public class ReportExpressionBuilder implements IExpressionBuilder {
 			} catch (NumberFormatException e) {
 				throw new ConditionException("Parameter " + key + " parsing error");
 			}
+		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_YEAR + " = " + value;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = " + value;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {

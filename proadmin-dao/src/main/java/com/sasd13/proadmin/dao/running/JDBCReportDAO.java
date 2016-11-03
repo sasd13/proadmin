@@ -75,11 +75,12 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_DATEMEETING);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR);
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE);
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE);
 		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE);
 		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE);
-		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		transaction.editTransaction(builder.toString(), report);
 
@@ -96,6 +97,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?");
@@ -143,10 +145,11 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
 		preparedStatement.setInt(3, report.getSession());
 		preparedStatement.setString(4, report.getComment());
-		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
-		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
+		preparedStatement.setInt(5, report.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(7, report.getRunningTeam().getRunning().getTeacher().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(9, report.getRunningTeam().getAcademicLevel().getCode());
 	}
 
 	@Override
@@ -172,6 +175,7 @@ public class JDBCReportDAO extends JDBCEntityDAO<Report> implements IReportDAO {
 		teacher.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE));
 
 		Running running = new Running();
+		running.setYear(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR));
 		running.setProject(project);
 		running.setTeacher(teacher);
 

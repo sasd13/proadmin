@@ -39,6 +39,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
 	private void retrieveDataRunning(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
+		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { String.valueOf(runningTeam.getRunning().getProject().getCode()) });
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(runningTeam.getRunning().getTeacher().getNumber()) });
 
@@ -59,6 +60,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	private void retrieveDataReports(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
 		runningTeam.getReports().clear();
 		parameters.clear();
+		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { String.valueOf(runningTeam.getRunning().getProject().getCode()) });
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { String.valueOf(runningTeam.getRunning().getTeacher().getNumber()) });
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });

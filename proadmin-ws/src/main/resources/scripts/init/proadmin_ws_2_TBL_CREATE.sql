@@ -39,7 +39,7 @@ CREATE TABLE runnings (
 	year INT NOT NULL,
 	project_code VARCHAR(50) NOT NULL,
 	teacher_code VARCHAR(50) NOT NULL,
-	PRIMARY KEY (project_code, teacher_code),
+	PRIMARY KEY (year, project_code, teacher_code),
 	FOREIGN KEY (project_code) REFERENCES projects (code),
 	FOREIGN KEY (teacher_code) REFERENCES teachers (code)
 ) ENGINE = InnoDB;
@@ -50,11 +50,13 @@ CREATE TABLE academiclevels (
 ) ENGINE = InnoDB;
 
 CREATE TABLE runningteams (
+	running_year INT NOT NULL,
 	running_project_code VARCHAR(50) NOT NULL,
 	running_teacher_code VARCHAR(50) NOT NULL,
 	team_code VARCHAR(50) NOT NULL,
 	academiclevel_code VARCHAR(50) NOT NULL,
-	PRIMARY KEY (running_project_code, running_teacher_code, team_code, academiclevel_code),
+	PRIMARY KEY (running_year, running_project_code, running_teacher_code, team_code, academiclevel_code),
+	FOREIGN KEY (running_year) REFERENCES runnings (year),
 	FOREIGN KEY (running_project_code) REFERENCES runnings (project_code),
 	FOREIGN KEY (running_teacher_code) REFERENCES runnings (teacher_code),
 	FOREIGN KEY (team_code) REFERENCES teams (code),
@@ -66,11 +68,13 @@ CREATE TABLE reports (
 	datemeeting VARCHAR(255) NOT NULL,
 	session INT NOT NULL,
 	comment TEXT,
+	runningteam_running_year INT NOT NULL,
 	runningteam_running_project_code VARCHAR(50) NOT NULL,
 	runningteam_running_teacher_code VARCHAR(50) NOT NULL,
 	runningteam_team_code VARCHAR(50) NOT NULL,
 	runningteam_academiclevel_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (code),
+	FOREIGN KEY (runningteam_running_year) REFERENCES runningteams (running_year),
 	FOREIGN KEY (runningteam_running_project_code) REFERENCES runningteams (running_project_code),
 	FOREIGN KEY (runningteam_running_teacher_code) REFERENCES runningteams (running_teacher_code),
 	FOREIGN KEY (runningteam_team_code) REFERENCES runningteams (team_code),
