@@ -9,9 +9,9 @@ public class StudentTeamExpressionBuilder implements IExpressionBuilder {
 	@Override
 	public String build(String key, String value) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT_CODE + " = " + value;
+			return IStudentTeamDAO.COLUMN_STUDENT_CODE + " = '" + value + "'";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM_CODE + " = " + value;
+			return IStudentTeamDAO.COLUMN_TEAM_CODE + " = '" + value + "'";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

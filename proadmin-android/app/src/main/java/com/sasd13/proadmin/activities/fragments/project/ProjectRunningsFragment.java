@@ -1,12 +1,10 @@
-package com.sasd13.proadmin.activities.fragments.running;
+package com.sasd13.proadmin.activities.fragments.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,28 +20,32 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.activities.ProjectsActivity;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.IReadServiceCaller;
 import com.sasd13.proadmin.service.RunningsService;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningsFragment extends Fragment implements IReadServiceCaller<Running> {
+public class ProjectRunningsFragment extends Fragment implements IReadServiceCaller<Running> {
 
-    private RunningsActivity parentActivity;
-    private RunningsService runningsService;
-    private Recycler runningsTab;
+    private Project project;
     private List<Running> runnings;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton floatingActionButton;
+    private Recycler runningsTab;
+    private ProjectsActivity parentActivity;
+    private RunningsService runningsService;
 
-    public static RunningsFragment newInstance() {
-        return new RunningsFragment();
+    public static ProjectRunningsFragment newInstance(Project project) {
+        ProjectRunningsFragment runningFragment = new ProjectRunningsFragment();
+        runningFragment.project = project;
+
+        return runningFragment;
     }
 
     @Override
@@ -52,16 +54,16 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
 
         setHasOptionsMenu(true);
 
-        parentActivity = (RunningsActivity) getActivity();
-        runningsService = new RunningsService(this);
         runnings = new ArrayList<>();
+        parentActivity = (ProjectsActivity) getActivity();
+        runningsService = new RunningsService(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_runnings, container, false);
+        View view = inflater.inflate(R.layout.view_list_w_fab, container, false);
 
         buildView(view);
 
@@ -70,39 +72,36 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
-        buildFloatingActionButton(view);
         readRunningsFromWS();
     }
 
-    private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.runnings_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                readRunningsFromWS();
-            }
-        });
+    private void readRunningsFromWS() {
+        runningsService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     private void buildTabRunnings(View view) {
-        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.runnings_recyclerview));
+        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.list_w_fab_recyclerview));
         runningsTab.addDividerItemDecoration();
     }
 
-    private void buildFloatingActionButton(View view) {
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentActivity.newRunning();
-            }
-        });
+    @Override
+    public void onLoad() {
+        //TODO
     }
 
-    private void refreshView() {
+    @Override
+    public void onReadSucceeded(List<Running> runningsFromWS) {
+        runnings.clear();
+        runnings.addAll(runningsFromWS);
+
+        fillTabRunningsByYear();
+    }
+
+    private void fillTabRunningsByYear() {
         runningsTab.clear();
+
+        RunningsSorter.byYear(runnings);
         addRunningsToTab();
     }
 
@@ -126,36 +125,9 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
         RecyclerHelper.addAll(runningsTab, holder);
     }
 
-    private void readRunningsFromWS() {
-        runningsService.readRunnings(
-                SessionHelper.getExtraId(getContext(), Extra.PROJECT_CODE),
-                SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER)
-        );
-    }
-
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-    }
-
-    public void onLoad() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    public void onReadSucceeded(List<Running> runningsFromWS) {
-        swipeRefreshLayout.setRefreshing(false);
-
-        runnings.clear();
-        runnings.addAll(runningsFromWS);
-
-        refreshView();
-    }
-
     public void onError(@StringRes int message) {
-        swipeRefreshLayout.setRefreshing(false);
+        //TODO
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -9,9 +9,9 @@ public class LeadEvaluationExpressionBuilder implements IExpressionBuilder {
 	@Override
 	public String build(String key, String value) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT_CODE + " = " + value;
+			return ILeadEvaluationDAO.COLUMN_REPORT_CODE + " = '" + value + "'";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE + " = " + value;
+			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE + " = '" + value + "'";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

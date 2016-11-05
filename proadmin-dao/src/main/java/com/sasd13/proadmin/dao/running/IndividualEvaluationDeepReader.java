@@ -30,7 +30,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 
 	private void retrieveDataStudent(IndividualEvaluation individualEvaluation, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.STUDENT.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
 

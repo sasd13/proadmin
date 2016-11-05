@@ -17,7 +17,7 @@ public class TeamItemModel extends Observable implements IRecyclerItemModel, ILa
 
     @Override
     public IRecyclerItemType getItemType() {
-        return MyTabItemType.TEAM;
+        return TabItemType.TEAM;
     }
 
     @Override

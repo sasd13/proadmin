@@ -50,7 +50,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 
 	private void retrieveDataTeam(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.TEAM.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { String.valueOf(runningTeam.getTeam().getNumber()) });
 
 		Team team = teamDAO.select(parameters).get(0);
 

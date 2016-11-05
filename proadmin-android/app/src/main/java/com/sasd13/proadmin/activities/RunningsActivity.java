@@ -1,18 +1,26 @@
 package com.sasd13.proadmin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.SessionHelper;
 
 public class RunningsActivity extends MotherActivity {
 
-    private Project project;
+    private IPagerHandler pagerHandler;
+
+    public void setPagerHandler(IPagerHandler pagerHandler) {
+        this.pagerHandler = pagerHandler;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,26 +28,32 @@ public class RunningsActivity extends MotherActivity {
 
         setContentView(R.layout.activity_runnings);
 
-        //TODO : load from savedInstanceState or parcel
-        //project = Cache.load();
-
         buildView();
     }
 
     private void buildView() {
         GUIHelper.colorTitles(this);
-        listRunnings();
+
+        if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.RUNNING_PROJECT_CODE)) {
+            showRunning(null);
+        } else {
+            listRunnings();
+        }
     }
 
     public void listRunnings() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.runnings_fragment, RunningsFragment.newInstance(project))
+                .replace(R.id.runnings_fragment, RunningsFragment.newInstance())
                 .commit();
     }
 
+    public void showRunning(Running running) {
+        startFragment(RunningFragment.newInstance(running, true));
+    }
+
     public void newRunning() {
-        startFragment(RunningFragment.newInstance(project));
+        startFragment(RunningFragment.newInstance(null, false));
     }
 
     private void startFragment(Fragment fragment) {
@@ -50,10 +64,16 @@ public class RunningsActivity extends MotherActivity {
                 .commit();
     }
 
-    public void editRunning(Running running) {
-        RunningFragment runningFragment = RunningFragment.newInstance(project);
-        runningFragment.setRunning(running);
+    public void showTeam(Team team) {
+        SessionHelper.setExtraId(this, Extra.TEAM_NUMBER, team.getNumber());
 
-        startFragment(runningFragment);
+        startActivity(new Intent(this, RunningsActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pagerHandler == null || !pagerHandler.handleBackPress(this)) {
+            super.onBackPressed();
+        }
     }
 }

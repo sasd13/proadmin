@@ -74,5 +74,6 @@
     <string name="error_aaa_login_failed">Username/password not matched</string>
     <string name="error_ws_retrieve_data">Erreur de synchronisation des données</string>
     <string name="error_ws_server_connection">Server connection error</string>
+    <string name="title_information">Informations</string>
 
 </resources>

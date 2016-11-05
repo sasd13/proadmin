@@ -33,7 +33,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
 	private void retrieveDataStudent(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentTeam.getStudent().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
 
@@ -42,7 +42,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
 	private void retrieveDataTeam(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.TEAM.getName(), new String[] { studentTeam.getTeam().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getTeam().getNumber() });
 
 		Team team = teamDAO.select(parameters).get(0);
 

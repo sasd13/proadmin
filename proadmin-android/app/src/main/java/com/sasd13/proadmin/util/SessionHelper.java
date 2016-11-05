@@ -21,11 +21,11 @@ import com.sasd13.proadmin.content.Extra;
 public class SessionHelper {
 
     public static boolean isLogged(Context context) {
-        return Session.containsAttribute(context, Extra.TEACHER);
+        return Session.containsAttribute(context, Extra.TEACHER_NUMBER);
     }
 
     public static void logIn(final Activity activity, final Teacher teacher) {
-        setExtraId(activity, Extra.TEACHER, teacher.getNumber());
+        setExtraId(activity, Extra.TEACHER_NUMBER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
         final Intent intent = new Intent(activity, HomeActivity.class);

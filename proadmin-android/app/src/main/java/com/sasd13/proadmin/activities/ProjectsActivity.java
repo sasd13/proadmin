@@ -3,14 +3,23 @@ package com.sasd13.proadmin.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.activities.fragments.project.ProjectFragment;
 import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.SessionHelper;
 
 public class ProjectsActivity extends MotherActivity {
+
+    private IPagerHandler pagerHandler;
+
+    public void setPagerHandler(IPagerHandler pagerHandler) {
+        this.pagerHandler = pagerHandler;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,10 +50,17 @@ public class ProjectsActivity extends MotherActivity {
                 .commit();
     }
 
-    public void listRunnings(Project project) {
-        Intent intent = new Intent(this, RunningsActivity.class);
-        intent.putExtra(Extra.PROJECT, project.getCode());
+    public void showRunning(Running running) {
+        SessionHelper.setExtraId(this, Extra.RUNNING_YEAR, String.valueOf(running.getYear()));
+        SessionHelper.setExtraId(this, Extra.RUNNING_PROJECT_CODE, running.getProject().getCode());
 
-        startActivity(intent);
+        startActivity(new Intent(this, RunningsActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pagerHandler == null || !pagerHandler.handleBackPress(this)) {
+            super.onBackPressed();
+        }
     }
 }

@@ -36,7 +36,7 @@ import com.sasd13.proadmin.pattern.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.service.ProjectsService;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
-import com.sasd13.proadmin.util.sorter.ProjectsSorter;
+import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,6 @@ public class ProjectsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
 
         buildView(view);
-        bindView();
 
         return view;
     }
@@ -83,6 +82,7 @@ public class ProjectsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabProjects(view);
+        readProjectsFromWS();
     }
 
     private void buildSwipeRefreshLayout(View view) {
@@ -104,10 +104,6 @@ public class ProjectsFragment extends Fragment {
         projectsTab.addDividerItemDecoration();
     }
 
-    private void bindView() {
-        readProjectsFromWS();
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -121,10 +117,10 @@ public class ProjectsFragment extends Fragment {
 
         inflater.inflate(R.menu.menu_projects, menu);
 
-        buildSpinAcademicLevels(menu.findItem(R.id.menu_projects_spinner));
+        buildSpinYears(menu.findItem(R.id.menu_projects_spinner));
     }
 
-    private void buildSpinAcademicLevels(MenuItem menuItem) {
+    private void buildSpinYears(MenuItem menuItem) {
         Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
 
         spinYears = new Spin(spinner, new AdapterView.OnItemSelectedListener() {

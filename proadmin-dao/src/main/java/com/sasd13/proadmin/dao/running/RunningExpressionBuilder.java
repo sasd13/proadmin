@@ -15,9 +15,9 @@ public class RunningExpressionBuilder implements IExpressionBuilder {
 				throw new ConditionException("Parameter " + key + " parsing error");
 			}
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT_CODE + " = " + value;
+			return IRunningDAO.COLUMN_PROJECT_CODE + " = '" + value + "'";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER_CODE + " = " + value;
+			return IRunningDAO.COLUMN_TEACHER_CODE + " = '" + value + "'";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -17,15 +17,11 @@ public class RunningItemModel extends Observable implements IRecyclerItemModel, 
 
     @Override
     public IRecyclerItemType getItemType() {
-        return MyTabItemType.RUNNING;
+        return TabItemType.RUNNING;
     }
 
     @Override
     public String getLabel() {
-        return null;
-    }
-
-    public String getYear() {
         return String.valueOf(running.getYear());
     }
 }

@@ -23,35 +23,25 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.service.RunningService;
-import com.sasd13.proadmin.util.sorter.ProjectsSorter;
-
-import java.util.List;
 
 public class RunningFragment extends Fragment {
 
-    private Project project;
     private Running running;
+    private boolean inModeEdit;
     private RunningsActivity parentActivity;
     private RunningService runningService;
     private RunningForm runningForm;
-    private boolean inModeEdit;
     private WaitDialog waitDialog;
 
-    public static RunningFragment newInstance(Project project) {
+    public static RunningFragment newInstance(Running running, boolean inModeEdit) {
         RunningFragment runningFragment = new RunningFragment();
-        runningFragment.project = project;
+        runningFragment.running = running;
+        runningFragment.inModeEdit = inModeEdit;
 
         return runningFragment;
-    }
-
-    public void setRunning(Running running) {
-        this.running = running;
-
-        inModeEdit = true;
     }
 
     @Override
@@ -62,23 +52,13 @@ public class RunningFragment extends Fragment {
 
         parentActivity = (RunningsActivity) getActivity();
         runningService = new RunningService(this);
-
-        createFormRunning();
-    }
-
-    private void createFormRunning() {
-        List<Project> projects = runningService.readProjectsFromCache();
-
-        ProjectsSorter.byCode(projects);
-
-        runningForm = new RunningForm(getContext(), projects);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_project, container, false);
+        View view = inflater.inflate(R.layout.fragment_running, container, false);
 
         buildView(view);
 
@@ -97,10 +77,16 @@ public class RunningFragment extends Fragment {
     }
 
     private void buildFormRunning(View view) {
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.project_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.descriptor_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningForm.getHolder());
+    }
+
+    private void createFormRunning() {
+        //RunningsSorter.byYear(runnings);
+
+        //runningForm = new RunningForm(getContext(), runnings);
     }
 
     private void refreshView() {
@@ -108,7 +94,7 @@ public class RunningFragment extends Fragment {
     }
 
     private void setDefaultRunning() {
-        running = runningService.getDefaultValueOfRunning(project);
+        //running = runningService.getDefaultValueOfRunning(running);
     }
 
     @Override
@@ -155,7 +141,7 @@ public class RunningFragment extends Fragment {
         if (inModeEdit) {
             runningService.updateRunning(runningForm, running);
         } else {
-            runningService.createRunning(runningForm, project);
+            //runningService.createRunning(runningForm, running);
         }
     }
 

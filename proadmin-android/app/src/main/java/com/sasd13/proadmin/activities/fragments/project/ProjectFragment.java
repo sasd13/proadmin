@@ -3,29 +3,24 @@ package com.sasd13.proadmin.activities.fragments.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.recycler.Recycler;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
+import com.astuetz.PagerSlidingTabStrip;
+import com.sasd13.androidex.gui.widget.pager.IPagerFragmentFactory;
+import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
-import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.form.ProjectForm;
 
 public class ProjectFragment extends Fragment {
 
     private Project project;
     private ProjectsActivity parentActivity;
-    private ProjectForm projectForm;
+    private IPagerFragmentFactory pagerFragmentFactory;
 
     public static ProjectFragment newInstance(Project project) {
         ProjectFragment projectFragment = new ProjectFragment();
@@ -38,10 +33,8 @@ public class ProjectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         parentActivity = (ProjectsActivity) getActivity();
-        projectForm = new ProjectForm(getContext());
+        pagerFragmentFactory = new ProjectPagerFragmentFactory(project);
     }
 
     @Override
@@ -57,19 +50,16 @@ public class ProjectFragment extends Fragment {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildFormProject(view);
+        buildViewPager(view);
     }
 
-    private void buildFormProject(View view) {
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.project_recyclerview));
-        form.addDividerItemDecoration();
+    private void buildViewPager(View view) {
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.project_viewpager);
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), pagerFragmentFactory);
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.project_tabstrip);
 
-        RecyclerHelper.addAll(form, projectForm.getHolder());
-        bindFormWithProject();
-    }
-
-    private void bindFormWithProject() {
-        projectForm.bind(project);
+        tabsStrip.setViewPager(viewPager);
+        parentActivity.setPagerHandler(pager);
     }
 
     @Override
@@ -80,26 +70,9 @@ public class ProjectFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onDestroyView() {
+        super.onDestroyView();
 
-        inflater.inflate(R.menu.menu_project, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_project_action_runnings:
-                listRunnings();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
-
-    private void listRunnings() {
-        parentActivity.listRunnings(project);
+        parentActivity.setPagerHandler(null);
     }
 }

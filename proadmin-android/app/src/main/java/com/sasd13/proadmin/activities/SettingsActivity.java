@@ -39,12 +39,12 @@ public class SettingsActivity extends MotherActivity {
         contentView = findViewById(android.R.id.content);
 
         buildView();
-        bindView();
     }
 
     private void buildView() {
         buildSwipeRefreshLayout();
         buildFormSettings();
+        readTeacherFromWS();
     }
 
     private void buildSwipeRefreshLayout() {
@@ -58,7 +58,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER));
+        settingsService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
     }
 
     private void buildFormSettings() {
@@ -68,10 +68,6 @@ public class SettingsActivity extends MotherActivity {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, settingsForm.getHolder());
-    }
-
-    private void bindView() {
-        readTeacherFromWS();
     }
 
     @Override

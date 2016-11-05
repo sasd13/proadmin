@@ -17,7 +17,7 @@ public class ProjectItemModel extends Observable implements IRecyclerItemModel, 
 
     @Override
     public IRecyclerItemType getItemType() {
-        return MyTabItemType.PROJECT;
+        return TabItemType.PROJECT;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 
 	private void retrieveDatatProject(Running running, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.PROJECT.getName(), new String[] { running.getProject().getCode() });
+		parameters.put(EnumParameter.CODE.getName(), new String[] { running.getProject().getCode() });
 
 		Project project = projectDAO.select(parameters).get(0);
 
@@ -44,7 +44,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 
 	private void retrieveDataTeacher(Running running, Map<String, String[]> parameters) throws DAOException {
 		parameters.clear();
-		parameters.put(EnumParameter.TEACHER.getName(), new String[] { running.getTeacher().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { running.getTeacher().getNumber() });
 
 		Teacher teacher = teacherDAO.select(parameters).get(0);
 
