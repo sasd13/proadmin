@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -29,8 +27,6 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
  * @author Samir
  */
 public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCRunningTeamDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -56,8 +52,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public void update(RunningTeam runningTeam) throws DAOException {
-		LOG.error("update unavailable");
-		throw new DAOException("Request unavailable");
+		// Do nothing
 	}
 
 	@Override
@@ -77,8 +72,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public RunningTeam select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -92,7 +86,12 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+	public boolean contains(RunningTeam runningTeam) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
 		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
 		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
 		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getNumber());
@@ -101,9 +100,12 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, runningTeam);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
+		// Do nothing
+	}
 
+	@Override
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
 		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
 		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
 		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getNumber());

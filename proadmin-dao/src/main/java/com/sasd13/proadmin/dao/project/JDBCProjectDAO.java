@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -25,8 +23,6 @@ import com.sasd13.proadmin.bean.project.Project;
  * @author Samir
  */
 public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCProjectDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -78,8 +74,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public Project select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -93,7 +88,12 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, Project project) throws SQLException {
+	public boolean contains(Project project) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
 		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
 		preparedStatement.setString(3, project.getTitle());
@@ -102,15 +102,13 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Project project) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, project);
+		editPreparedStatementForInsert(preparedStatement, project);
 
 		preparedStatement.setString(5, project.getCode());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, project);
-
 		preparedStatement.setString(1, project.getCode());
 	}
 

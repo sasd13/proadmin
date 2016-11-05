@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -26,8 +24,6 @@ import com.sasd13.proadmin.bean.running.Report;
  * @author Samir
  */
 public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCIndividualEvaluationDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -79,8 +75,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public IndividualEvaluation select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -94,7 +89,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+	public boolean contains(IndividualEvaluation individualEvaluation) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
 		preparedStatement.setString(3, individualEvaluation.getStudent().getNumber());
@@ -102,7 +102,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, individualEvaluation);
+		editPreparedStatementForInsert(preparedStatement, individualEvaluation);
 
 		preparedStatement.setString(4, individualEvaluation.getReport().getNumber());
 		preparedStatement.setString(5, individualEvaluation.getStudent().getNumber());
@@ -110,8 +110,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, individualEvaluation);
-
 		preparedStatement.setString(1, individualEvaluation.getReport().getNumber());
 		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
 	}

@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -26,8 +24,6 @@ import com.sasd13.proadmin.bean.running.Report;
  * @author Samir
  */
 public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implements ILeadEvaluationDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCLeadEvaluationDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -85,8 +81,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public LeadEvaluation select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -100,7 +95,12 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+	public boolean contains(LeadEvaluation leadEvaluation) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
 		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
@@ -111,7 +111,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, leadEvaluation);
+		editPreparedStatementForInsert(preparedStatement, leadEvaluation);
 
 		preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
 		preparedStatement.setString(8, leadEvaluation.getStudent().getNumber());
@@ -119,8 +119,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, leadEvaluation);
-
 		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
 		preparedStatement.setString(2, leadEvaluation.getStudent().getNumber());
 	}

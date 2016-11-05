@@ -13,8 +13,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -32,8 +30,6 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
  * @author Samir
  */
 public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCReportDAO.class);
 
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
@@ -84,7 +80,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		return JDBCUtils.insertInTransaction(this, transaction);
+		return JDBCUtils.insertInTransaction(getConnection(), transaction);
 	}
 
 	@Override
@@ -107,7 +103,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		JDBCUtils.updateInTransaction(this, transaction);
+		JDBCUtils.updateInTransaction(getConnection(), transaction);
 	}
 
 	@Override
@@ -120,13 +116,12 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		JDBCUtils.deleteInTransaction(this, transaction);
+		JDBCUtils.deleteInTransaction(getConnection(), transaction);
 	}
 
 	@Override
 	public Report select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -140,7 +135,12 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, Report report) throws SQLException {
+	public boolean contains(Report report) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
 		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
 		preparedStatement.setInt(3, report.getSession());
@@ -154,15 +154,13 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Report report) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, report);
+		editPreparedStatementForInsert(preparedStatement, report);
 
 		preparedStatement.setString(10, report.getNumber());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, report);
-
 		preparedStatement.setString(1, report.getNumber());
 	}
 

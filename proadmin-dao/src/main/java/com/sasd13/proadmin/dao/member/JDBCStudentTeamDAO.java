@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -26,8 +24,6 @@ import com.sasd13.proadmin.bean.member.Team;
  * @author Samir
  */
 public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCStudentTeamDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -50,8 +46,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 
 	@Override
 	public void update(StudentTeam studentTeam) throws DAOException {
-		LOG.error("update unavailable");
-		throw new DAOException("Request unavailable");
+		// Do nothing
 	}
 
 	@Override
@@ -68,8 +63,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 
 	@Override
 	public StudentTeam select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -83,15 +77,23 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+	public boolean contains(StudentTeam studentTeam) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
 		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, studentTeam);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, StudentTeam t) throws SQLException {
+		// Do nothing
+	}
 
+	@Override
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
 		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
 	}

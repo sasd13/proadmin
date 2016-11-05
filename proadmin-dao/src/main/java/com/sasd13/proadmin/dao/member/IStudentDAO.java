@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.dao.member;
 
-import com.sasd13.javaex.dao.IManager;
-import com.sasd13.javaex.dao.IReader;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.proadmin.bean.member.Student;
 
-public interface IStudentDAO extends IManager<Student>, IReader<Student> {
+public interface IStudentDAO extends ISession<Student> {
 
 	String TABLE = "students";
 	String COLUMN_CODE = "code";

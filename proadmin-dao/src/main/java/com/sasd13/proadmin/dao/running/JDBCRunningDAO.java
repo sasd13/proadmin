@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -26,8 +24,6 @@ import com.sasd13.proadmin.bean.running.Running;
  * @author Samir
  */
 public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCRunningDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -79,8 +75,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public Running select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -94,7 +89,12 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, Running running) throws SQLException {
+	public boolean contains(Running running) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Running running) throws SQLException {
 		preparedStatement.setInt(1, running.getYear());
 		preparedStatement.setString(2, running.getProject().getCode());
 		preparedStatement.setString(3, running.getTeacher().getNumber());
@@ -102,7 +102,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Running running) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, running);
+		editPreparedStatementForInsert(preparedStatement, running);
 
 		preparedStatement.setString(4, running.getProject().getCode());
 		preparedStatement.setString(5, running.getTeacher().getNumber());
@@ -110,8 +110,6 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, running);
-
 		preparedStatement.setString(1, running.getProject().getCode());
 		preparedStatement.setString(2, running.getTeacher().getNumber());
 	}

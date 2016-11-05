@@ -31,7 +31,7 @@ public class ReportTransaction implements IJDBCTransaction {
 
 		PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
-		reportDAO.editPreparedStatement(preparedStatement, report);
+		reportDAO.editPreparedStatementForInsert(preparedStatement, report);
 		preparedStatement.executeUpdate();
 
 		ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

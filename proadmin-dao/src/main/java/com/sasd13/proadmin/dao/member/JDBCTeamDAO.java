@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -24,8 +22,6 @@ import com.sasd13.proadmin.bean.member.Team;
  * @author Samir
  */
 public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCTeamDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -71,8 +67,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
 	public Team select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -86,21 +81,24 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, Team team) throws SQLException {
+	public boolean contains(Team team) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Team team) throws SQLException {
 		preparedStatement.setString(1, team.getNumber());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Team team) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, team);
+		editPreparedStatementForInsert(preparedStatement, team);
 
 		preparedStatement.setString(2, team.getNumber());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, team);
-
 		preparedStatement.setString(1, team.getNumber());
 	}
 

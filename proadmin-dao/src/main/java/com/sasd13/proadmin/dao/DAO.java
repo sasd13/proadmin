@@ -2,8 +2,8 @@ package com.sasd13.proadmin.dao;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.IManager;
 import com.sasd13.javaex.dao.ILayeredDAO;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -86,29 +86,29 @@ public abstract class DAO implements ILayeredDAO {
 	}
 
 	@Override
-	public <T> IManager<T> getSession(Class<T> mClass) throws DAOException {
+	public <T> ISession<T> getSession(Class<T> mClass) throws DAOException {
 		if (Teacher.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) teacherDAO;
+			return (ISession<T>) teacherDAO;
 		} else if (Project.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) projectDAO;
+			return (ISession<T>) projectDAO;
 		} else if (Student.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) studentDAO;
+			return (ISession<T>) studentDAO;
 		} else if (Team.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) teamDAO;
+			return (ISession<T>) teamDAO;
 		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) studentTeamDAO;
+			return (ISession<T>) studentTeamDAO;
 		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) runningDAO;
+			return (ISession<T>) runningDAO;
 		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) academicLevelDAO;
+			return (ISession<T>) academicLevelDAO;
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) runningTeamDAO;
+			return (ISession<T>) runningTeamDAO;
 		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) reportDAO;
+			return (ISession<T>) reportDAO;
 		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) leadEvaluationDAO;
+			return (ISession<T>) leadEvaluationDAO;
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (IManager<T>) individualEvaluationDAO;
+			return (ISession<T>) individualEvaluationDAO;
 		} else {
 			throw new DAOException("Entity " + mClass.getSimpleName() + " is unknown");
 		}

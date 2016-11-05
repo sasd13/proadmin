@@ -1,29 +1,26 @@
 package com.sasd13.proadmin.aaa.dao;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.ConditionBuilder;
-import com.sasd13.javaex.dao.ConditionException;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
-import com.sasd13.javaex.dao.jdbc.IJDBCChecker;
-import com.sasd13.javaex.dao.jdbc.IJDBCManager;
+import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
 
-public class JDBCCredentialDAO implements ICredentialDAO, IJDBCManager<Credential>, IJDBCChecker<Credential> {
+public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICredentialDAO {
 
 	private static final Logger LOG = Logger.getLogger(JDBCCredentialDAO.class);
 
 	private String url, username, password;
-	private Connection connection;
 	private Map<String, String[]> parameters;
 	private IExpressionBuilder expressionBuilder;
 
@@ -54,16 +51,6 @@ public class JDBCCredentialDAO implements ICredentialDAO, IJDBCManager<Credentia
 				LOG.warn(e);
 			}
 		}
-	}
-
-	@Override
-	public Connection getConnection() {
-		return connection;
-	}
-
-	@Override
-	public void setConnection(Connection connection) {
-		this.connection = connection;
 	}
 
 	@Override
@@ -106,7 +93,26 @@ public class JDBCCredentialDAO implements ICredentialDAO, IJDBCManager<Credentia
 
 	@Override
 	public boolean contains(Credential credential) throws DAOException {
-		return JDBCUtils.contains(this, TABLE, credential);
+		parameters.clear();
+		parameters.put(COLUMN_USERNAME, new String[] { credential.getUsername() });
+		parameters.put(COLUMN_PASSWORD, new String[] { credential.getPassword() });
+
+		return JDBCUtils.contains(this, TABLE, parameters, expressionBuilder);
+	}
+
+	@Override
+	public Credential select(long id) throws DAOException {
+		return null;
+	}
+
+	@Override
+	public List<Credential> select(Map<String, String[]> parameters) throws DAOException {
+		return null;
+	}
+
+	@Override
+	public List<Credential> selectAll() throws DAOException {
+		return null;
 	}
 
 	@Override
@@ -128,11 +134,7 @@ public class JDBCCredentialDAO implements ICredentialDAO, IJDBCManager<Credentia
 	}
 
 	@Override
-	public String getCondition(Credential credential) throws ConditionException {
-		parameters.clear();
-		parameters.put(COLUMN_USERNAME, new String[] { credential.getUsername() });
-		parameters.put(COLUMN_PASSWORD, new String[] { credential.getPassword() });
-
-		return ConditionBuilder.parse(parameters, expressionBuilder);
+	public Credential getResultSetValues(ResultSet resultSet) throws SQLException {
+		return null;
 	}
 }

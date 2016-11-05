@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IManager;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
@@ -34,7 +34,7 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 		try {
 			dao.open();
 
-			IManager<LeadEvaluation> leadEvaluationDAO = dao.getSession(LeadEvaluation.class);
+			ISession<LeadEvaluation> leadEvaluationDAO = dao.getSession(LeadEvaluation.class);
 
 			for (LeadEvaluation leadEvaluation : leadEvaluations) {
 				LOG.info("update : studentNumber=" + leadEvaluation.getStudent().getNumber());

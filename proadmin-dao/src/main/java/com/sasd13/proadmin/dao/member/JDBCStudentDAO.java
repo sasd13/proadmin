@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -24,8 +22,6 @@ import com.sasd13.proadmin.bean.member.Student;
  * @author Samir
  */
 public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCStudentDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -77,8 +73,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 
 	@Override
 	public Student select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -92,7 +87,12 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void editPreparedStatement(PreparedStatement preparedStatement, Student student) throws SQLException {
+	public boolean contains(Student student) throws DAOException {
+		return false;
+	}
+
+	@Override
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Student student) throws SQLException {
 		preparedStatement.setString(1, student.getNumber());
 		preparedStatement.setString(2, student.getFirstName());
 		preparedStatement.setString(3, student.getLastName());
@@ -101,15 +101,13 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Student student) throws SQLException {
-		super.editPreparedStatementForUpdate(preparedStatement, student);
+		editPreparedStatementForInsert(preparedStatement, student);
 
 		preparedStatement.setString(5, student.getNumber());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Student student) throws SQLException {
-		super.editPreparedStatementForDelete(preparedStatement, student);
-
 		preparedStatement.setString(1, student.getNumber());
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IManager;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.RunningTeam;
@@ -28,7 +28,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			IManager<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
 				LOG.info("create : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
@@ -51,7 +51,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			IManager<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
 				LOG.info("update : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
@@ -74,7 +74,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			IManager<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
 				LOG.info("delete : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());

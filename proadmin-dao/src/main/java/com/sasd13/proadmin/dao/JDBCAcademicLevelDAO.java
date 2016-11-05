@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
@@ -24,8 +22,6 @@ import com.sasd13.proadmin.bean.AcademicLevel;
  * @author Samir
  */
 public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements IAcademicLevelDAO {
-
-	private static final Logger LOG = Logger.getLogger(JDBCAcademicLevelDAO.class);
 
 	private IExpressionBuilder expressionBuilder;
 
@@ -47,8 +43,15 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 
 	@Override
 	public void update(AcademicLevel academicLevel) throws DAOException {
-		LOG.error("update unavailable");
-		throw new DAOException("Request unavailable");
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_CODE + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_CODE + " = ?");
+
+		JDBCUtils.update(this, builder.toString(), academicLevel);
 	}
 
 	@Override
@@ -64,8 +67,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 
 	@Override
 	public AcademicLevel select(long id) throws DAOException {
-		LOG.error("select unavailable");
-		throw new DAOException("Request unavailable");
+		return null;
 	}
 
 	@Override
@@ -79,13 +81,20 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
+	public boolean contains(AcademicLevel academicLevel) throws DAOException {
+		return false;
+	}
+
+	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
 		preparedStatement.setString(1, academicLevel.getCode());
 	}
-	
+
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, AcademicLevel t) throws SQLException {
-		// TODO Auto-generated method stub
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, academicLevel);
+
+		preparedStatement.setString(2, academicLevel.getCode());
 	}
 
 	@Override

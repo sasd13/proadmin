@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.dao.running;
 
-import com.sasd13.javaex.dao.IManager;
-import com.sasd13.javaex.dao.IReader;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 
-public interface IIndividualEvaluationDAO extends IManager<IndividualEvaluation>, IReader<IndividualEvaluation> {
+public interface IIndividualEvaluationDAO extends ISession<IndividualEvaluation> {
 
 	String TABLE = "individualevaluations";
 	String COLUMN_MARK = "mark";

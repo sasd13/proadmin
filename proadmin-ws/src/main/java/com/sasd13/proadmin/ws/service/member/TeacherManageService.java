@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IManager;
+import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -28,7 +28,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 		try {
 			dao.open();
 
-			IManager<Teacher> teacherDAO = dao.getSession(Teacher.class);
+			ISession<Teacher> teacherDAO = dao.getSession(Teacher.class);
 
 			for (Teacher teacher : teachers) {
 				LOG.info("create : number=" + teacher.getNumber());
@@ -51,7 +51,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 		try {
 			dao.open();
 
-			IManager<Teacher> teacherDAO = dao.getSession(Teacher.class);
+			ISession<Teacher> teacherDAO = dao.getSession(Teacher.class);
 
 			for (Teacher teacher : teachers) {
 				LOG.info("update : number=" + teacher.getNumber());
@@ -74,7 +74,7 @@ public class TeacherManageService implements IManageService<Teacher> {
 		try {
 			dao.open();
 
-			IManager<Teacher> teacherDAO = dao.getSession(Teacher.class);
+			ISession<Teacher> teacherDAO = dao.getSession(Teacher.class);
 
 			for (Teacher teacher : teachers) {
 				LOG.info("delete : number=" + teacher.getNumber());
