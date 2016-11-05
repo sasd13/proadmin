@@ -25,14 +25,15 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.form.RunningForm;
-import com.sasd13.proadmin.service.RunningService;
+import com.sasd13.proadmin.service.IManageServiceCaller;
+import com.sasd13.proadmin.service.running.RunningManageService;
 
-public class RunningFragment extends Fragment {
+public class RunningFragment extends Fragment implements IManageServiceCaller<Running> {
 
     private Running running;
     private boolean inModeEdit;
     private RunningsActivity parentActivity;
-    private RunningService runningService;
+    private RunningManageService runningManageService;
     private RunningForm runningForm;
     private WaitDialog waitDialog;
 
@@ -51,7 +52,7 @@ public class RunningFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
-        runningService = new RunningService(this);
+        runningManageService = new RunningManageService(this);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class RunningFragment extends Fragment {
     }
 
     private void setDefaultRunning() {
-        //running = runningService.getDefaultValueOfRunning(running);
+        //running = runningManageService.getDefaultValueOfRunning(running);
     }
 
     @Override
@@ -139,9 +140,9 @@ public class RunningFragment extends Fragment {
 
     public void saveOperation() {
         if (inModeEdit) {
-            runningService.updateRunning(runningForm, running);
+            runningManageService.updateRunning(runningForm, running);
         } else {
-            //runningService.createRunning(runningForm, running);
+            runningManageService.createRunning(runningForm, running);
         }
     }
 
@@ -153,7 +154,7 @@ public class RunningFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        runningService.deleteRunning(running);
+                        runningManageService.deleteRunning(running);
                     }
                 }
         );
@@ -164,23 +165,27 @@ public class RunningFragment extends Fragment {
         waitDialog.show();
     }
 
-    public void onCreateSucceeded() {
+    @Override
+    public void onCreateSucceeded(Running running) {
         waitDialog.dismiss();
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
-    public void onUpdateSucceeded() {
+    @Override
+    public void onUpdateSucceeded(Running running) {
         waitDialog.dismiss();
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
     }
 
+    @Override
     public void onDeleteSucceeded() {
         waitDialog.dismiss();
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
+    @Override
     public void onError(@StringRes int message) {
         waitDialog.dismiss();
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();

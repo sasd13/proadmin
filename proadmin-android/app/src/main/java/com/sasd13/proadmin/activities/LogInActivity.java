@@ -12,10 +12,11 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.service.LogInService;
+import com.sasd13.proadmin.service.ILoginServiceCaller;
+import com.sasd13.proadmin.service.member.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity implements ILoginServiceCaller<Teacher> {
 
     private static class LogInForm {
         EditText editTextNumber, editTextPassword;
@@ -67,16 +68,19 @@ public class LogInActivity extends AppCompatActivity {
         logInService.logIn(number, password);
     }
 
+    @Override
     public void onLoad() {
         waitDialog = new WaitDialog(this);
         waitDialog.show();
     }
 
+    @Override
     public void onLogInSucceeded(Teacher teacher) {
         waitDialog.dismiss();
         SessionHelper.logIn(this, teacher);
     }
 
+    @Override
     public void onError(@StringRes int message) {
         waitDialog.dismiss();
         Snackbar.make(contentView, message, Snackbar.LENGTH_LONG).show();

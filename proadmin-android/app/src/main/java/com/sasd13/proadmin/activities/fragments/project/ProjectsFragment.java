@@ -33,7 +33,8 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.pattern.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.pattern.builder.project.ProjectsYearsBuilder;
-import com.sasd13.proadmin.service.ProjectsService;
+import com.sasd13.proadmin.service.IReadServiceCaller;
+import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
@@ -41,10 +42,10 @@ import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsFragment extends Fragment {
+public class ProjectsFragment extends Fragment implements IReadServiceCaller<List<Project>> {
 
     private ProjectsActivity parentActivity;
-    private ProjectsService projectsService;
+    private ProjectReadService projectReadService;
     private Recycler projectsTab;
     private List<Integer> years;
     private List<Project> projects;
@@ -62,7 +63,7 @@ public class ProjectsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        projectsService = new ProjectsService(this);
+        projectReadService = new ProjectReadService(this);
         years = new ArrayList<>();
         projects = new ArrayList<>();
     }
@@ -96,7 +97,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void readProjectsFromWS() {
-        projectsService.readProjects();
+        projectReadService.readProjects();
     }
 
     private void buildTabProjects(View view) {

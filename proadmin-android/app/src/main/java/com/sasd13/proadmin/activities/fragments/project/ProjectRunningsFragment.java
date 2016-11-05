@@ -26,20 +26,20 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.IReadServiceCaller;
-import com.sasd13.proadmin.service.RunningsService;
+import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRunningsFragment extends Fragment implements IReadServiceCaller<Running> {
+public class ProjectRunningsFragment extends Fragment implements IReadServiceCaller<List<Running>> {
 
     private Project project;
     private List<Running> runnings;
     private Recycler runningsTab;
     private ProjectsActivity parentActivity;
-    private RunningsService runningsService;
+    private RunningReadService runningReadService;
 
     public static ProjectRunningsFragment newInstance(Project project) {
         ProjectRunningsFragment runningFragment = new ProjectRunningsFragment();
@@ -56,7 +56,7 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
 
         runnings = new ArrayList<>();
         parentActivity = (ProjectsActivity) getActivity();
-        runningsService = new RunningsService(this);
+        runningReadService = new RunningReadService(this);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
     }
 
     private void readRunningsFromWS() {
-        runningsService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+        runningReadService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     private void buildTabRunnings(View view) {

@@ -27,8 +27,9 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.IReadServiceCaller;
-import com.sasd13.proadmin.service.RunningsService;
+import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,10 @@ import java.util.List;
 public class RunningsFragment extends Fragment implements IReadServiceCaller<Running> {
 
     private RunningsActivity parentActivity;
-    private RunningsService runningsService;
+    private RunningReadService runningReadService;
     private Recycler runningsTab;
     private List<Running> runnings;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton floatingActionButton;
 
     public static RunningsFragment newInstance() {
         return new RunningsFragment();
@@ -50,10 +50,8 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         parentActivity = (RunningsActivity) getActivity();
-        runningsService = new RunningsService(this);
+        runningReadService = new RunningReadService(this);
         runnings = new ArrayList<>();
     }
 
@@ -86,13 +84,21 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
         });
     }
 
+    private void readRunningsFromWS() {
+        runningReadService.readRunnings(
+                SessionHelper.getExtraId(getContext(), Extra.PROJECT_CODE),
+                SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER)
+        );
+    }
+
     private void buildTabRunnings(View view) {
         runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.runnings_recyclerview));
         runningsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +107,38 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
         });
     }
 
-    private void refreshView() {
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
+        parentActivity.getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void onLoad() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void onReadSucceeded(List<Running> runningsFromWS) {
+        swipeRefreshLayout.setRefreshing(false);
+
+        bindRunningsToTab(runningsFromWS);
+    }
+
+    private void bindRunningsToTab(List<Running> runningsFromWS) {
+        RunningsSorter.byYear(runningsFromWS);
+
+        runnings.clear();
+        runnings.addAll(runningsFromWS);
+
+        fillTabRunningsByProject();
+    }
+
+    private void fillTabRunningsByProject() {
         runningsTab.clear();
+
         addRunningsToTab();
     }
 
@@ -120,40 +156,13 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Run
                 }
             });
 
-            holder.add(pair);
+            holder.add(String.valueOf(running.getYear()), pair);
         }
 
         RecyclerHelper.addAll(runningsTab, holder);
     }
 
-    private void readRunningsFromWS() {
-        runningsService.readRunnings(
-                SessionHelper.getExtraId(getContext(), Extra.PROJECT_CODE),
-                SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER)
-        );
-    }
-
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-    }
-
-    public void onLoad() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    public void onReadSucceeded(List<Running> runningsFromWS) {
-        swipeRefreshLayout.setRefreshing(false);
-
-        runnings.clear();
-        runnings.addAll(runningsFromWS);
-
-        refreshView();
-    }
-
     public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();

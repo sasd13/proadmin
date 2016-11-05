@@ -1,94 +1,87 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.service.running;
 
 import com.sasd13.androidex.ws.rest.CreateTask;
 import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.pattern.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.RunningForm;
+import com.sasd13.proadmin.service.IManageServiceCaller;
 import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 
-public class RunningService implements IHttpCallback {
+public class RunningManageService implements IHttpCallback {
 
     private static final int TASKTYPE_CREATE = 0;
     private static final int TASKTYPE_UPDATE = 1;
     private static final int TASKTYPE_DELETE = 2;
 
-    private RunningFragment runningFragment;
+    private IManageServiceCaller<Running> serviceCaller;
     private CreateTask<Running> createTask;
     private UpdateTask<Running> updateTask;
     private DeleteTask<Running> deleteTask;
     private Running running;
     private int taskType;
 
-    public RunningService(RunningFragment runningFragment) {
-        this.runningFragment = runningFragment;
+    public RunningManageService(IManageServiceCaller<Running> serviceCaller) {
+        this.serviceCaller = serviceCaller;
     }
 
-    public List<Project> readProjectsFromCache() {
-        return null;
-    }
-
-    public Running getDefaultValueOfRunning(Project project) {
-        return new DefaultRunningBuilder(project).build();
-    }
-
-    public void createRunning(RunningForm runningForm, Project project) {
+    public void createRunning(RunningForm runningForm, Project project, Teacher teacher) {
         taskType = TASKTYPE_CREATE;
 
         try {
-            running = getRunningToCreate(runningForm, project);
+            running = getRunningToCreate(runningForm, project, teacher);
             createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
+            createTask.setTimeout(WSConstants.DEFAULT_TIMEOUT);
             createTask.execute(running);
         } catch (FormException e) {
-            runningFragment.onError(e.getResMessage());
+            serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private Running getRunningToCreate(RunningForm runningForm, Project project) throws FormException {
+    private Running getRunningToCreate(RunningForm runningForm, Project project, Teacher teacher) throws FormException {
         Running runningFromForm = runningForm.getEditable();
         Running runningToCreate = new Running();
 
-        runningToCreate.setProject(project);
         Binder.bind(runningToCreate, runningFromForm);
 
-        //runningToCreate.setTeacher();
+        runningToCreate.setProject(project);
+        runningToCreate.setTeacher(teacher);
 
         return runningToCreate;
     }
 
-    public void updateRunning(RunningForm runningForm, Running runningToUpdate) {
+    public void updateRunning(Running runningToUpdate, RunningForm runningForm) {
         taskType = TASKTYPE_UPDATE;
 
         try {
-            Running runningFromForm = runningForm.getEditable();
+            running = new Running();
 
-            Binder.bind(runningToUpdate, runningFromForm);
-
-            running = runningToUpdate;
-            //running.setTeacher();
+            Binder.bind(running, runningToUpdate);
+            Binder.bind(running, runningForm.getEditable());
 
             updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
+
+            updateTask.setTimeout(WSConstants.DEFAULT_TIMEOUT);
             updateTask.execute(running);
         } catch (FormException e) {
-            runningFragment.onError(e.getResMessage());
+            serviceCaller.onError(e.getResMessage());
         }
     }
 
     public void deleteRunning(Running running) {
         taskType = TASKTYPE_DELETE;
-        this.running = running;
         deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 
         deleteTask.execute(running);
@@ -96,7 +89,7 @@ public class RunningService implements IHttpCallback {
 
     @Override
     public void onLoad() {
-        runningFragment.onLoad();
+        serviceCaller.onLoad();
     }
 
     @Override
@@ -114,42 +107,42 @@ public class RunningService implements IHttpCallback {
         }
     }
 
+    private void handleErrors(List<String> errors) {
+        EnumError error = EnumError.find(Integer.parseInt(errors.get(0)));
+
+        serviceCaller.onError(EnumErrorRes.find(error).getStringRes());
+    }
+
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            EnumError error = EnumError.find(Integer.parseInt(createTask.getResponseErrors().get(0)));
-
-            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
+            handleErrors(createTask.getResponseErrors());
         } else {
             try {
-                runningFragment.onCreateSucceeded();
+                serviceCaller.onCreateSucceeded(running);
             } catch (IndexOutOfBoundsException e) {
-                runningFragment.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_ws_retrieve_data);
             }
         }
     }
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            EnumError error = EnumError.find(Integer.parseInt(updateTask.getResponseErrors().get(0)));
-
-            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
+            handleErrors(updateTask.getResponseErrors());
         } else {
-            runningFragment.onUpdateSucceeded();
+            serviceCaller.onUpdateSucceeded(running);
         }
     }
 
     private void onDeleteTaskSucceeded() {
         if (!deleteTask.getResponseErrors().isEmpty()) {
-            EnumError error = EnumError.find(Integer.parseInt(deleteTask.getResponseErrors().get(0)));
-
-            runningFragment.onError(EnumErrorRes.find(error).getStringRes());
+            handleErrors(createTask.getResponseErrors());
         } else {
-            runningFragment.onDeleteSucceeded();
+            serviceCaller.onDeleteSucceeded();
         }
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        runningFragment.onError(R.string.error_ws_server_connection);
+        serviceCaller.onError(R.string.error_ws_server_connection);
     }
 }

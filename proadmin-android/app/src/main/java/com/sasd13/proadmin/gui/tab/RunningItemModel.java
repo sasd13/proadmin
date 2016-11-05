@@ -22,6 +22,10 @@ public class RunningItemModel extends Observable implements IRecyclerItemModel, 
 
     @Override
     public String getLabel() {
+        return running.getProject().getCode();
+    }
+
+    public String getYear() {
         return String.valueOf(running.getYear());
     }
 }

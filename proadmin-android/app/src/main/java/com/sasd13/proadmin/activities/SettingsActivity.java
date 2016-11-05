@@ -18,12 +18,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.SettingsForm;
-import com.sasd13.proadmin.service.SettingsService;
+import com.sasd13.proadmin.service.IManageServiceCaller;
+import com.sasd13.proadmin.service.IReadServiceCaller;
+import com.sasd13.proadmin.service.member.TeacherReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 
-public class SettingsActivity extends MotherActivity {
+public class SettingsActivity extends MotherActivity implements IReadServiceCaller<Teacher>, IManageServiceCaller<Teacher> {
 
-    private SettingsService settingsService;
+    private TeacherReadService teacherReadService;
     private SettingsForm settingsForm;
     private SwipeRefreshLayout swipeRefreshLayout;
     private View contentView;
@@ -35,7 +37,7 @@ public class SettingsActivity extends MotherActivity {
 
         setContentView(R.layout.activity_settings);
 
-        settingsService = new SettingsService(this);
+        teacherReadService = new TeacherReadService(this);
         contentView = findViewById(android.R.id.content);
 
         buildView();
@@ -58,7 +60,7 @@ public class SettingsActivity extends MotherActivity {
     }
 
     private void readTeacherFromWS() {
-        settingsService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
+        teacherReadService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
     }
 
     private void buildFormSettings() {
@@ -82,7 +84,7 @@ public class SettingsActivity extends MotherActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_accept:
-                settingsService.updateTeacher(teacher, settingsForm);
+                teacherReadService.updateTeacher(teacher, settingsForm);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,10 +93,12 @@ public class SettingsActivity extends MotherActivity {
         return true;
     }
 
+    @Override
     public void onLoad() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
+    @Override
     public void onReadSucceeded(Teacher teacher) {
         swipeRefreshLayout.setRefreshing(false);
 
@@ -103,10 +107,20 @@ public class SettingsActivity extends MotherActivity {
         settingsForm.bindTeacher(teacher);
     }
 
-    public void onUpdateSucceeded() {
+    @Override
+    public void onCreateSucceeded(Teacher teacher) {
+    }
+
+    @Override
+    public void onUpdateSucceeded(Teacher teacher) {
         Snackbar.make(contentView, R.string.message_saved, Snackbar.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onDeleteSucceeded() {
+    }
+
+    @Override
     public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
