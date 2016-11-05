@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.builder.project;
+package com.sasd13.proadmin.pattern.builder.project;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.builder.IBuilder;
+import com.sasd13.proadmin.pattern.builder.IBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,9 @@ public class ProjectsCodesBuilder implements IBuilder<List<String>> {
         List<String> list = new ArrayList<>();
 
         for (Project project : projects) {
-            list.add(project.getCode());
+            if (!list.contains(project.getCode())) {
+                list.add(project.getCode());
+            }
         }
 
         return list;

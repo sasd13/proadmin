@@ -8,7 +8,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.pattern.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.form.FormException;
 import com.sasd13.proadmin.form.RunningForm;
 import com.sasd13.proadmin.util.Binder;

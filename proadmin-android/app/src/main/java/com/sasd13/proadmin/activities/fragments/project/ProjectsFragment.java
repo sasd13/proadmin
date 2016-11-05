@@ -31,11 +31,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
+import com.sasd13.proadmin.pattern.adapter.IntegersToStringsAdapter;
+import com.sasd13.proadmin.pattern.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.service.ProjectsService;
-import com.sasd13.proadmin.util.filter.project.ProjectDateCreatedCriteria;
+import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
+import com.sasd13.proadmin.util.sorter.IntegersSorter;
+import com.sasd13.proadmin.util.sorter.ProjectsSorter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProjectsFragment extends Fragment {
@@ -43,6 +46,7 @@ public class ProjectsFragment extends Fragment {
     private ProjectsActivity parentActivity;
     private ProjectsService projectsService;
     private Recycler projectsTab;
+    private List<Integer> years;
     private List<Project> projects;
     private Spin spinYears;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -59,6 +63,7 @@ public class ProjectsFragment extends Fragment {
 
         parentActivity = (ProjectsActivity) getActivity();
         projectsService = new ProjectsService(this);
+        years = new ArrayList<>();
         projects = new ArrayList<>();
     }
 
@@ -69,6 +74,7 @@ public class ProjectsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
 
         buildView(view);
+        bindView();
 
         return view;
     }
@@ -77,31 +83,6 @@ public class ProjectsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabProjects(view);
-        readProjects();
-    }
-
-    private void readProjects() {
-        if (projects.isEmpty()) {
-            readProjectsFromCache();
-        }
-
-        refreshView();
-        readProjectsFromWS();
-    }
-
-    private void readProjectsFromCache() {
-        projects.addAll(projectsService.readProjectsFromCache());
-    }
-
-    private void refreshView() {
-        int position = spinYears != null && spinYears.getSelectedPosition() > -1
-                ? spinYears.getSelectedPosition()
-                : 0;
-        //fillTabProjectsByYearCreated();
-    }
-
-    private void readProjectsFromWS() {
-        projectsService.readProjects();
     }
 
     private void buildSwipeRefreshLayout(View view) {
@@ -114,35 +95,17 @@ public class ProjectsFragment extends Fragment {
         });
     }
 
+    private void readProjectsFromWS() {
+        projectsService.readProjects();
+    }
+
     private void buildTabProjects(View view) {
         projectsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.projects_recyclerview));
         projectsTab.addDividerItemDecoration();
     }
 
-    private void fillTabProjectsByYearCreated(int year) {
-        projectsTab.clear();
-
-        addProjectsToTab(new ProjectDateCreatedCriteria(year).meetCriteria(projects));
-    }
-
-    private void addProjectsToTab(List<Project> projects) {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Project project : projects) {
-            pair = new RecyclerHolderPair(new ProjectItemModel(project));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    parentActivity.showProject(project);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(projectsTab, holder);
+    private void bindView() {
+        readProjectsFromWS();
     }
 
     @Override
@@ -168,7 +131,7 @@ public class ProjectsFragment extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                //fillTabProjectsByYearCreated();
+                fillTabProjectsByYearCreated();
             }
 
             @Override
@@ -176,7 +139,6 @@ public class ProjectsFragment extends Fragment {
 
             }
         });
-        spinYears.addAll(Arrays.asList(getResources().getStringArray(R.array.academiclevels)));
     }
 
     public void onLoad() {
@@ -186,10 +148,61 @@ public class ProjectsFragment extends Fragment {
     public void onReadSucceeded(List<Project> projectsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
+        bindYears(projectsFromWS);
+        bindProjects(projectsFromWS);
+    }
+
+    private void bindYears(List<Project> projectsFromWS) {
+        List<Integer> yearsToSpin = new ProjectsYearsBuilder(projectsFromWS).build();
+
+        IntegersSorter.byDesc(yearsToSpin);
+        years.clear();
+        years.addAll(yearsToSpin);
+
+        fillSpinYears();
+    }
+
+    private void fillSpinYears() {
+        spinYears.clear();
+        spinYears.addItems(new IntegersToStringsAdapter().adapt(years));
+        spinYears.resetPosition();
+    }
+
+    private void bindProjects(List<Project> projectsFromWS) {
         projects.clear();
         projects.addAll(projectsFromWS);
 
-        refreshView();
+        fillTabProjectsByYearCreated();
+    }
+
+    private void fillTabProjectsByYearCreated() {
+        projectsTab.clear();
+
+        int year = years.get(spinYears.getSelectedPosition());
+        List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
+
+        ProjectsSorter.byCode(projectsToTab);
+        addProjectsToTab(projectsToTab);
+    }
+
+    private void addProjectsToTab(List<Project> projects) {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Project project : projects) {
+            pair = new RecyclerHolderPair(new ProjectItemModel(project));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    parentActivity.showProject(project);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(projectsTab, holder);
     }
 
     public void onError(@StringRes int message) {

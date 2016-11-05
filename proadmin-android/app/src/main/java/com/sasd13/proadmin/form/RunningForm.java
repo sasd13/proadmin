@@ -8,7 +8,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.builder.project.ProjectsCodesBuilder;
+import com.sasd13.proadmin.pattern.builder.project.ProjectsCodesBuilder;
 
 import java.util.List;
 

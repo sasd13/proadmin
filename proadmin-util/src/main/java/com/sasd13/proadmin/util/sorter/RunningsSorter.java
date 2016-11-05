@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.sasd13.proadmin.bean.running.Running;
 
-public class RunningSorter {
+public class RunningsSorter {
 
 	public static void byYear(List<Running> runnings) {
 		byYear(runnings, false);

@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.project.Project;
 
-public class ProjectDateCreatedCriteria implements Criteria<Project> {
+public class ProjectDateCreationCriteria implements Criteria<Project> {
 	
 	public static final int YEAR_MIN_VALUE = 1;
 	public static final int MONTH_MIN_VALUE = 1;
@@ -16,11 +16,11 @@ public class ProjectDateCreatedCriteria implements Criteria<Project> {
 
 	private int year, month;
 
-	public ProjectDateCreatedCriteria(int year) {
+	public ProjectDateCreationCriteria(int year) {
 		this(year, 0);
 	}
 
-	public ProjectDateCreatedCriteria(int year, int month) {
+	public ProjectDateCreationCriteria(int year, int month) {
 		this.year = year;
 		this.month = month;
 	}

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.builder;
+package com.sasd13.proadmin.pattern.builder;
 
 /**
  * Created by ssaidali2 on 23/07/2016.

@@ -5,9 +5,8 @@ import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
-
-import java.util.List;
 
 /**
  * Created by ssaidali2 on 24/07/2016.
@@ -24,11 +23,8 @@ public class ProjectsService implements IHttpCallback {
     public void readProjects() {
         readTask = new ReadTask<>(WSResources.URL_WS_PROJECTS, this, Project.class);
 
+        readTask.setTimeout(WSConstants.DEFAULT_TIMEOUT);
         readTask.execute();
-    }
-
-    public List<Project> readProjectsFromCache() {
-        return null;
     }
 
     @Override
@@ -39,9 +35,7 @@ public class ProjectsService implements IHttpCallback {
     @Override
     public void onSuccess() {
         try {
-            List<Project> projects = readTask.getResults();
-
-            projectsFragment.onReadSucceeded(projects);
+            projectsFragment.onReadSucceeded(readTask.getResults());
         } catch (IndexOutOfBoundsException e) {
             projectsFragment.onError(R.string.error_ws_retrieve_data);
         }
