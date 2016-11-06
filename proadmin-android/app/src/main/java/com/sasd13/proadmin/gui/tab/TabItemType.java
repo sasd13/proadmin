@@ -8,9 +8,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerItemBuilder;
  * Created by ssaidali2 on 03/07/2016.
  */
 public enum TabItemType implements IRecyclerItemType {
-    PROJECT("PROJECTITEM", ProjectItem.class, RecyclerItemBuilder.class),
-    RUNNING("RUNNINGITEM", RunningItem.class, RecyclerItemBuilder.class),
-    TEAM("TEAMITEM", TeamItem.class, RecyclerItemBuilder.class),
+    PROJECT("PROJECT_ITEM", ProjectItem.class, RecyclerItemBuilder.class),
+    RUNNING("RUNNING_ITEM", RunningItem.class, RecyclerItemBuilder.class),
+    RUNNINGTEAM("RUNNINGTEAM_ITEM", RunningTeamItem.class, RecyclerItemBuilder.class),
+    TEAM("TEAM_ITEM", TeamItem.class, RecyclerItemBuilder.class),
     ;
 
     private String code;

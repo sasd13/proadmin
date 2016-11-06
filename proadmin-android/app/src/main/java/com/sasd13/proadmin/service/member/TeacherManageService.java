@@ -47,6 +47,7 @@ public class TeacherManageService implements IHttpCallback {
 
     @Override
     public void onLoad() {
+        serviceCaller.onLoad();
     }
 
     @Override

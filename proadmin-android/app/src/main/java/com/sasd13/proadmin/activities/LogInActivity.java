@@ -40,14 +40,18 @@ public class LogInActivity extends AppCompatActivity implements ILoginServiceCal
     }
 
     private void buildView() {
+        buildFormLogIn();
+    }
+
+    private void buildFormLogIn() {
         LogInForm logInForm = new LogInForm();
         logInForm.editTextNumber = (EditText) findViewById(R.id.login_edittext_number);
         logInForm.editTextPassword = (EditText) findViewById(R.id.login_edittext_password);
 
-        createButtonConnect(logInForm);
+        buildButtonConnect(logInForm);
     }
 
-    private void createButtonConnect(final LogInForm logInForm) {
+    private void buildButtonConnect(final LogInForm logInForm) {
         Button button = (Button) findViewById(R.id.login_button_connect);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {

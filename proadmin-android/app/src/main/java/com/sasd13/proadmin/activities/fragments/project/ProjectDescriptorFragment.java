@@ -24,10 +24,10 @@ public class ProjectDescriptorFragment extends Fragment {
     private Project project;
 
     public static ProjectDescriptorFragment newInstance(Project project) {
-        ProjectDescriptorFragment projectFragment = new ProjectDescriptorFragment();
-        projectFragment.project = project;
+        ProjectDescriptorFragment fragment = new ProjectDescriptorFragment();
+        fragment.project = project;
 
-        return projectFragment;
+        return fragment;
     }
 
     @Override

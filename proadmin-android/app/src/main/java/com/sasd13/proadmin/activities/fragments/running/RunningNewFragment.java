@@ -35,41 +35,27 @@ import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 
 import java.util.List;
 
-public class RunningFragment extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
+public class RunningNewFragment extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
 
     private RunningsActivity parentActivity;
 
     private RunningForm runningForm;
     private WaitDialog waitDialog;
 
-    private boolean inModeEdit;
-    private Running running;
     private Project project;
 
     private RunningManageService runningManageService;
     private ProjectReadService projectReadService;
 
-    public static RunningFragment newInstance() {
-        RunningFragment runningFragment = new RunningFragment();
-        runningFragment.inModeEdit = false;
-
-        return runningFragment;
+    public static RunningNewFragment newInstance() {
+        return new RunningNewFragment();
     }
 
-    public static RunningFragment newInstance(Project project) {
-        RunningFragment runningFragment = new RunningFragment();
-        runningFragment.inModeEdit = false;
-        runningFragment.project = project;
+    public static RunningNewFragment newInstance(Project project) {
+        RunningNewFragment fragment = new RunningNewFragment();
+        fragment.project = project;
 
-        return runningFragment;
-    }
-
-    public static RunningFragment newInstance(Running running) {
-        RunningFragment runningFragment = new RunningFragment();
-        runningFragment.inModeEdit = true;
-        runningFragment.running = running;
-
-        return runningFragment;
+        return fragment;
     }
 
     @Override
@@ -87,7 +73,7 @@ public class RunningFragment extends Fragment implements IReadServiceCaller<List
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_running, container, false);
+        View view = inflater.inflate(R.layout.fragment_running_new, container, false);
 
         buildView(view);
 
@@ -131,23 +117,15 @@ public class RunningFragment extends Fragment implements IReadServiceCaller<List
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        if (!inModeEdit) {
-            menu.findItem(R.id.menu_running_action_delete).setVisible(false);
-        }
+        menu.findItem(R.id.menu_running_action_delete).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_running_action_save:
-                if (inModeEdit) {
-                    updateRunning();
-                } else {
-                    createRunning();
-                }
+                createRunning();
                 break;
-            case R.id.menu_running_action_delete:
-                deleteRunning();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -159,20 +137,10 @@ public class RunningFragment extends Fragment implements IReadServiceCaller<List
         runningManageService.createRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
-    private void updateRunning() {
-        runningManageService.updateRunning(runningForm, running.getProject().getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
-    }
-
-    private void deleteRunning() {
-        runningManageService.deleteRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
-    }
-
     @Override
     public void onLoad() {
-        if (!inModeEdit) {
-            waitDialog = new WaitDialog(getContext());
-            waitDialog.show();
-        }
+        waitDialog = new WaitDialog(getContext());
+        waitDialog.show();
     }
 
     @Override
@@ -186,14 +154,10 @@ public class RunningFragment extends Fragment implements IReadServiceCaller<List
     }
 
     private void bindFormRunning(List<Project> projects) {
-        if (inModeEdit) {
-            runningForm.bind(running, projects);
+        if (project != null) {
+            runningForm.bind(new DefaultRunningBuilder(project).build(), projects);
         } else {
-            if (project != null) {
-                runningForm.bind(new DefaultRunningBuilder(project).build(), projects);
-            } else {
-                runningForm.bind(new DefaultRunningBuilder().build(), projects);
-            }
+            runningForm.bind(new DefaultRunningBuilder().build(), projects);
         }
     }
 
@@ -209,13 +173,10 @@ public class RunningFragment extends Fragment implements IReadServiceCaller<List
 
     @Override
     public void onUpdateSucceeded(Running running) {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDeleteSucceeded() {
-        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listRunnings();
     }
 
     @Override

@@ -46,10 +46,10 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
     private RunningReadService runningReadService;
 
     public static ProjectRunningsFragment newInstance(Project project) {
-        ProjectRunningsFragment runningFragment = new ProjectRunningsFragment();
-        runningFragment.project = project;
+        ProjectRunningsFragment fragment = new ProjectRunningsFragment();
+        fragment.project = project;
 
-        return runningFragment;
+        return fragment;
     }
 
     @Override
@@ -108,13 +108,11 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
     public void onReadSucceeded(List<Running> runningsFromWS) {
         runnings.clear();
         runnings.addAll(runningsFromWS);
-
         fillTabRunningsByYear();
     }
 
     private void fillTabRunningsByYear() {
         runningsTab.clear();
-
         RunningsSorter.byYear(runnings);
         addRunningsToTab();
     }
