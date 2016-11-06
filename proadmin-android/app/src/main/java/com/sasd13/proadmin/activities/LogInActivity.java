@@ -22,9 +22,10 @@ public class LogInActivity extends AppCompatActivity implements ILoginServiceCal
         EditText editTextNumber, editTextPassword;
     }
 
-    private LogInService logInService;
-    private WaitDialog waitDialog;
     private View contentView;
+    private WaitDialog waitDialog;
+
+    private LogInService logInService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,8 @@ public class LogInActivity extends AppCompatActivity implements ILoginServiceCal
 
         setContentView(R.layout.activity_login);
 
-        logInService = new LogInService(this);
         contentView = findViewById(android.R.id.content);
+        logInService = new LogInService(this);
 
         buildView();
     }

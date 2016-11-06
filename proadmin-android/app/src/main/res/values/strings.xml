@@ -32,6 +32,7 @@
     <string name="form_settings_message_error_lastname">Invalid last name</string>
     <string name="form_settings_message_error_email">Invalid email</string>
     <string name="form_runnings_message_error_year">Invalid year</string>
+    <string name="form_runnings_message_error_project">Invalid project</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>

@@ -54,7 +54,8 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append(", " + COLUMN_PROJECT_CODE + " = ?");
 		builder.append(", " + COLUMN_TEACHER_CODE + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_PROJECT_CODE + " = ?");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), running);
@@ -66,7 +67,8 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_PROJECT_CODE + " = ?");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), running);
@@ -103,14 +105,16 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Running running) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, running);
 
-		preparedStatement.setString(4, running.getProject().getCode());
-		preparedStatement.setString(5, running.getTeacher().getNumber());
+		preparedStatement.setInt(4, running.getYear());
+		preparedStatement.setString(5, running.getProject().getCode());
+		preparedStatement.setString(6, running.getTeacher().getNumber());
 	}
 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
-		preparedStatement.setString(1, running.getProject().getCode());
-		preparedStatement.setString(2, running.getTeacher().getNumber());
+		preparedStatement.setInt(1, running.getYear());
+		preparedStatement.setString(2, running.getProject().getCode());
+		preparedStatement.setString(3, running.getTeacher().getNumber());
 	}
 
 	@Override

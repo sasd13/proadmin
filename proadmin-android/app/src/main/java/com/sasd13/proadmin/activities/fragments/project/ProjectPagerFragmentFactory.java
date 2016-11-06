@@ -13,7 +13,7 @@ import com.sasd13.proadmin.bean.project.Project;
 public class ProjectPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 2;
-    private static final @StringRes int[] TITLES_RES = {R.string.title_information, R.string.title_runnings};
+    private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_runnings};
 
     private Project project;
 
@@ -40,6 +40,6 @@ public class ProjectPagerFragmentFactory implements IPagerFragmentFactory {
 
     @Override
     public @StringRes int getPageTitle(int position) {
-        return TITLES_RES[position];
+        return TITLES[position];
     }
 }

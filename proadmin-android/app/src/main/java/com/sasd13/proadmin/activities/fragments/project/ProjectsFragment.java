@@ -32,9 +32,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
-import com.sasd13.proadmin.pattern.adapter.IntegersToStringsAdapter;
-import com.sasd13.proadmin.pattern.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.service.project.ProjectReadService;
+import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
+import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
@@ -45,12 +45,15 @@ import java.util.List;
 public class ProjectsFragment extends Fragment implements IReadServiceCaller<List<Project>> {
 
     private ProjectsActivity parentActivity;
-    private ProjectReadService projectReadService;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Spin spinYears;
     private Recycler projectsTab;
+
     private List<Integer> years;
     private List<Project> projects;
-    private Spin spinYears;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private ProjectReadService projectReadService;
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -63,9 +66,9 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        projectReadService = new ProjectReadService(this);
         years = new ArrayList<>();
         projects = new ArrayList<>();
+        projectReadService = new ProjectReadService(this);
     }
 
     @Override
@@ -138,10 +141,12 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         });
     }
 
+    @Override
     public void onLoad() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
+    @Override
     public void onReadSucceeded(List<Project> projectsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
@@ -202,6 +207,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         RecyclerHelper.addAll(projectsTab, holder);
     }
 
+    @Override
     public void onError(@StringRes int message) {
         swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();

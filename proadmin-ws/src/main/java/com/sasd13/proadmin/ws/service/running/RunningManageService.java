@@ -31,7 +31,7 @@ public class RunningManageService implements IManageService<Running> {
 			ISession<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
-				LOG.info("create : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				LOG.info("create : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 				runningDAO.insert(running);
 			}
 		} catch (DAOException e) {
@@ -54,7 +54,7 @@ public class RunningManageService implements IManageService<Running> {
 			ISession<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
-				LOG.info("update : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				LOG.info("update : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 				runningDAO.update(running);
 			}
 		} catch (DAOException e) {
@@ -77,7 +77,7 @@ public class RunningManageService implements IManageService<Running> {
 			ISession<Running> runningDAO = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
-				LOG.info("delete : projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				LOG.info("delete : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 				runningDAO.delete(running);
 			}
 		} catch (DAOException e) {

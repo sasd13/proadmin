@@ -11,7 +11,6 @@ import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.util.SessionHelper;
 
 public class ProjectsActivity extends MotherActivity {
 
@@ -51,10 +50,20 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void showRunning(Running running) {
-        SessionHelper.setExtraId(this, Extra.RUNNING_YEAR, String.valueOf(running.getYear()));
-        SessionHelper.setExtraId(this, Extra.RUNNING_PROJECT_CODE, running.getProject().getCode());
+        Intent intent = new Intent(this, RunningsActivity.class);
+        intent.putExtra(Extra.MODE, Extra.MODE_EDIT);
+        intent.putExtra(Extra.RUNNING_YEAR, running.getYear());
+        intent.putExtra(Extra.RUNNING_PROJECT_CODE, running.getProject().getCode());
 
-        startActivity(new Intent(this, RunningsActivity.class));
+        startActivity(intent);
+    }
+
+    public void newRunning(Project project) {
+        Intent intent = new Intent(this, RunningsActivity.class);
+        intent.putExtra(Extra.MODE, Extra.MODE_NEW);
+        intent.putExtra(Extra.RUNNING_PROJECT_CODE, project.getCode());
+
+        startActivity(intent);
     }
 
     @Override

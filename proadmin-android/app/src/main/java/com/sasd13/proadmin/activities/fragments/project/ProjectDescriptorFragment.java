@@ -15,25 +15,19 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.form.ProjectForm;
+import com.sasd13.proadmin.gui.form.ProjectForm;
 
 public class ProjectDescriptorFragment extends Fragment {
 
-    private Project project;
     private ProjectForm projectForm;
+
+    private Project project;
 
     public static ProjectDescriptorFragment newInstance(Project project) {
         ProjectDescriptorFragment projectFragment = new ProjectDescriptorFragment();
         projectFragment.project = project;
 
         return projectFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        projectForm = new ProjectForm(getContext());
     }
 
     @Override
@@ -54,6 +48,8 @@ public class ProjectDescriptorFragment extends Fragment {
     }
 
     private void buildFormProject(View view) {
+        projectForm = new ProjectForm(getContext());
+
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.descriptor_recyclerview));
         form.addDividerItemDecoration();
 

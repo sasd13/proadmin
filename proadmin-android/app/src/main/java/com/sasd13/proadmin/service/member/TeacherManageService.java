@@ -1,12 +1,12 @@
 package com.sasd13.proadmin.service.member;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.form.FormException;
-import com.sasd13.proadmin.form.SettingsForm;
+import com.sasd13.proadmin.gui.form.SettingsForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 import com.sasd13.proadmin.util.ws.WSResources;

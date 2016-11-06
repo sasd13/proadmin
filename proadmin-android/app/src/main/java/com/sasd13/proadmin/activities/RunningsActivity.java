@@ -10,9 +10,12 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.fragments.running.RunningFragment;
 import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
+import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 
 public class RunningsActivity extends MotherActivity {
 
@@ -33,27 +36,49 @@ public class RunningsActivity extends MotherActivity {
 
     private void buildView() {
         GUIHelper.colorTitles(this);
+        showFragment();
+    }
 
-        if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.RUNNING_PROJECT_CODE)) {
-            showRunning(null);
-        } else {
+    private void showFragment() {
+        if (!getIntent().hasExtra(Extra.MODE)) {
             listRunnings();
+        } else if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.RUNNING_PROJECT_CODE)) {
+            startFragmentWithoutBackStack(RunningFragment.newInstance(getRunningFromIntent()));
+        } else {
+            if (getIntent().hasExtra(Extra.RUNNING_PROJECT_CODE)) {
+                startFragmentWithoutBackStack(RunningFragment.newInstance(getProjectFromIntent()));
+            } else {
+                startFragmentWithoutBackStack(RunningFragment.newInstance());
+            }
         }
     }
 
     public void listRunnings() {
+        startFragmentWithoutBackStack(RunningsFragment.newInstance());
+    }
+
+    private void startFragmentWithoutBackStack(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.runnings_fragment, RunningsFragment.newInstance())
+                .replace(R.id.runnings_fragment, fragment)
                 .commit();
     }
 
-    public void showRunning(Running running) {
-        startFragment(RunningFragment.newInstance(running, true));
+    private Running getRunningFromIntent() {
+        int year = getIntent().getIntExtra(Extra.RUNNING_YEAR, 0);
+        String projectCode = getIntent().getStringExtra(Extra.RUNNING_PROJECT_CODE);
+
+        return new RunningBaseBuilder(year, projectCode, SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER)).build();
     }
 
-    public void newRunning() {
-        startFragment(RunningFragment.newInstance(null, false));
+    private Project getProjectFromIntent() {
+        String projectCode = getIntent().getStringExtra(Extra.RUNNING_PROJECT_CODE);
+
+        return new ProjectBaseBuilder(projectCode).build();
+    }
+
+    public void showRunning(Running running) {
+        startFragment(RunningFragment.newInstance(running));
     }
 
     private void startFragment(Fragment fragment) {
@@ -64,10 +89,15 @@ public class RunningsActivity extends MotherActivity {
                 .commit();
     }
 
-    public void showTeam(Team team) {
-        SessionHelper.setExtraId(this, Extra.TEAM_NUMBER, team.getNumber());
+    public void newRunning() {
+        startFragment(RunningFragment.newInstance());
+    }
 
-        startActivity(new Intent(this, RunningsActivity.class));
+    public void showTeam(Team team) {
+        Intent intent = new Intent(this, TeamActivity.class);
+        intent.putExtra(Extra.TEAM_NUMBER, team.getNumber());
+
+        startActivity(intent);
     }
 
     @Override

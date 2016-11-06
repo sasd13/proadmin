@@ -3,6 +3,7 @@ package com.sasd13.proadmin.activities.fragments.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -35,10 +36,13 @@ import java.util.List;
 
 public class ProjectRunningsFragment extends Fragment implements IReadServiceCaller<List<Running>> {
 
+    private ProjectsActivity parentActivity;
+
+    private Recycler runningsTab;
+
     private Project project;
     private List<Running> runnings;
-    private Recycler runningsTab;
-    private ProjectsActivity parentActivity;
+
     private RunningReadService runningReadService;
 
     public static ProjectRunningsFragment newInstance(Project project) {
@@ -54,8 +58,8 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
 
         setHasOptionsMenu(true);
 
-        runnings = new ArrayList<>();
         parentActivity = (ProjectsActivity) getActivity();
+        runnings = new ArrayList<>();
         runningReadService = new RunningReadService(this);
     }
 
@@ -73,11 +77,8 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
+        buildFloatingActionButton(view);
         readRunningsFromWS();
-    }
-
-    private void readRunningsFromWS() {
-        runningReadService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     private void buildTabRunnings(View view) {
@@ -85,9 +86,22 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
         runningsTab.addDividerItemDecoration();
     }
 
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.list_w_fab_floatingactionbutton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentActivity.newRunning(project);
+            }
+        });
+    }
+
+    private void readRunningsFromWS() {
+        runningReadService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+    }
+
     @Override
     public void onLoad() {
-        //TODO
     }
 
     @Override
@@ -127,7 +141,6 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
 
     @Override
     public void onError(@StringRes int message) {
-        //TODO
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

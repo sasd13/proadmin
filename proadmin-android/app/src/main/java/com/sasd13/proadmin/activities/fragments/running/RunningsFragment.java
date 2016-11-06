@@ -37,10 +37,13 @@ import java.util.List;
 public class RunningsFragment extends Fragment implements IReadServiceCaller<List<Running>> {
 
     private RunningsActivity parentActivity;
-    private RunningReadService runningReadService;
-    private Recycler runningsTab;
-    private List<Running> runnings;
+
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Recycler runningsTab;
+
+    private List<Running> runnings;
+
+    private RunningReadService runningReadService;
 
     public static RunningsFragment newInstance() {
         return new RunningsFragment();
@@ -51,8 +54,8 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
         super.onCreate(savedInstanceState);
 
         parentActivity = (RunningsActivity) getActivity();
-        runningReadService = new RunningReadService(this);
         runnings = new ArrayList<>();
+        runningReadService = new RunningReadService(this);
     }
 
     @Override
@@ -98,7 +101,6 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
 
     private void buildFloatingActionButton(View view) {
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

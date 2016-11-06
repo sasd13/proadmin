@@ -19,19 +19,21 @@ import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.form.SettingsForm;
+import com.sasd13.proadmin.gui.form.SettingsForm;
 import com.sasd13.proadmin.service.member.TeacherManageService;
 import com.sasd13.proadmin.service.member.TeacherReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SettingsActivity extends MotherActivity implements IReadServiceCaller<Teacher>, IManageServiceCaller<Teacher> {
 
+    private View contentView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private SettingsForm settingsForm;
+
+    private Teacher teacher;
+
     private TeacherReadService teacherReadService;
     private TeacherManageService teacherManageService;
-    private SettingsForm settingsForm;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private View contentView;
-    private Teacher teacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,9 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
 
         setContentView(R.layout.activity_settings);
 
+        contentView = findViewById(android.R.id.content);
         teacherReadService = new TeacherReadService(this);
         teacherManageService = new TeacherManageService(this);
-        contentView = findViewById(android.R.id.content);
 
         buildView();
     }

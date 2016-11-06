@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.pattern.adapter;
+package com.sasd13.proadmin.util.adapter;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 

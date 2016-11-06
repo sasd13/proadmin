@@ -31,7 +31,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
-				LOG.info("create : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+				LOG.info("create : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 				runningTeamDAO.insert(runningTeam);
 			}
 		} catch (DAOException e) {
@@ -54,7 +54,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
-				LOG.info("update : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+				LOG.info("update : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 				runningTeamDAO.update(runningTeam);
 			}
 		} catch (DAOException e) {
@@ -77,7 +77,7 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
-				LOG.info("delete : projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+				LOG.info("delete : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 				runningTeamDAO.delete(runningTeam);
 			}
 		} catch (DAOException e) {

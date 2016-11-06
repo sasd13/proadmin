@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.activities.SettingsActivity;
 
 import java.util.ArrayList;
@@ -40,6 +41,13 @@ public class Browser {
                     ContextCompat.getDrawable(context, R.drawable.ic_project_small),
                     ContextCompat.getColor(context, R.color.orange),
                     ProjectsActivity.class
+            ));
+
+            items.add(new BrowserItemModel(
+                    context.getResources().getString(R.string.activity_runnings),
+                    ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
+                    ContextCompat.getColor(context, R.color.red),
+                    RunningsActivity.class
             ));
         }
 

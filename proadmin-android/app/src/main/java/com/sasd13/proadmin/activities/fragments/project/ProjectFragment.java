@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.sasd13.androidex.gui.widget.pager.IPagerFragmentFactory;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
@@ -18,9 +17,9 @@ import com.sasd13.proadmin.bean.project.Project;
 
 public class ProjectFragment extends Fragment {
 
-    private Project project;
     private ProjectsActivity parentActivity;
-    private IPagerFragmentFactory pagerFragmentFactory;
+
+    private Project project;
 
     public static ProjectFragment newInstance(Project project) {
         ProjectFragment projectFragment = new ProjectFragment();
@@ -34,7 +33,6 @@ public class ProjectFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         parentActivity = (ProjectsActivity) getActivity();
-        pagerFragmentFactory = new ProjectPagerFragmentFactory(project);
     }
 
     @Override
@@ -50,12 +48,12 @@ public class ProjectFragment extends Fragment {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildViewPager(view);
+        buildPager(view);
     }
 
-    private void buildViewPager(View view) {
+    private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.project_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), pagerFragmentFactory);
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ProjectPagerFragmentFactory(project));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.project_tabstrip);
 
         tabsStrip.setViewPager(viewPager);

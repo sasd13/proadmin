@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.pattern.builder.project;
+package com.sasd13.proadmin.util.builder.project;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
 import com.sasd13.proadmin.bean.project.Project;

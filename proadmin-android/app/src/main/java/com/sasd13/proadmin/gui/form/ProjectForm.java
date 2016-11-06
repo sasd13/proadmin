@@ -1,7 +1,8 @@
-package com.sasd13.proadmin.form;
+package com.sasd13.proadmin.gui.form;
 
 import android.content.Context;
 
+import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;

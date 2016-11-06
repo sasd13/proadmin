@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.service.running;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.rest.CreateTask;
 import com.sasd13.androidex.ws.rest.DeleteTask;
@@ -7,8 +8,7 @@ import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.form.FormException;
-import com.sasd13.proadmin.form.RunningForm;
+import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -30,11 +30,11 @@ public class RunningManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createRunning(RunningForm runningForm, String projectCode, String teacherNumber) {
+    public void createRunning(RunningForm runningForm, String teacherNumber) {
         taskType = TASKTYPE_CREATE;
 
         try {
-            running = getRunningToCreate(runningForm, projectCode, teacherNumber);
+            running = getRunningToCreate(runningForm, teacherNumber);
             createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
             createTask.execute(running);
@@ -43,8 +43,8 @@ public class RunningManageService implements IHttpCallback {
         }
     }
 
-    private Running getRunningToCreate(RunningForm runningForm, String projectCode, String teacherNumber) throws FormException {
-        Running runningToCreate = new RunningBaseBuilder(runningForm.getYear(), projectCode, teacherNumber).build();
+    private Running getRunningToCreate(RunningForm runningForm, String teacherNumber) throws FormException {
+        Running runningToCreate = new RunningBaseBuilder(runningForm.getYear(), runningForm.getProject().getCode(), teacherNumber).build();
 
         return runningToCreate;
     }
@@ -68,16 +68,20 @@ public class RunningManageService implements IHttpCallback {
         return runningToUpdate;
     }
 
-    public void deleteRunning(int year, String projectCode, String teacherNumber) {
-        taskType = TASKTYPE_DELETE;
-        running = getRunningToDelete(year, projectCode, teacherNumber);
-        deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
+    public void deleteRunning(RunningForm runningForm, String teacherNumber) {
+        try {
+            taskType = TASKTYPE_DELETE;
+            running = getRunningToDelete(runningForm, teacherNumber);
+            deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 
-        deleteTask.execute(running);
+            deleteTask.execute(running);
+        } catch (FormException e) {
+            serviceCaller.onError(e.getResMessage());
+        }
     }
 
-    private Running getRunningToDelete(int year, String projectCode, String teacherNumber) {
-        Running runningToDelete = new RunningBaseBuilder(year, projectCode, teacherNumber).build();
+    private Running getRunningToDelete(RunningForm runningForm, String teacherNumber) throws FormException {
+        Running runningToDelete = new RunningBaseBuilder(runningForm.getYear(), runningForm.getProject().getCode(), teacherNumber).build();
 
         return runningToDelete;
     }

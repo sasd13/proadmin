@@ -31,8 +31,8 @@ CREATE TABLE studentteams (
 	student_code VARCHAR(50) NOT NULL,
 	team_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (student_code, team_code),
-	FOREIGN KEY (student_code) REFERENCES students (code),
-	FOREIGN KEY (team_code) REFERENCES teams (code)
+	FOREIGN KEY (student_code) REFERENCES students (code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (team_code) REFERENCES teams (code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE runnings (
@@ -40,8 +40,8 @@ CREATE TABLE runnings (
 	project_code VARCHAR(50) NOT NULL,
 	teacher_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (year, project_code, teacher_code),
-	FOREIGN KEY (project_code) REFERENCES projects (code),
-	FOREIGN KEY (teacher_code) REFERENCES teachers (code)
+	FOREIGN KEY (project_code) REFERENCES projects (code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (teacher_code) REFERENCES teachers (code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE academiclevels (
@@ -56,11 +56,11 @@ CREATE TABLE runningteams (
 	team_code VARCHAR(50) NOT NULL,
 	academiclevel_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (running_year, running_project_code, running_teacher_code, team_code, academiclevel_code),
-	FOREIGN KEY (running_year) REFERENCES runnings (year),
-	FOREIGN KEY (running_project_code) REFERENCES runnings (project_code),
-	FOREIGN KEY (running_teacher_code) REFERENCES runnings (teacher_code),
-	FOREIGN KEY (team_code) REFERENCES teams (code),
-	FOREIGN KEY (academiclevel_code) REFERENCES academiclevels (code)
+	FOREIGN KEY (running_year) REFERENCES runnings (year) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (running_project_code) REFERENCES runnings (project_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (running_teacher_code) REFERENCES runnings (teacher_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (team_code) REFERENCES teams (code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (academiclevel_code) REFERENCES academiclevels (code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE reports (
@@ -74,11 +74,11 @@ CREATE TABLE reports (
 	runningteam_team_code VARCHAR(50) NOT NULL,
 	runningteam_academiclevel_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (code),
-	FOREIGN KEY (runningteam_running_year) REFERENCES runningteams (running_year),
-	FOREIGN KEY (runningteam_running_project_code) REFERENCES runningteams (running_project_code),
-	FOREIGN KEY (runningteam_running_teacher_code) REFERENCES runningteams (running_teacher_code),
-	FOREIGN KEY (runningteam_team_code) REFERENCES runningteams (team_code),
-	FOREIGN KEY (runningteam_academiclevel_code) REFERENCES runningteams (academiclevel_code)
+	FOREIGN KEY (runningteam_running_year) REFERENCES runningteams (running_year) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (runningteam_running_project_code) REFERENCES runningteams (running_project_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (runningteam_running_teacher_code) REFERENCES runningteams (running_teacher_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (runningteam_team_code) REFERENCES runningteams (team_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (runningteam_academiclevel_code) REFERENCES runningteams (academiclevel_code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE leadevaluations (
@@ -89,8 +89,8 @@ CREATE TABLE leadevaluations (
 	report_code VARCHAR(50) NOT NULL,
 	student_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (report_code, student_code),
-	FOREIGN KEY (report_code) REFERENCES reports (code),
-	FOREIGN KEY (student_code) REFERENCES students (code)
+	FOREIGN KEY (report_code) REFERENCES reports (code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (student_code) REFERENCES students (code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE individualevaluations (
@@ -98,8 +98,8 @@ CREATE TABLE individualevaluations (
 	report_code VARCHAR(50) NOT NULL,
 	student_code VARCHAR(50) NOT NULL,
 	PRIMARY KEY (report_code, student_code),
-	FOREIGN KEY (report_code) REFERENCES reports (code),
-	FOREIGN KEY (student_code) REFERENCES students (code)
+	FOREIGN KEY (report_code) REFERENCES reports (code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (student_code) REFERENCES students (code) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 COMMIT;
