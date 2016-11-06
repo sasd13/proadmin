@@ -14,5 +14,5 @@ public interface Names {
 	String AAA_TRANSLATION_LANGUAGE_DEFAULT = "aaa_translation_language_default";
 	String AAA_REQUEST_LOGIN_PARAMETER_USERNAME = "aaa_request_login_parameter_username";
 	String AAA_REQUEST_LOGIN_PARAMETER_PASSWORD = "aaa_request_login_parameter_password";
-	String AAA_RESPONSE_CONTENT_TYPE = "aaa_response_content_type";
+	String AAA_RESPONSE_HEADER_CONTENT_TYPE = "ws_response_header_content_type";
 }

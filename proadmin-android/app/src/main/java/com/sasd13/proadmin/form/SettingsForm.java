@@ -48,52 +48,33 @@ public class SettingsForm extends Form {
         holder.add(title, new RecyclerHolderPair(modelEmail));
     }
 
-    public void bindTeacher(Teacher teacher) {
+    public void bind(Teacher teacher) {
         modelNumber.setValue(teacher.getNumber());
         modelFirstName.setValue(teacher.getFirstName());
         modelLastName.setValue(teacher.getLastName());
         modelEmail.setValue(teacher.getEmail());
     }
 
-    public Teacher getEditable() throws FormException {
-        validForm();
-
-        Teacher teacher = new Teacher();
-
-        teacher.setNumber(modelNumber.getValue());
-        teacher.setFirstName(modelFirstName.getValue());
-        teacher.setLastName(modelLastName.getValue());
-        teacher.setEmail(modelEmail.getValue());
-
-        return teacher;
-    }
-
-    private void validForm() throws FormException {
-        validFirstName();
-        validLastName();
-        validEmail();
-    }
-
-    private void validFirstName() throws FormException {
+    public String getFirstName() throws FormException {
         if (StringUtils.isBlank(modelFirstName.getValue())) {
             throw new FormException(context, R.string.form_settings_message_error_firstname);
         }
+
+        return modelFirstName.getValue().trim();
     }
 
-    private void validLastName() throws FormException {
+    public String getLastName() throws FormException {
         if (StringUtils.isBlank(modelLastName.getValue())) {
             throw new FormException(context, R.string.form_settings_message_error_lastname);
         }
-    }
 
-    private void validEmail() throws FormException {
-        if (StringUtils.isBlank(modelEmail.getValue())) {
-            throw new FormException(context, R.string.form_settings_message_error_email);
-        }
+        return modelLastName.getValue().trim();
     }
 
     public String getEmail() throws FormException {
-        validEmail();
+        if (StringUtils.isBlank(modelEmail.getValue())) {
+            throw new FormException(context, R.string.form_settings_message_error_email);
+        }
 
         return modelEmail.getValue().trim();
     }

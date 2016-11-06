@@ -15,9 +15,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 
 /**
  *
@@ -116,16 +115,10 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_PROJECT_CODE));
-
-		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_TEACHER_CODE));
-
-		Running running = new Running();
-		running.setProject(project);
-		running.setTeacher(teacher);
-		running.setYear(resultSet.getInt(COLUMN_YEAR));
+		Running running = new RunningBaseBuilder(
+				resultSet.getInt(COLUMN_YEAR), 
+				resultSet.getString(COLUMN_PROJECT_CODE), 
+				resultSet.getString(COLUMN_TEACHER_CODE)).build();
 
 		return running;
 	}

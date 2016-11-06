@@ -21,12 +21,12 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
+import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
-import com.sasd13.proadmin.service.IReadServiceCaller;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
@@ -34,7 +34,7 @@ import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningsFragment extends Fragment implements IReadServiceCaller<Running> {
+public class RunningsFragment extends Fragment implements IReadServiceCaller<List<Running>> {
 
     private RunningsActivity parentActivity;
     private RunningReadService runningReadService;

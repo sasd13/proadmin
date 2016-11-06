@@ -18,18 +18,6 @@
 
     <!-- Activity Projects -->
     <string name="projects_textview_projects">Projects</string>
-    <string name="academiclevel_l1">Bachelor 1</string>
-    <string name="academiclevel_l2">Bachelor 2</string>
-    <string name="academiclevel_l3">Bachelor 3</string>
-    <string name="academiclevel_l4">Master 1</string>
-    <string name="academiclevel_l5">Master 2</string>
-    <string-array name="academiclevels">
-        <item>@string/academiclevel_l1</item>
-        <item>@string/academiclevel_l2</item>
-        <item>@string/academiclevel_l3</item>
-        <item>@string/academiclevel_l4</item>
-        <item>@string/academiclevel_l5</item>
-    </string-array>
 
     <!-- Application -->
     <string name="app_name">Proadmin</string>
@@ -43,7 +31,7 @@
     <string name="form_settings_message_error_firstname">Invalid first name</string>
     <string name="form_settings_message_error_lastname">Invalid last name</string>
     <string name="form_settings_message_error_email">Invalid email</string>
-    <string name="form_runnings_message_error_project">Invalid project</string>
+    <string name="form_runnings_message_error_year">Invalid year</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>

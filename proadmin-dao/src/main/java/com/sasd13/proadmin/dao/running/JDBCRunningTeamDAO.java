@@ -15,12 +15,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
 
 /**
  *
@@ -115,27 +111,12 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_RUNNING_PROJECT_CODE));
-
-		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_RUNNING_TEACHER_CODE));
-
-		Running running = new Running();
-		running.setYear(resultSet.getInt(COLUMN_RUNNING_YEAR));
-		running.setProject(project);
-		running.setTeacher(teacher);
-
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
-
-		AcademicLevel academicLevel = new AcademicLevel();
-		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL_CODE));
-
-		RunningTeam runningTeam = new RunningTeam();
-		runningTeam.setRunning(running);
-		runningTeam.setTeam(team);
-		runningTeam.setAcademicLevel(new AcademicLevel());
+		RunningTeam runningTeam = new RunningTeamBaseBuilder(
+				resultSet.getInt(COLUMN_RUNNING_YEAR), 
+				resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), 
+				resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), 
+				resultSet.getString(COLUMN_TEAM_CODE), 
+				resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)).build();
 
 		return runningTeam;
 	}

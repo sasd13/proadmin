@@ -15,9 +15,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 
 /**
  *
@@ -125,15 +124,10 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+		LeadEvaluation leadEvaluation = new LeadEvaluationBaseBuilder(
+				resultSet.getString(COLUMN_REPORT_CODE), 
+				resultSet.getString(COLUMN_STUDENT_CODE)).build();
 
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
-
-		LeadEvaluation leadEvaluation = new LeadEvaluation();
-		leadEvaluation.setReport(report);
-		leadEvaluation.setStudent(student);
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));

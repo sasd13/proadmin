@@ -12,7 +12,7 @@ import com.sasd13.proadmin.bean.project.Project;
  */
 public class ProjectForm extends Form {
 
-    private TextItemModel modelTitle, modelAcademicLevel, modelCode, modelDescription;
+    private TextItemModel modelTitle, modelCode, modelDescription;
 
     public ProjectForm(Context context) {
         super(context);
@@ -35,7 +35,6 @@ public class ProjectForm extends Form {
 
     public void bind(Project project) {
         modelTitle.setValue(project.getTitle());
-
         modelCode.setValue(project.getCode());
         modelDescription.setValue(project.getDescription());
     }

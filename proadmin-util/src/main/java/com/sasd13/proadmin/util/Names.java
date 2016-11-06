@@ -12,5 +12,5 @@ public interface Names {
 	String WS_TRANSLATION_DIRECTORY_PATH = "ws_translation_directory_path";
 	String WS_TRANSLATION_FILE_PREFIX = "ws_translation_file_prefix";
 	String WS_TRANSLATION_DEFAULT_LANGUAGE = "ws_translation_language_default";
-	String WS_RESPONSE_CONTENT_TYPE = "ws_response_content_type";
+	String WS_RESPONSE_HEADER_CONTENT_TYPE = "ws_response_header_content_type";
 }

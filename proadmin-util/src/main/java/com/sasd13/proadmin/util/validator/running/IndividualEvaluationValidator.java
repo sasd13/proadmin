@@ -15,11 +15,11 @@ public class IndividualEvaluationValidator implements IValidator<IndividualEvalu
 		}
 
 		if (individualEvaluation.getReport() == null || StringUtils.isBlank(individualEvaluation.getReport().getNumber())) {
-			throw new ValidatorException("IndividualEvaluation : report is not valid");
+			throw new ValidatorException("IndividualEvaluation : report number is not valid");
 		}
 
 		if (individualEvaluation.getStudent() == null || StringUtils.isBlank(individualEvaluation.getStudent().getNumber())) {
-			throw new ValidatorException("IndividualEvaluation : student is not valid");
+			throw new ValidatorException("IndividualEvaluation : student number is not valid");
 		}
 	}
 }

@@ -17,13 +17,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
 
 /**
  *
@@ -166,31 +161,14 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE));
+		Report report = new ReportBaseBuilder(
+				resultSet.getString(COLUMN_CODE), 
+				resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR), 
+				resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE), 
+				resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE), 
+				resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE), 
+				resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE)).build();
 
-		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE));
-
-		Running running = new Running();
-		running.setYear(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR));
-		running.setProject(project);
-		running.setTeacher(teacher);
-
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE));
-
-		AcademicLevel academicLevel = new AcademicLevel();
-		academicLevel.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE));
-
-		RunningTeam runningTeam = new RunningTeam();
-		runningTeam.setRunning(running);
-		runningTeam.setTeam(team);
-		runningTeam.setAcademicLevel(academicLevel);
-
-		Report report = new Report();
-		report.setRunningTeam(runningTeam);
-		report.setNumber(resultSet.getString(COLUMN_CODE));
 		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));

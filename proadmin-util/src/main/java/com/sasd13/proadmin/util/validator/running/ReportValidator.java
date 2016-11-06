@@ -27,7 +27,7 @@ public class ReportValidator implements IValidator<Report> {
 		}
 
 		if (runningTeam.getAcademicLevel() == null || StringUtils.isBlank(runningTeam.getAcademicLevel().getCode())) {
-			throw new ValidatorException("Report : runningTeam -> academicLevel is not valid");
+			throw new ValidatorException("Report : runningTeam -> academicLevel code is not valid");
 		}
 
 		Running running = runningTeam.getRunning();
@@ -37,11 +37,11 @@ public class ReportValidator implements IValidator<Report> {
 		}
 
 		if (running.getProject() == null || StringUtils.isBlank(running.getProject().getCode())) {
-			throw new ValidatorException("Report : runningTeam -> running -> project is not valid");
+			throw new ValidatorException("Report : runningTeam -> running -> project code is not valid");
 		}
 
 		if (running.getTeacher() == null || StringUtils.isBlank(running.getTeacher().getNumber())) {
-			throw new ValidatorException("Report : runningTeam -> running -> teacher is not valid");
+			throw new ValidatorException("Report : runningTeam -> running -> teacher number is not valid");
 		}
 
 		if (report.getDateMeeting() == null) {

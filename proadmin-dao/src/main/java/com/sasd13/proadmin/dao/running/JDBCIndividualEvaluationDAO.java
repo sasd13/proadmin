@@ -15,9 +15,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
 
 /**
  *
@@ -116,15 +115,10 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+		IndividualEvaluation individualEvaluation = new IndividualEvaluationBaseBuilder(
+				resultSet.getString(COLUMN_REPORT_CODE), 
+				resultSet.getString(COLUMN_STUDENT_CODE)).build();
 
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
-
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
-		individualEvaluation.setReport(report);
-		individualEvaluation.setStudent(student);
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 
 		// TODO : dependency binder

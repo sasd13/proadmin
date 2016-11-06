@@ -14,18 +14,20 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
+import com.sasd13.androidex.ws.IManageServiceCaller;
+import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.SettingsForm;
-import com.sasd13.proadmin.service.IManageServiceCaller;
-import com.sasd13.proadmin.service.IReadServiceCaller;
+import com.sasd13.proadmin.service.member.TeacherManageService;
 import com.sasd13.proadmin.service.member.TeacherReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class SettingsActivity extends MotherActivity implements IReadServiceCaller<Teacher>, IManageServiceCaller<Teacher> {
 
     private TeacherReadService teacherReadService;
+    private TeacherManageService teacherManageService;
     private SettingsForm settingsForm;
     private SwipeRefreshLayout swipeRefreshLayout;
     private View contentView;
@@ -38,6 +40,7 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
         setContentView(R.layout.activity_settings);
 
         teacherReadService = new TeacherReadService(this);
+        teacherManageService = new TeacherManageService(this);
         contentView = findViewById(android.R.id.content);
 
         buildView();
@@ -84,7 +87,7 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_accept:
-                teacherReadService.updateTeacher(teacher, settingsForm);
+                teacherManageService.updateTeacher(settingsForm, teacher.getNumber());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -104,7 +107,7 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
 
         this.teacher = teacher;
 
-        settingsForm.bindTeacher(teacher);
+        settingsForm.bind(teacher);
     }
 
     @Override

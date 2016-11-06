@@ -16,6 +16,7 @@ import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.util.builder.member.StudentBaseBuilder;
 
 /**
  *
@@ -113,8 +114,8 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 
 	@Override
 	public Student getResultSetValues(ResultSet resultSet) throws SQLException {
-		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_CODE));
+		Student student = new StudentBaseBuilder(resultSet.getString(COLUMN_CODE)).build();
+
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));

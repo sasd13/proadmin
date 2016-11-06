@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.pattern.builder.project;
 
+import com.sasd13.javaex.pattern.builder.IBuilder;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.pattern.builder.IBuilder;
 
 import org.joda.time.DateTime;
 

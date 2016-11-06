@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.activities.fragments.running;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
@@ -24,23 +22,25 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.form.RunningForm;
+import com.sasd13.proadmin.pattern.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.service.running.RunningManageService;
+import com.sasd13.proadmin.util.SessionHelper;
 
-public class RunningFragment extends Fragment implements IManageServiceCaller<Running> {
+public class RunningNewFragment extends Fragment implements IManageServiceCaller<Running> {
 
-    private Running running;
-    private boolean inModeEdit;
+    private Project project;
     private RunningsActivity parentActivity;
     private RunningManageService runningManageService;
     private RunningForm runningForm;
     private WaitDialog waitDialog;
 
-    public static RunningFragment newInstance(Running running, boolean inModeEdit) {
-        RunningFragment runningFragment = new RunningFragment();
-        runningFragment.running = running;
-        runningFragment.inModeEdit = inModeEdit;
+    public static RunningNewFragment newInstance(Project project) {
+        RunningNewFragment runningFragment = new RunningNewFragment();
+        runningFragment.project = project;
 
         return runningFragment;
     }
@@ -53,6 +53,7 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
 
         parentActivity = (RunningsActivity) getActivity();
         runningManageService = new RunningManageService(this);
+        runningForm = new RunningForm(getContext());
     }
 
     @Override
@@ -69,12 +70,7 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-
-        if (!inModeEdit) {
-            setDefaultRunning();
-        }
-
-        refreshView();
+        setDefaultRunning();
     }
 
     private void buildFormRunning(View view) {
@@ -84,18 +80,8 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
         RecyclerHelper.addAll(form, runningForm.getHolder());
     }
 
-    private void createFormRunning() {
-        //RunningsSorter.byYear(runnings);
-
-        //runningForm = new RunningForm(getContext(), runnings);
-    }
-
-    private void refreshView() {
-        runningForm.bind(running);
-    }
-
     private void setDefaultRunning() {
-        //running = runningManageService.getDefaultValueOfRunning(running);
+        runningForm.bind(new DefaultRunningBuilder(project).build());
     }
 
     @Override
@@ -103,7 +89,6 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_running));
-        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_teams));
     }
 
     @Override
@@ -117,19 +102,14 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        if (!inModeEdit) {
-            menu.findItem(R.id.menu_running_action_delete).setVisible(false);
-        }
+        menu.findItem(R.id.menu_running_action_delete).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_running_action_save:
-                saveOperation();
-                break;
-            case R.id.menu_running_action_delete:
-                deleteOperation();
+                createRunning();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -138,26 +118,8 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
         return true;
     }
 
-    public void saveOperation() {
-        if (inModeEdit) {
-            //runningManageService.updateRunning(runningForm, );
-        } else {
-            //runningManageService.createRunning(runningForm, running);
-        }
-    }
-
-    public void deleteOperation() {
-        OptionDialog.showYesNoDialog(
-                getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //runningManageService.deleteRunning(running);
-                    }
-                }
-        );
+    public void createRunning() {
+        runningManageService.createRunning(runningForm, project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     public void onLoad() {
@@ -174,15 +136,12 @@ public class RunningFragment extends Fragment implements IManageServiceCaller<Ru
 
     @Override
     public void onUpdateSucceeded(Running running) {
-        waitDialog.dismiss();
-        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onDeleteSucceeded() {
-        waitDialog.dismiss();
-        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listRunnings();
+
     }
 
     @Override

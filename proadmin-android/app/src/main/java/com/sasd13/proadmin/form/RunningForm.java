@@ -3,64 +3,43 @@ package com.sasd13.proadmin.form;
 import android.content.Context;
 
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.pattern.builder.project.ProjectsCodesBuilder;
 
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by ssaidali2 on 26/07/2016.
  */
 public class RunningForm extends Form {
 
-    private TextItemModel modelYear;
-    private SpinRadioItemModel modelProject;
-    private List<Project> projects;
-    private List<String> projectsCodes;
+    private TextItemModel modelYear, modelProject;
 
-    public RunningForm(Context context, List<Project> projects) {
+    public RunningForm(Context context) {
         super(context);
-
-        this.projects = projects;
-        projectsCodes = new ProjectsCodesBuilder(projects).build();
 
         modelYear = new TextItemModel();
         modelYear.setReadOnly(true);
         modelYear.setLabel(context.getResources().getString(R.string.label_year));
         holder.add(new RecyclerHolderPair(modelYear));
 
-        modelProject = new SpinRadioItemModel();
+        modelProject = new TextItemModel();
+        modelProject.setReadOnly(true);
         modelProject.setLabel(context.getResources().getString(R.string.label_project));
-        modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
         holder.add(new RecyclerHolderPair(modelProject));
     }
 
     public void bind(Running running) {
         modelYear.setValue(String.valueOf(running.getYear()));
-        modelProject.setValue(projectsCodes.indexOf(running.getProject().getCode()));
+        modelProject.setValue(running.getProject().getCode());
     }
 
-    public Running getEditable() throws FormException {
-        validForm();
-
-        Running running = new Running();
-        running.setProject(projects.get(modelProject.getValue()));
-        running.setYear(Integer.parseInt(modelYear.getValue()));
-
-        return running;
-    }
-
-    private void validForm() throws FormException {
-        validProject();
-    }
-
-    private void validProject() throws FormException {
-        if (modelProject.getValue() <= 0) {
-            throw new FormException(context, R.string.form_runnings_message_error_project);
+    public int getYear() throws FormException {
+        if (!StringUtils.isNumeric(modelYear.getValue())) {
+            throw new FormException(context, R.string.form_runnings_message_error_year);
         }
+
+        return Integer.parseInt(modelYear.getValue());
     }
 }

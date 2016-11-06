@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.ws.ILoginServiceCaller;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.service.ILoginServiceCaller;
 import com.sasd13.proadmin.service.member.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 

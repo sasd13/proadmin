@@ -1,5 +1,7 @@
 package com.sasd13.proadmin.pattern.adapter;
 
+import com.sasd13.javaex.pattern.adapter.IAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +20,10 @@ public class IntegersToStringsAdapter implements IAdapter<List<Integer>, List<St
         }
 
         return results;
+    }
+
+    @Override
+    public void adapt(List<Integer> integers, List<String> strings) {
+
     }
 }

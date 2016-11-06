@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.servlet.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +34,7 @@ import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
+import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
 
@@ -45,7 +47,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private static final long serialVersionUID = 1073440009453108500L;
 
 	private static final Logger LOG = Logger.getLogger(BeansServlet.class);
-	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_CONTENT_TYPE);
+	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
 	private IValidator<T> validator;
@@ -98,12 +100,22 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOG.info("doGet");
 
+		List<T> results = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
-		URLQueryUtils.decode(parameters);
-
 		try {
-			List<T> results = !parameters.isEmpty() ? readService.read(parameters) : readService.readAll();
+			if (parameters.isEmpty()) {
+				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) 
+						? readService.deepReadAll() 
+						: readService.readAll();
+			} else {
+				URLQueryUtils.decode(parameters);
+
+				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) 
+						? readService.deepRead(parameters) 
+						: readService.read(parameters);
+			}
+
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
 
 			writeToResponse(resp, message);
