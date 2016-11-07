@@ -6,10 +6,8 @@
     <string name="activity_login">Connexion</string>
     <string name="activity_home">Accueil</string>
     <string name="activity_projects">Projets</string>
-    <string name="activity_project">Projet</string>
     <string name="activity_runnings">Gestions</string>
-    <string name="activity_running">Gestion</string>
-    <string name="activity_team">Groupe</string>
+    <string name="activity_teams">Groupes</string>
     <string name="activity_settings">Paramètres</string>
 
     <!-- Activity Log In -->
@@ -46,12 +44,14 @@
     <string name="label_academiclevel">Niveau académique</string>
     <string name="label_code">Code</string>
     <string name="label_description">Description</string>
-    <string name="title_identity">Identité</string>
     <string name="label_project">Projet</string>
-    <string name="title_runnings">Gestions</string>
-    <string name="title_teams">Groupes</string>
     <string name="label_team">Groupe</string>
     <string name="label_year">Année</string>
+    <string name="title_identity">Identité</string>
+    <string name="title_project">Projet</string>
+    <string name="title_runnings">Gestions</string>
+    <string name="title_running">Gestion</string>
+    <string name="title_teams">Groupes</string>
 
     <!-- Web service -->
     <string name="error_unknown">Erreur inconnue</string>

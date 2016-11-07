@@ -39,7 +39,7 @@ public class RunningEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_running_edit, container, false);
+        View view = inflater.inflate(R.layout.layout_vp_w_psts, container, false);
 
         buildView(view);
 
@@ -52,9 +52,9 @@ public class RunningEditFragment extends Fragment {
     }
 
     private void buildPager(View view) {
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.running_viewpager);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         Pager pager = new Pager(viewPager, getChildFragmentManager(), new RunningPagerFragmentFactory(running));
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.running_tabstrip);
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
         parentActivity.setPagerHandler(pager);
@@ -64,7 +64,7 @@ public class RunningEditFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_running));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
     }
 
     @Override

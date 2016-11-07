@@ -66,7 +66,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<List
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_list, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -76,12 +76,18 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<List
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
-        readRunningTeamsFromWS();
     }
 
     private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.list_recyclerview));
+        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        readRunningTeamsFromWS();
     }
 
     private void readRunningTeamsFromWS() {

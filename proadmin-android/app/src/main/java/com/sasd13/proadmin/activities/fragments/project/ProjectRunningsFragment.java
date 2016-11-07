@@ -67,7 +67,7 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_list_w_fab, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
 
@@ -78,22 +78,28 @@ public class ProjectRunningsFragment extends Fragment implements IReadServiceCal
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        readRunningsFromWS();
     }
 
     private void buildTabRunnings(View view) {
-        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.list_w_fab_recyclerview));
+        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.list_w_fab_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 parentActivity.newRunning(project);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        readRunningsFromWS();
     }
 
     private void readRunningsFromWS() {

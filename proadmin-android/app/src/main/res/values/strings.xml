@@ -6,10 +6,8 @@
     <string name="activity_login">Log in</string>
     <string name="activity_home">Home</string>
     <string name="activity_projects">Projects</string>
-    <string name="activity_project">Project</string>
     <string name="activity_runnings">Runnings</string>
-    <string name="activity_running">Running</string>
-    <string name="activity_team">Team</string>
+    <string name="activity_teams">Teams</string>
     <string name="activity_settings">Settings</string>
 
     <!-- Activity Log In -->
@@ -46,12 +44,14 @@
     <string name="label_academiclevel">Academic level</string>
     <string name="label_code">Code</string>
     <string name="label_description">Description</string>
-    <string name="title_identity">Identity</string>
     <string name="label_project">Project</string>
-    <string name="title_runnings">Runnings</string>
-    <string name="title_teams">Teams</string>
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
+    <string name="title_identity">Identity</string>
+    <string name="title_project">Project</string>
+    <string name="title_runnings">Runnings</string>
+    <string name="title_running">Running</string>
+    <string name="title_teams">Teams</string>
 
     <!-- Web service -->
     <string name="error_unknown">Unknown error</string>

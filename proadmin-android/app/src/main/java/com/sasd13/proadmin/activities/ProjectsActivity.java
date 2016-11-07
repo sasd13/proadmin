@@ -24,7 +24,7 @@ public class ProjectsActivity extends MotherActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_projects);
+        setContentView(R.layout.activity_container);
 
         buildView();
     }
@@ -37,14 +37,14 @@ public class ProjectsActivity extends MotherActivity {
     public void listProjects() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, ProjectsFragment.newInstance())
+                .replace(R.id.activity_container_fragment, ProjectsFragment.newInstance())
                 .commit();
     }
 
     public void showProject(Project project) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.projects_fragment, ProjectFragment.newInstance(project))
+                .replace(R.id.activity_container_fragment, ProjectFragment.newInstance(project))
                 .addToBackStack(null)
                 .commit();
     }

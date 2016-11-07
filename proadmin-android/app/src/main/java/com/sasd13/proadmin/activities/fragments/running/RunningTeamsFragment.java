@@ -3,6 +3,7 @@ package com.sasd13.proadmin.activities.fragments.running;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -66,7 +67,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_list, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
 
@@ -76,12 +77,28 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
-        readRunningTeamsFromWS();
     }
 
     private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.list_recyclerview));
+        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
+    }
+
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentActivity.newRunningTeam(running);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        readRunningTeamsFromWS();
     }
 
     private void readRunningTeamsFromWS() {

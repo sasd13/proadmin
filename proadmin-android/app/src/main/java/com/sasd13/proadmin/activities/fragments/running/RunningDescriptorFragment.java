@@ -66,7 +66,7 @@ public class RunningDescriptorFragment extends Fragment implements IReadServiceC
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_descriptor, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -76,16 +76,22 @@ public class RunningDescriptorFragment extends Fragment implements IReadServiceC
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-        readProjectsFromWS();
     }
 
     private void buildFormRunning(View view) {
         runningForm = new RunningForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.descriptor_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningForm.getHolder());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        readProjectsFromWS();
     }
 
     private void readProjectsFromWS() {
@@ -93,26 +99,19 @@ public class RunningDescriptorFragment extends Fragment implements IReadServiceC
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_running));
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_running, menu);
+        inflater.inflate(R.menu.menu_edit, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_running_action_save:
+            case R.id.menu_edit_action_save:
                 updateRunning();
                 break;
-            case R.id.menu_running_action_delete:
+            case R.id.menu_edit_action_delete:
                 deleteRunning();
                 break;
             default:

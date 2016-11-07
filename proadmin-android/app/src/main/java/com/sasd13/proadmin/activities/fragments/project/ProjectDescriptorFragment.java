@@ -34,7 +34,7 @@ public class ProjectDescriptorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_descriptor, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -50,7 +50,7 @@ public class ProjectDescriptorFragment extends Fragment {
     private void buildFormProject(View view) {
         projectForm = new ProjectForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.descriptor_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, projectForm.getHolder());

@@ -75,7 +75,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_projects, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl, container, false);
 
         buildView(view);
 
@@ -86,11 +86,10 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabProjects(view);
-        readProjectsFromWS();
     }
 
     private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.projects_swiperefreshlayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -104,7 +103,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
     }
 
     private void buildTabProjects(View view) {
-        projectsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.projects_recyclerview));
+        projectsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         projectsTab.addDividerItemDecoration();
     }
 
@@ -113,6 +112,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_projects));
+        readProjectsFromWS();
     }
 
     @Override
@@ -149,7 +149,6 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
     @Override
     public void onReadSucceeded(List<Project> projectsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-
         bindYears(projectsFromWS);
         bindProjects(projectsFromWS);
     }
@@ -160,7 +159,6 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
         IntegersSorter.byDesc(yearsToSpin);
         years.clear();
         years.addAll(yearsToSpin);
-
         fillSpinYears();
     }
 
@@ -173,7 +171,6 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
     private void bindProjects(List<Project> projectsFromWS) {
         projects.clear();
         projects.addAll(projectsFromWS);
-
         fillTabProjectsByYearCreated();
     }
 

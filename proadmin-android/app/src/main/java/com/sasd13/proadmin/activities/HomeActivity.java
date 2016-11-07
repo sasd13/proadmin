@@ -3,7 +3,6 @@ package com.sasd13.proadmin.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +16,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends MotherActivity {
 
     private ImageView imageViewProject, imageViewTeam, imageViewReport, imageViewCalendar;
 

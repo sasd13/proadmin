@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.activities;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 
 import com.sasd13.androidex.DrawerActivity;
 import com.sasd13.androidex.gui.IAction;
@@ -30,7 +29,7 @@ public abstract class MotherActivity extends DrawerActivity {
     }
 
     private void addBrowserItems(RecyclerHolder recyclerHolder) {
-        List<BrowserItemModel> browserItemModels = Browser.getInstance().getItems(this);
+        List<BrowserItemModel> browserItemModels = Browser.getInstance().getNavItems(this);
         List<RecyclerHolderPair> pairs = new ArrayList<>();
         RecyclerHolderPair pair;
 
@@ -52,22 +51,34 @@ public abstract class MotherActivity extends DrawerActivity {
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {
-        BrowserItemModel browserItemModel = new BrowserItemModel(
-                getResources().getString(R.string.drawer_label_logout),
-                ContextCompat.getDrawable(this, R.drawable.ic_exit_to_app_black_24dp),
-                ContextCompat.getColor(this, R.color.greyBackground),
-                HomeActivity.class
-        );
-        browserItemModel.setItemType(EnumDrawerItemType.NAV);
+        List<BrowserItemModel> browserItemModels = Browser.getInstance().getAccountItems(this);
+        List<RecyclerHolderPair> pairs = new ArrayList<>();
+        RecyclerHolderPair pair;
 
-        RecyclerHolderPair pair = new RecyclerHolderPair(browserItemModel);
-        pair.addController(EnumActionEvent.CLICK, new IAction() {
-            @Override
-            public void execute() {
-                SessionHelper.logOut(MotherActivity.this);
+        for (final BrowserItemModel browserItemModel : browserItemModels) {
+            browserItemModel.setItemType(EnumDrawerItemType.NAV);
+
+            pair = new RecyclerHolderPair(browserItemModel);
+
+            if (browserItemModel.getLabel().equalsIgnoreCase(getResources().getString(R.string.activity_settings))) {
+                pair.addController(EnumActionEvent.CLICK, new IAction() {
+                    @Override
+                    public void execute() {
+                        startActivity(new Intent(MotherActivity.this, browserItemModel.getTarget()));
+                    }
+                });
+            } else {
+                pair.addController(EnumActionEvent.CLICK, new IAction() {
+                    @Override
+                    public void execute() {
+                        SessionHelper.logOut(MotherActivity.this);
+                    }
+                });
             }
-        });
 
-        recyclerHolder.add(getResources().getString(R.string.drawer_header_account), pair);
+            pairs.add(pair);
+        }
+
+        recyclerHolder.addAll(getResources().getString(R.string.drawer_header_account), pairs);
     }
 }

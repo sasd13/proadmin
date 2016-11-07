@@ -24,7 +24,7 @@ public class ReportsActivity extends MotherActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_team);
+        setContentView(R.layout.activity_container);
         createTeamViewHolder();
     }
 
@@ -55,7 +55,7 @@ public class ReportsActivity extends MotherActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_team, menu);
+        inflater.inflate(R.menu.menu_edit, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -63,7 +63,7 @@ public class ReportsActivity extends MotherActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_team_action_accept:
+            case R.id.menu_edit_action_save:
                 if (isInExtraModeEdit()) {
                     updateTeam();
                 } else {

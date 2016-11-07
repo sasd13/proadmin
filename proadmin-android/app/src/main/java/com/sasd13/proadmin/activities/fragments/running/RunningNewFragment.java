@@ -73,7 +73,7 @@ public class RunningNewFragment extends Fragment implements IReadServiceCaller<L
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_running_new, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -83,13 +83,12 @@ public class RunningNewFragment extends Fragment implements IReadServiceCaller<L
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-        readProjectsFromWS();
     }
 
     private void buildFormRunning(View view) {
         runningForm = new RunningForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.running_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningForm.getHolder());
@@ -103,27 +102,28 @@ public class RunningNewFragment extends Fragment implements IReadServiceCaller<L
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_running));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        readProjectsFromWS();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_running, menu);
+        inflater.inflate(R.menu.menu_edit, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.findItem(R.id.menu_running_action_delete).setVisible(false);
+        menu.findItem(R.id.menu_edit_action_delete).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_running_action_save:
+            case R.id.menu_edit_action_save:
                 createRunning();
                 break;
             default:

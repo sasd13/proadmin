@@ -57,7 +57,7 @@
                 android:hint="@string/login_hint_number"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textSize="@dimen/text_size_medium" />
 
             <EditText
@@ -68,7 +68,7 @@
                 android:hint="@string/edittext_hint_password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textSize="@dimen/text_size_medium" />
 
             <Button

@@ -7,18 +7,15 @@ import android.support.v4.app.Fragment;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.fragments.running.RunningEditFragment;
-import com.sasd13.proadmin.activities.fragments.running.RunningNewFragment;
-import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
+import com.sasd13.proadmin.activities.fragments.team.TeamsFragment;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
 import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
-import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 
-public class RunningsActivity extends MotherActivity {
+public class TeamsActivity extends MotherActivity {
 
     private IPagerHandler pagerHandler;
 
@@ -42,20 +39,20 @@ public class RunningsActivity extends MotherActivity {
 
     private void showFragment() {
         if (!getIntent().hasExtra(Extra.MODE)) {
-            listRunnings();
+            listTeams();
         } else if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.PROJECT_CODE)) {
-            startFragmentWithoutBackStack(RunningEditFragment.newInstance(getRunningFromIntent()));
+            //startFragmentWithoutBackStack(TeamEditFragment.newInstance(getTeamFromIntent()));
         } else {
             if (getIntent().hasExtra(Extra.PROJECT_CODE)) {
-                startFragmentWithoutBackStack(RunningNewFragment.newInstance(getProjectFromIntent()));
+                //startFragmentWithoutBackStack(TeamNewFragment.newInstance(getProjectFromIntent()));
             } else {
-                startFragmentWithoutBackStack(RunningNewFragment.newInstance());
+                //startFragmentWithoutBackStack(TeamNewFragment.newInstance());
             }
         }
     }
 
-    public void listRunnings() {
-        startFragmentWithoutBackStack(RunningsFragment.newInstance());
+    public void listTeams() {
+        //startFragmentWithoutBackStack(TeamsFragment.newInstance());
     }
 
     private void startFragmentWithoutBackStack(Fragment fragment) {
@@ -65,11 +62,12 @@ public class RunningsActivity extends MotherActivity {
                 .commit();
     }
 
-    private Running getRunningFromIntent() {
+    private Team getTeamFromIntent() {
         int year = getIntent().getIntExtra(Extra.RUNNING_YEAR, 0);
         String projectCode = getIntent().getStringExtra(Extra.PROJECT_CODE);
 
-        return new RunningBaseBuilder(year, projectCode, SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER)).build();
+        //return new TeamBaseBuilder(year, projectCode, SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER)).build();
+        return null;
     }
 
     private Project getProjectFromIntent() {
@@ -78,9 +76,9 @@ public class RunningsActivity extends MotherActivity {
         return new ProjectBaseBuilder(projectCode).build();
     }
 
-    public void showRunning(Running running) {
-        startFragment(RunningEditFragment.newInstance(running));
-    }
+    /*public void showTeam(Team team) {
+        startFragment(TeamEditFragment.newInstance(team));
+    }*/
 
     private void startFragment(Fragment fragment) {
         getSupportFragmentManager()
@@ -90,8 +88,8 @@ public class RunningsActivity extends MotherActivity {
                 .commit();
     }
 
-    public void newRunning() {
-        startFragment(RunningNewFragment.newInstance());
+    public void newTeam() {
+        //startFragment(TeamNewFragment.newInstance());
     }
 
     public void showTeam(Team team) {
@@ -99,10 +97,6 @@ public class RunningsActivity extends MotherActivity {
         intent.putExtra(Extra.TEAM_NUMBER, team.getNumber());
 
         startActivity(intent);
-    }
-
-    public void newRunningTeam(Running running) {
-        //TODO
     }
 
     @Override

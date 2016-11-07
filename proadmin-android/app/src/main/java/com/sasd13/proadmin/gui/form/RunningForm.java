@@ -40,11 +40,10 @@ public class RunningForm extends Form {
     }
 
     public void bind(Running running, List<Project> projects) {
-        modelYear.setValue(String.valueOf(running.getYear()));
-
         this.projects = projects;
         List<String> projectsCodes = new ProjectsCodesBuilder(projects).build();
 
+        modelYear.setValue(String.valueOf(running.getYear()));
         modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
 
         if (running.getProject() != null) {

@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:flousy="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_running_action_save"
+    <item android:id="@+id/menu_edit_action_save"
         android:icon="@drawable/ic_save_white_36dp"
         android:title="@string/menuitem_action_done"
         flousy:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/menu_running_action_delete"
+    <item android:id="@+id/menu_edit_action_delete"
         android:icon="@drawable/ic_delete_white_36dp"
         android:title="@string/menuitem_action_delete"
         flousy:showAsAction="never"/>

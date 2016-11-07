@@ -66,7 +66,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<List<R
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.view_list, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -80,7 +80,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<List<R
     }
 
     private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.list_recyclerview));
+        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
     }
 

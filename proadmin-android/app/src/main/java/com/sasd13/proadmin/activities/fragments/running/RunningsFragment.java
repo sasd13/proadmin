@@ -62,7 +62,7 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_runnings, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
 
@@ -74,11 +74,10 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
         buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        readRunningsFromWS();
     }
 
     private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.runnings_swiperefreshlayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -95,12 +94,12 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     }
 
     private void buildTabRunnings(View view) {
-        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.runnings_recyclerview));
+        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.runnings_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +114,7 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.activity_runnings));
         parentActivity.getSupportActionBar().setSubtitle(null);
+        readRunningsFromWS();
     }
 
     @Override
@@ -125,22 +125,18 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     @Override
     public void onReadSucceeded(List<Running> runningsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-
         bindRunningsToTab(runningsFromWS);
     }
 
     private void bindRunningsToTab(List<Running> runningsFromWS) {
         RunningsSorter.byYear(runningsFromWS);
-
         runnings.clear();
         runnings.addAll(runningsFromWS);
-
         fillTabRunningsByProject();
     }
 
     private void fillTabRunningsByProject() {
         runningsTab.clear();
-
         addRunningsToTab();
     }
 
