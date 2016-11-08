@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.activities.fragments.running;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -33,7 +35,7 @@ import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 
 import java.util.List;
 
-public class RunningDescriptorFragment extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
+public class RunningPagerFragmentInfos extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
 
     private RunningsActivity parentActivity;
 
@@ -44,8 +46,8 @@ public class RunningDescriptorFragment extends Fragment implements IReadServiceC
     private RunningManageService runningManageService;
     private ProjectReadService projectReadService;
 
-    public static RunningDescriptorFragment newInstance(Running running) {
-        RunningDescriptorFragment fragment = new RunningDescriptorFragment();
+    public static RunningPagerFragmentInfos newInstance(Running running) {
+        RunningPagerFragmentInfos fragment = new RunningPagerFragmentInfos();
         fragment.running = running;
 
         return fragment;
@@ -126,7 +128,16 @@ public class RunningDescriptorFragment extends Fragment implements IReadServiceC
     }
 
     private void deleteRunning() {
-        runningManageService.deleteRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+        OptionDialog.showOkCancelDialog(
+                getContext(),
+                getResources().getString(R.string.message_delete),
+                getResources().getString(R.string.message_confirm),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        runningManageService.deleteRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+                    }
+                });
     }
 
     @Override

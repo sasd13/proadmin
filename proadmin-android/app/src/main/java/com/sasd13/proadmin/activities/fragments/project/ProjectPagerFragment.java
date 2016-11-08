@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.activities.fragments.running;
+package com.sasd13.proadmin.activities.fragments.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,18 +12,18 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.RunningsActivity;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.activities.ProjectsActivity;
+import com.sasd13.proadmin.bean.project.Project;
 
-public class RunningEditFragment extends Fragment {
+public class ProjectPagerFragment extends Fragment {
 
-    private RunningsActivity parentActivity;
+    private ProjectsActivity parentActivity;
 
-    private Running running;
+    private Project project;
 
-    public static RunningEditFragment newInstance(Running running) {
-        RunningEditFragment fragment = new RunningEditFragment();
-        fragment.running = running;
+    public static ProjectPagerFragment newInstance(Project project) {
+        ProjectPagerFragment fragment = new ProjectPagerFragment();
+        fragment.project = project;
 
         return fragment;
     }
@@ -32,7 +32,7 @@ public class RunningEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (RunningsActivity) getActivity();
+        parentActivity = (ProjectsActivity) getActivity();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RunningEditFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new RunningPagerFragmentFactory(running));
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ProjectPagerFragmentFactory(project));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
@@ -64,7 +64,7 @@ public class RunningEditFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
     }
 
     @Override

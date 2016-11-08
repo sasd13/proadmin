@@ -109,6 +109,10 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
 
         this.teacher = teacher;
 
+        bindFormWithTeacher();
+    }
+
+    private void bindFormWithTeacher() {
         settingsForm.bind(teacher);
     }
 

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.activities.fragments.running;
+package com.sasd13.proadmin.activities.fragments.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,32 +22,32 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.activities.ProjectsActivity;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
-import com.sasd13.proadmin.service.running.RunningTeamReadService;
+import com.sasd13.proadmin.gui.tab.RunningItemModel;
+import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningTeamsFragment extends Fragment implements IReadServiceCaller<List<RunningTeam>> {
+public class ProjectPagerFragmentRunnings extends Fragment implements IReadServiceCaller<List<Running>> {
 
-    private RunningsActivity parentActivity;
+    private ProjectsActivity parentActivity;
 
-    private Recycler runningTeamsTab;
+    private Recycler runningsTab;
 
-    private Running running;
-    private List<RunningTeam> runningTeams;
+    private Project project;
+    private List<Running> runnings;
 
-    private RunningTeamReadService runningTeamReadService;
+    private RunningReadService runningReadService;
 
-    public static RunningTeamsFragment newInstance(Running running) {
-        RunningTeamsFragment fragment = new RunningTeamsFragment();
-        fragment.running = running;
+    public static ProjectPagerFragmentRunnings newInstance(Project project) {
+        ProjectPagerFragmentRunnings fragment = new ProjectPagerFragmentRunnings();
+        fragment.project = project;
 
         return fragment;
     }
@@ -56,18 +56,16 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
-        parentActivity = (RunningsActivity) getActivity();
-        runningTeams = new ArrayList<>();
-        runningTeamReadService = new RunningTeamReadService(this);
+        parentActivity = (ProjectsActivity) getActivity();
+        runnings = new ArrayList<>();
+        runningReadService = new RunningReadService(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
         buildView(view);
 
@@ -77,19 +75,20 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
+        buildFloatingActionButton(view);
     }
 
     private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
-        runningTeamsTab.addDividerItemDecoration();
+        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        runningsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newRunningTeam(running);
+                parentActivity.newRunning(project);
             }
         });
     }
@@ -98,14 +97,11 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     public void onStart() {
         super.onStart();
 
-        readRunningTeamsFromWS();
+        readRunningsFromWS();
     }
 
-    private void readRunningTeamsFromWS() {
-        runningTeamReadService.readRunningTeams(
-                running.getYear(),
-                running.getProject().getCode(),
-                SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+    private void readRunningsFromWS() {
+        runningReadService.readRunnings(project.getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     @Override
@@ -113,15 +109,15 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     }
 
     @Override
-    public void onReadSucceeded(List<RunningTeam> runningTeamFromWS) {
-        runningTeams.clear();
-        runningTeams.addAll(runningTeamFromWS);
-        fillTabRunningTeamsByTeam();
+    public void onReadSucceeded(List<Running> runningsFromWS) {
+        runnings.clear();
+        runnings.addAll(runningsFromWS);
+        fillTabRunningsByYear();
     }
 
-    private void fillTabRunningTeamsByTeam() {
-        runningTeamsTab.clear();
-        RunningTeamsSorter.byTeamNumber(runningTeams);
+    private void fillTabRunningsByYear() {
+        runningsTab.clear();
+        RunningsSorter.byYear(runnings);
         addRunningsToTab();
     }
 
@@ -129,20 +125,20 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
-        for (final RunningTeam runningTeam : runningTeams) {
-            pair = new RecyclerHolderPair(new RunningTeamItemModel(runningTeam));
+        for (final Running running : runnings) {
+            pair = new RecyclerHolderPair(new RunningItemModel(running));
 
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showTeam(runningTeam.getTeam());
+                    parentActivity.showRunning(running);
                 }
             });
 
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(runningTeamsTab, holder);
+        RecyclerHelper.addAll(runningsTab, holder);
     }
 
     @Override
