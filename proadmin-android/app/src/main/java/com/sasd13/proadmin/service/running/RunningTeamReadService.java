@@ -20,6 +20,13 @@ public class RunningTeamReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
+    public void readRunningTeams(String teacherNumber) {
+        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, RunningTeam.class);
+
+        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        readTask.execute();
+    }
+
     public void readRunningTeams(int year, String projectCode, String teacherNumber) {
         readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, RunningTeam.class);
 

@@ -15,14 +15,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 
-public class RunningPagerFragment extends Fragment {
+public class RunningDetailsFragment extends Fragment {
 
     private RunningsActivity parentActivity;
 
     private Running running;
 
-    public static RunningPagerFragment newInstance(Running running) {
-        RunningPagerFragment fragment = new RunningPagerFragment();
+    public static RunningDetailsFragment newInstance(Running running) {
+        RunningDetailsFragment fragment = new RunningDetailsFragment();
         fragment.running = running;
 
         return fragment;

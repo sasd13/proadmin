@@ -6,11 +6,17 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -19,6 +25,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
+import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
@@ -29,6 +36,10 @@ import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
+import com.sasd13.proadmin.util.builder.running.RunningsYearsBuilder;
+import com.sasd13.proadmin.util.filter.running.RunningYearCriteria;
+import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.ArrayList;
@@ -39,8 +50,10 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     private RunningsActivity parentActivity;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Spin spinYears;
     private Recycler runningsTab;
 
+    private List<Integer> years;
     private List<Running> runnings;
 
     private RunningReadService runningReadService;
@@ -53,7 +66,10 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         parentActivity = (RunningsActivity) getActivity();
+        years = new ArrayList<>();
         runnings = new ArrayList<>();
         runningReadService = new RunningReadService(this);
     }
@@ -118,6 +134,32 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_runnings, menu);
+
+        buildSpinYears(menu.findItem(R.id.menu_runnings_spinner));
+    }
+
+    private void buildSpinYears(MenuItem menuItem) {
+        Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
+
+        spinYears = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                fillTabRunningsByYear();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    @Override
     public void onLoad() {
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -125,22 +167,43 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     @Override
     public void onReadSucceeded(List<Running> runningsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
+        bindYears(runningsFromWS);
         bindRunningsToTab(runningsFromWS);
+    }
+
+    private void bindYears(List<Running> runningsFromWS) {
+        List<Integer> yearsToSpin = new RunningsYearsBuilder(runningsFromWS).build();
+
+        IntegersSorter.byDesc(yearsToSpin);
+        years.clear();
+        years.addAll(yearsToSpin);
+        fillSpinYears();
+    }
+
+    private void fillSpinYears() {
+        spinYears.clear();
+        spinYears.addItems(new IntegersToStringsAdapter().adapt(years));
+        spinYears.resetPosition();
     }
 
     private void bindRunningsToTab(List<Running> runningsFromWS) {
         RunningsSorter.byYear(runningsFromWS);
         runnings.clear();
         runnings.addAll(runningsFromWS);
-        fillTabRunningsByProject();
+        fillTabRunningsByYear();
     }
 
-    private void fillTabRunningsByProject() {
+    private void fillTabRunningsByYear() {
         runningsTab.clear();
-        addRunningsToTab();
+
+        int year = years.get(spinYears.getSelectedPosition());
+        List<Running> runningsToTab = new RunningYearCriteria(year).meetCriteria(runnings);
+
+        RunningsSorter.byProjectCode(runningsToTab);
+        addRunningsToTab(runningsToTab);
     }
 
-    private void addRunningsToTab() {
+    private void addRunningsToTab(List<Running> runnings) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activities.fragments.team.TeamDetailsFragment;
 import com.sasd13.proadmin.activities.fragments.team.TeamsFragment;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
@@ -40,8 +42,8 @@ public class TeamsActivity extends MotherActivity {
     private void showFragment() {
         if (!getIntent().hasExtra(Extra.MODE)) {
             listTeams();
-        } else if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.PROJECT_CODE)) {
-            //startFragmentWithoutBackStack(TeamEditFragment.newInstance(getTeamFromIntent()));
+        } else if (getIntent().hasExtra(Extra.TEAM_NUMBER)) {
+            startFragmentWithoutBackStack(TeamDetailsFragment.newInstance(getRunningTeamFromIntent()));
         } else {
             if (getIntent().hasExtra(Extra.PROJECT_CODE)) {
                 //startFragmentWithoutBackStack(TeamNewFragment.newInstance(getProjectFromIntent()));
@@ -52,7 +54,7 @@ public class TeamsActivity extends MotherActivity {
     }
 
     public void listTeams() {
-        //startFragmentWithoutBackStack(TeamsFragment.newInstance());
+        startFragmentWithoutBackStack(TeamsFragment.newInstance());
     }
 
     private void startFragmentWithoutBackStack(Fragment fragment) {
@@ -62,7 +64,7 @@ public class TeamsActivity extends MotherActivity {
                 .commit();
     }
 
-    private Team getTeamFromIntent() {
+    private RunningTeam getRunningTeamFromIntent() {
         int year = getIntent().getIntExtra(Extra.RUNNING_YEAR, 0);
         String projectCode = getIntent().getStringExtra(Extra.PROJECT_CODE);
 

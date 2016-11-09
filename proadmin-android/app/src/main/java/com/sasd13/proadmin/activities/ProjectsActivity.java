@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.fragments.project.ProjectPagerFragment;
+import com.sasd13.proadmin.activities.fragments.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.activities.fragments.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
@@ -44,7 +44,7 @@ public class ProjectsActivity extends MotherActivity {
     public void showProject(Project project) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.activity_container_fragment, ProjectPagerFragment.newInstance(project))
+                .replace(R.id.activity_container_fragment, ProjectDetailsFragment.newInstance(project))
                 .addToBackStack(null)
                 .commit();
     }

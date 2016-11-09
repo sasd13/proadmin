@@ -25,9 +25,9 @@ public class ProjectPagerFragmentFactory implements IPagerFragmentFactory {
     public Fragment make(int position) {
         switch (position) {
             case 0:
-                return ProjectPagerFragmentInfos.newInstance(project);
+                return ProjectDetailsFragmentInfos.newInstance(project);
             case 1:
-                return ProjectPagerFragmentRunnings.newInstance(project);
+                return ProjectDetailsFragmentRunnings.newInstance(project);
             default:
                 return null;
         }

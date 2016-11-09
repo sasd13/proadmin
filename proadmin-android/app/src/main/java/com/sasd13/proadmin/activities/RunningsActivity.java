@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.fragments.running.RunningPagerFragment;
+import com.sasd13.proadmin.activities.fragments.running.RunningDetailsFragment;
 import com.sasd13.proadmin.activities.fragments.running.RunningNewFragment;
 import com.sasd13.proadmin.activities.fragments.running.RunningsFragment;
 import com.sasd13.proadmin.bean.member.Team;
@@ -44,7 +44,7 @@ public class RunningsActivity extends MotherActivity {
         if (!getIntent().hasExtra(Extra.MODE)) {
             listRunnings();
         } else if (getIntent().hasExtra(Extra.RUNNING_YEAR) && getIntent().hasExtra(Extra.PROJECT_CODE)) {
-            startFragmentWithoutBackStack(RunningPagerFragment.newInstance(getRunningFromIntent()));
+            startFragmentWithoutBackStack(RunningDetailsFragment.newInstance(getRunningFromIntent()));
         } else {
             if (getIntent().hasExtra(Extra.PROJECT_CODE)) {
                 startFragmentWithoutBackStack(RunningNewFragment.newInstance(getProjectFromIntent()));
@@ -79,7 +79,7 @@ public class RunningsActivity extends MotherActivity {
     }
 
     public void showRunning(Running running) {
-        startFragment(RunningPagerFragment.newInstance(running));
+        startFragment(RunningDetailsFragment.newInstance(running));
     }
 
     private void startFragment(Fragment fragment) {

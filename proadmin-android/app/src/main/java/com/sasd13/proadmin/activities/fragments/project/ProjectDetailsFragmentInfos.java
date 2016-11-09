@@ -17,14 +17,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.form.ProjectForm;
 
-public class ProjectPagerFragmentInfos extends Fragment {
+public class ProjectDetailsFragmentInfos extends Fragment {
 
     private ProjectForm projectForm;
 
     private Project project;
 
-    public static ProjectPagerFragmentInfos newInstance(Project project) {
-        ProjectPagerFragmentInfos fragment = new ProjectPagerFragmentInfos();
+    public static ProjectDetailsFragmentInfos newInstance(Project project) {
+        ProjectDetailsFragmentInfos fragment = new ProjectDetailsFragmentInfos();
         fragment.project = project;
 
         return fragment;

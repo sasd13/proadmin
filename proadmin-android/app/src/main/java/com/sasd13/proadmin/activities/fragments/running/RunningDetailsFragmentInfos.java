@@ -35,7 +35,7 @@ import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 
 import java.util.List;
 
-public class RunningPagerFragmentInfos extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
+public class RunningDetailsFragmentInfos extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
 
     private RunningsActivity parentActivity;
 
@@ -46,8 +46,8 @@ public class RunningPagerFragmentInfos extends Fragment implements IReadServiceC
     private RunningManageService runningManageService;
     private ProjectReadService projectReadService;
 
-    public static RunningPagerFragmentInfos newInstance(Running running) {
-        RunningPagerFragmentInfos fragment = new RunningPagerFragmentInfos();
+    public static RunningDetailsFragmentInfos newInstance(Running running) {
+        RunningDetailsFragmentInfos fragment = new RunningDetailsFragmentInfos();
         fragment.running = running;
 
         return fragment;

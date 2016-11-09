@@ -1,33 +1,33 @@
-package com.sasd13.proadmin.activities.fragments.running;
+package com.sasd13.proadmin.activities.fragments.team;
 
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.gui.widget.pager.IPagerFragmentFactory;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class RunningPagerFragmentFactory implements IPagerFragmentFactory {
+public class TeamPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 2;
     private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_teams};
 
-    private Running running;
+    private RunningTeam runningTeam;
 
-    public RunningPagerFragmentFactory(Running running) {
-        this.running = running;
+    public TeamPagerFragmentFactory(RunningTeam runningTeam) {
+        this.runningTeam = runningTeam;
     }
 
     @Override
     public Fragment make(int position) {
         switch (position) {
             case 0:
-                return RunningDetailsFragmentInfos.newInstance(running);
+                return TeamDetailsFragmentInfos.newInstance(runningTeam);
             case 1:
-                return RunningDetailsFragmentTeams.newInstance(running);
+                return TeamDetailsFragmentStudents.newInstance(runningTeam.getTeam());
             default:
                 return null;
         }

@@ -15,14 +15,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 
-public class ProjectPagerFragment extends Fragment {
+public class ProjectDetailsFragment extends Fragment {
 
     private ProjectsActivity parentActivity;
 
     private Project project;
 
-    public static ProjectPagerFragment newInstance(Project project) {
-        ProjectPagerFragment fragment = new ProjectPagerFragment();
+    public static ProjectDetailsFragment newInstance(Project project) {
+        ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.project = project;
 
         return fragment;

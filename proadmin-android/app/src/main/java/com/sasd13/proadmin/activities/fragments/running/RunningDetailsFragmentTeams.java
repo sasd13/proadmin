@@ -34,7 +34,7 @@ import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningPagerFragmentTeams extends Fragment implements IReadServiceCaller<List<RunningTeam>> {
+public class RunningDetailsFragmentTeams extends Fragment implements IReadServiceCaller<List<RunningTeam>> {
 
     private RunningsActivity parentActivity;
 
@@ -45,8 +45,8 @@ public class RunningPagerFragmentTeams extends Fragment implements IReadServiceC
 
     private RunningTeamReadService runningTeamReadService;
 
-    public static RunningPagerFragmentTeams newInstance(Running running) {
-        RunningPagerFragmentTeams fragment = new RunningPagerFragmentTeams();
+    public static RunningDetailsFragmentTeams newInstance(Running running) {
+        RunningDetailsFragmentTeams fragment = new RunningDetailsFragmentTeams();
         fragment.running = running;
 
         return fragment;
