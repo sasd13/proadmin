@@ -41,11 +41,12 @@ import com.sasd13.proadmin.util.builder.running.RunningsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningYearCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningsFragment extends Fragment implements IReadServiceCaller<List<Running>> {
+public class RunningsFragment extends Fragment implements IReadServiceCaller<IRunningReadWrapper> {
 
     private RunningsActivity parentActivity;
 
@@ -165,10 +166,10 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<Lis
     }
 
     @Override
-    public void onReadSucceeded(List<Running> runningsFromWS) {
+    public void onReadSucceeded(IRunningReadWrapper runningReadWrapper) {
         swipeRefreshLayout.setRefreshing(false);
-        bindYears(runningsFromWS);
-        bindRunningsToTab(runningsFromWS);
+        bindYears(runningReadWrapper.getRunnings());
+        bindRunningsToTab(runningReadWrapper.getRunnings());
     }
 
     private void bindYears(List<Running> runningsFromWS) {

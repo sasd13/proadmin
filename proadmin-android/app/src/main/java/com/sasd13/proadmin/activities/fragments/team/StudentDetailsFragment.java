@@ -1,6 +1,5 @@
-package com.sasd13.proadmin.activities.fragments.running;
+package com.sasd13.proadmin.activities.fragments.team;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -14,42 +13,42 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.activities.TeamsActivity;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.form.RunningForm;
+import com.sasd13.proadmin.gui.form.StudentForm;
+import com.sasd13.proadmin.service.member.StudentReadService;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
+import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 
 import java.util.List;
 
-public class RunningDetailsFragmentInfos extends Fragment implements IManageServiceCaller<Running>, IReadServiceCaller<IProjectReadWrapper> {
+public class StudentDetailsFragment extends Fragment implements IManageServiceCaller<StudentTeam> {
 
-    private RunningsActivity parentActivity;
+    private TeamsActivity parentActivity;
 
-    private RunningForm runningForm;
+    private StudentForm studentForm;
 
-    private Running running;
+    private Student student;
 
-    private RunningManageService runningManageService;
-    private ProjectReadService projectReadService;
+    private StudentManage studentReadService;
 
-    public static RunningDetailsFragmentInfos newInstance(Running running) {
-        RunningDetailsFragmentInfos fragment = new RunningDetailsFragmentInfos();
-        fragment.running = running;
+    public static StudentDetailsFragment newInstance(Student student) {
+        StudentDetailsFragment fragment = new StudentDetailsFragment();
+        fragment.student = student;
 
         return fragment;
     }
@@ -60,8 +59,8 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
 
         setHasOptionsMenu(true);
 
-        parentActivity = (RunningsActivity) getActivity();
-        projectReadService = new ProjectReadService(this);
+        parentActivity = (TeamsActivity) getActivity();
+        studentReadService = new ProjectReadService(this);
         runningManageService = new RunningManageService(this);
     }
 
@@ -82,23 +81,24 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     }
 
     private void buildFormRunning(View view) {
-        runningForm = new RunningForm(getContext());
+        studentForm = new RunningForm(getContext());
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, runningForm.getHolder());
+        RecyclerHelper.addAll(form, studentForm.getHolder());
+    }
+
+    private void readProjectsFromWS() {
+        studentReadService.readProjects();
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
         readProjectsFromWS();
-    }
-
-    private void readProjectsFromWS() {
-        projectReadService.readProjects();
     }
 
     @Override
@@ -109,13 +109,17 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        menu.findItem(R.id.menu_edit_action_delete).setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateRunning();
-                break;
-            case R.id.menu_edit_action_delete:
-                deleteRunning();
+                createRunning();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -124,54 +128,48 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
         return true;
     }
 
-    private void updateRunning() {
-        runningManageService.updateRunning(runningForm, running.getProject().getCode(), SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
-    }
-
-    private void deleteRunning() {
-        OptionDialog.showOkCancelDialog(
-                getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        runningManageService.deleteRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
-                    }
-                });
+    private void createRunning() {
+        runningManageService.createRunning(studentForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
     }
 
     @Override
     public void onLoad() {
-    }
-
-    @Override
-    public void onReadSucceeded(IProjectReadWrapper projectReadWrapper) {
-        ProjectsSorter.byCode(projectReadWrapper.getProjects());
-        bindFormRunning(projectReadWrapper.getProjects());
+        waitDialog = new WaitDialog(getContext());
+        waitDialog.show();
     }
 
     private void bindFormRunning(List<Project> projects) {
-        runningForm.bind(running, projects);
+        if (project != null) {
+            studentForm.bind(new DefaultRunningBuilder(project).build(), projects);
+        } else {
+            studentForm.bind(new DefaultRunningBuilder().build(), projects);
+        }
     }
 
     @Override
-    public void onCreateSucceeded(Running running) {
-    }
+    public void onCreateSucceeded(StudentTeam studentTeam) {
+        if (waitDialog != null) {
+            waitDialog.dismiss();
+        }
 
-    @Override
-    public void onUpdateSucceeded(Running running) {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleteSucceeded() {
-        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
 
     @Override
+    public void onUpdateSucceeded(StudentTeam studentTeam) {
+    }
+
+    @Override
+    public void onDeleteSucceeded() {
+    }
+
+    @Override
     public void onError(@StringRes int message) {
+        if (waitDialog != null) {
+            waitDialog.dismiss();
+        }
+
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

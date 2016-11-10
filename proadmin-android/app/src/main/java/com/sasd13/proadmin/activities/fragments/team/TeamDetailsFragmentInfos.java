@@ -24,21 +24,21 @@ import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
+import com.sasd13.proadmin.util.RunningTeamWrapper;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
 import java.util.List;
 
-public class TeamDetailsFragmentInfos extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<RunningTeam> {
+public class TeamDetailsFragmentInfos extends Fragment implements IManageServiceCaller<RunningTeam>, IReadServiceCaller<RunningTeamWrapper> {
 
     private RunningsActivity parentActivity;
 
@@ -148,13 +148,19 @@ public class TeamDetailsFragmentInfos extends Fragment implements IReadServiceCa
     }
 
     @Override
-    public void onReadSucceeded(List<Project> projectsFromWS) {
-        ProjectsSorter.byCode(projectsFromWS);
-        bindFormRunning(projectsFromWS);
+    public void onReadSucceeded(RunningTeamWrapper runningTeamWrapper) {
+        List<Project> projects = runningTeamWrapper.getProjects();
+        List<AcademicLevel> academicLevels = runningTeamWrapper.getAcademicLevels();
+
+        ProjectsSorter.byCode(projects);
+        AcademicLevelsSorter.byCode(academicLevels);
+        bindFormRunning(projects, academicLevels);
     }
 
-    private void bindFormRunning(List<Project> projects) {
-        runningTeamForm.bind(runningTeam, projects);
+    private void bindFormRunning(List<Project> projects, List<AcademicLevel> academicLevels) {
+        if (projects != null && academicLevels != null) {
+            runningTeamForm.bind(runningTeam, projects, academicLevels);
+        }
     }
 
     @Override

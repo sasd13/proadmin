@@ -31,6 +31,9 @@
     <string name="form_settings_message_error_email">Email invalide</string>
     <string name="form_runnings_message_error_year">Année invalide</string>
     <string name="form_runnings_message_error_project">Projet invalide</string>
+    <string name="form_runningteams_message_error_number">Numéro invalide</string>
+    <string name="form_runningteams_message_error_project">Projet invalide</string>
+    <string name="form_runningteams_message_error_academiclevel">Niveau académique invalide</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valider</string>

@@ -30,11 +30,12 @@ import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.service.running.RunningTeamReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.wrapper.IRunningTeamReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningDetailsFragmentTeams extends Fragment implements IReadServiceCaller<List<RunningTeam>> {
+public class RunningDetailsFragmentTeams extends Fragment implements IReadServiceCaller<IRunningTeamReadWrapper> {
 
     private RunningsActivity parentActivity;
 
@@ -112,9 +113,9 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
     }
 
     @Override
-    public void onReadSucceeded(List<RunningTeam> runningTeamFromWS) {
+    public void onReadSucceeded(IRunningTeamReadWrapper runningTeamReadWrapper) {
         runningTeams.clear();
-        runningTeams.addAll(runningTeamFromWS);
+        runningTeams.addAll(runningTeamReadWrapper.getRunningTeams());
         fillTabRunningTeamsByTeam();
     }
 

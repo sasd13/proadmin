@@ -23,28 +23,31 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.StudentTeam;
 import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
-import com.sasd13.proadmin.service.running.RunningTeamReadService;
+import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
+import com.sasd13.proadmin.service.running.StudentTeamReadService;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.util.sorter.running.StudentTeamsSorter;
+import com.sasd13.proadmin.wrapper.IStudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.IStudentReadWrapper;
+import com.sasd13.proadmin.wrapper.IStudentTeamReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDetailsFragmentStudents extends Fragment implements IReadServiceCaller<List<RunningTeam>> {
+public class TeamDetailsFragmentStudents extends Fragment implements IReadServiceCaller<IStudentReadWrapper> {
 
     private RunningsActivity parentActivity;
 
-    private Recycler runningTeamsTab;
+    private Recycler studentTeamsTab;
 
     private Team team;
-    private List<RunningTeam> runningTeams;
+    private List<StudentTeam> studentTeams;
 
-    private RunningTeamReadService runningTeamReadService;
+    private StudentTeamReadService studentTeamReadService;
 
     public static TeamDetailsFragmentStudents newInstance(Team team) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
@@ -58,8 +61,8 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
         super.onCreate(savedInstanceState);
 
         parentActivity = (RunningsActivity) getActivity();
-        runningTeams = new ArrayList<>();
-        runningTeamReadService = new RunningTeamReadService(this);
+        studentTeams = new ArrayList<>();
+        studentTeamReadService = new StudentTeamReadService(this);
     }
 
     @Override
@@ -80,8 +83,8 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     }
 
     private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        runningTeamsTab.addDividerItemDecoration();
+        studentTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        studentTeamsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -89,7 +92,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newRunningTeam(running);
+                parentActivity.newStudentTeam(running);
             }
         });
     }
@@ -98,11 +101,11 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     public void onStart() {
         super.onStart();
 
-        readRunningTeamsFromWS();
+        readStudentTeamsFromWS();
     }
 
-    private void readRunningTeamsFromWS() {
-        runningTeamReadService.readRunningTeams(
+    private void readStudentTeamsFromWS() {
+        studentTeamReadService.readStudentTeams(
                 running.getYear(),
                 running.getProject().getCode(),
                 SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
@@ -113,15 +116,15 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     }
 
     @Override
-    public void onReadSucceeded(List<RunningTeam> runningTeamFromWS) {
-        runningTeams.clear();
-        runningTeams.addAll(runningTeamFromWS);
-        fillTabRunningTeamsByTeam();
+    public void onReadSucceeded(IStudentTeamReadWrapper studentTeamReadWrapper) {
+        studentTeams.clear();
+        studentTeams.addAll(studentTeamReadWrapper.getStudentTeams());
+        fillTabStudentTeamsByTeam();
     }
 
-    private void fillTabRunningTeamsByTeam() {
-        runningTeamsTab.clear();
-        RunningTeamsSorter.byTeamNumber(runningTeams);
+    private void fillTabStudentTeamsByTeam() {
+        studentTeamsTab.clear();
+        StudentTeamsSorter.byTeamNumber(studentTeams);
         addRunningsToTab();
     }
 
@@ -129,20 +132,20 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
-        for (final RunningTeam runningTeam : runningTeams) {
-            pair = new RecyclerHolderPair(new RunningTeamItemModel(runningTeam));
+        for (final StudentTeam studentTeam : studentTeams) {
+            pair = new RecyclerHolderPair(new StudentTeamItemModel(studentTeam));
 
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showTeam(runningTeam.getTeam());
+                    parentActivity.showTeam(studentTeam.getTeam());
                 }
             });
 
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(runningTeamsTab, holder);
+        RecyclerHelper.addAll(studentTeamsTab, holder);
     }
 
     @Override

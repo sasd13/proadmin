@@ -20,22 +20,20 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activities.RunningsActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 
 import java.util.List;
 
-public class StudentFragment extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
+public class StudentNewFragment extends Fragment implements IManageServiceCaller<StudentTeam> {
 
     private RunningsActivity parentActivity;
 
@@ -47,12 +45,12 @@ public class StudentFragment extends Fragment implements IReadServiceCaller<List
     private RunningManageService runningManageService;
     private ProjectReadService projectReadService;
 
-    public static StudentFragment newInstance() {
-        return new StudentFragment();
+    public static StudentNewFragment newInstance(StudentTeam studentTeam) {
+        return new StudentNewFragment();
     }
 
-    public static StudentFragment newInstance(Project project) {
-        StudentFragment fragment = new StudentFragment();
+    public static StudentNewFragment newInstance(Project project) {
+        StudentNewFragment fragment = new StudentNewFragment();
         fragment.project = project;
 
         return fragment;
@@ -143,16 +141,6 @@ public class StudentFragment extends Fragment implements IReadServiceCaller<List
         waitDialog.show();
     }
 
-    @Override
-    public void onReadSucceeded(List<Project> projectsFromWS) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
-        ProjectsSorter.byCode(projectsFromWS);
-        bindFormRunning(projectsFromWS);
-    }
-
     private void bindFormRunning(List<Project> projects) {
         if (project != null) {
             runningForm.bind(new DefaultRunningBuilder(project).build(), projects);
@@ -162,7 +150,7 @@ public class StudentFragment extends Fragment implements IReadServiceCaller<List
     }
 
     @Override
-    public void onCreateSucceeded(Running running) {
+    public void onCreateSucceeded(StudentTeam studentTeam) {
         if (waitDialog != null) {
             waitDialog.dismiss();
         }
@@ -172,7 +160,7 @@ public class StudentFragment extends Fragment implements IReadServiceCaller<List
     }
 
     @Override
-    public void onUpdateSucceeded(Running running) {
+    public void onUpdateSucceeded(StudentTeam studentTeam) {
     }
 
     @Override

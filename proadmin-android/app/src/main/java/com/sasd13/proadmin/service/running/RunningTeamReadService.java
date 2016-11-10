@@ -8,15 +8,18 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
+import com.sasd13.proadmin.wrapper.IRunningTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.impl.RunningTeamReadWrapper;
 
 import java.util.List;
 
 public class RunningTeamReadService implements IHttpCallback {
 
-    private IReadServiceCaller<List<RunningTeam>> serviceCaller;
+    private IReadServiceCaller<IRunningTeamReadWrapper> serviceCaller;
     private ReadTask<RunningTeam> readTask;
 
-    public RunningTeamReadService(IReadServiceCaller<List<RunningTeam>> serviceCaller) {
+    public RunningTeamReadService(IReadServiceCaller<IRunningTeamReadWrapper> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
@@ -47,7 +50,7 @@ public class RunningTeamReadService implements IHttpCallback {
             ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
-                serviceCaller.onReadSucceeded(readTask.getResults());
+                serviceCaller.onReadSucceeded(new RunningTeamReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
                 serviceCaller.onError(R.string.error_ws_retrieve_data);
             }

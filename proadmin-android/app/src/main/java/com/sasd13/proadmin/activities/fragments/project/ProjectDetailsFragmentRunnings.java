@@ -30,11 +30,12 @@ import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDetailsFragmentRunnings extends Fragment implements IReadServiceCaller<List<Running>> {
+public class ProjectDetailsFragmentRunnings extends Fragment implements IReadServiceCaller<IRunningReadWrapper> {
 
     private ProjectsActivity parentActivity;
 
@@ -109,9 +110,9 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     }
 
     @Override
-    public void onReadSucceeded(List<Running> runningsFromWS) {
+    public void onReadSucceeded(IRunningReadWrapper runningReadWrapper) {
         runnings.clear();
-        runnings.addAll(runningsFromWS);
+        runnings.addAll(runningReadWrapper.getRunnings());
         fillTabRunningsByYear();
     }
 

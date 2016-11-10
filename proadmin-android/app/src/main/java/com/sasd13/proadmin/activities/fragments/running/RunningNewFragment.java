@@ -32,10 +32,11 @@ import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
+import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
 
 import java.util.List;
 
-public class RunningNewFragment extends Fragment implements IReadServiceCaller<List<Project>>, IManageServiceCaller<Running> {
+public class RunningNewFragment extends Fragment implements IManageServiceCaller<Running>, IReadServiceCaller<IProjectReadWrapper> {
 
     private RunningsActivity parentActivity;
 
@@ -144,13 +145,13 @@ public class RunningNewFragment extends Fragment implements IReadServiceCaller<L
     }
 
     @Override
-    public void onReadSucceeded(List<Project> projectsFromWS) {
+    public void onReadSucceeded(IProjectReadWrapper projectReadWrapper) {
         if (waitDialog != null) {
             waitDialog.dismiss();
         }
 
-        ProjectsSorter.byCode(projectsFromWS);
-        bindFormRunning(projectsFromWS);
+        ProjectsSorter.byCode(projectReadWrapper.getProjects());
+        bindFormRunning(projectReadWrapper.getProjects());
     }
 
     private void bindFormRunning(List<Project> projects) {

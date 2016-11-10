@@ -38,11 +38,12 @@ import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
+import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsFragment extends Fragment implements IReadServiceCaller<List<Project>> {
+public class ProjectsFragment extends Fragment implements IReadServiceCaller<IProjectReadWrapper> {
 
     private ProjectsActivity parentActivity;
 
@@ -147,10 +148,10 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<Lis
     }
 
     @Override
-    public void onReadSucceeded(List<Project> projectsFromWS) {
+    public void onReadSucceeded(IProjectReadWrapper projectReadWrapper) {
         swipeRefreshLayout.setRefreshing(false);
-        bindYears(projectsFromWS);
-        bindProjects(projectsFromWS);
+        bindYears(projectReadWrapper.getProjects());
+        bindProjects(projectReadWrapper.getProjects());
     }
 
     private void bindYears(List<Project> projectsFromWS) {
