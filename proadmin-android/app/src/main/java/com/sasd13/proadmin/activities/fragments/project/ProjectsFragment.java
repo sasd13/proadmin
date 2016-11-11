@@ -38,7 +38,7 @@ import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
+import com.sasd13.proadmin.wrapper.read.project.IProjectReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

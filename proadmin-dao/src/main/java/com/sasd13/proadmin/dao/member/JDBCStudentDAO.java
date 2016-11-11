@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.builder.member.StudentBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 
 /**
  *
@@ -46,7 +48,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void update(Student student) throws DAOException {
+	public void update(IUpdateWrapper<Student> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -58,7 +60,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), student);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -101,10 +103,10 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Student student) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, student);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Student> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(5, student.getNumber());
+		preparedStatement.setString(5, ((IStudentUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

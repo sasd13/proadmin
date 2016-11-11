@@ -14,10 +14,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 
 /**
  *
@@ -47,7 +49,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void update(Project project) throws DAOException {
+	public void update(IUpdateWrapper<Project> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -59,7 +61,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), project);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -102,10 +104,10 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Project project) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, project);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Project> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(5, project.getCode());
+		preparedStatement.setString(5, ((IProjectUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override

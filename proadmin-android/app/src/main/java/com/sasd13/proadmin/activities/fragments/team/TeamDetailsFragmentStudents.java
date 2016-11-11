@@ -31,9 +31,8 @@ import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.service.running.StudentTeamReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.StudentTeamsSorter;
-import com.sasd13.proadmin.wrapper.IStudentTeamReadWrapper;
-import com.sasd13.proadmin.wrapper.IStudentReadWrapper;
-import com.sasd13.proadmin.wrapper.IStudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.member.IStudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.member.IStudentReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

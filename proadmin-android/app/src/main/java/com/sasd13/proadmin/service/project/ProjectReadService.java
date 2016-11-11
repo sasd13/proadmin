@@ -7,10 +7,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
-import com.sasd13.proadmin.wrapper.impl.ProjectReadWrapper;
-
-import java.util.List;
+import com.sasd13.proadmin.wrapper.read.project.IProjectReadWrapper;
+import com.sasd13.proadmin.wrapper.read.project.ProjectReadWrapper;
 
 /**
  * Created by ssaidali2 on 24/07/2016.

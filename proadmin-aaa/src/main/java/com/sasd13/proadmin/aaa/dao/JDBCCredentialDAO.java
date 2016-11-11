@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
@@ -67,7 +68,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public void update(Credential credential) throws DAOException {
+	public void update(IUpdateWrapper<Credential> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -77,7 +78,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 		builder.append(" WHERE ");
 		builder.append(COLUMN_USERNAME + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), credential);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -122,10 +123,10 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Credential credential) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, credential);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Credential> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(3, credential.getUsername());
+		preparedStatement.setString(3, ((ICredentialUpdateWrapper) updateWrapper).getUsername());
 	}
 
 	@Override

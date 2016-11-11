@@ -9,6 +9,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Finder;
@@ -24,18 +25,14 @@ import java.util.List;
  */
 public class RunningTeamForm extends Form {
 
-    private TextItemModel modelNumber, modelYear;
-    private SpinRadioItemModel modelProject, modelAcademicLevel;
+    private TextItemModel modelYear;
+    private SpinRadioItemModel modelProject, modelAcademicLevel, modelTeam;
     private List<Project> projects;
     private List<AcademicLevel> academicLevels;
+    private List<Team> teams;
 
     public RunningTeamForm(Context context) {
         super(context);
-
-        modelNumber = new TextItemModel();
-        modelNumber.setReadOnly(true);
-        modelNumber.setLabel(context.getResources().getString(R.string.label_number));
-        holder.add(new RecyclerHolderPair(modelNumber));
 
         modelYear = new TextItemModel();
         modelYear.setReadOnly(true);
@@ -49,13 +46,18 @@ public class RunningTeamForm extends Form {
         modelAcademicLevel = new SpinRadioItemModel();
         modelAcademicLevel.setLabel(context.getResources().getString(R.string.label_academiclevel));
         holder.add(new RecyclerHolderPair(modelAcademicLevel));
+
+        modelTeam = new SpinRadioItemModel();
+        modelTeam.setLabel(context.getResources().getString(R.string.label_team));
+        holder.add(new RecyclerHolderPair(modelTeam));
     }
 
-    public void bind(RunningTeam runningTeam, List<Project> projects, List<AcademicLevel> academicLevels) {
+    public void bind(RunningTeam runningTeam, List<Project> projects, List<AcademicLevel> academicLevels, List<Team> teams) {
         modelYear.setValue(String.valueOf(runningTeam.getRunning().getYear()));
 
         setProjects(runningTeam, projects);
         setAcademicLevels(runningTeam, academicLevels);
+        setTeams(runningTeam, teams);
     }
 
     private void setProjects(RunningTeam runningTeam, List<Project> projects) {
@@ -80,12 +82,10 @@ public class RunningTeamForm extends Form {
         }
     }
 
-    public String getNumber() throws FormException {
-        if (!StringUtils.isBlank(modelNumber.getValue())) {
-            throw new FormException(context, R.string.form_runningteams_message_error_number);
-        }
+    private void setTeams(RunningTeam runningTeam, List<Team> teams) {
+        this.teams = teams;
 
-        return modelNumber.getValue();
+        // TODO
     }
 
     public int getYear() throws FormException {
@@ -110,5 +110,13 @@ public class RunningTeamForm extends Form {
         }
 
         return academicLevels.get(modelAcademicLevel.getValue());
+    }
+
+    public Team getTeam() throws FormException {
+        if (modelTeam.getValue() < 0) {
+            throw new FormException(context, R.string.form_runningteams_message_error_team);
+        }
+
+        return teams.get(modelTeam.getValue());
     }
 }

@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 
 /**
  *
@@ -43,7 +45,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void update(Team team) throws DAOException {
+	public void update(IUpdateWrapper<Team> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -52,7 +54,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), team);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -92,10 +94,10 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Team team) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, team);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Team> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(2, team.getNumber());
+		preparedStatement.setString(2, ((ITeamUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

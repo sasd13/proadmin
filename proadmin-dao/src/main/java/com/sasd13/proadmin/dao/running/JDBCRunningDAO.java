@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
 
 /**
  *
@@ -45,7 +47,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void update(Running running) throws DAOException {
+	public void update(IUpdateWrapper<Running> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -58,7 +60,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), running);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -102,12 +104,12 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Running running) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, running);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Running> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setInt(4, running.getYear());
-		preparedStatement.setString(5, running.getProject().getCode());
-		preparedStatement.setString(6, running.getTeacher().getNumber());
+		preparedStatement.setInt(4, ((IRunningUpdateWrapper) updateWrapper).getYear());
+		preparedStatement.setString(5, ((IRunningUpdateWrapper) updateWrapper).getProjectCode());
+		preparedStatement.setString(6, ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
 	}
 
 	@Override
@@ -119,10 +121,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
-		Running running = new RunningBaseBuilder(
-				resultSet.getInt(COLUMN_YEAR), 
-				resultSet.getString(COLUMN_PROJECT_CODE), 
-				resultSet.getString(COLUMN_TEACHER_CODE)).build();
+		Running running = new RunningBaseBuilder(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT_CODE), resultSet.getString(COLUMN_TEACHER_CODE)).build();
 
 		return running;
 	}

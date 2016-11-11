@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.URLQueryUtils;
@@ -34,6 +35,9 @@ import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
+import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
+import com.sasd13.proadmin.util.wrapper.WrapperException;
+import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
@@ -51,11 +55,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private TranslationBundle bundle;
 	private IValidator<T> validator;
+	private IValidator<IUpdateWrapper<T>> updateWrapperValidator;
 	private IReadService<T> readService;
 	private IManageService<T> manageService;
 
 	protected abstract Class<T> getBeanClass();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -64,6 +70,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			validator = ValidatorFactory.make(getBeanClass());
+			updateWrapperValidator = (IValidator<IUpdateWrapper<T>>) UpdateWrapperValidatorFactory.make(getBeanClass());
 			readService = ReadServiceFactory.make(getBeanClass());
 			manageService = ManageServiceFactory.make(getBeanClass());
 		} catch (ValidatorException | ServiceException e) {
@@ -73,6 +80,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private List<T> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), getBeanClass());
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<IUpdateWrapper<T>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException, ParserException, WrapperException {
+		Class<?> mClass = UpdateWrapperFactory.make(getBeanClass()).getClass();
+
+		return (List<IUpdateWrapper<T>>) ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), mClass);
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
@@ -105,15 +119,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			if (parameters.isEmpty()) {
-				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) 
-						? readService.deepReadAll() 
-						: readService.readAll();
+				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepReadAll() : readService.readAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) 
-						? readService.deepRead(parameters) 
-						: readService.read(parameters);
+				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepRead(parameters) : readService.read(parameters);
 			}
 
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
@@ -146,13 +156,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		LOG.info("doPut");
 
 		try {
-			List<T> ts = readFromRequest(req);
+			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
 
-			for (T t : ts) {
-				validator.validate(t);
+			for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
+				updateWrapperValidator.validate(updateWrapper);
 			}
 
-			manageService.update(ts);
+			manageService.update(updateWrappers);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

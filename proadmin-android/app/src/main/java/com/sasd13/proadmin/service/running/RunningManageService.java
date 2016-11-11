@@ -69,8 +69,9 @@ public class RunningManageService implements IHttpCallback {
     }
 
     public void deleteRunning(RunningForm runningForm, String teacherNumber) {
+        taskType = TASKTYPE_DELETE;
+
         try {
-            taskType = TASKTYPE_DELETE;
             running = getRunningToDelete(runningForm, teacherNumber);
             deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 

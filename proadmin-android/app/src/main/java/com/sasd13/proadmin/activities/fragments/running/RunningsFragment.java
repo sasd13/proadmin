@@ -41,7 +41,7 @@ import com.sasd13.proadmin.util.builder.running.RunningsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningYearCriteria;
 import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
+import com.sasd13.proadmin.wrapper.read.running.IRunningReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

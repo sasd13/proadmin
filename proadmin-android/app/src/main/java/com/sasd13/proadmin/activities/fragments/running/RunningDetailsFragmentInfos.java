@@ -32,7 +32,7 @@ import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.IProjectReadWrapper;
+import com.sasd13.proadmin.wrapper.read.project.IProjectReadWrapper;
 
 import java.util.List;
 

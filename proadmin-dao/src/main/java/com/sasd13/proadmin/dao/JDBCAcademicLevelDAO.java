@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.util.builder.AcademicLevelBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 
 /**
  *
@@ -43,7 +45,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public void update(AcademicLevel academicLevel) throws DAOException {
+	public void update(IUpdateWrapper<AcademicLevel> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -52,7 +54,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), academicLevel);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -92,10 +94,10 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, academicLevel);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<AcademicLevel> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(2, academicLevel.getCode());
+		preparedStatement.setString(2, ((IAcademicLevelUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override

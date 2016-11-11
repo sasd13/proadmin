@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
-import com.sasd13.proadmin.wrapper.impl.RunningReadWrapper;
+import com.sasd13.proadmin.wrapper.read.running.IRunningReadWrapper;
+import com.sasd13.proadmin.wrapper.read.running.RunningReadWrapper;
 
 public class RunningReadService implements IHttpCallback {
 

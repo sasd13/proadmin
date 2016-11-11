@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 
 /**
  *
@@ -48,7 +50,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public void update(LeadEvaluation leadEvaluation) throws DAOException {
+	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -63,7 +65,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), leadEvaluation);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -109,11 +111,11 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, leadEvaluation);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<LeadEvaluation> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(7, leadEvaluation.getReport().getNumber());
-		preparedStatement.setString(8, leadEvaluation.getStudent().getNumber());
+		preparedStatement.setString(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(8, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override
@@ -124,9 +126,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		LeadEvaluation leadEvaluation = new LeadEvaluationBaseBuilder(
-				resultSet.getString(COLUMN_REPORT_CODE), 
-				resultSet.getString(COLUMN_STUDENT_CODE)).build();
+		LeadEvaluation leadEvaluation = new LeadEvaluationBaseBuilder(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE)).build();
 
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));

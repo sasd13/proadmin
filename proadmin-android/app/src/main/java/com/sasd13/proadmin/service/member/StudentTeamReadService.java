@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.IStudentTeamReadWrapper;
-import com.sasd13.proadmin.wrapper.impl.StudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.member.IStudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.member.StudentTeamReadWrapper;
 
 public class StudentTeamReadService implements IHttpCallback {
 

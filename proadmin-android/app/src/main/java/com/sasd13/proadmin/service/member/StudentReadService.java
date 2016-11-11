@@ -8,20 +8,28 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.wrapper.read.member.IStudentReadWrapper;
+import com.sasd13.proadmin.wrapper.read.member.StudentReadWrapper;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
  */
 public class StudentReadService implements IHttpCallback {
 
-    private IReadServiceCaller<Student> serviceCaller;
+    private IReadServiceCaller<IStudentReadWrapper> serviceCaller;
     private ReadTask<Student> readTask;
 
-    public StudentReadService(IReadServiceCaller<Student> serviceCaller) {
+    public StudentReadService(IReadServiceCaller<IStudentReadWrapper> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readTeacher(String number) {
+    public void readStudent() {
+        readTask = new ReadTask<>(WSResources.URL_WS_STUDENTS, this, Student.class);
+
+        readTask.execute();
+    }
+
+    public void readStudent(String number) {
         readTask = new ReadTask<>(WSResources.URL_WS_STUDENTS, this, Student.class);
 
         readTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{number});
@@ -39,7 +47,7 @@ public class StudentReadService implements IHttpCallback {
             ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
-                serviceCaller.onReadSucceeded(readTask.getResults().get(0));
+                serviceCaller.onReadSucceeded(new StudentReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
                 serviceCaller.onError(R.string.error_ws_retrieve_data);
             }

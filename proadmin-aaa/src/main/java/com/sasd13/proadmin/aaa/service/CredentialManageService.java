@@ -6,11 +6,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
+import com.sasd13.proadmin.aaa.dao.ICredentialUpdateWrapper;
 
 public class CredentialManageService implements IManageService<Credential> {
 
@@ -44,13 +46,17 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void update(List<Credential> credentials) throws ServiceException {
+	public void update(List<IUpdateWrapper<Credential>> updateWrappers) throws ServiceException {
 		try {
 			dao.open();
 
-			for (Credential credential : credentials) {
-				LOG.info("update : username=" + credential.getUsername());
-				dao.update(credential);
+			ICredentialUpdateWrapper credentialUpdateWrapper;
+
+			for (IUpdateWrapper<Credential> updateWrapper : updateWrappers) {
+				credentialUpdateWrapper = (ICredentialUpdateWrapper) updateWrapper;
+
+				LOG.info("update : username=" + credentialUpdateWrapper.getUsername());
+				dao.update(credentialUpdateWrapper);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

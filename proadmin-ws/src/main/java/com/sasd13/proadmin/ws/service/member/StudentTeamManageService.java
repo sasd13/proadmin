@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.ISession;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -47,7 +48,7 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 	}
 
 	@Override
-	public void update(List<StudentTeam> studentTeams) throws ServiceException {
+	public void update(List<IUpdateWrapper<StudentTeam>> updateWrappers) throws ServiceException {
 		LOG.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}

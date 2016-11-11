@@ -7,10 +7,12 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.ISession;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class TeamManageService implements IManageService<Team> {
@@ -47,15 +49,18 @@ public class TeamManageService implements IManageService<Team> {
 	}
 
 	@Override
-	public void update(List<Team> teams) throws ServiceException {
+	public void update(List<IUpdateWrapper<Team>> updateWrappers) throws ServiceException {
 		try {
 			dao.open();
 
 			ISession<Team> teamDAO = dao.getSession(Team.class);
+			ITeamUpdateWrapper teamUpdateWrapper;
 
-			for (Team team : teams) {
-				LOG.info("update : code=" + team.getNumber());
-				teamDAO.update(team);
+			for (IUpdateWrapper<Team> updateWrapper : updateWrappers) {
+				teamUpdateWrapper = (ITeamUpdateWrapper) updateWrapper;
+
+				LOG.info("update : code=" + teamUpdateWrapper.getNumber());
+				teamDAO.update(teamUpdateWrapper);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

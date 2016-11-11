@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 
 /**
  *
@@ -45,7 +47,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void update(IndividualEvaluation individualEvaluation) throws DAOException {
+	public void update(IUpdateWrapper<IndividualEvaluation> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -57,7 +59,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), individualEvaluation);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -100,11 +102,11 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, individualEvaluation);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IndividualEvaluation> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(4, individualEvaluation.getReport().getNumber());
-		preparedStatement.setString(5, individualEvaluation.getStudent().getNumber());
+		preparedStatement.setString(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(5, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override
@@ -115,9 +117,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluationBaseBuilder(
-				resultSet.getString(COLUMN_REPORT_CODE), 
-				resultSet.getString(COLUMN_STUDENT_CODE)).build();
+		IndividualEvaluation individualEvaluation = new IndividualEvaluationBaseBuilder(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE)).build();
 
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 

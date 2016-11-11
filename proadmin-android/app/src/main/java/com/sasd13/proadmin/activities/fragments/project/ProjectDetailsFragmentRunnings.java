@@ -30,7 +30,7 @@ import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.wrapper.IRunningReadWrapper;
+import com.sasd13.proadmin.wrapper.read.running.IRunningReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

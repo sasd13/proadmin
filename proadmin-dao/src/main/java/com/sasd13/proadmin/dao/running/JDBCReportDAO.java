@@ -15,10 +15,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
 /**
  *
@@ -79,7 +81,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void update(Report report) throws DAOException {
+	public void update(IUpdateWrapper<Report> updateWrapper) throws DAOException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -96,7 +98,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		transaction.editTransaction(builder.toString(), report);
+		transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
 
 		JDBCUtils.updateInTransaction(getConnection(), transaction);
 	}
@@ -148,10 +150,10 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, Report report) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, report);
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(10, report.getNumber());
+		preparedStatement.setString(10, ((IReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
@@ -161,13 +163,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new ReportBaseBuilder(
-				resultSet.getString(COLUMN_CODE), 
-				resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR), 
-				resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE), 
-				resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE), 
-				resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE), 
-				resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE)).build();
+		Report report = new ReportBaseBuilder(resultSet.getString(COLUMN_CODE), resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE)).build();
 
 		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));

@@ -79,8 +79,9 @@ public class RunningTeamManageService implements IHttpCallback {
     }
 
     public void deleteRunningTeam(RunningTeamForm runningTeamForm, String teacherNumber) {
+        taskType = TASKTYPE_DELETE;
+
         try {
-            taskType = TASKTYPE_DELETE;
             running = getRunningTeamToDelete(runningTeamForm, teacherNumber);
             deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 

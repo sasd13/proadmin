@@ -10,7 +10,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.StudentBaseBuilder;
+import com.sasd13.proadmin.util.builder.member.StudentBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 public class StudentManageService implements IHttpCallback {
@@ -23,67 +25,72 @@ public class StudentManageService implements IHttpCallback {
     private CreateTask<Student> createTask;
     private UpdateTask<Student> updateTask;
     private DeleteTask<Student> deleteTask;
-    private Student running;
+    private Student student;
     private int taskType;
 
     public StudentManageService(IManageServiceCaller<Student> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createStudent(StudentForm runningForm, String teacherNumber) {
+    public void createStudent(StudentForm studentForm, String teamNumber) {
         taskType = TASKTYPE_CREATE;
 
         try {
-            running = getStudentToCreate(runningForm, teacherNumber);
-            createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
+            student = getStudentToCreate(studentForm);
+            createTask = new CreateTask<>(WSResources.URL_WS_STUDENTS, this);
 
-            createTask.execute(running);
+            createTask.execute(student);
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private Student getStudentToCreate(StudentForm runningForm, String teacherNumber) throws FormException {
-        Student runningToCreate = new StudentBaseBuilder(runningForm.getYear(), runningForm.getProject().getCode(), teacherNumber).build();
+    private Student getStudentToCreate(StudentForm studentForm) throws FormException {
+        Student studentToCreate = new StudentBaseBuilder(studentForm.getNumber()).build();
 
-        return runningToCreate;
+        studentToCreate.setFirstName(studentForm.getFirstName());
+        studentToCreate.setLastName(studentForm.getLastName());
+        studentToCreate.setEmail(studentForm.getEmail());
+
+        return studentToCreate;
     }
 
-    public void updateStudent(StudentForm runningForm, String projectCode, String teacherNumber) {
+    public void updateStudent(StudentForm studentForm, Student student) {
         taskType = TASKTYPE_UPDATE;
 
         try {
-            running = getStudentToUpdate(runningForm, projectCode, teacherNumber);
-            updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
+            updateTask = new UpdateTask<>(WSResources.URL_WS_STUDENTS, this);
 
-            updateTask.execute(running);
+            updateTask.execute(getStudentUpdateWrapper(studentForm, student));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private Student getStudentToUpdate(StudentForm runningForm, String projectCode, String teacherNumber) throws FormException {
-        Student runningToUpdate = new StudentBaseBuilder(runningForm.getYear(), projectCode, teacherNumber).build();
+    private IStudentUpdateWrapper getStudentUpdateWrapper(StudentForm studentForm, Student student) throws FormException {
+        IStudentUpdateWrapper studentUpdateWrapper = new StudentUpdateWrapper();
 
-        return runningToUpdate;
+        studentUpdateWrapper.setWrapped(getStudentToUpdate(studentForm));
+        studentUpdateWrapper.setNumber(student.getNumber());
+
+        return studentUpdateWrapper;
     }
 
-    public void deleteStudent(StudentForm runningForm, String teacherNumber) {
-        try {
-            taskType = TASKTYPE_DELETE;
-            running = getStudentToDelete(runningForm, teacherNumber);
-            deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
+    private Student getStudentToUpdate(StudentForm studentForm) throws FormException {
+        Student studentToUpdate = new StudentBaseBuilder(studentForm.getNumber()).build();
 
-            deleteTask.execute(running);
-        } catch (FormException e) {
-            serviceCaller.onError(e.getResMessage());
-        }
+        studentToUpdate.setFirstName(studentForm.getFirstName());
+        studentToUpdate.setLastName(studentForm.getLastName());
+        studentToUpdate.setEmail(studentForm.getEmail());
+
+        return studentToUpdate;
     }
 
-    private Student getStudentToDelete(StudentForm runningForm, String teacherNumber) throws FormException {
-        Student runningToDelete = new StudentBaseBuilder(runningForm.getYear(), runningForm.getProject().getCode(), teacherNumber).build();
+    public void deleteStudent(Student student) {
+        taskType = TASKTYPE_DELETE;
+        deleteTask = new DeleteTask<>(WSResources.URL_WS_STUDENTS, this);
 
-        return runningToDelete;
+        deleteTask.execute(student);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class StudentManageService implements IHttpCallback {
             ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
             try {
-                serviceCaller.onCreateSucceeded(running);
+                serviceCaller.onCreateSucceeded(student);
             } catch (IndexOutOfBoundsException e) {
                 serviceCaller.onError(R.string.error_ws_retrieve_data);
             }
@@ -122,7 +129,7 @@ public class StudentManageService implements IHttpCallback {
         if (!updateTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
-            serviceCaller.onUpdateSucceeded(running);
+            serviceCaller.onUpdateSucceeded();
         }
     }
 

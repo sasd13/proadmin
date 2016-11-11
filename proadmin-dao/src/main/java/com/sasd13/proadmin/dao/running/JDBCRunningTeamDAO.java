@@ -13,10 +13,12 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
 
 /**
  *
@@ -47,8 +49,24 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void update(RunningTeam runningTeam) throws DAOException {
-		// Do nothing
+	public void update(IUpdateWrapper<RunningTeam> updateWrapper) throws DAOException {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_RUNNING_YEAR + " = ?");
+		builder.append(", " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
+		builder.append(", " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
+		builder.append(", " + COLUMN_TEAM_CODE + " = ?");
+		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_RUNNING_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
+		builder.append(" AND " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
+		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
+
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -96,8 +114,14 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		// Do nothing
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<RunningTeam> updateWrapper) throws SQLException {
+		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+
+		preparedStatement.setInt(6, ((IRunningTeamUpdateWrapper) updateWrapper).getRunningYear());
+		preparedStatement.setString(7, ((IRunningTeamUpdateWrapper) updateWrapper).getProjectCode());
+		preparedStatement.setString(8, ((IRunningTeamUpdateWrapper) updateWrapper).getTeacherNumber());
+		preparedStatement.setString(9, ((IRunningTeamUpdateWrapper) updateWrapper).getTeamNumber());
+		preparedStatement.setString(10, ((IRunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
 	}
 
 	@Override
@@ -111,12 +135,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeamBaseBuilder(
-				resultSet.getInt(COLUMN_RUNNING_YEAR), 
-				resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), 
-				resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), 
-				resultSet.getString(COLUMN_TEAM_CODE), 
-				resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)).build();
+		RunningTeam runningTeam = new RunningTeamBaseBuilder(resultSet.getInt(COLUMN_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_TEAM_CODE), resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)).build();
 
 		return runningTeam;
 	}

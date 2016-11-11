@@ -7,10 +7,12 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.ISession;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class IndividualEvaluationManageService implements IManageService<IndividualEvaluation> {
@@ -30,15 +32,18 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 	}
 
 	@Override
-	public void update(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
+	public void update(List<IUpdateWrapper<IndividualEvaluation>> updateWrappers) throws ServiceException {
 		try {
 			dao.open();
 
 			ISession<IndividualEvaluation> individualEvaluationDAO = dao.getSession(IndividualEvaluation.class);
+			IIndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper;
 
-			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-				LOG.info("update : reportNumber=" + individualEvaluation.getReport().getNumber() + ", studentNumber=" + individualEvaluation.getStudent().getNumber());
-				individualEvaluationDAO.update(individualEvaluation);
+			for (IUpdateWrapper<IndividualEvaluation> updateWrapper : updateWrappers) {
+				individualEvaluationUpdateWrapper = (IIndividualEvaluationUpdateWrapper) updateWrapper;
+
+				LOG.info("update : reportNumber=" + individualEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + individualEvaluationUpdateWrapper.getStudentNumber());
+				individualEvaluationDAO.update(individualEvaluationUpdateWrapper);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

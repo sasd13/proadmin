@@ -7,10 +7,12 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.ISession;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class StudentManageService implements IManageService<Student> {
@@ -47,15 +49,18 @@ public class StudentManageService implements IManageService<Student> {
 	}
 
 	@Override
-	public void update(List<Student> students) throws ServiceException {
+	public void update(List<IUpdateWrapper<Student>> updateWrappers) throws ServiceException {
 		try {
 			dao.open();
 
 			ISession<Student> studentDAO = dao.getSession(Student.class);
+			IStudentUpdateWrapper studentUpdateWrapper;
 
-			for (Student student : students) {
-				LOG.info("update : number=" + student.getNumber());
-				studentDAO.update(student);
+			for (IUpdateWrapper<Student> updateWrapper : updateWrappers) {
+				studentUpdateWrapper = (IStudentUpdateWrapper) updateWrapper;
+
+				LOG.info("update : number=" + studentUpdateWrapper.getNumber());
+				studentDAO.update(studentUpdateWrapper);
 			}
 		} catch (DAOException e) {
 			LOG.error(e);

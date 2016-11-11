@@ -6,15 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.IJDBCTransaction;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
 public class ReportTransaction implements IJDBCTransaction {
 
 	private JDBCReportDAO reportDAO;
 	private String query;
 	private Report report;
+	private IReportUpdateWrapper updateWrapper;
 
 	public ReportTransaction(JDBCReportDAO reportDAO) {
 		this.reportDAO = reportDAO;
@@ -23,6 +26,11 @@ public class ReportTransaction implements IJDBCTransaction {
 	public void editTransaction(String query, Report report) {
 		this.query = query;
 		this.report = report;
+	}
+
+	public void editTransaction(String query, IReportUpdateWrapper updateWrapper) {
+		this.query = query;
+		this.updateWrapper = updateWrapper;
 	}
 
 	@Override
@@ -54,13 +62,13 @@ public class ReportTransaction implements IJDBCTransaction {
 	public void update(Connection connection) throws SQLException, DAOException {
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-		reportDAO.editPreparedStatementForUpdate(preparedStatement, report);
+		reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
 		preparedStatement.executeUpdate();
 
-		reportDAO.getLeadEvaluationDAO().update(report.getLeadEvaluation());
+		reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
 
-		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-			reportDAO.getIndividualEvaluationDAO().update(individualEvaluation);
+		for (IUpdateWrapper<IndividualEvaluation> wrapper : updateWrapper.getIndividualEvaluationUpdateWrappers()) {
+			reportDAO.getIndividualEvaluationDAO().update(wrapper);
 		}
 	}
 

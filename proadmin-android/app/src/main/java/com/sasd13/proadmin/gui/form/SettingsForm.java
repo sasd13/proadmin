@@ -57,6 +57,14 @@ public class SettingsForm extends Form {
         modelEmail.setValue(teacher.getEmail());
     }
 
+    public String getNumber() throws FormException {
+        if (StringUtils.isBlank(modelNumber.getValue())) {
+            throw new FormException(context, R.string.form_settings_message_error_number);
+        }
+
+        return modelNumber.getValue().trim();
+    }
+
     public String getFirstName() throws FormException {
         if (StringUtils.isBlank(modelFirstName.getValue())) {
             throw new FormException(context, R.string.form_settings_message_error_firstname);

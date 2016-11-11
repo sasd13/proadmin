@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.validator.IValidator;
+import com.sasd13.proadmin.aaa.dao.CredentialUpdateWrapper;
 import com.sasd13.proadmin.aaa.service.CredentialManageService;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
 
@@ -74,7 +76,12 @@ public class SignServlet extends AAAServlet {
 			Credential credential = readFromRequest(req);
 
 			validator.validate(credential);
-			manageService.update((List<Credential>) Arrays.asList(new Credential[] { credential }));
+
+			CredentialUpdateWrapper credentialUpdateWrapper = new CredentialUpdateWrapper();
+			credentialUpdateWrapper.setWrapped(credential);
+			credentialUpdateWrapper.setUsername(credential.getUsername());
+
+			manageService.update((List<IUpdateWrapper<Credential>>) Arrays.asList(new CredentialUpdateWrapper[] { credentialUpdateWrapper }));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

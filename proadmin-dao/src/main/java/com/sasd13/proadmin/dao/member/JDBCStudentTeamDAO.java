@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IExpressionBuilder;
+import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -44,7 +45,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public void update(StudentTeam studentTeam) throws DAOException {
+	public void update(IUpdateWrapper<StudentTeam> updateWrapper) throws DAOException {
 		// Do nothing
 	}
 
@@ -87,7 +88,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, StudentTeam t) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<StudentTeam> updateWrapper) throws SQLException {
 		// Do nothing
 	}
 
@@ -99,9 +100,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 
 	@Override
 	public StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		StudentTeam studentTeam = new StudentTeamBaseBuilder(
-				resultSet.getString(COLUMN_STUDENT_CODE), 
-				resultSet.getString(COLUMN_TEAM_CODE)).build();
+		StudentTeam studentTeam = new StudentTeamBaseBuilder(resultSet.getString(COLUMN_STUDENT_CODE), resultSet.getString(COLUMN_TEAM_CODE)).build();
 
 		return studentTeam;
 	}
