@@ -39,21 +39,24 @@ public class RunningForm extends Form {
         holder.add(new RecyclerHolderPair(modelProject));
     }
 
-    public void bind(Running running, List<Project> projects) {
-        this.projects = projects;
+    public void bindRunning(Running running) {
+        modelYear.setValue(String.valueOf(running.getYear()));
+    }
+
+    public void bindProjects(List<Project> projectsToBind, Project project) {
+        projects = projectsToBind;
         List<String> projectsCodes = new ProjectsCodesBuilder(projects).build();
 
-        modelYear.setValue(String.valueOf(running.getYear()));
         modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
 
-        if (running.getProject() != null) {
-            modelProject.setValue(Finder.indexOf(running.getProject().getCode(), projects));
+        if (project != null) {
+            modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
         }
     }
 
     public int getYear() throws FormException {
         if (!StringUtils.isNumeric(modelYear.getValue())) {
-            throw new FormException(context, R.string.form_runnings_message_error_year);
+            throw new FormException(context, R.string.form_running_message_error_year);
         }
 
         return Integer.parseInt(modelYear.getValue());
@@ -61,7 +64,7 @@ public class RunningForm extends Form {
 
     public Project getProject() throws FormException {
         if (modelProject.getValue() < 0) {
-            throw new FormException(context, R.string.form_runnings_message_error_project);
+            throw new FormException(context, R.string.form_running_message_error_project);
         }
 
         return projects.get(modelProject.getValue());

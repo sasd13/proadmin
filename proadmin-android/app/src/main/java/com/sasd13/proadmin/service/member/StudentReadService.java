@@ -8,7 +8,7 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.member.IStudentReadWrapper;
+import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 import com.sasd13.proadmin.wrapper.read.member.StudentReadWrapper;
 
 /**
@@ -16,14 +16,14 @@ import com.sasd13.proadmin.wrapper.read.member.StudentReadWrapper;
  */
 public class StudentReadService implements IHttpCallback {
 
-    private IReadServiceCaller<IStudentReadWrapper> serviceCaller;
+    private IReadServiceCaller<IReadWrapper<Student>> serviceCaller;
     private ReadTask<Student> readTask;
 
-    public StudentReadService(IReadServiceCaller<IStudentReadWrapper> serviceCaller) {
+    public StudentReadService(IReadServiceCaller<IReadWrapper<Student>> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readStudent() {
+    public void readStudents() {
         readTask = new ReadTask<>(WSResources.URL_WS_STUDENTS, this, Student.class);
 
         readTask.execute();

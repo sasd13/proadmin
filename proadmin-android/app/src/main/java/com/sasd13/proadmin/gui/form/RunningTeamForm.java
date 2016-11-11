@@ -14,6 +14,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Finder;
 import com.sasd13.proadmin.util.builder.AcademicLevelsCodesBuilder;
+import com.sasd13.proadmin.util.builder.member.TeamsNumbersBuilder;
 import com.sasd13.proadmin.util.builder.project.ProjectsCodesBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,45 +53,46 @@ public class RunningTeamForm extends Form {
         holder.add(new RecyclerHolderPair(modelTeam));
     }
 
-    public void bind(RunningTeam runningTeam, List<Project> projects, List<AcademicLevel> academicLevels, List<Team> teams) {
+    public void bindRunningTeam(RunningTeam runningTeam) {
         modelYear.setValue(String.valueOf(runningTeam.getRunning().getYear()));
-
-        setProjects(runningTeam, projects);
-        setAcademicLevels(runningTeam, academicLevels);
-        setTeams(runningTeam, teams);
     }
 
-    private void setProjects(RunningTeam runningTeam, List<Project> projects) {
-        this.projects = projects;
+    public void bindProjects(List<Project> projectsToBind, Project project) {
+        projects = projectsToBind;
         List<String> projectsCodes = new ProjectsCodesBuilder(projects).build();
 
         modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
 
-        if (runningTeam.getRunning() != null && runningTeam.getRunning().getProject() != null) {
-            modelProject.setValue(Finder.indexOfProject(runningTeam.getRunning().getProject().getCode(), projects));
+        if (project != null) {
+            modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
         }
     }
 
-    private void setAcademicLevels(RunningTeam runningTeam, List<AcademicLevel> academicLevels) {
-        this.academicLevels = academicLevels;
+    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
+        academicLevels = academicLevelsToBind;
         List<String> academicLevelsCodes = new AcademicLevelsCodesBuilder(academicLevels).build();
 
-        modelProject.setItems(academicLevelsCodes.toArray(new String[academicLevelsCodes.size()]));
+        modelAcademicLevel.setItems(academicLevelsCodes.toArray(new String[academicLevelsCodes.size()]));
 
-        if (runningTeam.getAcademicLevel() != null) {
-            modelProject.setValue(Finder.indexOfAcademicLevel(runningTeam.getAcademicLevel().getCode(), academicLevels));
+        if (academicLevel != null) {
+            modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel.getCode(), academicLevels));
         }
     }
 
-    private void setTeams(RunningTeam runningTeam, List<Team> teams) {
-        this.teams = teams;
+    public void bindTeams(List<Team> teamsToBind, Team team) {
+        teams = teamsToBind;
+        List<String> teamsCodes = new TeamsNumbersBuilder(teams).build();
 
-        // TODO
+        modelTeam.setItems(teamsCodes.toArray(new String[teamsCodes.size()]));
+
+        if (team != null) {
+            modelTeam.setValue(Finder.indexOfTeam(team.getNumber(), teams));
+        }
     }
 
     public int getYear() throws FormException {
         if (!StringUtils.isNumeric(modelYear.getValue())) {
-            throw new FormException(context, R.string.form_runnings_message_error_year);
+            throw new FormException(context, R.string.form_runningteam_message_error_year);
         }
 
         return Integer.parseInt(modelYear.getValue());
@@ -98,7 +100,7 @@ public class RunningTeamForm extends Form {
 
     public Project getProject() throws FormException {
         if (modelProject.getValue() < 0) {
-            throw new FormException(context, R.string.form_runningteams_message_error_project);
+            throw new FormException(context, R.string.form_runningteam_message_error_project);
         }
 
         return projects.get(modelProject.getValue());
@@ -106,7 +108,7 @@ public class RunningTeamForm extends Form {
 
     public AcademicLevel getAcademicLevel() throws FormException {
         if (modelAcademicLevel.getValue() < 0) {
-            throw new FormException(context, R.string.form_runningteams_message_error_academiclevel);
+            throw new FormException(context, R.string.form_runningteam_message_error_academiclevel);
         }
 
         return academicLevels.get(modelAcademicLevel.getValue());
@@ -114,7 +116,7 @@ public class RunningTeamForm extends Form {
 
     public Team getTeam() throws FormException {
         if (modelTeam.getValue() < 0) {
-            throw new FormException(context, R.string.form_runningteams_message_error_team);
+            throw new FormException(context, R.string.form_runningteam_message_error_team);
         }
 
         return teams.get(modelTeam.getValue());

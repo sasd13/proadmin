@@ -3,27 +3,31 @@ package com.sasd13.proadmin.service.member;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.androidex.ws.rest.ReadTask;
 import com.sasd13.javaex.net.IHttpCallback;
+import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.member.IStudentTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 import com.sasd13.proadmin.wrapper.read.member.StudentTeamReadWrapper;
 
 public class StudentTeamReadService implements IHttpCallback {
 
-    private IReadServiceCaller<IStudentTeamReadWrapper> serviceCaller;
+    private IReadServiceCaller<IReadWrapper<StudentTeam>> serviceCaller;
     private ReadTask<StudentTeam> readTask;
 
-    public StudentTeamReadService(IReadServiceCaller<IStudentTeamReadWrapper> serviceCaller) {
+    public StudentTeamReadService(IReadServiceCaller<IReadWrapper<StudentTeam>> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readStudentTeams(String teamNumber) {
-        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, StudentTeam.class);
+    public void readStudentTeams(Team team) {
+        readTask = new ReadTask<>(WSResources.URL_WS_STUDENTTEAMS, this, StudentTeam.class);
 
-        readTask.putParameter(EnumParameter.TEAM.getName(), new String[]{teamNumber});
+        readTask.addRequestHeader(EnumHttpHeader.READ_CODE.getName(), WSConstants.REQUEST_READ_DEEP);
+        readTask.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
         readTask.execute();
     }
 

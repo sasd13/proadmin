@@ -30,16 +30,17 @@
     <string name="form_settings_message_error_firstname">Prénom invalide</string>
     <string name="form_settings_message_error_lastname">Nom invalide</string>
     <string name="form_settings_message_error_email">Email invalide</string>
-    <string name="form_runnings_message_error_year">Année invalide</string>
-    <string name="form_runnings_message_error_project">Projet invalide</string>
+    <string name="form_running_message_error_year">Année invalide</string>
+    <string name="form_running_message_error_project">Projet invalide</string>
     <string name="form_runningteams_message_error_number">Numéro invalide</string>
-    <string name="form_runningteams_message_error_project">Projet invalide</string>
-    <string name="form_runningteams_message_error_academiclevel">Niveau académique invalide</string>
-    <string name="form_runningteams_message_error_team">Groupe invalide</string>
-    <string name="form_students_message_error_number">Numéro invalide</string>
-    <string name="form_students_message_error_firstname">Prénom invalide</string>
-    <string name="form_students_message_error_lastname">Nom invalide</string>
-    <string name="form_students_message_error_email">Email invalide</string>
+    <string name="form_runningteam_message_error_project">Projet invalide</string>
+    <string name="form_runningteam_message_error_academiclevel">Niveau académique invalide</string>
+    <string name="form_runningteam_message_error_team">Groupe invalide</string>
+    <string name="form_team_message_error_number">Numéro invalide</string>
+    <string name="form_student_message_error_number">Numéro invalide</string>
+    <string name="form_student_message_error_firstname">Prénom invalide</string>
+    <string name="form_student_message_error_lastname">Nom invalide</string>
+    <string name="form_student_message_error_email">Email invalide</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valider</string>
@@ -57,10 +58,18 @@
     <string name="label_team">Groupe</string>
     <string name="label_year">Année</string>
     <string name="title_identity">Identité</string>
+    <string name="title_projects">Projets</string>
     <string name="title_project">Projet</string>
     <string name="title_runnings">Gestions</string>
     <string name="title_running">Gestion</string>
+    <string name="title_runningteams">Gestions d\'équipe</string>
+    <string name="title_runningteam">Gestion d\'équipe</string>
     <string name="title_teams">Groupes</string>
+    <string name="title_team">Groupe</string>
+    <string name="title_students">Etudiants</string>
+    <string name="title_student">Etudiant</string>
+    <string name="title_reports">Rapports</string>
+    <string name="title_report">Rapport</string>
 
     <!-- Web service -->
     <string name="error_unknown">Erreur inconnue</string>

@@ -7,7 +7,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.project.IProjectReadWrapper;
+import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 import com.sasd13.proadmin.wrapper.read.project.ProjectReadWrapper;
 
 /**
@@ -15,10 +15,10 @@ import com.sasd13.proadmin.wrapper.read.project.ProjectReadWrapper;
  */
 public class ProjectReadService implements IHttpCallback {
 
-    private IReadServiceCaller<IProjectReadWrapper> serviceCaller;
+    private IReadServiceCaller<IReadWrapper<Project>> serviceCaller;
     private ReadTask<Project> readTask;
 
-    public ProjectReadService(IReadServiceCaller<IProjectReadWrapper> serviceCaller) {
+    public ProjectReadService(IReadServiceCaller<IReadWrapper<Project>> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 

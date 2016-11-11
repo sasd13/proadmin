@@ -30,16 +30,17 @@
     <string name="form_settings_message_error_firstname">Invalid first name</string>
     <string name="form_settings_message_error_lastname">Invalid last name</string>
     <string name="form_settings_message_error_email">Invalid email</string>
-    <string name="form_runnings_message_error_year">Invalid year</string>
-    <string name="form_runnings_message_error_project">Invalid project</string>
-    <string name="form_runningteams_message_error_number">Invalid number</string>
-    <string name="form_runningteams_message_error_project">Invalid project</string>
-    <string name="form_runningteams_message_error_academiclevel">Invalid academic level</string>
-    <string name="form_runningteams_message_error_team">Invalid team</string>
-    <string name="form_students_message_error_number">Invalid number</string>
-    <string name="form_students_message_error_firstname">Invalid first name</string>
-    <string name="form_students_message_error_lastname">Invalid last name</string>
-    <string name="form_students_message_error_email">Invalid email</string>
+    <string name="form_running_message_error_year">Invalid year</string>
+    <string name="form_running_message_error_project">Invalid project</string>
+    <string name="form_runningteam_message_error_year">Invalid year</string>
+    <string name="form_runningteam_message_error_project">Invalid project</string>
+    <string name="form_runningteam_message_error_academiclevel">Invalid academic level</string>
+    <string name="form_runningteam_message_error_team">Invalid team</string>
+    <string name="form_team_message_error_number">Invalid number</string>
+    <string name="form_student_message_error_number">Invalid number</string>
+    <string name="form_student_message_error_firstname">Invalid first name</string>
+    <string name="form_student_message_error_lastname">Invalid last name</string>
+    <string name="form_student_message_error_email">Invalid email</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>
@@ -57,10 +58,18 @@
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
     <string name="title_identity">Identity</string>
+    <string name="title_projects">Projects</string>
     <string name="title_project">Project</string>
     <string name="title_runnings">Runnings</string>
     <string name="title_running">Running</string>
+    <string name="title_runningteams">Running teams</string>
+    <string name="title_runningteam">Running team</string>
     <string name="title_teams">Teams</string>
+    <string name="title_team">Team</string>
+    <string name="title_students">Students</string>
+    <string name="title_student">Student</string>
+    <string name="title_reports">Reports</string>
+    <string name="title_report">Report</string>
 
     <!-- Web service -->
     <string name="error_unknown">Unknown error</string>

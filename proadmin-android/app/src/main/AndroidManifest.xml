@@ -13,7 +13,7 @@
         android:label="@string/app_name">
 
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:label="@string/activity_splashscreen"
             android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".activities.LogInActivity"
+            android:name=".activity.LogInActivity"
             android:label="@string/activity_login"
             android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activity.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/ProadminBlue"
             android:screenOrientation="portrait"
@@ -45,35 +45,35 @@
         </activity>
 
         <activity
-            android:name=".activities.ProjectsActivity"
+            android:name=".activity.ProjectsActivity"
             android:label="@string/activity_projects"
             android:theme="@style/ProadminOrange"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.HomeActivity">
+            android:parentActivityName=".activity.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.HomeActivity" />
+                android:value=".activity.HomeActivity" />
         </activity>
 
         <activity
-            android:name=".activities.RunningsActivity"
+            android:name=".activity.RunningsActivity"
             android:label="@string/activity_runnings"
             android:theme="@style/ProadminRed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ProjectsActivity">
+            android:parentActivityName=".activity.ProjectsActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ProjectsActivity" />
+                android:value=".activity.ProjectsActivity" />
         </activity>
 
         <activity
-            android:name=".activities.TeamsActivity"
+            android:name=".activity.TeamsActivity"
             android:label="@string/activity_teams"
             android:theme="@style/ProadminGreen"
             android:screenOrientation="portrait"
@@ -81,17 +81,17 @@
             android:launchMode="singleTask"/>
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="@string/activity_settings"
             android:theme="@style/ProadminBrown"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.HomeActivity">
+            android:parentActivityName=".activity.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.HomeActivity" />
+                android:value=".activity.HomeActivity" />
         </activity>
 
     </application>

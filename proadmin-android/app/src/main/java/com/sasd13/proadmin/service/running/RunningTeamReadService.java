@@ -8,15 +8,15 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.running.IRunningTeamReadWrapper;
+import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 import com.sasd13.proadmin.wrapper.read.running.RunningTeamReadWrapper;
 
 public class RunningTeamReadService implements IHttpCallback {
 
-    private IReadServiceCaller<IRunningTeamReadWrapper> serviceCaller;
+    private IReadServiceCaller<IReadWrapper<RunningTeam>> serviceCaller;
     private ReadTask<RunningTeam> readTask;
 
-    public RunningTeamReadService(IReadServiceCaller<IRunningTeamReadWrapper> serviceCaller) {
+    public RunningTeamReadService(IReadServiceCaller<IReadWrapper<RunningTeam>> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by ssaidali2 on 10/11/2016.
  */
 
-public class AcademicLevelReadWrapper implements IAcademicLevelReadWrapper {
+public class AcademicLevelReadWrapper implements IReadWrapper<AcademicLevel> {
 
     private List<AcademicLevel> academicLevels;
 
@@ -17,7 +17,7 @@ public class AcademicLevelReadWrapper implements IAcademicLevelReadWrapper {
     }
 
     @Override
-    public List<AcademicLevel> getAcademicLevels() {
+    public List<AcademicLevel> getWrapped() {
         return academicLevels;
     }
 }

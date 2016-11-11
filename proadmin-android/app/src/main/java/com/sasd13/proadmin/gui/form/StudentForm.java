@@ -50,7 +50,7 @@ public class StudentForm extends Form {
         holder.add(title, new RecyclerHolderPair(modelEmail));
     }
 
-    public void bind(Student student) {
+    public void bindStudent(Student student) {
         modelNumber.setValue(student.getNumber());
         modelFirstName.setValue(student.getFirstName());
         modelLastName.setValue(student.getLastName());
@@ -59,7 +59,7 @@ public class StudentForm extends Form {
 
     public String getNumber() throws FormException {
         if (StringUtils.isBlank(modelNumber.getValue())) {
-            throw new FormException(context, R.string.form_students_message_error_number);
+            throw new FormException(context, R.string.form_student_message_error_number);
         }
 
         return modelNumber.getValue().trim();
@@ -67,7 +67,7 @@ public class StudentForm extends Form {
 
     public String getFirstName() throws FormException {
         if (StringUtils.isBlank(modelFirstName.getValue())) {
-            throw new FormException(context, R.string.form_students_message_error_firstname);
+            throw new FormException(context, R.string.form_student_message_error_firstname);
         }
 
         return modelFirstName.getValue().trim();
@@ -75,7 +75,7 @@ public class StudentForm extends Form {
 
     public String getLastName() throws FormException {
         if (StringUtils.isBlank(modelLastName.getValue())) {
-            throw new FormException(context, R.string.form_students_message_error_lastname);
+            throw new FormException(context, R.string.form_student_message_error_lastname);
         }
 
         return modelLastName.getValue().trim();
@@ -83,7 +83,7 @@ public class StudentForm extends Form {
 
     public String getEmail() throws FormException {
         if (StringUtils.isBlank(modelEmail.getValue())) {
-            throw new FormException(context, R.string.form_students_message_error_email);
+            throw new FormException(context, R.string.form_student_message_error_email);
         }
 
         return modelEmail.getValue().trim();

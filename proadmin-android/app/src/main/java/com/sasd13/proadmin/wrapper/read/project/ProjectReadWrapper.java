@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.wrapper.read.project;
 
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by ssaidali2 on 10/11/2016.
  */
 
-public class ProjectReadWrapper implements IProjectReadWrapper {
+public class ProjectReadWrapper implements IReadWrapper<Project> {
 
     private List<Project> projects;
 

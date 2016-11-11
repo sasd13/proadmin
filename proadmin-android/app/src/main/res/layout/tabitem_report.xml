@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/AndroidEX.Recycler.Item"
+    android:minHeight="@dimen/recycleritem_height_large"
+    android:paddingLeft="@dimen/recycleritem_padding_horizontal"
+    android:paddingRight="@dimen/recycleritem_padding_horizontal">
+
+    <TextView
+        android:id="@+id/tabitem_textview_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/recycleritem_padding_vertical"
+        android:gravity="center_vertical"
+        android:text="@string/tabitem_textview_label"
+        android:textColor="?textColorPrimary"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tabitem_report_textview_datemeeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabitem_textview_label"
+        android:layout_marginTop="@dimen/view_margin_small"
+        android:gravity="left|center_vertical"
+        android:text="date"
+        android:textSize="@dimen/text_size_medium"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tabitem_report_textview_session"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabitem_report_textview_datemeeting"
+        android:layout_marginBottom="@dimen/recycleritem_padding_vertical"
+        android:gravity="left|center_vertical"
+        android:text="session"
+        android:textSize="@dimen/text_size_medium"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</RelativeLayout>
+

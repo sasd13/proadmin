@@ -50,7 +50,7 @@ public class SettingsForm extends Form {
         holder.add(title, new RecyclerHolderPair(modelEmail));
     }
 
-    public void bind(Teacher teacher) {
+    public void bindTeacher(Teacher teacher) {
         modelNumber.setValue(teacher.getNumber());
         modelFirstName.setValue(teacher.getFirstName());
         modelLastName.setValue(teacher.getLastName());

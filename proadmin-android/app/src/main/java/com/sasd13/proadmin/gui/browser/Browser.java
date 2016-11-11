@@ -4,11 +4,11 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activities.HomeActivity;
-import com.sasd13.proadmin.activities.ProjectsActivity;
-import com.sasd13.proadmin.activities.RunningsActivity;
-import com.sasd13.proadmin.activities.SettingsActivity;
-import com.sasd13.proadmin.activities.TeamsActivity;
+import com.sasd13.proadmin.activity.HomeActivity;
+import com.sasd13.proadmin.activity.ProjectsActivity;
+import com.sasd13.proadmin.activity.RunningsActivity;
+import com.sasd13.proadmin.activity.SettingsActivity;
+import com.sasd13.proadmin.activity.TeamsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

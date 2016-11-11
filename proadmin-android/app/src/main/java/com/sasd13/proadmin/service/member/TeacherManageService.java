@@ -12,7 +12,6 @@ import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.member.ITeacherReadWrapper;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
@@ -21,27 +20,29 @@ public class TeacherManageService implements IHttpCallback {
 
     private IManageServiceCaller<Teacher> serviceCaller;
     private UpdateTask<Teacher> updateTask;
-    private Teacher teacher;
 
     public TeacherManageService(IManageServiceCaller<Teacher> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void updateTeacher(SettingsForm settingsForm, String number) {
+    public void updateTeacher(SettingsForm settingsForm, Teacher teacher) {
         try {
-            teacher = getTeacherToUpdate(settingsForm, number);
+            ITeacherUpdateWrapper teacherUpdateWrapper = getTeacherUpdateWrapper(settingsForm, teacher);
             updateTask = new UpdateTask<>(WSResources.URL_WS_TEACHERS, this);
 
-            updateTask.execute(teacher);
+            updateTask.execute(teacherUpdateWrapper);
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private ITeacherUpdateWrapper getTeacherUpdateWrapper(SettingsForm settingsForm, Teacher teacher) {
+    private ITeacherUpdateWrapper getTeacherUpdateWrapper(SettingsForm settingsForm, Teacher teacher) throws FormException {
         ITeacherUpdateWrapper teacherUpdateWrapper = new TeacherUpdateWrapper();
 
-        teacherUpdateWrapper.setWrapped(getTeacherToUpdate(settingsForm, teacher));
+        teacherUpdateWrapper.setWrapped(getTeacherToUpdate(settingsForm));
+        teacherUpdateWrapper.setNumber(teacher.getNumber());
+
+        return teacherUpdateWrapper;
     }
 
     private Teacher getTeacherToUpdate(SettingsForm settingsForm) throws FormException {
@@ -64,7 +65,7 @@ public class TeacherManageService implements IHttpCallback {
         if (!updateTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
-            serviceCaller.onUpdateSucceeded(teacher);
+            serviceCaller.onUpdateSucceeded();
         }
     }
 
