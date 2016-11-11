@@ -30,7 +30,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.TeamsActivity;
+import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
@@ -48,7 +48,7 @@ import java.util.List;
 
 public class RunningTeamsFragment extends Fragment implements IReadServiceCaller<IReadWrapper<RunningTeam>> {
 
-    private TeamsActivity parentActivity;
+    private RunningTeamsActivity parentActivity;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private Spin spinYears;
@@ -69,7 +69,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
 
         setHasOptionsMenu(true);
 
-        parentActivity = (TeamsActivity) getActivity();
+        parentActivity = (RunningTeamsActivity) getActivity();
         years = new ArrayList<>();
         runningTeams = new ArrayList<>();
         runningTeamReadService = new RunningTeamReadService(this);
@@ -117,7 +117,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newTeam();
+                parentActivity.newRunningTeam();
             }
         });
     }
@@ -209,7 +209,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showTeam(runningTeam.getTeam());
+                    parentActivity.showRunningTeam(runningTeam);
                 }
             });
 

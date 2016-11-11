@@ -56,12 +56,12 @@ public class HomeActivity extends MotherActivity {
                     case R.id.home_imageview_project:
                         mClass = ProjectsActivity.class;
                         break;
-                    /*case R.id.home_imageview_team:
+                    case R.id.home_imageview_team:
                         mClass = TeamsActivity.class;
-                        break;*/
-                    /*case R.id.home_imageview_report:
+                        break;
+                    case R.id.home_imageview_report:
                         mClass = ReportsActivity.class;
-                        break;*/
+                        break;
                     case R.id.home_imageview_calendar:
                         mClass = SettingsActivity.class;
                         break;

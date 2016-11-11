@@ -22,7 +22,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.TeamsActivity;
+import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
@@ -42,7 +42,7 @@ import java.util.List;
 
 public class RunningTeamDetailsFragmentInfos extends Fragment implements IManageServiceCaller<RunningTeam>, IRunningTeamReadServiceCaller {
 
-    private TeamsActivity parentActivity;
+    private RunningTeamsActivity parentActivity;
 
     private RunningTeamForm runningTeamForm;
 
@@ -66,7 +66,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
 
         setHasOptionsMenu(true);
 
-        parentActivity = (TeamsActivity) getActivity();
+        parentActivity = (RunningTeamsActivity) getActivity();
         runningTeamManageService = new RunningTeamManageService(this);
         projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
         academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
@@ -210,7 +210,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     @Override
     public void onDeleteSucceeded() {
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listTeams();
+        parentActivity.listRunningTeams();
     }
 
     @Override

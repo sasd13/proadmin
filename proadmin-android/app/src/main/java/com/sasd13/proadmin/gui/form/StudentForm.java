@@ -26,7 +26,6 @@ public class StudentForm extends Form {
 
         modelNumber = new TextItemModel();
         modelNumber.setLabel(context.getResources().getString(R.string.label_number));
-        modelNumber.setReadOnly(true);
         holder.add(title, new RecyclerHolderPair(modelNumber));
 
         modelFirstName = new TextItemModel();
@@ -40,8 +39,6 @@ public class StudentForm extends Form {
         modelLastName.setLabel(context.getResources().getString(R.string.label_lastname));
         modelLastName.setHint(modelLastName.getLabel().toLowerCase());
         holder.add(title, new RecyclerHolderPair(modelLastName));
-
-        title = context.getResources().getString(R.string.drawer_header_account);
 
         modelEmail = new TextItemModel();
         modelEmail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);

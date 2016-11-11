@@ -12,12 +12,12 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.TeamsActivity;
+import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public class RunningTeamDetailsFragment extends Fragment {
 
-    private TeamsActivity parentActivity;
+    private RunningTeamsActivity parentActivity;
 
     private RunningTeam runningTeam;
 
@@ -32,7 +32,7 @@ public class RunningTeamDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (TeamsActivity) getActivity();
+        parentActivity = (RunningTeamsActivity) getActivity();
     }
 
     @Override
