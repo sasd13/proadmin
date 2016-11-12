@@ -43,6 +43,10 @@
     <string name="form_student_message_error_firstname">Prénom invalide</string>
     <string name="form_student_message_error_lastname">Nom invalide</string>
     <string name="form_student_message_error_email">Email invalide</string>
+    <string name="form_report_message_error_number">Numéro invalide</string>
+    <string name="form_report_message_error_session">Session invalide</string>
+    <string name="form_report_message_error_datemeeting">Date de réunion invalide</string>
+    <string name="form_report_message_error_comment">Commentaire invalide</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valider</string>
@@ -59,6 +63,10 @@
     <string name="label_project">Projet</string>
     <string name="label_team">Groupe</string>
     <string name="label_year">Année</string>
+    <string name="label_session">Session</string>
+    <string name="label_datemeeting">Date de réunion</string>
+    <string name="label_comment">Commentaire</string>
+    <string name="label_leader">Chef d\'équipe</string>
     <string name="title_identity">Identité</string>
     <string name="title_projects">Projets</string>
     <string name="title_project">Projet</string>
@@ -72,6 +80,10 @@
     <string name="title_student">Etudiant</string>
     <string name="title_reports">Rapports</string>
     <string name="title_report">Rapport</string>
+    <string name="title_leadevaluations">Evaluations de chef</string>
+    <string name="title_leadevaluation">Evaluation du chef</string>
+    <string name="title_individualevaluations">Evaluations individuelles</string>
+    <string name="title_individualevaluation">Evaluation individuelle</string>
 
     <!-- Web service -->
     <string name="error_unknown">Erreur inconnue</string>

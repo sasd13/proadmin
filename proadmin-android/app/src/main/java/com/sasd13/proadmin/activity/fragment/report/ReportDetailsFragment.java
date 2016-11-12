@@ -13,19 +13,21 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.running.ReportParcel;
 import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
 
 public class ReportDetailsFragment extends Fragment {
 
     private ReportsActivity parentActivity;
 
-    private RunningTeam runningTeam;
+    private Report report;
 
-    public static ReportDetailsFragment newInstance(RunningTeam runningTeam) {
+    public static ReportDetailsFragment newInstance(Report report) {
         ReportDetailsFragment fragment = new ReportDetailsFragment();
-        fragment.runningTeam = runningTeam;
+        fragment.report = report;
 
         return fragment;
     }
@@ -44,8 +46,8 @@ public class ReportDetailsFragment extends Fragment {
             return;
         }
 
-        if (runningTeam == null) {
-            runningTeam = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM);
+        if (report == null) {
+            report = savedInstanceState.getParcelable(Extra.PARCEL_REPORT);
         }
     }
 
@@ -67,7 +69,7 @@ public class ReportDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ReportPagerFragmentFactory(runningTeam));
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ReportPagerFragmentFactory(report));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
@@ -78,14 +80,14 @@ public class ReportDetailsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(Extra.PARCEL_RUNNINGTEAM, new RunningTeamParcel(runningTeam));
+        outState.putParcelable(Extra.PARCEL_REPORT, new ReportParcel(report));
     }
 
     @Override

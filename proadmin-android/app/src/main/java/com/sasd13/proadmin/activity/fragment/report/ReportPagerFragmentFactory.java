@@ -5,29 +5,35 @@ import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.gui.widget.pager.IPagerFragmentFactory;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.Report;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
 public class ReportPagerFragmentFactory implements IPagerFragmentFactory {
 
-    private static final int COUNT = 2;
-    private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_reports};
+    private static final int COUNT = 3;
+    private static final @StringRes int[] TITLES = {
+            R.string.title_information,
+            R.string.title_leadevaluation,
+            R.string.title_individualevaluations,
+    };
 
-    private RunningTeam runningTeam;
+    private Report report;
 
-    public ReportPagerFragmentFactory(RunningTeam runningTeam) {
-        this.runningTeam = runningTeam;
+    public ReportPagerFragmentFactory(Report report) {
+        this.report = report;
     }
 
     @Override
     public Fragment make(int position) {
         switch (position) {
             case 0:
-                return ReportDetailsFragmentInfos.newInstance(runningTeam);
+                return ReportDetailsFragmentInfos.newInstance(report);
             case 1:
-                return ReportDetailsFragmentLeadEvaluation.newInstance(runningTeam);
+                return ReportDetailsFragmentLeadEvaluation.newInstance(report);
+            case 2:
+                return ReportDetailsFragmentIndividualEvaluation.newInstance(report);
             default:
                 return null;
         }

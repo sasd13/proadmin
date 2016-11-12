@@ -20,9 +20,11 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
+import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.extra.Extra;
@@ -35,20 +37,20 @@ import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportDetailsFragmentIndividualEvaluation extends Fragment implements IReadServiceCaller<IReadWrapper<Report>> {
+public class ReportDetailsFragmentIndividualEvaluation extends Fragment implements IManageServiceCaller<Report> {
 
     private ReportsActivity parentActivity;
 
-    private Recycler reportsTab;
+    private Recycler individualEvaluationsTab;
 
-    private RunningTeam runningTeam;
-    private List<Report> reports;
+    private Report report;
+    private List<IndividualEvaluation> individualEvaluations;
 
-    private ReportReadService reportReadService;
+    private ReportManageService reportReadService;
 
-    public static ReportDetailsFragmentIndividualEvaluation newInstance(RunningTeam runningTeam) {
+    public static ReportDetailsFragmentIndividualEvaluation newInstance(Report report) {
         ReportDetailsFragmentIndividualEvaluation fragment = new ReportDetailsFragmentIndividualEvaluation();
-        fragment.runningTeam = runningTeam;
+        fragment.report = report;
 
         return fragment;
     }
@@ -60,7 +62,6 @@ public class ReportDetailsFragmentIndividualEvaluation extends Fragment implemen
         readFromBundle(savedInstanceState);
 
         parentActivity = (ReportsActivity) getActivity();
-        reports = new ArrayList<>();
         reportReadService = new ReportReadService(this);
     }
 

@@ -43,6 +43,10 @@
     <string name="form_student_message_error_firstname">Invalid first name</string>
     <string name="form_student_message_error_lastname">Invalid last name</string>
     <string name="form_student_message_error_email">Invalid email</string>
+    <string name="form_report_message_error_number">Invalid number</string>
+    <string name="form_report_message_error_session">Invalid session</string>
+    <string name="form_report_message_error_datemeeting">Invalid date meeting</string>
+    <string name="form_report_message_error_comment">Invalid comment</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>
@@ -59,6 +63,10 @@
     <string name="label_project">Project</string>
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
+    <string name="label_session">Session</string>
+    <string name="label_datemeeting">Meeting date</string>
+    <string name="label_comment">Comment</string>
+    <string name="label_leader">Leader</string>
     <string name="title_identity">Identity</string>
     <string name="title_projects">Projects</string>
     <string name="title_project">Project</string>
@@ -72,6 +80,10 @@
     <string name="title_student">Student</string>
     <string name="title_reports">Reports</string>
     <string name="title_report">Report</string>
+    <string name="title_leadevaluations">Lead evaluations</string>
+    <string name="title_leadevaluation">Lead evaluation</string>
+    <string name="title_individualevaluations">Individual evaluations</string>
+    <string name="title_individualevaluation">Individual evaluation</string>
 
     <!-- Web service -->
     <string name="error_unknown">Unknown error</string>
