@@ -5,10 +5,12 @@
     <string name="activity_splashscreen">@string/app_name</string>
     <string name="activity_login">Connexion</string>
     <string name="activity_home">Accueil</string>
+    <string name="activity_settings">Paramètres</string>
+    <string name="activity_teams">Groupes</string>
     <string name="activity_projects">Projets</string>
     <string name="activity_runnings">Gestions</string>
-    <string name="activity_teams">Groupes</string>
-    <string name="activity_settings">Paramètres</string>
+    <string name="activity_runningteams">Gestions d\'équipes</string>
+    <string name="activity_reports">Rapports</string>
 
     <!-- Activity Log In -->
     <string name="login_hint_number">matricule</string>

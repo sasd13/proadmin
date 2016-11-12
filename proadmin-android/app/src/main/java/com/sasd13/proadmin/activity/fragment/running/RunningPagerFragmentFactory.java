@@ -13,7 +13,7 @@ import com.sasd13.proadmin.bean.running.Running;
 public class RunningPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 2;
-    private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_teams};
+    private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_runningteams};
 
     private Running running;
 
@@ -27,7 +27,7 @@ public class RunningPagerFragmentFactory implements IPagerFragmentFactory {
             case 0:
                 return RunningDetailsFragmentInfos.newInstance(running);
             case 1:
-                return RunningDetailsFragmentTeams.newInstance(running);
+                return RunningDetailsFragmentRunningTeams.newInstance(running);
             default:
                 return null;
         }

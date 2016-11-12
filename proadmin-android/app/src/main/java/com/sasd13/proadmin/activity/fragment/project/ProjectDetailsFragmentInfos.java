@@ -15,6 +15,8 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 import com.sasd13.proadmin.gui.form.ProjectForm;
 
 public class ProjectDetailsFragmentInfos extends Fragment {
@@ -28,6 +30,23 @@ public class ProjectDetailsFragmentInfos extends Fragment {
         fragment.project = project;
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        readFromBundle(savedInstanceState);
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (project == null) {
+            project = savedInstanceState.getParcelable(Extra.PARCEL_PROJECT);
+        }
     }
 
     @Override
@@ -64,5 +83,12 @@ public class ProjectDetailsFragmentInfos extends Fragment {
 
     private void bindFormWithProject() {
         projectForm.bind(project);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(Extra.PARCEL_PROJECT, new ProjectParcel(project));
     }
 }

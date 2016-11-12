@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.activity.fragment.running;
+package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,33 +22,33 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.RunningsActivity;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
-import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
-import com.sasd13.proadmin.service.running.RunningTeamReadService;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
+import com.sasd13.proadmin.gui.tab.ReportItemModel;
+import com.sasd13.proadmin.service.running.ReportReadService;
+import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningDetailsFragmentTeams extends Fragment implements IReadServiceCaller<IReadWrapper<RunningTeam>> {
+public class ReportDetailsFragmentIndividualEvaluation extends Fragment implements IReadServiceCaller<IReadWrapper<Report>> {
 
-    private RunningsActivity parentActivity;
+    private ReportsActivity parentActivity;
 
-    private Recycler runningTeamsTab;
+    private Recycler reportsTab;
 
-    private Running running;
-    private List<RunningTeam> runningTeams;
+    private RunningTeam runningTeam;
+    private List<Report> reports;
 
-    private RunningTeamReadService runningTeamReadService;
+    private ReportReadService reportReadService;
 
-    public static RunningDetailsFragmentTeams newInstance(Running running) {
-        RunningDetailsFragmentTeams fragment = new RunningDetailsFragmentTeams();
-        fragment.running = running;
+    public static ReportDetailsFragmentIndividualEvaluation newInstance(RunningTeam runningTeam) {
+        ReportDetailsFragmentIndividualEvaluation fragment = new ReportDetailsFragmentIndividualEvaluation();
+        fragment.runningTeam = runningTeam;
 
         return fragment;
     }
@@ -57,9 +57,21 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (RunningsActivity) getActivity();
-        runningTeams = new ArrayList<>();
-        runningTeamReadService = new RunningTeamReadService(this);
+        readFromBundle(savedInstanceState);
+
+        parentActivity = (ReportsActivity) getActivity();
+        reports = new ArrayList<>();
+        reportReadService = new ReportReadService(this);
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (runningTeam == null) {
+            runningTeam = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM);
+        }
     }
 
     @Override
@@ -75,13 +87,13 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildTabRunnings(view);
+        buildTabReports(view);
         buildFloatingActionButton(view);
     }
 
-    private void buildTabRunnings(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        runningTeamsTab.addDividerItemDecoration();
+    private void buildTabReports(View view) {
+        reportsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        reportsTab.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -89,7 +101,7 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newRunningTeam(running);
+                //parentActivity.newReport(runningTeam);
             }
         });
     }
@@ -98,14 +110,11 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
     public void onStart() {
         super.onStart();
 
-        readRunningTeamsFromWS();
+        readReportsFromWS();
     }
 
-    private void readRunningTeamsFromWS() {
-        runningTeamReadService.readRunningTeams(
-                running.getYear(),
-                running.getProject().getCode(),
-                SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+    private void readReportsFromWS() {
+        reportReadService.readReports(runningTeam);
     }
 
     @Override
@@ -113,40 +122,47 @@ public class RunningDetailsFragmentTeams extends Fragment implements IReadServic
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<RunningTeam> runningTeamReadWrapper) {
-        runningTeams.clear();
-        runningTeams.addAll(runningTeamReadWrapper.getWrapped());
-        fillTabRunningTeamsByTeam();
+    public void onReadSucceeded(IReadWrapper<Report> reportReadWrapper) {
+        reports.clear();
+        reports.addAll(reportReadWrapper.getWrapped());
+        fillTabReportsByTeam();
     }
 
-    private void fillTabRunningTeamsByTeam() {
-        runningTeamsTab.clear();
-        RunningTeamsSorter.byTeamNumber(runningTeams);
-        addRunningsToTab();
+    private void fillTabReportsByTeam() {
+        reportsTab.clear();
+        ReportsSorter.byNumber(reports);
+        addReportsToTab();
     }
 
-    private void addRunningsToTab() {
+    private void addReportsToTab() {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
-        for (final RunningTeam runningTeam : runningTeams) {
-            pair = new RecyclerHolderPair(new RunningTeamItemModel(runningTeam));
+        for (final Report report : reports) {
+            pair = new RecyclerHolderPair(new ReportItemModel(report, getContext()));
 
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showTeam(runningTeam.getTeam());
+                    parentActivity.showReport(report);
                 }
             });
 
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(runningTeamsTab, holder);
+        RecyclerHelper.addAll(reportsTab, holder);
     }
 
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(Extra.PARCEL_RUNNINGTEAM, new RunningTeamParcel(runningTeam));
     }
 }

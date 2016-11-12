@@ -13,7 +13,7 @@ import com.sasd13.proadmin.activity.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.activity.fragment.team.TeamsFragment;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
 
 public class TeamsActivity extends MotherActivity {
@@ -41,7 +41,7 @@ public class TeamsActivity extends MotherActivity {
     private void showFragment() {
         if (!getIntent().hasExtra(Extra.MODE)) {
             listTeams();
-        } else if (getIntent().hasExtra(Extra.TEAM_NUMBER)) {
+        } else if (getIntent().hasExtra(Extra.ID_TEAM_NUMBER)) {
             startFragmentWithoutBackStack(TeamDetailsFragment.newInstance(getTeamFromIntent()));
         } else {
             startFragmentWithoutBackStack(TeamNewFragment.newInstance());
@@ -60,7 +60,7 @@ public class TeamsActivity extends MotherActivity {
     }
 
     private Team getTeamFromIntent() {
-        String teamNumber = getIntent().getStringExtra(Extra.TEAM_NUMBER);
+        String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
 
         return new TeamBaseBuilder(teamNumber).build();
     }

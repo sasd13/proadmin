@@ -10,7 +10,7 @@ import com.sasd13.proadmin.activity.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.activity.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 
 public class ProjectsActivity extends MotherActivity {
 
@@ -52,8 +52,8 @@ public class ProjectsActivity extends MotherActivity {
     public void showRunning(Running running) {
         Intent intent = new Intent(this, RunningsActivity.class);
         intent.putExtra(Extra.MODE, Extra.MODE_EDIT);
-        intent.putExtra(Extra.RUNNING_YEAR, running.getYear());
-        intent.putExtra(Extra.PROJECT_CODE, running.getProject().getCode());
+        intent.putExtra(Extra.ID_RUNNING_YEAR, running.getYear());
+        intent.putExtra(Extra.ID_PROJECT_CODE, running.getProject().getCode());
 
         startActivity(intent);
     }
@@ -61,7 +61,7 @@ public class ProjectsActivity extends MotherActivity {
     public void newRunning(Project project) {
         Intent intent = new Intent(this, RunningsActivity.class);
         intent.putExtra(Extra.MODE, Extra.MODE_NEW);
-        intent.putExtra(Extra.PROJECT_CODE, project.getCode());
+        intent.putExtra(Extra.ID_PROJECT_CODE, project.getCode());
 
         startActivity(intent);
     }

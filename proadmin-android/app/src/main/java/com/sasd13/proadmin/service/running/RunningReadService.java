@@ -21,7 +21,11 @@ public class RunningReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readRunnings(Project project, String teacherNumber) {
+    public void readRunnings(String teacherNumber) {
+        readRunnings(teacherNumber, null);
+    }
+
+    public void readRunnings(String teacherNumber, Project project) {
         readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
 
         if (project != null) {

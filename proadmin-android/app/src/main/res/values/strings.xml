@@ -5,10 +5,12 @@
     <string name="activity_splashscreen">@string/app_name</string>
     <string name="activity_login">Log in</string>
     <string name="activity_home">Home</string>
+    <string name="activity_settings">Settings</string>
+    <string name="activity_teams">Teams</string>
     <string name="activity_projects">Projects</string>
     <string name="activity_runnings">Runnings</string>
-    <string name="activity_teams">Teams</string>
-    <string name="activity_settings">Settings</string>
+    <string name="activity_runningteams">Runnings teams</string>
+    <string name="activity_reports">Reports</string>
 
     <!-- Activity Log In -->
     <string name="login_hint_number">number</string>

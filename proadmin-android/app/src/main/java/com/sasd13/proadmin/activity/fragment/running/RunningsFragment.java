@@ -29,18 +29,17 @@ import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
+import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningsActivity;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.running.RunningsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningYearCriteria;
-import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 
@@ -57,19 +56,11 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
 
     private List<Integer> years;
     private List<Running> runnings;
-    private Project project;
 
     private RunningReadService runningReadService;
 
     public static RunningsFragment newInstance() {
         return new RunningsFragment();
-    }
-
-    public static RunningsFragment newInstance(Project project) {
-        RunningsFragment fragment = new RunningsFragment();
-        fragment.project = project;
-
-        return fragment;
     }
 
     @Override
@@ -113,7 +104,7 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
     }
 
     private void readRunningsFromWS() {
-        runningReadService.readRunnings(project, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+        runningReadService.readRunnings(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
     }
 
     private void buildTabRunnings(View view) {
@@ -129,15 +120,6 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
                 parentActivity.newRunning();
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runnings));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-        readRunningsFromWS();
     }
 
     @Override
@@ -164,6 +146,15 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runnings));
+        parentActivity.getSupportActionBar().setSubtitle(null);
+        readRunningsFromWS();
     }
 
     @Override

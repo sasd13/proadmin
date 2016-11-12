@@ -57,37 +57,43 @@ public class RunningTeamForm extends Form {
         modelYear.setValue(String.valueOf(runningTeam.getRunning().getYear()));
     }
 
-    public void bindProjects(List<Project> projectsToBind, Project project) {
+    public void bindProjects(List<Project> projectsToBind) {
         projects = projectsToBind;
         List<String> projectsCodes = new ProjectsCodesBuilder(projects).build();
 
         modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
-
-        if (project != null) {
-            modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
-        }
     }
 
-    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
+    public void bindProjects(List<Project> projectsToBind, Project project) {
+        bindProjects(projectsToBind);
+
+        modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
+    }
+
+    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
         academicLevels = academicLevelsToBind;
         List<String> academicLevelsCodes = new AcademicLevelsCodesBuilder(academicLevels).build();
 
         modelAcademicLevel.setItems(academicLevelsCodes.toArray(new String[academicLevelsCodes.size()]));
-
-        if (academicLevel != null) {
-            modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel.getCode(), academicLevels));
-        }
     }
 
-    public void bindTeams(List<Team> teamsToBind, Team team) {
+    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
+        bindAcademicLevels(academicLevelsToBind);
+
+        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel.getCode(), academicLevels));
+    }
+
+    public void bindTeams(List<Team> teamsToBind) {
         teams = teamsToBind;
         List<String> teamsCodes = new TeamsNumbersBuilder(teams).build();
 
         modelTeam.setItems(teamsCodes.toArray(new String[teamsCodes.size()]));
+    }
 
-        if (team != null) {
-            modelTeam.setValue(Finder.indexOfTeam(team.getNumber(), teams));
-        }
+    public void bindTeams(List<Team> teamsToBind, Team team) {
+        bindTeams(teamsToBind);
+
+        modelTeam.setValue(Finder.indexOfTeam(team.getNumber(), teams));
     }
 
     public int getYear() throws FormException {

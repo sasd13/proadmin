@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.HomeActivity;
 import com.sasd13.proadmin.activity.ProjectsActivity;
+import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.activity.SettingsActivity;
 import com.sasd13.proadmin.activity.TeamsActivity;
@@ -39,16 +41,28 @@ public class Browser {
                     ProjectsActivity.class
             ));
             navItems.add(new BrowserItemModel(
+                    context.getResources().getString(R.string.activity_teams),
+                    ContextCompat.getDrawable(context, R.drawable.ic_team_small),
+                    ContextCompat.getColor(context, R.color.green),
+                    TeamsActivity.class
+            ));
+            navItems.add(new BrowserItemModel(
                     context.getResources().getString(R.string.activity_runnings),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.red),
                     RunningsActivity.class
             ));
             navItems.add(new BrowserItemModel(
-                    context.getResources().getString(R.string.activity_teams),
-                    ContextCompat.getDrawable(context, R.drawable.ic_team_small),
-                    ContextCompat.getColor(context, R.color.green),
-                    TeamsActivity.class
+                    context.getResources().getString(R.string.activity_runningteams),
+                    ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
+                    ContextCompat.getColor(context, R.color.purple),
+                    RunningTeamsActivity.class
+            ));
+            navItems.add(new BrowserItemModel(
+                    context.getResources().getString(R.string.activity_reports),
+                    ContextCompat.getDrawable(context, R.drawable.ic_report_small),
+                    ContextCompat.getColor(context, R.color.blue),
+                    ReportsActivity.class
             ));
         }
 

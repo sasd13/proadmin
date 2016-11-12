@@ -35,6 +35,6 @@ public class ReportItemModel extends Observable implements IRecyclerItemModel, I
     }
 
     public String getSession() {
-        return String.valueOf(report.getSession());
+        return "Session " + String.valueOf(report.getSession());
     }
 }

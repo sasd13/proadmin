@@ -4,6 +4,7 @@ import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.androidex.ws.rest.ReadTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
@@ -27,12 +28,12 @@ public class RunningTeamReadService implements IHttpCallback {
         readTask.execute();
     }
 
-    public void readRunningTeams(int year, String projectCode, String teacherNumber) {
+    public void readRunningTeams(Running running) {
         readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, RunningTeam.class);
 
-        readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(year)});
-        readTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{projectCode});
-        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(running.getYear())});
+        readTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{running.getProject().getCode()});
+        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{running.getTeacher().getNumber()});
         readTask.execute();
     }
 

@@ -18,7 +18,7 @@ import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.form.SettingsForm;
 import com.sasd13.proadmin.service.member.TeacherManageService;
 import com.sasd13.proadmin.service.member.TeacherReadService;
@@ -65,7 +65,7 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     }
 
     private void readTeacherFromWS() {
-        teacherReadService.readTeacher(SessionHelper.getExtraId(this, Extra.TEACHER_NUMBER));
+        teacherReadService.readTeacher(SessionHelper.getExtraId(this, Extra.ID_TEACHER_NUMBER));
     }
 
     private void buildFormSettings() {

@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -31,7 +30,6 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
     private TeamsActivity parentActivity;
 
     private TeamForm teamForm;
-    private WaitDialog waitDialog;
 
     private TeamManageService teamManageService;
 
@@ -75,13 +73,6 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -113,17 +104,18 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+    }
+
+    @Override
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
     }
 
     @Override
     public void onCreateSucceeded(Team team) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listTeams();
     }
@@ -138,10 +130,6 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
 
     @Override
     public void onError(@StringRes int message) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

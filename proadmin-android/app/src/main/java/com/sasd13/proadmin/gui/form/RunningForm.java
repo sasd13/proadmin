@@ -43,15 +43,17 @@ public class RunningForm extends Form {
         modelYear.setValue(String.valueOf(running.getYear()));
     }
 
-    public void bindProjects(List<Project> projectsToBind, Project project) {
+    public void bindProjects(List<Project> projectsToBind) {
         projects = projectsToBind;
         List<String> projectsCodes = new ProjectsCodesBuilder(projects).build();
 
         modelProject.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
+    }
 
-        if (project != null) {
-            modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
-        }
+    public void bindProjects(List<Project> projectsToBind, Project project) {
+        bindProjects(projectsToBind);
+
+        modelProject.setValue(Finder.indexOfProject(project.getCode(), projects));
     }
 
     public int getYear() throws FormException {

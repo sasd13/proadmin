@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -25,7 +24,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
@@ -41,7 +41,6 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     private RunningsActivity parentActivity;
 
     private RunningForm runningForm;
-    private WaitDialog waitDialog;
 
     private Project project;
 
@@ -53,7 +52,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     public static RunningNewFragment newInstance(Project project) {
-        RunningNewFragment fragment = new RunningNewFragment();
+        RunningNewFragment fragment = newInstance();
         fragment.project = project;
 
         return fragment;
@@ -63,11 +62,22 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
         projectReadService = new ProjectReadService(this);
         runningManageService = new RunningManageService(this);
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (project == null) {
+            project = savedInstanceState.getParcelable(Extra.PARCEL_RUNNING_PROJECT);
+        }
     }
 
     @Override
@@ -100,19 +110,6 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
-        bindFormWithRunning();
-        readProjectsFromWS();
-    }
-
-    private void bindFormWithRunning() {
-        runningForm.bindRunning(new DefaultRunningBuilder().build());
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -140,35 +137,42 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void createRunning() {
-        runningManageService.createRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+        runningManageService.createRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        bindFormWithRunning();
+        readProjectsFromWS();
+    }
+
+    private void bindFormWithRunning() {
+        runningForm.bindRunning(new DefaultRunningBuilder().build());
     }
 
     @Override
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
     }
 
     @Override
     public void onReadSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         ProjectsSorter.byCode(projectReadWrapper.getWrapped());
         bindFormWithProjects(projectReadWrapper.getWrapped());
     }
 
     private void bindFormWithProjects(List<Project> projects) {
-        runningForm.bindProjects(projects, project);
+        if (project != null) {
+            runningForm.bindProjects(projects, project);
+        } else {
+            runningForm.bindProjects(projects);
+        }
     }
 
     @Override
     public void onCreateSucceeded(Running running) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunnings();
     }
@@ -183,10 +187,15 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
 
     @Override
     public void onError(@StringRes int message) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (project != null) {
+            outState.putParcelable(Extra.PARCEL_RUNNING_PROJECT, new ProjectParcel(project));
+        }
     }
 }

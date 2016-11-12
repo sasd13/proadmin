@@ -11,14 +11,16 @@ import com.sasd13.proadmin.activity.fragment.runningteam.RunningTeamDetailsFragm
 import com.sasd13.proadmin.activity.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.activity.fragment.runningteam.RunningTeamsFragment;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
-import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
+import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
+
+import java.util.Calendar;
 
 public class RunningTeamsActivity extends MotherActivity {
 
@@ -45,18 +47,22 @@ public class RunningTeamsActivity extends MotherActivity {
     private void showFragment() {
         if (!getIntent().hasExtra(Extra.MODE)) {
             listRunningTeams();
-        } else if (getIntent().hasExtra(Extra.RUNNING_YEAR)
-                && getIntent().hasExtra(Extra.PROJECT_CODE)
-                && getIntent().hasExtra(Extra.TEAM_NUMBER)
-                && getIntent().hasExtra(Extra.ACADEMICLEVEL_CODE)) {
-            startFragmentWithoutBackStack(RunningTeamDetailsFragment.newInstance(getRunningTeamFromIntent()));
         } else {
-            if (getIntent().hasExtra(Extra.PROJECT_CODE)) {
-                startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance(getProjectFromIntent()));
-            } else if (getIntent().hasExtra(Extra.TEAM_NUMBER)) {
-                startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance(getProjectFromIntent()));
+            if (getIntent().getIntExtra(Extra.MODE, Extra.MODE_NEW) == Extra.MODE_EDIT) {
+                if (getIntent().hasExtra(Extra.ID_RUNNING_YEAR)
+                        && getIntent().hasExtra(Extra.ID_PROJECT_CODE)
+                        && getIntent().hasExtra(Extra.ID_TEAM_NUMBER)
+                        && getIntent().hasExtra(Extra.ID_ACADEMICLEVEL_CODE)) {
+                    startFragmentWithoutBackStack(RunningTeamDetailsFragment.newInstance(getRunningTeamFromIntent()));
+                }
             } else {
-                startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance());
+                if (getIntent().hasExtra(Extra.ID_RUNNING_YEAR) && getIntent().hasExtra(Extra.ID_PROJECT_CODE)) {
+                    startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance(getRunningFromIntent()));
+                } else if (getIntent().hasExtra(Extra.ID_TEAM_NUMBER)) {
+                    startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance(getTeamFromIntent()));
+                } else {
+                    startFragmentWithoutBackStack(RunningTeamNewFragment.newInstance());
+                }
             }
         }
     }
@@ -73,20 +79,25 @@ public class RunningTeamsActivity extends MotherActivity {
     }
 
     private RunningTeam getRunningTeamFromIntent() {
-        int year = getIntent().getIntExtra(Extra.RUNNING_YEAR, 0);
-        String projectCode = getIntent().getStringExtra(Extra.PROJECT_CODE);
+        int year = getIntent().getIntExtra(Extra.ID_RUNNING_YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        String projectCode = getIntent().getStringExtra(Extra.ID_PROJECT_CODE);
+        String teacherNumber = SessionHelper.getExtraId(getApplication(), Extra.ID_TEACHER_NUMBER);
+        String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
+        String academicLevelCode = getIntent().getStringExtra(Extra.ID_ACADEMICLEVEL_CODE);
 
-        return new RunningTeamBaseBuilder(year, projectCode, SessionHelper.getExtraId(getApplication(), Extra.TEACHER_NUMBER), null, null).build();
+        return new RunningTeamBaseBuilder(year, projectCode, teacherNumber, teamNumber, academicLevelCode).build();
     }
 
-    private Project getProjectFromIntent() {
-        String projectCode = getIntent().getStringExtra(Extra.PROJECT_CODE);
+    private Running getRunningFromIntent() {
+        int year = getIntent().getIntExtra(Extra.ID_RUNNING_YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        String projectCode = getIntent().getStringExtra(Extra.ID_PROJECT_CODE);
+        String teacherNumber = SessionHelper.getExtraId(getApplication(), Extra.ID_TEACHER_NUMBER);
 
-        return new ProjectBaseBuilder(projectCode).build();
+        return new RunningBaseBuilder(year, projectCode, teacherNumber).build();
     }
 
     private Team getTeamFromIntent() {
-        String teamNumber = getIntent().getStringExtra(Extra.TEAM_NUMBER);
+        String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
 
         return new TeamBaseBuilder(teamNumber).build();
     }
@@ -110,7 +121,7 @@ public class RunningTeamsActivity extends MotherActivity {
     public void showReport(Report report) {
         Intent intent = new Intent(this, ReportsActivity.class);
         intent.putExtra(Extra.MODE, Extra.MODE_EDIT);
-        intent.putExtra(Extra.REPORT_NUMBER, report.getNumber());
+        intent.putExtra(Extra.ID_REPORT_NUMBER, report.getNumber());
 
         startActivity(intent);
     }
@@ -118,10 +129,10 @@ public class RunningTeamsActivity extends MotherActivity {
     public void newReport(RunningTeam runningTeam) {
         Intent intent = new Intent(this, ReportsActivity.class);
         intent.putExtra(Extra.MODE, Extra.MODE_NEW);
-        intent.putExtra(Extra.RUNNING_YEAR, runningTeam.getRunning().getYear());
-        intent.putExtra(Extra.PROJECT_CODE, runningTeam.getRunning().getProject().getCode());
-        intent.putExtra(Extra.TEAM_NUMBER, runningTeam.getTeam().getNumber());
-        intent.putExtra(Extra.ACADEMICLEVEL_CODE, runningTeam.getAcademicLevel().getCode());
+        intent.putExtra(Extra.ID_RUNNING_YEAR, runningTeam.getRunning().getYear());
+        intent.putExtra(Extra.ID_PROJECT_CODE, runningTeam.getRunning().getProject().getCode());
+        intent.putExtra(Extra.ID_TEAM_NUMBER, runningTeam.getTeam().getNumber());
+        intent.putExtra(Extra.ID_ACADEMICLEVEL_CODE, runningTeam.getAcademicLevel().getCode());
 
         startActivity(intent);
     }

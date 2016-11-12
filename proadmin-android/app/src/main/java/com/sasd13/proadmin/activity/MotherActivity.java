@@ -2,7 +2,7 @@ package com.sasd13.proadmin.activity;
 
 import android.content.Intent;
 
-import com.sasd13.androidex.DrawerActivity;
+import com.sasd13.androidex.activity.DrawerActivity;
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;

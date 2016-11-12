@@ -28,6 +28,7 @@ import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
+import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
@@ -36,7 +37,6 @@ import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
-import com.sasd13.proadmin.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 import com.sasd13.proadmin.wrapper.read.IReadWrapper;
 
@@ -109,14 +109,6 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
-        readProjectsFromWS();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -140,6 +132,14 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
+        readProjectsFromWS();
     }
 
     @Override

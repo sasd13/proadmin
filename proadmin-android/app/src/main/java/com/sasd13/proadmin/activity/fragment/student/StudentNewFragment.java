@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -24,6 +23,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.member.TeamParcel;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.service.member.StudentTeamManageService;
 
@@ -32,7 +33,6 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     private TeamsActivity parentActivity;
 
     private StudentForm studentForm;
-    private WaitDialog waitDialog;
 
     private Team team;
 
@@ -49,10 +49,21 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (TeamsActivity) getActivity();
         studentManageService = new StudentTeamManageService(this);
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (team == null) {
+            team = savedInstanceState.getParcelable(Extra.PARCEL_TEAM);
+        }
     }
 
     @Override
@@ -78,13 +89,6 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, studentForm.getHolder());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
     }
 
     @Override
@@ -119,17 +123,18 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
+    }
+
+    @Override
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
     }
 
     @Override
     public void onCreateSucceeded(StudentTeam studentTeam) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.showTeam(team);
     }
@@ -144,10 +149,13 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
 
     @Override
     public void onError(@StringRes int message) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(Extra.PARCEL_TEAM, new TeamParcel(team));
     }
 }

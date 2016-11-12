@@ -14,6 +14,8 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.running.RunningParcel;
 
 public class RunningDetailsFragment extends Fragment {
 
@@ -32,7 +34,19 @@ public class RunningDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        readFromBundle(savedInstanceState);
+
         parentActivity = (RunningsActivity) getActivity();
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (running == null) {
+            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNING);
+        }
     }
 
     @Override
@@ -65,6 +79,13 @@ public class RunningDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(Extra.PARCEL_RUNNING, new RunningParcel(running));
     }
 
     @Override

@@ -14,6 +14,8 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.member.TeamParcel;
 
 public class TeamDetailsFragment extends Fragment {
 
@@ -32,7 +34,19 @@ public class TeamDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        readFromBundle(savedInstanceState);
+
         parentActivity = (TeamsActivity) getActivity();
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (team == null) {
+            team = savedInstanceState.getParcelable(Extra.PARCEL_TEAM);
+        }
     }
 
     @Override
@@ -65,6 +79,13 @@ public class TeamDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(Extra.PARCEL_TEAM, new TeamParcel(team));
     }
 
     @Override

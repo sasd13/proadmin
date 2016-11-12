@@ -13,7 +13,7 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.HomeActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 
 /**
  * Created by Samir on 05/03/2016.
@@ -21,11 +21,11 @@ import com.sasd13.proadmin.content.Extra;
 public class SessionHelper {
 
     public static boolean isLogged(Context context) {
-        return Session.containsAttribute(context, Extra.TEACHER_NUMBER);
+        return Session.containsAttribute(context, Extra.ID_TEACHER_NUMBER);
     }
 
     public static void logIn(final Activity activity, final Teacher teacher) {
-        setExtraId(activity, Extra.TEACHER_NUMBER, teacher.getNumber());
+        setExtraId(activity, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
         final Intent intent = new Intent(activity, HomeActivity.class);

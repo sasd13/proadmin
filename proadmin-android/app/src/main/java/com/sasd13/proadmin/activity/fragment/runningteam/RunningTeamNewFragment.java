@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -22,12 +21,14 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningTeamsActivity;
-import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.extra.member.TeamParcel;
+import com.sasd13.proadmin.content.extra.running.RunningParcel;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.service.running.RunningTeamManageService;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -47,9 +48,8 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     private RunningTeamsActivity parentActivity;
 
     private RunningTeamForm runningTeamForm;
-    private WaitDialog waitDialog;
 
-    private Project project;
+    private Running running;
     private Team team;
 
     private RunningTeamManageService runningTeamManageService;
@@ -61,15 +61,15 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
         return new RunningTeamNewFragment();
     }
 
-    public static RunningTeamNewFragment newInstance(Project project) {
-        RunningTeamNewFragment fragment = new RunningTeamNewFragment();
-        fragment.project = project;
+    public static RunningTeamNewFragment newInstance(Running running) {
+        RunningTeamNewFragment fragment = newInstance();
+        fragment.running = running;
 
         return fragment;
     }
 
     public static RunningTeamNewFragment newInstance(Team team) {
-        RunningTeamNewFragment fragment = new RunningTeamNewFragment();
+        RunningTeamNewFragment fragment = newInstance();
         fragment.team = team;
 
         return fragment;
@@ -79,6 +79,7 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningTeamsActivity) getActivity();
@@ -86,6 +87,20 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
         projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
         academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
         teamReadServiceCaller = new RunningTeamTeamReadServiceCaller(this);
+    }
+
+    private void readFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (running == null) {
+            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING);
+        }
+
+        if (team == null) {
+            team = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM);
+        }
     }
 
     @Override
@@ -111,28 +126,6 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningTeamForm.getHolder());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
-        readProjectsFromWS();
-        readAcademicLevelsFromWS();
-        readTeamsFromWS();
-    }
-
-    private void readProjectsFromWS() {
-        projectReadServiceCaller.readProjectsFromWS();
-    }
-
-    private void readAcademicLevelsFromWS() {
-        academicLevelReadServiceCaller.readAcademicLevelsFromWS();
-    }
-
-    private void readTeamsFromWS() {
-        teamReadServiceCaller.readTeamsFromWS();
     }
 
     @Override
@@ -163,63 +156,75 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     }
 
     private void createTeam() {
-        runningTeamManageService.createTeam(runningTeamForm, SessionHelper.getExtraId(getContext(), Extra.TEACHER_NUMBER));
+        runningTeamManageService.createTeam(runningTeamForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        readProjectsFromWS();
+        readAcademicLevelsFromWS();
+        readTeamsFromWS();
+    }
+
+    private void readProjectsFromWS() {
+        projectReadServiceCaller.readProjectsFromWS();
+    }
+
+    private void readAcademicLevelsFromWS() {
+        academicLevelReadServiceCaller.readAcademicLevelsFromWS();
+    }
+
+    private void readTeamsFromWS() {
+        teamReadServiceCaller.readTeamsFromWS();
     }
 
     @Override
     public void onLoad() {
-        waitDialog = new WaitDialog(getContext());
-        waitDialog.show();
     }
 
     @Override
     public void onReadProjectsSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         ProjectsSorter.byCode(projectReadWrapper.getWrapped());
         bindFormWithProjects(projectReadWrapper.getWrapped());
     }
 
     private void bindFormWithProjects(List<Project> projects) {
-        runningTeamForm.bindProjects(projects, project);
+        if (running != null) {
+            runningTeamForm.bindProjects(projects, running.getProject());
+        } else {
+            runningTeamForm.bindProjects(projects);
+        }
     }
 
     @Override
     public void onReadAcademicLevelsSucceeded(IReadWrapper<AcademicLevel> academicLevelReadWrapper) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         AcademicLevelsSorter.byCode(academicLevelReadWrapper.getWrapped());
         bindFormWithAcademicLevels(academicLevelReadWrapper.getWrapped());
     }
 
     private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        runningTeamForm.bindAcademicLevels(academicLevels, null);
+        runningTeamForm.bindAcademicLevels(academicLevels);
     }
 
     @Override
     public void onReadTeamsSucceeded(IReadWrapper<Team> teamReadWrapper) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         TeamsSorter.byNumber(teamReadWrapper.getWrapped());
         bindFormWithTeams(teamReadWrapper.getWrapped());
     }
 
     private void bindFormWithTeams(List<Team> teams) {
-        runningTeamForm.bindTeams(teams, team);
+        if (team != null) {
+            runningTeamForm.bindTeams(teams, team);
+        } else {
+            runningTeamForm.bindTeams(teams);
+        }
     }
 
     @Override
     public void onCreateSucceeded(RunningTeam runningTeam) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
-        }
-
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.listRunningTeams();
     }
@@ -234,10 +239,19 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
 
     @Override
     public void onError(@StringRes int message) {
-        if (waitDialog != null) {
-            waitDialog.dismiss();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (running != null) {
+            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING, new RunningParcel(running));
         }
 
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        if (team != null) {
+            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM, new TeamParcel(team));
+        }
     }
 }

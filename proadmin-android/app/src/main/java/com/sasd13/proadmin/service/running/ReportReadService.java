@@ -21,9 +21,10 @@ public class ReportReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readReports() {
+    public void readReports(String teacherNumber) {
         readTask = new ReadTask<>(WSResources.URL_WS_REPORTS, this, Report.class);
 
+        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readTask.execute();
     }
 

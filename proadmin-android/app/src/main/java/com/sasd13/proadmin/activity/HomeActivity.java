@@ -13,7 +13,7 @@ import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class HomeActivity extends MotherActivity {

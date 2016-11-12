@@ -17,7 +17,6 @@
         android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
         android:gravity="left|center_vertical"
         android:text="code"
-        android:textColor="@color/blue"
         android:textSize="@dimen/text_size_xlarge"
         android:textStyle="bold"/>
 
