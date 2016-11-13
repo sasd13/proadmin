@@ -21,56 +21,24 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.member.TeamParcel;
-import com.sasd13.proadmin.content.extra.running.RunningParcel;
-import com.sasd13.proadmin.gui.form.RunningTeamForm;
-import com.sasd13.proadmin.service.running.RunningTeamManageService;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.caller.IRunningTeamReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamAcademicLevelReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamProjectReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
-import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
-import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.gui.form.ReportForm;
+import com.sasd13.proadmin.service.running.ReportManageService;
 
-import java.util.List;
-
-public class ReportNewFragment extends Fragment implements IManageServiceCaller<RunningTeam>, IRunningTeamReadServiceCaller {
+public class ReportNewFragment extends Fragment implements IManageServiceCaller<Report> {
 
     private ReportsActivity parentActivity;
 
-    private RunningTeamForm runningTeamForm;
+    private ReportForm reportForm;
 
-    private Running running;
-    private Team team;
+    private RunningTeam runningTeam;
 
-    private RunningTeamManageService runningTeamManageService;
-    private RunningTeamProjectReadServiceCaller projectReadServiceCaller;
-    private RunningTeamAcademicLevelReadServiceCaller academicLevelReadServiceCaller;
-    private RunningTeamTeamReadServiceCaller teamReadServiceCaller;
+    private ReportManageService reportManageService;
 
-    public static ReportNewFragment newInstance() {
-        return new ReportNewFragment();
-    }
-
-    public static ReportNewFragment newInstance(Running running) {
-        ReportNewFragment fragment = newInstance();
-        fragment.running = running;
-
-        return fragment;
-    }
-
-    public static ReportNewFragment newInstance(Team team) {
-        ReportNewFragment fragment = newInstance();
-        fragment.team = team;
+    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
+        ReportNewFragment fragment = new ReportNewFragment();
+        fragment.runningTeam = runningTeam;
 
         return fragment;
     }
@@ -79,28 +47,10 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        runningTeamManageService = new RunningTeamManageService(this);
-        projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
-        academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
-        teamReadServiceCaller = new RunningTeamTeamReadServiceCaller(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (running == null) {
-            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING);
-        }
-
-        if (team == null) {
-            team = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM);
-        }
+        reportManageService = new ReportManageService(this);
     }
 
     @Override
@@ -120,12 +70,12 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
     }
 
     private void buildFormRunning(View view) {
-        runningTeamForm = new RunningTeamForm(getContext());
+        reportForm = new ReportForm(getContext(), false);
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, runningTeamForm.getHolder());
+        RecyclerHelper.addAll(form, reportForm.getHolder());
     }
 
     @Override
@@ -146,7 +96,7 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                createTeam();
+                createReport();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -155,8 +105,9 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
         return true;
     }
 
-    private void createTeam() {
-        runningTeamManageService.createTeam(runningTeamForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+    private void createReport() {
+        //TODO : create report
+        //reportManageService.create(reportForm, runningTeam);
     }
 
     @Override
@@ -164,21 +115,6 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
-        readProjectsFromWS();
-        readAcademicLevelsFromWS();
-        readTeamsFromWS();
-    }
-
-    private void readProjectsFromWS() {
-        projectReadServiceCaller.readProjectsFromWS();
-    }
-
-    private void readAcademicLevelsFromWS() {
-        academicLevelReadServiceCaller.readAcademicLevelsFromWS();
-    }
-
-    private void readTeamsFromWS() {
-        teamReadServiceCaller.readTeamsFromWS();
     }
 
     @Override
@@ -186,39 +122,9 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
     }
 
     @Override
-    public void onReadProjectsSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        ProjectsSorter.byCode(projectReadWrapper.getWrapped());
-        bindFormWithProjects(projectReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithProjects(List<Project> projects) {
-        runningTeamForm.bindProjects(projects, running.getProject());
-    }
-
-    @Override
-    public void onReadAcademicLevelsSucceeded(IReadWrapper<AcademicLevel> academicLevelReadWrapper) {
-        AcademicLevelsSorter.byCode(academicLevelReadWrapper.getWrapped());
-        bindFormWithAcademicLevels(academicLevelReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        runningTeamForm.bindAcademicLevels(academicLevels);
-    }
-
-    @Override
-    public void onReadTeamsSucceeded(IReadWrapper<Team> teamReadWrapper) {
-        TeamsSorter.byNumber(teamReadWrapper.getWrapped());
-        bindFormWithTeams(teamReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithTeams(List<Team> teams) {
-        runningTeamForm.bindTeams(teams, team);
-    }
-
-    @Override
-    public void onCreateSucceeded(RunningTeam runningTeam) {
+    public void onCreateSucceeded(Report report) {
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listRunningTeams();
+        parentActivity.listReports();
     }
 
     @Override
@@ -232,18 +138,5 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (running != null) {
-            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING, new RunningParcel(running));
-        }
-
-        if (team != null) {
-            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM, new TeamParcel(team));
-        }
     }
 }

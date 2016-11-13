@@ -9,8 +9,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.wrapper.read.running.ReportReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.running.ReportReadWrapper;
 
 public class ReportReadService implements IHttpCallback {
 
@@ -21,14 +21,14 @@ public class ReportReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readReports(String teacherNumber) {
+    public void read(String teacherNumber) {
         readTask = new ReadTask<>(WSResources.URL_WS_REPORTS, this, Report.class);
 
         readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readTask.execute();
     }
 
-    public void readReports(RunningTeam runningTeam) {
+    public void read(RunningTeam runningTeam) {
         readTask = new ReadTask<>(WSResources.URL_WS_REPORTS, this, Report.class);
 
         readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});

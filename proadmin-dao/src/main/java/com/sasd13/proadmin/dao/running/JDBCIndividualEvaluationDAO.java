@@ -53,7 +53,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_REPORT_CODE + " = ?");
 		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_REPORT_CODE + " = ?");
@@ -103,10 +102,13 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IndividualEvaluation> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		IndividualEvaluation individualEvaluation = updateWrapper.getWrapped();
 
-		preparedStatement.setString(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(5, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+		preparedStatement.setFloat(1, individualEvaluation.getMark());
+		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
+
+		preparedStatement.setString(3, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override

@@ -7,12 +7,12 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.ws.WSConstants;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.member.StudentTeamReadWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.wrapper.read.member.StudentTeamReadWrapper;
 
 public class StudentTeamReadService implements IHttpCallback {
 
@@ -23,10 +23,10 @@ public class StudentTeamReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readStudentTeams(Team team) {
+    public void read(Team team) {
         readTask = new ReadTask<>(WSResources.URL_WS_STUDENTTEAMS, this, StudentTeam.class);
 
-        readTask.addRequestHeader(EnumHttpHeader.READ_CODE.getName(), WSConstants.REQUEST_READ_DEEP);
+        readTask.addRequestHeader(EnumHttpHeader.READ_CODE.getName(), Constants.WS_REQUEST_READ_DEEP);
         readTask.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
         readTask.execute();
     }

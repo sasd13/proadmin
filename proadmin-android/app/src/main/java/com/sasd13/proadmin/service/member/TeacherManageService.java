@@ -25,12 +25,11 @@ public class TeacherManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void updateTeacher(SettingsForm settingsForm, Teacher teacher) {
-        try {
-            ITeacherUpdateWrapper teacherUpdateWrapper = getTeacherUpdateWrapper(settingsForm, teacher);
-            updateTask = new UpdateTask<>(WSResources.URL_WS_TEACHERS, this);
+    public void update(SettingsForm settingsForm, Teacher teacher) {
+        updateTask = new UpdateTask<>(WSResources.URL_WS_TEACHERS, this);
 
-            updateTask.execute(teacherUpdateWrapper);
+        try {
+            updateTask.execute(getTeacherUpdateWrapper(settingsForm, teacher));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }

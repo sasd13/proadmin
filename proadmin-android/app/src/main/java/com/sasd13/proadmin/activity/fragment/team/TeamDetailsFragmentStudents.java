@@ -25,12 +25,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.member.TeamParcel;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.service.member.StudentTeamReadService;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,21 +55,9 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (TeamsActivity) getActivity();
         studentTeams = new ArrayList<>();
         studentTeamReadService = new StudentTeamReadService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (team == null) {
-            team = savedInstanceState.getParcelable(Extra.PARCEL_TEAM);
-        }
     }
 
     @Override
@@ -114,7 +100,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     }
 
     private void readStudentTeamsFromWS() {
-        studentTeamReadService.readStudentTeams(team);
+        studentTeamReadService.read(team);
     }
 
     @Override
@@ -157,12 +143,5 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_TEAM, new TeamParcel(team));
     }
 }

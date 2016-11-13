@@ -41,7 +41,7 @@ import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.running.RunningsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +103,6 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
         });
     }
 
-    private void readRunningsFromWS() {
-        runningReadService.readRunnings(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
-    }
-
     private void buildTabRunnings(View view) {
         runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningsTab.addDividerItemDecoration();
@@ -155,6 +151,10 @@ public class RunningsFragment extends Fragment implements IReadServiceCaller<IRe
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runnings));
         parentActivity.getSupportActionBar().setSubtitle(null);
         readRunningsFromWS();
+    }
+
+    private void readRunningsFromWS() {
+        runningReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
     }
 
     @Override

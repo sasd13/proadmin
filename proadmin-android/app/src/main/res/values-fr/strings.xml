@@ -28,13 +28,14 @@
     <string name="drawer_label_logout">Déconnexion</string>
 
     <!-- Form -->
+    <string name="form_message_error">Erreur du formulaire</string>
     <string name="form_settings_message_error_number">Numéro invalide</string>
     <string name="form_settings_message_error_firstname">Prénom invalide</string>
     <string name="form_settings_message_error_lastname">Nom invalide</string>
     <string name="form_settings_message_error_email">Email invalide</string>
     <string name="form_running_message_error_year">Année invalide</string>
     <string name="form_running_message_error_project">Projet invalide</string>
-    <string name="form_runningteams_message_error_number">Numéro invalide</string>
+    <string name="form_runningteam_message_error_number">Numéro invalide</string>
     <string name="form_runningteam_message_error_project">Projet invalide</string>
     <string name="form_runningteam_message_error_academiclevel">Niveau académique invalide</string>
     <string name="form_runningteam_message_error_team">Groupe invalide</string>
@@ -47,6 +48,10 @@
     <string name="form_report_message_error_session">Session invalide</string>
     <string name="form_report_message_error_datemeeting">Date de réunion invalide</string>
     <string name="form_report_message_error_comment">Commentaire invalide</string>
+    <string name="form_leadevaluation_message_error_leader">Chef invalide</string>
+    <string name="form_leadevaluation_message_error_planningmark">Note de planning invalide</string>
+    <string name="form_leadevaluation_message_error_communicationmark">Note de communication invalide</string>
+    <string name="form_individualevaluation_message_error_mark">Note invalide</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valider</string>
@@ -67,6 +72,12 @@
     <string name="label_datemeeting">Date de réunion</string>
     <string name="label_comment">Commentaire</string>
     <string name="label_leader">Chef d\'équipe</string>
+    <string name="label_planningmark">Note de planning</string>
+    <string name="label_planningcomment">Commentaire de planning</string>
+    <string name="label_communicationmark">Note de communication</string>
+    <string name="label_communicationcomment">Commentaire de communication</string>
+    <string name="label_student">Etudiant</string>
+    <string name="label_mark">Note</string>
     <string name="title_identity">Identité</string>
     <string name="title_projects">Projets</string>
     <string name="title_project">Projet</string>

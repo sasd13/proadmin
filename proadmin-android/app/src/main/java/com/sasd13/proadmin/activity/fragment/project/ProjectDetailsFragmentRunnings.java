@@ -26,12 +26,11 @@ import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,21 +57,9 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (ProjectsActivity) getActivity();
         runnings = new ArrayList<>();
         runningReadService = new RunningReadService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (project == null) {
-            project = savedInstanceState.getParcelable(Extra.PARCEL_PROJECT);
-        }
     }
 
     @Override
@@ -115,7 +102,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     }
 
     private void readRunningsFromWS() {
-        runningReadService.readRunnings(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER), project);
+        runningReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER), project);
     }
 
     @Override
@@ -158,12 +145,5 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_PROJECT, new ProjectParcel(project));
     }
 }

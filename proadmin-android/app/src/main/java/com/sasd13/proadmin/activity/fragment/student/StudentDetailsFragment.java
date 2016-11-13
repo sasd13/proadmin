@@ -22,8 +22,6 @@ import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.member.StudentParcel;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.service.member.StudentManageService;
 
@@ -48,21 +46,10 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (TeamsActivity) getActivity();
         studentManageService = new StudentManageService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (student == null) {
-            student = savedInstanceState.getParcelable(Extra.PARCEL_TEAM_STUDENT);
-        }
     }
 
     @Override
@@ -79,6 +66,7 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormStudent(view);
+        bindFormWithStudent();
     }
 
     private void buildFormStudent(View view) {
@@ -88,6 +76,10 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, studentForm.getHolder());
+    }
+
+    private void bindFormWithStudent() {
+        studentForm.bindStudent(student);
     }
 
     @Override
@@ -111,7 +103,7 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     }
 
     private void updateStudent() {
-        studentManageService.updateStudent(studentForm, student);
+        studentManageService.update(studentForm, student);
     }
 
     @Override
@@ -119,11 +111,6 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
-        bindFormWithStudent();
-    }
-
-    private void bindFormWithStudent() {
-        studentForm.bindStudent(student);
     }
 
     @Override
@@ -148,12 +135,5 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_TEAM_STUDENT, new StudentParcel(student));
     }
 }

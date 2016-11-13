@@ -30,7 +30,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.service.member.TeamReadService;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
     }
 
     private void readTeamsFromWS() {
-        teamReadService.readTeams();
+        teamReadService.readAll();
     }
 
     private void buildTabRunnings(View view) {

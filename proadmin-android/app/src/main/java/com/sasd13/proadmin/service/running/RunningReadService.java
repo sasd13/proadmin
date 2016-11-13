@@ -9,8 +9,8 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.wrapper.read.running.RunningReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.running.RunningReadWrapper;
 
 public class RunningReadService implements IHttpCallback {
 
@@ -21,11 +21,11 @@ public class RunningReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readRunnings(String teacherNumber) {
-        readRunnings(teacherNumber, null);
+    public void read(String teacherNumber) {
+        read(teacherNumber, null);
     }
 
-    public void readRunnings(String teacherNumber, Project project) {
+    public void read(String teacherNumber, Project project) {
         readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
 
         if (project != null) {

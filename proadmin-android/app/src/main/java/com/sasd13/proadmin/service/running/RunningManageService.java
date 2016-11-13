@@ -33,12 +33,12 @@ public class RunningManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createRunning(RunningForm runningForm, String teacherNumber) {
+    public void create(RunningForm runningForm, String teacherNumber) {
         taskType = TASKTYPE_CREATE;
+        createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
         try {
             running = getRunningToCreate(runningForm, teacherNumber);
-            createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
             createTask.execute(running);
         } catch (FormException e) {
@@ -52,12 +52,11 @@ public class RunningManageService implements IHttpCallback {
         return runningToCreate;
     }
 
-    public void updateRunning(RunningForm runningForm, Running running) {
+    public void update(RunningForm runningForm, Running running) {
         taskType = TASKTYPE_UPDATE;
+        updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
         try {
-            updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
-
             updateTask.execute(getRunningUpdateWrapper(runningForm, running));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
@@ -84,7 +83,7 @@ public class RunningManageService implements IHttpCallback {
         return runningToUpdate;
     }
 
-    public void deleteRunning(Running running) {
+    public void delete(Running running) {
         taskType = TASKTYPE_DELETE;
         deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGS, this);
 
@@ -115,11 +114,7 @@ public class RunningManageService implements IHttpCallback {
         if (!createTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
-            try {
-                serviceCaller.onCreateSucceeded(running);
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
+            serviceCaller.onCreateSucceeded(running);
         }
     }
 

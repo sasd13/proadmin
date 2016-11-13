@@ -26,13 +26,11 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.RunningParcel;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
@@ -58,22 +56,11 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
         projectReadService = new ProjectReadService(this);
         runningManageService = new RunningManageService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (running == null) {
-            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNING);
-        }
     }
 
     @Override
@@ -90,6 +77,7 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
+        bindFormWithRunning();
     }
 
     private void buildFormRunning(View view) {
@@ -99,6 +87,10 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningForm.getHolder());
+    }
+
+    private void bindFormWithRunning() {
+        runningForm.bindRunning(running);
     }
 
     @Override
@@ -125,7 +117,7 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     }
 
     private void updateRunning() {
-        runningManageService.updateRunning(runningForm, running);
+        runningManageService.update(runningForm, running);
     }
 
     private void deleteRunning() {
@@ -136,7 +128,7 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        runningManageService.deleteRunning(running);
+                        runningManageService.delete(running);
                     }
                 });
     }
@@ -145,16 +137,11 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     public void onStart() {
         super.onStart();
 
-        bindFormWithRunning();
         readProjectsFromWS();
     }
 
-    private void bindFormWithRunning() {
-        runningForm.bindRunning(running);
-    }
-
     private void readProjectsFromWS() {
-        projectReadService.readProjects();
+        projectReadService.readAll();
     }
 
     @Override
@@ -189,12 +176,5 @@ public class RunningDetailsFragmentInfos extends Fragment implements IManageServ
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_RUNNING, new RunningParcel(running));
     }
 }

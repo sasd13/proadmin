@@ -31,6 +31,7 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
@@ -38,7 +39,6 @@ import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
-import com.sasd13.proadmin.util.ws.WSConstants;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
 
@@ -119,11 +119,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			if (parameters.isEmpty()) {
-				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepReadAll() : readService.readAll();
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepReadAll() : readService.readAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = WSConstants.REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepRead(parameters) : readService.read(parameters);
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? readService.deepRead(parameters) : readService.read(parameters);
 			}
 
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);

@@ -7,7 +7,7 @@ import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
@@ -18,16 +18,14 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningTeamManageService implements IHttpCallback {
 
-    private static final int TASKTYPE_CREATE_RUNNING = 0;
-    private static final int TASKTYPE_CREATE_RUNNINGTEAM = 1;
-    private static final int TASKTYPE_UPDATE_RUNNINGTEAM = 2;
-    private static final int TASKTYPE_DELETE_RUNNINGTEAM = 3;
+    private static final int TASKTYPE_CREATE = 0;
+    private static final int TASKTYPE_UPDATE = 1;
+    private static final int TASKTYPE_DELETE = 2;
 
     private IManageServiceCaller<RunningTeam> serviceCaller;
-    private CreateTask<Team> createTaskTeam;
-    private CreateTask<RunningTeam> createTaskRunningTeam;
-    private UpdateTask<RunningTeam> updateTaskRunningTeam;
-    private DeleteTask<RunningTeam> deleteTaskRunningTeam;
+    private CreateTask<RunningTeam> createTask;
+    private UpdateTask<RunningTeam> updateTask;
+    private DeleteTask<RunningTeam> deleteTask;
     private RunningTeam runningTeam;
     private int taskType;
 
@@ -35,37 +33,36 @@ public class RunningTeamManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createTeam(RunningTeamForm runningTeamForm, String teacherNumber) {
-        taskType = TASKTYPE_CREATE_RUNNING;
+    public void create(RunningTeamForm runningTeamForm, Running running) {
+        taskType = TASKTYPE_CREATE;
+        createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
 
         try {
-            runningTeam = getRunningTeamToCreate(runningTeamForm, teacherNumber);
-            createTaskTeam = new CreateTask<>(WSResources.URL_WS_TEAMS, this);
+            runningTeam = getRunningTeamToCreate(runningTeamForm, running);
 
-            createTaskTeam.execute(runningTeam.getTeam());
+            createTask.execute(runningTeam);
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private RunningTeam getRunningTeamToCreate(RunningTeamForm runningTeamForm, String teacherNumber) throws FormException {
+    private RunningTeam getRunningTeamToCreate(RunningTeamForm runningTeamForm, Running running) throws FormException {
         RunningTeam runningTeamToCreate = new RunningTeamBaseBuilder(
-                runningTeamForm.getYear(),
-                runningTeamForm.getProject().getCode(),
-                teacherNumber,
+                running.getYear(),
+                running.getProject().getCode(),
+                running.getTeacher().getNumber(),
                 runningTeamForm.getTeam().getNumber(),
                 runningTeamForm.getAcademicLevel().getCode()).build();
 
         return runningTeamToCreate;
     }
 
-    public void updateRunningTeam(RunningTeamForm runningTeamForm, RunningTeam runningTeam) {
-        taskType = TASKTYPE_UPDATE_RUNNINGTEAM;
+    public void update(RunningTeamForm runningTeamForm, RunningTeam runningTeam) {
+        taskType = TASKTYPE_UPDATE;
+        updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
 
         try {
-            updateTaskRunningTeam = new UpdateTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
-
-            updateTaskRunningTeam.execute(getRunningTeamUpdateWrapper(runningTeamForm, runningTeam));
+            updateTask.execute(getRunningTeamUpdateWrapper(runningTeamForm, runningTeam));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
@@ -74,7 +71,7 @@ public class RunningTeamManageService implements IHttpCallback {
     private IRunningTeamUpdateWrapper getRunningTeamUpdateWrapper(RunningTeamForm runningTeamForm, RunningTeam runningTeam) throws FormException {
         IRunningTeamUpdateWrapper runningTeamUpdateWrapper = new RunningTeamUpdateWrapper();
 
-        runningTeamUpdateWrapper.setWrapped(getRunningTeamToUpdate(runningTeamForm, runningTeam.getRunning().getTeacher().getNumber()));
+        runningTeamUpdateWrapper.setWrapped(getRunningTeamToUpdate(runningTeamForm, runningTeam.getRunning()));
         runningTeamUpdateWrapper.setRunningYear(runningTeam.getRunning().getYear());
         runningTeamUpdateWrapper.setProjectCode(runningTeam.getRunning().getProject().getCode());
         runningTeamUpdateWrapper.setTeacherNumber(runningTeam.getRunning().getTeacher().getNumber());
@@ -84,22 +81,22 @@ public class RunningTeamManageService implements IHttpCallback {
         return runningTeamUpdateWrapper;
     }
 
-    private RunningTeam getRunningTeamToUpdate(RunningTeamForm runningTeamForm, String teacherNumber) throws FormException {
+    private RunningTeam getRunningTeamToUpdate(RunningTeamForm runningTeamForm, Running running) throws FormException {
         RunningTeam runningTeamToUpdate = new RunningTeamBaseBuilder(
-                runningTeamForm.getYear(),
-                runningTeamForm.getProject().getCode(),
-                teacherNumber,
+                running.getYear(),
+                running.getProject().getCode(),
+                running.getTeacher().getNumber(),
                 runningTeamForm.getTeam().getNumber(),
                 runningTeamForm.getAcademicLevel().getCode()).build();
 
         return runningTeamToUpdate;
     }
 
-    public void deleteRunningTeam(RunningTeam runningTeam) {
-        taskType = TASKTYPE_DELETE_RUNNINGTEAM;
-        deleteTaskRunningTeam = new DeleteTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
+    public void delete(RunningTeam runningTeam) {
+        taskType = TASKTYPE_DELETE;
+        deleteTask = new DeleteTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
 
-        deleteTaskRunningTeam.execute(runningTeam);
+        deleteTask.execute(runningTeam);
     }
 
     @Override
@@ -110,59 +107,37 @@ public class RunningTeamManageService implements IHttpCallback {
     @Override
     public void onSuccess() {
         switch (taskType) {
-            case TASKTYPE_CREATE_RUNNING:
-                onCreateTeamTaskSucceeded();
+            case TASKTYPE_CREATE:
+                onCreateTaskSucceeded();
                 break;
-            case TASKTYPE_CREATE_RUNNINGTEAM:
-                onCreateRunningTeamTaskSucceeded();
+            case TASKTYPE_UPDATE:
+                onUpdateTaskSucceeded();
                 break;
-            case TASKTYPE_UPDATE_RUNNINGTEAM:
-                onUpdateRunningTeamTaskSucceeded();
-                break;
-            case TASKTYPE_DELETE_RUNNINGTEAM:
-                onDeleteRunningTeamTaskSucceeded();
+            case TASKTYPE_DELETE:
+                onDeleteTaskSucceeded();
                 break;
         }
     }
 
-    private void onCreateTeamTaskSucceeded() {
-        if (!createTaskTeam.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTaskTeam.getResponseErrors());
+    private void onCreateTaskSucceeded() {
+        if (!createTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
-            taskType = TASKTYPE_CREATE_RUNNINGTEAM;
-            createTaskRunningTeam = new CreateTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
-
-            createTaskRunningTeam.execute(runningTeam);
+            serviceCaller.onCreateSucceeded(runningTeam);
         }
     }
 
-    private void onCreateRunningTeamTaskSucceeded() {
-        if (!createTaskRunningTeam.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTaskRunningTeam.getResponseErrors());
+    private void onUpdateTaskSucceeded() {
+        if (!updateTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
-            try {
-                serviceCaller.onCreateSucceeded(runningTeam);
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
+            serviceCaller.onUpdateSucceeded();
         }
     }
 
-    private void onUpdateRunningTeamTaskSucceeded() {
-        if (!updateTaskRunningTeam.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTaskRunningTeam.getResponseErrors());
-        } else {
-            try {
-                serviceCaller.onUpdateSucceeded();
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
-        }
-    }
-
-    private void onDeleteRunningTeamTaskSucceeded() {
-        if (!deleteTaskRunningTeam.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTaskRunningTeam.getResponseErrors());
+    private void onDeleteTaskSucceeded() {
+        if (!deleteTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
         } else {
             serviceCaller.onDeleteSucceeded();
         }

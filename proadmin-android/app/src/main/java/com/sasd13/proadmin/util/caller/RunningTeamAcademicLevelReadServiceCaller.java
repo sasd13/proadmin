@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.service.AcademicLevelReadService;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 /**
  * Created by ssaidali2 on 11/11/2016.

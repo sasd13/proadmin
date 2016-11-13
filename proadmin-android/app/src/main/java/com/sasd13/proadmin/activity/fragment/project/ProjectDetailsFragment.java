@@ -14,8 +14,6 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 
 public class ProjectDetailsFragment extends Fragment {
 
@@ -34,19 +32,7 @@ public class ProjectDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (ProjectsActivity) getActivity();
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (project == null) {
-            project = savedInstanceState.getParcelable(Extra.PARCEL_PROJECT);
-        }
     }
 
     @Override
@@ -79,13 +65,6 @@ public class ProjectDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_PROJECT, new ProjectParcel(project));
     }
 
     @Override

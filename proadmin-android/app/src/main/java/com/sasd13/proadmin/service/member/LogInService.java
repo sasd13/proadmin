@@ -52,7 +52,7 @@ public class LogInService implements IHttpCallback {
                 onLogInTaskSucceeded();
                 break;
             case TASKTYPE_READ:
-                onReadTaskTeacherSucceeded();
+                onReadTaskSucceeded();
                 break;
         }
     }
@@ -73,7 +73,7 @@ public class LogInService implements IHttpCallback {
         readTask.execute();
     }
 
-    private void onReadTaskTeacherSucceeded() {
+    private void onReadTaskSucceeded() {
         if (!readTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {

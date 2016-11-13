@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.wrapper.read;
+package com.sasd13.proadmin.util.wrapper.read;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package com.sasd13.proadmin.service.member;
 import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.rest.CreateTask;
-import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
@@ -19,12 +18,10 @@ public class StudentManageService implements IHttpCallback {
 
     private static final int TASKTYPE_CREATE = 0;
     private static final int TASKTYPE_UPDATE = 1;
-    private static final int TASKTYPE_DELETE = 2;
 
     private IManageServiceCaller<Student> serviceCaller;
     private CreateTask<Student> createTask;
     private UpdateTask<Student> updateTask;
-    private DeleteTask<Student> deleteTask;
     private Student student;
     private int taskType;
 
@@ -32,12 +29,12 @@ public class StudentManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createStudent(StudentForm studentForm, String teamNumber) {
+    public void create(StudentForm studentForm) {
         taskType = TASKTYPE_CREATE;
+        createTask = new CreateTask<>(WSResources.URL_WS_STUDENTS, this);
 
         try {
             student = getStudentToCreate(studentForm);
-            createTask = new CreateTask<>(WSResources.URL_WS_STUDENTS, this);
 
             createTask.execute(student);
         } catch (FormException e) {
@@ -55,12 +52,11 @@ public class StudentManageService implements IHttpCallback {
         return studentToCreate;
     }
 
-    public void updateStudent(StudentForm studentForm, Student student) {
+    public void update(StudentForm studentForm, Student student) {
         taskType = TASKTYPE_UPDATE;
+        updateTask = new UpdateTask<>(WSResources.URL_WS_STUDENTS, this);
 
         try {
-            updateTask = new UpdateTask<>(WSResources.URL_WS_STUDENTS, this);
-
             updateTask.execute(getStudentUpdateWrapper(studentForm, student));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
@@ -86,13 +82,6 @@ public class StudentManageService implements IHttpCallback {
         return studentToUpdate;
     }
 
-    public void deleteStudent(Student student) {
-        taskType = TASKTYPE_DELETE;
-        deleteTask = new DeleteTask<>(WSResources.URL_WS_STUDENTS, this);
-
-        deleteTask.execute(student);
-    }
-
     @Override
     public void onLoad() {
         serviceCaller.onLoad();
@@ -107,9 +96,6 @@ public class StudentManageService implements IHttpCallback {
             case TASKTYPE_UPDATE:
                 onUpdateTaskSucceeded();
                 break;
-            case TASKTYPE_DELETE:
-                onDeleteTaskSucceeded();
-                break;
         }
     }
 
@@ -117,11 +103,7 @@ public class StudentManageService implements IHttpCallback {
         if (!createTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
-            try {
-                serviceCaller.onCreateSucceeded(student);
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
+            serviceCaller.onCreateSucceeded(student);
         }
     }
 
@@ -130,14 +112,6 @@ public class StudentManageService implements IHttpCallback {
             ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
-        }
-    }
-
-    private void onDeleteTaskSucceeded() {
-        if (!deleteTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
-        } else {
-            serviceCaller.onDeleteSucceeded();
         }
     }
 

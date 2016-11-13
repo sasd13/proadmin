@@ -7,8 +7,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.AcademicLevelReadWrapper;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.AcademicLevelReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 /**
  * Created by ssaidali2 on 24/07/2016.

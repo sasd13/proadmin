@@ -25,12 +25,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.RunningParcel;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.service.running.RunningTeamReadService;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,21 +55,9 @@ public class RunningDetailsFragmentRunningTeams extends Fragment implements IRea
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (RunningsActivity) getActivity();
         runningTeams = new ArrayList<>();
         runningTeamReadService = new RunningTeamReadService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (running == null) {
-            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNING);
-        }
     }
 
     @Override
@@ -114,7 +100,7 @@ public class RunningDetailsFragmentRunningTeams extends Fragment implements IRea
     }
 
     private void readRunningTeamsFromWS() {
-        runningTeamReadService.readRunningTeams(running);
+        runningTeamReadService.read(running);
     }
 
     @Override
@@ -157,12 +143,5 @@ public class RunningDetailsFragmentRunningTeams extends Fragment implements IRea
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_RUNNING, new RunningParcel(running));
     }
 }

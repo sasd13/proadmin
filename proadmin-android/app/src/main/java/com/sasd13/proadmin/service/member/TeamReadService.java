@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.wrapper.read.member.TeamReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.member.TeamReadWrapper;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
@@ -23,13 +23,13 @@ public class TeamReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readTeams() {
+    public void readAll() {
         readTask = new ReadTask<>(WSResources.URL_WS_TEAMS, this, Team.class);
 
         readTask.execute();
     }
 
-    public void readTeam(String number) {
+    public void read(String number) {
         readTask = new ReadTask<>(WSResources.URL_WS_TEAMS, this, Team.class);
 
         readTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{number});

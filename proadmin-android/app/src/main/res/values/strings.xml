@@ -28,12 +28,14 @@
     <string name="drawer_label_logout">Log out</string>
 
     <!-- Form -->
+    <string name="form_message_error">Form error</string>
     <string name="form_settings_message_error_number">Invalid number</string>
     <string name="form_settings_message_error_firstname">Invalid first name</string>
     <string name="form_settings_message_error_lastname">Invalid last name</string>
     <string name="form_settings_message_error_email">Invalid email</string>
     <string name="form_running_message_error_year">Invalid year</string>
     <string name="form_running_message_error_project">Invalid project</string>
+    <string name="form_runningteam_message_error_number">Numéro invalide</string>
     <string name="form_runningteam_message_error_year">Invalid year</string>
     <string name="form_runningteam_message_error_project">Invalid project</string>
     <string name="form_runningteam_message_error_academiclevel">Invalid academic level</string>
@@ -47,6 +49,10 @@
     <string name="form_report_message_error_session">Invalid session</string>
     <string name="form_report_message_error_datemeeting">Invalid date meeting</string>
     <string name="form_report_message_error_comment">Invalid comment</string>
+    <string name="form_leadevaluation_message_error_leader">Invalid leader</string>
+    <string name="form_leadevaluation_message_error_planningmark">Invalid planning mark</string>
+    <string name="form_leadevaluation_message_error_communicationmark">Invalid communication mark</string>
+    <string name="form_individualevaluation_message_error_mark">Invalid mark</string>
 
     <!-- Menu -->
     <string name="menu_item_action_valid">Valid</string>
@@ -67,6 +73,12 @@
     <string name="label_datemeeting">Meeting date</string>
     <string name="label_comment">Comment</string>
     <string name="label_leader">Leader</string>
+    <string name="label_planningmark">Planning mark</string>
+    <string name="label_planningcomment">Planning comment</string>
+    <string name="label_communicationmark">Communication mark</string>
+    <string name="label_communicationcomment">Communication comment</string>
+    <string name="label_student">Student</string>
+    <string name="label_mark">Mark</string>
     <string name="title_identity">Identity</string>
     <string name="title_projects">Projects</string>
     <string name="title_project">Project</string>

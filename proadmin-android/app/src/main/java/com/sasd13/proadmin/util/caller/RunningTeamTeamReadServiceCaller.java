@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.service.member.TeamReadService;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 /**
  * Created by ssaidali2 on 11/11/2016.
@@ -22,7 +22,7 @@ public class RunningTeamTeamReadServiceCaller implements IReadServiceCaller<IRea
     }
 
     public void readTeamsFromWS() {
-        teamReadService.readTeams();
+        teamReadService.readAll();
     }
 
     @Override

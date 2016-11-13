@@ -23,41 +23,23 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
-import com.sasd13.proadmin.gui.form.RunningTeamForm;
-import com.sasd13.proadmin.service.running.RunningTeamManageService;
-import com.sasd13.proadmin.util.caller.IRunningTeamReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamAcademicLevelReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamProjectReadServiceCaller;
-import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
-import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
-import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.gui.form.ReportForm;
+import com.sasd13.proadmin.service.running.ReportManageService;
 
-import java.util.List;
-
-public class ReportDetailsFragmentInfos extends Fragment implements IManageServiceCaller<RunningTeam>, IRunningTeamReadServiceCaller {
+public class ReportDetailsFragmentInfos extends Fragment implements IManageServiceCaller<Report> {
 
     private ReportsActivity parentActivity;
 
-    private RunningTeamForm runningTeamForm;
+    private ReportForm reportForm;
 
-    private RunningTeam runningTeam;
+    private Report report;
 
-    private RunningTeamManageService runningTeamManageService;
-    private RunningTeamProjectReadServiceCaller projectReadServiceCaller;
-    private RunningTeamAcademicLevelReadServiceCaller academicLevelReadServiceCaller;
-    private RunningTeamTeamReadServiceCaller teamReadServiceCaller;
+    private ReportManageService reportManageService;
 
-    public static ReportDetailsFragmentInfos newInstance(RunningTeam runningTeam) {
+    public static ReportDetailsFragmentInfos newInstance(Report report) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
-        fragment.runningTeam = runningTeam;
+        fragment.report = report;
 
         return fragment;
     }
@@ -66,24 +48,10 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        runningTeamManageService = new RunningTeamManageService(this);
-        projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
-        academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
-        teamReadServiceCaller = new RunningTeamTeamReadServiceCaller(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (runningTeam == null) {
-            runningTeam = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM);
-        }
+        reportManageService = new ReportManageService(this);
     }
 
     @Override
@@ -100,15 +68,20 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
+        bindFormWithReport();
     }
 
     private void buildFormTeam(View view) {
-        runningTeamForm = new RunningTeamForm(getContext());
+        reportForm = new ReportForm(getContext(), true);
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, runningTeamForm.getHolder());
+        RecyclerHelper.addAll(form, reportForm.getHolder());
+    }
+
+    private void bindFormWithReport() {
+        reportForm.bindReport(report);
     }
 
     @Override
@@ -135,7 +108,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     }
 
     private void updateTeam() {
-        runningTeamManageService.updateRunningTeam(runningTeamForm, runningTeam);
+        reportManageService.update(reportForm, report);
     }
 
     private void deleteTeam() {
@@ -146,35 +119,9 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        runningTeamManageService.deleteRunningTeam(runningTeam);
+                        reportManageService.delete(report);
                     }
                 });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        bindFormWithRunningTeam();
-        readProjectsFromWS();
-        readAcademicLevelsFromWS();
-        readTeamsFromWS();
-    }
-
-    private void bindFormWithRunningTeam() {
-        runningTeamForm.bindRunningTeam(runningTeam);
-    }
-
-    private void readProjectsFromWS() {
-        projectReadServiceCaller.readProjectsFromWS();
-    }
-
-    private void readAcademicLevelsFromWS() {
-        academicLevelReadServiceCaller.readAcademicLevelsFromWS();
-    }
-
-    private void readTeamsFromWS() {
-        teamReadServiceCaller.readTeamsFromWS();
     }
 
     @Override
@@ -182,37 +129,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     }
 
     @Override
-    public void onReadProjectsSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        ProjectsSorter.byCode(projectReadWrapper.getWrapped());
-        bindFormWithProjects(projectReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithProjects(List<Project> projects) {
-        runningTeamForm.bindProjects(projects, runningTeam.getRunning().getProject());
-    }
-
-    @Override
-    public void onReadAcademicLevelsSucceeded(IReadWrapper<AcademicLevel> academicLevelReadWrapper) {
-        AcademicLevelsSorter.byCode(academicLevelReadWrapper.getWrapped());
-        bindFormWithAcademicLevels(academicLevelReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
-    }
-
-    @Override
-    public void onReadTeamsSucceeded(IReadWrapper<Team> teamReadWrapper) {
-        TeamsSorter.byNumber(teamReadWrapper.getWrapped());
-        bindFormWithTeams(teamReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithTeams(List<Team> teams) {
-        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
-    }
-
-    @Override
-    public void onCreateSucceeded(RunningTeam runningTeam) {
+    public void onCreateSucceeded(Report report) {
     }
 
     @Override
@@ -223,18 +140,11 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     @Override
     public void onDeleteSucceeded() {
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listRunningTeams();
+        parentActivity.listReports();
     }
 
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_RUNNINGTEAM, new RunningTeamParcel(runningTeam));
     }
 }

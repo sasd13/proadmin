@@ -23,8 +23,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.member.TeamParcel;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.service.member.StudentTeamManageService;
 
@@ -49,21 +47,10 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (TeamsActivity) getActivity();
         studentManageService = new StudentTeamManageService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (team == null) {
-            team = savedInstanceState.getParcelable(Extra.PARCEL_TEAM);
-        }
     }
 
     @Override
@@ -119,7 +106,8 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void createStudent() {
-        studentManageService.createStudent(studentForm, team);
+        //TODO : create student
+        //studentManageService.create(studentForm, team);
     }
 
     @Override
@@ -150,12 +138,5 @@ public class StudentNewFragment extends Fragment implements IManageServiceCaller
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_TEAM, new TeamParcel(team));
     }
 }

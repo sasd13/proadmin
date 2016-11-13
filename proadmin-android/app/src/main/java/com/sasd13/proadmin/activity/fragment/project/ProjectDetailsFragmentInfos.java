@@ -15,8 +15,6 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 import com.sasd13.proadmin.gui.form.ProjectForm;
 
 public class ProjectDetailsFragmentInfos extends Fragment {
@@ -33,23 +31,6 @@ public class ProjectDetailsFragmentInfos extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        readFromBundle(savedInstanceState);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (project == null) {
-            project = savedInstanceState.getParcelable(Extra.PARCEL_PROJECT);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -63,6 +44,7 @@ public class ProjectDetailsFragmentInfos extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormProject(view);
+        bindFormWithProject();
     }
 
     private void buildFormProject(View view) {
@@ -74,21 +56,7 @@ public class ProjectDetailsFragmentInfos extends Fragment {
         RecyclerHelper.addAll(form, projectForm.getHolder());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        bindFormWithProject();
-    }
-
     private void bindFormWithProject() {
         projectForm.bind(project);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_PROJECT, new ProjectParcel(project));
     }
 }

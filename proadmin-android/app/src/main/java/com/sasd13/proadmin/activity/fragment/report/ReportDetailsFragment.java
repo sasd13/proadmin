@@ -14,10 +14,6 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.ReportParcel;
-import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
 
 public class ReportDetailsFragment extends Fragment {
 
@@ -36,19 +32,7 @@ public class ReportDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (ReportsActivity) getActivity();
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (report == null) {
-            report = savedInstanceState.getParcelable(Extra.PARCEL_REPORT);
-        }
     }
 
     @Override
@@ -81,13 +65,6 @@ public class ReportDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_REPORT, new ReportParcel(report));
     }
 
     @Override

@@ -32,12 +32,12 @@ public class TeamManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createTeam(TeamForm teamForm) {
+    public void create(TeamForm teamForm) {
         taskType = TASKTYPE_CREATE;
+        createTask = new CreateTask<>(WSResources.URL_WS_TEAMS, this);
 
         try {
             team = getTeamToCreate(teamForm);
-            createTask = new CreateTask<>(WSResources.URL_WS_TEAMS, this);
 
             createTask.execute(team);
         } catch (FormException e) {
@@ -51,12 +51,11 @@ public class TeamManageService implements IHttpCallback {
         return teamToCreate;
     }
 
-    public void updateTeam(TeamForm teamForm, Team team) {
+    public void update(TeamForm teamForm, Team team) {
         taskType = TASKTYPE_UPDATE;
+        updateTask = new UpdateTask<>(WSResources.URL_WS_TEAMS, this);
 
         try {
-            updateTask = new UpdateTask<>(WSResources.URL_WS_TEAMS, this);
-
             updateTask.execute(getTeamUpdateWrapper(teamForm, team));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
@@ -78,7 +77,7 @@ public class TeamManageService implements IHttpCallback {
         return teamToUpdate;
     }
 
-    public void deleteTeam(Team team) {
+    public void delete(Team team) {
         taskType = TASKTYPE_DELETE;
         deleteTask = new DeleteTask<>(WSResources.URL_WS_TEAMS, this);
 
@@ -109,11 +108,7 @@ public class TeamManageService implements IHttpCallback {
         if (!createTask.getResponseErrors().isEmpty()) {
             ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
-            try {
-                serviceCaller.onCreateSucceeded(team);
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
+            serviceCaller.onCreateSucceeded(team);
         }
     }
 

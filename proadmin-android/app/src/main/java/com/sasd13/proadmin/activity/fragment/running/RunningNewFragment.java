@@ -25,14 +25,13 @@ import com.sasd13.proadmin.activity.RunningsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.project.ProjectParcel;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
@@ -62,22 +61,11 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningsActivity) getActivity();
         projectReadService = new ProjectReadService(this);
         runningManageService = new RunningManageService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (project == null) {
-            project = savedInstanceState.getParcelable(Extra.PARCEL_RUNNING_PROJECT);
-        }
     }
 
     @Override
@@ -94,6 +82,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
+        bindFormWithRunning();
     }
 
     private void buildFormRunning(View view) {
@@ -105,8 +94,8 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
         RecyclerHelper.addAll(form, runningForm.getHolder());
     }
 
-    private void readProjectsFromWS() {
-        projectReadService.readProjects();
+    private void bindFormWithRunning() {
+        runningForm.bindRunning(new DefaultRunningBuilder().build());
     }
 
     @Override
@@ -137,7 +126,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void createRunning() {
-        runningManageService.createRunning(runningForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+        runningManageService.create(runningForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
     }
 
     @Override
@@ -145,12 +134,11 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
-        bindFormWithRunning();
         readProjectsFromWS();
     }
 
-    private void bindFormWithRunning() {
-        runningForm.bindRunning(new DefaultRunningBuilder().build());
+    private void readProjectsFromWS() {
+        projectReadService.readAll();
     }
 
     @Override
@@ -188,14 +176,5 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (project != null) {
-            outState.putParcelable(Extra.PARCEL_RUNNING_PROJECT, new ProjectParcel(project));
-        }
     }
 }

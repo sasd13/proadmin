@@ -26,12 +26,8 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.member.TeamParcel;
-import com.sasd13.proadmin.content.extra.running.RunningParcel;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.service.running.RunningTeamManageService;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.caller.IRunningTeamReadServiceCaller;
 import com.sasd13.proadmin.util.caller.RunningTeamAcademicLevelReadServiceCaller;
 import com.sasd13.proadmin.util.caller.RunningTeamProjectReadServiceCaller;
@@ -39,7 +35,7 @@ import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
@@ -79,7 +75,6 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningTeamsActivity) getActivity();
@@ -87,20 +82,6 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
         projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
         academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
         teamReadServiceCaller = new RunningTeamTeamReadServiceCaller(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (running == null) {
-            running = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING);
-        }
-
-        if (team == null) {
-            team = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM);
-        }
     }
 
     @Override
@@ -156,7 +137,7 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     }
 
     private void createTeam() {
-        runningTeamManageService.createTeam(runningTeamForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+        runningTeamManageService.create(runningTeamForm, running);
     }
 
     @Override
@@ -240,18 +221,5 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (running != null) {
-            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_RUNNING, new RunningParcel(running));
-        }
-
-        if (team != null) {
-            outState.putParcelable(Extra.PARCEL_RUNNINGTEAM_TEAM, new TeamParcel(team));
-        }
     }
 }

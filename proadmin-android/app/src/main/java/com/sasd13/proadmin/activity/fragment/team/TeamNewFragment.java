@@ -100,7 +100,7 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
     }
 
     private void createTeam() {
-        teamManageService.createTeam(teamForm);
+        teamManageService.create(teamForm);
     }
 
     @Override

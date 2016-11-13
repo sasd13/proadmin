@@ -7,8 +7,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.wrapper.read.project.ProjectReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.project.ProjectReadWrapper;
 
 /**
  * Created by ssaidali2 on 24/07/2016.
@@ -22,7 +22,7 @@ public class ProjectReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readProjects() {
+    public void readAll() {
         readTask = new ReadTask<>(WSResources.URL_WS_PROJECTS, this, Project.class);
 
         readTask.execute();

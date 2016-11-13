@@ -20,17 +20,22 @@ import java.sql.Timestamp;
  */
 public class ReportForm extends Form {
 
+    private boolean inModeEdit;
     private TextItemModel modelNumber, modelSession, modelComment;
     private DateItemModel modelDateMeeting;
 
-    public ReportForm(Context context) {
+    public ReportForm(Context context, boolean inModeEdit) {
         super(context);
 
-        modelNumber = new TextItemModel();
-        modelNumber.setReadOnly(true);
-        modelNumber.setLabel(context.getResources().getString(R.string.label_number));
-        modelNumber.setHint(context.getResources().getString(R.string.label_number));
-        holder.add(new RecyclerHolderPair(modelNumber));
+        this.inModeEdit = inModeEdit;
+
+        if (inModeEdit) {
+            modelNumber = new TextItemModel();
+            modelNumber.setReadOnly(true);
+            modelNumber.setLabel(context.getResources().getString(R.string.label_number));
+            modelNumber.setHint(context.getResources().getString(R.string.label_number));
+            holder.add(new RecyclerHolderPair(modelNumber));
+        }
 
         modelSession = new TextItemModel();
         modelSession.setLabel(context.getResources().getString(R.string.label_session));
@@ -46,13 +51,20 @@ public class ReportForm extends Form {
     }
 
     public void bindReport(Report report) {
-        modelNumber.setValue(String.valueOf(report.getNumber()));
+        if (inModeEdit) {
+            modelNumber.setValue(String.valueOf(report.getNumber()));
+        }
+
         modelSession.setValue(String.valueOf(report.getSession()));
         modelDateMeeting.setValue(new LocalDate(report.getDateMeeting()));
         modelComment.setValue(report.getComment());
     }
 
     public String getNumber() throws FormException {
+        if (!inModeEdit) {
+            throw new FormException(context, R.string.form_message_error);
+        }
+
         if (StringUtils.isBlank(modelNumber.getValue())) {
             throw new FormException(context, R.string.form_report_message_error_number);
         }
@@ -72,11 +84,7 @@ public class ReportForm extends Form {
         return new Timestamp(modelDateMeeting.getValue().toDate().getTime());
     }
 
-    public String getComment() throws FormException {
-        if (StringUtils.isBlank(modelComment.getValue())) {
-            throw new FormException(context, R.string.form_report_message_error_comment);
-        }
-
+    public String getComment() {
         return modelComment.getValue();
     }
 }

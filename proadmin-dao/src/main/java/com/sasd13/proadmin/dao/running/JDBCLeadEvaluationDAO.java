@@ -60,7 +60,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
 		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
-		builder.append(", " + COLUMN_REPORT_CODE + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_REPORT_CODE + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
@@ -112,10 +111,16 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<LeadEvaluation> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		LeadEvaluation leadEvaluation = updateWrapper.getWrapped();
 
-		preparedStatement.setString(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(8, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
+		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
+		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
+		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
+		preparedStatement.setString(5, leadEvaluation.getStudent().getNumber());
+
+		preparedStatement.setString(6, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override

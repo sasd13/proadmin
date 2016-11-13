@@ -86,8 +86,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_DATEMEETING + " = ?");
+		builder.append(COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
 		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR + " = ?");
@@ -151,9 +150,18 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		Report report = updateWrapper.getWrapped();
 
-		preparedStatement.setString(10, ((IReportUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
+		preparedStatement.setInt(2, report.getSession());
+		preparedStatement.setString(3, report.getComment());
+		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
+		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
+
+		preparedStatement.setString(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

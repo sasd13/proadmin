@@ -21,7 +21,7 @@ public class TeacherReadService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void readTeacher(String number) {
+    public void read(String number) {
         readTask = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
 
         readTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{number});

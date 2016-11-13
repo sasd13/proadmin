@@ -27,8 +27,6 @@ import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.service.running.RunningTeamManageService;
 import com.sasd13.proadmin.util.caller.IRunningTeamReadServiceCaller;
@@ -38,7 +36,7 @@ import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
@@ -66,7 +64,6 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
         setHasOptionsMenu(true);
 
         parentActivity = (RunningTeamsActivity) getActivity();
@@ -74,16 +71,6 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
         projectReadServiceCaller = new RunningTeamProjectReadServiceCaller(this);
         academicLevelReadServiceCaller = new RunningTeamAcademicLevelReadServiceCaller(this);
         teamReadServiceCaller = new RunningTeamTeamReadServiceCaller(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (runningTeam == null) {
-            runningTeam = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM);
-        }
     }
 
     @Override
@@ -100,6 +87,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
+        bindFormWithRunningTeam();
     }
 
     private void buildFormTeam(View view) {
@@ -109,6 +97,10 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, runningTeamForm.getHolder());
+    }
+
+    private void bindFormWithRunningTeam() {
+        runningTeamForm.bindRunningTeam(runningTeam);
     }
 
     @Override
@@ -135,7 +127,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     }
 
     private void updateTeam() {
-        runningTeamManageService.updateRunningTeam(runningTeamForm, runningTeam);
+        runningTeamManageService.update(runningTeamForm, runningTeam);
     }
 
     private void deleteTeam() {
@@ -146,7 +138,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        runningTeamManageService.deleteRunningTeam(runningTeam);
+                        runningTeamManageService.delete(runningTeam);
                     }
                 });
     }
@@ -155,14 +147,9 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     public void onStart() {
         super.onStart();
 
-        bindFormWithRunningTeam();
         readProjectsFromWS();
         readAcademicLevelsFromWS();
         readTeamsFromWS();
-    }
-
-    private void bindFormWithRunningTeam() {
-        runningTeamForm.bindRunningTeam(runningTeam);
     }
 
     private void readProjectsFromWS() {
@@ -229,12 +216,5 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_RUNNINGTEAM, new RunningTeamParcel(runningTeam));
     }
 }

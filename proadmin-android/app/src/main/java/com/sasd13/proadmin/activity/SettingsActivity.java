@@ -65,7 +65,7 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     }
 
     private void readTeacherFromWS() {
-        teacherReadService.readTeacher(SessionHelper.getExtraId(this, Extra.ID_TEACHER_NUMBER));
+        teacherReadService.read(SessionHelper.getExtraId(this, Extra.ID_TEACHER_NUMBER));
     }
 
     private void buildFormSettings() {
@@ -89,13 +89,17 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_accept:
-                teacherManageService.updateTeacher(settingsForm, teacher);
+                updateTeacher();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
         return true;
+    }
+
+    private void updateTeacher() {
+        teacherManageService.update(settingsForm, teacher);
     }
 
     @Override

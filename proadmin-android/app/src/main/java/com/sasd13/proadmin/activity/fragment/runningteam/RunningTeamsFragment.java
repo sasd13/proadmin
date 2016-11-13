@@ -41,7 +41,7 @@ import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.running.RunningTeamsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningTeamYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +103,6 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
         });
     }
 
-    private void readRunningTeamsFromWS() {
-        runningTeamReadService.readRunningTeams(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
-    }
-
     private void buildTabRunningTeams(View view) {
         runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
@@ -154,6 +150,10 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteams));
         readRunningTeamsFromWS();
+    }
+
+    private void readRunningTeamsFromWS() {
+        runningTeamReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
     }
 
     @Override

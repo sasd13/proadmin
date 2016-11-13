@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.wrapper.read.member;
+package com.sasd13.proadmin.util.wrapper.read.member;
 
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 

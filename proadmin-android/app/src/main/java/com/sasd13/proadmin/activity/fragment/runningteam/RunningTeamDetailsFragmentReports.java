@@ -25,12 +25,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.content.extra.running.RunningTeamParcel;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.service.running.ReportReadService;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,21 +55,9 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readFromBundle(savedInstanceState);
-
         parentActivity = (RunningTeamsActivity) getActivity();
         reports = new ArrayList<>();
         reportReadService = new ReportReadService(this);
-    }
-
-    private void readFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        if (runningTeam == null) {
-            runningTeam = savedInstanceState.getParcelable(Extra.PARCEL_RUNNINGTEAM);
-        }
     }
 
     @Override
@@ -114,7 +100,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     }
 
     private void readReportsFromWS() {
-        reportReadService.readReports(runningTeam);
+        reportReadService.read(runningTeam);
     }
 
     @Override
@@ -157,12 +143,5 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     @Override
     public void onError(@StringRes int message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(Extra.PARCEL_RUNNINGTEAM, new RunningTeamParcel(runningTeam));
     }
 }

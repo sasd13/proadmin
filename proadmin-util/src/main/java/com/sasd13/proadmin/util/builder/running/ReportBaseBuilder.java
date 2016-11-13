@@ -8,6 +8,10 @@ public class ReportBaseBuilder implements IBuilder<Report> {
 	private String number, projectCode, teacherNumber, teamNumber, academicLevelCode;
 	private int year;
 
+	public ReportBaseBuilder(String number) {
+		this.number = number;
+	}
+
 	public ReportBaseBuilder(int year, String projectCode, String teacherNumber, String teamNumber, String academicLevelCode) {
 		this(null, year, projectCode, teacherNumber, teamNumber, academicLevelCode);
 	}

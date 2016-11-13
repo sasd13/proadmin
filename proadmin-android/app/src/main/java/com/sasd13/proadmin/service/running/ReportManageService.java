@@ -7,15 +7,26 @@ import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
+import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.gui.form.ReportForm;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
+import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ReportManageService implements IHttpCallback {
 
@@ -34,37 +45,73 @@ public class ReportManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void createTeam(ReportForm reportForm, String teacherNumber) {
+    public void create(ReportForm reportForm, LeadEvaluationForm leadEvaluationForm, IndividualEvaluationsForm individualEvaluationsForm, RunningTeam runningTeam) {
         taskType = TASKTYPE_CREATE;
+        createTask = new CreateTask<>(WSResources.URL_WS_REPORTS, this);
 
         try {
-            report = getReportToCreate(reportForm, teacherNumber);
-            createTaskTeam = new CreateTask<>(WSResources.URL_WS_TEAMS, this);
+            report = getReportToCreate(reportForm, runningTeam);
 
-            createTaskTeam.execute(report.getTeam());
+            setLeadEvaluation(leadEvaluationForm, report);
+            setIndividualEvaluations(individualEvaluationsForm, report);
+
+            createTask.execute(report);
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
     }
 
-    private Report getReportToCreate(ReportForm reportForm, String teacherNumber) throws FormException {
+    private Report getReportToCreate(ReportForm reportForm, RunningTeam runningTeam) throws FormException {
         Report reportToCreate = new ReportBaseBuilder(
-                reportForm.getYear(),
-                reportForm.getProject().getCode(),
-                teacherNumber,
-                reportForm.getTeam().getNumber(),
-                reportForm.getAcademicLevel().getCode()).build();
+                runningTeam.getRunning().getYear(),
+                runningTeam.getRunning().getProject().getCode(),
+                runningTeam.getRunning().getTeacher().getNumber(),
+                runningTeam.getTeam().getNumber(),
+                runningTeam.getAcademicLevel().getCode()).build();
+
+        reportToCreate.setNumber(Constants.REPORT_DEFAULT_NUMBER);
+        reportToCreate.setDateMeeting(reportForm.getDateMeeting());
+        reportToCreate.setSession(reportForm.getSession());
+        reportToCreate.setComment(reportForm.getComment());
 
         return reportToCreate;
     }
 
-    public void updateReport(ReportForm reportForm, Report report) {
+    private void setLeadEvaluation(LeadEvaluationForm leadEvaluationForm, Report report) throws FormException {
+        LeadEvaluation leadEvaluationToCreate = new LeadEvaluationBaseBuilder(leadEvaluationForm.getLeader().getNumber()).build();
+
+        leadEvaluationToCreate.setReport(report);
+        leadEvaluationToCreate.setPlanningMark(leadEvaluationForm.getPlanningMark());
+        leadEvaluationToCreate.setPlanningComment(leadEvaluationForm.getPlanningComment());
+        leadEvaluationToCreate.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
+        leadEvaluationToCreate.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
+
+        report.setLeadEvaluation(leadEvaluationToCreate);
+    }
+
+    private void setIndividualEvaluations(IndividualEvaluationsForm individualEvaluationsForm, Report report) throws IndividualEvaluationsFormException {
+        List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
+
+        IndividualEvaluation individualEvaluation;
+
+        for (Map.Entry<String, Float> entry : individualEvaluationsForm.getMarks().entrySet()) {
+            individualEvaluation = new IndividualEvaluationBaseBuilder(entry.getKey()).build();
+
+            individualEvaluation.setReport(report);
+            individualEvaluation.setMark(entry.getValue());
+
+            individualEvaluationsToCreate.add(individualEvaluation);
+        }
+
+        report.setIndividualEvaluations(individualEvaluationsToCreate);
+    }
+
+    public void update(ReportForm reportForm, Report report) {
         taskType = TASKTYPE_UPDATE;
+        updateTask = new UpdateTask<>(WSResources.URL_WS_REPORTS, this);
 
         try {
-            updateTaskReport = new UpdateTask<>(WSResources.URL_WSS, this);
-
-            updateTaskReport.execute(getReportUpdateWrapper(reportForm, report));
+            updateTask.execute(getReportUpdateWrapper(reportForm, report));
         } catch (FormException e) {
             serviceCaller.onError(e.getResMessage());
         }
@@ -73,32 +120,33 @@ public class ReportManageService implements IHttpCallback {
     private IReportUpdateWrapper getReportUpdateWrapper(ReportForm reportForm, Report report) throws FormException {
         IReportUpdateWrapper reportUpdateWrapper = new ReportUpdateWrapper();
 
-        reportUpdateWrapper.setWrapped(getReportToUpdate(reportForm, report.getRunning().getTeacher().getNumber()));
-        reportUpdateWrapper.setRunningYear(report.getRunning().getYear());
-        reportUpdateWrapper.setProjectCode(report.getRunning().getProject().getCode());
-        reportUpdateWrapper.setTeacherNumber(report.getRunning().getTeacher().getNumber());
-        reportUpdateWrapper.setTeamNumber(report.getTeam().getNumber());
-        reportUpdateWrapper.setAcademicLevelCode(report.getAcademicLevel().getCode());
+        reportUpdateWrapper.setWrapped(getReportToUpdate(reportForm, report));
+        reportUpdateWrapper.setNumber(report.getNumber());
 
         return reportUpdateWrapper;
     }
 
-    private Report getReportToUpdate(ReportForm reportForm, String teacherNumber) throws FormException {
+    private Report getReportToUpdate(ReportForm reportForm, Report report) throws FormException {
         Report reportToUpdate = new ReportBaseBuilder(
-                reportForm.getYear(),
-                reportForm.getProject().getCode(),
-                teacherNumber,
-                reportForm.getTeam().getNumber(),
-                reportForm.getAcademicLevel().getCode()).build();
+                report.getRunningTeam().getRunning().getYear(),
+                report.getRunningTeam().getRunning().getProject().getCode(),
+                report.getRunningTeam().getRunning().getTeacher().getNumber(),
+                report.getRunningTeam().getTeam().getNumber(),
+                report.getRunningTeam().getAcademicLevel().getCode()).build();
+
+        reportToUpdate.setNumber(reportForm.getNumber());
+        reportToUpdate.setDateMeeting(reportForm.getDateMeeting());
+        reportToUpdate.setSession(reportForm.getSession());
+        reportToUpdate.setComment(reportForm.getComment());
 
         return reportToUpdate;
     }
 
-    public void deleteReport(Report report) {
+    public void delete(Report report) {
         taskType = TASKTYPE_DELETE;
-        deleteTaskReport = new DeleteTask<>(WSResources.URL_WSS, this);
+        deleteTask = new DeleteTask<>(WSResources.URL_WS_REPORTS, this);
 
-        deleteTaskReport.execute(report);
+        deleteTask.execute(report);
     }
 
     @Override
@@ -110,58 +158,36 @@ public class ReportManageService implements IHttpCallback {
     public void onSuccess() {
         switch (taskType) {
             case TASKTYPE_CREATE:
-                onCreateTeamTaskSucceeded();
-                break;
-            case TASKTYPE_CREATE:
-                onCreateReportTaskSucceeded();
+                onCreateTaskSucceeded();
                 break;
             case TASKTYPE_UPDATE:
-                onUpdateReportTaskSucceeded();
+                onUpdateTaskSucceeded();
                 break;
             case TASKTYPE_DELETE:
-                onDeleteReportTaskSucceeded();
+                onDeleteTaskSucceeded();
                 break;
         }
     }
 
-    private void onCreateTeamTaskSucceeded() {
-        if (!createTaskTeam.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTaskTeam.getResponseErrors());
+    private void onCreateTaskSucceeded() {
+        if (!createTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
-            taskType = TASKTYPE_CREATE;
-            createTaskReport = new CreateTask<>(WSResources.URL_WSS, this);
-
-            createTaskReport.execute(report);
+            serviceCaller.onCreateSucceeded(report);
         }
     }
 
-    private void onCreateReportTaskSucceeded() {
-        if (!createTaskReport.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTaskReport.getResponseErrors());
+    private void onUpdateTaskSucceeded() {
+        if (!updateTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
-            try {
-                serviceCaller.onCreateSucceeded(report);
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
+            serviceCaller.onUpdateSucceeded();
         }
     }
 
-    private void onUpdateReportTaskSucceeded() {
-        if (!updateTaskReport.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTaskReport.getResponseErrors());
-        } else {
-            try {
-                serviceCaller.onUpdateSucceeded();
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
-            }
-        }
-    }
-
-    private void onDeleteReportTaskSucceeded() {
-        if (!deleteTaskReport.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTaskReport.getResponseErrors());
+    private void onDeleteTaskSucceeded() {
+        if (!deleteTask.getResponseErrors().isEmpty()) {
+            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
         } else {
             serviceCaller.onDeleteSucceeded();
         }

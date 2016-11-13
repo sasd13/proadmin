@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.wrapper.read.running;
+package com.sasd13.proadmin.util.wrapper.read.running;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
 
