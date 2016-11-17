@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
 
@@ -25,12 +26,6 @@ import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
  * @author Samir
  */
 public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCRunningDAO() {
-		expressionBuilder = new RunningExpressionBuilder();
-	}
 
 	@Override
 	public long insert(Running running) throws DAOException {
@@ -83,7 +78,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -117,6 +112,36 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		preparedStatement.setInt(1, running.getYear());
 		preparedStatement.setString(2, running.getProject().getCode());
 		preparedStatement.setString(3, running.getTeacher().getNumber());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			return IRunningDAO.COLUMN_YEAR + " = ?";
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			return IRunningDAO.COLUMN_PROJECT_CODE + " = ?";
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			return IRunningDAO.COLUMN_TEACHER_CODE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			try {
+				preparedStatement.setInt(index, Integer.parseInt(value));
+			} catch (NumberFormatException e) {
+				throw new ConditionException("Parameter " + key + " parsing error");
+			}
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

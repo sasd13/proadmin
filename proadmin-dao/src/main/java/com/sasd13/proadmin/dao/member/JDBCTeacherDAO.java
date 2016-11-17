@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 
@@ -25,12 +26,6 @@ import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
  * @author Samir
  */
 public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCTeacherDAO() {
-		expressionBuilder = new TeacherExpressionBuilder();
-	}
 
 	@Override
 	public long insert(Teacher teacher) throws DAOException {
@@ -81,7 +76,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 
 	@Override
 	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -112,6 +107,36 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
 		preparedStatement.setString(1, teacher.getNumber());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_FIRSTNAME + " = ?";
+		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_LASTNAME + " = ?";
+		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_EMAIL + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

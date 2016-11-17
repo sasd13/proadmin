@@ -11,8 +11,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
@@ -23,14 +23,12 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	private String url, username, password;
 	private Map<String, String[]> parameters;
-	private IExpressionBuilder expressionBuilder;
 
 	public JDBCCredentialDAO(String url, String username, String password) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
 		parameters = new HashMap<>();
-		expressionBuilder = new CredentialExpressionBuilder();
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 		parameters.put(COLUMN_USERNAME, new String[] { credential.getUsername() });
 		parameters.put(COLUMN_PASSWORD, new String[] { credential.getPassword() });
 
-		return JDBCUtils.contains(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.contains(this, TABLE, parameters);
 	}
 
 	@Override
@@ -132,6 +130,28 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Credential credential) throws SQLException {
 		preparedStatement.setString(1, credential.getUsername());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (ICredentialDAO.COLUMN_USERNAME.equalsIgnoreCase(key)) {
+			return ICredentialDAO.COLUMN_USERNAME + " = ?";
+		} else if (ICredentialDAO.COLUMN_PASSWORD.equalsIgnoreCase(key)) {
+			return ICredentialDAO.COLUMN_PASSWORD + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (ICredentialDAO.COLUMN_USERNAME.equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (ICredentialDAO.COLUMN_PASSWORD.equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

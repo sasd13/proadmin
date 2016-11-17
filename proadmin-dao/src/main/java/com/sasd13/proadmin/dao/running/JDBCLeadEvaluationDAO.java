@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 
@@ -25,12 +26,6 @@ import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrap
  * @author Samir
  */
 public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implements ILeadEvaluationDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCLeadEvaluationDAO() {
-		expressionBuilder = new LeadEvaluationExpressionBuilder();
-	}
 
 	@Override
 	public long insert(LeadEvaluation leadEvaluation) throws DAOException {
@@ -86,7 +81,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -127,6 +122,28 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
 		preparedStatement.setString(2, leadEvaluation.getStudent().getNumber());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
+			return ILeadEvaluationDAO.COLUMN_REPORT_CODE + " = ?";
+		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

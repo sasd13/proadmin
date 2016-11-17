@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.AcademicLevelBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 
@@ -25,12 +26,6 @@ import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
  * @author Samir
  */
 public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements IAcademicLevelDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCAcademicLevelDAO() {
-		expressionBuilder = new AcademicLevelExpressionBuilder();
-	}
 
 	@Override
 	public long insert(AcademicLevel academicLevel) throws DAOException {
@@ -75,7 +70,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 
 	@Override
 	public List<AcademicLevel> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -103,6 +98,24 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, AcademicLevel academicLevel) throws SQLException {
 		preparedStatement.setString(1, academicLevel.getCode());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+			return IAcademicLevelDAO.COLUMN_CODE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

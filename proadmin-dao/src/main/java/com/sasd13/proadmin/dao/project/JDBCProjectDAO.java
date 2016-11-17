@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 
@@ -26,12 +27,6 @@ import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
  * @author Samir
  */
 public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCProjectDAO() {
-		expressionBuilder = new ProjectExpressionBuilder();
-	}
 
 	@Override
 	public long insert(Project project) throws DAOException {
@@ -82,7 +77,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -113,6 +108,28 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+			return IProjectDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
+			return IProjectDAO.COLUMN_TITLE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

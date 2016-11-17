@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
@@ -30,13 +31,11 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-	private IExpressionBuilder expressionBuilder;
 	private ReportTransaction transaction;
 
 	public JDBCReportDAO() {
 		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
 		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
-		expressionBuilder = new ReportExpressionBuilder();
 		transaction = new ReportTransaction(this);
 	}
 
@@ -122,7 +121,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -167,6 +166,56 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_SESSION + " = ?";
+		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?";
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?";
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?";
+		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?";
+		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
+			try {
+				preparedStatement.setInt(index, Integer.parseInt(value));
+			} catch (NumberFormatException e) {
+				throw new ConditionException("Parameter " + key + " parsing error");
+			}
+		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			try {
+				preparedStatement.setInt(index, Integer.parseInt(value));
+			} catch (NumberFormatException e) {
+				throw new ConditionException("Parameter " + key + " parsing error");
+			}
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

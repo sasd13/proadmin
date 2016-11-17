@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IExpressionBuilder;
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.StudentTeamBaseBuilder;
 
 /**
@@ -24,12 +25,6 @@ import com.sasd13.proadmin.util.builder.member.StudentTeamBaseBuilder;
  * @author Samir
  */
 public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
-
-	private IExpressionBuilder expressionBuilder;
-
-	public JDBCStudentTeamDAO() {
-		expressionBuilder = new StudentTeamExpressionBuilder();
-	}
 
 	@Override
 	public long insert(StudentTeam studentTeam) throws DAOException {
@@ -68,7 +63,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 
 	@Override
 	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
-		return JDBCUtils.select(this, TABLE, parameters, expressionBuilder);
+		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
@@ -96,6 +91,28 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
 		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
+	}
+
+	@Override
+	public String buildCondition(String key) throws ConditionException {
+		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+			return IStudentTeamDAO.COLUMN_STUDENT_CODE + " = ?";
+		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+			return IStudentTeamDAO.COLUMN_TEAM_CODE + " = ?";
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override
