@@ -23,6 +23,7 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.proadmin.aaa.util.EnumParameter;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
@@ -35,8 +36,6 @@ public abstract class AAAServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5449641076971430518L;
 
-	private static final String PARAMETER_USERNAME = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_USERNAME);
-	private static final String PARAMETER_PASSWORD = AppProperties.getProperty(Names.AAA_REQUEST_LOGIN_PARAMETER_PASSWORD);
 	protected static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -54,11 +53,11 @@ public abstract class AAAServlet extends HttpServlet {
 	protected Credential readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		Map<String, String> map = (Map<String, String>) ParserFactory.make(req.getContentType()).fromString(Stream.read(req.getReader()), Map.class);
 
-		if (!map.containsKey(PARAMETER_USERNAME) || !map.containsKey(PARAMETER_PASSWORD)) {
+		if (!map.containsKey(EnumParameter.USERNAME.getName()) || !map.containsKey(EnumParameter.PASSWORD.getName())) {
 			throw new ParserException("Credential username/password not send");
 		}
 
-		return new Credential(map.get(PARAMETER_USERNAME), map.get(PARAMETER_PASSWORD));
+		return new Credential(map.get(EnumParameter.USERNAME.getName()), map.get(EnumParameter.PASSWORD.getName()));
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {

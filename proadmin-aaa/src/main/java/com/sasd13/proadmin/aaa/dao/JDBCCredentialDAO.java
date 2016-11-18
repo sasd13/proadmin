@@ -16,6 +16,7 @@ import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.proadmin.aaa.util.EnumParameter;
 
 public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICredentialDAO {
 
@@ -134,10 +135,10 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	@Override
 	public String buildCondition(String key) throws ConditionException {
-		if (ICredentialDAO.COLUMN_USERNAME.equalsIgnoreCase(key)) {
-			return ICredentialDAO.COLUMN_USERNAME + " = ?";
-		} else if (ICredentialDAO.COLUMN_PASSWORD.equalsIgnoreCase(key)) {
-			return ICredentialDAO.COLUMN_PASSWORD + " = ?";
+		if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
+			return ICredentialDAO.COLUMN_USERNAME;
+		} else if (EnumParameter.PASSWORD.getName().equalsIgnoreCase(key)) {
+			return ICredentialDAO.COLUMN_PASSWORD;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -145,9 +146,9 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
-		if (ICredentialDAO.COLUMN_USERNAME.equalsIgnoreCase(key)) {
+		if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (ICredentialDAO.COLUMN_PASSWORD.equalsIgnoreCase(key)) {
+		} else if (EnumParameter.PASSWORD.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");

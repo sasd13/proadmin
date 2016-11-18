@@ -103,7 +103,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			return IAcademicLevelDAO.COLUMN_CODE + " = ?";
+			return IAcademicLevelDAO.COLUMN_CODE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

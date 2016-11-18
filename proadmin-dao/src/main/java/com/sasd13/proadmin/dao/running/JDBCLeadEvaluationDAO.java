@@ -113,7 +113,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
 		preparedStatement.setString(5, leadEvaluation.getStudent().getNumber());
-
 		preparedStatement.setString(6, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
 		preparedStatement.setString(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
@@ -127,9 +126,9 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT_CODE + " = ?";
+			return ILeadEvaluationDAO.COLUMN_REPORT_CODE;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE + " = ?";
+			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

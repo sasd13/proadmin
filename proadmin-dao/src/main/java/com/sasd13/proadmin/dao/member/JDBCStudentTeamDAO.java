@@ -96,9 +96,9 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT_CODE + " = ?";
+			return IStudentTeamDAO.COLUMN_STUDENT_CODE;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM_CODE + " = ?";
+			return IStudentTeamDAO.COLUMN_TEAM_CODE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

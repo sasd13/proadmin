@@ -159,7 +159,6 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
 		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
 		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
-
 		preparedStatement.setString(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
@@ -171,19 +170,19 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_CODE + " = ?";
+			return IReportDAO.COLUMN_CODE;
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_SESSION + " = ?";
+			return IReportDAO.COLUMN_SESSION;
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?";
+			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?";
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?";
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?";
+			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE;
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE + " = ?";
+			return IReportDAO.COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

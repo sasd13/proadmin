@@ -101,7 +101,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
-
 		preparedStatement.setString(3, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
 		preparedStatement.setString(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
@@ -115,9 +114,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT_CODE + " = ?";
+			return IIndividualEvaluationDAO.COLUMN_REPORT_CODE;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT_CODE + " = ?";
+			return IIndividualEvaluationDAO.COLUMN_STUDENT_CODE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

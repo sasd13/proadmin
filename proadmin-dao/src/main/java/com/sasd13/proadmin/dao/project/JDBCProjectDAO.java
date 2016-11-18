@@ -113,9 +113,9 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	@Override
 	public String buildCondition(String key) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_CODE + " = ?";
+			return IProjectDAO.COLUMN_CODE;
 		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_TITLE + " = ?";
+			return IProjectDAO.COLUMN_TITLE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
