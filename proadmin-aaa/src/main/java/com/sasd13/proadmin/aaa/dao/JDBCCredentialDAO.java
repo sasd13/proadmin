@@ -94,8 +94,8 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	@Override
 	public boolean contains(Credential credential) throws DAOException {
 		parameters.clear();
-		parameters.put(COLUMN_USERNAME, new String[] { credential.getUsername() });
-		parameters.put(COLUMN_PASSWORD, new String[] { credential.getPassword() });
+		parameters.put(EnumParameter.USERNAME.getName(), new String[] { credential.getUsername() });
+		parameters.put(EnumParameter.PASSWORD.getName(), new String[] { credential.getPassword() });
 
 		return JDBCUtils.contains(this, TABLE, parameters);
 	}
