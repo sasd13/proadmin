@@ -38,8 +38,7 @@ public abstract class MotherActivity extends DrawerActivity {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    startActivity(new Intent(MotherActivity.this, browserItemModel.getTarget()));
-                    finishIfNotInHome();
+                    executeBrowserItemAction(browserItemModel);
                 }
             });
 
@@ -49,8 +48,10 @@ public abstract class MotherActivity extends DrawerActivity {
         recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
     }
 
-    private void finishIfNotInHome() {
-        if (!getClass().isAssignableFrom(HomeActivity.class)) {
+    private void executeBrowserItemAction(BrowserItemModel browserItemModel) {
+        startActivity(new Intent(MotherActivity.this, browserItemModel.getTarget()));
+
+        if (!getClass().equals(HomeActivity.class) && !getClass().equals(browserItemModel.getTarget())) {
             finish();
         }
     }
@@ -74,8 +75,7 @@ public abstract class MotherActivity extends DrawerActivity {
                 pair.addController(EnumActionEvent.CLICK, new IAction() {
                     @Override
                     public void execute() {
-                        startActivity(new Intent(MotherActivity.this, browserItemModel.getTarget()));
-                        finishIfNotInHome();
+                        executeBrowserItemAction(browserItemModel);
                     }
                 });
             }
