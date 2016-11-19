@@ -23,6 +23,7 @@ import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.service.IManageService;
@@ -35,8 +36,8 @@ import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
-import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
+import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
@@ -79,14 +80,19 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private List<T> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
-		return ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), getBeanClass());
+		IParser parser = ParserFactory.make(req.getContentType());
+		String message = Stream.read(req.getReader());
+
+		return parser.fromStringArray(message, getBeanClass());
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<IUpdateWrapper<T>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException, ParserException, WrapperException {
+		IParser parser = ParserFactory.make(req.getContentType());
+		String message = Stream.read(req.getReader());
 		Class<?> mClass = UpdateWrapperFactory.make(getBeanClass()).getClass();
 
-		return (List<IUpdateWrapper<T>>) ParserFactory.make(req.getContentType()).fromStringArray(Stream.read(req.getReader()), mClass);
+		return (List<IUpdateWrapper<T>>) parser.fromStringArray(message, mClass);
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
@@ -95,18 +101,17 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		Stream.write(resp.getWriter(), message);
 	}
 
-	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
-		LOG.info("Error send by WS : code=" + error.getCode());
-		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
-	}
-
 	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		LOG.error(e);
+		writeError(resp, ErrorFactory.make(e), e);
+	}
 
-		EnumError error = ErrorFactory.make(e);
+	private void writeError(HttpServletResponse resp, EnumError error, Exception e) throws IOException {
+		LOG.info("Error send by WS : code=" + error.getCode());
+		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
+
 		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
 
-		writeError(resp, error);
 		writeToResponse(resp, message);
 	}
 
