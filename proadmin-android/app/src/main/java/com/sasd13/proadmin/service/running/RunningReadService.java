@@ -36,6 +36,14 @@ public class RunningReadService implements IHttpCallback {
         readTask.execute();
     }
 
+    public void read(String teacherNumber, int year) {
+        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
+
+        readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(year)});
+        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        readTask.execute();
+    }
+
     @Override
     public void onLoad() {
         serviceCaller.onLoad();
@@ -49,7 +57,7 @@ public class RunningReadService implements IHttpCallback {
             try {
                 serviceCaller.onReadSucceeded(new RunningReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_no_data);
             }
         }
     }

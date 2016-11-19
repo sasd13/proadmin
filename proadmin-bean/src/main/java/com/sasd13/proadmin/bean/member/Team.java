@@ -4,6 +4,13 @@ public class Team {
 
 	private String number;
 
+	public Team() {
+	}
+
+	public Team(String number) {
+		this.number = number;
+	}
+
 	public String getNumber() {
 		return number;
 	}

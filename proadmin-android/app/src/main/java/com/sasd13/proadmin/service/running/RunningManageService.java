@@ -7,13 +7,10 @@ import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningManageService implements IHttpCallback {
@@ -33,12 +30,12 @@ public class RunningManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void create(RunningForm runningForm, String teacherNumber) {
+    public void create(RunningForm runningForm, Project project, String teacherNumber) {
         taskType = TASKTYPE_CREATE;
         createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGS, this);
 
         try {
-            running = getRunningToCreate(runningForm, teacherNumber);
+            running = getRunningToCreate(runningForm, project, teacherNumber);
 
             createTask.execute(running);
         } catch (FormException e) {
@@ -46,41 +43,10 @@ public class RunningManageService implements IHttpCallback {
         }
     }
 
-    private Running getRunningToCreate(RunningForm runningForm, String teacherNumber) throws FormException {
-        Running runningToCreate = new RunningBaseBuilder(runningForm.getYear(), runningForm.getProject().getCode(), teacherNumber).build();
+    private Running getRunningToCreate(RunningForm runningForm, Project project, String teacherNumber) throws FormException {
+        Running runningToCreate = new Running(runningForm.getYear(), project.getCode(), teacherNumber);
 
         return runningToCreate;
-    }
-
-    public void update(RunningForm runningForm, Running running) {
-        taskType = TASKTYPE_UPDATE;
-        updateTask = new UpdateTask<>(WSResources.URL_WS_RUNNINGS, this);
-
-        try {
-            updateTask.execute(getRunningUpdateWrapper(runningForm, running));
-        } catch (FormException e) {
-            serviceCaller.onError(e.getResMessage());
-        }
-    }
-
-    private IRunningUpdateWrapper getRunningUpdateWrapper(RunningForm runningForm, Running running) throws FormException {
-        IRunningUpdateWrapper runningUpdateWrapper = new RunningUpdateWrapper();
-
-        runningUpdateWrapper.setWrapped(getRunningToUpdate(runningForm, running.getTeacher()));
-        runningUpdateWrapper.setYear(running.getYear());
-        runningUpdateWrapper.setProjectCode(running.getProject().getCode());
-        runningUpdateWrapper.setTeacherNumber(running.getTeacher().getNumber());
-
-        return runningUpdateWrapper;
-    }
-
-    private Running getRunningToUpdate(RunningForm runningForm, Teacher teacher) throws FormException {
-        Running runningToUpdate = new RunningBaseBuilder(
-                runningForm.getYear(),
-                runningForm.getProject().getCode(),
-                teacher.getNumber()).build();
-
-        return runningToUpdate;
     }
 
     public void delete(Running running) {

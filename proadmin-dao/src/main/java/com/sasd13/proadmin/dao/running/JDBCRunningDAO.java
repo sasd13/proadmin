@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
 
 /**
@@ -146,7 +145,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
-		Running running = new RunningBaseBuilder(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT_CODE), resultSet.getString(COLUMN_TEACHER_CODE)).build();
+		Running running = new Running(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT_CODE), resultSet.getString(COLUMN_TEACHER_CODE));
 
 		return running;
 	}

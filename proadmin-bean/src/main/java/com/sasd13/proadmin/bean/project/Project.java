@@ -7,6 +7,13 @@ public class Project {
 	private String code, title, description;
 	private Timestamp dateCreation;
 
+	public Project() {
+	}
+
+	public Project(String code) {
+		this.code = code;
+	}
+
 	public String getCode() {
 		return code;
 	}

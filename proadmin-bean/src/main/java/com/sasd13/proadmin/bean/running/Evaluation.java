@@ -10,6 +10,14 @@ public abstract class Evaluation {
 	private Report report;
 	private Student student;
 
+	public Evaluation() {
+	}
+
+	public Evaluation(String reportNumber, String studentNumber) {
+		this.report = new Report(reportNumber);
+		this.student = new Student(studentNumber);
+	}
+
 	public Report getReport() {
 		return report;
 	}

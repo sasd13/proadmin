@@ -1,16 +1,17 @@
 package com.sasd13.proadmin.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.activity.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.activity.fragment.running.RunningDetailsFragment;
+import com.sasd13.proadmin.activity.fragment.running.RunningNewFragment;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.extra.Extra;
 
 public class ProjectsActivity extends MotherActivity {
 
@@ -50,20 +51,19 @@ public class ProjectsActivity extends MotherActivity {
     }
 
     public void showRunning(Running running) {
-        Intent intent = new Intent(this, RunningsActivity.class);
-        intent.putExtra(Extra.MODE, Extra.MODE_EDIT);
-        intent.putExtra(Extra.ID_RUNNING_YEAR, running.getYear());
-        intent.putExtra(Extra.ID_PROJECT_CODE, running.getProject().getCode());
+        startFragment(RunningDetailsFragment.newInstance(running));
+    }
 
-        startActivity(intent);
+    private void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void newRunning(Project project) {
-        Intent intent = new Intent(this, RunningsActivity.class);
-        intent.putExtra(Extra.MODE, Extra.MODE_NEW);
-        intent.putExtra(Extra.ID_PROJECT_CODE, project.getCode());
-
-        startActivity(intent);
+        startFragment(RunningNewFragment.newInstance(project));
     }
 
     @Override

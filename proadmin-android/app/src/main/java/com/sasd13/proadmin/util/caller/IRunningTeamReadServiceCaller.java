@@ -4,7 +4,7 @@ import android.support.annotation.StringRes;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 /**
@@ -15,7 +15,7 @@ public interface IRunningTeamReadServiceCaller {
 
     void onLoad();
 
-    void onReadProjectsSucceeded(IReadWrapper<Project> projectReadWrapper);
+    void onReadRunningsSucceeded(IReadWrapper<Running> runningReadWrapper);
 
     void onReadAcademicLevelsSucceeded(IReadWrapper<AcademicLevel> academicLevelReadWrapper);
 

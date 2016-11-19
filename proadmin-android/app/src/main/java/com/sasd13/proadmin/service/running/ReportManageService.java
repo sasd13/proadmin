@@ -17,9 +17,6 @@ import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
-import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -62,12 +59,12 @@ public class ReportManageService implements IHttpCallback {
     }
 
     private Report getReportToCreate(ReportForm reportForm, RunningTeam runningTeam) throws FormException {
-        Report reportToCreate = new ReportBaseBuilder(
+        Report reportToCreate = new Report(
                 runningTeam.getRunning().getYear(),
                 runningTeam.getRunning().getProject().getCode(),
                 runningTeam.getRunning().getTeacher().getNumber(),
                 runningTeam.getTeam().getNumber(),
-                runningTeam.getAcademicLevel().getCode()).build();
+                runningTeam.getAcademicLevel().getCode());
 
         reportToCreate.setNumber(Constants.REPORT_DEFAULT_NUMBER);
         reportToCreate.setDateMeeting(reportForm.getDateMeeting());
@@ -78,9 +75,8 @@ public class ReportManageService implements IHttpCallback {
     }
 
     private void setLeadEvaluation(LeadEvaluationForm leadEvaluationForm, Report report) throws FormException {
-        LeadEvaluation leadEvaluationToCreate = new LeadEvaluationBaseBuilder(leadEvaluationForm.getLeader().getNumber()).build();
+        LeadEvaluation leadEvaluationToCreate = new LeadEvaluation(report.getNumber(), leadEvaluationForm.getLeader().getNumber());
 
-        leadEvaluationToCreate.setReport(report);
         leadEvaluationToCreate.setPlanningMark(leadEvaluationForm.getPlanningMark());
         leadEvaluationToCreate.setPlanningComment(leadEvaluationForm.getPlanningComment());
         leadEvaluationToCreate.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
@@ -95,9 +91,8 @@ public class ReportManageService implements IHttpCallback {
         IndividualEvaluation individualEvaluation;
 
         for (Map.Entry<String, Float> entry : individualEvaluationsForm.getMarks().entrySet()) {
-            individualEvaluation = new IndividualEvaluationBaseBuilder(entry.getKey()).build();
+            individualEvaluation = new IndividualEvaluation(report.getNumber(), entry.getKey());
 
-            individualEvaluation.setReport(report);
             individualEvaluation.setMark(entry.getValue());
 
             individualEvaluationsToCreate.add(individualEvaluation);
@@ -127,12 +122,12 @@ public class ReportManageService implements IHttpCallback {
     }
 
     private Report getReportToUpdate(ReportForm reportForm, Report report) throws FormException {
-        Report reportToUpdate = new ReportBaseBuilder(
+        Report reportToUpdate = new Report(
                 report.getRunningTeam().getRunning().getYear(),
                 report.getRunningTeam().getRunning().getProject().getCode(),
                 report.getRunningTeam().getRunning().getTeacher().getNumber(),
                 report.getRunningTeam().getTeam().getNumber(),
-                report.getRunningTeam().getAcademicLevel().getCode()).build();
+                report.getRunningTeam().getAcademicLevel().getCode());
 
         reportToUpdate.setNumber(reportForm.getNumber());
         reportToUpdate.setDateMeeting(reportForm.getDateMeeting());

@@ -9,7 +9,6 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -44,7 +43,7 @@ public class LeadEvaluationManageService implements IHttpCallback {
     }
 
     private LeadEvaluation getLeadEvaluationToUpdate(LeadEvaluationForm leadEvaluationForm, Report report) throws FormException {
-        LeadEvaluation leadEvaluationToUpdate = new LeadEvaluationBaseBuilder(leadEvaluationForm.getLeader().getNumber()).build();
+        LeadEvaluation leadEvaluationToUpdate = new LeadEvaluation(report.getNumber(), leadEvaluationForm.getLeader().getNumber());
 
         leadEvaluationToUpdate.setReport(report);
         leadEvaluationToUpdate.setPlanningMark(leadEvaluationForm.getPlanningMark());

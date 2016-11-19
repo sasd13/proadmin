@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class IndividualEvaluationParcel implements Parcelable {
     }
 
     private IndividualEvaluationParcel(Parcel in) {
-        individualEvaluation = new IndividualEvaluationBaseBuilder(in.readString(), in.readString()).build();
+        individualEvaluation = new IndividualEvaluation(in.readString(), in.readString());
     }
 
     @Override

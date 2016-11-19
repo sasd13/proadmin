@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 
 /**
@@ -141,7 +140,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 
 	@Override
 	public Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
-		Teacher teacher = new TeacherBaseBuilder(resultSet.getString(COLUMN_CODE)).build();
+		Teacher teacher = new Teacher(resultSet.getString(COLUMN_CODE));
 
 		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));

@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 
 /**
@@ -147,7 +146,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 
 	@Override
 	public LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		LeadEvaluation leadEvaluation = new LeadEvaluationBaseBuilder(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE)).build();
+		LeadEvaluation leadEvaluation = new LeadEvaluation(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE));
 
 		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
 		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));

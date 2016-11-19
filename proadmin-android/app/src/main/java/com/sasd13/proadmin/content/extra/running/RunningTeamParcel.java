@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,12 +33,12 @@ public class RunningTeamParcel implements Parcelable {
     }
 
     private RunningTeamParcel(Parcel in) {
-        runningTeam = new RunningTeamBaseBuilder(
+        runningTeam = new RunningTeam(
                 in.readInt(),
                 in.readString(),
                 in.readString(),
                 in.readString(),
-                in.readString()).build();
+                in.readString());
     }
 
     @Override

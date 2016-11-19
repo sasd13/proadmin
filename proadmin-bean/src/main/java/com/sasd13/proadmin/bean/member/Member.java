@@ -6,6 +6,13 @@ public abstract class Member {
 
 	private String number, firstName, lastName, email;
 
+	public Member() {
+	}
+
+	public Member(String number) {
+		this.number = number;
+	}
+
 	public String getNumber() {
 		return number;
 	}
@@ -37,7 +44,7 @@ public abstract class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	@JsonIgnore
 	public String getFullName() {
 		return firstName + " " + lastName;

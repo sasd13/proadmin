@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.builder.running.RunningBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class RunningParcel implements Parcelable {
     }
 
     private RunningParcel(Parcel in) {
-        running = new RunningBaseBuilder(in.readInt(), in.readString(), in.readString()).build();
+        running = new Running(in.readInt(), in.readString(), in.readString());
     }
 
     @Override

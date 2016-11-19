@@ -24,6 +24,18 @@ public class Report {
 		leadEvaluation.setReport(this);
 	}
 
+	public Report(String number) {
+		this();
+
+		this.number = number;
+	}
+
+	public Report(int year, String projectCode, String teacherNumber, String teamNumber, String academicLevelCode) {
+		this();
+
+		runningTeam = new RunningTeam(year, projectCode, teacherNumber, teamNumber, academicLevelCode);
+	}
+
 	public RunningTeam getRunningTeam() {
 		return runningTeam;
 	}

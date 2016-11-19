@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 
 /**
  * Created by ssaidali2 on 31/10/2016.
@@ -34,7 +33,7 @@ public class TeacherParcel implements Parcelable {
     }
 
     private TeacherParcel(Parcel in) {
-        teacher = new TeacherBaseBuilder(in.readString()).build();
+        teacher = new Teacher(in.readString());
 
         teacher.setFirstName(in.readString());
         teacher.setLastName(in.readString());

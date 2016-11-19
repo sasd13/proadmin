@@ -44,7 +44,7 @@ public class StudentTeamReadService implements IHttpCallback {
             try {
                 serviceCaller.onReadSucceeded(new StudentTeamReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_no_data);
             }
         }
     }

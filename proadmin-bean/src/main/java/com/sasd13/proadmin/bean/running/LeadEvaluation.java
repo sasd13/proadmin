@@ -5,6 +5,13 @@ public class LeadEvaluation extends Evaluation {
 	private float planningMark, communicationMark;
 	private String planningComment, communicationComment;
 
+	public LeadEvaluation() {
+	}
+
+	public LeadEvaluation(String reportNumber, String studentNumber) {
+		super(reportNumber, studentNumber);
+	}
+
 	public float getPlanningMark() {
 		return planningMark;
 	}

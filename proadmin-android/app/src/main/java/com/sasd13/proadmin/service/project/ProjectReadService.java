@@ -41,7 +41,7 @@ public class ProjectReadService implements IHttpCallback {
             try {
                 serviceCaller.onReadSucceeded(new ProjectReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_no_data);
             }
         }
     }

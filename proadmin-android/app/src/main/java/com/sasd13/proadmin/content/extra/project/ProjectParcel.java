@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class ProjectParcel implements Parcelable {
     }
 
     private ProjectParcel(Parcel in) {
-        project = new ProjectBaseBuilder(in.readString()).build();
+        project = new Project(in.readString());
     }
 
     @Override

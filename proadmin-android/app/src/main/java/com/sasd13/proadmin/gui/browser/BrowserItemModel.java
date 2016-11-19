@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.gui.browser;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.sasd13.androidex.gui.widget.IColorable;
 import com.sasd13.androidex.gui.widget.IIconifiable;
@@ -16,13 +16,14 @@ import java.util.Observable;
  */
 public class BrowserItemModel extends Observable implements IRecyclerItemModel, ILabelizable, IIconifiable, IColorable {
 
-    private IRecyclerItemType type;
+    private EnumBrowserItemType browserItemType;
     private String label;
     private Drawable icon;
     private int color;
-    private Class<? extends Activity> target;
+    private Class<? extends AppCompatActivity> target;
 
-    public BrowserItemModel(String label, Drawable icon, int color, Class<? extends Activity> target) {
+    public BrowserItemModel(EnumBrowserItemType browserItemType, String label, Drawable icon, int color, Class<? extends AppCompatActivity> target) {
+        this.browserItemType = browserItemType;
         this.label = label;
         this.icon = icon;
         this.color = color;
@@ -31,11 +32,11 @@ public class BrowserItemModel extends Observable implements IRecyclerItemModel, 
 
     @Override
     public IRecyclerItemType getItemType() {
-        return type;
+        return browserItemType.getRecyclerItemType();
     }
 
-    public void setItemType(IRecyclerItemType type) {
-        this.type = type;
+    public EnumBrowserItemType getBrowserItemType() {
+        return browserItemType;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class BrowserItemModel extends Observable implements IRecyclerItemModel, 
         return color;
     }
 
-    public Class<? extends Activity> getTarget() {
+    public Class<? extends AppCompatActivity> getTarget() {
         return target;
     }
 }

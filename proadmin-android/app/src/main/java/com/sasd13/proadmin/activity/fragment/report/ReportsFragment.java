@@ -32,7 +32,6 @@ import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.service.running.ReportReadService;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -139,7 +138,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
     }
 
     private void readReportsFromWS() {
-        reportReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+        reportReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override

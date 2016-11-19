@@ -8,7 +8,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.gui.form.SettingsForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.member.TeacherBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -45,7 +44,7 @@ public class TeacherManageService implements IHttpCallback {
     }
 
     private Teacher getTeacherToUpdate(SettingsForm settingsForm) throws FormException {
-        Teacher teacherToUpdate = new TeacherBaseBuilder(settingsForm.getNumber()).build();
+        Teacher teacherToUpdate = new Teacher(settingsForm.getNumber());
 
         teacherToUpdate.setFirstName(settingsForm.getFirstName());
         teacherToUpdate.setLastName(settingsForm.getLastName());

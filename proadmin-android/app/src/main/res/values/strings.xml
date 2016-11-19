@@ -67,6 +67,7 @@
     <string name="label_code">Code</string>
     <string name="label_description">Description</string>
     <string name="label_project">Project</string>
+    <string name="label_running">Running</string>
     <string name="label_team">Team</string>
     <string name="label_year">Year</string>
     <string name="label_session">Session</string>
@@ -82,6 +83,7 @@
     <string name="title_identity">Identity</string>
     <string name="title_projects">Projects</string>
     <string name="title_project">Project</string>
+    <string name="title_information">Information</string>
     <string name="title_runnings">Runnings</string>
     <string name="title_running">Running</string>
     <string name="title_runningteams">Running teams</string>
@@ -105,8 +107,6 @@
     <string name="exception_service">Service exception</string>
     <string name="exception_ws">Web service exception</string>
     <string name="error_aaa_login_failed">Username/password not matched</string>
-    <string name="error_ws_retrieve_data">Data synchronizing error</string>
     <string name="error_ws_server_connection">Server connection error</string>
-    <string name="title_information">Information</string>
 
 </resources>

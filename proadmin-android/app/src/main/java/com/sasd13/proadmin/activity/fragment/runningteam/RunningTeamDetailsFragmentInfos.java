@@ -25,17 +25,18 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.service.running.RunningTeamManageService;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.caller.IRunningTeamReadServiceCaller;
 import com.sasd13.proadmin.util.caller.RunningTeamAcademicLevelReadServiceCaller;
 import com.sasd13.proadmin.util.caller.RunningTeamProjectReadServiceCaller;
 import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
+import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 import java.util.List;
@@ -147,13 +148,13 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     public void onStart() {
         super.onStart();
 
-        readProjectsFromWS();
+        readRunningsFromWS();
         readAcademicLevelsFromWS();
         readTeamsFromWS();
     }
 
-    private void readProjectsFromWS() {
-        projectReadServiceCaller.readProjectsFromWS();
+    private void readRunningsFromWS() {
+        projectReadServiceCaller.readRunningsFromWS(runningTeam.getRunning().getYear(), SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     private void readAcademicLevelsFromWS() {
@@ -169,13 +170,13 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements IManage
     }
 
     @Override
-    public void onReadProjectsSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        ProjectsSorter.byCode(projectReadWrapper.getWrapped());
-        bindFormWithProjects(projectReadWrapper.getWrapped());
+    public void onReadRunningsSucceeded(IReadWrapper<Running> runningReadWrapper) {
+        RunningsSorter.byProjectCode(runningReadWrapper.getWrapped());
+        bindFormWithRunnings(runningReadWrapper.getWrapped());
     }
 
-    private void bindFormWithProjects(List<Project> projects) {
-        runningTeamForm.bindProjects(projects, runningTeam.getRunning().getProject());
+    private void bindFormWithRunnings(List<Running> runnings) {
+        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -46,7 +45,7 @@ public class TeamManageService implements IHttpCallback {
     }
 
     private Team getTeamToCreate(TeamForm teamForm) throws FormException {
-        Team teamToCreate = new TeamBaseBuilder(teamForm.getNumber()).build();
+        Team teamToCreate = new Team(teamForm.getNumber());
 
         return teamToCreate;
     }
@@ -72,7 +71,7 @@ public class TeamManageService implements IHttpCallback {
     }
 
     private Team getTeamToUpdate(TeamForm teamForm) throws FormException {
-        Team teamToUpdate = new TeamBaseBuilder(teamForm.getNumber()).build();
+        Team teamToUpdate = new Team(teamForm.getNumber());
 
         return teamToUpdate;
     }

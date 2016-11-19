@@ -27,15 +27,15 @@ public class ProjectsSorter {
 	}
 
 	public static void byDateCreation(List<Project> projects) {
-		byCode(projects, false);
+		byCode(projects, true);
 	}
 
-	public static void byDateCreation(List<Project> projects, final boolean byAsc) {
+	public static void byDateCreation(List<Project> projects, final boolean byDesc) {
 		Collections.sort(projects, new Comparator<Project>() {
 
 			@Override
 			public int compare(Project project1, Project project2) {
-				if (byAsc) {
+				if (!byDesc) {
 					return project1.getDateCreation().compareTo(project2.getDateCreation());
 				} else {
 					return project2.getDateCreation().compareTo(project1.getDateCreation());

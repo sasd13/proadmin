@@ -4,6 +4,7 @@ import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 
 import java.util.List;
 
@@ -15,6 +16,16 @@ public class Finder {
     public static int indexOfProject(String projectCode, List<Project> projects) {
         for (int i = 0; i < projects.size(); i++) {
             if (projects.get(i).getCode().equalsIgnoreCase(projectCode)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static int indexOfProjectInRunnings(String projectCode, List<Running> runnings) {
+        for (int i = 0; i < runnings.size(); i++) {
+            if (runnings.get(i).getProject().getCode().equalsIgnoreCase(projectCode)) {
                 return i;
             }
         }

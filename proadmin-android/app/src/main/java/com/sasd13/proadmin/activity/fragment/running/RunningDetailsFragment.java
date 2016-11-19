@@ -1,25 +1,41 @@
 package com.sasd13.proadmin.activity.fragment.running;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
-import com.sasd13.androidex.gui.widget.pager.Pager;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
+import com.sasd13.androidex.gui.widget.recycler.Recycler;
+import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
+import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
+import com.sasd13.androidex.util.RecyclerHelper;
+import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.RunningsActivity;
+import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.gui.form.RunningForm;
+import com.sasd13.proadmin.service.running.RunningManageService;
 
-public class RunningDetailsFragment extends Fragment {
+public class RunningDetailsFragment extends Fragment implements IManageServiceCaller<Running> {
 
-    private RunningsActivity parentActivity;
+    private ProjectsActivity parentActivity;
+
+    private RunningForm runningForm;
 
     private Running running;
+
+    private RunningManageService runningManageService;
 
     public static RunningDetailsFragment newInstance(Running running) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
@@ -32,14 +48,17 @@ public class RunningDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (RunningsActivity) getActivity();
+        setHasOptionsMenu(true);
+
+        parentActivity = (ProjectsActivity) getActivity();
+        runningManageService = new RunningManageService(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_vp_w_psts, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -48,16 +67,61 @@ public class RunningDetailsFragment extends Fragment {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildPager(view);
+        buildFormRunning(view);
+        bindFormWithRunning();
     }
 
-    private void buildPager(View view) {
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new RunningPagerFragmentFactory(running));
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
+    private void buildFormRunning(View view) {
+        runningForm = new RunningForm(getContext());
 
-        tabsStrip.setViewPager(viewPager);
-        parentActivity.setPagerHandler(pager);
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        form.addDividerItemDecoration();
+
+        RecyclerHelper.addAll(form, runningForm.getHolder());
+    }
+
+    private void bindFormWithRunning() {
+        runningForm.bindRunning(running);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_edit, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        menu.findItem(R.id.menu_edit_action_save).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit_action_delete:
+                deleteRunning();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    private void deleteRunning() {
+        OptionDialog.showOkCancelDialog(
+                getContext(),
+                getResources().getString(R.string.message_delete),
+                getResources().getString(R.string.message_confirm),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        runningManageService.delete(running);
+                    }
+                });
     }
 
     @Override
@@ -68,9 +132,26 @@ public class RunningDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onLoad() {
+    }
 
-        parentActivity.setPagerHandler(null);
+    @Override
+    public void onCreateSucceeded(Running running) {
+    }
+
+    @Override
+    public void onUpdateSucceeded() {
+        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteSucceeded() {
+        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
+        parentActivity.onBackPressed();
+    }
+
+    @Override
+    public void onError(@StringRes int message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

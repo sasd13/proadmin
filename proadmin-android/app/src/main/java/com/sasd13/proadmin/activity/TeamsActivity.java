@@ -14,7 +14,6 @@ import com.sasd13.proadmin.activity.fragment.team.TeamsFragment;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.content.extra.Extra;
-import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
 
 public class TeamsActivity extends MotherActivity {
 
@@ -62,7 +61,7 @@ public class TeamsActivity extends MotherActivity {
     private Team getTeamFromIntent() {
         String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
 
-        return new TeamBaseBuilder(teamNumber).build();
+        return new Team(teamNumber);
     }
 
     public void showTeam(Team team) {

@@ -41,7 +41,7 @@ public class AcademicLevelReadService implements IHttpCallback {
             try {
                 serviceCaller.onReadSucceeded(new AcademicLevelReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_no_data);
             }
         }
     }

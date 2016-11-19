@@ -22,6 +22,10 @@ public class RunningTeamItemModel extends Observable implements IRecyclerItemMod
 
     @Override
     public String getLabel() {
+        return runningTeam.getRunning().getProject().getCode();
+    }
+
+    public String getTeam() {
         return runningTeam.getTeam().getNumber();
     }
 }

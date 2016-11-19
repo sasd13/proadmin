@@ -1,6 +1,14 @@
 package com.sasd13.proadmin.bean.member;
 
 public class Student extends Member {
+	
+	public Student() {
+		super();
+	}
+	
+	public Student(String number) {
+		super(number);
+	}
 
 	@Override
 	public String toString() {

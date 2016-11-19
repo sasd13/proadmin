@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.util.builder.member.StudentTeamBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class StudentTeamParcel implements Parcelable {
     }
 
     private StudentTeamParcel(Parcel in) {
-        studentTeam = new StudentTeamBaseBuilder(in.readString(), in.readString()).build();
+        studentTeam = new StudentTeam(in.readString(), in.readString());
     }
 
     @Override

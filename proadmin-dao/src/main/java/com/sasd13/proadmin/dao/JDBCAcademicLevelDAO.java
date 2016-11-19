@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.AcademicLevelBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 
 /**
@@ -120,7 +119,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 
 	@Override
 	public AcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
-		AcademicLevel academicLevel = new AcademicLevelBaseBuilder(resultSet.getString(COLUMN_CODE)).build();
+		AcademicLevel academicLevel = new AcademicLevel(resultSet.getString(COLUMN_CODE));
 
 		return academicLevel;
 	}

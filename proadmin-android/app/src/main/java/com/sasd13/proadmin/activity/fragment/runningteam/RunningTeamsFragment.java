@@ -33,7 +33,6 @@ import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.service.running.RunningTeamReadService;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -153,7 +152,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
     }
 
     private void readRunningTeamsFromWS() {
-        runningTeamReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+        runningTeamReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override
@@ -195,7 +194,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
         int year = years.get(spinYears.getSelectedPosition());
         List<RunningTeam> runningTeamsToTab = new RunningTeamYearCriteria(year).meetCriteria(runningTeams);
 
-        RunningTeamsSorter.byTeamNumber(runningTeamsToTab);
+        RunningTeamsSorter.byAcademicLevelCode(runningTeamsToTab);
         addRunningTeamsToTab(runningTeamsToTab);
     }
 
@@ -213,7 +212,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
                 }
             });
 
-            holder.add(pair);
+            holder.add(runningTeam.getAcademicLevel().getCode(), pair);
         }
 
         RecyclerHelper.addAll(runningTeamsTab, holder);

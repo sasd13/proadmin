@@ -9,7 +9,7 @@ import com.sasd13.proadmin.bean.running.Running;
 public class RunningsSorter {
 
 	public static void byYear(List<Running> runnings) {
-		byYear(runnings, false);
+		byYear(runnings, true);
 	}
 
 	public static void byYear(List<Running> runnings, final boolean byDesc) {
@@ -17,17 +17,17 @@ public class RunningsSorter {
 
 			@Override
 			public int compare(Running running1, Running running2) {
-				if (byDesc) {
-					return Integer.compare(running2.getYear(), running1.getYear());
-				} else {
+				if (!byDesc) {
 					return Integer.compare(running1.getYear(), running2.getYear());
+				} else {
+					return Integer.compare(running2.getYear(), running1.getYear());
 				}
 			}
 		});
 	}
 	
 	public static void byProjectCode(List<Running> runnings) {
-		byProjectCode(runnings, false);
+		byProjectCode(runnings, true);
 	}
 
 	public static void byProjectCode(List<Running> runnings, final boolean byAsc) {

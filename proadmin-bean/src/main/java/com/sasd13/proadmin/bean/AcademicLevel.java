@@ -4,6 +4,13 @@ public class AcademicLevel {
 
 	private String code;
 
+	public AcademicLevel() {
+	}
+
+	public AcademicLevel(String code) {
+		this.code = code;
+	}
+
 	public String getCode() {
 		return code;
 	}

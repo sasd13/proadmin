@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.member.TeamBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 
 /**
@@ -120,7 +119,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
 	public Team getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new TeamBaseBuilder(resultSet.getString(COLUMN_CODE)).build();
+		Team team = new Team(resultSet.getString(COLUMN_CODE));
 
 		return team;
 	}

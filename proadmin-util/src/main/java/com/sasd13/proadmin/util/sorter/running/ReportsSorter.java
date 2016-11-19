@@ -53,10 +53,10 @@ public class ReportsSorter {
 
 			@Override
 			public int compare(Report report1, Report report2) {
-				if (byDesc) {
-					return report2.getDateMeeting().compareTo(report1.getDateMeeting());
-				} else {
+				if (!byDesc) {
 					return report1.getDateMeeting().compareTo(report2.getDateMeeting());
+				} else {
+					return report2.getDateMeeting().compareTo(report1.getDateMeeting());
 				}
 			}
 		});

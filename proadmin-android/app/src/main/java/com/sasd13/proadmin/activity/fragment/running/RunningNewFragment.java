@@ -19,39 +19,27 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IManageServiceCaller;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.RunningsActivity;
+import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
-import java.util.List;
+public class RunningNewFragment extends Fragment implements IManageServiceCaller<Running> {
 
-public class RunningNewFragment extends Fragment implements IManageServiceCaller<Running>, IReadServiceCaller<IReadWrapper<Project>> {
-
-    private RunningsActivity parentActivity;
+    private ProjectsActivity parentActivity;
 
     private RunningForm runningForm;
 
     private Project project;
 
     private RunningManageService runningManageService;
-    private ProjectReadService projectReadService;
-
-    public static RunningNewFragment newInstance() {
-        return new RunningNewFragment();
-    }
 
     public static RunningNewFragment newInstance(Project project) {
-        RunningNewFragment fragment = newInstance();
+        RunningNewFragment fragment = new RunningNewFragment();
         fragment.project = project;
 
         return fragment;
@@ -63,8 +51,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
 
         setHasOptionsMenu(true);
 
-        parentActivity = (RunningsActivity) getActivity();
-        projectReadService = new ProjectReadService(this);
+        parentActivity = (ProjectsActivity) getActivity();
         runningManageService = new RunningManageService(this);
     }
 
@@ -95,7 +82,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void bindFormWithRunning() {
-        runningForm.bindRunning(new DefaultRunningBuilder().build());
+        runningForm.bindRunning(new DefaultRunningBuilder(project).build());
     }
 
     @Override
@@ -126,7 +113,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void createRunning() {
-        runningManageService.create(runningForm, SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER));
+        runningManageService.create(runningForm, project, SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override
@@ -134,11 +121,6 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
-        readProjectsFromWS();
-    }
-
-    private void readProjectsFromWS() {
-        projectReadService.readAll();
     }
 
     @Override
@@ -146,23 +128,9 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        ProjectsSorter.byCode(projectReadWrapper.getWrapped());
-        bindFormWithProjects(projectReadWrapper.getWrapped());
-    }
-
-    private void bindFormWithProjects(List<Project> projects) {
-        if (project != null) {
-            runningForm.bindProjects(projects, project);
-        } else {
-            runningForm.bindProjects(projects);
-        }
-    }
-
-    @Override
     public void onCreateSucceeded(Running running) {
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listRunnings();
+        parentActivity.onBackPressed();
     }
 
     @Override

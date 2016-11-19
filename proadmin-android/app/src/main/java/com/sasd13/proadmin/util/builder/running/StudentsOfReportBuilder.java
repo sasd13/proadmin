@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.service.running;
+package com.sasd13.proadmin.util.builder.running;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
 import com.sasd13.proadmin.bean.member.Student;

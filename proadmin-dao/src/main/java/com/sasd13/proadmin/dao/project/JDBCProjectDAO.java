@@ -19,7 +19,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.project.ProjectBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 
 /**
@@ -134,7 +133,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public Project getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new ProjectBaseBuilder(resultSet.getString(COLUMN_CODE)).build();
+		Project project = new Project(resultSet.getString(COLUMN_CODE));
 
 		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));

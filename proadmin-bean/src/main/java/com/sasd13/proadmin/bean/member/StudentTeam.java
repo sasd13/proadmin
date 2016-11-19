@@ -5,6 +5,14 @@ public class StudentTeam {
 	private Student student;
 	private Team team;
 
+	public StudentTeam() {
+	}
+
+	public StudentTeam(String studentNumber, String teamNumber) {
+		student = new Student(studentNumber);
+		team = new Team(teamNumber);
+	}
+
 	public Student getStudent() {
 		return student;
 	}

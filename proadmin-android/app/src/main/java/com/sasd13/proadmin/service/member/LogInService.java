@@ -80,7 +80,7 @@ public class LogInService implements IHttpCallback {
             try {
                 serviceCaller.onLogInSucceeded(readTask.getResults().get(0));
             } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_ws_retrieve_data);
+                serviceCaller.onError(R.string.error_no_data);
             }
         }
     }

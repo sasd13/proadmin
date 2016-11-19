@@ -20,6 +20,14 @@ public class RunningTeam {
 		reports = new ArrayList<>();
 	}
 
+	public RunningTeam(int year, String projectCode, String teacherNumber, String teamNumber, String academicLevelCode) {
+		this();
+
+		running = new Running(year, projectCode, teacherNumber);
+		team = new Team(teamNumber);
+		academicLevel = new AcademicLevel(academicLevelCode);
+	}
+
 	public Running getRunning() {
 		return running;
 	}

@@ -77,15 +77,7 @@ public class SessionHelper {
         Session.setAttribute(context, extraKey, String.valueOf(id));
     }
 
-    public static String getIntentExtraId(Activity activity, String extraKey) {
-        String currentExtraId = activity.getIntent().getStringExtra(extraKey);
-
-        if (currentExtraId == null) {
-            currentExtraId = getExtraId(activity, extraKey);
-        } else {
-            setExtraId(activity, extraKey, currentExtraId);
-        }
-
-        return currentExtraId;
+    public static String getExtraIdTeacherNumber(Context context) {
+        return Session.getAttribute(context, Extra.ID_TEACHER_NUMBER);
     }
 }

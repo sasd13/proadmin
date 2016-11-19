@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.util.builder.AcademicLevelBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class AcademicLevelParcel implements Parcelable {
     }
 
     private AcademicLevelParcel(Parcel in) {
-        academicLevel = new AcademicLevelBaseBuilder(in.readString()).build();
+        academicLevel = new AcademicLevel(in.readString());
     }
 
     @Override

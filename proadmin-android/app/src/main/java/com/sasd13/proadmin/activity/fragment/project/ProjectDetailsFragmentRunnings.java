@@ -25,7 +25,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -102,7 +101,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     }
 
     private void readRunningsFromWS() {
-        runningReadService.read(SessionHelper.getExtraId(getContext(), Extra.ID_TEACHER_NUMBER), project);
+        runningReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()), project);
     }
 
     @Override

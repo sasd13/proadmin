@@ -9,7 +9,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.member.StudentBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -43,7 +42,7 @@ public class StudentManageService implements IHttpCallback {
     }
 
     private Student getStudentToCreate(StudentForm studentForm) throws FormException {
-        Student studentToCreate = new StudentBaseBuilder(studentForm.getNumber()).build();
+        Student studentToCreate = new Student(studentForm.getNumber());
 
         studentToCreate.setFirstName(studentForm.getFirstName());
         studentToCreate.setLastName(studentForm.getLastName());
@@ -73,7 +72,7 @@ public class StudentManageService implements IHttpCallback {
     }
 
     private Student getStudentToUpdate(StudentForm studentForm) throws FormException {
-        Student studentToUpdate = new StudentBaseBuilder(studentForm.getNumber()).build();
+        Student studentToUpdate = new Student(studentForm.getNumber());
 
         studentToUpdate.setFirstName(studentForm.getFirstName());
         studentToUpdate.setLastName(studentForm.getLastName());

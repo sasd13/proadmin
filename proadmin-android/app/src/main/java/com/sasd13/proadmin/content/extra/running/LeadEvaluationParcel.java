@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationBaseBuilder;
 
 /**
  * Created by ssaidali2 on 12/11/2016.
@@ -34,7 +33,7 @@ public class LeadEvaluationParcel implements Parcelable {
     }
 
     private LeadEvaluationParcel(Parcel in) {
-        leadEvaluation = new LeadEvaluationBaseBuilder(in.readString(), in.readString()).build();
+        leadEvaluation = new LeadEvaluation(in.readString(), in.readString());
     }
 
     @Override

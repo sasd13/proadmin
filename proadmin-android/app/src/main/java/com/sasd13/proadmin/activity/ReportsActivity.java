@@ -13,8 +13,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.extra.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.ReportBaseBuilder;
-import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
 
 import java.util.Calendar;
 
@@ -71,19 +69,19 @@ public class ReportsActivity extends MotherActivity {
     }
 
     private Report getReportIntent() {
-        String reportNumber = SessionHelper.getExtraId(getApplication(), Extra.ID_REPORT_NUMBER);
+        String reportNumber = getIntent().getStringExtra(Extra.ID_REPORT_NUMBER);
 
-        return new ReportBaseBuilder(reportNumber).build();
+        return new Report(reportNumber);
     }
 
     private RunningTeam getRunningTeamFromIntent() {
         int year = getIntent().getIntExtra(Extra.ID_RUNNING_YEAR, Calendar.getInstance().get(Calendar.YEAR));
         String projectCode = getIntent().getStringExtra(Extra.ID_PROJECT_CODE);
-        String teacherNumber = SessionHelper.getExtraId(getApplication(), Extra.ID_TEACHER_NUMBER);
+        String teacherNumber = SessionHelper.getExtraIdTeacherNumber(this);
         String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
         String academicLevelCode = getIntent().getStringExtra(Extra.ID_ACADEMICLEVEL_CODE);
 
-        return new RunningTeamBaseBuilder(year, projectCode, teacherNumber, teamNumber, academicLevelCode).build();
+        return new RunningTeam(year, projectCode, teacherNumber, teamNumber, academicLevelCode);
     }
 
     public void showReport(Report report) {

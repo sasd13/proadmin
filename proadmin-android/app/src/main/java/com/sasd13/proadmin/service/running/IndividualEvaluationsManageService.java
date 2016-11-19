@@ -10,7 +10,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -58,9 +57,8 @@ public class IndividualEvaluationsManageService implements IHttpCallback {
     }
 
     private IndividualEvaluation getIndividualEvaluationToUpdate(Map.Entry<String, Float> entry, Report report) throws IndividualEvaluationsFormException {
-        IndividualEvaluation individualEvaluationToUpdate = new IndividualEvaluationBaseBuilder(entry.getKey()).build();
+        IndividualEvaluation individualEvaluationToUpdate = new IndividualEvaluation(report.getNumber(), entry.getKey());
 
-        individualEvaluationToUpdate.setReport(report);
         individualEvaluationToUpdate.setMark(entry.getValue());
 
         return individualEvaluationToUpdate;

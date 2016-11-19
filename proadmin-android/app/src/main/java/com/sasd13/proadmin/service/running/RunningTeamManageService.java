@@ -11,7 +11,6 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -33,12 +32,12 @@ public class RunningTeamManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void create(RunningTeamForm runningTeamForm, Running running) {
+    public void create(RunningTeamForm runningTeamForm) {
         taskType = TASKTYPE_CREATE;
         createTask = new CreateTask<>(WSResources.URL_WS_RUNNINGTEAMS, this);
 
         try {
-            runningTeam = getRunningTeamToCreate(runningTeamForm, running);
+            runningTeam = getRunningTeamToCreate(runningTeamForm);
 
             createTask.execute(runningTeam);
         } catch (FormException e) {
@@ -46,13 +45,13 @@ public class RunningTeamManageService implements IHttpCallback {
         }
     }
 
-    private RunningTeam getRunningTeamToCreate(RunningTeamForm runningTeamForm, Running running) throws FormException {
-        RunningTeam runningTeamToCreate = new RunningTeamBaseBuilder(
-                running.getYear(),
-                running.getProject().getCode(),
-                running.getTeacher().getNumber(),
+    private RunningTeam getRunningTeamToCreate(RunningTeamForm runningTeamForm) throws FormException {
+        RunningTeam runningTeamToCreate = new RunningTeam(
+                runningTeamForm.getYear(),
+                runningTeamForm.getRunning().getProject().getCode(),
+                runningTeamForm.getRunning().getTeacher().getNumber(),
                 runningTeamForm.getTeam().getNumber(),
-                runningTeamForm.getAcademicLevel().getCode()).build();
+                runningTeamForm.getAcademicLevel().getCode());
 
         return runningTeamToCreate;
     }
@@ -82,12 +81,12 @@ public class RunningTeamManageService implements IHttpCallback {
     }
 
     private RunningTeam getRunningTeamToUpdate(RunningTeamForm runningTeamForm, Running running) throws FormException {
-        RunningTeam runningTeamToUpdate = new RunningTeamBaseBuilder(
+        RunningTeam runningTeamToUpdate = new RunningTeam(
                 running.getYear(),
                 running.getProject().getCode(),
                 running.getTeacher().getNumber(),
                 runningTeamForm.getTeam().getNumber(),
-                runningTeamForm.getAcademicLevel().getCode()).build();
+                runningTeamForm.getAcademicLevel().getCode());
 
         return runningTeamToUpdate;
     }

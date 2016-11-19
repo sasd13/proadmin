@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.running.RunningTeamBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
 
 /**
@@ -168,7 +167,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeamBaseBuilder(resultSet.getInt(COLUMN_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_TEAM_CODE), resultSet.getString(COLUMN_ACADEMICLEVEL_CODE)).build();
+		RunningTeam runningTeam = new RunningTeam(resultSet.getInt(COLUMN_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_TEAM_CODE), resultSet.getString(COLUMN_ACADEMICLEVEL_CODE));
 
 		return runningTeam;
 	}

@@ -18,7 +18,6 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.running.IndividualEvaluationBaseBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 
 /**
@@ -135,7 +134,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluationBaseBuilder(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE)).build();
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE));
 
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 

@@ -3,26 +3,26 @@ package com.sasd13.proadmin.util.caller;
 import android.support.annotation.StringRes;
 
 import com.sasd13.androidex.ws.IReadServiceCaller;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.service.project.ProjectReadService;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.service.running.RunningReadService;
 import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
 /**
  * Created by ssaidali2 on 11/11/2016.
  */
 
-public class RunningTeamProjectReadServiceCaller implements IReadServiceCaller<IReadWrapper<Project>> {
+public class RunningTeamProjectReadServiceCaller implements IReadServiceCaller<IReadWrapper<Running>> {
 
     private IRunningTeamReadServiceCaller runningTeamReadServiceCaller;
-    private ProjectReadService projectReadService;
+    private RunningReadService runningReadService;
 
     public RunningTeamProjectReadServiceCaller(IRunningTeamReadServiceCaller runningTeamReadServiceCaller) {
         this.runningTeamReadServiceCaller = runningTeamReadServiceCaller;
-        projectReadService = new ProjectReadService(this);
+        runningReadService = new RunningReadService(this);
     }
 
-    public void readProjectsFromWS() {
-        projectReadService.readAll();
+    public void readRunningsFromWS(int year, String teacherNumber) {
+        runningReadService.read(teacherNumber, year);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class RunningTeamProjectReadServiceCaller implements IReadServiceCaller<I
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Project> projectReadWrapper) {
-        runningTeamReadServiceCaller.onReadProjectsSucceeded(projectReadWrapper);
+    public void onReadSucceeded(IReadWrapper<Running> runningReadWrapper) {
+        runningTeamReadServiceCaller.onReadRunningsSucceeded(runningReadWrapper);
     }
 
     @Override

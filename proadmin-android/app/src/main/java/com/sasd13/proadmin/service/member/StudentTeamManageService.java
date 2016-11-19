@@ -9,7 +9,6 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.builder.member.StudentTeamBaseBuilder;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 public class StudentTeamManageService implements IHttpCallback {
@@ -36,7 +35,7 @@ public class StudentTeamManageService implements IHttpCallback {
     }
 
     private StudentTeam getStudentTeamToCreate(Student student, Team team) {
-        StudentTeam studentTeamToCreate = new StudentTeamBaseBuilder(student.getNumber(), team.getNumber()).build();
+        StudentTeam studentTeamToCreate = new StudentTeam(student.getNumber(), team.getNumber());
 
         return studentTeamToCreate;
     }
