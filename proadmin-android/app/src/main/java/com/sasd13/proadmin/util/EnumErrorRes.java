@@ -20,7 +20,9 @@ public enum EnumErrorRes {
     ;
 
     private EnumError error;
-    private @StringRes int stringRes;
+
+    @StringRes
+    private int stringRes;
 
     private EnumErrorRes(EnumError error, @StringRes int stringRes) {
         this.error = error;

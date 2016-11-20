@@ -13,7 +13,9 @@ import com.sasd13.proadmin.bean.member.Team;
 public class TeamPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 2;
-    private static final @StringRes int[] TITLES = {R.string.title_information, R.string.title_students};
+
+    @StringRes
+    private static final int[] TITLES = {R.string.title_information, R.string.title_students};
 
     private Team team;
 
@@ -39,9 +41,8 @@ public class TeamPagerFragmentFactory implements IPagerFragmentFactory {
     }
 
     @Override
-    public
     @StringRes
-    int getPageTitle(int position) {
+    public int getPageTitle(int position) {
         return TITLES[position];
     }
 }

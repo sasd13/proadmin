@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.activity.fragment.runningteam;
+package com.sasd13.proadmin.activity.fragment.report;
 
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -10,16 +10,24 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class RunningTeamPagerFragmentFactory implements IPagerFragmentFactory {
+public class ReportNewPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 2;
 
     @StringRes
-    private static final int[] TITLES = {R.string.title_information, R.string.title_reports};
+    private static final int[] TITLES = {
+            R.string.title_runningteams,
+            R.string.title_information,
+    };
 
+    private ReportNewFragment parentFragment;
     private RunningTeam runningTeam;
 
-    public RunningTeamPagerFragmentFactory(RunningTeam runningTeam) {
+    public ReportNewPagerFragmentFactory(ReportNewFragment parentFragment) {
+        this.parentFragment = parentFragment;
+    }
+
+    public void setRunningTeam(RunningTeam runningTeam) {
         this.runningTeam = runningTeam;
     }
 
@@ -27,9 +35,9 @@ public class RunningTeamPagerFragmentFactory implements IPagerFragmentFactory {
     public Fragment make(int position) {
         switch (position) {
             case 0:
-                return RunningTeamDetailsFragmentInfos.newInstance(runningTeam);
+                return ReportNewFragmentRunningTeams.newInstance(parentFragment, runningTeam);
             case 1:
-                return RunningTeamDetailsFragmentReports.newInstance(runningTeam);
+                return ReportNewFragmentInfo.newInstance(runningTeam);
             default:
                 return null;
         }

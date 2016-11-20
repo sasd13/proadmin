@@ -10,10 +10,12 @@ import com.sasd13.proadmin.bean.running.Report;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportPagerFragmentFactory implements IPagerFragmentFactory {
+public class ReportDetailsPagerFragmentFactory implements IPagerFragmentFactory {
 
     private static final int COUNT = 3;
-    private static final @StringRes int[] TITLES = {
+
+    @StringRes
+    private static final int[] TITLES = {
             R.string.title_information,
             R.string.title_leadevaluation,
             R.string.title_individualevaluations,
@@ -21,7 +23,7 @@ public class ReportPagerFragmentFactory implements IPagerFragmentFactory {
 
     private Report report;
 
-    public ReportPagerFragmentFactory(Report report) {
+    public ReportDetailsPagerFragmentFactory(Report report) {
         this.report = report;
     }
 
@@ -45,9 +47,8 @@ public class ReportPagerFragmentFactory implements IPagerFragmentFactory {
     }
 
     @Override
-    public
     @StringRes
-    int getPageTitle(int position) {
+    public int getPageTitle(int position) {
         return TITLES[position];
     }
 }

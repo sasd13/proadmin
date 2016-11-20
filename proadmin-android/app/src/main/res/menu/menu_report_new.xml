@@ -1,0 +1,32 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:proadmin="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/menu_report_new_group_runingteams">
+        <item android:id="@+id/menu_report_new_spinner"
+            android:title="@string/label_year"
+            proadmin:showAsAction="ifRoom"
+            proadmin:actionViewClass="android.widget.Spinner"/>
+    </group>
+
+    <group android:id="@+id/menu_report_new_group_previous">
+        <item android:id="@+id/menu_report_new_action_previous"
+            android:icon="@drawable/ic_"
+            android:title="@string/menuitem_action_done"
+            proadmin:showAsAction="ifRoom"/>
+    </group>
+
+    <group android:id="@+id/menu_report_new_group_next">
+        <item android:id="@+id/menu_report_new_action_next"
+            android:icon="@drawable/ic_done_white_36dp"
+            android:title="@string/menuitem_action_done"
+            proadmin:showAsAction="ifRoom"/>
+    </group>
+
+    <group android:id="@+id/menu_report_new_group_save">
+        <item android:id="@+id/menu_report_new_action_save"
+            android:icon="@drawable/ic_save_white_36dp"
+            android:title="@string/menuitem_action_done"
+            proadmin:showAsAction="ifRoom"/>
+    </group>
+</menu>

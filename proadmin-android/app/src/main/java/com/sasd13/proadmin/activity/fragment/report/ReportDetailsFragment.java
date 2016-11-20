@@ -53,7 +53,7 @@ public class ReportDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ReportPagerFragmentFactory(report));
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ReportDetailsPagerFragmentFactory(report));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);

@@ -2,62 +2,52 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sasd13.androidex.gui.widget.recycler.Recycler;
-import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
+import com.astuetz.PagerSlidingTabStrip;
+import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
-import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.gui.form.ReportForm;
-import com.sasd13.proadmin.service.running.ReportManageService;
 
-public class ReportNewFragment extends Fragment implements IManageServiceCaller<Report> {
+public class ReportNewFragment extends Fragment {
 
     private ReportsActivity parentActivity;
 
-    private ReportForm reportForm;
+    private ViewPager viewPager;
+    private ReportNewPagerFragmentFactory pagerFragmentFactory;
 
     private RunningTeam runningTeam;
 
-    private ReportManageService reportManageService;
+    public static ReportNewFragment newInstance() {
+        return new ReportNewFragment();
+    }
 
-    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
-        ReportNewFragment fragment = new ReportNewFragment();
-        fragment.runningTeam = runningTeam;
+    public void setRunningTeam(RunningTeam runningTeam) {
+        this.runningTeam = runningTeam;
 
-        return fragment;
+        if (pagerFragmentFactory != null) {
+            pagerFragmentFactory.setRunningTeam(runningTeam);
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         parentActivity = (ReportsActivity) getActivity();
-        reportManageService = new ReportManageService(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_vp_w_psts, container, false);
 
         buildView(view);
 
@@ -66,77 +56,35 @@ public class ReportNewFragment extends Fragment implements IManageServiceCaller<
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildFormRunning(view);
+        buildPager(view);
     }
 
-    private void buildFormRunning(View view) {
-        reportForm = new ReportForm(getContext(), false);
+    private void buildPager(View view) {
+        pagerFragmentFactory = new ReportNewPagerFragmentFactory();
+        viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
+        Pager pager = new Pager(viewPager, getChildFragmentManager(), pagerFragmentFactory);
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        form.addDividerItemDecoration();
+        tabsStrip.setViewPager(viewPager);
+        parentActivity.setPagerHandler(pager);
 
-        RecyclerHelper.addAll(form, reportForm.getHolder());
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_edit, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        menu.findItem(R.id.menu_edit_action_delete).setVisible(false);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_edit_action_save:
-                createReport();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (runningTeam != null) {
+            pagerFragmentFactory.setRunningTeam(runningTeam);
         }
-
-        return true;
-    }
-
-    private void createReport() {
-        //TODO : create report
-        //reportManageService.create(reportForm, runningTeam);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 
-    @Override
-    public void onLoad() {
+    public void backward() {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
-    @Override
-    public void onCreateSucceeded(Report report) {
-        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listReports();
-    }
-
-    @Override
-    public void onUpdateSucceeded() {
-    }
-
-    @Override
-    public void onDeleteSucceeded() {
-    }
-
-    @Override
-    public void onError(@StringRes int message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    public void forward() {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
     }
 }
