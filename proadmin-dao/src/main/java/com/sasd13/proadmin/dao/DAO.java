@@ -80,7 +80,7 @@ public abstract class DAO implements ILayeredDAO {
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO);
-		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, reportDeepReader);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, academicLevelDAO, reportDeepReader);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
 	}

@@ -16,7 +16,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
-	private static final Logger LOG = Logger.getLogger(AcademicLevelReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(AcademicLevelReadService.class);
 
 	private DAO dao;
 
@@ -26,7 +26,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 	@Override
 	public List<AcademicLevel> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read");
+		LOGGER.info("read");
 
 		List<AcademicLevel> academicLevels = new ArrayList<>();
 
@@ -35,13 +35,13 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 			academicLevels = dao.getSession(AcademicLevel.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -50,7 +50,7 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 	@Override
 	public List<AcademicLevel> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<AcademicLevel> academicLevels = new ArrayList<>();
 
@@ -59,13 +59,13 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 			academicLevels = dao.getSession(AcademicLevel.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -74,13 +74,13 @@ public class AcademicLevelReadService implements IReadService<AcademicLevel> {
 
 	@Override
 	public List<AcademicLevel> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead unavailable");
+		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<AcademicLevel> deepReadAll() throws ServiceException {
-		LOG.info("deepReadAll unavailable");
+		LOGGER.info("deepReadAll unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

@@ -9,7 +9,6 @@ import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
@@ -39,24 +38,19 @@ public class ReportDeepReader extends DeepReader<Report> {
 		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
 
 		report.setLeadEvaluation(leadEvaluation);
-		Binder.bind(report.getLeadEvaluation(), leadEvaluation);
-		// TODO : dependency binder
+		leadEvaluation.setReport(report);
 	}
 
 	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) throws DAOException {
-		report.getIndividualEvaluations().clear();
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
 		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
+		report.getIndividualEvaluations().clear();
 
-		IndividualEvaluation individualEvaluationToAdd;
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			individualEvaluationToAdd = new IndividualEvaluation();
-
 			report.getIndividualEvaluations().add(individualEvaluation);
-			Binder.bind(individualEvaluationToAdd, individualEvaluation);
-			// TODO : dependency binder
+			individualEvaluation.setReport(report);
 		}
 	}
 }

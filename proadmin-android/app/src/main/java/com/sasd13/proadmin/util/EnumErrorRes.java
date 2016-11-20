@@ -16,7 +16,7 @@ public enum EnumErrorRes {
     PARSING_DATA(EnumError.PARSING_DATA, R.string.exception_parsing_data),
     VALIDATING_DATA(EnumError.VALIDATING_DATA, R.string.exception_validating_data),
     SERVICE(EnumError.SERVICE, R.string.exception_service),
-    WEBSERVICE(EnumError.WEBSERVICE, R.string.exception_ws),
+    WEBSERVICE(EnumError.WEB_SERVICE, R.string.exception_ws),
     ;
 
     private EnumError error;

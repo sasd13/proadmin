@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class RunningTeamManageService implements IManageService<RunningTeam> {
 
-	private static final Logger LOG = Logger.getLogger(RunningTeamManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(RunningTeamManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> session = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
-				LOG.info("create : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
-				runningTeamDAO.insert(runningTeam);
+				LOGGER.info("create : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+				session.insert(runningTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> session = dao.getSession(RunningTeam.class);
 			IRunningTeamUpdateWrapper runningTeamUpdateWrapper;
 
 			for (IUpdateWrapper<RunningTeam> updateWrapper : updateWrappers) {
 				runningTeamUpdateWrapper = (IRunningTeamUpdateWrapper) updateWrapper;
 
-				LOG.info("update : year = " + runningTeamUpdateWrapper.getRunningYear() + ", projectCode=" + runningTeamUpdateWrapper.getProjectCode() + ", teacherNumber=" + runningTeamUpdateWrapper.getTeacherNumber() + ", teamNumber=" + runningTeamUpdateWrapper.getTeamNumber() + ", academicLevel=" + runningTeamUpdateWrapper.getAcademicLevelCode());
-				runningTeamDAO.update(runningTeamUpdateWrapper);
+				LOGGER.info("update : year = " + runningTeamUpdateWrapper.getRunningYear() + ", projectCode=" + runningTeamUpdateWrapper.getProjectCode() + ", teacherNumber=" + runningTeamUpdateWrapper.getTeacherNumber() + ", teamNumber=" + runningTeamUpdateWrapper.getTeamNumber() + ", academicLevel=" + runningTeamUpdateWrapper.getAcademicLevelCode());
+				session.update(runningTeamUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class RunningTeamManageService implements IManageService<RunningTeam> {
 		try {
 			dao.open();
 
-			ISession<RunningTeam> runningTeamDAO = dao.getSession(RunningTeam.class);
+			ISession<RunningTeam> session = dao.getSession(RunningTeam.class);
 
 			for (RunningTeam runningTeam : runningTeams) {
-				LOG.info("delete : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
-				runningTeamDAO.delete(runningTeam);
+				LOGGER.info("delete : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+				session.delete(runningTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

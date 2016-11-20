@@ -12,11 +12,11 @@ import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.dao.ICredentialUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.credential.ICredentialUpdateWrapper;
 
 public class CredentialManageService implements IManageService<Credential> {
 
-	private static final Logger LOG = Logger.getLogger(CredentialManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(CredentialManageService.class);
 
 	private ICredentialDAO dao;
 
@@ -30,17 +30,17 @@ public class CredentialManageService implements IManageService<Credential> {
 			dao.open();
 
 			for (Credential credential : credentials) {
-				LOG.info("create : username=" + credential.getUsername());
+				LOGGER.info("create : username=" + credential.getUsername());
 				dao.insert(credential);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -55,17 +55,17 @@ public class CredentialManageService implements IManageService<Credential> {
 			for (IUpdateWrapper<Credential> updateWrapper : updateWrappers) {
 				credentialUpdateWrapper = (ICredentialUpdateWrapper) updateWrapper;
 
-				LOG.info("update : username=" + credentialUpdateWrapper.getUsername());
+				LOGGER.info("update : username=" + credentialUpdateWrapper.getUsername());
 				dao.update(credentialUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -76,17 +76,17 @@ public class CredentialManageService implements IManageService<Credential> {
 			dao.open();
 
 			for (Credential credential : credentials) {
-				LOG.info("delete : username=" + credential.getUsername());
+				LOGGER.info("delete : username=" + credential.getUsername());
 				dao.delete(credential);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

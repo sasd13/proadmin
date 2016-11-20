@@ -16,7 +16,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class StudentTeamManageService implements IManageService<StudentTeam> {
 
-	private static final Logger LOG = Logger.getLogger(StudentTeamManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(StudentTeamManageService.class);
 
 	private DAO dao;
 
@@ -29,27 +29,27 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 		try {
 			dao.open();
 
-			ISession<StudentTeam> studentTeamDAO = dao.getSession(StudentTeam.class);
+			ISession<StudentTeam> session = dao.getSession(StudentTeam.class);
 
 			for (StudentTeam studentTeam : studentTeams) {
-				LOG.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-				studentTeamDAO.insert(studentTeam);
+				LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+				session.insert(studentTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
 
 	@Override
 	public void update(List<IUpdateWrapper<StudentTeam>> updateWrappers) throws ServiceException {
-		LOG.info("update unavailable");
+		LOGGER.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
@@ -58,20 +58,20 @@ public class StudentTeamManageService implements IManageService<StudentTeam> {
 		try {
 			dao.open();
 
-			ISession<StudentTeam> studentTeamDAO = dao.getSession(StudentTeam.class);
+			ISession<StudentTeam> session = dao.getSession(StudentTeam.class);
 
 			for (StudentTeam studentTeam : studentTeams) {
-				LOG.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-				studentTeamDAO.delete(studentTeam);
+				LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+				session.delete(studentTeam);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

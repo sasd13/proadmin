@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class StudentManageService implements IManageService<Student> {
 
-	private static final Logger LOG = Logger.getLogger(StudentManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(StudentManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class StudentManageService implements IManageService<Student> {
 		try {
 			dao.open();
 
-			ISession<Student> studentDAO = dao.getSession(Student.class);
+			ISession<Student> session = dao.getSession(Student.class);
 
 			for (Student student : students) {
-				LOG.info("create : number=" + student.getNumber());
-				studentDAO.insert(student);
+				LOGGER.info("create : number=" + student.getNumber());
+				session.insert(student);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class StudentManageService implements IManageService<Student> {
 		try {
 			dao.open();
 
-			ISession<Student> studentDAO = dao.getSession(Student.class);
+			ISession<Student> session = dao.getSession(Student.class);
 			IStudentUpdateWrapper studentUpdateWrapper;
 
 			for (IUpdateWrapper<Student> updateWrapper : updateWrappers) {
 				studentUpdateWrapper = (IStudentUpdateWrapper) updateWrapper;
 
-				LOG.info("update : number=" + studentUpdateWrapper.getNumber());
-				studentDAO.update(studentUpdateWrapper);
+				LOGGER.info("update : number=" + studentUpdateWrapper.getNumber());
+				session.update(studentUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class StudentManageService implements IManageService<Student> {
 		try {
 			dao.open();
 
-			ISession<Student> studentDAO = dao.getSession(Student.class);
+			ISession<Student> session = dao.getSession(Student.class);
 
 			for (Student student : students) {
-				LOG.info("delete : number=" + student.getNumber());
-				studentDAO.delete(student);
+				LOGGER.info("delete : number=" + student.getNumber());
+				session.delete(student);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class IndividualEvaluationManageService implements IManageService<IndividualEvaluation> {
 
-	private static final Logger LOG = Logger.getLogger(IndividualEvaluationManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationManageService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 
 	@Override
 	public void create(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
-		LOG.info("create unavailable");
+		LOGGER.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
@@ -36,30 +36,30 @@ public class IndividualEvaluationManageService implements IManageService<Individ
 		try {
 			dao.open();
 
-			ISession<IndividualEvaluation> individualEvaluationDAO = dao.getSession(IndividualEvaluation.class);
+			ISession<IndividualEvaluation> session = dao.getSession(IndividualEvaluation.class);
 			IIndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper;
 
 			for (IUpdateWrapper<IndividualEvaluation> updateWrapper : updateWrappers) {
 				individualEvaluationUpdateWrapper = (IIndividualEvaluationUpdateWrapper) updateWrapper;
 
-				LOG.info("update : reportNumber=" + individualEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + individualEvaluationUpdateWrapper.getStudentNumber());
-				individualEvaluationDAO.update(individualEvaluationUpdateWrapper);
+				LOGGER.info("update : reportNumber=" + individualEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + individualEvaluationUpdateWrapper.getStudentNumber());
+				session.update(individualEvaluationUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
 
 	@Override
 	public void delete(List<IndividualEvaluation> individualEvaluations) throws ServiceException {
-		LOG.info("delete unavailable");
+		LOGGER.info("delete unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class ProjectManageService implements IManageService<Project> {
 
-	private static final Logger LOG = Logger.getLogger(ProjectManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			ISession<Project> projectDAO = dao.getSession(Project.class);
+			ISession<Project> session = dao.getSession(Project.class);
 
 			for (Project project : projects) {
-				LOG.info("create : code=" + project.getCode());
-				projectDAO.insert(project);
+				LOGGER.info("create : code=" + project.getCode());
+				session.insert(project);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			ISession<Project> projectDAO = dao.getSession(Project.class);
+			ISession<Project> session = dao.getSession(Project.class);
 			IProjectUpdateWrapper projectUpdateWrapper;
 
 			for (IUpdateWrapper<Project> updateWrapper : updateWrappers) {
 				projectUpdateWrapper = (IProjectUpdateWrapper) updateWrapper;
 
-				LOG.info("update : code=" + projectUpdateWrapper.getCode());
-				projectDAO.update(projectUpdateWrapper);
+				LOGGER.info("update : code=" + projectUpdateWrapper.getCode());
+				session.update(projectUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class ProjectManageService implements IManageService<Project> {
 		try {
 			dao.open();
 
-			ISession<Project> projectDAO = dao.getSession(Project.class);
+			ISession<Project> session = dao.getSession(Project.class);
 
 			for (Project project : projects) {
-				LOG.info("delete : code=" + project.getCode());
-				projectDAO.delete(project);
+				LOGGER.info("delete : code=" + project.getCode());
+				session.delete(project);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

@@ -16,7 +16,7 @@ public class ErrorFactory {
 		} else if (ServiceException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.SERVICE;
 		} else if (WSException.class.isAssignableFrom(e.getClass())) {
-			return EnumError.WEBSERVICE;
+			return EnumError.WEB_SERVICE;
 		} else {
 			return EnumError.UNKNOWN;
 		}

@@ -138,8 +138,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 
-		// TODO : dependency binder
-
 		return individualEvaluation;
 	}
 }

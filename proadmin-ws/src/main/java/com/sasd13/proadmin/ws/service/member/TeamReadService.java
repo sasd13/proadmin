@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class TeamReadService implements IReadService<Team> {
 
-	private static final Logger LOG = Logger.getLogger(TeamReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(TeamReadService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Team> teams = new ArrayList<>();
 
@@ -36,13 +36,13 @@ public class TeamReadService implements IReadService<Team> {
 
 			teams = dao.getSession(Team.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -51,7 +51,7 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<Team> teams = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class TeamReadService implements IReadService<Team> {
 
 			teams = dao.getSession(Team.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -75,13 +75,13 @@ public class TeamReadService implements IReadService<Team> {
 
 	@Override
 	public List<Team> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead unavailable");
+		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<Team> deepReadAll() throws ServiceException {
-		LOG.info("deepReadAll unavailable");
+		LOGGER.info("deepReadAll unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

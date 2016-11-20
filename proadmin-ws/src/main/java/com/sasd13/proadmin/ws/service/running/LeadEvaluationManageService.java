@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class LeadEvaluationManageService implements IManageService<LeadEvaluation> {
 
-	private static final Logger LOG = Logger.getLogger(LeadEvaluationManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationManageService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 
 	@Override
 	public void create(List<LeadEvaluation> leadEvaluations) throws ServiceException {
-		LOG.info("create unavailable");
+		LOGGER.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
@@ -36,30 +36,30 @@ public class LeadEvaluationManageService implements IManageService<LeadEvaluatio
 		try {
 			dao.open();
 
-			ISession<LeadEvaluation> leadEvaluationDAO = dao.getSession(LeadEvaluation.class);
+			ISession<LeadEvaluation> session = dao.getSession(LeadEvaluation.class);
 			ILeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper;
 
 			for (IUpdateWrapper<LeadEvaluation> updateWrapper : updateWrappers) {
 				leadEvaluationUpdateWrapper = (ILeadEvaluationUpdateWrapper) updateWrapper;
 
-				LOG.info("update : reportNumber=" + leadEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + leadEvaluationUpdateWrapper.getStudentNumber());
-				leadEvaluationDAO.update(leadEvaluationUpdateWrapper);
+				LOGGER.info("update : reportNumber=" + leadEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + leadEvaluationUpdateWrapper.getStudentNumber());
+				session.update(leadEvaluationUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
 
 	@Override
 	public void delete(List<LeadEvaluation> leadEvaluations) throws ServiceException {
-		LOG.info("delete unavailable");
+		LOGGER.info("delete unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

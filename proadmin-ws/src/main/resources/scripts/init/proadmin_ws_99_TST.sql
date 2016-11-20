@@ -1,3 +1,5 @@
+USE proadmin_ws;
+
 DELETE FROM individualevaluations;
 DELETE FROM leadevaluations;
 DELETE FROM reports;

@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class TeamManageService implements IManageService<Team> {
 
-	private static final Logger LOG = Logger.getLogger(TeamManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(TeamManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			ISession<Team> teamDAO = dao.getSession(Team.class);
+			ISession<Team> session = dao.getSession(Team.class);
 
 			for (Team team : teams) {
-				LOG.info("create : code=" + team.getNumber());
-				teamDAO.insert(team);
+				LOGGER.info("create : code=" + team.getNumber());
+				session.insert(team);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			ISession<Team> teamDAO = dao.getSession(Team.class);
+			ISession<Team> session = dao.getSession(Team.class);
 			ITeamUpdateWrapper teamUpdateWrapper;
 
 			for (IUpdateWrapper<Team> updateWrapper : updateWrappers) {
 				teamUpdateWrapper = (ITeamUpdateWrapper) updateWrapper;
 
-				LOG.info("update : code=" + teamUpdateWrapper.getNumber());
-				teamDAO.update(teamUpdateWrapper);
+				LOGGER.info("update : code=" + teamUpdateWrapper.getNumber());
+				session.update(teamUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class TeamManageService implements IManageService<Team> {
 		try {
 			dao.open();
 
-			ISession<Team> teamDAO = dao.getSession(Team.class);
+			ISession<Team> session = dao.getSession(Team.class);
 
 			for (Team team : teams) {
-				LOG.info("delete : code=" + team.getNumber());
-				teamDAO.delete(team);
+				LOGGER.info("delete : code=" + team.getNumber());
+				session.delete(team);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

@@ -31,8 +31,9 @@ public class LogInService implements IHttpCallback {
     public void logIn(String number, String password) {
         taskType = TASKTYPE_LOGIN;
         this.number = number;
-        logInTask = new LogInTask(WSResources.URL_AAA_LOGIN, this, number, password);
+        logInTask = new LogInTask(WSResources.URL_AAA_LOGIN, this);
 
+        logInTask.setCredential(number, password);
         logInTask.execute();
     }
 

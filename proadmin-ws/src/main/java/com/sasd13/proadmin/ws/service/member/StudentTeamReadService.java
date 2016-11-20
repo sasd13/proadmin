@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class StudentTeamReadService implements IReadService<StudentTeam> {
 
-	private static final Logger LOG = Logger.getLogger(StudentTeamReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(StudentTeamReadService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -36,13 +36,13 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getSession(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -51,7 +51,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getSession(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -75,7 +75,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -84,13 +84,13 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getDeepReader(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -99,7 +99,7 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 	@Override
 	public List<StudentTeam> deepReadAll() throws ServiceException {
-		LOG.info("deepReadAll");
+		LOGGER.info("deepReadAll");
 
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
@@ -108,13 +108,13 @@ public class StudentTeamReadService implements IReadService<StudentTeam> {
 
 			studentTeams = dao.getDeepReader(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 

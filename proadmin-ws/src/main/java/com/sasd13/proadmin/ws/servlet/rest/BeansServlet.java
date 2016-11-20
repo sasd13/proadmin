@@ -33,7 +33,6 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.util.Constants;
-import com.sasd13.proadmin.util.Names;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
 import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
@@ -42,6 +41,7 @@ import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.ws.service.ManageServiceFactory;
 import com.sasd13.proadmin.ws.service.ReadServiceFactory;
+import com.sasd13.proadmin.ws.util.Names;
 
 /**
  *
@@ -51,7 +51,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	private static final Logger LOG = Logger.getLogger(BeansServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -75,7 +75,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			readService = ReadServiceFactory.make(getBeanClass());
 			manageService = ManageServiceFactory.make(getBeanClass());
 		} catch (ValidatorException | ServiceException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 		}
 	}
 
@@ -96,28 +96,28 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		LOG.info("Message send by WS : " + message);
+		LOGGER.info("Message send by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
 	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
-		LOG.error(e);
-		writeError(resp, ErrorFactory.make(e), e);
+		LOGGER.error(e);
+		writeError(resp, ErrorFactory.make(e));
 	}
 
-	private void writeError(HttpServletResponse resp, EnumError error, Exception e) throws IOException {
-		LOG.info("Error send by WS : code=" + error.getCode());
+	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+		LOGGER.info("Error send by WS : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 
-		String message = error != EnumError.UNKNOWN ? bundle.getString(error.getBundleKey()) + ". " + e.getMessage() : bundle.getString(error.getBundleKey());
+		String message = bundle.getString(error.getBundleKey());
 
 		writeToResponse(resp, message);
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doGet");
+		LOGGER.info("doGet");
 
 		List<T> results = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -141,7 +141,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doPost");
+		LOGGER.info("doPost");
 
 		try {
 			List<T> ts = readFromRequest(req);
@@ -158,7 +158,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doPut");
+		LOGGER.info("doPut");
 
 		try {
 			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
@@ -175,7 +175,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doDelete");
+		LOGGER.info("doDelete");
 
 		try {
 			List<T> ts = readFromRequest(req);

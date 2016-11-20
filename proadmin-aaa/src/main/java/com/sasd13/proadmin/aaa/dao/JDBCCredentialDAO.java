@@ -16,11 +16,12 @@ import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.aaa.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.wrapper.update.credential.ICredentialUpdateWrapper;
 
 public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICredentialDAO {
 
-	private static final Logger LOG = Logger.getLogger(JDBCCredentialDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(JDBCCredentialDAO.class);
 
 	private String url, username, password;
 	private Map<String, String[]> parameters;
@@ -37,7 +38,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 		try {
 			setConnection(DriverManager.getConnection(url, username, password));
 		} catch (SQLException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new DAOException("Database connection error");
 		}
 	}
@@ -48,7 +49,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 			try {
 				getConnection().close();
 			} catch (SQLException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

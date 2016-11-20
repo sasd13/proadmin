@@ -32,15 +32,10 @@ public class LogInServlet extends AAAServlet {
 
 	private static final long serialVersionUID = 4147483186176202467L;
 
-	private static final Logger LOG = Logger.getLogger(LogInServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(LogInServlet.class);
 
 	private IValidator<Credential> validator;
 	private ICheckService<Credential> checkService;
-
-	@Override
-	protected Logger getLogger() {
-		return LOG;
-	}
 
 	@Override
 	public void init() throws ServletException {
@@ -52,10 +47,10 @@ public class LogInServlet extends AAAServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doPost");
+		LOGGER.info("doPost");
 
 		try {
-			Credential credential = readFromRequest(req);
+			Credential credential = readFromRequest(req).get(0);
 
 			validator.validate(credential);
 

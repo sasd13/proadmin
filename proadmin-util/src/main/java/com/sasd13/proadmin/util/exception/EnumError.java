@@ -7,7 +7,7 @@ public enum EnumError {
 	PARSING_DATA(2, "exception.parsing.data"), 
 	VALIDATING_DATA(3, "exception.validating.data"), 
 	SERVICE(4, "exception.service"), 
-	WEBSERVICE(5, "exception.ws"), 
+	WEB_SERVICE(5, "exception.ws"), 
 	;
 
 	private int code;

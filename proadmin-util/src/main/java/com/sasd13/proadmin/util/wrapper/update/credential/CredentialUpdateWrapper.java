@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa.dao;
+package com.sasd13.proadmin.util.wrapper.update.credential;
 
 import com.sasd13.javaex.security.Credential;
 

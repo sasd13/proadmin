@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class RunningManageService implements IManageService<Running> {
 
-	private static final Logger LOG = Logger.getLogger(RunningManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(RunningManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			ISession<Running> runningDAO = dao.getSession(Running.class);
+			ISession<Running> session = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
-				LOG.info("create : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-				runningDAO.insert(running);
+				LOGGER.info("create : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				session.insert(running);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			ISession<Running> runningDAO = dao.getSession(Running.class);
+			ISession<Running> session = dao.getSession(Running.class);
 			IRunningUpdateWrapper runningUpdateWrapper;
 
 			for (IUpdateWrapper<Running> updateWrapper : updateWrappers) {
 				runningUpdateWrapper = (IRunningUpdateWrapper) updateWrapper;
 
-				LOG.info("update : year = " + runningUpdateWrapper.getYear() + ", projectCode=" + runningUpdateWrapper.getProjectCode() + ", teacherNumber=" + runningUpdateWrapper.getTeacherNumber());
-				runningDAO.update(runningUpdateWrapper);
+				LOGGER.info("update : year = " + runningUpdateWrapper.getYear() + ", projectCode=" + runningUpdateWrapper.getProjectCode() + ", teacherNumber=" + runningUpdateWrapper.getTeacherNumber());
+				session.update(runningUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class RunningManageService implements IManageService<Running> {
 		try {
 			dao.open();
 
-			ISession<Running> runningDAO = dao.getSession(Running.class);
+			ISession<Running> session = dao.getSession(Running.class);
 
 			for (Running running : runnings) {
-				LOG.info("delete : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-				runningDAO.delete(running);
+				LOGGER.info("delete : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+				session.delete(running);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

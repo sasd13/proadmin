@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class IndividualEvaluationReadService implements IReadService<IndividualEvaluation> {
 
-	private static final Logger LOG = Logger.getLogger(IndividualEvaluationReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationReadService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -36,13 +36,13 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getSession(IndividualEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -51,7 +51,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getSession(IndividualEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -75,7 +75,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -84,13 +84,13 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getDeepReader(IndividualEvaluation.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -99,7 +99,7 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 	@Override
 	public List<IndividualEvaluation> deepReadAll() throws ServiceException {
-		LOG.info("deepReadAll");
+		LOGGER.info("deepReadAll");
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
@@ -108,13 +108,13 @@ public class IndividualEvaluationReadService implements IReadService<IndividualE
 
 			individualEvaluations = dao.getDeepReader(IndividualEvaluation.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 

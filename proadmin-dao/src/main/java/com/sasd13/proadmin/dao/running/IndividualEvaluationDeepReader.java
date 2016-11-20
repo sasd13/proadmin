@@ -8,7 +8,6 @@ import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.member.IStudentDAO;
-import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluation> {
@@ -33,7 +32,6 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
 
 		Student student = studentDAO.select(parameters).get(0);
-
-		Binder.bind(individualEvaluation.getStudent(), student);
+		individualEvaluation.setStudent(student);
 	}
 }

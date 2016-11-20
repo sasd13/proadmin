@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class ProjectReadService implements IReadService<Project> {
 
-	private static final Logger LOG = Logger.getLogger(ProjectReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectReadService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Project> projects = new ArrayList<>();
 
@@ -36,13 +36,13 @@ public class ProjectReadService implements IReadService<Project> {
 
 			projects = dao.getSession(Project.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -51,7 +51,7 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<Project> projects = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class ProjectReadService implements IReadService<Project> {
 
 			projects = dao.getSession(Project.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -75,13 +75,13 @@ public class ProjectReadService implements IReadService<Project> {
 
 	@Override
 	public List<Project> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead unavailable");
+		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<Project> deepReadAll() throws ServiceException {
-		LOG.info("deepRead unavailable");
+		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

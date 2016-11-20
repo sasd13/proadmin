@@ -225,8 +225,6 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
-		// TODO : dependency binder
-
 		return report;
 	}
 }

@@ -28,7 +28,7 @@ import com.sasd13.proadmin.dao.running.JDBCRunningTeamDAO;
  */
 public class JDBCDAO extends DAO {
 
-	private static final Logger LOG = Logger.getLogger(JDBCDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(JDBCDAO.class);
 
 	private String url, username, password;
 	private Connection connection;
@@ -66,7 +66,7 @@ public class JDBCDAO extends DAO {
 			((JDBCSession<?>) runningTeamDAO).setConnection(connection);
 			((JDBCSession<?>) reportDAO).setConnection(connection);
 		} catch (SQLException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new DAOException("Database connection error");
 		}
 	}
@@ -77,7 +77,7 @@ public class JDBCDAO extends DAO {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ public enum EnumParameter {
 	FIRSTNAME("firstname"), 
 	LASTNAME("lastname"), 
 	NUMBER("number"), 
+	PASSWORD("password"), 
 	PROJECT("project"), 
 	REPORT("report"), 
 	RUNNING("running"), 
@@ -18,6 +19,7 @@ public enum EnumParameter {
 	TEACHER("teacher"), 
 	TEAM("team"), 
 	TITLE("title"), 
+	USERNAME("username"), 
 	YEAR("year"),
 	;
 

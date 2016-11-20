@@ -6,6 +6,7 @@ import com.sasd13.androidex.gui.widget.ILabelizable;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
 import com.sasd13.androidex.util.DateTimeHelper;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 
 import java.util.Observable;
@@ -13,11 +14,12 @@ import java.util.Observable;
 public class ReportItemModel extends Observable implements IRecyclerItemModel, ILabelizable {
 
     private Report report;
-    private String format;
+    private String format, labelSession;
 
     public ReportItemModel(Report report, Context context) {
         this.report = report;
         format = DateTimeHelper.getLocaleDateFormatPattern(context, DateTimeHelper.EnumFormat.LONG);
+        labelSession = context.getResources().getString(R.string.label_session);
     }
 
     @Override
@@ -35,6 +37,6 @@ public class ReportItemModel extends Observable implements IRecyclerItemModel, I
     }
 
     public String getSession() {
-        return "Session " + String.valueOf(report.getSession());
+        return labelSession + " " + String.valueOf(report.getSession());
     }
 }

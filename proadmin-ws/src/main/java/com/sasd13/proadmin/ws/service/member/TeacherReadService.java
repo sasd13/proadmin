@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class TeacherReadService implements IReadService<Teacher> {
 
-	private static final Logger LOG = Logger.getLogger(TeacherReadService.class);
+	private static final Logger LOGGER = Logger.getLogger(TeacherReadService.class);
 
 	private DAO dao;
 
@@ -27,7 +27,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> read(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<Teacher> teachers = new ArrayList<>();
 
@@ -36,13 +36,13 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 			teachers = dao.getSession(Teacher.class).select(parameters);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -51,7 +51,7 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> readAll() throws ServiceException {
-		LOG.info("readAll");
+		LOGGER.info("readAll");
 
 		List<Teacher> teachers = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 			teachers = dao.getSession(Teacher.class).selectAll();
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 
@@ -75,13 +75,13 @@ public class TeacherReadService implements IReadService<Teacher> {
 
 	@Override
 	public List<Teacher> deepRead(Map<String, String[]> parameters) throws ServiceException {
-		LOG.info("deepRead unavailable");
+		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<Teacher> deepReadAll() throws ServiceException {
-		LOG.info("deepReadAll unavailable");
+		LOGGER.info("deepReadAll unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

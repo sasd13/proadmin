@@ -16,14 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.io.Stream;
+import com.sasd13.javaex.parser.IParser;
+import com.sasd13.javaex.parser.ParserException;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.proadmin.aaa.dao.CredentialUpdateWrapper;
 import com.sasd13.proadmin.aaa.service.CredentialManageService;
+import com.sasd13.proadmin.aaa.validator.CredentialUpdateWrapperValidator;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
+import com.sasd13.proadmin.util.wrapper.WrapperException;
+import com.sasd13.proadmin.util.wrapper.update.credential.CredentialUpdateWrapper;
 
 /**
  *
@@ -34,69 +38,76 @@ public class SignServlet extends AAAServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	private static final Logger LOG = Logger.getLogger(SignServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(SignServlet.class);
 
 	private IValidator<Credential> validator;
+	private IValidator<IUpdateWrapper<Credential>> updateWrapperValidator;
 	private IManageService<Credential> manageService;
-
-	@Override
-	protected Logger getLogger() {
-		return LOG;
-	}
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
 		validator = new CredentialValidator();
+		updateWrapperValidator = new CredentialUpdateWrapperValidator();
 		manageService = new CredentialManageService();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doPost");
+		LOGGER.info("doPost");
 
 		try {
-			Credential credential = readFromRequest(req);
+			List<Credential> credentials = readFromRequest(req);
 
-			validator.validate(credential);
-			manageService.create((List<Credential>) Arrays.asList(new Credential[] { credential }));
+			for (Credential credential : credentials) {
+				validator.validate(credential);
+			}
+
+			manageService.create(credentials);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doPut");
+		LOGGER.info("doPut");
 
 		try {
-			Credential credential = readFromRequest(req);
+			List<IUpdateWrapper<Credential>> updateWrappers = readUpdateWrappersFromRequest(req);
 
-			validator.validate(credential);
+			for (IUpdateWrapper<Credential> updateWrapper : updateWrappers) {
+				updateWrapperValidator.validate(updateWrapper);
+			}
 
-			CredentialUpdateWrapper credentialUpdateWrapper = new CredentialUpdateWrapper();
-			credentialUpdateWrapper.setWrapped(credential);
-			credentialUpdateWrapper.setUsername(credential.getUsername());
-
-			manageService.update((List<IUpdateWrapper<Credential>>) Arrays.asList(new CredentialUpdateWrapper[] { credentialUpdateWrapper }));
+			manageService.update(updateWrappers);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
+	private List<IUpdateWrapper<Credential>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException, ParserException, WrapperException {
+		IParser parser = ParserFactory.make(req.getContentType());
+		String message = Stream.read(req.getReader());
+		Class<?> mClass = CredentialUpdateWrapper.class;
+
+		return (List<IUpdateWrapper<Credential>>) parser.fromStringArray(message, mClass);
+	}
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOG.info("doDelete");
+		LOGGER.info("doDelete");
 
 		try {
-			Credential credential = readFromRequest(req);
+			List<Credential> credentials = readFromRequest(req);
 
-			validator.validate(credential);
-			manageService.delete((List<Credential>) Arrays.asList(new Credential[] { credential }));
+			for (Credential credential : credentials) {
+				validator.validate(credential);
+			}
+
+			manageService.delete(credentials);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

@@ -10,7 +10,6 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.member.ITeacherDAO;
 import com.sasd13.proadmin.dao.project.IProjectDAO;
-import com.sasd13.proadmin.util.Binder;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningDeepReader extends DeepReader<Running> {
@@ -38,8 +37,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.put(EnumParameter.CODE.getName(), new String[] { running.getProject().getCode() });
 
 		Project project = projectDAO.select(parameters).get(0);
-
-		Binder.bind(running.getProject(), project);
+		running.setProject(project);
 	}
 
 	private void retrieveDataTeacher(Running running, Map<String, String[]> parameters) throws DAOException {
@@ -47,7 +45,6 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { running.getTeacher().getNumber() });
 
 		Teacher teacher = teacherDAO.select(parameters).get(0);
-
-		Binder.bind(running.getTeacher(), teacher);
+		running.setTeacher(teacher);
 	}
 }

@@ -29,16 +29,17 @@ public class InitializerServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 
-		Config config = Config.getInstance();
+		initConfig();
+		initTranslationBundle();
+	}
 
-		config.initLogger(LOG4J_PROPERTIES);
-		config.initAppProperties(new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
-		config.initDBDriver(AppProperties.getProperty(Names.AAA_DB_DRIVER));
+	private void initConfig() {
+		Config.initLogger(LOG4J_PROPERTIES);
+		Config.initAppProperties(new String[] { INFRA_PROPERTIES, OPE_PROPERTIES });
+		Config.initDBDriver(AppProperties.getProperty(Names.AAA_DB_DRIVER));
+	}
 
-		TranslationBundle.init(
-				AppProperties.getProperty(Names.AAA_TRANSLATION_DIRECTORY_PATH), 
-				AppProperties.getProperty(Names.AAA_TRANSLATION_FILE_PREFIX), 
-				AppProperties.getProperty(Names.AAA_TRANSLATION_LANGUAGE_DEFAULT)
-		);
+	private void initTranslationBundle() {
+		TranslationBundle.init(AppProperties.getProperty(Names.AAA_TRANSLATION_DIRECTORY_PATH), AppProperties.getProperty(Names.AAA_TRANSLATION_FILE_PREFIX), AppProperties.getProperty(Names.AAA_TRANSLATION_LANGUAGE_DEFAULT));
 	}
 }

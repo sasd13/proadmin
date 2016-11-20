@@ -13,7 +13,7 @@ import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 
 public class CredentialCheckService implements ICheckService<Credential> {
 
-	private static final Logger LOG = Logger.getLogger(CredentialCheckService.class);
+	private static final Logger LOGGER = Logger.getLogger(CredentialCheckService.class);
 
 	private ICredentialDAO dao;
 
@@ -23,7 +23,7 @@ public class CredentialCheckService implements ICheckService<Credential> {
 
 	@Override
 	public boolean contains(Credential credential) throws ServiceException {
-		LOG.info("check : username=" + credential.getUsername());
+		LOGGER.info("check : username=" + credential.getUsername());
 
 		boolean contains = false;
 
@@ -32,13 +32,13 @@ public class CredentialCheckService implements ICheckService<Credential> {
 
 			contains = dao.contains(credential);
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 

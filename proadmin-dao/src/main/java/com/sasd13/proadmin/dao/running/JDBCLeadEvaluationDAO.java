@@ -153,8 +153,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
 
-		// TODO : dependency binder
-
 		return leadEvaluation;
 	}
 }

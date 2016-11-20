@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class AcademicLevelManageService implements IManageService<AcademicLevel> {
 
-	private static final Logger LOG = Logger.getLogger(AcademicLevelManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(AcademicLevelManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 		try {
 			dao.open();
 
-			ISession<AcademicLevel> academicLevelDAO = dao.getSession(AcademicLevel.class);
+			ISession<AcademicLevel> session = dao.getSession(AcademicLevel.class);
 
 			for (AcademicLevel academicLevel : academicLevels) {
-				LOG.info("create : code=" + academicLevel.getCode());
-				academicLevelDAO.insert(academicLevel);
+				LOGGER.info("create : code=" + academicLevel.getCode());
+				session.insert(academicLevel);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 		try {
 			dao.open();
 
-			ISession<AcademicLevel> academicLevelDAO = dao.getSession(AcademicLevel.class);
+			ISession<AcademicLevel> session = dao.getSession(AcademicLevel.class);
 			IAcademicLevelUpdateWrapper academicLevelUpdateWrapper;
 
 			for (IUpdateWrapper<AcademicLevel> updateWrapper : updateWrappers) {
 				academicLevelUpdateWrapper = (IAcademicLevelUpdateWrapper) updateWrapper;
 
-				LOG.info("update : code=" + academicLevelUpdateWrapper.getCode());
-				academicLevelDAO.update(academicLevelUpdateWrapper);
+				LOGGER.info("update : code=" + academicLevelUpdateWrapper.getCode());
+				session.update(academicLevelUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class AcademicLevelManageService implements IManageService<AcademicLevel>
 		try {
 			dao.open();
 
-			ISession<AcademicLevel> academicLevelDAO = dao.getSession(AcademicLevel.class);
+			ISession<AcademicLevel> session = dao.getSession(AcademicLevel.class);
 
 			for (AcademicLevel academicLevel : academicLevels) {
-				LOG.info("delete : code=" + academicLevel.getCode());
-				academicLevelDAO.delete(academicLevel);
+				LOGGER.info("delete : code=" + academicLevel.getCode());
+				session.delete(academicLevel);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

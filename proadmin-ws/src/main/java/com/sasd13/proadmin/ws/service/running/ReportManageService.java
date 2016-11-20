@@ -17,7 +17,7 @@ import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class ReportManageService implements IManageService<Report> {
 
-	private static final Logger LOG = Logger.getLogger(ReportManageService.class);
+	private static final Logger LOGGER = Logger.getLogger(ReportManageService.class);
 
 	private DAO dao;
 
@@ -30,20 +30,20 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			ISession<Report> reportDAO = dao.getSession(Report.class);
+			ISession<Report> session = dao.getSession(Report.class);
 
 			for (Report report : reports) {
-				LOG.info("create : number=" + report.getNumber());
-				reportDAO.insert(report);
+				LOGGER.info("create : number=" + report.getNumber());
+				session.insert(report);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -53,23 +53,23 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			ISession<Report> reportDAO = dao.getSession(Report.class);
+			ISession<Report> session = dao.getSession(Report.class);
 			IReportUpdateWrapper reportUpdateWrapper;
 
 			for (IUpdateWrapper<Report> updateWrapper : updateWrappers) {
 				reportUpdateWrapper = (IReportUpdateWrapper) updateWrapper;
 
-				LOG.info("update : number=" + reportUpdateWrapper.getNumber());
-				reportDAO.update(reportUpdateWrapper);
+				LOGGER.info("update : number=" + reportUpdateWrapper.getNumber());
+				session.update(reportUpdateWrapper);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}
@@ -79,20 +79,20 @@ public class ReportManageService implements IManageService<Report> {
 		try {
 			dao.open();
 
-			ISession<Report> reportDAO = dao.getSession(Report.class);
+			ISession<Report> session = dao.getSession(Report.class);
 
 			for (Report report : reports) {
-				LOG.info("delete : number=" + report.getNumber());
-				reportDAO.delete(report);
+				LOGGER.info("delete : number=" + report.getNumber());
+				session.delete(report);
 			}
 		} catch (DAOException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		} finally {
 			try {
 				dao.close();
 			} catch (IOException e) {
-				LOG.warn(e);
+				LOGGER.warn(e);
 			}
 		}
 	}

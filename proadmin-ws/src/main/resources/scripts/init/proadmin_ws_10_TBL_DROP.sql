@@ -1,3 +1,5 @@
+USE proadmin_ws;
+
 DROP TABLE IF EXISTS individualevaluations;
 DROP TABLE IF EXISTS leadevaluations;
 DROP TABLE IF EXISTS reports;
