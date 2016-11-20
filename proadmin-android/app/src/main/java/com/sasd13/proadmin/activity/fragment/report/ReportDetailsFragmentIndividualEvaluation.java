@@ -25,7 +25,6 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.service.running.IndividualEvaluationsManageService;
-import com.sasd13.proadmin.util.builder.running.DefaultMarksBuilder;
 
 public class ReportDetailsFragmentIndividualEvaluation extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
 
@@ -67,21 +66,21 @@ public class ReportDetailsFragmentIndividualEvaluation extends Fragment implemen
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildTabReports(view);
-        bindFormWithIndividualEvaluations();
+        buildFormIndividualEvaluations(view);
     }
 
-    private void buildTabReports(View view) {
+    private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
 
+        bindFormWithIndividualEvaluations();
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
     private void bindFormWithIndividualEvaluations() {
-        individualEvaluationsForm.bindMarks(DefaultMarksBuilder.getInstance().build(), report.getIndividualEvaluations());
+        individualEvaluationsForm.bindIndividualEvaluations(report.getIndividualEvaluations());
     }
 
     @Override

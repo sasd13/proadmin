@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.gui.form;
 
 import android.content.Context;
+import android.view.inputmethod.EditorInfo;
 
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.form.FormException;
@@ -37,7 +38,7 @@ public class ReportForm extends Form {
             holder.add(new RecyclerHolderPair(modelNumber));
         }
 
-        modelSession = new TextItemModel();
+        modelSession = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_NORMAL);
         modelSession.setLabel(context.getResources().getString(R.string.label_session));
         holder.add(new RecyclerHolderPair(modelSession));
 
@@ -45,8 +46,9 @@ public class ReportForm extends Form {
         modelDateMeeting.setLabel(context.getResources().getString(R.string.label_datemeeting));
         holder.add(new RecyclerHolderPair(modelDateMeeting));
 
-        modelComment = new TextItemModel();
+        modelComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
         modelComment.setLabel(context.getResources().getString(R.string.label_comment));
+        modelComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelComment));
     }
 

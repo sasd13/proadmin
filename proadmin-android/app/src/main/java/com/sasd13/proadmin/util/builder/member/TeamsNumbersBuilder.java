@@ -21,9 +21,13 @@ public class TeamsNumbersBuilder implements IBuilder<List<String>> {
     public List<String> build() {
         List<String> list = new ArrayList<>();
 
+        String number;
+
         for (Team team : teams) {
-            if (!list.contains(team.getNumber())) {
-                list.add(team.getNumber());
+            number = team.getNumber();
+
+            if (!list.contains(number)) {
+                list.add(number);
             }
         }
 

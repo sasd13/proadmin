@@ -3,9 +3,11 @@ package com.sasd13.proadmin.service.running;
 import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.androidex.ws.rest.ReadTask;
 import com.sasd13.javaex.net.IHttpCallback;
+import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -24,6 +26,7 @@ public class ReportReadService implements IHttpCallback {
     public void read(String teacherNumber) {
         readTask = new ReadTask<>(WSResources.URL_WS_REPORTS, this, Report.class);
 
+        readTask.addRequestHeader(EnumHttpHeader.READ_CODE.getName(), Constants.WS_REQUEST_READ_DEEP);
         readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readTask.execute();
     }
@@ -31,6 +34,7 @@ public class ReportReadService implements IHttpCallback {
     public void read(RunningTeam runningTeam) {
         readTask = new ReadTask<>(WSResources.URL_WS_REPORTS, this, Report.class);
 
+        readTask.addRequestHeader(EnumHttpHeader.READ_CODE.getName(), Constants.WS_REQUEST_READ_DEEP);
         readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
         readTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
         readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});

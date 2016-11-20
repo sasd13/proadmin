@@ -1,15 +1,17 @@
 package com.sasd13.proadmin.gui.form;
 
 import android.content.Context;
+import android.view.inputmethod.EditorInfo;
 
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
+import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.Finder;
-import com.sasd13.proadmin.util.builder.running.StringMarksBuilder;
+import com.sasd13.proadmin.util.Constants;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +21,23 @@ import java.util.Map;
  */
 public class IndividualEvaluationsForm extends Form {
 
-    private Map<String, SpinRadioItemModel> modelsMarks;
-    private List<Float> marks;
+    private DecimalFormat formatter;
+    private Map<String, TextItemModel> modelsMarks;
 
     public IndividualEvaluationsForm(Context context) {
         super(context);
 
         modelsMarks = new HashMap<>();
+        formatter = new DecimalFormat(Constants.DEFAULT_MARK_PATTERN);
     }
 
-    public void bindMarks(List<Float> marksToBind, List<IndividualEvaluation> individualEvaluations) {
-        marks = marksToBind;
-        List<String> marksInString = new StringMarksBuilder(marksToBind).build();
-        String[] marksToModel = marksInString.toArray(new String[marksInString.size()]);
-
-        SpinRadioItemModel modelMark;
+    public void bindIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        TextItemModel modelMark;
 
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-            modelMark = new SpinRadioItemModel();
+            modelMark = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL, formatter);
             modelMark.setLabel(individualEvaluation.getStudent().getFullName());
-            modelMark.setItems(marksToModel);
-            modelMark.setValue(Finder.indexOfMark(individualEvaluation.getMark(), marksToBind));
+            modelMark.setValue(formatter.format(individualEvaluation.getMark()));
 
             modelsMarks.put(individualEvaluation.getStudent().getNumber(), modelMark);
             holder.add(new RecyclerHolderPair(modelMark));
@@ -49,17 +47,15 @@ public class IndividualEvaluationsForm extends Form {
     public Map<String, Float> getMarks() throws IndividualEvaluationsFormException {
         Map<String, Float> studentsMarks = new HashMap<>();
 
-        for (Map.Entry<String, SpinRadioItemModel> entry : modelsMarks.entrySet()) {
-            int indexOfMark = entry.getValue().getValue();
-
-            if (indexOfMark < 0) {
+        for (Map.Entry<String, TextItemModel> entry : modelsMarks.entrySet()) {
+            try {
+                studentsMarks.put(entry.getKey(), formatter.parse(entry.getValue().getValue()).floatValue());
+            } catch (ParseException e) {
                 throw new IndividualEvaluationsFormException(
                         context,
                         R.string.form_individualevaluation_message_error_mark,
                         entry.getKey());
             }
-
-            studentsMarks.put(entry.getKey(), marks.get(indexOfMark));
         }
 
         return studentsMarks;

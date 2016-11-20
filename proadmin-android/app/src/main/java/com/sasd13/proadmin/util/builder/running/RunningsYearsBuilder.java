@@ -21,9 +21,13 @@ public class RunningsYearsBuilder implements IBuilder<List<Integer>> {
     public List<Integer> build() {
         List<Integer> list = new ArrayList<>();
 
+        int year;
+
         for (Running running : runnings) {
-            if (!list.contains(running.getYear())) {
-                list.add(running.getYear());
+            year = running.getYear();
+
+            if (!list.contains(year)) {
+                list.add(year);
             }
         }
 

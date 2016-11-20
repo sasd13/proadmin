@@ -66,7 +66,7 @@ public class ReportManageService implements IHttpCallback {
                 runningTeam.getTeam().getNumber(),
                 runningTeam.getAcademicLevel().getCode());
 
-        reportToCreate.setNumber(Constants.REPORT_DEFAULT_NUMBER);
+        reportToCreate.setNumber(Constants.DEFAULT_REPORT_NUMBER);
         reportToCreate.setDateMeeting(reportForm.getDateMeeting());
         reportToCreate.setSession(reportForm.getSession());
         reportToCreate.setComment(reportForm.getComment());
@@ -94,7 +94,6 @@ public class ReportManageService implements IHttpCallback {
             individualEvaluation = new IndividualEvaluation(report.getNumber(), entry.getKey());
 
             individualEvaluation.setMark(entry.getValue());
-
             individualEvaluationsToCreate.add(individualEvaluation);
         }
 

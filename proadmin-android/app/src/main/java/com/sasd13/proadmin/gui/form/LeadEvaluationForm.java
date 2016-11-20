@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.gui.form;
 
 import android.content.Context;
+import android.view.inputmethod.EditorInfo;
 
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.form.FormException;
@@ -10,10 +11,12 @@ import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.Finder;
 import com.sasd13.proadmin.util.builder.member.StudentsNumberBuilder;
-import com.sasd13.proadmin.util.builder.running.StringMarksBuilder;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -21,37 +24,43 @@ import java.util.List;
  */
 public class LeadEvaluationForm extends Form {
 
-    private SpinRadioItemModel modelLeader, modelPlanningMark, modelCommunicationMark;
-    private TextItemModel modelPlanningComment, modelCommunicationComment;
+    private SpinRadioItemModel modelLeader;
+    private TextItemModel modelPlanningMark, modelPlanningComment, modelCommunicationMark, modelCommunicationComment;
     private List<Student> students;
-    private List<Float> planningMarks, communicationMarks;
+    private DecimalFormat formatter;
 
     public LeadEvaluationForm(Context context) {
         super(context);
+
+        formatter = new DecimalFormat(Constants.DEFAULT_MARK_PATTERN);
 
         modelLeader = new SpinRadioItemModel();
         modelLeader.setLabel(context.getResources().getString(R.string.label_leader));
         holder.add(new RecyclerHolderPair(modelLeader));
 
-        modelPlanningMark = new SpinRadioItemModel();
+        modelPlanningMark = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL, formatter);
         modelPlanningMark.setLabel(context.getResources().getString(R.string.label_planningmark));
         holder.add(new RecyclerHolderPair(modelPlanningMark));
 
-        modelPlanningComment = new TextItemModel();
+        modelPlanningComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
         modelPlanningComment.setLabel(context.getResources().getString(R.string.label_planningcomment));
+        modelPlanningComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelPlanningComment));
 
-        modelCommunicationMark = new SpinRadioItemModel();
+        modelCommunicationMark = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL, formatter);
         modelCommunicationMark.setLabel(context.getResources().getString(R.string.label_communicationmark));
         holder.add(new RecyclerHolderPair(modelCommunicationMark));
 
-        modelCommunicationComment = new TextItemModel();
+        modelCommunicationComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
         modelCommunicationComment.setLabel(context.getResources().getString(R.string.label_communicationcomment));
+        modelCommunicationComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelCommunicationComment));
     }
 
     public void bindLeadEvaluation(LeadEvaluation leadEvaluation) {
+        modelPlanningMark.setValue(formatter.format(leadEvaluation.getPlanningMark()));
         modelPlanningComment.setValue(leadEvaluation.getPlanningComment());
+        modelCommunicationMark.setValue(formatter.format(leadEvaluation.getCommunicationMark()));
         modelCommunicationComment.setValue(leadEvaluation.getCommunicationComment());
     }
 
@@ -68,32 +77,6 @@ public class LeadEvaluationForm extends Form {
         modelLeader.setValue(Finder.indexOfStudent(student.getNumber(), studentsToBind));
     }
 
-    public void bindPlanningMark(List<Float> marksToBind) {
-        planningMarks = marksToBind;
-        List<String> marksInString = new StringMarksBuilder(planningMarks).build();
-
-        modelPlanningMark.setItems(marksInString.toArray(new String[marksInString.size()]));
-    }
-
-    public void bindPlanningMark(List<Float> marksToBind, float planningMark) {
-        bindPlanningMark(marksToBind);
-
-        modelPlanningMark.setValue(Finder.indexOfMark(planningMark, marksToBind));
-    }
-
-    public void bindCommunicationMark(List<Float> marksToBind) {
-        communicationMarks = marksToBind;
-        List<String> marksInString = new StringMarksBuilder(communicationMarks).build();
-
-        modelCommunicationMark.setItems(marksInString.toArray(new String[marksInString.size()]));
-    }
-
-    public void bindCommunicationMark(List<Float> marksToBind, float communicationMark) {
-        bindCommunicationMark(marksToBind);
-
-        modelCommunicationMark.setValue(Finder.indexOfMark(communicationMark, marksToBind));
-    }
-
     public Student getLeader() throws FormException {
         if (modelLeader.getValue() < 0) {
             throw new FormException(context, R.string.form_leadevaluation_message_error_leader);
@@ -103,11 +86,11 @@ public class LeadEvaluationForm extends Form {
     }
 
     public float getPlanningMark() throws FormException {
-        if (modelPlanningMark.getValue() < 0) {
+        try {
+            return formatter.parse(modelPlanningMark.getValue()).floatValue();
+        } catch (ParseException e) {
             throw new FormException(context, R.string.form_leadevaluation_message_error_planningmark);
         }
-
-        return planningMarks.get(modelPlanningMark.getValue());
     }
 
     public String getPlanningComment() {
@@ -115,11 +98,11 @@ public class LeadEvaluationForm extends Form {
     }
 
     public float getCommunicationMark() throws FormException {
-        if (modelCommunicationMark.getValue() < 0) {
+        try {
+            return formatter.parse(modelCommunicationMark.getValue()).floatValue();
+        } catch (ParseException e) {
             throw new FormException(context, R.string.form_leadevaluation_message_error_communicationmark);
         }
-
-        return communicationMarks.get(modelCommunicationMark.getValue());
     }
 
     public String getCommunicationComment() {

@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,6 +48,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
 
     private ReportsActivity parentActivity;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Spin spinTeams;
     private Recycler reportsTab;
 
@@ -84,8 +86,19 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
+        buildSwipeRefreshLayout(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
+    }
+
+    private void buildSwipeRefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                readReportsFromWS();
+            }
+        });
     }
 
     private void buildTabReports(View view) {
@@ -143,10 +156,12 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
 
     @Override
     public void onLoad() {
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void onReadSucceeded(IReadWrapper<Report> reportReadWrapper) {
+        swipeRefreshLayout.setRefreshing(false);
         bindTeamsNumbers(reportReadWrapper.getWrapped());
         bindReports(reportReadWrapper.getWrapped());
     }
@@ -204,6 +219,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
 
     @Override
     public void onError(@StringRes int message) {
+        swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

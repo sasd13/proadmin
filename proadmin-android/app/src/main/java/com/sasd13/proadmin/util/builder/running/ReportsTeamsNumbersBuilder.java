@@ -21,9 +21,13 @@ public class ReportsTeamsNumbersBuilder implements IBuilder<List<String>> {
     public List<String> build() {
         List<String> list = new ArrayList<>();
 
+        String number;
+
         for (Report report : reports) {
-            if (!list.contains(report.getRunningTeam().getTeam().getNumber())) {
-                list.add(report.getNumber());
+            number = report.getRunningTeam().getTeam().getNumber();
+
+            if (!list.contains(number)) {
+                list.add(number);
             }
         }
 

@@ -26,7 +26,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.service.running.LeadEvaluationManageService;
 import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
-import com.sasd13.proadmin.util.builder.running.DefaultMarksBuilder;
 
 public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IManageServiceCaller<LeadEvaluation> {
 
@@ -68,11 +67,11 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IMa
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildTabReports(view);
+        buildFormLeadEvaluation(view);
         bindFormWithLeadEvaluation();
     }
 
-    private void buildTabReports(View view) {
+    private void buildFormLeadEvaluation(View view) {
         leadEvaluationForm = new LeadEvaluationForm(getContext());
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
@@ -82,9 +81,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IMa
     }
 
     private void bindFormWithLeadEvaluation() {
+        leadEvaluationForm.bindLeadEvaluation(report.getLeadEvaluation());
         leadEvaluationForm.bindLeader(new StudentsOfReportBuilder(report).build(), report.getLeadEvaluation().getStudent());
-        leadEvaluationForm.bindPlanningMark(DefaultMarksBuilder.getInstance().build(), report.getLeadEvaluation().getPlanningMark());
-        leadEvaluationForm.bindCommunicationMark(DefaultMarksBuilder.getInstance().build(), report.getLeadEvaluation().getCommunicationMark());
     }
 
     @Override

@@ -65,10 +65,14 @@ public class ReportTransaction implements IJDBCTransaction {
 		reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
 		preparedStatement.executeUpdate();
 
-		reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
+		if (updateWrapper.getLeadEvaluationUpdateWrapper() != null) {
+			reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
+		}
 
-		for (IUpdateWrapper<IndividualEvaluation> wrapper : updateWrapper.getIndividualEvaluationUpdateWrappers()) {
-			reportDAO.getIndividualEvaluationDAO().update(wrapper);
+		if (updateWrapper.getIndividualEvaluationUpdateWrappers() != null) {
+			for (IUpdateWrapper<IndividualEvaluation> wrapper : updateWrapper.getIndividualEvaluationUpdateWrappers()) {
+				reportDAO.getIndividualEvaluationDAO().update(wrapper);
+			}
 		}
 	}
 

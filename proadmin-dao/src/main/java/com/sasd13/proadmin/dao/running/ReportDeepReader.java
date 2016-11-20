@@ -13,14 +13,14 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
 
-	private ILeadEvaluationDAO leadEvaluationDAO;
-	private IIndividualEvaluationDAO individualEvaluationDAO;
+	private LeadEvaluationDeepReader leadEvaluationDeepReader;
+	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
 
-	public ReportDeepReader(IReportDAO reportDAO) {
+	public ReportDeepReader(IReportDAO reportDAO, LeadEvaluationDeepReader leadEvaluationDeepReader, IndividualEvaluationDeepReader individualEvaluationDeepReader) {
 		super(reportDAO);
 
-		leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
-		individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
+		this.leadEvaluationDeepReader = leadEvaluationDeepReader;
+		this.individualEvaluationDeepReader = individualEvaluationDeepReader;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
-		LeadEvaluation leadEvaluation = leadEvaluationDAO.select(parameters).get(0);
+		LeadEvaluation leadEvaluation = leadEvaluationDeepReader.select(parameters).get(0);
 
 		report.setLeadEvaluation(leadEvaluation);
 		leadEvaluation.setReport(report);
@@ -45,7 +45,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
-		List<IndividualEvaluation> individualEvaluations = individualEvaluationDAO.select(parameters);
+		List<IndividualEvaluation> individualEvaluations = individualEvaluationDeepReader.select(parameters);
 		report.getIndividualEvaluations().clear();
 
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {

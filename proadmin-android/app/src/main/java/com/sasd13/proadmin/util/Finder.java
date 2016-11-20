@@ -65,7 +65,7 @@ public class Finder {
 
     public static int indexOfMark(float mark, List<Float> marks) {
         for (int i = 0; i < marks.size(); i++) {
-            if (Float.compare(marks.get(0), mark) == 0) {
+            if (Float.compare(marks.get(i), mark) == 0) {
                 return i;
             }
         }

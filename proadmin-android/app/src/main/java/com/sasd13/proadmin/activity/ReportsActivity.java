@@ -8,7 +8,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.activity.fragment.report.ReportNewFragment;
-import com.sasd13.proadmin.activity.fragment.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.activity.fragment.report.ReportsFragment;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.extra.Extra;
@@ -35,7 +35,7 @@ public class ReportsActivity extends MotherActivity {
 
     private void buildView() {
         GUIHelper.colorTitles(this);
-        //showFragment();
+        showFragment();
     }
 
     private void showFragment() {
@@ -58,7 +58,7 @@ public class ReportsActivity extends MotherActivity {
     }
 
     public void listReports() {
-        startFragmentWithoutBackStack(RunningTeamsFragment.newInstance());
+        startFragmentWithoutBackStack(ReportsFragment.newInstance());
     }
 
     private void startFragmentWithoutBackStack(Fragment fragment) {
@@ -85,7 +85,7 @@ public class ReportsActivity extends MotherActivity {
     }
 
     public void showReport(Report report) {
-        //TODO
+        startFragment(ReportDetailsFragment.newInstance(report));
     }
 
     private void startFragment(Fragment fragment) {
@@ -97,7 +97,7 @@ public class ReportsActivity extends MotherActivity {
     }
 
     public void newReport() {
-        //TODO
+        //startFragment(ReportNewFragment.newInstance());
     }
 
     @Override

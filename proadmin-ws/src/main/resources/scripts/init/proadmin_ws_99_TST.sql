@@ -69,5 +69,6 @@ INSERT INTO leadevaluations(planningmark,planningcomment,communicationmark,commu
 -- INDIVIDUALEVALUATIONS
 
 INSERT INTO individualevaluations(mark,report_code,student_code) VALUES (0,'2015RE0001','2130876');
+INSERT INTO individualevaluations(mark,report_code,student_code) VALUES (0,'2015RE0001','2130877');
 
 COMMIT;
