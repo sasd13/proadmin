@@ -147,6 +147,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_reports));
+        parentActivity.getSupportActionBar().setSubtitle(null);
         readReportsFromWS();
     }
 

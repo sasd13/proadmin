@@ -139,6 +139,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
+        parentActivity.getSupportActionBar().setSubtitle(null);
         readProjectsFromWS();
     }
 

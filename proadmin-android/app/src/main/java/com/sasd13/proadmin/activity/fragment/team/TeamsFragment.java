@@ -122,6 +122,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_teams));
+        parentActivity.getSupportActionBar().setSubtitle(null);
         readTeamsFromWS();
     }
 

@@ -53,11 +53,11 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ProjectPagerFragmentFactory(project));
+        Pager pager = new Pager(viewPager, new ProjectPagerFragmentFactory(getChildFragmentManager(), getContext(), project));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
-        parentActivity.setPagerHandler(pager);
+        parentActivity.setPager(pager);
     }
 
     @Override
@@ -65,12 +65,13 @@ public class ProjectDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
+        parentActivity.getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        parentActivity.setPagerHandler(null);
+        parentActivity.setPager(null);
     }
 }

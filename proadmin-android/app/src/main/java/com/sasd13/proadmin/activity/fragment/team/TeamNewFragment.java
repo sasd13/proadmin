@@ -108,6 +108,7 @@ public class TeamNewFragment extends Fragment implements IManageServiceCaller<Te
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+        parentActivity.getSupportActionBar().setSubtitle(null);
     }
 
     @Override

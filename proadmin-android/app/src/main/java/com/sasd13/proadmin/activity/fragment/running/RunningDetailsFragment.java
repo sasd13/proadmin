@@ -128,7 +128,7 @@ public class RunningDetailsFragment extends Fragment implements IManageServiceCa
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
     }
 
     @Override

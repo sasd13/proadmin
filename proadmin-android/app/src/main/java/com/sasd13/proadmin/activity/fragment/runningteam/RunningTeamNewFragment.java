@@ -158,6 +158,7 @@ public class RunningTeamNewFragment extends Fragment implements IManageServiceCa
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        parentActivity.getSupportActionBar().setSubtitle(null);
         readRunningsFromWS();
         readAcademicLevelsFromWS();
         readTeamsFromWS();

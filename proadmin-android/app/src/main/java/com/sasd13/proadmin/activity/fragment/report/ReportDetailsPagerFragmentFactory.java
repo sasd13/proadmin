@@ -1,16 +1,18 @@
 package com.sasd13.proadmin.activity.fragment.report;
 
+import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.sasd13.androidex.gui.widget.pager.IPagerFragmentFactory;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportDetailsPagerFragmentFactory implements IPagerFragmentFactory {
+public class ReportDetailsPagerFragmentFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 3;
 
@@ -21,21 +23,25 @@ public class ReportDetailsPagerFragmentFactory implements IPagerFragmentFactory 
             R.string.title_individualevaluations,
     };
 
+    private Context context;
     private Report report;
 
-    public ReportDetailsPagerFragmentFactory(Report report) {
+    public ReportDetailsPagerFragmentFactory(FragmentManager fragmentManager, Context context, Report report) {
+        super(fragmentManager);
+
+        this.context = context;
         this.report = report;
     }
 
     @Override
-    public Fragment make(int position) {
+    public Fragment getItem(int position) {
         switch (position) {
             case 0:
                 return ReportDetailsFragmentInfos.newInstance(report);
             case 1:
                 return ReportDetailsFragmentLeadEvaluation.newInstance(report);
             case 2:
-                return ReportDetailsFragmentIndividualEvaluation.newInstance(report);
+                return ReportDetailsFragmentIndividualEvaluations.newInstance(report);
             default:
                 return null;
         }
@@ -47,8 +53,7 @@ public class ReportDetailsPagerFragmentFactory implements IPagerFragmentFactory 
     }
 
     @Override
-    @StringRes
-    public int getPageTitle(int position) {
-        return TITLES[position];
+    public CharSequence getPageTitle(int position) {
+        return context.getResources().getString(TITLES[position]);
     }
 }

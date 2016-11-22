@@ -26,9 +26,10 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.service.running.IndividualEvaluationsManageService;
 
-public class ReportNewFragmentIndividualEvaluation extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
+public class ReportNewFragmentIndividualEvaluations extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
 
     private ReportsActivity parentActivity;
+    private ReportNewFragment parentFragment;
 
     private IndividualEvaluationsForm individualEvaluationsForm;
 
@@ -36,8 +37,9 @@ public class ReportNewFragmentIndividualEvaluation extends Fragment implements I
 
     private IndividualEvaluationsManageService individualEvaluationsManageService;
 
-    public static ReportNewFragmentIndividualEvaluation newInstance(Report report) {
-        ReportNewFragmentIndividualEvaluation fragment = new ReportNewFragmentIndividualEvaluation();
+    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment, Report report) {
+        ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
+        fragment.parentFragment = parentFragment;
         fragment.report = report;
 
         return fragment;
@@ -112,6 +114,13 @@ public class ReportNewFragmentIndividualEvaluation extends Fragment implements I
 
     private void updateTeam() {
         individualEvaluationsManageService.update(individualEvaluationsForm, report.getIndividualEvaluations());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentFragment.setCurrentItemSubtitle();
     }
 
     @Override

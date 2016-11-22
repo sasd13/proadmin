@@ -110,7 +110,7 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
+        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
     }
 
     @Override

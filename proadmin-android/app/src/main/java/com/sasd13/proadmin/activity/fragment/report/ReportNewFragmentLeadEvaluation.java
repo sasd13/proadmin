@@ -30,6 +30,7 @@ import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
 public class ReportNewFragmentLeadEvaluation extends Fragment implements IManageServiceCaller<LeadEvaluation> {
 
     private ReportsActivity parentActivity;
+    private ReportNewFragment parentFragment;
 
     private LeadEvaluationForm leadEvaluationForm;
 
@@ -37,8 +38,9 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements IManage
 
     private LeadEvaluationManageService leadEvaluationManageService;
 
-    public static ReportNewFragmentLeadEvaluation newInstance(Report report) {
+    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment, Report report) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
+        fragment.parentFragment = parentFragment;
         fragment.report = report;
 
         return fragment;
@@ -114,6 +116,13 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements IManage
 
     private void updateTeam() {
         leadEvaluationManageService.update(leadEvaluationForm, report.getLeadEvaluation());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        parentFragment.setCurrentItemSubtitle();
     }
 
     @Override

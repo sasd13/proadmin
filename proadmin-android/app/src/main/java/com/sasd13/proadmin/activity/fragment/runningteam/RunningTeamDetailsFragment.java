@@ -53,11 +53,11 @@ public class RunningTeamDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new RunningTeamPagerFragmentFactory(runningTeam));
+        Pager pager = new Pager(viewPager, new RunningTeamPagerFragmentFactory(getChildFragmentManager(), getContext(), runningTeam));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
-        parentActivity.setPagerHandler(pager);
+        parentActivity.setPager(pager);
     }
 
     @Override
@@ -65,12 +65,13 @@ public class RunningTeamDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        parentActivity.getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        parentActivity.setPagerHandler(null);
+        parentActivity.setPager(null);
     }
 }

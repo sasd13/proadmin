@@ -148,6 +148,7 @@ public class RunningTeamsFragment extends Fragment implements IReadServiceCaller
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteams));
+        parentActivity.getSupportActionBar().setSubtitle(null);
         readRunningTeamsFromWS();
     }
 

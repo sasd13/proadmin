@@ -29,6 +29,7 @@ import com.sasd13.proadmin.service.running.ReportManageService;
 public class ReportNewFragmentInfo extends Fragment implements IManageServiceCaller<Report> {
 
     private ReportsActivity parentActivity;
+    private ReportNewFragment parentFragment;
 
     private ReportForm reportForm;
 
@@ -36,8 +37,9 @@ public class ReportNewFragmentInfo extends Fragment implements IManageServiceCal
 
     private ReportManageService reportManageService;
 
-    public static ReportNewFragmentInfo newInstance(RunningTeam runningTeam) {
+    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment, RunningTeam runningTeam) {
         ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
+        fragment.parentFragment = parentFragment;
         fragment.runningTeam = runningTeam;
 
         return fragment;
@@ -89,9 +91,9 @@ public class ReportNewFragmentInfo extends Fragment implements IManageServiceCal
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.setGroupVisible(R.id.menu_report_new_group_save, false);
-        menu.setGroupVisible(R.id.menu_report_new_group_runingteams, false);
+        menu.setGroupVisible(R.id.menu_report_new_group_previous, true);
         menu.setGroupVisible(R.id.menu_report_new_group_next, true);
+        menu.setGroupVisible(R.id.menu_report_new_group_save, false);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class ReportNewFragmentInfo extends Fragment implements IManageServiceCal
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        parentFragment.setCurrentItemSubtitle();
     }
 
     @Override

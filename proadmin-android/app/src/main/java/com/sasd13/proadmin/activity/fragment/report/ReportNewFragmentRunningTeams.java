@@ -5,17 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
@@ -23,20 +19,16 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
-import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.androidex.ws.IReadServiceCaller;
-import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.service.running.RunningTeamReadService;
+import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
-import com.sasd13.proadmin.util.builder.running.RunningTeamsYearsBuilder;
-import com.sasd13.proadmin.util.filter.running.RunningTeamYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
 import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
 
@@ -49,11 +41,9 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     private ReportNewFragment parentFragment;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Spin spinYears;
     private Recycler runningTeamsTab;
 
     private RunningTeam runningTeam;
-    private List<Integer> years;
     private List<RunningTeam> runningTeams;
 
     private RunningTeamReadService runningTeamReadService;
@@ -79,7 +69,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        years = new ArrayList<>();
         runningTeams = new ArrayList<>();
         runningTeamReadService = new RunningTeamReadService(this);
     }
@@ -112,7 +101,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     }
 
     private void buildTabRunningTeams(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
+        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
     }
 
@@ -121,41 +110,22 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_report_new, menu);
-
-        buildSpinYears(menu.findItem(R.id.menu_report_new_spinner));
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
+        menu.setGroupVisible(R.id.menu_report_new_group_previous, false);
         menu.setGroupVisible(R.id.menu_report_new_group_save, false);
-        menu.setGroupVisible(R.id.menu_report_new_group_runingteams, true);
         menu.setGroupVisible(R.id.menu_report_new_group_next, true);
-    }
-
-    private void buildSpinYears(MenuItem menuItem) {
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
-
-        spinYears = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabRunningTeamsByYear();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_runningteams));
+        parentFragment.setCurrentItemSubtitle();
         readRunningTeamsFromWS();
     }
 
@@ -171,23 +141,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     @Override
     public void onReadSucceeded(IReadWrapper<RunningTeam> runningTeamReadWrapper) {
         swipeRefreshLayout.setRefreshing(false);
-        bindYears(runningTeamReadWrapper.getWrapped());
         bindRunningTeams(runningTeamReadWrapper.getWrapped());
-    }
-
-    private void bindYears(List<RunningTeam> runningTeamFromWS) {
-        List<Integer> yearsToSpin = new RunningTeamsYearsBuilder(runningTeamFromWS).build();
-
-        IntegersSorter.byDesc(yearsToSpin);
-        years.clear();
-        years.addAll(yearsToSpin);
-        fillSpinYears();
-    }
-
-    private void fillSpinYears() {
-        spinYears.clear();
-        spinYears.addItems(new IntegersToStringsAdapter().adapt(years));
-        spinYears.resetPosition();
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeamFromWS) {
@@ -198,12 +152,8 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
 
     private void fillTabRunningTeamsByYear() {
         runningTeamsTab.clear();
-
-        int year = years.get(spinYears.getSelectedPosition());
-        List<RunningTeam> runningTeamsToTab = new RunningTeamYearCriteria(year).meetCriteria(runningTeams);
-
-        RunningTeamsSorter.byAcademicLevelCode(runningTeamsToTab);
-        addRunningTeamsToTab(runningTeamsToTab);
+        RunningTeamsSorter.byRunningYear(runningTeams);
+        addRunningTeamsToTab(runningTeams);
     }
 
     private void addRunningTeamsToTab(List<RunningTeam> runningTeams) {
@@ -215,12 +165,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (runningTeam.equals(this.runningTeam)) {
+            if (this.runningTeam != null && Comparator.areTheSame(this.runningTeam, runningTeam)) {
                 model.setSelected(true);
             }
 
             pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(runningTeam, model, parentFragment));
-            holder.add(runningTeam.getAcademicLevel().getCode(), pair);
+            holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
         RecyclerHelper.addAll(runningTeamsTab, holder);

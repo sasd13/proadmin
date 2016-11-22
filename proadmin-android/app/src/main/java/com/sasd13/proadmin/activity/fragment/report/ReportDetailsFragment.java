@@ -53,11 +53,11 @@ public class ReportDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), new ReportDetailsPagerFragmentFactory(report));
+        Pager pager = new Pager(viewPager, new ReportDetailsPagerFragmentFactory(getChildFragmentManager(), getContext(), report));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         tabsStrip.setViewPager(viewPager);
-        parentActivity.setPagerHandler(pager);
+        parentActivity.setPager(pager);
     }
 
     @Override
@@ -65,12 +65,13 @@ public class ReportDetailsFragment extends Fragment {
         super.onStart();
 
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
+        parentActivity.getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        parentActivity.setPagerHandler(null);
+        parentActivity.setPager(null);
     }
 }

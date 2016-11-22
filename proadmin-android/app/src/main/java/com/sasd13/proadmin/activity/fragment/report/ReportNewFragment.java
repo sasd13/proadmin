@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
@@ -19,13 +18,20 @@ public class ReportNewFragment extends Fragment {
 
     private ReportsActivity parentActivity;
 
-    private ViewPager viewPager;
+    private Pager pager;
     private ReportNewPagerFragmentFactory pagerFragmentFactory;
 
     private RunningTeam runningTeam;
 
     public static ReportNewFragment newInstance() {
         return new ReportNewFragment();
+    }
+
+    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
+        ReportNewFragment fragment = newInstance();
+        fragment.setRunningTeam(runningTeam);
+
+        return fragment;
     }
 
     public void setRunningTeam(RunningTeam runningTeam) {
@@ -47,7 +53,7 @@ public class ReportNewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_vp_w_psts, container, false);
+        View view = inflater.inflate(R.layout.layout_vp, container, false);
 
         buildView(view);
 
@@ -60,13 +66,11 @@ public class ReportNewFragment extends Fragment {
     }
 
     private void buildPager(View view) {
-        pagerFragmentFactory = new ReportNewPagerFragmentFactory();
-        viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, getChildFragmentManager(), pagerFragmentFactory);
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
+        pagerFragmentFactory = new ReportNewPagerFragmentFactory(getChildFragmentManager(), getContext(), this);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_viewpager);
+        pager = new Pager(viewPager, pagerFragmentFactory);
 
-        tabsStrip.setViewPager(viewPager);
-        parentActivity.setPagerHandler(pager);
+        parentActivity.setPager(pager);
 
         if (runningTeam != null) {
             pagerFragmentFactory.setRunningTeam(runningTeam);
@@ -80,11 +84,15 @@ public class ReportNewFragment extends Fragment {
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 
+    public void setCurrentItemSubtitle() {
+        parentActivity.getSupportActionBar().setSubtitle(pagerFragmentFactory.getSubtitle(pager.getCurrentItem()));
+    }
+
     public void backward() {
-        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        pager.backward();
     }
 
     public void forward() {
-        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        pager.forward();
     }
 }

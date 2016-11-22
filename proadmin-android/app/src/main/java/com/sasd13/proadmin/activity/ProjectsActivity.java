@@ -3,7 +3,7 @@ package com.sasd13.proadmin.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
+import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.fragment.project.ProjectDetailsFragment;
@@ -15,10 +15,10 @@ import com.sasd13.proadmin.bean.running.Running;
 
 public class ProjectsActivity extends MotherActivity {
 
-    private IPagerHandler pagerHandler;
+    private Pager pager;
 
-    public void setPagerHandler(IPagerHandler pagerHandler) {
-        this.pagerHandler = pagerHandler;
+    public void setPager(Pager pager) {
+        this.pager = pager;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ProjectsActivity extends MotherActivity {
 
     @Override
     public void onBackPressed() {
-        if (pagerHandler == null || !pagerHandler.handleBackPress(this)) {
+        if (pager == null || !pager.handleBackPress(this)) {
             super.onBackPressed();
         }
     }
