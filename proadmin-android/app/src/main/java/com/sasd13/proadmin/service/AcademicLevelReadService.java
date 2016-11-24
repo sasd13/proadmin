@@ -1,53 +1,61 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.IReadServiceCaller;
-import com.sasd13.androidex.ws.rest.ReadTask;
-import com.sasd13.javaex.net.IHttpCallback;
-import com.sasd13.proadmin.R;
+import android.content.Context;
+
+import com.sasd13.javaex.service.IReadServiceCaller;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.util.wrapper.read.AcademicLevelReadWrapper;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.ws.rest.ReadRESTWebService;
+
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 24/07/2016.
  */
-public class AcademicLevelReadService implements IHttpCallback {
+public class AcademicLevelReadService implements IReadServiceCaller<List<AcademicLevel>> {
 
-    private IReadServiceCaller<IReadWrapper<AcademicLevel>> serviceCaller;
-    private ReadTask<AcademicLevel> readTask;
+    public class AcademicLevelReadWrapper {
 
-    public AcademicLevelReadService(IReadServiceCaller<IReadWrapper<AcademicLevel>> serviceCaller) {
-        this.serviceCaller = serviceCaller;
+        private List<AcademicLevel> academicLevels;
+
+        public AcademicLevelReadWrapper(List<AcademicLevel> academicLevels) {
+            this.academicLevels = academicLevels;
+        }
+
+        public List<AcademicLevel> getAcademicLevels() {
+            return academicLevels;
+        }
+    }
+
+    public interface AcademicLevelReadServiceCaller {
+
+        void retrieve(AcademicLevelReadWrapper wrapper);
+    }
+
+    private AcademicLevelReadServiceCaller retriever;
+    private ReadRESTWebService<AcademicLevel> readRESTWebService;
+
+    public AcademicLevelReadService(Context context, Retriever retriever) {
+        this.retriever = retriever;
+        readRESTWebService = new ReadRESTWebService<>(context, WSResources.URL_WS_ACADEMICLEVELS, this, AcademicLevel.class);
     }
 
     public void readAcademicLevels() {
-        readTask = new ReadTask<>(WSResources.URL_WS_ACADEMICLEVELS, this, AcademicLevel.class);
-
-        readTask.execute();
+        readRESTWebService.read();
     }
 
     @Override
     public void onLoad() {
-        serviceCaller.onLoad();
+
     }
 
     @Override
-    public void onSuccess() {
-        if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
-        } else {
-            try {
-                serviceCaller.onReadSucceeded(new AcademicLevelReadWrapper(readTask.getResults()));
-            } catch (IndexOutOfBoundsException e) {
-                serviceCaller.onError(R.string.error_no_data);
-            }
-        }
+    public void onRead(List<AcademicLevel> academicLevels) {
+
     }
 
     @Override
-    public void onFail(int httpResponseCode) {
-        serviceCaller.onError(R.string.error_ws_server_connection);
+    public void onError(String s) {
+
     }
 }

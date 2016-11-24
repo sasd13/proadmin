@@ -1,13 +1,11 @@
 package com.sasd13.proadmin.service.member;
 
-import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.androidex.ws.rest.CreateTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.ServiceCallerUtils;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
@@ -21,64 +19,35 @@ public class StudentManageService implements IHttpCallback {
     private IManageServiceCaller<Student> serviceCaller;
     private CreateTask<Student> createTask;
     private UpdateTask<Student> updateTask;
-    private Student student;
     private int taskType;
+    private Student student;
 
     public StudentManageService(IManageServiceCaller<Student> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
-    public void create(StudentForm studentForm) {
+    public void create(Student studentFromForm) {
         taskType = TASKTYPE_CREATE;
+        student = studentFromForm;
         createTask = new CreateTask<>(WSResources.URL_WS_STUDENTS, this);
 
-        try {
-            student = getStudentToCreate(studentForm);
-
-            createTask.execute(student);
-        } catch (FormException e) {
-            serviceCaller.onError(e.getResMessage());
-        }
+        createTask.execute(student);
     }
 
-    private Student getStudentToCreate(StudentForm studentForm) throws FormException {
-        Student studentToCreate = new Student(studentForm.getNumber());
-
-        studentToCreate.setFirstName(studentForm.getFirstName());
-        studentToCreate.setLastName(studentForm.getLastName());
-        studentToCreate.setEmail(studentForm.getEmail());
-
-        return studentToCreate;
-    }
-
-    public void update(StudentForm studentForm, Student student) {
+    public void update(Student studentFromForm, Student student) {
         taskType = TASKTYPE_UPDATE;
         updateTask = new UpdateTask<>(WSResources.URL_WS_STUDENTS, this);
 
-        try {
-            updateTask.execute(getStudentUpdateWrapper(studentForm, student));
-        } catch (FormException e) {
-            serviceCaller.onError(e.getResMessage());
-        }
+        updateTask.execute(getStudentUpdateWrapper(studentFromForm, student));
     }
 
-    private IStudentUpdateWrapper getStudentUpdateWrapper(StudentForm studentForm, Student student) throws FormException {
+    private IStudentUpdateWrapper getStudentUpdateWrapper(Student studentForm, Student student) {
         IStudentUpdateWrapper studentUpdateWrapper = new StudentUpdateWrapper();
 
-        studentUpdateWrapper.setWrapped(getStudentToUpdate(studentForm));
+        studentUpdateWrapper.setWrapped(studentForm);
         studentUpdateWrapper.setNumber(student.getNumber());
 
         return studentUpdateWrapper;
-    }
-
-    private Student getStudentToUpdate(StudentForm studentForm) throws FormException {
-        Student studentToUpdate = new Student(studentForm.getNumber());
-
-        studentToUpdate.setFirstName(studentForm.getFirstName());
-        studentToUpdate.setLastName(studentForm.getLastName());
-        studentToUpdate.setEmail(studentForm.getEmail());
-
-        return studentToUpdate;
     }
 
     @Override

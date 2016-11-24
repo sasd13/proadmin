@@ -24,7 +24,7 @@ public class TeacherManageService implements IHttpCallback {
         this.serviceCaller = serviceCaller;
     }
 
-    public void update(SettingsForm settingsForm, Teacher teacher) {
+    public void update(Teacher teacherFromForm, Teacher teacher) {
         updateTask = new UpdateTask<>(WSResources.URL_WS_TEACHERS, this);
 
         try {

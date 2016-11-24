@@ -1,6 +1,8 @@
 package com.sasd13.proadmin.util;
 
-import com.sasd13.androidex.ws.IServiceCaller;
+import android.content.Context;
+
+import com.sasd13.javaex.service.IServiceCaller;
 import com.sasd13.proadmin.util.exception.EnumError;
 
 import java.util.List;
@@ -10,9 +12,9 @@ import java.util.List;
  */
 public class ServiceCallerUtils {
 
-    public static void handleErrors(IServiceCaller serviceCaller, List<String> errors) {
+    public static void handleErrors(Context context, IServiceCaller serviceCaller, List<String> errors) {
         EnumError error = EnumError.find(Integer.parseInt(errors.get(0)));
 
-        serviceCaller.onError(EnumErrorRes.find(error).getStringRes());
+        serviceCaller.onError(context.getResources().getString(EnumErrorRes.find(error).getStringRes()));
     }
 }
