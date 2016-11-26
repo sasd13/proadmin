@@ -2,137 +2,86 @@ package com.sasd13.proadmin.ws.rest;
 
 import android.content.Context;
 
-import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.androidex.ws.rest.ExecutorReadTasks;
 import com.sasd13.javaex.ws.IWebService;
+import com.sasd13.javaex.ws.rest.BeansWebServiceClient;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RunningTeamRetrieveRESTCallback<T> extends RESTCallback {
+
+    private static final String CODE_PROJECTS = "projects";
+    private static final String CODE_TEAMS = "teams";
+    private static final String CODE_ACADEMICLEVELS = "academiclevels";
 
     public interface RetrieveService extends IWebService {
 
         void onRetrieve(List<Project> projects, List<Team> teams, List<AcademicLevel> academicLevels);
     }
 
-    private ExecutorService executorService;
-    private ReadTask<Project> readTaskProjects;
-    private ReadTask<Team> readTaskTeams;
-    private ReadTask<AcademicLevel> readTaskAcademicLevels;
-    private List<Project> projects;
-    private List<Team> teams;
-    private List<AcademicLevel> academicLevels;
+    private RetrieveService webService;
+    private ExecutorReadTasks executorReadTasks;
+    private BeansWebServiceClient<Project> readTaskProjects;
+    private BeansWebServiceClient<Team> readTaskTeams;
+    private BeansWebServiceClient<AcademicLevel> readTaskAcademicLevels;
 
     public RunningTeamRetrieveRESTCallback(Context context, RetrieveService webService) {
         super(context, null, webService);
 
-        executorService = Executors.newFixedThreadPool(3);
+        this.webService = webService;
+        executorReadTasks = new ExecutorReadTasks(this);
     }
 
     public void read(Map<String, String[]> parametersProjects, Map<String, String[]> parametersTeams, Map<String, String[]> parametersAcademicLevels) {
-        readTaskProjects = new ReadTask<>(WSResources.URL_WS_PROJECTS, this, Project.class);
-        readTaskTeams = new ReadTask<>(WSResources.URL_WS_TEAMS, this, Team.class);
-        readTaskAcademicLevels = new ReadTask<>(WSResources.URL_WS_ACADEMICLEVELS, this, AcademicLevel.class);
+        executorReadTasks.putService(CODE_PROJECTS, readTaskProjects, Project.class, parametersProjects);
+        executorReadTasks.putService(CODE_TEAMS, readTaskTeams, Team.class, parametersTeams);
+        executorReadTasks.putService(CODE_ACADEMICLEVELS, readTaskAcademicLevels, AcademicLevel.class, parametersAcademicLevels);
 
-        readTaskProjects.setParameters(parametersProjects);
-        readTaskTeams.setParameters(parametersTeams);
-        readTaskAcademicLevels.setParameters(parametersAcademicLevels);
-
-        execute();
+        executorReadTasks.execute();
     }
 
     public void readAll() {
-        readTaskProjects = new ReadTask<>(WSResources.URL_WS_PROJECTS, this, Project.class);
-        readTaskTeams = new ReadTask<>(WSResources.URL_WS_TEAMS, this, Team.class);
-        readTaskAcademicLevels = new ReadTask<>(WSResources.URL_WS_ACADEMICLEVELS, this, AcademicLevel.class);
+        executorReadTasks.putService(CODE_PROJECTS, readTaskProjects, Project.class);
+        executorReadTasks.putService(CODE_TEAMS, readTaskTeams, Team.class);
+        executorReadTasks.putService(CODE_ACADEMICLEVELS, readTaskAcademicLevels, AcademicLevel.class);
 
-        execute();
-    }
-
-    private void execute() {
-        webService.onPreExecute();
-
-        executeTaskProjects();
-        executeTaskTeams();
-        executeTaskAcademicLevels();
-    }
-
-    private void executeTaskProjects() {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                readTaskProjects.execute();
-
-                try {
-                    projects = readTaskProjects.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void executeTaskTeams() {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                readTaskTeams.execute();
-
-                try {
-                    teams = readTaskTeams.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void executeTaskAcademicLevels() {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                readTaskAcademicLevels.execute();
-
-                try {
-                    academicLevels = readTaskAcademicLevels.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        executorReadTasks.execute();
     }
 
     @Override
     public void onLoad() {
-        //Do nothing
+        webService.onPreExecute();
     }
 
     @Override
     public void onSuccess() {
-        if (executorService.isTerminated()) {
-            ((RetrieveService) webService).onRetrieve(projects, teams, academicLevels);
-        }
+        List<Project> projects = (List<Project>) executorReadTasks.getResults().get(CODE_PROJECTS);
+        List<Team> teams = (List<Team>) executorReadTasks.getResults().get(CODE_TEAMS);
+        List<AcademicLevel> academicLevels = (List<AcademicLevel>) executorReadTasks.getResults().get(CODE_ACADEMICLEVELS);
+
+        webService.onRetrieve(projects, teams, academicLevels);
     }
 
     @Override
     public void onFail(int httpResponseCode) {
-        executorService.shutdownNow();
-
-        if (executorService.isShutdown()) {
-            super.onFail(httpResponseCode);
+        switch (httpResponseCode) {
+            case ExecutorReadTasks.TASKS_CANCELLED:
+                webService.onError(context.getResources().getString(R.string.error_ws_cancelled));
+                break;
+            case ExecutorReadTasks.TASKS_INTERRUPTED:
+                webService.onError(context.getResources().getString(R.string.error_ws_exception_interrupted));
+                break;
+            case ExecutorReadTasks.TASKS_NOT_TERMINATED:
+                webService.onError(context.getResources().getString(R.string.error_ws_exception_execution));
+                break;
+            default:
+                webService.onError(context.getResources().getString(R.string.error_unknown));
+                break;
         }
     }
 }
