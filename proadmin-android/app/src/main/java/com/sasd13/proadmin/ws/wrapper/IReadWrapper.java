@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.wrapper.read;
+package com.sasd13.proadmin.ws.wrapper;
 
 import java.util.List;
 
@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IReadWrapper<T> {
 
-    List<T> getWrapped();
+    T getWrapped();
 }

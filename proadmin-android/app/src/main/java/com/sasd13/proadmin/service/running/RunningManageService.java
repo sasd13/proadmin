@@ -10,7 +10,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningManageService implements IHttpCallback {
@@ -78,7 +78,7 @@ public class RunningManageService implements IHttpCallback {
 
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
             serviceCaller.onCreateSucceeded(running);
         }
@@ -86,7 +86,7 @@ public class RunningManageService implements IHttpCallback {
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
         }
@@ -94,7 +94,7 @@ public class RunningManageService implements IHttpCallback {
 
     private void onDeleteTaskSucceeded() {
         if (!deleteTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
         } else {
             serviceCaller.onDeleteSucceeded();
         }

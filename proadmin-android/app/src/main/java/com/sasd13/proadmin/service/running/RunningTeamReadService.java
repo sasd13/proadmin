@@ -7,10 +7,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.util.wrapper.read.running.RunningTeamReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.running.RunningTeamReadWrapper;
 
 public class RunningTeamReadService implements IHttpCallback {
 
@@ -45,7 +45,7 @@ public class RunningTeamReadService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
                 serviceCaller.onReadSucceeded(new RunningTeamReadWrapper(readTask.getResults()));

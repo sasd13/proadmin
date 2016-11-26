@@ -7,7 +7,7 @@ import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.gui.form.SettingsForm;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -61,7 +61,7 @@ public class TeacherManageService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
         }

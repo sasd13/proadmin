@@ -36,7 +36,7 @@ import com.sasd13.proadmin.util.caller.RunningTeamTeamReadServiceCaller;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.Calendar;
 import java.util.List;

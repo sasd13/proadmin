@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.util.wrapper.read.running;
+package com.sasd13.proadmin.ws.wrapper.running;
 
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by ssaidali2 on 10/11/2016.
  */
 
-public class RunningReadWrapper implements IReadWrapper<Running> {
+public class RunningReadWrapper implements IReadWrapper<List<Running>> {
 
     private List<Running> runnings;
 

@@ -6,10 +6,10 @@ import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.util.wrapper.read.member.TeamReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.member.TeamReadWrapper;
 
 /**
  * Created by ssaidali2 on 15/07/2016.
@@ -44,7 +44,7 @@ public class TeamReadService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
                 serviceCaller.onReadSucceeded(new TeamReadWrapper(readTask.getResults()));

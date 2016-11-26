@@ -6,7 +6,7 @@ import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 /**
@@ -36,7 +36,7 @@ public class TeacherReadService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
                 serviceCaller.onReadSucceeded(readTask.getResults().get(0));

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.wrapper.read;
+package com.sasd13.proadmin.ws.wrapper;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by ssaidali2 on 10/11/2016.
  */
 
-public class AcademicLevelReadWrapper implements IReadWrapper<AcademicLevel> {
+public class AcademicLevelReadWrapper implements IReadWrapper<List<AcademicLevel>> {
 
     private List<AcademicLevel> academicLevels;
 

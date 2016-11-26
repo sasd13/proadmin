@@ -4,43 +4,36 @@ import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.androidex.ws.rest.ReadTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
 import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
-import com.sasd13.proadmin.ws.wrapper.running.RunningReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.running.RunningTeamReadWrapper;
 
-public class RunningReadService implements IHttpCallback {
+public class RunningTeamRetrieveService implements  {
 
-    private IReadServiceCaller<IReadWrapper<Running>> serviceCaller;
-    private ReadTask<Running> readTask;
+    private IReadServiceCaller<IReadWrapper<RunningTeam>> serviceCaller;
+    private ReadTask<RunningTeam> readTask;
 
-    public RunningReadService(IReadServiceCaller<IReadWrapper<Running>> serviceCaller) {
+    public RunningTeamRetrieveService(IReadServiceCaller<IReadWrapper<RunningTeam>> serviceCaller) {
         this.serviceCaller = serviceCaller;
     }
 
     public void read(String teacherNumber) {
-        read(teacherNumber, null);
-    }
-
-    public void read(String teacherNumber, Project project) {
-        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
-
-        if (project != null) {
-            readTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
-        }
+        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, RunningTeam.class);
 
         readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readTask.execute();
     }
 
-    public void read(String teacherNumber, int year) {
-        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGS, this, Running.class);
+    public void read(Running running) {
+        readTask = new ReadTask<>(WSResources.URL_WS_RUNNINGTEAMS, this, RunningTeam.class);
 
-        readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(year)});
-        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        readTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(running.getYear())});
+        readTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{running.getProject().getCode()});
+        readTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{running.getTeacher().getNumber()});
         readTask.execute();
     }
 
@@ -55,7 +48,7 @@ public class RunningReadService implements IHttpCallback {
             WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
-                serviceCaller.onReadSucceeded(new RunningReadWrapper(readTask.getResults()));
+                serviceCaller.onReadSucceeded(new RunningTeamReadWrapper(readTask.getResults()));
             } catch (IndexOutOfBoundsException e) {
                 serviceCaller.onError(R.string.error_no_data);
             }

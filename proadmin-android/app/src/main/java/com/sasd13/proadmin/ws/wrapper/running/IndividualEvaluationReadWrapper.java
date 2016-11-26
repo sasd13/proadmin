@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.util.wrapper.read.running;
+package com.sasd13.proadmin.ws.wrapper.running;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by ssaidali2 on 11/11/2016.
  */
 
-public class IndividualEvaluationReadWrapper implements IReadWrapper<IndividualEvaluation> {
+public class IndividualEvaluationReadWrapper implements IReadWrapper<List<IndividualEvaluation>> {
 
     private List<IndividualEvaluation> individualEvaluations;
 

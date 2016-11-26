@@ -6,11 +6,10 @@ import com.sasd13.androidex.ws.rest.CreateTask;
 import com.sasd13.androidex.ws.rest.DeleteTask;
 import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.dao.IUpdateWrapper;
-import com.sasd13.javaex.service.IManageServiceCaller;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.javaex.ws.IManageWebService;
+import com.sasd13.proadmin.util.WebServiceUtils;
 
-public class ManageRESTCallback<T> extends RESTWebService {
+public class ManageRESTCallback<T> extends RESTCallback {
 
     private static final int TASKTYPE_CREATE = 0;
     private static final int TASKTYPE_UPDATE = 1;
@@ -21,8 +20,8 @@ public class ManageRESTCallback<T> extends RESTWebService {
     private DeleteTask<T> deleteTask;
     private int taskType;
 
-    public ManageRESTCallback(Context context, String url, IManageServiceCaller<T> serviceCaller) {
-        super(context, url, serviceCaller);
+    public ManageRESTCallback(Context context, String url, IManageWebService webService) {
+        super(context, url, webService);
     }
 
     public void create(T t) {
@@ -47,11 +46,6 @@ public class ManageRESTCallback<T> extends RESTWebService {
     }
 
     @Override
-    public void onLoad() {
-        serviceCaller.onLoad();
-    }
-
-    @Override
     public void onSuccess() {
         switch (taskType) {
             case TASKTYPE_CREATE:
@@ -68,30 +62,25 @@ public class ManageRESTCallback<T> extends RESTWebService {
 
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(context, serviceCaller, createTask.getResponseErrors());
+            WebServiceUtils.handleErrors(context, webService, createTask.getResponseErrors());
         } else {
-            ((IManageServiceCaller<T>) serviceCaller).onCreate();
+            ((IManageWebService) webService).onCreate();
         }
     }
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(context, serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(context, webService, updateTask.getResponseErrors());
         } else {
-            ((IManageServiceCaller<T>) serviceCaller).onUpdate();
+            ((IManageWebService) webService).onUpdate();
         }
     }
 
     private void onDeleteTaskSucceeded() {
         if (!deleteTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(context, serviceCaller, deleteTask.getResponseErrors());
+            WebServiceUtils.handleErrors(context, webService, deleteTask.getResponseErrors());
         } else {
-            ((IManageServiceCaller<T>) serviceCaller).onDelete();
+            ((IManageWebService) webService).onDelete();
         }
-    }
-
-    @Override
-    public void onFail(int httpResponseCode) {
-        serviceCaller.onError(context.getResources().getString(R.string.error_ws_server_connection));
     }
 }

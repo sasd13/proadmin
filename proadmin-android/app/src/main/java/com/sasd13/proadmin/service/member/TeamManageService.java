@@ -9,7 +9,7 @@ import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.form.TeamForm;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -105,7 +105,7 @@ public class TeamManageService implements IHttpCallback {
 
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
             serviceCaller.onCreateSucceeded(team);
         }
@@ -113,7 +113,7 @@ public class TeamManageService implements IHttpCallback {
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
         }
@@ -121,7 +121,7 @@ public class TeamManageService implements IHttpCallback {
 
     private void onDeleteTaskSucceeded() {
         if (!deleteTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
         } else {
             serviceCaller.onDeleteSucceeded();
         }

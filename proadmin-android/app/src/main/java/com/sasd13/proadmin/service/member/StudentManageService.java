@@ -6,7 +6,7 @@ import com.sasd13.androidex.ws.rest.UpdateTask;
 import com.sasd13.javaex.net.IHttpCallback;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -69,7 +69,7 @@ public class StudentManageService implements IHttpCallback {
 
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
             serviceCaller.onCreateSucceeded(student);
         }
@@ -77,7 +77,7 @@ public class StudentManageService implements IHttpCallback {
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
         }

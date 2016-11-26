@@ -9,10 +9,10 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.util.wrapper.read.running.ReportReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.running.ReportReadWrapper;
 
 public class ReportReadService implements IHttpCallback {
 
@@ -51,7 +51,7 @@ public class ReportReadService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
                 serviceCaller.onReadSucceeded(new ReportReadWrapper(readTask.getResults()));

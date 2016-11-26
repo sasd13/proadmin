@@ -9,9 +9,9 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
-import com.sasd13.proadmin.util.wrapper.read.member.StudentTeamReadWrapper;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.member.StudentTeamReadWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 public class StudentTeamReadService implements IHttpCallback {
@@ -39,7 +39,7 @@ public class StudentTeamReadService implements IHttpCallback {
     @Override
     public void onSuccess() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, readTask.getResponseErrors());
         } else {
             try {
                 serviceCaller.onReadSucceeded(new StudentTeamReadWrapper(readTask.getResults()));

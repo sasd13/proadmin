@@ -10,7 +10,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
-import com.sasd13.proadmin.util.ServiceCallerUtils;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -120,7 +120,7 @@ public class RunningTeamManageService implements IHttpCallback {
 
     private void onCreateTaskSucceeded() {
         if (!createTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, createTask.getResponseErrors());
         } else {
             serviceCaller.onCreateSucceeded(runningTeam);
         }
@@ -128,7 +128,7 @@ public class RunningTeamManageService implements IHttpCallback {
 
     private void onUpdateTaskSucceeded() {
         if (!updateTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, updateTask.getResponseErrors());
         } else {
             serviceCaller.onUpdateSucceeded();
         }
@@ -136,7 +136,7 @@ public class RunningTeamManageService implements IHttpCallback {
 
     private void onDeleteTaskSucceeded() {
         if (!deleteTask.getResponseErrors().isEmpty()) {
-            ServiceCallerUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
+            WebServiceUtils.handleErrors(serviceCaller, deleteTask.getResponseErrors());
         } else {
             serviceCaller.onDeleteSucceeded();
         }

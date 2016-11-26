@@ -30,7 +30,7 @@ import com.sasd13.proadmin.service.running.RunningTeamReadService;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.util.wrapper.read.IReadWrapper;
+import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
