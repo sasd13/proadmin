@@ -25,7 +25,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.form.TeamForm;
-import com.sasd13.proadmin.service.member.TeamManageService;
 
 public class TeamDetailsFragmentInfos extends Fragment implements IManageServiceCaller<Team> {
 

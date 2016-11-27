@@ -26,9 +26,7 @@ import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
-import com.sasd13.proadmin.service.member.StudentTeamReadService;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

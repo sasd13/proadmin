@@ -25,7 +25,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.service.running.RunningManageService;
 
 public class RunningDetailsFragment extends Fragment implements IManageServiceCaller<Running> {
 

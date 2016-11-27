@@ -6,7 +6,7 @@ package com.sasd13.proadmin.ws.caller;
 
 public interface IWebServiceCaller {
 
-    void onWait();
+    void onWaiting();
 
     void onError(String error);
 }

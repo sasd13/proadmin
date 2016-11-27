@@ -24,7 +24,6 @@ import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
-import com.sasd13.proadmin.service.running.IndividualEvaluationsManageService;
 
 public class ReportNewFragmentIndividualEvaluations extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
 

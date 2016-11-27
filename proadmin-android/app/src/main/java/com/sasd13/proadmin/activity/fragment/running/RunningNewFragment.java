@@ -24,7 +24,6 @@ import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.service.running.RunningManageService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 

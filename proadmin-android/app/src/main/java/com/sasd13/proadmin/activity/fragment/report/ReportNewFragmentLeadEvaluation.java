@@ -24,7 +24,6 @@ import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
-import com.sasd13.proadmin.service.running.LeadEvaluationManageService;
 import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
 
 public class ReportNewFragmentLeadEvaluation extends Fragment implements IManageServiceCaller<LeadEvaluation> {

@@ -24,7 +24,6 @@ import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.form.StudentForm;
-import com.sasd13.proadmin.service.member.StudentTeamManageService;
 
 public class StudentNewFragment extends Fragment implements IManageServiceCaller<StudentTeam> {
 

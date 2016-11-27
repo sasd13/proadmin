@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.activity;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -10,20 +9,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.gui.form.SettingsForm;
-import com.sasd13.proadmin.service.member.TeacherManageService;
-import com.sasd13.proadmin.service.member.TeacherReadService;
+import com.sasd13.proadmin.service.ManageService;
+import com.sasd13.proadmin.service.ReadService;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.ws.caller.IManageWebServiceCaller;
+import com.sasd13.proadmin.ws.caller.IReadWebServiceCaller;
 
-public class SettingsActivity extends MotherActivity implements IReadServiceCaller<Teacher>, IManageServiceCaller<Teacher> {
+import java.util.List;
+
+public class SettingsActivity extends MotherActivity implements IReadWebServiceCaller<Teacher>, IManageWebServiceCaller {
 
     private View contentView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -31,8 +36,8 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
 
     private Teacher teacher;
 
-    private TeacherReadService teacherReadService;
-    private TeacherManageService teacherManageService;
+    private ReadService<Teacher> readService;
+    private ManageService<Teacher> manageService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +46,8 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
         setContentView(R.layout.activity_settings);
 
         contentView = findViewById(android.R.id.content);
-        teacherReadService = new TeacherReadService(this);
-        teacherManageService = new TeacherManageService(this);
+        readService = new ReadService<>(this, WSResources.URL_WS_TEACHERS, this, Teacher.class);
+        manageService = new ManageService<>(this, WSResources.URL_WS_TEACHERS, this);
 
         buildView();
     }
@@ -64,7 +69,8 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     }
 
     private void readTeacherFromWS() {
-        teacherReadService.read(SessionHelper.getExtraIdTeacherNumber(this));
+        readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(this)});
+        readService.read();
     }
 
     private void buildFormSettings() {
@@ -98,19 +104,43 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     }
 
     private void updateTeacher() {
-        teacherManageService.update(settingsForm, teacher);
+        try {
+            manageService.update(getUpdateWrapper());
+        } catch (FormException e) {
+            onError(e.getMessage());
+        }
+    }
+
+    private TeacherUpdateWrapper getUpdateWrapper() throws FormException {
+        TeacherUpdateWrapper wrapper = new TeacherUpdateWrapper();
+
+        wrapper.setWrapped(getTeacherFromForm());
+        wrapper.setNumber(teacher.getNumber());
+
+        return wrapper;
+    }
+
+    private Teacher getTeacherFromForm() throws FormException {
+        Teacher teacher = new Teacher();
+
+        teacher.setNumber(settingsForm.getNumber());
+        teacher.setFirstName(settingsForm.getFirstName());
+        teacher.setLastName(settingsForm.getLastName());
+        teacher.setEmail(settingsForm.getEmail());
+
+        return teacher;
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onReadSucceeded(Teacher teacher) {
+    public void onReaded(List<Teacher> teachers) {
         swipeRefreshLayout.setRefreshing(false);
 
-        this.teacher = teacher;
+        teacher = teachers.get(0);
 
         bindFormWithTeacher();
     }
@@ -120,21 +150,23 @@ public class SettingsActivity extends MotherActivity implements IReadServiceCall
     }
 
     @Override
-    public void onCreateSucceeded(Teacher teacher) {
+    public void onCreated() {
+
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(contentView, R.string.message_saved, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
+
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(String message) {
         swipeRefreshLayout.setRefreshing(false);
         Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }

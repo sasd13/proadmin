@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.ws.caller;
 
-import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 26/11/2016.
@@ -8,5 +8,5 @@ import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 public interface IReadWebServiceCaller<T> extends IWebServiceCaller {
 
-    void onRead(IReadWrapper<T> wrapper);
+    void onReaded(List<T> ts);
 }

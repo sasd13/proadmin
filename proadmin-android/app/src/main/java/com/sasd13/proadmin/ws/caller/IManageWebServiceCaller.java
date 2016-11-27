@@ -6,9 +6,9 @@ package com.sasd13.proadmin.ws.caller;
 
 public interface IManageWebServiceCaller extends IWebServiceCaller {
 
-    void onCreate();
+    void onCreated();
 
-    void onUpdate();
+    void onUpdated();
 
-    void onDelete();
+    void onDeleted();
 }

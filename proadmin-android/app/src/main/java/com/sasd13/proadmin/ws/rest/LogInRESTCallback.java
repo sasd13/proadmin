@@ -1,16 +1,12 @@
 package com.sasd13.proadmin.ws.rest;
 
-import android.content.Context;
-
-import com.sasd13.androidex.ws.rest.LogInTask;
-import com.sasd13.androidex.ws.rest.ReadTask;
+import com.sasd13.androidex.ws.rest.callback.RESTCallback;
+import com.sasd13.androidex.ws.rest.task.LogInAsyncTask;
+import com.sasd13.androidex.ws.rest.task.ReadAsyncTask;
 import com.sasd13.javaex.ws.ILoginWebService;
-import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.ws.wrapper.member.TeacherReadWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,14 +20,14 @@ public class LogInRESTCallback extends RESTCallback {
     private static final int TASKTYPE_LOGIN = 0;
     private static final int TASKTYPE_READ = 1;
 
-    private LogInTask logInTask;
-    private ReadTask<Teacher> readTask;
+    private LogInAsyncTask logInTask;
+    private ReadAsyncTask<Teacher> readTask;
     private int taskType;
     private String number;
     private Map<String, String[]> parameters;
 
-    public LogInRESTCallback(Context context, ILoginWebService<Teacher> webService) {
-        super(context, null, webService);
+    public LogInRESTCallback(ILoginWebService<Teacher> webService) {
+        super(webService);
 
         parameters = new HashMap<>();
     }
@@ -39,7 +35,7 @@ public class LogInRESTCallback extends RESTCallback {
     public void logIn(String number, String password) {
         taskType = TASKTYPE_LOGIN;
         this.number = number;
-        logInTask = new LogInTask(WSResources.URL_AAA_LOGIN, this);
+        logInTask = new LogInAsyncTask(WSResources.URL_AAA_LOGIN, this);
 
         logInTask.setCredential(number, password);
         logInTask.execute();
@@ -68,7 +64,7 @@ public class LogInRESTCallback extends RESTCallback {
 
     private void onLogInTaskSucceeded() {
         if (!logInTask.getResponseErrors().isEmpty()) {
-            WebServiceUtils.handleErrors(context, webService, logInTask.getResponseErrors());
+            webService.onError(logInTask.getResponseErrors());
         } else {
             readTeacher();
         }
@@ -76,31 +72,26 @@ public class LogInRESTCallback extends RESTCallback {
 
     private void readTeacher() {
         taskType = TASKTYPE_READ;
-        readTask = new ReadTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
+        readTask = new ReadAsyncTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
 
         parameters.clear();
         parameters.put(EnumParameter.NUMBER.getName(), new String[]{number});
+        readTask.setParameters(parameters);
+
         readTask.execute();
     }
 
     private void onReadTaskSucceeded() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            WebServiceUtils.handleErrors(context, webService, readTask.getResponseErrors());
+            webService.onError(readTask.getResponseErrors());
         } else {
             try {
-                ((ILoginWebService) webService).onLogIn(new TeacherReadWrapper(readTask.get().get(0)));
+                ((ILoginWebService) webService).onLogIn(readTask.get().get(0));
             } catch (InterruptedException e) {
-                webService.onError(context.getResources().getString(R.string.error_ws_exception_interrupted));
+                e.printStackTrace();
             } catch (ExecutionException e) {
-                webService.onError(context.getResources().getString(R.string.error_ws_exception_execution));
-            } catch (IndexOutOfBoundsException e) {
-                webService.onError(context.getResources().getString(R.string.error_no_data));
+                e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void onFail(int httpResponseCode) {
-        webService.onError(context.getResources().getString(R.string.error_ws_server_connection));
     }
 }

@@ -33,12 +33,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
-import com.sasd13.proadmin.service.project.ProjectReadService;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.ws.wrapper.IReadWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

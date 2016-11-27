@@ -13,7 +13,7 @@ import com.sasd13.androidex.ws.ILoginServiceCaller;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.service.member.LogInService;
+import com.sasd13.proadmin.service.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 
 public class LogInActivity extends AppCompatActivity implements ILoginServiceCaller<Teacher> {

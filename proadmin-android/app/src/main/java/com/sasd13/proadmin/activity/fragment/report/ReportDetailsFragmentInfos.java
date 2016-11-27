@@ -25,7 +25,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
-import com.sasd13.proadmin.service.running.ReportManageService;
 
 public class ReportDetailsFragmentInfos extends Fragment implements IManageServiceCaller<Report> {
 
