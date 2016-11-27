@@ -15,11 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Created by ssaidali2 on 20/06/2016.
  */
-public class SettingsForm extends Form {
+public class TeacherForm extends Form {
 
     private TextItemModel modelNumber, modelFirstName, modelLastName, modelEmail;
 
-    public SettingsForm(Context context) {
+    public TeacherForm(Context context) {
         super(context);
 
         String title = context.getResources().getString(R.string.title_identity);

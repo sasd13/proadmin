@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.team;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,18 +19,19 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
+import com.sasd13.proadmin.ws.service.StudentsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDetailsFragmentStudents extends Fragment implements IReadServiceCaller<IReadWrapper<StudentTeam>> {
+public class TeamDetailsFragmentStudents extends Fragment implements StudentsService.ReadCaller {
 
     private TeamsActivity parentActivity;
 
@@ -40,7 +40,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     private Team team;
     private List<StudentTeam> studentTeams;
 
-    private StudentTeamReadService studentTeamReadService;
+    private StudentsService service;
 
     public static TeamDetailsFragmentStudents newInstance(Team team) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
@@ -55,7 +55,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
 
         parentActivity = (TeamsActivity) getActivity();
         studentTeams = new ArrayList<>();
-        studentTeamReadService = new StudentTeamReadService(this);
+        service = new StudentsService(this);
     }
 
     @Override
@@ -98,17 +98,17 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     }
 
     private void readStudentTeamsFromWS() {
-        studentTeamReadService.read(team);
+        service.read(team);
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<StudentTeam> studentTeamReadWrapper) {
+    public void onReaded(List<StudentTeam> studentTeamsFromWS) {
         studentTeams.clear();
-        studentTeams.addAll(studentTeamReadWrapper.getWrapped());
+        studentTeams.addAll(studentTeamsFromWS);
         fillTabStudentTeamsByTeam();
     }
 
@@ -139,7 +139,11 @@ public class TeamDetailsFragmentStudents extends Fragment implements IReadServic
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

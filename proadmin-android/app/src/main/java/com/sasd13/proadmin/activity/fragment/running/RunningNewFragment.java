@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.running;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,21 +12,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
+import com.sasd13.proadmin.ws.service.RunningsService;
 
-public class RunningNewFragment extends Fragment implements IManageServiceCaller<Running> {
+import java.util.List;
+
+public class RunningNewFragment extends Fragment implements RunningsService.ManageCaller {
 
     private ProjectsActivity parentActivity;
 
@@ -35,7 +39,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
 
     private Project project;
 
-    private RunningManageService runningManageService;
+    private RunningsService service;
 
     public static RunningNewFragment newInstance(Project project) {
         RunningNewFragment fragment = new RunningNewFragment();
@@ -51,7 +55,7 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        runningManageService = new RunningManageService(this);
+        service = new RunningsService(this);
     }
 
     @Override
@@ -112,7 +116,20 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     private void createRunning() {
-        runningManageService.create(runningForm, project, SessionHelper.getExtraIdTeacherNumber(getContext()));
+        try {
+            Running running = new Running(
+                    getRunningFromForm().getYear(),
+                    project.getCode(),
+                    SessionHelper.getExtraIdTeacherNumber(getContext()));
+
+            service.create(running);
+        } catch (FormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private Running getRunningFromForm() throws FormException {
+        return new RunningFromFormBuilder(runningForm).build();
     }
 
     @Override
@@ -123,25 +140,29 @@ public class RunningNewFragment extends Fragment implements IManageServiceCaller
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(Running running) {
+    public void onCreated() {
         Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
         parentActivity.onBackPressed();
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

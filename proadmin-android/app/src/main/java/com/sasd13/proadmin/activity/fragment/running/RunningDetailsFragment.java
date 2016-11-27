@@ -3,7 +3,6 @@ package com.sasd13.proadmin.activity.fragment.running;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +19,16 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.service.RunningsService;
 
-public class RunningDetailsFragment extends Fragment implements IManageServiceCaller<Running> {
+import java.util.List;
+
+public class RunningDetailsFragment extends Fragment implements RunningsService.ManageCaller {
 
     private ProjectsActivity parentActivity;
 
@@ -34,7 +36,7 @@ public class RunningDetailsFragment extends Fragment implements IManageServiceCa
 
     private Running running;
 
-    private RunningManageService runningManageService;
+    private RunningsService service;
 
     public static RunningDetailsFragment newInstance(Running running) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
@@ -50,7 +52,7 @@ public class RunningDetailsFragment extends Fragment implements IManageServiceCa
         setHasOptionsMenu(true);
 
         parentActivity = (ProjectsActivity) getActivity();
-        runningManageService = new RunningManageService(this);
+        service = new RunningsService(this);
     }
 
     @Override
@@ -118,7 +120,7 @@ public class RunningDetailsFragment extends Fragment implements IManageServiceCa
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        runningManageService.delete(running);
+                        service.delete(running);
                     }
                 });
     }
@@ -131,26 +133,30 @@ public class RunningDetailsFragment extends Fragment implements IManageServiceCa
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(Running running) {
+    public void onCreated() {
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
         parentActivity.onBackPressed();
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

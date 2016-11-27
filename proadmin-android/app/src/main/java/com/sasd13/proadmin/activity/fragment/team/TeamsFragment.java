@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.team;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,17 +22,18 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
+import com.sasd13.proadmin.ws.service.TeamsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadWrapper<Team>> {
+public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
 
     private TeamsActivity parentActivity;
 
@@ -42,7 +42,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
 
     private List<Team> teams;
 
-    private TeamReadService teamReadService;
+    private TeamsService service;
 
     public static TeamsFragment newInstance() {
         return new TeamsFragment();
@@ -56,7 +56,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
 
         parentActivity = (TeamsActivity) getActivity();
         teams = new ArrayList<>();
-        teamReadService = new TeamReadService(this);
+        service = new TeamsService(this);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
     }
 
     private void readTeamsFromWS() {
-        teamReadService.readAll();
+        service.readAll();
     }
 
     private void buildTabRunnings(View view) {
@@ -125,14 +125,14 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Team> teamReadWrapper) {
+    public void onReaded(List<Team> teamsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-        bindTeams(teamReadWrapper.getWrapped());
+        bindTeams(teamsFromWS);
     }
 
     private void bindTeams(List<Team> teamFromWS) {
@@ -169,8 +169,12 @@ public class TeamsFragment extends Fragment implements IReadServiceCaller<IReadW
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

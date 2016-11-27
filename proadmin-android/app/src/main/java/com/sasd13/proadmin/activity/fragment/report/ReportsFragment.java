@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -28,21 +27,22 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.ws.service.ReportsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportsFragment extends Fragment implements IReadServiceCaller<IReadWrapper<Report>> {
+public class ReportsFragment extends Fragment implements ReportsService.ReadCaller {
 
     private ReportsActivity parentActivity;
 
@@ -53,7 +53,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
     private List<String> teamsNumbers;
     private List<Report> reports;
 
-    private ReportReadService reportReadService;
+    private ReportsService service;
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
@@ -68,7 +68,7 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
         parentActivity = (ReportsActivity) getActivity();
         teamsNumbers = new ArrayList<>();
         reports = new ArrayList<>();
-        reportReadService = new ReportReadService(this);
+        service = new ReportsService(this);
     }
 
     @Override
@@ -150,19 +150,19 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
     }
 
     private void readReportsFromWS() {
-        reportReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
+        service.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Report> reportReadWrapper) {
+    public void onReaded(List<Report> reportsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-        bindTeamsNumbers(reportReadWrapper.getWrapped());
-        bindReports(reportReadWrapper.getWrapped());
+        bindTeamsNumbers(reportsFromWS);
+        bindReports(reportsFromWS);
     }
 
     private void bindTeamsNumbers(List<Report> reportsFromWS) {
@@ -217,8 +217,12 @@ public class ReportsFragment extends Fragment implements IReadServiceCaller<IRea
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

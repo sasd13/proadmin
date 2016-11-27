@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.student;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,18 +12,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.TeamsActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.gui.form.StudentForm;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
+import com.sasd13.proadmin.ws.service.StudentsService;
 
-public class StudentDetailsFragment extends Fragment implements IManageServiceCaller<Student> {
+import java.util.List;
+
+public class StudentDetailsFragment extends Fragment implements StudentsService.ManageCaller {
 
     private TeamsActivity parentActivity;
 
@@ -32,7 +36,7 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
 
     private Student student;
 
-    private StudentManageService studentManageService;
+    private StudentsService service;
 
     public static StudentDetailsFragment newInstance(Student student) {
         StudentDetailsFragment fragment = new StudentDetailsFragment();
@@ -48,7 +52,7 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
         setHasOptionsMenu(true);
 
         parentActivity = (TeamsActivity) getActivity();
-        studentManageService = new StudentManageService(this);
+        service = new StudentsService(this);
     }
 
     @Override
@@ -102,7 +106,15 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     }
 
     private void updateStudent() {
-        studentManageService.update(studentForm, student);
+        try {
+            service.update(getStudentFromForm(), student);
+        } catch (FormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private Student getStudentFromForm() throws FormException {
+        return new StudentFromFormBuilder(studentForm).build();
     }
 
     @Override
@@ -113,26 +125,30 @@ public class StudentDetailsFragment extends Fragment implements IManageServiceCa
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(Student student) {
+    public void onCreated() {
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
         parentActivity.listTeams();
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

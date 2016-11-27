@@ -16,28 +16,23 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.gui.form.SettingsForm;
-import com.sasd13.proadmin.service.ManageService;
-import com.sasd13.proadmin.service.ReadService;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.gui.form.TeacherForm;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
-import com.sasd13.proadmin.ws.caller.IManageWebServiceCaller;
-import com.sasd13.proadmin.ws.caller.IReadWebServiceCaller;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.util.builder.member.TeacherFromFormBuilder;
+import com.sasd13.proadmin.ws.service.SettingsService;
 
 import java.util.List;
 
-public class SettingsActivity extends MotherActivity implements IReadWebServiceCaller<Teacher>, IManageWebServiceCaller {
+public class SettingsActivity extends MotherActivity implements SettingsService.Caller {
 
     private View contentView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SettingsForm settingsForm;
+    private TeacherForm teacherForm;
 
     private Teacher teacher;
 
-    private ReadService<Teacher> readService;
-    private ManageService<Teacher> manageService;
+    private SettingsService service;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +41,7 @@ public class SettingsActivity extends MotherActivity implements IReadWebServiceC
         setContentView(R.layout.activity_settings);
 
         contentView = findViewById(android.R.id.content);
-        readService = new ReadService<>(this, WSResources.URL_WS_TEACHERS, this, Teacher.class);
-        manageService = new ManageService<>(this, WSResources.URL_WS_TEACHERS, this);
+        service = new SettingsService(this);
 
         buildView();
     }
@@ -69,17 +63,16 @@ public class SettingsActivity extends MotherActivity implements IReadWebServiceC
     }
 
     private void readTeacherFromWS() {
-        readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(this)});
-        readService.read();
+        service.readTeacher(SessionHelper.getExtraIdTeacherNumber(this));
     }
 
     private void buildFormSettings() {
-        settingsForm = new SettingsForm(this);
+        teacherForm = new TeacherForm(this);
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) findViewById(R.id.settings_recyclerview));
         form.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, settingsForm.getHolder());
+        RecyclerHelper.addAll(form, teacherForm.getHolder());
     }
 
     @Override
@@ -105,30 +98,14 @@ public class SettingsActivity extends MotherActivity implements IReadWebServiceC
 
     private void updateTeacher() {
         try {
-            manageService.update(getUpdateWrapper());
+            service.updateTeacher(getTeacherFromForm(), teacher);
         } catch (FormException e) {
-            onError(e.getMessage());
+            displayError(e.getMessage());
         }
     }
 
-    private TeacherUpdateWrapper getUpdateWrapper() throws FormException {
-        TeacherUpdateWrapper wrapper = new TeacherUpdateWrapper();
-
-        wrapper.setWrapped(getTeacherFromForm());
-        wrapper.setNumber(teacher.getNumber());
-
-        return wrapper;
-    }
-
     private Teacher getTeacherFromForm() throws FormException {
-        Teacher teacher = new Teacher();
-
-        teacher.setNumber(settingsForm.getNumber());
-        teacher.setFirstName(settingsForm.getFirstName());
-        teacher.setLastName(settingsForm.getLastName());
-        teacher.setEmail(settingsForm.getEmail());
-
-        return teacher;
+        return new TeacherFromFormBuilder(teacherForm).build();
     }
 
     @Override
@@ -137,21 +114,20 @@ public class SettingsActivity extends MotherActivity implements IReadWebServiceC
     }
 
     @Override
-    public void onReaded(List<Teacher> teachers) {
+    public void onReaded(List<Teacher> teachersFromWS) {
         swipeRefreshLayout.setRefreshing(false);
 
-        teacher = teachers.get(0);
+        teacher = teachersFromWS.get(0);
 
         bindFormWithTeacher();
     }
 
     private void bindFormWithTeacher() {
-        settingsForm.bindTeacher(teacher);
+        teacherForm.bindTeacher(teacher);
     }
 
     @Override
     public void onCreated() {
-
     }
 
     @Override
@@ -162,12 +138,15 @@ public class SettingsActivity extends MotherActivity implements IReadWebServiceC
 
     @Override
     public void onDeleted() {
-
     }
 
     @Override
-    public void onError(String message) {
+    public void onError(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
-        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
+        displayError(WebServiceUtils.handleErrors(this, errors));
+    }
+
+    private void displayError(String error) {
+        Snackbar.make(contentView, error, Snackbar.LENGTH_SHORT).show();
     }
 }

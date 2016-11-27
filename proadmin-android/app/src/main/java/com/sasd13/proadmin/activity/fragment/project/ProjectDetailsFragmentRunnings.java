@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,19 +19,20 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.ws.service.RunningsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDetailsFragmentRunnings extends Fragment implements IReadServiceCaller<IReadWrapper<Running>> {
+public class ProjectDetailsFragmentRunnings extends Fragment implements RunningsService.ReadCaller {
 
     private ProjectsActivity parentActivity;
 
@@ -41,7 +41,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     private Project project;
     private List<Running> runnings;
 
-    private RunningReadService runningReadService;
+    private RunningsService service;
 
     public static ProjectDetailsFragmentRunnings newInstance(Project project) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
@@ -56,7 +56,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
 
         parentActivity = (ProjectsActivity) getActivity();
         runnings = new ArrayList<>();
-        runningReadService = new RunningReadService(this);
+        service = new RunningsService(this);
     }
 
     @Override
@@ -99,17 +99,17 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     }
 
     private void readRunningsFromWS() {
-        runningReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()), project);
+        service.read(project, SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Running> runningReadWrapper) {
+    public void onReaded(List<Running> runningsFromWS) {
         runnings.clear();
-        runnings.addAll(runningReadWrapper.getWrapped());
+        runnings.addAll(runningsFromWS);
         fillTabRunningsByYear();
     }
 
@@ -140,7 +140,11 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements IReadSer
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.project;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -27,21 +26,22 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ProjectsActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
+import com.sasd13.proadmin.ws.service.ProjectsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsFragment extends Fragment implements IReadServiceCaller<IReadWrapper<Project>> {
+public class ProjectsFragment extends Fragment implements ProjectsService.Caller {
 
     private ProjectsActivity parentActivity;
 
@@ -52,7 +52,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
     private List<Integer> years;
     private List<Project> projects;
 
-    private ProjectReadService projectReadService;
+    private ProjectsService service;
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -67,7 +67,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
         parentActivity = (ProjectsActivity) getActivity();
         years = new ArrayList<>();
         projects = new ArrayList<>();
-        projectReadService = new ProjectReadService(this);
+        service = new ProjectsService(this);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
     }
 
     private void readProjectsFromWS() {
-        projectReadService.readAll();
+        service.readAll();
     }
 
     private void buildTabProjects(View view) {
@@ -142,15 +142,15 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Project> projectReadWrapper) {
+    public void onReaded(List<Project> projectsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-        bindYears(projectReadWrapper.getWrapped());
-        bindProjects(projectReadWrapper.getWrapped());
+        bindYears(projectsFromWS);
+        bindProjects(projectsFromWS);
     }
 
     private void bindYears(List<Project> projectsFromWS) {
@@ -205,8 +205,12 @@ public class ProjectsFragment extends Fragment implements IReadServiceCaller<IRe
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

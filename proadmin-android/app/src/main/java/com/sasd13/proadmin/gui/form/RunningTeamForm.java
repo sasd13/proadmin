@@ -17,8 +17,6 @@ import com.sasd13.proadmin.util.builder.AcademicLevelsCodesBuilder;
 import com.sasd13.proadmin.util.builder.member.TeamsNumbersBuilder;
 import com.sasd13.proadmin.util.builder.running.RunningsProjectsCodesBuilder;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
 /**
@@ -94,14 +92,6 @@ public class RunningTeamForm extends Form {
         bindTeams(teamsToBind);
 
         modelTeam.setValue(Finder.indexOfTeam(team.getNumber(), teams));
-    }
-
-    public int getYear() throws FormException {
-        if (!StringUtils.isNumeric(modelYear.getValue())) {
-            throw new FormException(context, R.string.form_runningteam_message_error_year);
-        }
-
-        return Integer.parseInt(modelYear.getValue());
     }
 
     public Running getRunning() throws FormException {

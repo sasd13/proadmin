@@ -1,11 +1,8 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws.service;
 
-import android.content.Context;
-
+import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.javaex.ws.ILoginWebService;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.caller.ILoginWebServiceCaller;
 import com.sasd13.proadmin.ws.rest.LogInRESTCallback;
 
 import java.util.List;
@@ -15,12 +12,15 @@ import java.util.List;
  */
 public class LogInService implements ILoginWebService<Teacher> {
 
-    private Context context;
-    private ILoginWebServiceCaller<Teacher> caller;
+    public interface Caller extends IWebServiceCaller {
+
+        void onLoggedIn(Teacher teacher);
+    }
+
+    private Caller caller;
     private LogInRESTCallback callback;
 
-    public LogInService(Context context, ILoginWebServiceCaller<Teacher> caller) {
-        this.context = context;
+    public LogInService(Caller caller) {
         this.caller = caller;
         callback = new LogInRESTCallback(this);
     }
@@ -35,12 +35,12 @@ public class LogInService implements ILoginWebService<Teacher> {
     }
 
     @Override
-    public void onLogIn(Teacher teacher) {
+    public void onLoggedIn(Teacher teacher) {
         caller.onLoggedIn(teacher);
     }
 
     @Override
     public void onError(List<String> errors) {
-        WebServiceUtils.handleErrors(context, caller, errors);
+        caller.onError(errors);
     }
 }

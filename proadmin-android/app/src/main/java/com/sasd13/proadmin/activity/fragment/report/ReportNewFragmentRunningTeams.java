@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,19 +20,20 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.ws.service.RunningTeamsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportNewFragmentRunningTeams extends Fragment implements IReadServiceCaller<IReadWrapper<RunningTeam>> {
+public class ReportNewFragmentRunningTeams extends Fragment implements RunningTeamsService.ReadCaller {
 
     private ReportsActivity parentActivity;
     private ReportNewFragment parentFragment;
@@ -44,7 +44,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     private RunningTeam runningTeam;
     private List<RunningTeam> runningTeams;
 
-    private RunningTeamReadService runningTeamReadService;
+    private RunningTeamsService service;
 
     public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
@@ -68,7 +68,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
 
         parentActivity = (ReportsActivity) getActivity();
         runningTeams = new ArrayList<>();
-        runningTeamReadService = new RunningTeamReadService(this);
+        service = new RunningTeamsService(this);
     }
 
     @Override
@@ -123,23 +123,22 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     public void onStart() {
         super.onStart();
 
-        parentFragment.setCurrentItemSubtitle();
         readRunningTeamsFromWS();
     }
 
     private void readRunningTeamsFromWS() {
-        runningTeamReadService.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
+        service.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<RunningTeam> runningTeamReadWrapper) {
+    public void onReaded(List<RunningTeam> runningTeamsFromWS) {
         swipeRefreshLayout.setRefreshing(false);
-        bindRunningTeams(runningTeamReadWrapper.getWrapped());
+        bindRunningTeams(runningTeamsFromWS);
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeamFromWS) {
@@ -175,8 +174,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements IReadServ
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

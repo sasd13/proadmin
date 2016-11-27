@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +12,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
+import com.sasd13.proadmin.ws.service.LeadEvaluationsService;
 
-public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IManageServiceCaller<LeadEvaluation> {
+import java.util.List;
+
+public class ReportDetailsFragmentLeadEvaluation extends Fragment implements LeadEvaluationsService.ManageCaller {
 
     private ReportsActivity parentActivity;
 
@@ -34,7 +38,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IMa
 
     private Report report;
 
-    private LeadEvaluationManageService leadEvaluationManageService;
+    private LeadEvaluationsService service;
 
     public static ReportDetailsFragmentLeadEvaluation newInstance(Report report) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
@@ -50,7 +54,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IMa
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        leadEvaluationManageService = new LeadEvaluationManageService(this);
+        service = new LeadEvaluationsService(this);
     }
 
     @Override
@@ -112,28 +116,43 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements IMa
     }
 
     private void updateTeam() {
-        leadEvaluationManageService.update(leadEvaluationForm, report.getLeadEvaluation());
+        try {
+            LeadEvaluation leadEvaluation = getLeadEvaluationFromForm();
+
+            leadEvaluation.setReport(report);
+            service.update(leadEvaluation, report.getLeadEvaluation());
+        } catch (FormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private LeadEvaluation getLeadEvaluationFromForm() throws FormException {
+        return new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(LeadEvaluation leadEvaluation) {
+    public void onCreated() {
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

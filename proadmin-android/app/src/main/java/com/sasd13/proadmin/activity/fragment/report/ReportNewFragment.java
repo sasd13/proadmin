@@ -2,6 +2,7 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -12,9 +13,14 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.service.ReportsService;
 
-public class ReportNewFragment extends Fragment {
+import java.util.List;
+
+public class ReportNewFragment extends Fragment implements ReportsService.ManageCaller {
 
     private ReportsActivity parentActivity;
 
@@ -22,6 +28,8 @@ public class ReportNewFragment extends Fragment {
     private ReportNewPagerFragmentFactory pagerFragmentFactory;
 
     private RunningTeam runningTeam;
+
+    private ReportsService service;
 
     public static ReportNewFragment newInstance() {
         return new ReportNewFragment();
@@ -47,6 +55,7 @@ public class ReportNewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         parentActivity = (ReportsActivity) getActivity();
+        service = new ReportsService(this);
     }
 
     @Override
@@ -84,15 +93,41 @@ public class ReportNewFragment extends Fragment {
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 
-    public void setCurrentItemSubtitle() {
-        parentActivity.getSupportActionBar().setSubtitle(pagerFragmentFactory.getSubtitle(pager.getCurrentItem()));
-    }
-
     public void backward() {
         pager.backward();
     }
 
     public void forward() {
         pager.forward();
+    }
+
+    public void createReport(Report report) {
+        service.create(report);
+    }
+
+    @Override
+    public void onWaiting() {
+    }
+
+    @Override
+    public void onCreated() {
+        parentActivity.listReports();
+    }
+
+    @Override
+    public void onUpdated() {
+    }
+
+    @Override
+    public void onDeleted() {
+    }
+
+    @Override
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

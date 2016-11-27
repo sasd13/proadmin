@@ -45,7 +45,7 @@ public class LogInRESTCallback extends RESTCallback {
     public void onLoad() {
         switch (taskType) {
             case TASKTYPE_LOGIN:
-                webService.onPreExecute();
+                service.onPreExecute();
                 break;
         }
     }
@@ -64,7 +64,7 @@ public class LogInRESTCallback extends RESTCallback {
 
     private void onLogInTaskSucceeded() {
         if (!logInTask.getResponseErrors().isEmpty()) {
-            webService.onError(logInTask.getResponseErrors());
+            service.onError(logInTask.getResponseErrors());
         } else {
             readTeacher();
         }
@@ -83,10 +83,10 @@ public class LogInRESTCallback extends RESTCallback {
 
     private void onReadTaskSucceeded() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            webService.onError(readTask.getResponseErrors());
+            service.onError(readTask.getResponseErrors());
         } else {
             try {
-                ((ILoginWebService) webService).onLogIn(readTask.get().get(0));
+                ((ILoginWebService) service).onLoggedIn(readTask.get().get(0));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

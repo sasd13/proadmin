@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +17,17 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
+import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.service.IndividualEvaluationsService;
 
-public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
+import java.util.List;
+
+public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements IndividualEvaluationsService.ManageCaller {
 
     private ReportsActivity parentActivity;
 
@@ -33,7 +35,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private Report report;
 
-    private IndividualEvaluationsManageService individualEvaluationsManageService;
+    private IndividualEvaluationsService service;
 
     public static ReportDetailsFragmentIndividualEvaluations newInstance(Report report) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
@@ -49,7 +51,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        individualEvaluationsManageService = new IndividualEvaluationsManageService(this);
+        service = new IndividualEvaluationsService(this);
     }
 
     @Override
@@ -110,28 +112,36 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     }
 
     private void updateTeam() {
-        individualEvaluationsManageService.update(individualEvaluationsForm, report.getIndividualEvaluations());
+        try {
+            service.update(individualEvaluationsForm.getIndividualEvaluations(), report.getIndividualEvaluations());
+        } catch (IndividualEvaluationsFormException e) {
+            displayError(e.getMessage());
+        }
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(IndividualEvaluation individualEvaluation) {
+    public void onCreated() {
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

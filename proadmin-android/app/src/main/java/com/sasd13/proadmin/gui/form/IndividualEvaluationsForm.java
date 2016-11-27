@@ -12,6 +12,7 @@ import com.sasd13.proadmin.util.Constants;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class IndividualEvaluationsForm extends Form {
 
     private DecimalFormat formatter;
     private Map<String, TextItemModel> modelsMarks;
+    private List<IndividualEvaluation> individualEvaluations;
 
     public IndividualEvaluationsForm(Context context) {
         super(context);
@@ -32,6 +34,8 @@ public class IndividualEvaluationsForm extends Form {
     }
 
     public void bindIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        this.individualEvaluations = individualEvaluations;
+
         TextItemModel modelMark;
 
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
@@ -44,20 +48,30 @@ public class IndividualEvaluationsForm extends Form {
         }
     }
 
-    public Map<String, Float> getMarks() throws IndividualEvaluationsFormException {
-        Map<String, Float> studentsMarks = new HashMap<>();
+    public List<IndividualEvaluation> getIndividualEvaluations() throws IndividualEvaluationsFormException {
+        List<IndividualEvaluation> individualEvaluationsFromForm = new ArrayList<>();
+
+        IndividualEvaluation individualEvaluationFromForm;
 
         for (Map.Entry<String, TextItemModel> entry : modelsMarks.entrySet()) {
-            try {
-                studentsMarks.put(entry.getKey(), formatter.parse(entry.getValue().getValue()).floatValue());
-            } catch (ParseException e) {
-                throw new IndividualEvaluationsFormException(
-                        context,
-                        R.string.form_individualevaluation_message_error_mark,
-                        entry.getKey());
+            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+                if (individualEvaluation.getStudent().getNumber().equals(entry.getKey())) {
+                    try {
+                        individualEvaluationFromForm = new IndividualEvaluation();
+
+                        individualEvaluationFromForm.setReport(individualEvaluation.getReport());
+                        individualEvaluationFromForm.setStudent(individualEvaluation.getStudent());
+                        individualEvaluationFromForm.setMark(formatter.parse(entry.getValue().getValue()).floatValue());
+                    } catch (ParseException e) {
+                        throw new IndividualEvaluationsFormException(
+                                context,
+                                R.string.form_individualevaluation_message_error_mark,
+                                entry.getKey());
+                    }
+                }
             }
         }
 
-        return studentsMarks;
+        return individualEvaluationsFromForm;
     }
 }

@@ -3,7 +3,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -14,19 +13,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
+import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
+import com.sasd13.proadmin.ws.service.ReportsService;
 
-public class ReportDetailsFragmentInfos extends Fragment implements IManageServiceCaller<Report> {
+import java.util.List;
+
+public class ReportDetailsFragmentInfos extends Fragment implements ReportsService.ManageCaller {
 
     private ReportsActivity parentActivity;
 
@@ -34,7 +38,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
 
     private Report report;
 
-    private ReportManageService reportManageService;
+    private ReportsService service;
 
     public static ReportDetailsFragmentInfos newInstance(Report report) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
@@ -50,7 +54,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        reportManageService = new ReportManageService(this);
+        service = new ReportsService(this);
     }
 
     @Override
@@ -107,7 +111,15 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
     }
 
     private void updateTeam() {
-        reportManageService.update(reportForm, report);
+        try {
+            service.update(getReportFromForm(), report);
+        } catch (FormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private Report getReportFromForm() throws FormException {
+        return new ReportFromFormBuilder(reportForm).build();
     }
 
     private void deleteTeam() {
@@ -118,32 +130,36 @@ public class ReportDetailsFragmentInfos extends Fragment implements IManageServi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        reportManageService.delete(report);
+                        service.delete(report);
                     }
                 });
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onCreateSucceeded(Report report) {
+    public void onCreated() {
     }
 
     @Override
-    public void onUpdateSucceeded() {
+    public void onUpdated() {
         Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSucceeded() {
+    public void onDeleted() {
         Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
         parentActivity.listReports();
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

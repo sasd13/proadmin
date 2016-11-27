@@ -2,8 +2,6 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,14 +16,12 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IManageServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 
-public class ReportNewFragmentIndividualEvaluations extends Fragment implements IManageServiceCaller<IndividualEvaluation> {
+public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
     private ReportsActivity parentActivity;
     private ReportNewFragment parentFragment;
@@ -33,8 +29,6 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
     private IndividualEvaluationsForm individualEvaluationsForm;
 
     private Report report;
-
-    private IndividualEvaluationsManageService individualEvaluationsManageService;
 
     public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment, Report report) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
@@ -51,7 +45,6 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
         setHasOptionsMenu(true);
 
         parentActivity = (ReportsActivity) getActivity();
-        individualEvaluationsManageService = new IndividualEvaluationsManageService(this);
     }
 
     @Override
@@ -102,7 +95,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateTeam();
+                createIndividualEvaluations();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -111,36 +104,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
         return true;
     }
 
-    private void updateTeam() {
-        individualEvaluationsManageService.update(individualEvaluationsForm, report.getIndividualEvaluations());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentFragment.setCurrentItemSubtitle();
-    }
-
-    @Override
-    public void onLoad() {
-    }
-
-    @Override
-    public void onCreateSucceeded(IndividualEvaluation individualEvaluation) {
-    }
-
-    @Override
-    public void onUpdateSucceeded() {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleteSucceeded() {
-    }
-
-    @Override
-    public void onError(@StringRes int message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    private void createIndividualEvaluations() {
+        //TODO
     }
 }

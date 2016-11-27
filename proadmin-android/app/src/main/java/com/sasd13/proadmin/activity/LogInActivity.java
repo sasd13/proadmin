@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.activity;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,14 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
-import com.sasd13.androidex.ws.ILoginServiceCaller;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.service.LogInService;
+import com.sasd13.proadmin.ws.service.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.WebServiceUtils;
 
-public class LogInActivity extends AppCompatActivity implements ILoginServiceCaller<Teacher> {
+import java.util.List;
+
+public class LogInActivity extends AppCompatActivity implements LogInService.Caller {
 
     private static class LogInForm {
         EditText editTextNumber, editTextPassword;
@@ -74,20 +75,20 @@ public class LogInActivity extends AppCompatActivity implements ILoginServiceCal
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
         waitDialog = new WaitDialog(this);
         waitDialog.show();
     }
 
     @Override
-    public void onLogInSucceeded(Teacher teacher) {
+    public void onLoggedIn(Teacher teacherFromWS) {
         waitDialog.dismiss();
-        SessionHelper.logIn(this, teacher);
+        SessionHelper.logIn(this, teacherFromWS);
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
         waitDialog.dismiss();
-        Snackbar.make(contentView, message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(contentView, WebServiceUtils.handleErrors(this, errors), Snackbar.LENGTH_LONG).show();
     }
 }

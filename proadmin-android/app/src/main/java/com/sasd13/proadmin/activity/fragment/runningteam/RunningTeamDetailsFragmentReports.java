@@ -2,7 +2,6 @@ package com.sasd13.proadmin.activity.fragment.runningteam;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,18 +19,19 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.androidex.ws.IReadServiceCaller;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.RunningTeamsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.ws.service.ReportsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningTeamDetailsFragmentReports extends Fragment implements IReadServiceCaller<IReadWrapper<Report>> {
+public class RunningTeamDetailsFragmentReports extends Fragment implements ReportsService.ReadCaller {
 
     private RunningTeamsActivity parentActivity;
 
@@ -40,7 +40,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     private RunningTeam runningTeam;
     private List<Report> reports;
 
-    private ReportReadService reportReadService;
+    private ReportsService service;
 
     public static RunningTeamDetailsFragmentReports newInstance(RunningTeam runningTeam) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
@@ -55,7 +55,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
 
         parentActivity = (RunningTeamsActivity) getActivity();
         reports = new ArrayList<>();
-        reportReadService = new ReportReadService(this);
+        service = new ReportsService(this);
     }
 
     @Override
@@ -98,17 +98,17 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     }
 
     private void readReportsFromWS() {
-        reportReadService.read(runningTeam);
+        service.read(runningTeam);
     }
 
     @Override
-    public void onLoad() {
+    public void onWaiting() {
     }
 
     @Override
-    public void onReadSucceeded(IReadWrapper<Report> reportReadWrapper) {
+    public void onReaded(List<Report> reportsFromWS) {
         reports.clear();
-        reports.addAll(reportReadWrapper.getWrapped());
+        reports.addAll(reportsFromWS);
         fillTabReportsByTeam();
     }
 
@@ -139,7 +139,11 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements IRead
     }
 
     @Override
-    public void onError(@StringRes int message) {
+    public void onError(List<String> errors) {
+        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+    }
+
+    public void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }
