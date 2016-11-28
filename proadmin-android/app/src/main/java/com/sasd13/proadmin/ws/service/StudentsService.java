@@ -46,7 +46,7 @@ public class StudentsService implements ReadService.Caller<Student>, ManageServi
     }
 
     public void read(Team team) {
-        readServiceStudentTeams.clearHeader();
+        readServiceStudentTeams.clearHeaders();
         readServiceStudentTeams.clearParameters();
         readServiceStudentTeams.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
         readServiceStudentTeams.putParameters(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
@@ -103,13 +103,13 @@ public class StudentsService implements ReadService.Caller<Student>, ManageServi
     }
 
     @Override
-    public void onError(List<String> errors) {
+    public void onErrors(List<String> errors) {
         if (readCaller != null && manageCaller == null) {
-            readCaller.onError(errors);
+            readCaller.onErrors(errors);
         }
 
         if (readCaller == null && manageCaller != null) {
-            manageCaller.onError(errors);
+            manageCaller.onErrors(errors);
         }
     }
 }

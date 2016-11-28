@@ -11,9 +11,9 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.ws.service.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.service.LogInService;
 
 import java.util.List;
 
@@ -87,8 +87,12 @@ public class LogInActivity extends AppCompatActivity implements LogInService.Cal
     }
 
     @Override
-    public void onError(List<String> errors) {
+    public void onErrors(List<String> errors) {
         waitDialog.dismiss();
-        Snackbar.make(contentView, WebServiceUtils.handleErrors(this, errors), Snackbar.LENGTH_LONG).show();
+        displayError(WebServiceUtils.handleErrors(this, errors));
+    }
+
+    private void displayError(String message) {
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

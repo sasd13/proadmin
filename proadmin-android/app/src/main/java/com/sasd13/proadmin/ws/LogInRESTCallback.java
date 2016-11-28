@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.rest;
+package com.sasd13.proadmin.ws;
 
 import com.sasd13.androidex.ws.rest.callback.RESTCallback;
 import com.sasd13.androidex.ws.rest.task.LogInAsyncTask;
@@ -64,7 +64,7 @@ public class LogInRESTCallback extends RESTCallback {
 
     private void onLogInTaskSucceeded() {
         if (!logInTask.getResponseErrors().isEmpty()) {
-            service.onError(logInTask.getResponseErrors());
+            service.onErrors(logInTask.getResponseErrors());
         } else {
             readTeacher();
         }
@@ -76,14 +76,14 @@ public class LogInRESTCallback extends RESTCallback {
 
         parameters.clear();
         parameters.put(EnumParameter.NUMBER.getName(), new String[]{number});
-        readTask.setParameters(parameters);
+        readTask.setRequestParameters(parameters);
 
         readTask.execute();
     }
 
     private void onReadTaskSucceeded() {
         if (!readTask.getResponseErrors().isEmpty()) {
-            service.onError(readTask.getResponseErrors());
+            service.onErrors(readTask.getResponseErrors());
         } else {
             try {
                 ((ILoginWebService) service).onLoggedIn(readTask.get().get(0));

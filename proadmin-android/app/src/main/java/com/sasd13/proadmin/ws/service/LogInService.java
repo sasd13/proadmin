@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service;
 import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.javaex.ws.ILoginWebService;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.ws.rest.LogInRESTCallback;
+import com.sasd13.proadmin.ws.LogInRESTCallback;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class LogInService implements ILoginWebService<Teacher> {
     }
 
     @Override
-    public void onError(List<String> errors) {
-        caller.onError(errors);
+    public void onErrors(List<String> errors) {
+        caller.onErrors(errors);
     }
 }

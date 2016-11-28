@@ -33,11 +33,11 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         parametersTeams = new HashMap<>();
     }
 
-    public void addParameterRunnings(String parameter, String[] values) {
+    public void addParameterRunning(String parameter, String[] values) {
         parametersRunnings.put(parameter, values);
     }
 
-    public void addParametersTeams(String parameter, String[] values) {
+    public void addParameterTeam(String parameter, String[] values) {
         parametersTeams.put(parameter, values);
     }
 
@@ -45,7 +45,6 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         callback.putRequest(CODE_RUNNINGS, Running.class, WSResources.URL_WS_RUNNINGS, parametersRunnings);
         callback.putRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS, parametersTeams);
         callback.putRequest(CODE_ACADEMICLEVELS, AcademicLevel.class, WSResources.URL_WS_ACADEMICLEVELS);
-
         callback.read();
     }
 
@@ -64,8 +63,8 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
     }
 
     @Override
-    public void onError(List<String> errors) {
-        caller.onError(errors);
+    public void onErrors(List<String> errors) {
+        caller.onErrors(errors);
     }
 
     @Override

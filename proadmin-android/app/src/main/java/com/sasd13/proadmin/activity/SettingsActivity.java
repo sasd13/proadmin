@@ -141,7 +141,7 @@ public class SettingsActivity extends MotherActivity implements SettingsService.
     }
 
     @Override
-    public void onError(List<String> errors) {
+    public void onErrors(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
         displayError(WebServiceUtils.handleErrors(this, errors));
     }

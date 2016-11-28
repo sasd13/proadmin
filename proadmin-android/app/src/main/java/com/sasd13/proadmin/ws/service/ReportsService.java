@@ -32,14 +32,12 @@ public class ReportsService {
     }
 
     public void read(String teacherNumber) {
-        readService.clearHeader();
         readService.clearParameters();
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readService.read();
     }
 
     public void read(RunningTeam runningTeam) {
-        readService.clearHeader();
         readService.clearParameters();
         readService.putParameters(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
         readService.putParameters(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});

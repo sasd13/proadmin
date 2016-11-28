@@ -31,7 +31,6 @@ public class RunningsService {
     }
 
     public void read(Project project, String teacherNumber) {
-        readService.clearHeader();
         readService.clearParameters();
         readService.putParameters(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});

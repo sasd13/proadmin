@@ -139,11 +139,11 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Repor
     }
 
     @Override
-    public void onError(List<String> errors) {
+    public void onErrors(List<String> errors) {
         displayError(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    public void displayError(String message) {
+    private void displayError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

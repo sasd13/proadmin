@@ -25,6 +25,7 @@ public class SettingsService {
     }
 
     public void readTeacher(String number) {
+        readService.clearParameters();
         readService.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
         readService.read();
     }

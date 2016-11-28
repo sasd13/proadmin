@@ -31,7 +31,6 @@ public class RunningTeamsService {
     }
 
     public void read(String teacherNumber) {
-        readService.clearHeader();
         readService.clearParameters();
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readService.read();
