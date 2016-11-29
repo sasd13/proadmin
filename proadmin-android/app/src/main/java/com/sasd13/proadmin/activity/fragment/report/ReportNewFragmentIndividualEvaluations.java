@@ -2,6 +2,7 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,8 +19,12 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
+import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+
+import java.util.List;
 
 public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
@@ -105,6 +110,27 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     }
 
     private void createIndividualEvaluations() {
-        //TODO
+        try {
+            List<IndividualEvaluation> individualEvaluations = getIndividualEvaluationsFromForm();
+
+            report.getIndividualEvaluations().clear();
+
+            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+                individualEvaluation.setReport(report);
+                report.getIndividualEvaluations().add(individualEvaluation);
+            }
+
+            parentFragment.createReport(report);
+        } catch (IndividualEvaluationsFormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private List<IndividualEvaluation> getIndividualEvaluationsFromForm() throws IndividualEvaluationsFormException {
+        return individualEvaluationsForm.getIndividualEvaluations();
+    }
+
+    private void displayError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

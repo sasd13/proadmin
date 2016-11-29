@@ -46,15 +46,9 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
 
     private RunningTeamsService service;
 
-    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment, RunningTeam runningTeam) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
         fragment.parentFragment = parentFragment;
-
-        return fragment;
-    }
-
-    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment, RunningTeam runningTeam) {
-        ReportNewFragmentRunningTeams fragment = newInstance(parentFragment);
         fragment.runningTeam = runningTeam;
 
         return fragment;
@@ -107,7 +101,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report_new, menu);
+        inflater.inflate(R.menu.menu_report, menu);
     }
 
     @Override

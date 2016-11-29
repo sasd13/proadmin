@@ -101,6 +101,10 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
         pager.forward();
     }
 
+    public void setReport(Report report) {
+        pagerFragmentFactory.setReport(report);
+    }
+
     public void createReport(Report report) {
         service.create(report);
     }

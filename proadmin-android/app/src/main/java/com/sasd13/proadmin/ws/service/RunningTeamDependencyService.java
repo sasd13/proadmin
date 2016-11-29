@@ -33,12 +33,20 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         parametersTeams = new HashMap<>();
     }
 
-    public void addParameterRunning(String parameter, String[] values) {
+    public void addParameterRunnings(String parameter, String[] values) {
         parametersRunnings.put(parameter, values);
     }
 
-    public void addParameterTeam(String parameter, String[] values) {
+    public void clearParametersRunnings() {
+        parametersRunnings.clear();
+    }
+
+    public void addParameterTeams(String parameter, String[] values) {
         parametersTeams.put(parameter, values);
+    }
+
+    public void clearParametersTeams() {
+        parametersTeams.clear();
     }
 
     public void read() {

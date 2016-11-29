@@ -2,6 +2,7 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
@@ -18,8 +20,10 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.ReportsActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.ReportForm;
+import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
 
 public class ReportNewFragmentInfo extends Fragment {
 
@@ -76,7 +80,7 @@ public class ReportNewFragmentInfo extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report_new, menu);
+        inflater.inflate(R.menu.menu_report, menu);
     }
 
     @Override
@@ -102,6 +106,22 @@ public class ReportNewFragmentInfo extends Fragment {
     }
 
     private void createReport() {
-        //TODO
+        try {
+            Report report = getReportFromForm();
+
+            report.setRunningTeam(runningTeam);
+
+            parentFragment.forward();
+        } catch (FormException e) {
+            displayError(e.getMessage());
+        }
+    }
+
+    private Report getReportFromForm() throws FormException {
+        return new ReportFromFormBuilder(reportForm).build();
+    }
+
+    private void displayError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

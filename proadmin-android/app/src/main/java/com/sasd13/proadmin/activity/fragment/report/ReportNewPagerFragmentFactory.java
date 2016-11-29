@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
 /**
@@ -27,6 +28,7 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
     private Context context;
     private ReportNewFragment parentFragment;
     private RunningTeam runningTeam;
+    private Report report;
 
     public ReportNewPagerFragmentFactory(FragmentManager fragmentManager, Context context, ReportNewFragment parentFragment) {
         super(fragmentManager);
@@ -39,6 +41,10 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
         this.runningTeam = runningTeam;
     }
 
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -47,9 +53,9 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
             case 1:
                 return ReportNewFragmentInfo.newInstance(parentFragment, runningTeam);
             case 2:
-                //return ReportNewFragmentLeadEvaluation.newInstance();
+                return ReportNewFragmentLeadEvaluation.newInstance(parentFragment, report);
             case 3:
-                //return ReportNewFragmentIndividualEvaluations.newInstance();
+                return ReportNewFragmentIndividualEvaluations.newInstance(parentFragment, report);
             default:
                 return null;
         }
@@ -58,9 +64,5 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return COUNT;
-    }
-
-    public CharSequence getSubtitle(int position) {
-        return context.getResources().getString(SUBTITLES[position]);
     }
 }

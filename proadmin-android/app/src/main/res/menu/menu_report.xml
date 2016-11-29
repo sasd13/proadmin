@@ -1,0 +1,11 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:proadmin="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/menu_report_new_group_save">
+        <item android:id="@+id/menu_report_new_action_save"
+            android:icon="@drawable/ic_save_white_36dp"
+            android:title="@string/menuitem_action_done"
+            proadmin:showAsAction="ifRoom"/>
+    </group>
+</menu>
