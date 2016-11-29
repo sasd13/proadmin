@@ -42,9 +42,9 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
     }
 
     public void read() {
-        callback.putRequest(CODE_RUNNINGS, Running.class, WSResources.URL_WS_RUNNINGS, parametersRunnings);
-        callback.putRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS, parametersTeams);
-        callback.putRequest(CODE_ACADEMICLEVELS, AcademicLevel.class, WSResources.URL_WS_ACADEMICLEVELS);
+        callback.addRequest(CODE_RUNNINGS, Running.class, WSResources.URL_WS_RUNNINGS, parametersRunnings);
+        callback.addRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS, parametersTeams);
+        callback.addRequest(CODE_ACADEMICLEVELS, AcademicLevel.class, WSResources.URL_WS_ACADEMICLEVELS);
         callback.read();
     }
 
@@ -63,12 +63,15 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
     }
 
     @Override
-    public void onErrors(List<String> errors) {
-        caller.onErrors(errors);
+    public void onErrors(List<String> list) {
+        caller.onErrors(list);
     }
 
     @Override
-    public void onExecutorError(int code) {
-        //TODO
+    public void onErrors(Map<String, List<String>> errors) {
+        for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+            caller.onErrors(entry.getValue());
+            return;
+        }
     }
 }
