@@ -100,7 +100,7 @@ public class SettingsActivity extends MotherActivity implements SettingsService.
         try {
             service.updateTeacher(getTeacherFromForm(), teacher);
         } catch (FormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -143,10 +143,10 @@ public class SettingsActivity extends MotherActivity implements SettingsService.
     @Override
     public void onErrors(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
-        displayError(WebServiceUtils.handleErrors(this, errors));
+        displayMessage(WebServiceUtils.handleErrors(this, errors));
     }
 
-    private void displayError(String error) {
+    private void displayMessage(String error) {
         Snackbar.make(contentView, error, Snackbar.LENGTH_SHORT).show();
     }
 }

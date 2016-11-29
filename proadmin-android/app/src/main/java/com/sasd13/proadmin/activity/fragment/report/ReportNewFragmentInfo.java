@@ -87,7 +87,6 @@ public class ReportNewFragmentInfo extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.setGroupVisible(R.id.menu_report_new_group_previous, true);
         menu.setGroupVisible(R.id.menu_report_new_group_next, true);
         menu.setGroupVisible(R.id.menu_report_new_group_save, false);
     }
@@ -95,7 +94,7 @@ public class ReportNewFragmentInfo extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_edit_action_save:
+            case R.id.menu_report_new_action_next:
                 createReport();
                 break;
             default:
@@ -113,7 +112,7 @@ public class ReportNewFragmentInfo extends Fragment {
 
             parentFragment.forward();
         } catch (FormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -121,7 +120,7 @@ public class ReportNewFragmentInfo extends Fragment {
         return new ReportFromFormBuilder(reportForm).build();
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

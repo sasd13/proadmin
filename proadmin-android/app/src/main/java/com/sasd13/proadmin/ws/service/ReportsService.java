@@ -2,8 +2,10 @@ package com.sasd13.proadmin.ws.service;
 
 import com.sasd13.androidex.ws.rest.service.ManageService;
 import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -32,13 +34,17 @@ public class ReportsService {
     }
 
     public void read(String teacherNumber) {
+        readService.clearHeaders();
         readService.clearParameters();
+        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readService.read();
     }
 
     public void read(RunningTeam runningTeam) {
+        readService.clearHeaders();
         readService.clearParameters();
+        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
         readService.putParameters(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
         readService.putParameters(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});

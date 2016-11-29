@@ -128,10 +128,10 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
 
     @Override
     public void onErrors(List<String> errors) {
-        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

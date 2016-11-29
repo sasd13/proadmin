@@ -86,20 +86,21 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_edit, menu);
+        inflater.inflate(R.menu.menu_report, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.findItem(R.id.menu_edit_action_delete).setVisible(false);
+        menu.setGroupVisible(R.id.menu_report_new_group_next, false);
+        menu.setGroupVisible(R.id.menu_report_new_group_save, true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_edit_action_save:
+            case R.id.menu_report_new_action_save:
                 createIndividualEvaluations();
                 break;
             default:
@@ -122,7 +123,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
             parentFragment.createReport(report);
         } catch (IndividualEvaluationsFormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -130,7 +131,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         return individualEvaluationsForm.getIndividualEvaluations();
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

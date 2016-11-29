@@ -122,7 +122,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Lea
             leadEvaluation.setReport(report);
             service.update(leadEvaluation, report.getLeadEvaluation());
         } catch (FormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -149,10 +149,10 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Lea
 
     @Override
     public void onErrors(List<String> errors) {
-        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

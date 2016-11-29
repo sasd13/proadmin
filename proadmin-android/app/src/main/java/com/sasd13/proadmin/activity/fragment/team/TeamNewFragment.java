@@ -106,7 +106,7 @@ public class TeamNewFragment extends Fragment implements TeamsService.ManageCall
         try {
             service.create(getTeamFromForm());
         } catch (FormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -142,10 +142,10 @@ public class TeamNewFragment extends Fragment implements TeamsService.ManageCall
 
     @Override
     public void onErrors(List<String> errors) {
-        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

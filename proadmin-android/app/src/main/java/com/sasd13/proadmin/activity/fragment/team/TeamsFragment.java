@@ -171,10 +171,10 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
     @Override
     public void onErrors(List<String> errors) {
         swipeRefreshLayout.setRefreshing(false);
-        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

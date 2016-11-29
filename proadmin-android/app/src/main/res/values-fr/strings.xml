@@ -108,4 +108,8 @@
     <string name="error_aaa_login_failed">Username/password not matched</string>
     <string name="error_ws_server_connection">Server connection error</string>
 
+    <!-- Menu -->
+    <string name="menuitem_action_save">Enregistrer</string>
+    <string name="menuitem_action_next">Suivant</string>
+
 </resources>

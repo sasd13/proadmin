@@ -5,7 +5,14 @@
     <group android:id="@+id/menu_report_new_group_save">
         <item android:id="@+id/menu_report_new_action_save"
             android:icon="@drawable/ic_save_white_36dp"
-            android:title="@string/menuitem_action_done"
-            proadmin:showAsAction="ifRoom"/>
+            android:title="@string/menuitem_action_save"
+            proadmin:showAsAction="always"/>
+    </group>
+
+    <group android:id="@+id/menu_report_new_group_next">
+        <item android:id="@+id/menu_report_new_action_next"
+            android:icon="@drawable/ic_navigate_next_white_36dp"
+            android:title="@string/menuitem_action_next"
+            proadmin:showAsAction="always"/>
     </group>
 </menu>

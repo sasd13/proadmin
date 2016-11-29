@@ -89,10 +89,10 @@ public class LogInActivity extends AppCompatActivity implements LogInService.Cal
     @Override
     public void onErrors(List<String> errors) {
         waitDialog.dismiss();
-        displayError(WebServiceUtils.handleErrors(this, errors));
+        displayMessage(WebServiceUtils.handleErrors(this, errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

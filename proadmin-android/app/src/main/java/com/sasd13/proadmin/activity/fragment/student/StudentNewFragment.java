@@ -112,7 +112,7 @@ public class StudentNewFragment extends Fragment implements StudentsService.Mana
         try {
             service.create(getStudentFromForm(), team);
         } catch (FormException e) {
-            displayError(e.getMessage());
+            displayMessage(e.getMessage());
         }
     }
 
@@ -147,10 +147,10 @@ public class StudentNewFragment extends Fragment implements StudentsService.Mana
 
     @Override
     public void onErrors(List<String> errors) {
-        displayError(WebServiceUtils.handleErrors(getContext(), errors));
+        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
     }
 
-    private void displayError(String message) {
+    private void displayMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }
