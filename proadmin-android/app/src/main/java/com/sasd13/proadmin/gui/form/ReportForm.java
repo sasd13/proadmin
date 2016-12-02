@@ -44,6 +44,7 @@ public class ReportForm extends Form {
 
         modelDateMeeting = new DateItemModel();
         modelDateMeeting.setLabel(context.getResources().getString(R.string.label_datemeeting));
+        modelDateMeeting.setValue(new LocalDate());
         holder.add(new RecyclerHolderPair(modelDateMeeting));
 
         modelComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);

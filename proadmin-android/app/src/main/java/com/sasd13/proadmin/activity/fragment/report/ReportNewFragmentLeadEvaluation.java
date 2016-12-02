@@ -19,7 +19,6 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -28,26 +27,21 @@ import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
 import com.sasd13.proadmin.ws.service.StudentsService;
 
 import java.util.List;
 
 public class ReportNewFragmentLeadEvaluation extends Fragment implements StudentsService.ReadCaller {
 
-    private ReportsActivity parentActivity;
     private ReportNewFragment parentFragment;
 
     private LeadEvaluationForm leadEvaluationForm;
 
-    private Report report;
-
     private StudentsService service;
 
-    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment, Report report) {
+    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
         fragment.parentFragment = parentFragment;
-        fragment.report = report;
 
         return fragment;
     }
@@ -58,7 +52,6 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
 
         setHasOptionsMenu(true);
 
-        parentActivity = (ReportsActivity) getActivity();
         service = new StudentsService(this);
     }
 
@@ -76,7 +69,6 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
-        bindFormWithLeadEvaluation();
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -88,16 +80,11 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
     }
 
-    private void bindFormWithLeadEvaluation() {
-        leadEvaluationForm.bindLeadEvaluation(report.getLeadEvaluation());
-        leadEvaluationForm.bindLeader(new StudentsOfReportBuilder(report).build(), report.getLeadEvaluation().getStudent());
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report, menu);
+        inflater.inflate(R.menu.menu_report_new, menu);
     }
 
     @Override
@@ -112,7 +99,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_report_new_action_next:
-                createLeadEvaluation();
+                editLeadEvaluation();
+                goForward();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -121,14 +109,9 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         return true;
     }
 
-    private void createLeadEvaluation() {
+    private void editLeadEvaluation() {
         try {
-            LeadEvaluation leadEvaluation = getLeadEvaluationFromForm();
-
-            leadEvaluation.setReport(report);
-            report.setLeadEvaluation(leadEvaluation);
-
-            parentFragment.forward();
+            editLeadEvaluationWithForm(getLeadEvaluationFromForm());
         } catch (FormException e) {
             displayMessage(e.getMessage());
         }
@@ -138,11 +121,22 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         return new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
     }
 
+    private void editLeadEvaluationWithForm(LeadEvaluation leadEvaluationFromForm) {
+        Report reportToCreate = parentFragment.getReportToCreate();
+
+        leadEvaluationFromForm.setReport(reportToCreate);
+        reportToCreate.setLeadEvaluation(leadEvaluationFromForm);
+    }
+
+    private void goForward() {
+        parentFragment.forward();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
-        service.read(report.getRunningTeam().getTeam());
+        service.read(parentFragment.getReportToCreate().getRunningTeam().getTeam());
     }
 
     @Override
@@ -151,8 +145,10 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
 
     @Override
     public void onReaded(List<StudentTeam> studentTeams) {
+        Report reportToCreate = parentFragment.getReportToCreate();
+
         leadEvaluationForm.bindLeader(new StudentsFromStudentTeamBuilder(studentTeams).build());
-        report.setIndividualEvaluations(new IndividualEvaluationsBuilder(report, studentTeams).build());
+        reportToCreate.setIndividualEvaluations(new IndividualEvaluationsBuilder(reportToCreate, studentTeams).build());
     }
 
     @Override

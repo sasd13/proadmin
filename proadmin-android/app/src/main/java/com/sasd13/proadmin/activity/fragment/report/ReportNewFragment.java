@@ -16,6 +16,7 @@ import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.ws.service.ReportsService;
 
 import java.util.List;
@@ -25,29 +26,27 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
     private ReportsActivity parentActivity;
 
     private Pager pager;
-    private ReportNewPagerFragmentFactory pagerFragmentFactory;
 
-    private RunningTeam runningTeam;
+    private Report reportToCreate;
 
     private ReportsService service;
 
     public static ReportNewFragment newInstance() {
-        return new ReportNewFragment();
-    }
-
-    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
-        ReportNewFragment fragment = newInstance();
-        fragment.setRunningTeam(runningTeam);
+        ReportNewFragment fragment = new ReportNewFragment();
+        fragment.reportToCreate = new DefaultReportBuilder().build();
 
         return fragment;
     }
 
-    public void setRunningTeam(RunningTeam runningTeam) {
-        this.runningTeam = runningTeam;
+    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
+        ReportNewFragment fragment = newInstance();
+        fragment.reportToCreate.setRunningTeam(runningTeam);
 
-        if (pagerFragmentFactory != null) {
-            pagerFragmentFactory.setRunningTeam(runningTeam);
-        }
+        return fragment;
+    }
+
+    public Report getReportToCreate() {
+        return reportToCreate;
     }
 
     @Override
@@ -75,15 +74,10 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
     }
 
     private void buildPager(View view) {
-        pagerFragmentFactory = new ReportNewPagerFragmentFactory(getChildFragmentManager(), getContext(), this);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_viewpager);
-        pager = new Pager(viewPager, pagerFragmentFactory);
+        pager = new Pager(viewPager, new ReportNewPagerFragmentFactory(getChildFragmentManager(), this));
 
         parentActivity.setPager(pager);
-
-        if (runningTeam != null) {
-            pagerFragmentFactory.setRunningTeam(runningTeam);
-        }
     }
 
     @Override
@@ -93,20 +87,14 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
         parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 
-    public void backward() {
-        pager.backward();
-    }
-
     public void forward() {
-        pager.forward();
+        if (reportToCreate.getRunningTeam() != null) {
+            pager.forward();
+        }
     }
 
-    public void setReport(Report report) {
-        pagerFragmentFactory.setReport(report);
-    }
-
-    public void createReport(Report report) {
-        service.create(report);
+    public void createReport() {
+        service.create(reportToCreate);
     }
 
     @Override

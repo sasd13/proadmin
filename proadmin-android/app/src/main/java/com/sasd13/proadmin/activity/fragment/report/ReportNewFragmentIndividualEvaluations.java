@@ -18,7 +18,6 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
@@ -28,17 +27,13 @@ import java.util.List;
 
 public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
-    private ReportsActivity parentActivity;
     private ReportNewFragment parentFragment;
 
     private IndividualEvaluationsForm individualEvaluationsForm;
 
-    private Report report;
-
-    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment, Report report) {
+    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
         fragment.parentFragment = parentFragment;
-        fragment.report = report;
 
         return fragment;
     }
@@ -48,8 +43,6 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (ReportsActivity) getActivity();
     }
 
     @Override
@@ -79,14 +72,14 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     }
 
     private void bindFormWithIndividualEvaluations() {
-        individualEvaluationsForm.bindIndividualEvaluations(report.getIndividualEvaluations());
+        individualEvaluationsForm.bindIndividualEvaluations(parentFragment.getReportToCreate().getIndividualEvaluations());
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report, menu);
+        inflater.inflate(R.menu.menu_report_new, menu);
     }
 
     @Override
@@ -101,7 +94,8 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_report_new_action_save:
-                createIndividualEvaluations();
+                editIndividualEvaluations();
+                createReport();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -110,18 +104,9 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         return true;
     }
 
-    private void createIndividualEvaluations() {
+    private void editIndividualEvaluations() {
         try {
-            List<IndividualEvaluation> individualEvaluations = getIndividualEvaluationsFromForm();
-
-            report.getIndividualEvaluations().clear();
-
-            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-                individualEvaluation.setReport(report);
-                report.getIndividualEvaluations().add(individualEvaluation);
-            }
-
-            parentFragment.createReport(report);
+            editIndividualEvaluationsWithForm(getIndividualEvaluationsFromForm());
         } catch (IndividualEvaluationsFormException e) {
             displayMessage(e.getMessage());
         }
@@ -129,6 +114,21 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
     private List<IndividualEvaluation> getIndividualEvaluationsFromForm() throws IndividualEvaluationsFormException {
         return individualEvaluationsForm.getIndividualEvaluations();
+    }
+
+    private void editIndividualEvaluationsWithForm(List<IndividualEvaluation> individualEvaluationsFromForm) {
+        Report reportToCreate = parentFragment.getReportToCreate();
+
+        reportToCreate.getIndividualEvaluations().clear();
+
+        for (IndividualEvaluation individualEvaluationFromForm : individualEvaluationsFromForm) {
+            individualEvaluationFromForm.setReport(reportToCreate);
+            reportToCreate.getIndividualEvaluations().add(individualEvaluationFromForm);
+        }
+    }
+
+    private void createReport() {
+        parentFragment.createReport();
     }
 
     private void displayMessage(String message) {

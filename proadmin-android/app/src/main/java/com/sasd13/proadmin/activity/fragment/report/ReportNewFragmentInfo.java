@@ -19,25 +19,19 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
 
 public class ReportNewFragmentInfo extends Fragment {
 
-    private ReportsActivity parentActivity;
     private ReportNewFragment parentFragment;
 
     private ReportForm reportForm;
 
-    private RunningTeam runningTeam;
-
-    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment, RunningTeam runningTeam) {
+    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
         fragment.parentFragment = parentFragment;
-        fragment.runningTeam = runningTeam;
 
         return fragment;
     }
@@ -47,8 +41,6 @@ public class ReportNewFragmentInfo extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (ReportsActivity) getActivity();
     }
 
     @Override
@@ -65,6 +57,7 @@ public class ReportNewFragmentInfo extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
+        bindReportWithForm();
     }
 
     private void buildFormRunning(View view) {
@@ -76,11 +69,15 @@ public class ReportNewFragmentInfo extends Fragment {
         RecyclerHelper.addAll(form, reportForm.getHolder());
     }
 
+    private void bindReportWithForm() {
+        reportForm.bindReport(parentFragment.getReportToCreate());
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report, menu);
+        inflater.inflate(R.menu.menu_report_new, menu);
     }
 
     @Override
@@ -95,7 +92,8 @@ public class ReportNewFragmentInfo extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_report_new_action_next:
-                createReport();
+                editReport();
+                goForward();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -104,13 +102,9 @@ public class ReportNewFragmentInfo extends Fragment {
         return true;
     }
 
-    private void createReport() {
+    private void editReport() {
         try {
-            Report report = getReportFromForm();
-
-            report.setRunningTeam(runningTeam);
-
-            parentFragment.forward();
+            editReportWithForm(getReportFromForm());
         } catch (FormException e) {
             displayMessage(e.getMessage());
         }
@@ -118,6 +112,19 @@ public class ReportNewFragmentInfo extends Fragment {
 
     private Report getReportFromForm() throws FormException {
         return new ReportFromFormBuilder(reportForm).build();
+    }
+
+    private void editReportWithForm(Report reportFromForm) {
+        Report reportToCreate = parentFragment.getReportToCreate();
+
+        reportToCreate.setNumber(reportFromForm.getNumber());
+        reportToCreate.setSession(reportFromForm.getSession());
+        reportToCreate.setDateMeeting(reportFromForm.getDateMeeting());
+        reportToCreate.setComment(reportFromForm.getComment());
+    }
+
+    private void goForward() {
+        parentFragment.forward();
     }
 
     private void displayMessage(String message) {

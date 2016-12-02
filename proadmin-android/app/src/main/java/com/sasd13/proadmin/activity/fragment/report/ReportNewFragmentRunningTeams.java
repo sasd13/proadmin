@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
@@ -21,7 +23,6 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.ReportsActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
@@ -35,21 +36,43 @@ import java.util.List;
 
 public class ReportNewFragmentRunningTeams extends Fragment implements RunningTeamsService.ReadCaller {
 
-    private ReportsActivity parentActivity;
+    private static class ActionSelectRunningTeam implements IAction {
+
+        private RunningTeamItemModel model;
+        private RunningTeam runningTeam;
+        private ReportNewFragment parentFragment;
+
+        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, ReportNewFragment parentFragment) {
+            this.model = model;
+            this.runningTeam = runningTeam;
+            this.parentFragment = parentFragment;
+        }
+
+        @Override
+        public void execute() {
+            if (model.isSelected()) {
+                model.setSelected(false);
+                parentFragment.getReportToCreate().setRunningTeam(null);
+            } else {
+                model.setSelected(true);
+                parentFragment.getReportToCreate().setRunningTeam(runningTeam);
+                parentFragment.forward();
+            }
+        }
+    }
+
     private ReportNewFragment parentFragment;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private Recycler runningTeamsTab;
 
-    private RunningTeam runningTeam;
     private List<RunningTeam> runningTeams;
 
     private RunningTeamsService service;
 
-    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment, RunningTeam runningTeam) {
+    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
         fragment.parentFragment = parentFragment;
-        fragment.runningTeam = runningTeam;
 
         return fragment;
     }
@@ -60,7 +83,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
 
         setHasOptionsMenu(true);
 
-        parentActivity = (ReportsActivity) getActivity();
         runningTeams = new ArrayList<>();
         service = new RunningTeamsService(this);
     }
@@ -101,7 +123,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_report, menu);
+        inflater.inflate(R.menu.menu_report_new, menu);
     }
 
     @Override
@@ -110,6 +132,23 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
 
         menu.setGroupVisible(R.id.menu_report_new_group_next, true);
         menu.setGroupVisible(R.id.menu_report_new_group_save, false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_report_new_action_next:
+                goForward();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    private void goForward() {
+        parentFragment.forward();
     }
 
     @Override
@@ -155,11 +194,11 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (this.runningTeam != null && Comparator.areTheSame(this.runningTeam, runningTeam)) {
+            if (parentFragment.getReportToCreate().getRunningTeam() != null && Comparator.areTheSame(parentFragment.getReportToCreate().getRunningTeam(), runningTeam)) {
                 model.setSelected(true);
             }
 
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(runningTeam, model, parentFragment));
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, parentFragment));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
