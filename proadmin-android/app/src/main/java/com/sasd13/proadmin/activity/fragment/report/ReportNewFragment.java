@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +73,10 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
     }
 
     private void buildPager(View view) {
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_viewpager);
-        pager = new Pager(viewPager, new ReportNewPagerFragmentFactory(getChildFragmentManager(), this));
+        pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
 
+        pager.setAdapter(new ReportNewPagerFragmentFactory(getChildFragmentManager(), this));
+        pager.setScrollable(false);
         parentActivity.setPager(pager);
     }
 
@@ -90,6 +90,8 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
     public void forward() {
         if (reportToCreate.getRunningTeam() != null) {
             pager.forward();
+        } else {
+            displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
         }
     }
 

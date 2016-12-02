@@ -2,13 +2,12 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,8 +49,6 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         service = new StudentsService(this);
     }
 
@@ -59,7 +56,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
         buildView(view);
 
@@ -69,44 +66,33 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
+        bindFormWithLeadEvaluation();
+        buildFloatingActionButton(view);
     }
 
     private void buildFormLeadEvaluation(View view) {
         leadEvaluationForm = new LeadEvaluationForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_report_new, menu);
+    private void bindFormWithLeadEvaluation() {
+        leadEvaluationForm.bindLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        menu.setGroupVisible(R.id.menu_report_new_group_next, true);
-        menu.setGroupVisible(R.id.menu_report_new_group_save, false);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_report_new_action_next:
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_navigate_next_white_48dp));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 editLeadEvaluation();
                 goForward();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
+            }
+        });
     }
 
     private void editLeadEvaluation() {

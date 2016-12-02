@@ -2,14 +2,13 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -81,8 +80,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         runningTeams = new ArrayList<>();
         service = new RunningTeamsService(this);
     }
@@ -91,7 +88,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv_w_srl, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
 
@@ -102,10 +99,11 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
         GUIHelper.colorTitles(view);
         buildSwipeRefreshLayout(view);
         buildTabRunningTeams(view);
+        buildFloatingActionButton(view);
     }
 
     private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_swiperefreshlayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -115,36 +113,19 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     }
 
     private void buildTabRunningTeams(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
+        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         runningTeamsTab.addDividerItemDecoration();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_report_new, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        menu.setGroupVisible(R.id.menu_report_new_group_next, true);
-        menu.setGroupVisible(R.id.menu_report_new_group_save, false);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_report_new_action_next:
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_navigate_next_white_48dp));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 goForward();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
+            }
+        });
     }
 
     private void goForward() {

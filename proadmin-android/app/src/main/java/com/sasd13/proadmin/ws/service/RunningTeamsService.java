@@ -2,7 +2,9 @@ package com.sasd13.proadmin.ws.service;
 
 import com.sasd13.androidex.ws.rest.service.ManageService;
 import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -31,7 +33,9 @@ public class RunningTeamsService {
     }
 
     public void read(String teacherNumber) {
+        readService.clearHeaders();
         readService.clearParameters();
+        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readService.read();
     }

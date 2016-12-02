@@ -2,13 +2,12 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,17 +36,10 @@ public class ReportNewFragmentInfo extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
         buildView(view);
 
@@ -58,12 +50,13 @@ public class ReportNewFragmentInfo extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
         bindReportWithForm();
+        buildFloatingActionButton(view);
     }
 
     private void buildFormRunning(View view) {
         reportForm = new ReportForm(getContext(), false);
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, reportForm.getHolder());
@@ -73,38 +66,23 @@ public class ReportNewFragmentInfo extends Fragment {
         reportForm.bindReport(parentFragment.getReportToCreate());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_report_new, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        menu.setGroupVisible(R.id.menu_report_new_group_next, true);
-        menu.setGroupVisible(R.id.menu_report_new_group_save, false);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_report_new_action_next:
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_navigate_next_white_48dp));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 editReport();
                 goForward();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
+            }
+        });
     }
 
     private void editReport() {
         try {
-            editReportWithForm(getReportFromForm());
+            Report reportFromForm = getReportFromForm();
+
+            editReportWithForm(reportFromForm);
         } catch (FormException e) {
             displayMessage(e.getMessage());
         }
@@ -118,6 +96,7 @@ public class ReportNewFragmentInfo extends Fragment {
         Report reportToCreate = parentFragment.getReportToCreate();
 
         reportToCreate.setNumber(reportFromForm.getNumber());
+
         reportToCreate.setSession(reportFromForm.getSession());
         reportToCreate.setDateMeeting(reportFromForm.getDateMeeting());
         reportToCreate.setComment(reportFromForm.getComment());

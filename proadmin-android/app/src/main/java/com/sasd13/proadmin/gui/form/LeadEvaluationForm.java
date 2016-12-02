@@ -94,7 +94,7 @@ public class LeadEvaluationForm extends Form {
     }
 
     public String getPlanningComment() {
-        return modelPlanningComment.getValue().trim();
+        return modelPlanningComment.getValue() != null ? modelCommunicationComment.getValue().trim() : null;
     }
 
     public float getCommunicationMark() throws FormException {
@@ -106,6 +106,6 @@ public class LeadEvaluationForm extends Form {
     }
 
     public String getCommunicationComment() {
-        return modelCommunicationComment.getValue().trim();
+        return modelCommunicationComment.getValue() != null ? modelCommunicationComment.getValue().trim() : null;
     }
 }

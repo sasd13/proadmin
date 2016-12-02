@@ -108,6 +108,7 @@
     <string name="exception_ws">Web service exception</string>
     <string name="error_aaa_login_failed">Username/password not matched</string>
     <string name="error_ws_server_connection">Server connection error</string>
+    <string name="error_no_runningteam_selected">No running team selected</string>
 
     <!-- Menu -->
     <string name="menuitem_action_save">Save</string>

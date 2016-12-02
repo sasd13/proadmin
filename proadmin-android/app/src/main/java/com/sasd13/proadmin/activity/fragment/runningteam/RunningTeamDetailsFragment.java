@@ -3,7 +3,6 @@ package com.sasd13.proadmin.activity.fragment.runningteam;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +51,11 @@ public class RunningTeamDetailsFragment extends Fragment {
     }
 
     private void buildPager(View view) {
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        Pager pager = new Pager(viewPager, new RunningTeamPagerFragmentFactory(getChildFragmentManager(), getContext(), runningTeam));
+        Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        tabsStrip.setViewPager(viewPager);
+        pager.setAdapter(new RunningTeamPagerFragmentFactory(getChildFragmentManager(), getContext(), runningTeam));
+        tabsStrip.setViewPager(pager);
         parentActivity.setPager(pager);
     }
 

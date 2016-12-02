@@ -2,7 +2,6 @@ package com.sasd13.proadmin.dao.running;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.sasd13.javaex.dao.DAOException;
@@ -37,22 +36,15 @@ public class ReportTransaction implements IJDBCTransaction {
 	public long insert(Connection connection) throws SQLException, DAOException {
 		long id = 0;
 
-		PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+		PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.NO_GENERATED_KEYS);
 
 		reportDAO.editPreparedStatementForInsert(preparedStatement, report);
 		preparedStatement.executeUpdate();
 
-		ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-		if (generatedKeys.next()) {
-			id = generatedKeys.getLong(1);
+		reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
 
-			reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
-
-			for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-				reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
-			}
-		} else {
-			throw new SQLException("Insert failed. No ID obtained");
+		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
+			reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
 		}
 
 		return id;

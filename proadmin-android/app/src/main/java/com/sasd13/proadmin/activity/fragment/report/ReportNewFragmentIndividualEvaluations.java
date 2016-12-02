@@ -2,13 +2,12 @@ package com.sasd13.proadmin.activity.fragment.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,17 +38,10 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
         buildView(view);
 
@@ -59,12 +51,13 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
+        buildFloatingActionButton(view);
     }
 
     private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
 
         bindFormWithIndividualEvaluations();
@@ -75,33 +68,16 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         individualEvaluationsForm.bindIndividualEvaluations(parentFragment.getReportToCreate().getIndividualEvaluations());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_report_new, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        menu.setGroupVisible(R.id.menu_report_new_group_next, false);
-        menu.setGroupVisible(R.id.menu_report_new_group_save, true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_report_new_action_save:
+    private void buildFloatingActionButton(View view) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_save_white_48dp));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 editIndividualEvaluations();
                 createReport();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
+            }
+        });
     }
 
     private void editIndividualEvaluations() {
