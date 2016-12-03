@@ -16,7 +16,7 @@ public class DAOManager {
 		if (prop.isEmpty()) {
 			prop.setProperty("user", AppProperties.getProperty(Names.WS_DB_USER));
 			prop.setProperty("password", AppProperties.getProperty(Names.WS_DB_PASSWORD));
-			//prop.setProperty("currentSchema", AppProperties.getProperty(Names.WS_DB_SCHEMA));
+			prop.setProperty("currentSchema", AppProperties.getProperty(Names.WS_DB_SCHEMA));
 		}
 
 		return new JDBCDAO(URL, prop);

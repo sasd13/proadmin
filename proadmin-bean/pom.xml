@@ -15,12 +15,4 @@
 	<name>proadmin-bean</name>
 	<url>http://maven.apache.org</url>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.sasd13.proadmin</groupId>
-			<artifactId>proadmin-bean</artifactId>
-			<version>0.1</version>
-		</dependency>
-	</dependencies>
-
 </project>
