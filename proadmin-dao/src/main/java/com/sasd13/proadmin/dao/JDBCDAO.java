@@ -8,6 +8,7 @@ package com.sasd13.proadmin.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -30,10 +31,11 @@ public class JDBCDAO extends DAO {
 
 	private static final Logger LOGGER = Logger.getLogger(JDBCDAO.class);
 
-	private String url, username, password;
+	private String url;
+	private Properties properties;
 	private Connection connection;
 
-	public JDBCDAO(String url, String username, String password) {
+	public JDBCDAO(String url, Properties properties) {
 		super(
 				new JDBCTeacherDAO(), 
 				new JDBCProjectDAO(), 
@@ -47,14 +49,13 @@ public class JDBCDAO extends DAO {
 		);
 
 		this.url = url;
-		this.username = username;
-		this.password = password;
+		this.properties = properties;
 	}
 
 	@Override
 	public void open() throws DAOException {
 		try {
-			connection = DriverManager.getConnection(url, username, password);
+			connection = DriverManager.getConnection(url, properties);
 
 			((JDBCSession<?>) teacherDAO).setConnection(connection);
 			((JDBCSession<?>) projectDAO).setConnection(connection);

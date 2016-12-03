@@ -6,8 +6,8 @@ import com.sasd13.proadmin.bean.member.Student;
 public interface IStudentDAO extends ISession<Student> {
 
 	String TABLE = "students";
-	String COLUMN_CODE = "code";
-	String COLUMN_FIRSTNAME = "firstname";
-	String COLUMN_LASTNAME = "lastname";
-	String COLUMN_EMAIL = "email";
+	String COLUMN_CODE = "_code";
+	String COLUMN_FIRSTNAME = "_firstname";
+	String COLUMN_LASTNAME = "_lastname";
+	String COLUMN_EMAIL = "_email";
 }

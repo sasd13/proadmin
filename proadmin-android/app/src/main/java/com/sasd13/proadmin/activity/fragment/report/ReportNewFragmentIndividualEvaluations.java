@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
@@ -74,25 +75,18 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editIndividualEvaluations();
-                createReport();
+                try {
+                    editIndividualEvaluationsWithForm();
+                    createReport();
+                } catch (FormException e) {
+                    displayMessage(e.getMessage());
+                }
             }
         });
     }
 
-    private void editIndividualEvaluations() {
-        try {
-            editIndividualEvaluationsWithForm(getIndividualEvaluationsFromForm());
-        } catch (IndividualEvaluationsFormException e) {
-            displayMessage(e.getMessage());
-        }
-    }
-
-    private List<IndividualEvaluation> getIndividualEvaluationsFromForm() throws IndividualEvaluationsFormException {
-        return individualEvaluationsForm.getIndividualEvaluations();
-    }
-
-    private void editIndividualEvaluationsWithForm(List<IndividualEvaluation> individualEvaluationsFromForm) {
+    private void editIndividualEvaluationsWithForm() throws IndividualEvaluationsFormException {
+        List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations();
         Report reportToCreate = parentFragment.getReportToCreate();
 
         reportToCreate.getIndividualEvaluations().clear();

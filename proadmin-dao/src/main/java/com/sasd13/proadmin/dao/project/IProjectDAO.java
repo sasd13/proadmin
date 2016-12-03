@@ -6,8 +6,8 @@ import com.sasd13.proadmin.bean.project.Project;
 public interface IProjectDAO extends ISession<Project> {
 
 	String TABLE = "projects";
-	String COLUMN_CODE = "code";
-	String COLUMN_DATECREATION = "datecreation";
-	String COLUMN_TITLE = "title";
-	String COLUMN_DESCRIPTION = "description";
+	String COLUMN_CODE = "_code";
+	String COLUMN_DATECREATION = "_datecreation";
+	String COLUMN_TITLE = "_title";
+	String COLUMN_DESCRIPTION = "_description";
 }

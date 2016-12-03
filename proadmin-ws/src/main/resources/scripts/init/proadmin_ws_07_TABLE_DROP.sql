@@ -1,4 +1,4 @@
-USE proadmin_ws;
+SET search_path TO proadmin_ws;
 
 DROP TABLE IF EXISTS individualevaluations;
 DROP TABLE IF EXISTS leadevaluations;
@@ -12,4 +12,4 @@ DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS teachers;
 DROP TABLE IF EXISTS projects;
 
-COMMIT;
+--COMMIT;

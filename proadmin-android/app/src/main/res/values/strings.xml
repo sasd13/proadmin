@@ -101,14 +101,14 @@
 
     <!-- Web service -->
     <string name="error_unknown">Unknown error</string>
-    <string name="exception_aaa">AAA exception</string>
-    <string name="exception_parsing_data">Data parsing exception</string>
-    <string name="exception_validating_data">Data validating exception</string>
-    <string name="exception_service">Service exception</string>
-    <string name="exception_ws">Web service exception</string>
+    <string name="exception_aaa">Authentication error</string>
+    <string name="exception_parsing_data">Data parsing error</string>
+    <string name="exception_validating_data">Data validating error</string>
+    <string name="exception_service">Service error</string>
+    <string name="exception_ws">Web service error</string>
     <string name="error_aaa_login_failed">Username/password not matched</string>
     <string name="error_ws_server_connection">Server connection error</string>
-    <string name="error_no_runningteam_selected">No running team selected</string>
+    <string name="error_no_runningteam_selected">Running team not selected</string>
 
     <!-- Menu -->
     <string name="menuitem_action_save">Save</string>

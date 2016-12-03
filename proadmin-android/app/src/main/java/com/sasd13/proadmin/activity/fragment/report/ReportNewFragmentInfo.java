@@ -72,30 +72,19 @@ public class ReportNewFragmentInfo extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editReport();
-                goForward();
+                try {
+                    editReportWithForm();
+                    goForward();
+                } catch (FormException e) {
+                    displayMessage(e.getMessage());
+                }
             }
         });
     }
 
-    private void editReport() {
-        try {
-            Report reportFromForm = getReportFromForm();
-
-            editReportWithForm(reportFromForm);
-        } catch (FormException e) {
-            displayMessage(e.getMessage());
-        }
-    }
-
-    private Report getReportFromForm() throws FormException {
-        return new ReportFromFormBuilder(reportForm).build();
-    }
-
-    private void editReportWithForm(Report reportFromForm) {
+    private void editReportWithForm() throws FormException {
+        Report reportFromForm = new ReportFromFormBuilder(reportForm).build();
         Report reportToCreate = parentFragment.getReportToCreate();
-
-        reportToCreate.setNumber(reportFromForm.getNumber());
 
         reportToCreate.setSession(reportFromForm.getSession());
         reportToCreate.setDateMeeting(reportFromForm.getDateMeeting());

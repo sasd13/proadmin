@@ -62,6 +62,8 @@ public class IndividualEvaluationsForm extends Form {
                         individualEvaluationFromForm.setReport(individualEvaluation.getReport());
                         individualEvaluationFromForm.setStudent(individualEvaluation.getStudent());
                         individualEvaluationFromForm.setMark(formatter.parse(entry.getValue().getValue()).floatValue());
+
+                        individualEvaluationsFromForm.add(individualEvaluationFromForm);
                     } catch (ParseException e) {
                         throw new IndividualEvaluationsFormException(
                                 context,

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -23,20 +24,20 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	private static final Logger LOGGER = Logger.getLogger(JDBCCredentialDAO.class);
 
-	private String url, username, password;
+	private String url;
+	private Properties properties;
 	private Map<String, String[]> parameters;
 
-	public JDBCCredentialDAO(String url, String username, String password) {
+	public JDBCCredentialDAO(String url, Properties properties) {
 		this.url = url;
-		this.username = username;
-		this.password = password;
+		this.properties = properties;
 		parameters = new HashMap<>();
 	}
 
 	@Override
 	public void open() throws DAOException {
 		try {
-			setConnection(DriverManager.getConnection(url, username, password));
+			setConnection(DriverManager.getConnection(url, properties));
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			throw new DAOException("Database connection error");

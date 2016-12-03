@@ -100,13 +100,13 @@
 
     <!-- Web service -->
     <string name="error_unknown">Erreur inconnue</string>
-    <string name="exception_aaa">Exception AAA</string>
-    <string name="exception_parsing_data">Exception parsing des données</string>
-    <string name="exception_validating_data">Exception validation des données</string>
-    <string name="exception_service">Exception de service</string>
-    <string name="exception_ws">Exception Web service</string>
-    <string name="error_aaa_login_failed">Username/password not matched</string>
-    <string name="error_ws_server_connection">Server connection error</string>
+    <string name="exception_aaa">Erreur d\'authentification</string>
+    <string name="exception_parsing_data">Erreur de parsing des données</string>
+    <string name="exception_validating_data">Erreur de validation des données</string>
+    <string name="exception_service">Erreur de service</string>
+    <string name="exception_ws">Erreur du web service</string>
+    <string name="error_aaa_login_failed">Erreur de correspondance identifiant/mot de passe</string>
+    <string name="error_ws_server_connection">Erreur de connection au serveur</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>
 
     <!-- Menu -->

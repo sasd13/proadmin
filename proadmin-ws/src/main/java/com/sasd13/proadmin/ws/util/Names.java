@@ -5,8 +5,10 @@ public interface Names {
 	// INFRA
 	String WS_DB_DRIVER = "ws_db_driver";
 	String WS_DB_URL = "ws_db_url";
-	String WS_DB_USERNAME = "ws_db_username";
+	String WS_DB_USER = "ws_db_user";
 	String WS_DB_PASSWORD = "ws_db_password";
+	String WS_DB_SCHEMA = "ws_db_schema";
+	String WS_DB_SSL = "ws_db_ssl";
 
 	// OPE
 	String WS_TRANSLATION_DIRECTORY_PATH = "ws_translation_directory_path";

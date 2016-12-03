@@ -6,10 +6,10 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 public interface ILeadEvaluationDAO extends ISession<LeadEvaluation> {
 
 	String TABLE = "leadevaluations";
-	String COLUMN_PLANNINGMARK = "planningmark";
-	String COLUMN_PLANNINGCOMMENT = "planningcomment";
-	String COLUMN_COMMUNICATIONMARK = "communicationmark";
-	String COLUMN_COMMUNICATIONCOMMENT = "communicationcomment";
-	String COLUMN_REPORT_CODE = "report_code";
-	String COLUMN_STUDENT_CODE = "student_code";
+	String COLUMN_PLANNINGMARK = "_planningmark";
+	String COLUMN_PLANNINGCOMMENT = "_planningcomment";
+	String COLUMN_COMMUNICATIONMARK = "_communicationmark";
+	String COLUMN_COMMUNICATIONCOMMENT = "_communicationcomment";
+	String COLUMN_REPORT_CODE = "_report_code";
+	String COLUMN_STUDENT_CODE = "_student_code";
 }

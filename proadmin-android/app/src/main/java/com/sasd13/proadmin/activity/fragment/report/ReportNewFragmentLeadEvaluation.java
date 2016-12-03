@@ -89,25 +89,18 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editLeadEvaluation();
-                goForward();
+                try {
+                    editLeadEvaluationWithForm();
+                    goForward();
+                } catch (FormException e) {
+                    displayMessage(e.getMessage());
+                }
             }
         });
     }
 
-    private void editLeadEvaluation() {
-        try {
-            editLeadEvaluationWithForm(getLeadEvaluationFromForm());
-        } catch (FormException e) {
-            displayMessage(e.getMessage());
-        }
-    }
-
-    private LeadEvaluation getLeadEvaluationFromForm() throws FormException {
-        return new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
-    }
-
-    private void editLeadEvaluationWithForm(LeadEvaluation leadEvaluationFromForm) {
+    private void editLeadEvaluationWithForm() throws FormException {
+        LeadEvaluation leadEvaluationFromForm = new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
         Report reportToCreate = parentFragment.getReportToCreate();
 
         leadEvaluationFromForm.setReport(reportToCreate);

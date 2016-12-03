@@ -6,5 +6,5 @@ import com.sasd13.proadmin.bean.AcademicLevel;
 public interface IAcademicLevelDAO extends ISession<AcademicLevel> {
 
 	String TABLE = "academicLevels";
-	String COLUMN_CODE = "code";
+	String COLUMN_CODE = "_code";
 }

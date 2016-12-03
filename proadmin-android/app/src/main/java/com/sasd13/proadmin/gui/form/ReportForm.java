@@ -53,6 +53,10 @@ public class ReportForm extends Form {
         holder.add(new RecyclerHolderPair(modelComment));
     }
 
+    public boolean isInModeEdit() {
+        return inModeEdit;
+    }
+
     public void bindReport(Report report) {
         if (inModeEdit) {
             modelNumber.setValue(String.valueOf(report.getNumber()));
@@ -88,6 +92,6 @@ public class ReportForm extends Form {
     }
 
     public String getComment() {
-        return modelComment.getValue();
+        return modelComment.getValue() != null ? modelComment.getValue().trim() : null;
     }
 }

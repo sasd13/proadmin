@@ -21,7 +21,10 @@ public class ReportFromFormBuilder implements IBuilderFromForm<Report> {
     public Report build() throws FormException {
         Report reportFromForm = new Report();
 
-        reportFromForm.setNumber(reportForm.getNumber());
+        if (reportForm.isInModeEdit()) {
+            reportFromForm.setNumber(reportForm.getNumber());
+        }
+
         reportFromForm.setDateMeeting(reportForm.getDateMeeting());
         reportFromForm.setSession(reportForm.getSession());
         reportFromForm.setComment(reportForm.getComment());
