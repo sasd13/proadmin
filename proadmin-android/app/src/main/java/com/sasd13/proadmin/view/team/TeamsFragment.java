@@ -22,7 +22,6 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 
@@ -30,12 +29,13 @@ import java.util.List;
 
 public class TeamsFragment extends Fragment {
 
+    private ITeamController controller;
     private List<Team> teams;
-
     private Recycler teamsTab;
 
-    public static TeamsFragment newInstance(List<Team> teams) {
+    public static TeamsFragment newInstance(ITeamController controller, List<Team> teams) {
         TeamsFragment fragment = new TeamsFragment();
+        fragment.controller = controller;
         fragment.teams = teams;
 
         return fragment;
@@ -76,7 +76,7 @@ public class TeamsFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TeamsActivity) getActivity()).newTeam();
+                controller.newTeam();
             }
         });
     }
@@ -96,7 +96,7 @@ public class TeamsFragment extends Fragment {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    ((TeamsActivity) getActivity()).showTeam(team);
+                    controller.showTeam(team);
                 }
             });
 

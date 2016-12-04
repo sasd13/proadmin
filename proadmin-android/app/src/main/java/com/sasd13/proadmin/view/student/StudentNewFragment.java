@@ -18,20 +18,21 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
 
 public class StudentNewFragment extends Fragment {
 
+    private IStudentController controller;
     private Team team;
-
     private StudentForm studentForm;
 
-    public static StudentNewFragment newInstance(Team team) {
+    public static StudentNewFragment newInstance(IStudentController controller, Team team) {
         StudentNewFragment fragment = new StudentNewFragment();
+        fragment.controller = controller;
         fragment.team = team;
 
         return fragment;
@@ -100,9 +101,9 @@ public class StudentNewFragment extends Fragment {
         try {
             Student student = new StudentFromFormBuilder(studentForm).build();
 
-            ((TeamsActivity) getActivity()).createStudent(student, team);
+            controller.createStudent(student, team);
         } catch (FormException e) {
-            ((TeamsActivity) getActivity()).displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
     }
 
@@ -110,6 +111,6 @@ public class StudentNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
     }
 }

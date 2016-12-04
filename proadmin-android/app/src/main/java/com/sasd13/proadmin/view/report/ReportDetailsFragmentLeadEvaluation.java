@@ -25,17 +25,17 @@ import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.builder.running.StudentsOfReportBuilder;
-import com.sasd13.proadmin.ws.service.LeadEvaluationsService;
+import com.sasd13.proadmin.ws.service.LeadEvaluationService;
 
 import java.util.List;
 
-public class ReportDetailsFragmentLeadEvaluation extends Fragment implements LeadEvaluationsService.ManageCaller {
+public class ReportDetailsFragmentLeadEvaluation extends Fragment implements LeadEvaluationService.ManageCaller {
 
     private LeadEvaluationForm leadEvaluationForm;
 
     private Report report;
 
-    private LeadEvaluationsService service;
+    private LeadEvaluationService service;
 
     public static ReportDetailsFragmentLeadEvaluation newInstance(Report report) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
@@ -50,7 +50,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Lea
 
         setHasOptionsMenu(true);
 
-        service = new LeadEvaluationsService(this);
+        service = new LeadEvaluationService(this);
     }
 
     @Override

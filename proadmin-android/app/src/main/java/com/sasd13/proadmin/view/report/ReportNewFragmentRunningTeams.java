@@ -28,12 +28,12 @@ import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.ws.service.RunningTeamsService;
+import com.sasd13.proadmin.ws.service.RunningTeamService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportNewFragmentRunningTeams extends Fragment implements RunningTeamsService.ReadCaller {
+public class ReportNewFragmentRunningTeams extends Fragment implements RunningTeamService.ReadCaller {
 
     private static class ActionSelectRunningTeam implements IAction {
 
@@ -67,7 +67,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
 
     private List<RunningTeam> runningTeams;
 
-    private RunningTeamsService service;
+    private RunningTeamService service;
 
     public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
@@ -81,7 +81,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
         super.onCreate(savedInstanceState);
 
         runningTeams = new ArrayList<>();
-        service = new RunningTeamsService(this);
+        service = new RunningTeamService(this);
     }
 
     @Override

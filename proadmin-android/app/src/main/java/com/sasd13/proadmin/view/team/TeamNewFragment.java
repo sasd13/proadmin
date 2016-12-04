@@ -18,17 +18,21 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
 
 public class TeamNewFragment extends Fragment {
 
+    private ITeamController controller;
     private TeamForm teamForm;
 
-    public static TeamNewFragment newInstance() {
-        return new TeamNewFragment();
+    public static TeamNewFragment newInstance(ITeamController controller) {
+        TeamNewFragment fragment = new TeamNewFragment();
+        fragment.controller = controller;
+
+        return fragment;
     }
 
     @Override
@@ -94,9 +98,9 @@ public class TeamNewFragment extends Fragment {
         try {
             Team team = new TeamFromFormBuilder(teamForm).build();
 
-            ((TeamsActivity) getActivity()).createTeam(team);
+            controller.createTeam(team);
         } catch (FormException e) {
-            ((TeamsActivity) getActivity()).displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
     }
 
@@ -104,7 +108,7 @@ public class TeamNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((TeamsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

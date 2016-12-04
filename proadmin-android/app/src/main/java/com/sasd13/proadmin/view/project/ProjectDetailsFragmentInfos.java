@@ -20,7 +20,6 @@ import com.sasd13.proadmin.gui.form.ProjectForm;
 public class ProjectDetailsFragmentInfos extends Fragment {
 
     private Project project;
-
     private ProjectForm projectForm;
 
     public static ProjectDetailsFragmentInfos newInstance(Project project) {

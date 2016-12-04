@@ -4,12 +4,11 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.controller.HomeActivity;
-import com.sasd13.proadmin.controller.ProjectsActivity;
-import com.sasd13.proadmin.controller.ReportsActivity;
-import com.sasd13.proadmin.controller.RunningTeamsActivity;
-import com.sasd13.proadmin.controller.SettingsActivity;
-import com.sasd13.proadmin.controller.TeamsActivity;
+import com.sasd13.proadmin.controller.project.ProjectController;
+import com.sasd13.proadmin.controller.report.ReportController;
+import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
+import com.sasd13.proadmin.controller.settings.SettingsController;
+import com.sasd13.proadmin.controller.team.TeamController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,28 +37,28 @@ public class Browser {
                     context.getResources().getString(R.string.activity_projects),
                     ContextCompat.getDrawable(context, R.drawable.ic_project_small),
                     ContextCompat.getColor(context, R.color.orange),
-                    ProjectsActivity.class
+                    ProjectController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.TEAMS,
                     context.getResources().getString(R.string.activity_teams),
                     ContextCompat.getDrawable(context, R.drawable.ic_team_small),
                     ContextCompat.getColor(context, R.color.green),
-                    TeamsActivity.class
+                    TeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.RUNNINGTEAMS,
                     context.getResources().getString(R.string.activity_runningteams),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.purple),
-                    RunningTeamsActivity.class
+                    RunningTeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.REPORTS,
                     context.getResources().getString(R.string.activity_reports),
                     ContextCompat.getDrawable(context, R.drawable.ic_report_small),
                     ContextCompat.getColor(context, R.color.blue),
-                    ReportsActivity.class
+                    ReportController.class
             ));
         }
 
@@ -73,7 +72,7 @@ public class Browser {
                     context.getResources().getString(R.string.activity_settings),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.brown),
-                    SettingsActivity.class
+                    SettingsController.class
             ));
             accountItems.add(new BrowserItemModel(
                     EnumBrowserItemType.LOGOUT,

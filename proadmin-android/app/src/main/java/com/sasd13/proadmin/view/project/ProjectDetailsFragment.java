@@ -11,23 +11,33 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 
 import java.util.List;
 
 public class ProjectDetailsFragment extends Fragment {
 
+    private IProjectController controller;
     private Project project;
     private List<Running> runnings;
+    private ProjectPagerFragmentFactory fragmentFactory;
 
-    public static ProjectDetailsFragment newInstance(Project project, List<Running> runnings) {
+    public static ProjectDetailsFragment newInstance(IProjectController controller, Project project) {
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
+        fragment.controller = controller;
         fragment.project = project;
-        fragment.runnings = runnings;
 
         return fragment;
+    }
+
+    public void setRunnings(List<Running> runnings) {
+        if (runnings != null) {
+            this.runnings = runnings;
+
+            fragmentFactory.setRunnings(runnings);
+        }
     }
 
     @Override
@@ -48,25 +58,26 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
+        fragmentFactory = new ProjectPagerFragmentFactory(getChildFragmentManager(), controller, project, getContext());
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ProjectPagerFragmentFactory(getChildFragmentManager(), getContext(), project, runnings));
+        pager.setAdapter(fragmentFactory);
         tabsStrip.setViewPager(pager);
-        ((ProjectsActivity) getActivity()).setPager(pager);
+        ((MainActivity) getActivity()).setPager(pager);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        ((ProjectsActivity) getActivity()).setPager(null);
+        ((MainActivity) getActivity()).setPager(null);
     }
 }

@@ -11,27 +11,27 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.RunningTeamsActivity;
+
+import java.util.List;
 
 public class RunningTeamDetailsFragment extends Fragment {
 
-    private RunningTeamsActivity parentActivity;
-
+    private IRunningTeamController controller;
     private RunningTeam runningTeam;
+    private RunningTeamDependencyWrapper dependencyWrapper;
+    private List<Report> reports;
 
-    public static RunningTeamDetailsFragment newInstance(RunningTeam runningTeam) {
+    public static RunningTeamDetailsFragment newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper, List<Report> reports) {
         RunningTeamDetailsFragment fragment = new RunningTeamDetailsFragment();
+        fragment.controller = controller;
         fragment.runningTeam = runningTeam;
+        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.reports = reports;
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        parentActivity = (RunningTeamsActivity) getActivity();
     }
 
     @Override
@@ -54,23 +54,23 @@ public class RunningTeamDetailsFragment extends Fragment {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new RunningTeamPagerFragmentFactory(getChildFragmentManager(), getContext(), runningTeam));
+        pager.setAdapter(new RunningTeamPagerFragmentFactory(getChildFragmentManager(), controller, getContext(), runningTeam, dependencyWrapper, reports));
         tabsStrip.setViewPager(pager);
-        parentActivity.setPager(pager);
+        ((MainActivity) getActivity()).setPager(pager);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
-        parentActivity.getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        parentActivity.setPager(null);
+        ((MainActivity) getActivity()).setPager(null);
     }
 }

@@ -3,10 +3,8 @@ package com.sasd13.proadmin.view.runningteam;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,35 +27,31 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.RunningTeamsActivity;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.running.RunningTeamsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningTeamYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.ws.service.RunningTeamsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunningTeamsFragment extends Fragment implements RunningTeamsService.ReadCaller {
+public class RunningTeamsFragment extends Fragment {
 
-    private RunningTeamsActivity parentActivity;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private IRunningTeamController controller;
     private Spin spinYears;
     private Recycler runningTeamsTab;
-
-    private List<Integer> years;
     private List<RunningTeam> runningTeams;
+    private List<Integer> years;
 
-    private RunningTeamsService service;
+    public static RunningTeamsFragment newInstance(IRunningTeamController controller, List<RunningTeam> runningTeams) {
+        RunningTeamsFragment fragment = new RunningTeamsFragment();
+        fragment.controller = controller;
+        fragment.runningTeams = runningTeams;
 
-    public static RunningTeamsFragment newInstance() {
-        return new RunningTeamsFragment();
+        return fragment;
     }
 
     @Override
@@ -65,11 +59,7 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (RunningTeamsActivity) getActivity();
         years = new ArrayList<>();
-        runningTeams = new ArrayList<>();
-        service = new RunningTeamsService(this);
     }
 
     @Override
@@ -85,19 +75,8 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildSwipeRefreshLayout(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-    }
-
-    private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                readRunningTeamsFromWS();
-            }
-        });
     }
 
     private void buildTabRunningTeams(View view) {
@@ -110,7 +89,7 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newRunningTeam();
+                controller.newRunningTeam();
             }
         });
     }
@@ -122,6 +101,8 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
         inflater.inflate(R.menu.menu_runningteams, menu);
 
         buildSpinYears(menu.findItem(R.id.menu_runningteams_spinner));
+        bindSpinWithYears();
+        bindTabWithRunningTeams();
     }
 
     private void buildSpinYears(MenuItem menuItem) {
@@ -141,33 +122,8 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteams));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-        readRunningTeamsFromWS();
-    }
-
-    private void readRunningTeamsFromWS() {
-        service.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
-    }
-
-    @Override
-    public void onWaiting() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void onReaded(List<RunningTeam> runningTeamsFromWS) {
-        swipeRefreshLayout.setRefreshing(false);
-        bindYears(runningTeamsFromWS);
-        bindRunningTeams(runningTeamsFromWS);
-    }
-
-    private void bindYears(List<RunningTeam> runningTeamFromWS) {
-        List<Integer> yearsToSpin = new RunningTeamsYearsBuilder(runningTeamFromWS).build();
+    private void bindSpinWithYears() {
+        List<Integer> yearsToSpin = new RunningTeamsYearsBuilder(runningTeams).build();
 
         IntegersSorter.byDesc(yearsToSpin);
         years.clear();
@@ -181,9 +137,7 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
         spinYears.resetPosition();
     }
 
-    private void bindRunningTeams(List<RunningTeam> runningTeamFromWS) {
-        runningTeams.clear();
-        runningTeams.addAll(runningTeamFromWS);
+    private void bindTabWithRunningTeams() {
         fillTabRunningTeamsByYear();
     }
 
@@ -207,7 +161,7 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showRunningTeam(runningTeam);
+                    controller.showRunningTeam(runningTeam);
                 }
             });
 
@@ -218,12 +172,10 @@ public class RunningTeamsFragment extends Fragment implements RunningTeamsServic
     }
 
     @Override
-    public void onErrors(List<String> errors) {
-        swipeRefreshLayout.setRefreshing(false);
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
+    public void onStart() {
+        super.onStart();
 
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteams));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

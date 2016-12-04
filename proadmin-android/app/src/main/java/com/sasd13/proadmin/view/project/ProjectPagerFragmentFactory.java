@@ -22,28 +22,38 @@ public class ProjectPagerFragmentFactory extends FragmentStatePagerAdapter {
     @StringRes
     private static final int[] TITLES = {R.string.title_information, R.string.title_runnings};
 
-    private Context context;
+    private IProjectController controller;
     private Project project;
     private List<Running> runnings;
+    private Context context;
 
-    public ProjectPagerFragmentFactory(FragmentManager fragmentManager, Context context, Project project, List<Running> runnings) {
+    public ProjectPagerFragmentFactory(FragmentManager fragmentManager, IProjectController controller, Project project, Context context) {
         super(fragmentManager);
 
-        this.context = context;
+        this.controller = controller;
         this.project = project;
+        this.context = context;
+    }
+
+    public void setRunnings(List<Running> runnings) {
         this.runnings = runnings;
     }
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
+
         switch (position) {
             case 0:
-                return ProjectDetailsFragmentInfos.newInstance(project);
+                fragment = ProjectDetailsFragmentInfos.newInstance(project);
+                break;
             case 1:
-                return ProjectDetailsFragmentRunnings.newInstance(runnings);
-            default:
-                return null;
+                fragment = ProjectDetailsFragmentRunnings.newInstance(controller, project);
+                ((ProjectDetailsFragmentRunnings) fragment).setRunnings(runnings);
+                break;
         }
+
+        return fragment;
     }
 
     @Override

@@ -18,10 +18,10 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
@@ -29,12 +29,13 @@ import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
 
 public class RunningNewFragment extends Fragment {
 
+    private IRunningController controller;
     private Project project;
-
     private RunningForm runningForm;
 
-    public static RunningNewFragment newInstance(Project project) {
+    public static RunningNewFragment newInstance(IRunningController controller, Project project) {
         RunningNewFragment fragment = new RunningNewFragment();
+        fragment.controller = controller;
         fragment.project = project;
 
         return fragment;
@@ -105,7 +106,7 @@ public class RunningNewFragment extends Fragment {
     }
 
     private void createRunning() {
-        ((ProjectsActivity) getActivity()).createRunning(getRunningToCreate());
+        controller.createRunning(getRunningToCreate());
     }
 
     private Running getRunningToCreate() {
@@ -117,7 +118,7 @@ public class RunningNewFragment extends Fragment {
             running.setProject(project);
             running.setTeacher(new Teacher(SessionHelper.getExtraIdTeacherNumber(getContext())));
         } catch (FormException e) {
-            ((ProjectsActivity) getActivity()).displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
 
         return running;
@@ -127,6 +128,6 @@ public class RunningNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
     }
 }

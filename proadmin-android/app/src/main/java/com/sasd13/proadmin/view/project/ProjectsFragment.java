@@ -26,8 +26,8 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
@@ -39,17 +39,69 @@ import java.util.List;
 
 public class ProjectsFragment extends Fragment {
 
+    private IProjectController controller;
     private Spin spinYears;
     private Recycler projectsTab;
-
     private List<String> years;
     private List<Project> projects;
 
-    public static ProjectsFragment newInstance(List<Project> projects) {
+    public static ProjectsFragment newInstance(IProjectController controller) {
         ProjectsFragment fragment = new ProjectsFragment();
-        fragment.projects = projects;
+        fragment.controller = controller;
 
         return fragment;
+    }
+
+    public void setProjects(List<Project> projects) {
+        if (projects != null && spinYears != null) {
+            this.projects = projects;
+
+            bindSpinWithYears();
+            bindTabWithProjects();
+        }
+    }
+
+    private void bindSpinWithYears() {
+        List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
+
+        IntegersSorter.byDesc(projectsYears);
+        years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
+        spinYears.addItems(years);
+        spinYears.resetPosition();
+    }
+
+    private void bindTabWithProjects() {
+        fillTabProjectsByYearCreated();
+    }
+
+    private void fillTabProjectsByYearCreated() {
+        projectsTab.clear();
+
+        int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
+        List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
+
+        ProjectsSorter.byCode(projectsToTab);
+        addProjectsToTab(projectsToTab);
+    }
+
+    private void addProjectsToTab(List<Project> projects) {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Project project : projects) {
+            pair = new RecyclerHolderPair(new ProjectItemModel(project));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    controller.showProject(project);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(projectsTab, holder);
     }
 
     @Override
@@ -89,8 +141,6 @@ public class ProjectsFragment extends Fragment {
         inflater.inflate(R.menu.menu_projects, menu);
 
         buildSpinYears(menu.findItem(R.id.menu_projects_spinner));
-        bindYearsWithSpin();
-        bindProjectsWithTab();
     }
 
     private void buildSpinYears(MenuItem menuItem) {
@@ -109,54 +159,11 @@ public class ProjectsFragment extends Fragment {
         });
     }
 
-    private void bindYearsWithSpin() {
-        List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
-
-        IntegersSorter.byDesc(projectsYears);
-        years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
-        spinYears.addItems(years);
-        spinYears.resetPosition();
-    }
-
-    private void bindProjectsWithTab() {
-        fillTabProjectsByYearCreated();
-    }
-
-    private void fillTabProjectsByYearCreated() {
-        projectsTab.clear();
-
-        int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
-        List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
-
-        ProjectsSorter.byCode(projectsToTab);
-        addProjectsToTab(projectsToTab);
-    }
-
-    private void addProjectsToTab(List<Project> projects) {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Project project : projects) {
-            pair = new RecyclerHolderPair(new ProjectItemModel(project));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    ((ProjectsActivity) getActivity()).showProject(project);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(projectsTab, holder);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
 
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

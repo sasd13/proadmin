@@ -26,17 +26,17 @@ import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.ws.service.StudentsService;
+import com.sasd13.proadmin.ws.service.StudentService;
 
 import java.util.List;
 
-public class ReportNewFragmentLeadEvaluation extends Fragment implements StudentsService.ReadCaller {
+public class ReportNewFragmentLeadEvaluation extends Fragment implements StudentService.ReadCaller {
 
     private ReportNewFragment parentFragment;
 
     private LeadEvaluationForm leadEvaluationForm;
 
-    private StudentsService service;
+    private StudentService service;
 
     public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
@@ -49,7 +49,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        service = new StudentsService(this);
+        service = new StudentService(this);
     }
 
     @Override

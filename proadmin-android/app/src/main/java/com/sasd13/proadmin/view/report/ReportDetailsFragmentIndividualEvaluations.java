@@ -22,17 +22,17 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.IndividualEvaluationsService;
+import com.sasd13.proadmin.ws.service.IndividualEvaluationService;
 
 import java.util.List;
 
-public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements IndividualEvaluationsService.ManageCaller {
+public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements IndividualEvaluationService.ManageCaller {
 
     private IndividualEvaluationsForm individualEvaluationsForm;
 
     private Report report;
 
-    private IndividualEvaluationsService service;
+    private IndividualEvaluationService service;
 
     public static ReportDetailsFragmentIndividualEvaluations newInstance(Report report) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
@@ -47,7 +47,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
         setHasOptionsMenu(true);
 
-        service = new IndividualEvaluationsService(this);
+        service = new IndividualEvaluationService(this);
     }
 
     @Override

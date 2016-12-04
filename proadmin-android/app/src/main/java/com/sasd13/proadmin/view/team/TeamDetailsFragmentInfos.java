@@ -21,18 +21,18 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
 
 public class TeamDetailsFragmentInfos extends Fragment {
 
+    private ITeamController controller;
     private Team team;
-
     private TeamForm teamForm;
 
-    public static TeamDetailsFragmentInfos newInstance(Team team) {
+    public static TeamDetailsFragmentInfos newInstance(ITeamController controller, Team team) {
         TeamDetailsFragmentInfos fragment = new TeamDetailsFragmentInfos();
+        fragment.controller = controller;
         fragment.team = team;
 
         return fragment;
@@ -102,9 +102,9 @@ public class TeamDetailsFragmentInfos extends Fragment {
         try {
             Team teamFromForm = new TeamFromFormBuilder(teamForm).build();
 
-            ((TeamsActivity) getActivity()).updateTeam(teamFromForm, team);
+            controller.updateTeam(teamFromForm, team);
         } catch (FormException e) {
-            ((TeamsActivity) getActivity()).displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((TeamsActivity) getActivity()).deleteTeam(team);
+                        controller.deleteTeam(team);
                     }
                 });
     }

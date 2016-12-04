@@ -19,18 +19,19 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.gui.form.RunningForm;
 
 public class RunningDetailsFragment extends Fragment {
 
+    private IRunningController controller;
     private Running running;
-
     private RunningForm runningForm;
 
-    public static RunningDetailsFragment newInstance(Running running) {
+    public static RunningDetailsFragment newInstance(IRunningController controller, Running running) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
+        fragment.controller = controller;
         fragment.running = running;
 
         return fragment;
@@ -108,7 +109,7 @@ public class RunningDetailsFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((ProjectsActivity) getActivity()).deleteRunning(running);
+                        controller.deleteRunning(running);
                     }
                 });
     }
@@ -117,6 +118,6 @@ public class RunningDetailsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((ProjectsActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
     }
 }

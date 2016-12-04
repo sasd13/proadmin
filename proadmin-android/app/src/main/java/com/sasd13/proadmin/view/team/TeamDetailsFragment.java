@@ -11,19 +11,21 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.TeamsActivity;
 
 import java.util.List;
 
 public class TeamDetailsFragment extends Fragment {
 
+    private ITeamController controller;
     private Team team;
     private List<StudentTeam> studentTeams;
 
-    public static TeamDetailsFragment newInstance(Team team, List<StudentTeam> studentTeams) {
+    public static TeamDetailsFragment newInstance(ITeamController controller, Team team, List<StudentTeam> studentTeams) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
+        fragment.controller = controller;
         fragment.team = team;
         fragment.studentTeams = studentTeams;
 
@@ -52,21 +54,21 @@ public class TeamDetailsFragment extends Fragment {
 
         pager.setAdapter(new TeamPagerFragmentFactory(getChildFragmentManager(), getContext(), team, studentTeams));
         tabsStrip.setViewPager(pager);
-        ((TeamsActivity) getActivity()).setPager(pager);
+        ((MainActivity) getActivity()).setPager(pager);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        ((TeamsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        ((TeamsActivity) getActivity()).setPager(null);
+        ((MainActivity) getActivity()).setPager(null);
     }
 }

@@ -12,11 +12,11 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.ReportsActivity;
+import com.sasd13.proadmin.controller.report.ReportController;
 
 public class ReportDetailsFragment extends Fragment {
 
-    private ReportsActivity parentActivity;
+    private ReportController parentActivity;
 
     private Report report;
 
@@ -31,7 +31,7 @@ public class ReportDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (ReportsActivity) getActivity();
+        parentActivity = (ReportController) getActivity();
     }
 
     @Override

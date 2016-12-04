@@ -28,7 +28,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.ReportsActivity;
+import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class ReportsFragment extends Fragment {
 
-    private ReportsActivity parentActivity;
+    private ReportController parentActivity;
 
     private Spin spinTeams;
     private Recycler reportsTab;
@@ -60,7 +60,7 @@ public class ReportsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        parentActivity = (ReportsActivity) getActivity();
+        parentActivity = (ReportController) getActivity();
         reports = new ArrayList<>();
     }
 

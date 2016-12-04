@@ -22,23 +22,23 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.ReportsActivity;
+import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
-import com.sasd13.proadmin.ws.service.ReportsService;
+import com.sasd13.proadmin.ws.service.ReportService;
 
 import java.util.List;
 
-public class ReportDetailsFragmentInfos extends Fragment implements ReportsService.ManageCaller {
+public class ReportDetailsFragmentInfos extends Fragment implements ReportService.ManageCaller {
 
-    private ReportsActivity parentActivity;
+    private ReportController parentActivity;
 
     private ReportForm reportForm;
 
     private Report report;
 
-    private ReportsService service;
+    private ReportService service;
 
     public static ReportDetailsFragmentInfos newInstance(Report report) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
@@ -53,8 +53,8 @@ public class ReportDetailsFragmentInfos extends Fragment implements ReportsServi
 
         setHasOptionsMenu(true);
 
-        parentActivity = (ReportsActivity) getActivity();
-        service = new ReportsService(this);
+        parentActivity = (ReportController) getActivity();
+        service = new ReportService(this);
     }
 
     @Override

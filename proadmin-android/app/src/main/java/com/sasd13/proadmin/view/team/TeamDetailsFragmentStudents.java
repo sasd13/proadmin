@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.controller.TeamsActivity;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
 
@@ -28,12 +28,15 @@ import java.util.List;
 
 public class TeamDetailsFragmentStudents extends Fragment {
 
+    private ITeamController controller;
+    private Team team;
     private List<StudentTeam> studentTeams;
-
     private Recycler studentTeamsTab;
 
-    public static TeamDetailsFragmentStudents newInstance(List<StudentTeam> studentTeams) {
+    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team, List<StudentTeam> studentTeams) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
+        fragment.controller = controller;
+        fragment.team = team;
         fragment.studentTeams = studentTeams;
 
         return fragment;
@@ -67,7 +70,7 @@ public class TeamDetailsFragmentStudents extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TeamsActivity) getActivity()).newStudent();
+                controller.newStudent(team);
             }
         });
     }
@@ -87,7 +90,7 @@ public class TeamDetailsFragmentStudents extends Fragment {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    ((TeamsActivity) getActivity()).showStudent(studentTeam.getStudent());
+                    controller.showStudent(studentTeam.getStudent());
                 }
             });
 

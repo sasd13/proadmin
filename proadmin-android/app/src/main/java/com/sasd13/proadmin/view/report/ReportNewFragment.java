@@ -13,22 +13,22 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.ReportsActivity;
+import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.ws.service.ReportsService;
+import com.sasd13.proadmin.ws.service.ReportService;
 
 import java.util.List;
 
-public class ReportNewFragment extends Fragment implements ReportsService.ManageCaller {
+public class ReportNewFragment extends Fragment implements ReportService.ManageCaller {
 
-    private ReportsActivity parentActivity;
+    private ReportController parentActivity;
 
     private Pager pager;
 
     private Report reportToCreate;
 
-    private ReportsService service;
+    private ReportService service;
 
     public static ReportNewFragment newInstance() {
         ReportNewFragment fragment = new ReportNewFragment();
@@ -52,8 +52,8 @@ public class ReportNewFragment extends Fragment implements ReportsService.Manage
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (ReportsActivity) getActivity();
-        service = new ReportsService(this);
+        parentActivity = (ReportController) getActivity();
+        service = new ReportService(this);
     }
 
     @Override

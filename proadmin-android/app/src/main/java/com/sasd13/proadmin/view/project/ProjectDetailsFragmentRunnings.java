@@ -19,8 +19,8 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 
@@ -28,15 +28,51 @@ import java.util.List;
 
 public class ProjectDetailsFragmentRunnings extends Fragment {
 
+    private IProjectController controller;
+    private Project project;
     private List<Running> runnings;
-
     private Recycler runningsTab;
 
-    public static ProjectDetailsFragmentRunnings newInstance(List<Running> runnings) {
+    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
-        fragment.runnings = runnings;
+        fragment.controller = controller;
+        fragment.project = project;
 
         return fragment;
+    }
+
+    public void setRunnings(List<Running> runnings) {
+        if (runnings != null) {
+            this.runnings = runnings;
+
+            bindRunningsWithTab();
+        }
+    }
+
+    private void bindRunningsWithTab() {
+        runningsTab.clear();
+        RunningsSorter.byYear(runnings);
+        addRunningsToTab();
+    }
+
+    private void addRunningsToTab() {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Running running : runnings) {
+            pair = new RecyclerHolderPair(new RunningItemModel(running));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    controller.showRunning(running);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(runningsTab, holder);
     }
 
     @Override
@@ -54,7 +90,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindRunningsWithTab();
     }
 
     private void buildTabRunnings(View view) {
@@ -67,33 +102,8 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProjectsActivity) getActivity()).newRunning();
+                controller.newRunning(project);
             }
         });
-    }
-
-    private void bindRunningsWithTab() {
-        RunningsSorter.byYear(runnings);
-        addRunningsToTab();
-    }
-
-    private void addRunningsToTab() {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Running running : runnings) {
-            pair = new RecyclerHolderPair(new RunningItemModel(running));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    ((ProjectsActivity) getActivity()).showRunning(running);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(runningsTab, holder);
     }
 }
