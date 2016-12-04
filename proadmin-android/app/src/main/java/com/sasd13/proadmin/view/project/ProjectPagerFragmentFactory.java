@@ -24,8 +24,8 @@ public class ProjectPagerFragmentFactory extends FragmentStatePagerAdapter {
 
     private IProjectController controller;
     private Project project;
-    private List<Running> runnings;
     private Context context;
+    private ProjectDetailsFragmentRunnings fragmentRunnings;
 
     public ProjectPagerFragmentFactory(FragmentManager fragmentManager, IProjectController controller, Project project, Context context) {
         super(fragmentManager);
@@ -36,7 +36,9 @@ public class ProjectPagerFragmentFactory extends FragmentStatePagerAdapter {
     }
 
     public void setRunnings(List<Running> runnings) {
-        this.runnings = runnings;
+        if (fragmentRunnings != null && !fragmentRunnings.isDetached()) {
+            fragmentRunnings.setRunnings(runnings);
+        }
     }
 
     @Override
@@ -48,8 +50,7 @@ public class ProjectPagerFragmentFactory extends FragmentStatePagerAdapter {
                 fragment = ProjectDetailsFragmentInfos.newInstance(project);
                 break;
             case 1:
-                fragment = ProjectDetailsFragmentRunnings.newInstance(controller, project);
-                ((ProjectDetailsFragmentRunnings) fragment).setRunnings(runnings);
+                fragment = fragmentRunnings = ProjectDetailsFragmentRunnings.newInstance(controller, project);
                 break;
         }
 

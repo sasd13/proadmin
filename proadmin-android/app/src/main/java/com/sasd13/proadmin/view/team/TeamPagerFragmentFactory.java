@@ -22,28 +22,39 @@ public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
     @StringRes
     private static final int[] TITLES = {R.string.title_information, R.string.title_students};
 
+    private ITeamController controller;
     private Context context;
     private Team team;
-    private List<StudentTeam> studentTeams;
+    private TeamDetailsFragmentStudents fragmentStudents;
 
-    public TeamPagerFragmentFactory(FragmentManager fragmentManager, Context context, Team team, List<StudentTeam> studentTeams) {
+    public TeamPagerFragmentFactory(FragmentManager fragmentManager, ITeamController controller, Context context, Team team) {
         super(fragmentManager);
 
+        this.controller = controller;
         this.context = context;
         this.team = team;
-        this.studentTeams = studentTeams;
+    }
+
+    public void setStudentTeams(List<StudentTeam> studentTeams) {
+        if (fragmentStudents != null && !fragmentStudents.isDetached()) {
+            fragmentStudents.setStudentTeams(studentTeams);
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
+
         switch (position) {
             case 0:
-                return TeamDetailsFragmentInfos.newInstance(team);
+                fragment = TeamDetailsFragmentInfos.newInstance(controller, team);
+                break;
             case 1:
-                return TeamDetailsFragmentStudents.newInstance(studentTeams);
-            default:
-                return null;
+                fragment = fragmentStudents = TeamDetailsFragmentStudents.newInstance(controller, team);
+                break;
         }
+
+        return fragment;
     }
 
     @Override
@@ -52,7 +63,6 @@ public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
     }
 
     @Override
-    @StringRes
     public CharSequence getPageTitle(int position) {
         return context.getResources().getString(TITLES[position]);
     }

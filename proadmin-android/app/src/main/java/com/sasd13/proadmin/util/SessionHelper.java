@@ -11,6 +11,7 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
 
@@ -27,7 +28,7 @@ public class SessionHelper {
         setExtraId(activity, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(activity);
-        final Intent intent = new Intent(activity, HomeActivity.class);
+        final Intent intent = new Intent(activity, MainActivity.class);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -60,7 +61,7 @@ public class SessionHelper {
     private static void exit(Activity activity) {
         Session.clear(activity);
 
-        Intent intent = new Intent(activity, HomeActivity.class);
+        Intent intent = new Intent(activity, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(Extra.EXIT, true);
 

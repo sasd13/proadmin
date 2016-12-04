@@ -2,7 +2,6 @@ package com.sasd13.proadmin.view.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,34 +10,31 @@ import android.view.ViewGroup;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.report.ReportController;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.ws.service.ReportService;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
 
 import java.util.List;
 
-public class ReportNewFragment extends Fragment implements ReportService.ManageCaller {
+public class ReportNewFragment extends Fragment {
 
-    private ReportController parentActivity;
-
+    private IReportController controller;
+    private ReportNewPagerFragmentFactory fragmentFactory;
     private Pager pager;
-
     private Report reportToCreate;
 
-    private ReportService service;
-
-    public static ReportNewFragment newInstance() {
+    public static ReportNewFragment newInstance(IReportController controller) {
         ReportNewFragment fragment = new ReportNewFragment();
+        fragment.controller = controller;
         fragment.reportToCreate = new DefaultReportBuilder().build();
 
         return fragment;
     }
 
-    public static ReportNewFragment newInstance(RunningTeam runningTeam) {
-        ReportNewFragment fragment = newInstance();
+    public static ReportNewFragment newInstance(IReportController controller, RunningTeam runningTeam) {
+        ReportNewFragment fragment = newInstance(controller);
         fragment.reportToCreate.setRunningTeam(runningTeam);
 
         return fragment;
@@ -46,14 +42,6 @@ public class ReportNewFragment extends Fragment implements ReportService.ManageC
 
     public Report getReportToCreate() {
         return reportToCreate;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        parentActivity = (ReportController) getActivity();
-        service = new ReportService(this);
     }
 
     @Override
@@ -74,54 +62,37 @@ public class ReportNewFragment extends Fragment implements ReportService.ManageC
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
+        fragmentFactory = new ReportNewPagerFragmentFactory(getChildFragmentManager(), controller, this);
 
-        pager.setAdapter(new ReportNewPagerFragmentFactory(getChildFragmentManager(), this));
+        pager.setAdapter(fragmentFactory);
         pager.setScrollable(false);
-        parentActivity.setPager(pager);
+        ((MainActivity) getActivity()).setPager(pager);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        fragmentFactory.setRunningTeams(runningTeams);
+    }
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
+    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+        fragmentFactory.setDependencyWrapper(dependencyWrapper);
     }
 
     public void forward() {
         if (reportToCreate.getRunningTeam() != null) {
             pager.forward();
         } else {
-            displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
+            controller.displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
         }
     }
 
     public void createReport() {
-        service.create(reportToCreate);
+        controller.createReport(reportToCreate);
     }
 
     @Override
-    public void onWaiting() {
-    }
+    public void onStart() {
+        super.onStart();
 
-    @Override
-    public void onCreated() {
-        parentActivity.listReports();
-    }
-
-    @Override
-    public void onUpdated() {
-    }
-
-    @Override
-    public void onDeleted() {
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
     }
 }

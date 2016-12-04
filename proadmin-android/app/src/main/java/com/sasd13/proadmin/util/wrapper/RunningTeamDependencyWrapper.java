@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.runningteam;
+package com.sasd13.proadmin.util.wrapper;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;

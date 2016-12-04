@@ -1,25 +1,26 @@
-package com.sasd13.proadmin.controller.runningteam;
+package com.sasd13.proadmin.controller.report;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
-import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
-import com.sasd13.proadmin.ws.service.RunningTeamService;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.ws.service.ReportDependencyService;
+import com.sasd13.proadmin.ws.service.ReportService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class RunningTeamServiceCaller implements RunningTeamService.Caller, RunningTeamDependencyService.RetrieveCaller {
 
-    private RunningTeamController controller;
+public class ReportServiceCaller implements ReportService.Caller, ReportDependencyService.RetrieveCaller {
+
+    private ReportController controller;
     private Context context;
 
-    public RunningTeamServiceCaller(RunningTeamController controller, Context context) {
+    public ReportServiceCaller(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
@@ -29,12 +30,12 @@ public class RunningTeamServiceCaller implements RunningTeamService.Caller, Runn
     }
 
     @Override
-    public void onReaded(List<RunningTeam> runningTeams) {
-        controller.onReadRunningTeams(runningTeams);
+    public void onReaded(List<Report> reports) {
+        controller.onReadReports(reports);
     }
 
     @Override
-    public void onRetrieved(RunningTeamDependencyWrapper dependencyWrapper) {
+    public void onRetrieved(ReportDependencyWrapper dependencyWrapper) {
         controller.onRetrieved(dependencyWrapper);
     }
 

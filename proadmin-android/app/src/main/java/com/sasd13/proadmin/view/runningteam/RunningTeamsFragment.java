@@ -46,10 +46,9 @@ public class RunningTeamsFragment extends Fragment {
     private List<RunningTeam> runningTeams;
     private List<Integer> years;
 
-    public static RunningTeamsFragment newInstance(IRunningTeamController controller, List<RunningTeam> runningTeams) {
+    public static RunningTeamsFragment newInstance(IRunningTeamController controller) {
         RunningTeamsFragment fragment = new RunningTeamsFragment();
         fragment.controller = controller;
-        fragment.runningTeams = runningTeams;
 
         return fragment;
     }
@@ -120,6 +119,15 @@ public class RunningTeamsFragment extends Fragment {
 
             }
         });
+    }
+
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        this.runningTeams = runningTeams;
+
+        if (spinYears != null) {
+            bindSpinWithYears();
+            bindTabWithRunningTeams();
+        }
     }
 
     private void bindSpinWithYears() {

@@ -30,14 +30,12 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
-    private List<Report> reports;
     private Recycler reportsTab;
 
-    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeam runningTeam, List<Report> reports) {
+    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeam runningTeam) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
         fragment.controller = controller;
         fragment.runningTeam = runningTeam;
-        fragment.reports = reports;
 
         return fragment;
     }
@@ -57,7 +55,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports();
     }
 
     private void buildTabReports(View view) {
@@ -75,12 +72,16 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
         });
     }
 
-    private void bindTabWithReports() {
-        ReportsSorter.byNumber(reports);
-        addReportsToTab();
+    public void setReports(List<Report> reports) {
+        bindTabWithReports(reports);
     }
 
-    private void addReportsToTab() {
+    private void bindTabWithReports(List<Report> reports) {
+        ReportsSorter.byNumber(reports);
+        addReportsToTab(reports);
+    }
+
+    private void addReportsToTab(List<Report> reports) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

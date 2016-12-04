@@ -37,13 +37,13 @@ public abstract class Controller implements IController {
         if (backStacked) {
             mainActivity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.activity_container_fragment, fragment)
+                    .replace(R.id.layout_container_fragment, fragment)
                     .addToBackStack(null)
                     .commit();
         } else {
             mainActivity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.activity_container_fragment, fragment)
+                    .replace(R.id.layout_container_fragment, fragment)
                     .commit();
         }
     }

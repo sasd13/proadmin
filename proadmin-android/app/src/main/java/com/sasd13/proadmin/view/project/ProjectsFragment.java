@@ -52,58 +52,6 @@ public class ProjectsFragment extends Fragment {
         return fragment;
     }
 
-    public void setProjects(List<Project> projects) {
-        if (projects != null && spinYears != null) {
-            this.projects = projects;
-
-            bindSpinWithYears();
-            bindTabWithProjects();
-        }
-    }
-
-    private void bindSpinWithYears() {
-        List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
-
-        IntegersSorter.byDesc(projectsYears);
-        years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
-        spinYears.addItems(years);
-        spinYears.resetPosition();
-    }
-
-    private void bindTabWithProjects() {
-        fillTabProjectsByYearCreated();
-    }
-
-    private void fillTabProjectsByYearCreated() {
-        projectsTab.clear();
-
-        int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
-        List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
-
-        ProjectsSorter.byCode(projectsToTab);
-        addProjectsToTab(projectsToTab);
-    }
-
-    private void addProjectsToTab(List<Project> projects) {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Project project : projects) {
-            pair = new RecyclerHolderPair(new ProjectItemModel(project));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    controller.showProject(project);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(projectsTab, holder);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +105,58 @@ public class ProjectsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+
+        if (spinYears != null) {
+            bindSpinWithYears();
+            bindTabWithProjects();
+        }
+    }
+
+    private void bindSpinWithYears() {
+        List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
+
+        IntegersSorter.byDesc(projectsYears);
+        years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
+        spinYears.addItems(years);
+        spinYears.resetPosition();
+    }
+
+    private void bindTabWithProjects() {
+        fillTabProjectsByYearCreated();
+    }
+
+    private void fillTabProjectsByYearCreated() {
+        projectsTab.clear();
+
+        int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
+        List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
+
+        ProjectsSorter.byCode(projectsToTab);
+        addProjectsToTab(projectsToTab);
+    }
+
+    private void addProjectsToTab(List<Project> projects) {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Project project : projects) {
+            pair = new RecyclerHolderPair(new ProjectItemModel(project));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    controller.showProject(project);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(projectsTab, holder);
     }
 
     @Override

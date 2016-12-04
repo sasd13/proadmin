@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.project.ProjectController;
-import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
 import com.sasd13.proadmin.controller.settings.SettingsController;
 import com.sasd13.proadmin.controller.team.TeamController;
@@ -58,7 +57,7 @@ public class Browser {
                     context.getResources().getString(R.string.activity_reports),
                     ContextCompat.getDrawable(context, R.drawable.ic_report_small),
                     ContextCompat.getColor(context, R.color.blue),
-                    ReportController.class
+                    com.sasd13.proadmin.controller.report.ReportController.class
             ));
         }
 

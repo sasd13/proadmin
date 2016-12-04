@@ -4,6 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+
+import java.util.List;
+
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
@@ -11,12 +16,29 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 4;
 
+    private IReportController controller;
     private ReportNewFragment parentFragment;
+    private List<RunningTeam> runningTeams;
+    private ReportNewFragmentRunningTeams fragmentRunningTeams;
+    private ReportNewFragmentLeadEvaluation fragmentLeadEvaluation;
 
-    public ReportNewPagerFragmentFactory(FragmentManager fragmentManager, ReportNewFragment parentFragment) {
+    public ReportNewPagerFragmentFactory(FragmentManager fragmentManager, IReportController controller, ReportNewFragment parentFragment) {
         super(fragmentManager);
 
+        this.controller = controller;
         this.parentFragment = parentFragment;
+    }
+
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        if (fragmentRunningTeams != null && !fragmentRunningTeams.isDetached()) {
+            fragmentRunningTeams.setRunningTeams(runningTeams);
+        }
+    }
+
+    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+        if (fragmentLeadEvaluation != null && !fragmentLeadEvaluation.isDetached()) {
+            fragmentLeadEvaluation.setDependencyWrapper(dependencyWrapper);
+        }
     }
 
     @Override
@@ -25,16 +47,16 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = ReportNewFragmentRunningTeams.newInstance(parentFragment);
+                fragment = fragmentRunningTeams = ReportNewFragmentRunningTeams.newInstance(parentFragment);
                 break;
             case 1:
-                fragment = ReportNewFragmentInfo.newInstance(parentFragment);
+                fragment = ReportNewFragmentInfo.newInstance(controller, parentFragment);
                 break;
             case 2:
-                fragment = ReportNewFragmentLeadEvaluation.newInstance(parentFragment);
+                fragment = fragmentLeadEvaluation = ReportNewFragmentLeadEvaluation.newInstance(controller, parentFragment);
                 break;
             case 3:
-                fragment = ReportNewFragmentIndividualEvaluations.newInstance(parentFragment);
+                fragment = ReportNewFragmentIndividualEvaluations.newInstance(controller, parentFragment);
                 break;
         }
 

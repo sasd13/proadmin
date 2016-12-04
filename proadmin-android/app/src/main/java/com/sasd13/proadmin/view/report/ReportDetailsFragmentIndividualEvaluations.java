@@ -2,7 +2,6 @@ package com.sasd13.proadmin.view.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,24 +17,23 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
-import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.IndividualEvaluationService;
 
 import java.util.List;
 
-public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements IndividualEvaluationService.ManageCaller {
+public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
 
-    private IndividualEvaluationsForm individualEvaluationsForm;
-
+    private IReportController controller;
     private Report report;
+    private IndividualEvaluationsForm individualEvaluationsForm;
+    private Recycler recycler;
 
-    private IndividualEvaluationService service;
-
-    public static ReportDetailsFragmentIndividualEvaluations newInstance(Report report) {
+    public static ReportDetailsFragmentIndividualEvaluations newInstance(IReportController controller, Report report) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
+        fragment.controller = controller;
         fragment.report = report;
 
         return fragment;
@@ -46,8 +44,6 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        service = new IndividualEvaluationService(this);
     }
 
     @Override
@@ -69,15 +65,8 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
-
-        bindFormWithIndividualEvaluations();
-        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
-    }
-
-    private void bindFormWithIndividualEvaluations() {
-        individualEvaluationsForm.bindIndividualEvaluations(report.getIndividualEvaluations());
     }
 
     @Override
@@ -98,7 +87,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateTeam();
+                updateIndividualEvaluations();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -107,37 +96,22 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         return true;
     }
 
-    private void updateTeam() {
+    private void updateIndividualEvaluations() {
         try {
-            service.update(individualEvaluationsForm.getIndividualEvaluations(), report.getIndividualEvaluations());
+            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations();
+
+            controller.updateIndividualEvaluations(individualEvaluationsFromForm, report.getIndividualEvaluations());
         } catch (IndividualEvaluationsFormException e) {
-            displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
     }
 
-    @Override
-    public void onWaiting() {
+    public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        bindFormWithIndividualEvaluations(individualEvaluations);
     }
 
-    @Override
-    public void onCreated() {
-    }
-
-    @Override
-    public void onUpdated() {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleted() {
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
+        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 }

@@ -19,7 +19,8 @@ import java.util.List;
 
 public class TeamController extends Controller implements ITeamController, IStudentController {
 
-    private Team team;
+    private TeamsFragment teamsFragment;
+    private TeamDetailsFragment teamDetailsFragment;
 
     private TeamService teamService;
     private StudentService studentService;
@@ -33,11 +34,16 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void listTeams() {
+        teamsFragment = TeamsFragment.newInstance(this);
+
+        startFragment(teamsFragment);
         teamService.readAll();
     }
 
     public void onReadTeams(List<Team> teams) {
-        startFragment(TeamsFragment.newInstance(this, teams));
+        if (!teamsFragment.isDetached()) {
+            teamsFragment.setTeams(teams);
+        }
     }
 
     @Override
@@ -52,13 +58,16 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showTeam(Team team) {
-        this.team = team;
+        teamDetailsFragment = TeamDetailsFragment.newInstance(this, team);
 
+        startFragment(TeamDetailsFragment.newInstance(this, team));
         studentService.read(team.getNumber());
     }
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
-        startFragment(TeamDetailsFragment.newInstance(this, team, studentTeams));
+        if (!teamDetailsFragment.isDetached()) {
+            teamDetailsFragment.setStudentTeams(studentTeams);
+        }
     }
 
     @Override

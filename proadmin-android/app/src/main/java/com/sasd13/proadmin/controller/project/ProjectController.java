@@ -18,11 +18,11 @@ import java.util.List;
 
 public class ProjectController extends Controller implements IProjectController, IRunningController {
 
-    private ProjectService projectService;
-    private RunningService runningService;
-
     private ProjectsFragment projectsFragment;
     private ProjectDetailsFragment projectDetailsFragment;
+
+    private ProjectService projectService;
+    private RunningService runningService;
 
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
@@ -40,7 +40,9 @@ public class ProjectController extends Controller implements IProjectController,
     }
 
     void onReadProjects(List<Project> projects) {
-        projectsFragment.setProjects(projects);
+        if (!projectsFragment.isDetached()) {
+            projectsFragment.setProjects(projects);
+        }
     }
 
     @Override
@@ -52,7 +54,9 @@ public class ProjectController extends Controller implements IProjectController,
     }
 
     void onReadRunnings(List<Running> runnings) {
-        projectDetailsFragment.setRunnings(runnings);
+        if (!projectDetailsFragment.isDetached()) {
+            projectDetailsFragment.setRunnings(runnings);
+        }
     }
 
     @Override

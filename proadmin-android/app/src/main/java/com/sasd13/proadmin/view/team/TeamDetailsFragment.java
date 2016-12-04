@@ -21,13 +21,12 @@ public class TeamDetailsFragment extends Fragment {
 
     private ITeamController controller;
     private Team team;
-    private List<StudentTeam> studentTeams;
+    private TeamPagerFragmentFactory fragmentFactory;
 
-    public static TeamDetailsFragment newInstance(ITeamController controller, Team team, List<StudentTeam> studentTeams) {
+    public static TeamDetailsFragment newInstance(ITeamController controller, Team team) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
         fragment.controller = controller;
         fragment.team = team;
-        fragment.studentTeams = studentTeams;
 
         return fragment;
     }
@@ -50,11 +49,16 @@ public class TeamDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
+        fragmentFactory = new TeamPagerFragmentFactory(getChildFragmentManager(), controller, getContext(), team);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new TeamPagerFragmentFactory(getChildFragmentManager(), getContext(), team, studentTeams));
+        pager.setAdapter(fragmentFactory);
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
+    }
+
+    public void setStudentTeams(List<StudentTeam> studentTeams) {
+        fragmentFactory.setStudentTeams(studentTeams);
     }
 
     @Override

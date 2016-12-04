@@ -7,7 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -23,28 +28,56 @@ public class ReportDetailsPagerFragmentFactory extends FragmentStatePagerAdapter
             R.string.title_individualevaluations,
     };
 
+    private IReportController controller;
     private Context context;
     private Report report;
 
-    public ReportDetailsPagerFragmentFactory(FragmentManager fragmentManager, Context context, Report report) {
+    private ReportDetailsFragmentLeadEvaluation fragmentLeadEvaluation;
+    private ReportDetailsFragmentIndividualEvaluations fragmentIndividualEvaluations;
+
+    public ReportDetailsPagerFragmentFactory(FragmentManager fragmentManager, IReportController controller, Context context, Report report) {
         super(fragmentManager);
 
+        this.controller = controller;
         this.context = context;
         this.report = report;
     }
 
+    public void setLeadEvaluation(LeadEvaluation leadEvaluation) {
+        if (fragmentLeadEvaluation != null && !fragmentLeadEvaluation.isDetached()) {
+            fragmentLeadEvaluation.setLeadEvaluation(leadEvaluation);
+        }
+    }
+
+    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+        if (fragmentLeadEvaluation != null && !fragmentLeadEvaluation.isDetached()) {
+            fragmentLeadEvaluation.setDependencyWrapper(dependencyWrapper);
+        }
+    }
+
+    public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        if (fragmentIndividualEvaluations != null && !fragmentIndividualEvaluations.isDetached()) {
+            fragmentIndividualEvaluations.setIndividualEvaluations(individualEvaluations);
+        }
+    }
+
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
+
         switch (position) {
             case 0:
-                return ReportDetailsFragmentInfos.newInstance(report);
+                fragment = ReportDetailsFragmentInfos.newInstance(controller, report);
+                break;
             case 1:
-                return ReportDetailsFragmentLeadEvaluation.newInstance(report);
+                fragment = fragmentLeadEvaluation = ReportDetailsFragmentLeadEvaluation.newInstance(controller, report);
+                break;
             case 2:
-                return ReportDetailsFragmentIndividualEvaluations.newInstance(report);
-            default:
-                return null;
+                fragment = fragmentIndividualEvaluations = ReportDetailsFragmentIndividualEvaluations.newInstance(controller, report);
+                break;
         }
+
+        return fragment;
     }
 
     @Override

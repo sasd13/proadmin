@@ -3,7 +3,6 @@ package com.sasd13.proadmin.view.report;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +23,13 @@ import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
 
 public class ReportNewFragmentInfo extends Fragment {
 
+    private IReportController controller;
     private ReportNewFragment parentFragment;
-
     private ReportForm reportForm;
 
-    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentInfo newInstance(IReportController controller, ReportNewFragment parentFragment) {
         ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
+        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
 
         return fragment;
@@ -76,7 +76,7 @@ public class ReportNewFragmentInfo extends Fragment {
                     editReportWithForm();
                     goForward();
                 } catch (FormException e) {
-                    displayMessage(e.getMessage());
+                    controller.displayMessage(e.getMessage());
                 }
             }
         });
@@ -93,9 +93,5 @@ public class ReportNewFragmentInfo extends Fragment {
 
     private void goForward() {
         parentFragment.forward();
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -27,29 +27,26 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReportsFragment extends Fragment {
 
-    private ReportController parentActivity;
-
+    private IReportController controller;
     private Spin spinTeams;
     private Recycler reportsTab;
-
     private List<String> teamsNumbers;
     private List<Report> reports;
 
-    public static ReportsFragment newInstance(List<Report> reports) {
+    public static ReportsFragment newInstance(IReportController controller) {
         ReportsFragment fragment = new ReportsFragment();
-        fragment.reports = reports;
+        fragment.controller = controller;
 
         return fragment;
     }
@@ -59,9 +56,6 @@ public class ReportsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (ReportController) getActivity();
-        reports = new ArrayList<>();
     }
 
     @Override
@@ -79,8 +73,6 @@ public class ReportsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTeamsNumbers();
-        bindReports();
     }
 
     private void buildTabReports(View view) {
@@ -93,53 +85,9 @@ public class ReportsFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newReport();
+                controller.newReport();
             }
         });
-    }
-
-    private void bindTeamsNumbers() {
-        teamsNumbers = new ReportsTeamsNumbersBuilder(reports).build();
-
-        StringsSorter.byAsc(teamsNumbers);
-        spinTeams.addItems(teamsNumbers);
-        spinTeams.resetPosition();
-    }
-
-    private void bindReports() {
-        reports.clear();
-        reports.addAll(reports);
-        fillTabReportsByTeam();
-    }
-
-    private void fillTabReportsByTeam() {
-        reportsTab.clear();
-
-        String teamNumber = teamsNumbers.get(spinTeams.getSelectedPosition());
-        List<Report> reportsToTab = new ReportTeamCriteria(teamNumber).meetCriteria(reports);
-
-        ReportsSorter.byNumber(reportsToTab);
-        addReportsToTab(reportsToTab);
-    }
-
-    private void addReportsToTab(List<Report> reports) {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Report report : reports) {
-            pair = new RecyclerHolderPair(new ReportItemModel(report, getContext()));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    parentActivity.showReport(report);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(reportsTab, holder);
     }
 
     @Override
@@ -167,11 +115,60 @@ public class ReportsFragment extends Fragment {
         });
     }
 
+    public void setReports(List<Report> reports) {
+        bindSpinWithTeams(reports);
+        bindTabWithReports(reports);
+    }
+
+    private void bindSpinWithTeams(List<Report> reports) {
+        teamsNumbers = new ReportsTeamsNumbersBuilder(reports).build();
+
+        StringsSorter.byAsc(teamsNumbers);
+        spinTeams.addItems(teamsNumbers);
+        spinTeams.resetPosition();
+    }
+
+    private void bindTabWithReports(List<Report> reports) {
+        this.reports = reports;
+
+        fillTabReportsByTeam();
+    }
+
+    private void fillTabReportsByTeam() {
+        reportsTab.clear();
+
+        String teamNumber = teamsNumbers.get(spinTeams.getSelectedPosition());
+        List<Report> reportsToTab = new ReportTeamCriteria(teamNumber).meetCriteria(reports);
+
+        ReportsSorter.byNumber(reportsToTab);
+        addReportsToTab(reportsToTab);
+    }
+
+    private void addReportsToTab(List<Report> reports) {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Report report : reports) {
+            pair = new RecyclerHolderPair(new ReportItemModel(report, getContext()));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    controller.showReport(report);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(reportsTab, holder);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_reports));
-        parentActivity.getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_reports));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

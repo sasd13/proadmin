@@ -5,6 +5,7 @@ import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
 
     public interface RetrieveCaller extends IWebServiceCaller {
 
-        void onRetrieved(List<Running> runnings, List<Team> teams, List<AcademicLevel> academicLevels);
+        void onRetrieved(RunningTeamDependencyWrapper dependencyWrapper);
     }
 
     private static final String CODE_RUNNINGS = "RUNNINGS";
@@ -67,7 +68,7 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         List<Team> teams = (List<Team>) results.get(CODE_TEAMS);
         List<AcademicLevel> academicLevels = (List<AcademicLevel>) results.get(CODE_ACADEMICLEVELS);
 
-        caller.onRetrieved(runnings, teams, academicLevels);
+        caller.onRetrieved(new RunningTeamDependencyWrapper(runnings, teams, academicLevels));
     }
 
     @Override

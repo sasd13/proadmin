@@ -1,57 +1,70 @@
 package com.sasd13.proadmin.controller.runningteam;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.view.report.IReportController;
 import com.sasd13.proadmin.view.runningteam.IRunningTeamController;
 import com.sasd13.proadmin.view.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
 import com.sasd13.proadmin.ws.service.RunningTeamService;
 
 import java.util.List;
 
 public class RunningTeamController extends Controller implements IRunningTeamController {
 
-    private RunningTeamService runningTeamService;
-    private int mode;
+    private IReportController reportController;
 
-    public RunningTeamController(MainActivity mainActivity) {
+    private RunningTeamsFragment runningTeamsFragment;
+    private RunningTeamNewFragment runningTeamNewFragment;
+    private RunningTeamDetailsFragment runningTeamDetailsFragment;
+
+    private RunningTeamService runningTeamService;
+    private RunningTeamDependencyService runningTeamDependencyService;
+
+    public RunningTeamController(MainActivity mainActivity, IReportController reportController) {
         super(mainActivity);
 
+        this.reportController = reportController;
+
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
-        mode = Extra.MODE_NEW;
+        runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCaller(this, mainActivity));
     }
 
     @Override
     public void listRunningTeams() {
+        runningTeamsFragment = RunningTeamsFragment.newInstance(this);
+
+        startFragment(runningTeamsFragment);
         runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
-        startFragment(RunningTeamsFragment.newInstance(this, runningTeams));
+        if (!runningTeamsFragment.isDetached()) {
+            runningTeamsFragment.setRunningTeams(runningTeams);
+        }
     }
 
     @Override
     public void newRunningTeam() {
-        mode = Extra.MODE_NEW;
+        runningTeamNewFragment = RunningTeamNewFragment.newInstance(this);
 
-        startFragment(RunningTeamNewFragment.newInstance(this));
+        startFragment(runningTeamNewFragment);
+        runningTeamDependencyService.read();
     }
 
-    void onRetrieved(List<Running> runnings, List<Team> teams, List<AcademicLevel> academicLevels) {
-        switch (mode) {
-            case Extra.MODE_EDIT:
-                startFragment(RunningTeamDetailsFragment.newInstance(this));
-                break;
-            default:
-                break;
+    void onRetrieved(RunningTeamDependencyWrapper dependencyWrapper) {
+        if (runningTeamNewFragment != null && !runningTeamNewFragment.isDetached()) {
+            runningTeamNewFragment.setDependencyWrapper(dependencyWrapper);
+        }
+
+        if (runningTeamDetailsFragment != null && !runningTeamDetailsFragment.isDetached()) {
+            runningTeamDetailsFragment.setDependencyWrapper(dependencyWrapper);
         }
     }
 
@@ -62,7 +75,10 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     @Override
     public void showRunningTeam(RunningTeam runningTeam) {
-        startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeam));
+        runningTeamDetailsFragment = RunningTeamDetailsFragment.newInstance(this, runningTeam);
+
+        startFragment(runningTeamDetailsFragment);
+        runningTeamDependencyService.read();
     }
 
     @Override
@@ -77,11 +93,11 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     @Override
     public void newReport(RunningTeam runningTeam) {
-        //TODO
+        reportController.newReport(runningTeam);
     }
 
     @Override
     public void showReport(Report report) {
-        //TODO
+        reportController.showReport(report);
     }
 }

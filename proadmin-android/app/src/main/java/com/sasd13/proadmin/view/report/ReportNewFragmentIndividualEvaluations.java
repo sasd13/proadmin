@@ -3,7 +3,6 @@ package com.sasd13.proadmin.view.report;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -22,17 +21,21 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
 
 import java.util.List;
 
 public class ReportNewFragmentIndividualEvaluations extends Fragment {
 
+    private IReportController controller;
     private ReportNewFragment parentFragment;
-
     private IndividualEvaluationsForm individualEvaluationsForm;
+    private Recycler recycler;
 
-    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentIndividualEvaluations newInstance(IReportController controller, ReportNewFragment parentFragment) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
+        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
 
         return fragment;
@@ -58,15 +61,8 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
     private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
-
-        bindFormWithIndividualEvaluations();
-        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
-    }
-
-    private void bindFormWithIndividualEvaluations() {
-        individualEvaluationsForm.bindIndividualEvaluations(parentFragment.getReportToCreate().getIndividualEvaluations());
     }
 
     private void buildFloatingActionButton(View view) {
@@ -79,7 +75,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
                     editIndividualEvaluationsWithForm();
                     createReport();
                 } catch (FormException e) {
-                    displayMessage(e.getMessage());
+                    controller.displayMessage(e.getMessage());
                 }
             }
         });
@@ -101,7 +97,14 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         parentFragment.createReport();
     }
 
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    public void setIndividualEvaluations(ReportDependencyWrapper dependencyWrapper) {
+        List<IndividualEvaluation> individualEvaluations = new IndividualEvaluationsBuilder(dependencyWrapper.getStudentTeams()).build();
+
+        bindFormWithIndividualEvaluations(individualEvaluations);
+    }
+
+    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
+        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 }

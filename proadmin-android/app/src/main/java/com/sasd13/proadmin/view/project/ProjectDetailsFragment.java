@@ -21,7 +21,6 @@ public class ProjectDetailsFragment extends Fragment {
 
     private IProjectController controller;
     private Project project;
-    private List<Running> runnings;
     private ProjectPagerFragmentFactory fragmentFactory;
 
     public static ProjectDetailsFragment newInstance(IProjectController controller, Project project) {
@@ -30,14 +29,6 @@ public class ProjectDetailsFragment extends Fragment {
         fragment.project = project;
 
         return fragment;
-    }
-
-    public void setRunnings(List<Running> runnings) {
-        if (runnings != null) {
-            this.runnings = runnings;
-
-            fragmentFactory.setRunnings(runnings);
-        }
     }
 
     @Override
@@ -64,6 +55,10 @@ public class ProjectDetailsFragment extends Fragment {
         pager.setAdapter(fragmentFactory);
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
+    }
+
+    public void setRunnings(List<Running> runnings) {
+        fragmentFactory.setRunnings(runnings);
     }
 
     @Override

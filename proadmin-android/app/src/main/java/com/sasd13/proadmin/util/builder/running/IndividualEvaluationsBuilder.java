@@ -14,18 +14,33 @@ import java.util.List;
 
 public class IndividualEvaluationsBuilder implements IBuilder<List<IndividualEvaluation>> {
 
-    private Report report;
     private List<StudentTeam> studentTeams;
+    private Report report;
 
-    public IndividualEvaluationsBuilder(Report report, List<StudentTeam> studentTeams) {
-        this.report = report;
+    public IndividualEvaluationsBuilder(List<StudentTeam> studentTeams) {
         this.studentTeams = studentTeams;
+    }
+
+    public IndividualEvaluationsBuilder(List<StudentTeam> studentTeams, Report report) {
+        this(studentTeams);
+
+        this.report = report;
     }
 
     @Override
     public List<IndividualEvaluation> build() {
         List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
+        if (report != null) {
+            builWithReport(individualEvaluations);
+        } else {
+            buildWithoutReport(individualEvaluations);
+        }
+
+        return individualEvaluations;
+    }
+
+    private void builWithReport(List<IndividualEvaluation> individualEvaluations) {
         IndividualEvaluation individualEvaluation;
 
         for (StudentTeam studentTeam : studentTeams) {
@@ -38,7 +53,17 @@ public class IndividualEvaluationsBuilder implements IBuilder<List<IndividualEva
                 individualEvaluations.add(individualEvaluation);
             }
         }
+    }
 
-        return individualEvaluations;
+    private void buildWithoutReport(List<IndividualEvaluation> individualEvaluations) {
+        IndividualEvaluation individualEvaluation;
+
+        for (StudentTeam studentTeam : studentTeams) {
+            individualEvaluation = new IndividualEvaluation();
+
+            individualEvaluation.setStudent(studentTeam.getStudent());
+
+            individualEvaluations.add(individualEvaluation);
+        }
     }
 }

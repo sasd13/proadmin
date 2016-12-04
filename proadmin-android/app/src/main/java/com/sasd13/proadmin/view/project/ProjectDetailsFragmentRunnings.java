@@ -30,7 +30,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
 
     private IProjectController controller;
     private Project project;
-    private List<Running> runnings;
     private Recycler runningsTab;
 
     public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project) {
@@ -39,40 +38,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         fragment.project = project;
 
         return fragment;
-    }
-
-    public void setRunnings(List<Running> runnings) {
-        if (runnings != null) {
-            this.runnings = runnings;
-
-            bindRunningsWithTab();
-        }
-    }
-
-    private void bindRunningsWithTab() {
-        runningsTab.clear();
-        RunningsSorter.byYear(runnings);
-        addRunningsToTab();
-    }
-
-    private void addRunningsToTab() {
-        RecyclerHolder holder = new RecyclerHolder();
-        RecyclerHolderPair pair;
-
-        for (final Running running : runnings) {
-            pair = new RecyclerHolderPair(new RunningItemModel(running));
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    controller.showRunning(running);
-                }
-            });
-
-            holder.add(pair);
-        }
-
-        RecyclerHelper.addAll(runningsTab, holder);
     }
 
     @Override
@@ -105,5 +70,35 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
                 controller.newRunning(project);
             }
         });
+    }
+
+    public void setRunnings(List<Running> runnings) {
+        bindTabWithRunnings(runnings);
+    }
+
+    private void bindTabWithRunnings(List<Running> runnings) {
+        runningsTab.clear();
+        RunningsSorter.byYear(runnings);
+        addRunningsToTab(runnings);
+    }
+
+    private void addRunningsToTab(List<Running> runnings) {
+        RecyclerHolder holder = new RecyclerHolder();
+        RecyclerHolderPair pair;
+
+        for (final Running running : runnings) {
+            pair = new RecyclerHolderPair(new RunningItemModel(running));
+
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    controller.showRunning(running);
+                }
+            });
+
+            holder.add(pair);
+        }
+
+        RecyclerHelper.addAll(runningsTab, holder);
     }
 }

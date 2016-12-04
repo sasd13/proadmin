@@ -3,10 +3,8 @@ package com.sasd13.proadmin.view.report;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +23,11 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.ws.service.RunningTeamService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ReportNewFragmentRunningTeams extends Fragment implements RunningTeamService.ReadCaller {
+public class ReportNewFragmentRunningTeams extends Fragment {
 
     private static class ActionSelectRunningTeam implements IAction {
 
@@ -61,27 +55,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
     }
 
     private ReportNewFragment parentFragment;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
     private Recycler runningTeamsTab;
-
-    private List<RunningTeam> runningTeams;
-
-    private RunningTeamService service;
 
     public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
         fragment.parentFragment = parentFragment;
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        runningTeams = new ArrayList<>();
-        service = new RunningTeamService(this);
     }
 
     @Override
@@ -97,19 +77,8 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildSwipeRefreshLayout(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-    }
-
-    private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                readRunningTeamsFromWS();
-            }
-        });
     }
 
     private void buildTabRunningTeams(View view) {
@@ -132,35 +101,11 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
         parentFragment.forward();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        readRunningTeamsFromWS();
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        bindRunningTeams(runningTeams);
     }
 
-    private void readRunningTeamsFromWS() {
-        service.read(SessionHelper.getExtraIdTeacherNumber(getContext()));
-    }
-
-    @Override
-    public void onWaiting() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void onReaded(List<RunningTeam> runningTeamsFromWS) {
-        swipeRefreshLayout.setRefreshing(false);
-        bindRunningTeams(runningTeamsFromWS);
-    }
-
-    private void bindRunningTeams(List<RunningTeam> runningTeamFromWS) {
-        runningTeams.clear();
-        runningTeams.addAll(runningTeamFromWS);
-        fillTabRunningTeamsByYear();
-    }
-
-    private void fillTabRunningTeamsByYear() {
+    private void bindRunningTeams(List<RunningTeam> runningTeams) {
         runningTeamsTab.clear();
         RunningTeamsSorter.byRunningYear(runningTeams);
         addRunningTeamsToTab(runningTeams);
@@ -184,15 +129,5 @@ public class ReportNewFragmentRunningTeams extends Fragment implements RunningTe
         }
 
         RecyclerHelper.addAll(runningTeamsTab, holder);
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        swipeRefreshLayout.setRefreshing(false);
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

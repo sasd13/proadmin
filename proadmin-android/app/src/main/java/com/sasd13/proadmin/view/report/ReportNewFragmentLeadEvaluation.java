@@ -3,7 +3,6 @@ package com.sasd13.proadmin.view.report;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -18,38 +17,29 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.ws.service.StudentService;
+import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
 
 import java.util.List;
 
-public class ReportNewFragmentLeadEvaluation extends Fragment implements StudentService.ReadCaller {
+public class ReportNewFragmentLeadEvaluation extends Fragment {
 
+    private IReportController controller;
     private ReportNewFragment parentFragment;
-
     private LeadEvaluationForm leadEvaluationForm;
 
-    private StudentService service;
-
-    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentLeadEvaluation newInstance(IReportController controller, ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
+        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        service = new StudentService(this);
     }
 
     @Override
@@ -66,8 +56,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
-        bindFormWithLeadEvaluation();
         buildFloatingActionButton(view);
+        bindFormWithLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -77,10 +67,6 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
-    }
-
-    private void bindFormWithLeadEvaluation() {
-        leadEvaluationForm.bindLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
     }
 
     private void buildFloatingActionButton(View view) {
@@ -93,7 +79,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
                     editLeadEvaluationWithForm();
                     goForward();
                 } catch (FormException e) {
-                    displayMessage(e.getMessage());
+                    controller.displayMessage(e.getMessage());
                 }
             }
         });
@@ -111,31 +97,17 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Student
         parentFragment.forward();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        service.read(parentFragment.getReportToCreate().getRunningTeam().getTeam());
+    private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation) {
+        leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
     }
 
-    @Override
-    public void onWaiting() {
+    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+        bindFormWithStudents(dependencyWrapper.getStudentTeams());
     }
 
-    @Override
-    public void onReaded(List<StudentTeam> studentTeams) {
-        Report reportToCreate = parentFragment.getReportToCreate();
+    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+        List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
 
-        leadEvaluationForm.bindLeader(new StudentsFromStudentTeamBuilder(studentTeams).build());
-        reportToCreate.setIndividualEvaluations(new IndividualEvaluationsBuilder(reportToCreate, studentTeams).build());
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        leadEvaluationForm.bindLeader(students);
     }
 }

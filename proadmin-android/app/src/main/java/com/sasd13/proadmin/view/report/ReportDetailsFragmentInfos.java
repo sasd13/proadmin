@@ -3,7 +3,6 @@ package com.sasd13.proadmin.view.report;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,26 +21,18 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.gui.form.ReportForm;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
-import com.sasd13.proadmin.ws.service.ReportService;
 
-import java.util.List;
+public class ReportDetailsFragmentInfos extends Fragment {
 
-public class ReportDetailsFragmentInfos extends Fragment implements ReportService.ManageCaller {
-
-    private ReportController parentActivity;
-
+    private IReportController controller;
+    private Report report;
     private ReportForm reportForm;
 
-    private Report report;
-
-    private ReportService service;
-
-    public static ReportDetailsFragmentInfos newInstance(Report report) {
+    public static ReportDetailsFragmentInfos newInstance(IReportController controller, Report report) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
+        fragment.controller = controller;
         fragment.report = report;
 
         return fragment;
@@ -52,9 +43,6 @@ public class ReportDetailsFragmentInfos extends Fragment implements ReportServic
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (ReportController) getActivity();
-        service = new ReportService(this);
     }
 
     @Override
@@ -98,10 +86,10 @@ public class ReportDetailsFragmentInfos extends Fragment implements ReportServic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateTeam();
+                updateReport();
                 break;
             case R.id.menu_edit_action_delete:
-                deleteTeam();
+                deleteReport();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -110,19 +98,17 @@ public class ReportDetailsFragmentInfos extends Fragment implements ReportServic
         return true;
     }
 
-    private void updateTeam() {
+    private void updateReport() {
         try {
-            service.update(getReportFromForm(), report);
+            Report reportFromForm = new ReportFromFormBuilder(reportForm).build();
+
+            controller.updateReport(reportFromForm, report);
         } catch (FormException e) {
-            displayMessage(e.getMessage());
+            controller.displayMessage(e.getMessage());
         }
     }
 
-    private Report getReportFromForm() throws FormException {
-        return new ReportFromFormBuilder(reportForm).build();
-    }
-
-    private void deleteTeam() {
+    private void deleteReport() {
         OptionDialog.showOkCancelDialog(
                 getContext(),
                 getResources().getString(R.string.message_delete),
@@ -130,36 +116,8 @@ public class ReportDetailsFragmentInfos extends Fragment implements ReportServic
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        service.delete(report);
+                        controller.deleteReport(report);
                     }
                 });
-    }
-
-    @Override
-    public void onWaiting() {
-    }
-
-    @Override
-    public void onCreated() {
-    }
-
-    @Override
-    public void onUpdated() {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleted() {
-        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listReports();
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

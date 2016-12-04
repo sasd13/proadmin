@@ -30,14 +30,12 @@ public class TeamDetailsFragmentStudents extends Fragment {
 
     private ITeamController controller;
     private Team team;
-    private List<StudentTeam> studentTeams;
     private Recycler studentTeamsTab;
 
-    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team, List<StudentTeam> studentTeams) {
+    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
         fragment.controller = controller;
         fragment.team = team;
-        fragment.studentTeams = studentTeams;
 
         return fragment;
     }
@@ -57,7 +55,6 @@ public class TeamDetailsFragmentStudents extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
-        bindStudentTeamsWithTab();
     }
 
     private void buildTabStudents(View view) {
@@ -75,12 +72,16 @@ public class TeamDetailsFragmentStudents extends Fragment {
         });
     }
 
-    private void bindStudentTeamsWithTab() {
-        StudentTeamsSorter.byStudentNumber(studentTeams);
-        addTeamsToTab();
+    public void setStudentTeams(List<StudentTeam> studentTeams) {
+        bindTabWithStudentTeams(studentTeams);
     }
 
-    private void addTeamsToTab() {
+    private void bindTabWithStudentTeams(List<StudentTeam> studentTeams) {
+        StudentTeamsSorter.byStudentNumber(studentTeams);
+        addTeamsToTab(studentTeams);
+    }
+
+    private void addTeamsToTab(List<StudentTeam> studentTeams) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
