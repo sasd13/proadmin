@@ -89,6 +89,8 @@ public class ProjectsFragment extends Fragment {
         inflater.inflate(R.menu.menu_projects, menu);
 
         buildSpinYears(menu.findItem(R.id.menu_projects_spinner));
+        bindYearsWithSpin();
+        bindProjectsWithTab();
     }
 
     private void buildSpinYears(MenuItem menuItem) {
@@ -105,9 +107,6 @@ public class ProjectsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
-        bindYearsWithSpin();
-        bindProjectsWithTab();
     }
 
     private void bindYearsWithSpin() {

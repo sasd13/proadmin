@@ -15,20 +15,14 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningTeamsService {
 
-    public interface ReadCaller extends ReadService.Caller<RunningTeam> {
-    }
-
-    public interface ManageCaller extends ManageService.Caller {
+    public interface Caller extends ReadService.Caller<RunningTeam>, ManageService.Caller {
     }
 
     private ReadService<RunningTeam> readService;
     private ManageService<RunningTeam> manageService;
 
-    public RunningTeamsService(ReadCaller caller) {
+    public RunningTeamsService(Caller caller) {
         readService = new ReadService<>(caller, WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
-    }
-
-    public RunningTeamsService(ManageCaller caller) {
         manageService = new ManageService<>(caller, WSResources.URL_WS_RUNNINGTEAMS);
     }
 

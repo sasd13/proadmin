@@ -14,12 +14,9 @@ import java.util.List;
 
 public class IndividualEvaluationsService {
 
-    public interface ManageCaller extends ManageService.Caller {
-    }
-
     private ManageService<IndividualEvaluation> manageService;
 
-    public IndividualEvaluationsService(ManageCaller caller) {
+    public IndividualEvaluationsService(ManageService.Caller caller) {
         manageService = new ManageService<>(caller, WSResources.URL_WS_INDIVIDUALEVALUATIONS);
     }
 

@@ -11,16 +11,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.gui.form.RunningForm;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
 
 public class RunningNewFragment extends Fragment {
 
@@ -100,7 +105,22 @@ public class RunningNewFragment extends Fragment {
     }
 
     private void createRunning() {
-        ((ProjectsActivity) getActivity()).createRunning(runningForm, project);
+        ((ProjectsActivity) getActivity()).createRunning(getRunningToCreate());
+    }
+
+    private Running getRunningToCreate() {
+        Running running = null;
+
+        try {
+            running = new RunningFromFormBuilder(runningForm).build();
+
+            running.setProject(project);
+            running.setTeacher(new Teacher(SessionHelper.getExtraIdTeacherNumber(getContext())));
+        } catch (FormException e) {
+            ((ProjectsActivity) getActivity()).displayMessage(e.getMessage());
+        }
+
+        return running;
     }
 
     @Override

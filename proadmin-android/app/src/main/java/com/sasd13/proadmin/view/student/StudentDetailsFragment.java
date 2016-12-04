@@ -2,7 +2,6 @@ package com.sasd13.proadmin.view.student;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,21 +21,13 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.form.StudentForm;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
-import com.sasd13.proadmin.ws.service.StudentsService;
 
-import java.util.List;
-
-public class StudentDetailsFragment extends Fragment implements StudentsService.ManageCaller {
-
-    private TeamsActivity parentActivity;
-
-    private StudentForm studentForm;
+public class StudentDetailsFragment extends Fragment {
 
     private Student student;
 
-    private StudentsService service;
+    private StudentForm studentForm;
 
     public static StudentDetailsFragment newInstance(Student student) {
         StudentDetailsFragment fragment = new StudentDetailsFragment();
@@ -50,9 +41,6 @@ public class StudentDetailsFragment extends Fragment implements StudentsService.
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (TeamsActivity) getActivity();
-        service = new StudentsService(this);
     }
 
     @Override
@@ -107,48 +95,18 @@ public class StudentDetailsFragment extends Fragment implements StudentsService.
 
     private void updateStudent() {
         try {
-            service.update(getStudentFromForm(), student);
-        } catch (FormException e) {
-            displayMessage(e.getMessage());
-        }
-    }
+            Student studentFromForm = new StudentFromFormBuilder(studentForm).build();
 
-    private Student getStudentFromForm() throws FormException {
-        return new StudentFromFormBuilder(studentForm).build();
+            ((TeamsActivity) getActivity()).updateStudent(studentFromForm, student);
+        } catch (FormException e) {
+            ((TeamsActivity) getActivity()).displayMessage(e.getMessage());
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
-    }
-
-    @Override
-    public void onWaiting() {
-    }
-
-    @Override
-    public void onCreated() {
-    }
-
-    @Override
-    public void onUpdated() {
-        Snackbar.make(getView(), R.string.message_updated, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleted() {
-        Snackbar.make(getView(), R.string.message_deleted, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listTeams();
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
     }
 }

@@ -1,27 +1,44 @@
 package com.sasd13.proadmin.controller;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.view.report.ReportDetailsFragment;
-import com.sasd13.proadmin.view.report.ReportNewFragment;
-import com.sasd13.proadmin.view.report.ReportsFragment;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.report.ReportDetailsFragment;
+import com.sasd13.proadmin.view.report.ReportNewFragment;
 
 import java.util.Calendar;
 
 public class ReportsActivity extends MotherActivity {
 
+    private View contentView;
     private Pager pager;
 
     public void setPager(Pager pager) {
         this.pager = pager;
+    }
+
+    private void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .commit();
+    }
+
+    private void startFragmentWithBackStack(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -29,6 +46,7 @@ public class ReportsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_container);
+        contentView = findViewById(android.R.id.content);
 
         buildView();
     }
@@ -98,6 +116,10 @@ public class ReportsActivity extends MotherActivity {
 
     public void newReport() {
         startFragment(ReportNewFragment.newInstance());
+    }
+
+    public void displayMessage(String message) {
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

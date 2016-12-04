@@ -3,7 +3,6 @@ package com.sasd13.proadmin.ws.service;
 import com.sasd13.androidex.ws.rest.service.ManageService;
 import com.sasd13.androidex.ws.rest.service.ReadService;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
@@ -26,11 +25,11 @@ public class RunningsService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_RUNNINGS);
     }
 
-    public void read(Project project, String teacherNumber) {
+    public void read(String teacherNumber, String projectCode) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readService.putParameters(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
+        readService.putParameters(EnumParameter.PROJECT.getName(), new String[]{projectCode});
         readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
         readService.read();
     }

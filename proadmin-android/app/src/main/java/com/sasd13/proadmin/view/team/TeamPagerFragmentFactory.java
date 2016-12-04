@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -21,12 +24,14 @@ public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
 
     private Context context;
     private Team team;
+    private List<StudentTeam> studentTeams;
 
-    public TeamPagerFragmentFactory(FragmentManager fragmentManager, Context context, Team team) {
+    public TeamPagerFragmentFactory(FragmentManager fragmentManager, Context context, Team team, List<StudentTeam> studentTeams) {
         super(fragmentManager);
 
         this.context = context;
         this.team = team;
+        this.studentTeams = studentTeams;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
             case 0:
                 return TeamDetailsFragmentInfos.newInstance(team);
             case 1:
-                return TeamDetailsFragmentStudents.newInstance(team);
+                return TeamDetailsFragmentStudents.newInstance(studentTeams);
             default:
                 return null;
         }

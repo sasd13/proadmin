@@ -2,7 +2,6 @@ package com.sasd13.proadmin.view.team;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,19 +21,11 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.form.TeamForm;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
-import com.sasd13.proadmin.ws.service.TeamsService;
 
-import java.util.List;
-
-public class TeamNewFragment extends Fragment implements TeamsService.ManageCaller {
-
-    private TeamsActivity parentActivity;
+public class TeamNewFragment extends Fragment {
 
     private TeamForm teamForm;
-
-    private TeamsService service;
 
     public static TeamNewFragment newInstance() {
         return new TeamNewFragment();
@@ -45,9 +36,6 @@ public class TeamNewFragment extends Fragment implements TeamsService.ManageCall
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (TeamsActivity) getActivity();
-        service = new TeamsService(this);
     }
 
     @Override
@@ -104,48 +92,19 @@ public class TeamNewFragment extends Fragment implements TeamsService.ManageCall
 
     private void createTeam() {
         try {
-            service.create(getTeamFromForm());
-        } catch (FormException e) {
-            displayMessage(e.getMessage());
-        }
-    }
+            Team team = new TeamFromFormBuilder(teamForm).build();
 
-    private Team getTeamFromForm() throws FormException {
-        return new TeamFromFormBuilder(teamForm).build();
+            ((TeamsActivity) getActivity()).createTeam(team);
+        } catch (FormException e) {
+            ((TeamsActivity) getActivity()).displayMessage(e.getMessage());
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void onWaiting() {
-    }
-
-    @Override
-    public void onCreated() {
-        Snackbar.make(getView(), R.string.message_saved, Snackbar.LENGTH_SHORT).show();
-        parentActivity.listTeams();
-    }
-
-    @Override
-    public void onUpdated() {
-    }
-
-    @Override
-    public void onDeleted() {
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        ((TeamsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

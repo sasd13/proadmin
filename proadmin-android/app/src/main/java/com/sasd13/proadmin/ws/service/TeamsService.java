@@ -3,6 +3,7 @@ package com.sasd13.proadmin.ws.service;
 import com.sasd13.androidex.ws.rest.service.ManageService;
 import com.sasd13.androidex.ws.rest.service.ReadService;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
@@ -12,21 +13,21 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class TeamsService {
 
-    public interface ReadCaller extends ReadService.Caller<Team> {
-    }
-
-    public interface ManageCaller extends ManageService.Caller {
+    public interface Caller extends ReadService.Caller<Team>, ManageService.Caller {
     }
 
     private ReadService<Team> readService;
     private ManageService<Team> manageService;
 
-    public TeamsService(ReadCaller caller) {
+    public TeamsService(Caller caller) {
         readService = new ReadService<>(caller, WSResources.URL_WS_TEAMS, Team.class);
+        manageService = new ManageService<>(caller, WSResources.URL_WS_TEAMS);
     }
 
-    public TeamsService(ManageCaller caller) {
-        manageService = new ManageService<>(caller, WSResources.URL_WS_TEAMS);
+    public void read(String number) {
+        readService.clearParameters();
+        readService.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
+        readService.read();
     }
 
     public void readAll() {

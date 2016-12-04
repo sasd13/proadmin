@@ -2,7 +2,9 @@ package com.sasd13.proadmin.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
@@ -21,10 +23,26 @@ import java.util.Calendar;
 
 public class RunningTeamsActivity extends MotherActivity {
 
+    private View contentView;
     private Pager pager;
 
     public void setPager(Pager pager) {
         this.pager = pager;
+    }
+
+    private void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .commit();
+    }
+
+    private void startFragmentWithBackStack(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -32,6 +50,7 @@ public class RunningTeamsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_container);
+        contentView = findViewById(android.R.id.content);
 
         buildView();
     }
@@ -132,6 +151,10 @@ public class RunningTeamsActivity extends MotherActivity {
         intent.putExtra(Extra.ID_ACADEMICLEVEL_CODE, runningTeam.getAcademicLevel().getCode());
 
         startActivity(intent);
+    }
+
+    public void displayMessage(String message) {
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

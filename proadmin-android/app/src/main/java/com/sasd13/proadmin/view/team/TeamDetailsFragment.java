@@ -11,27 +11,23 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.TeamsActivity;
 
+import java.util.List;
+
 public class TeamDetailsFragment extends Fragment {
 
-    private TeamsActivity parentActivity;
-
     private Team team;
+    private List<StudentTeam> studentTeams;
 
-    public static TeamDetailsFragment newInstance(Team team) {
+    public static TeamDetailsFragment newInstance(Team team, List<StudentTeam> studentTeams) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
         fragment.team = team;
+        fragment.studentTeams = studentTeams;
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        parentActivity = (TeamsActivity) getActivity();
     }
 
     @Override
@@ -54,23 +50,23 @@ public class TeamDetailsFragment extends Fragment {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new TeamPagerFragmentFactory(getChildFragmentManager(), getContext(), team));
+        pager.setAdapter(new TeamPagerFragmentFactory(getChildFragmentManager(), getContext(), team, studentTeams));
         tabsStrip.setViewPager(pager);
-        parentActivity.setPager(pager);
+        ((TeamsActivity) getActivity()).setPager(pager);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        parentActivity.getSupportActionBar().setSubtitle(null);
+        ((TeamsActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
+        ((TeamsActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        parentActivity.setPager(null);
+        ((TeamsActivity) getActivity()).setPager(null);
     }
 }

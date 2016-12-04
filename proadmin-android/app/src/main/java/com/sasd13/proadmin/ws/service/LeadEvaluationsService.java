@@ -11,12 +11,9 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class LeadEvaluationsService {
 
-    public interface ManageCaller extends ManageService.Caller {
-    }
-
     private ManageService<LeadEvaluation> manageService;
 
-    public LeadEvaluationsService(ManageCaller caller) {
+    public LeadEvaluationsService(ManageService.Caller caller) {
         manageService = new ManageService<>(caller, WSResources.URL_WS_LEADEVALUATIONS);
     }
 

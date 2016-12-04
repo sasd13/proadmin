@@ -5,22 +5,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.controller.caller.project.ProjectsServiceCaller;
+import com.sasd13.proadmin.controller.caller.running.RunningsServiceCaller;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.project.ProjectsFragment;
 import com.sasd13.proadmin.view.running.RunningDetailsFragment;
 import com.sasd13.proadmin.view.running.RunningNewFragment;
-import com.sasd13.proadmin.controller.caller.project.ProjectsServiceCaller;
-import com.sasd13.proadmin.controller.caller.running.RunningsServiceCaller;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
 import com.sasd13.proadmin.ws.service.ProjectsService;
 import com.sasd13.proadmin.ws.service.RunningsService;
 
@@ -94,20 +90,12 @@ public class ProjectsActivity extends MotherActivity {
         startFragment(RunningDetailsFragment.newInstance(running));
     }
 
-    public void newRunning(Project project) {
+    public void newRunning() {
         startFragment(RunningNewFragment.newInstance(project));
     }
 
-    public void createRunning(RunningForm runningForm, Project project) {
-        try {
-            Running running = new RunningFromFormBuilder(runningForm).build();
-
-            running.setProject(project);
-            running.setTeacher(new Teacher(SessionHelper.getExtraIdTeacherNumber(this)));
-            runningsService.create(running);
-        } catch (FormException e) {
-            displayMessage(e.getMessage());
-        }
+    public void createRunning(Running running) {
+        runningsService.create(running);
     }
 
     public void deleteRunning(Running running) {

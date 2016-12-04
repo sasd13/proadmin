@@ -3,9 +3,7 @@ package com.sasd13.proadmin.view.team;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,26 +24,21 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.ws.service.TeamsService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
-
-    private TeamsActivity parentActivity;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private Recycler teamsTab;
+public class TeamsFragment extends Fragment {
 
     private List<Team> teams;
 
-    private TeamsService service;
+    private Recycler teamsTab;
 
-    public static TeamsFragment newInstance() {
-        return new TeamsFragment();
+    public static TeamsFragment newInstance(List<Team> teams) {
+        TeamsFragment fragment = new TeamsFragment();
+        fragment.teams = teams;
+
+        return fragment;
     }
 
     @Override
@@ -53,10 +46,6 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        parentActivity = (TeamsActivity) getActivity();
-        teams = new ArrayList<>();
-        service = new TeamsService(this);
     }
 
     @Override
@@ -72,23 +61,9 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildSwipeRefreshLayout(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-    }
-
-    private void buildSwipeRefreshLayout(View view) {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                readTeamsFromWS();
-            }
-        });
-    }
-
-    private void readTeamsFromWS() {
-        service.readAll();
+        bindTeamsWithTab();
     }
 
     private void buildTabRunnings(View view) {
@@ -101,49 +76,12 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newTeam();
+                ((TeamsActivity) getActivity()).newTeam();
             }
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        if (menu != null) {
-            menu.setGroupVisible(R.id.menu_edit_group, false);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        parentActivity.getSupportActionBar().setTitle(getResources().getString(R.string.title_teams));
-        parentActivity.getSupportActionBar().setSubtitle(null);
-        readTeamsFromWS();
-    }
-
-    @Override
-    public void onWaiting() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void onReaded(List<Team> teamsFromWS) {
-        swipeRefreshLayout.setRefreshing(false);
-        bindTeams(teamsFromWS);
-    }
-
-    private void bindTeams(List<Team> teamFromWS) {
-        teams.clear();
-        teams.addAll(teamFromWS);
-        fillTabTeamsByYear();
-    }
-
-    private void fillTabTeamsByYear() {
-        teamsTab.clear();
-
+    private void bindTeamsWithTab() {
         TeamsSorter.byNumber(teams);
         addRunningsToTab();
     }
@@ -158,7 +96,7 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showTeam(team);
+                    ((TeamsActivity) getActivity()).showTeam(team);
                 }
             });
 
@@ -169,12 +107,11 @@ public class TeamsFragment extends Fragment implements TeamsService.ReadCaller {
     }
 
     @Override
-    public void onErrors(List<String> errors) {
-        swipeRefreshLayout.setRefreshing(false);
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

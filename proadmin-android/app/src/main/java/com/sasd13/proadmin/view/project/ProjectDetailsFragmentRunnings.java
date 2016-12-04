@@ -67,7 +67,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProjectsActivity) getActivity()).newRunning(runnings.get(0).getProject());
+                ((ProjectsActivity) getActivity()).newRunning();
             }
         });
     }

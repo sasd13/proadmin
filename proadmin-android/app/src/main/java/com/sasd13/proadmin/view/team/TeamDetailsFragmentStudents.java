@@ -3,7 +3,6 @@ package com.sasd13.proadmin.view.team;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,41 +20,23 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.TeamsActivity;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
-import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.ws.service.StudentsService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDetailsFragmentStudents extends Fragment implements StudentsService.ReadCaller {
+public class TeamDetailsFragmentStudents extends Fragment {
 
-    private TeamsActivity parentActivity;
+    private List<StudentTeam> studentTeams;
 
     private Recycler studentTeamsTab;
 
-    private Team team;
-    private List<StudentTeam> studentTeams;
-
-    private StudentsService service;
-
-    public static TeamDetailsFragmentStudents newInstance(Team team) {
+    public static TeamDetailsFragmentStudents newInstance(List<StudentTeam> studentTeams) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
-        fragment.team = team;
+        fragment.studentTeams = studentTeams;
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        parentActivity = (TeamsActivity) getActivity();
-        studentTeams = new ArrayList<>();
-        service = new StudentsService(this);
     }
 
     @Override
@@ -73,6 +54,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements StudentsSer
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
+        bindStudentTeamsWithTab();
     }
 
     private void buildTabStudents(View view) {
@@ -85,35 +67,12 @@ public class TeamDetailsFragmentStudents extends Fragment implements StudentsSer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.newStudent(team);
+                ((TeamsActivity) getActivity()).newStudent();
             }
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        readStudentTeamsFromWS();
-    }
-
-    private void readStudentTeamsFromWS() {
-        service.read(team);
-    }
-
-    @Override
-    public void onWaiting() {
-    }
-
-    @Override
-    public void onReaded(List<StudentTeam> studentTeamsFromWS) {
-        studentTeams.clear();
-        studentTeams.addAll(studentTeamsFromWS);
-        fillTabStudentTeamsByTeam();
-    }
-
-    private void fillTabStudentTeamsByTeam() {
-        studentTeamsTab.clear();
+    private void bindStudentTeamsWithTab() {
         StudentTeamsSorter.byStudentNumber(studentTeams);
         addTeamsToTab();
     }
@@ -128,7 +87,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements StudentsSer
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    parentActivity.showStudent(studentTeam.getStudent());
+                    ((TeamsActivity) getActivity()).showStudent(studentTeam.getStudent());
                 }
             });
 
@@ -136,14 +95,5 @@ public class TeamDetailsFragmentStudents extends Fragment implements StudentsSer
         }
 
         RecyclerHelper.addAll(studentTeamsTab, holder);
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        displayMessage(WebServiceUtils.handleErrors(getContext(), errors));
-    }
-
-    private void displayMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

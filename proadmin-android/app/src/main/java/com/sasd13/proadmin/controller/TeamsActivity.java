@@ -1,26 +1,55 @@
 package com.sasd13.proadmin.controller;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.controller.caller.team.TeamsServiceCaller;
 import com.sasd13.proadmin.view.student.StudentDetailsFragment;
 import com.sasd13.proadmin.view.student.StudentNewFragment;
 import com.sasd13.proadmin.view.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.team.TeamNewFragment;
 import com.sasd13.proadmin.view.team.TeamsFragment;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.ws.service.StudentsService;
+import com.sasd13.proadmin.ws.service.TeamsService;
+
+import java.util.List;
 
 public class TeamsActivity extends MotherActivity {
 
+    private View contentView;
     private Pager pager;
+
+    private Team team;
+
+    private TeamsService teamsService;
+    private StudentsService studentsService;
 
     public void setPager(Pager pager) {
         this.pager = pager;
+    }
+
+    private void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .commit();
+    }
+
+    private void startFragmentWithBackStack(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -28,6 +57,9 @@ public class TeamsActivity extends MotherActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_container);
+        contentView = findViewById(android.R.id.content);
+        teamsService = new TeamsService(new TeamsServiceCaller(this));
+        //studentsService = new StudentsService();
 
         buildView();
     }
@@ -41,51 +73,71 @@ public class TeamsActivity extends MotherActivity {
         if (!getIntent().hasExtra(Extra.MODE)) {
             listTeams();
         } else if (getIntent().hasExtra(Extra.ID_TEAM_NUMBER)) {
-            startFragmentWithoutBackStack(TeamDetailsFragment.newInstance(getTeamFromIntent()));
+            readTeam(getIntent().getStringExtra(Extra.ID_TEAM_NUMBER));
         } else {
-            startFragmentWithoutBackStack(TeamNewFragment.newInstance());
+            newTeam();
         }
     }
 
     public void listTeams() {
-        startFragmentWithoutBackStack(TeamsFragment.newInstance());
+        teamsService.readAll();
     }
 
-    private void startFragmentWithoutBackStack(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_container_fragment, fragment)
-                .commit();
+    public void onReadTeams(List<Team> teams) {
+        startFragment(TeamsFragment.newInstance(teams));
     }
 
-    private Team getTeamFromIntent() {
-        String teamNumber = getIntent().getStringExtra(Extra.ID_TEAM_NUMBER);
-
-        return new Team(teamNumber);
+    private void readTeam(String number) {
+        teamsService.read(number);
+        //studentsService.read();
     }
 
-    public void showTeam(Team team) {
-        startFragment(TeamDetailsFragment.newInstance(team));
-    }
-
-    private void startFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_container_fragment, fragment)
-                .addToBackStack(null)
-                .commit();
+    public void onReadTeam(Team team, List<StudentTeam> studentTeams) {
+        startFragment(TeamDetailsFragment.newInstance(team, studentTeams));
     }
 
     public void newTeam() {
         startFragment(TeamNewFragment.newInstance());
     }
 
+    public void showTeam(Team team) {
+        readTeam(team.getNumber());
+    }
+
     public void showStudent(Student student) {
         startFragment(StudentDetailsFragment.newInstance(student));
     }
 
-    public void newStudent(Team team) {
+    public void newStudent() {
         startFragment(StudentNewFragment.newInstance(team));
+    }
+
+    public void createTeam(Team team) {
+        teamsService.create(team);
+    }
+
+    public void updateTeam(Team team, Team teamToUpdate) {
+        teamsService.update(team, teamToUpdate);
+    }
+
+    public void deleteTeam(Team team) {
+        teamsService.delete(team);
+    }
+
+    public void createStudent(Student student, Team team) {
+        studentsService.create(student, team);
+    }
+
+    public void updateStudent(Student student, Student studentToUpdate) {
+        studentsService.update(student, studentToUpdate);
+    }
+
+    public void deleteStudentFromTeam(StudentTeam studentTeam) {
+        studentsService.delete(studentTeam);
+    }
+
+    public void displayMessage(String message) {
+        Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

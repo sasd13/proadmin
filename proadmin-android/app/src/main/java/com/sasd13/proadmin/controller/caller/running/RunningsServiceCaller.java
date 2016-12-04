@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.controller.caller.running;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.controller.ProjectsActivity;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.controller.ProjectsActivity;
+import com.sasd13.proadmin.util.WebServiceUtils;
 import com.sasd13.proadmin.ws.service.RunningsService;
 
 import java.util.List;
@@ -46,6 +47,6 @@ public class RunningsServiceCaller implements RunningsService.Caller {
 
     @Override
     public void onErrors(List<String> errors) {
-        projectsActivity.displayMessage(errors.get(0));
+        projectsActivity.displayMessage(WebServiceUtils.handleErrors(projectsActivity, errors));
     }
 }
