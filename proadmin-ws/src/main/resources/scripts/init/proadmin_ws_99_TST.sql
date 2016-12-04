@@ -60,15 +60,15 @@ INSERT INTO runningteams(_running_year,_running_project_code,_running_teacher_co
 
 -- REPORTS
 
-INSERT INTO reports(_code,_datemeeting,_session,_comment,_runningteam_running_year,_runningteam_running_project_code,_runningteam_running_teacher_code,_runningteam_team_code,_runningteam_academiclevel_code) VALUES ('RE-','2015-01-01 00:00:00',1,null,2015,'2015PR01','21010013','2015TE01','L1');
+INSERT INTO reports(_code,_datemeeting,_session,_comment,_runningteam_running_year,_runningteam_running_project_code,_runningteam_running_teacher_code,_runningteam_team_code,_runningteam_academiclevel_code) VALUES ('RE-','2015-01-01 00:00:00',1,'comment',2015,'2015PR01','21010013','2015TE01','L1');
 
 -- LEADEVALUATIONS
 
-INSERT INTO leadevaluations(_planningmark,_planningcomment,_communicationmark,_communicationcomment,_report_code,_student_code) VALUES (0,null,0,null,'RE-','2130876');
+INSERT INTO leadevaluations(_planningmark,_planningcomment,_communicationmark,_communicationcomment,_report_code,_student_code) VALUES (9,null,10,null,'RE-','2130876');
 
 -- INDIVIDUALEVALUATIONS
 
-INSERT INTO individualevaluations(_mark,_report_code,_student_code) VALUES (0,'RE-','2130876');
-INSERT INTO individualevaluations(_mark,_report_code,_student_code) VALUES (0,'RE-','2130877');
+INSERT INTO individualevaluations(_mark,_report_code,_student_code) VALUES (7,'RE-','2130876');
+INSERT INTO individualevaluations(_mark,_report_code,_student_code) VALUES (8,'RE-','2130877');
 
 --COMMIT;

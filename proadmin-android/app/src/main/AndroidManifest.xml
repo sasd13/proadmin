@@ -13,7 +13,7 @@
         android:label="@string/app_name">
 
         <activity
-            android:name=".activity.SplashScreenActivity"
+            android:name=".controller.SplashScreenActivity"
             android:label="@string/activity_splashscreen"
             android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".activity.LogInActivity"
+            android:name=".controller.LogInActivity"
             android:label="@string/activity_login"
             android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"
@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".controller.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/ProadminBlue"
             android:screenOrientation="portrait"
@@ -45,73 +45,73 @@
         </activity>
 
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".controller.SettingsActivity"
             android:label="@string/activity_settings"
             android:theme="@style/ProadminBrown"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.HomeActivity">
+            android:parentActivityName=".controller.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
+                android:value=".controller.HomeActivity" />
         </activity>
 
         <activity
-            android:name=".activity.TeamsActivity"
+            android:name=".controller.TeamsActivity"
             android:label="@string/activity_teams"
             android:theme="@style/ProadminGreen"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.HomeActivity">
+            android:parentActivityName=".controller.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
+                android:value=".controller.HomeActivity" />
         </activity>
 
         <activity
-            android:name=".activity.ProjectsActivity"
+            android:name=".controller.ProjectsActivity"
             android:label="@string/activity_projects"
             android:theme="@style/ProadminOrange"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.HomeActivity">
+            android:parentActivityName=".controller.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
+                android:value=".controller.HomeActivity" />
         </activity>
 
         <activity
-            android:name=".activity.RunningTeamsActivity"
+            android:name=".controller.RunningTeamsActivity"
             android:label="@string/activity_runningteams"
             android:theme="@style/ProadminPurple"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.HomeActivity">
+            android:parentActivityName=".controller.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
+                android:value=".controller.HomeActivity" />
         </activity>
 
         <activity
-            android:name=".activity.ReportsActivity"
+            android:name=".controller.ReportsActivity"
             android:label="@string/activity_reports"
             android:theme="@style/ProadminBlue"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.HomeActivity">
+            android:parentActivityName=".controller.HomeActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
+                android:value=".controller.HomeActivity" />
         </activity>
 
     </application>

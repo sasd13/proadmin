@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service;
 import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.javaex.ws.ILoginWebService;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.ws.LogInRESTCallback;
+import com.sasd13.proadmin.ws.callback.LogInRESTCallback;
 
 import java.util.List;
 

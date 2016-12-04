@@ -10,12 +10,12 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class ProjectsService {
 
-    public interface Caller extends ReadService.Caller<Project> {
+    public interface ReadCaller extends ReadService.Caller<Project> {
     }
 
     private ReadService<Project> readService;
 
-    public ProjectsService(Caller caller) {
+    public ProjectsService(ReadCaller caller) {
         readService = new ReadService<>(caller, WSResources.URL_WS_PROJECTS, Project.class);
     }
 

@@ -11,9 +11,9 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.HomeActivity;
+import com.sasd13.proadmin.controller.HomeActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.content.extra.Extra;
+import com.sasd13.proadmin.content.Extra;
 
 /**
  * Created by Samir on 05/03/2016.

@@ -173,7 +173,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_SESSION;
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE;
+			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
