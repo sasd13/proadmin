@@ -20,6 +20,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
+import com.sasd13.proadmin.view.IReportController;
 
 public class ReportNewFragmentInfo extends Fragment {
 

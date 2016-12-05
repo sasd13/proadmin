@@ -22,6 +22,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.form.RunningForm;
+import com.sasd13.proadmin.view.IRunningController;
 
 public class RunningDetailsFragment extends Fragment {
 

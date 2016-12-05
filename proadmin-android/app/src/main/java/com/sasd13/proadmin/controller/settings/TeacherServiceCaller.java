@@ -28,7 +28,7 @@ public class TeacherServiceCaller implements TeacherService.Caller {
 
     @Override
     public void onReaded(List<Teacher> teachers) {
-        controller.showTeacher(teachers.get(0));
+        controller.onReadTeacher(teachers.get(0));
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        fragmentFactory = new ProjectPagerFragmentFactory(getChildFragmentManager(), controller, project, getContext());
+        fragmentFactory = new ProjectPagerFragmentFactory(this, controller, project);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
         pager.setAdapter(fragmentFactory);

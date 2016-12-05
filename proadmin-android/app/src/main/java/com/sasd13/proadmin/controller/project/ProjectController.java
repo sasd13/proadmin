@@ -5,10 +5,10 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.view.project.IProjectController;
+import com.sasd13.proadmin.view.IProjectController;
 import com.sasd13.proadmin.view.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.project.ProjectsFragment;
-import com.sasd13.proadmin.view.running.IRunningController;
+import com.sasd13.proadmin.view.IRunningController;
 import com.sasd13.proadmin.view.running.RunningDetailsFragment;
 import com.sasd13.proadmin.view.running.RunningNewFragment;
 import com.sasd13.proadmin.ws.service.ProjectService;
@@ -29,6 +29,11 @@ public class ProjectController extends Controller implements IProjectController,
 
         projectService = new ProjectService(new ProjectServiceCaller(this, mainActivity));
         runningService = new RunningService(new RunningServiceCaller(this, mainActivity));
+    }
+
+    @Override
+    public void entry() {
+        listProjects();
     }
 
     @Override

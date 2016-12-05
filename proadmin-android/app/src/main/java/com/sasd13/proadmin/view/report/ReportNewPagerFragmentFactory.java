@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 

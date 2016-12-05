@@ -10,6 +10,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.view.IRunningTeamController;
 
 import java.util.List;
 

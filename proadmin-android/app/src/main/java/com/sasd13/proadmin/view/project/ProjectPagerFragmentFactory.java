@@ -3,12 +3,12 @@ package com.sasd13.proadmin.view.project;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class ProjectPagerFragmentFactory extends FragmentStatePagerAdapter {
     private Context context;
     private ProjectDetailsFragmentRunnings fragmentRunnings;
 
-    public ProjectPagerFragmentFactory(FragmentManager fragmentManager, IProjectController controller, Project project, Context context) {
-        super(fragmentManager);
+    public ProjectPagerFragmentFactory(Fragment fragment, IProjectController controller, Project project) {
+        super(fragment.getChildFragmentManager());
 
         this.controller = controller;
         this.project = project;
-        this.context = context;
+        context = fragment.getContext();
     }
 
     public void setRunnings(List<Running> runnings) {

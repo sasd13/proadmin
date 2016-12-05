@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
 

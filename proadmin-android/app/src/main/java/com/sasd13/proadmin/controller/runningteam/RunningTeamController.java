@@ -6,8 +6,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
-import com.sasd13.proadmin.view.report.IReportController;
-import com.sasd13.proadmin.view.runningteam.IRunningTeamController;
+import com.sasd13.proadmin.view.IReportController;
+import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamsFragment;
@@ -18,8 +18,6 @@ import java.util.List;
 
 public class RunningTeamController extends Controller implements IRunningTeamController {
 
-    private IReportController reportController;
-
     private RunningTeamsFragment runningTeamsFragment;
     private RunningTeamNewFragment runningTeamNewFragment;
     private RunningTeamDetailsFragment runningTeamDetailsFragment;
@@ -27,13 +25,16 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     private RunningTeamService runningTeamService;
     private RunningTeamDependencyService runningTeamDependencyService;
 
-    public RunningTeamController(MainActivity mainActivity, IReportController reportController) {
+    public RunningTeamController(MainActivity mainActivity) {
         super(mainActivity);
-
-        this.reportController = reportController;
 
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
         runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCaller(this, mainActivity));
+    }
+
+    @Override
+    public void entry() {
+        listRunningTeams();
     }
 
     @Override
@@ -93,11 +94,11 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     @Override
     public void newReport(RunningTeam runningTeam) {
-        reportController.newReport(runningTeam);
+        ((IReportController) mainActivity.lookup(IReportController.class)).newReport(runningTeam);
     }
 
     @Override
     public void showReport(Report report) {
-        reportController.showReport(report);
+        ((IReportController) mainActivity.lookup(IReportController.class)).showReport(report);
     }
 }

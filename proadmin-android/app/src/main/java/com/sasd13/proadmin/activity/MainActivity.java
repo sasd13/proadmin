@@ -14,55 +14,38 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.controller.project.ProjectController;
+import com.sasd13.proadmin.controller.report.ReportController;
+import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
+import com.sasd13.proadmin.controller.settings.SettingsController;
+import com.sasd13.proadmin.controller.team.TeamController;
 import com.sasd13.proadmin.gui.browser.Browser;
 import com.sasd13.proadmin.gui.browser.BrowserItemModel;
-import com.sasd13.proadmin.gui.browser.EnumBrowserItemType;
-import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.HomeFragment;
+import com.sasd13.proadmin.view.IController;
+import com.sasd13.proadmin.view.IProjectController;
+import com.sasd13.proadmin.view.IReportController;
+import com.sasd13.proadmin.view.IRunningController;
+import com.sasd13.proadmin.view.IRunningTeamController;
+import com.sasd13.proadmin.view.ISettingsController;
+import com.sasd13.proadmin.view.IStudentController;
+import com.sasd13.proadmin.view.ITeamController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends DrawerActivity {
 
+    private SettingsController settingsController;
+    private ProjectController projectController;
+    private TeamController teamController;
+    private RunningTeamController runningTeamController;
+    private ReportController reportController;
+
     private Pager pager;
 
     public void setPager(Pager pager) {
         this.pager = pager;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.layout_container);
-
-        GUIHelper.colorTitles(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (getIntent().hasExtra(Extra.EXIT) && getIntent().getBooleanExtra(Extra.EXIT, false)) {
-            getIntent().removeExtra(Extra.EXIT);
-            exit();
-        }
-    }
-
-    private void exit() {
-        final WaitDialog waitDialog = new WaitDialog(this);
-
-        new TaskPlanner(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, LogInActivity.class));
-                waitDialog.dismiss();
-                finish();
-            }
-        }).start(GUIConstants.TIMEOUT_ACTIVITY);
-
-        waitDialog.show();
     }
 
     @Override
@@ -82,10 +65,12 @@ public class MainActivity extends DrawerActivity {
 
         for (final BrowserItemModel browserItemModel : browserItemModels) {
             pair = new RecyclerHolderPair(browserItemModel);
+
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    executeBrowserItemAction(browserItemModel);
+                    lookup(browserItemModel.getTarget()).entry();
+                    setDrawerOpened(false);
                 }
             });
 
@@ -93,10 +78,6 @@ public class MainActivity extends DrawerActivity {
         }
 
         recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
-    }
-
-    private void executeBrowserItemAction(BrowserItemModel browserItemModel) {
-        startActivity(new Intent(MainActivity.this, browserItemModel.getTarget()));
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {
@@ -107,21 +88,13 @@ public class MainActivity extends DrawerActivity {
         for (final BrowserItemModel browserItemModel : browserItemModels) {
             pair = new RecyclerHolderPair(browserItemModel);
 
-            if (EnumBrowserItemType.LOGOUT.equals(browserItemModel.getBrowserItemType())) {
-                pair.addController(EnumActionEvent.CLICK, new IAction() {
-                    @Override
-                    public void execute() {
-                        SessionHelper.logOut(MainActivity.this);
-                    }
-                });
-            } else {
-                pair.addController(EnumActionEvent.CLICK, new IAction() {
-                    @Override
-                    public void execute() {
-                        executeBrowserItemAction(browserItemModel);
-                    }
-                });
-            }
+            pair.addController(EnumActionEvent.CLICK, new IAction() {
+                @Override
+                public void execute() {
+                    lookup(browserItemModel.getTarget()).entry();
+                    setDrawerOpened(false);
+                }
+            });
 
             pairs.add(pair);
         }
@@ -130,9 +103,65 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.layout_container);
+        GUIHelper.colorTitles(this);
+        showHome();
+        init();
+    }
+
+    private void showHome() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, HomeFragment.newInstance())
+                .commit();
+    }
+
+    private void init() {
+        settingsController = new SettingsController(this);
+        projectController = new ProjectController(this);
+        teamController = new TeamController(this);
+        runningTeamController = new RunningTeamController(this);
+        reportController = new ReportController(this);
+    }
+
+    @Override
     public void onBackPressed() {
         if (pager == null || !pager.handleBackPress(this)) {
             super.onBackPressed();
         }
+    }
+
+    public IController lookup(Class<? extends IController> mClass) {
+        if (ISettingsController.class.isAssignableFrom(mClass)) {
+            return settingsController;
+        } else if (IProjectController.class.isAssignableFrom(mClass) || IRunningController.class.isAssignableFrom(mClass)) {
+            return projectController;
+        } else if (ITeamController.class.isAssignableFrom(mClass) || IStudentController.class.isAssignableFrom(mClass)) {
+            return teamController;
+        } else if (IRunningTeamController.class.isAssignableFrom(mClass)) {
+            return runningTeamController;
+        } else if (IReportController.class.isAssignableFrom(mClass)) {
+            return reportController;
+        } else {
+            return null;
+        }
+    }
+
+    public void exit() {
+        final WaitDialog waitDialog = new WaitDialog(this);
+
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                waitDialog.dismiss();
+                finish();
+            }
+        }).start(GUIConstants.TIMEOUT_ACTIVITY);
+
+        waitDialog.show();
     }
 }

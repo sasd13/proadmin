@@ -9,7 +9,7 @@ import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
-import com.sasd13.proadmin.view.report.IReportController;
+import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.report.ReportNewFragment;
 import com.sasd13.proadmin.view.report.ReportsFragment;
@@ -44,6 +44,11 @@ public class ReportController extends Controller implements IReportController {
     }
 
     @Override
+    public void entry() {
+        listReports();
+    }
+
+    @Override
     public void listReports() {
         reportsFragment = ReportsFragment.newInstance(this);
 
@@ -62,6 +67,9 @@ public class ReportController extends Controller implements IReportController {
         reportNewFragment = ReportNewFragment.newInstance(this);
 
         startFragment(reportNewFragment);
+        runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        dependencyService.clearParametersStudentTeams();
+        dependencyService.read();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -85,6 +93,8 @@ public class ReportController extends Controller implements IReportController {
         reportNewFragment = ReportNewFragment.newInstance(this);
 
         startFragment(reportNewFragment);
+        runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        dependencyService.clearParametersStudentTeams();
         dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
         dependencyService.read();
     }

@@ -1,9 +1,0 @@
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:proadmin="http://schemas.android.com/apk/res-auto">
-
-    <item android:id="@+id/menu_home_action_logout"
-        android:icon="@drawable/ic_exit_to_app_white_36dp"
-        android:title="@string/button_logout"
-        proadmin:showAsAction="ifRoom"/>
-</menu>

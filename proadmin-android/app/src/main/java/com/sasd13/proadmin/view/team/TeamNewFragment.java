@@ -22,6 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
+import com.sasd13.proadmin.view.ITeamController;
 
 public class TeamNewFragment extends Fragment {
 

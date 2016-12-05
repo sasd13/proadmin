@@ -15,6 +15,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 

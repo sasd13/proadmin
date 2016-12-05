@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.report;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;

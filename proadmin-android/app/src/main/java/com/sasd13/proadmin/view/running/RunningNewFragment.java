@@ -26,6 +26,7 @@ import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
+import com.sasd13.proadmin.view.IRunningController;
 
 public class RunningNewFragment extends Fragment {
 

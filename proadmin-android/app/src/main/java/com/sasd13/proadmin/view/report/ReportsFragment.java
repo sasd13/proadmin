@@ -33,6 +33,7 @@ import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 

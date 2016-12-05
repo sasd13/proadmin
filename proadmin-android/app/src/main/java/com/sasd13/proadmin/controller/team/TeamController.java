@@ -5,10 +5,10 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.view.student.IStudentController;
+import com.sasd13.proadmin.view.IStudentController;
 import com.sasd13.proadmin.view.student.StudentDetailsFragment;
 import com.sasd13.proadmin.view.student.StudentNewFragment;
-import com.sasd13.proadmin.view.team.ITeamController;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.team.TeamNewFragment;
 import com.sasd13.proadmin.view.team.TeamsFragment;
@@ -30,6 +30,11 @@ public class TeamController extends Controller implements ITeamController, IStud
 
         teamService = new TeamService(new TeamServiceCaller(this, mainActivity));
         studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
+    }
+
+    @Override
+    public void entry() {
+        listTeams();
     }
 
     @Override

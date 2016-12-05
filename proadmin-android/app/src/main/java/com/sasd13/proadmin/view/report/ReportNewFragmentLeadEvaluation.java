@@ -25,6 +25,7 @@ import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 

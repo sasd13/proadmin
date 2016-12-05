@@ -6,5 +6,7 @@ package com.sasd13.proadmin.view;
 
 public interface IController {
 
+    void entry();
+
     void displayMessage(String message);
 }

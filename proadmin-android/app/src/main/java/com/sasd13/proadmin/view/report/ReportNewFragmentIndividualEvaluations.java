@@ -23,6 +23,7 @@ import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 

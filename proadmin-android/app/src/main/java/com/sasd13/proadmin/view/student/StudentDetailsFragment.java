@@ -22,6 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
+import com.sasd13.proadmin.view.IStudentController;
 
 public class StudentDetailsFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.running;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.view.IController;

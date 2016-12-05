@@ -24,6 +24,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
+import com.sasd13.proadmin.view.ITeamController;
 
 import java.util.List;
 

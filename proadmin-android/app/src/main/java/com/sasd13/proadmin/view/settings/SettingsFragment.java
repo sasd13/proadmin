@@ -20,6 +20,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.gui.form.TeacherForm;
 import com.sasd13.proadmin.util.builder.member.TeacherFromFormBuilder;
+import com.sasd13.proadmin.view.ISettingsController;
 
 public class SettingsFragment extends Fragment {
 
@@ -27,9 +28,15 @@ public class SettingsFragment extends Fragment {
     private Teacher teacher;
     private TeacherForm teacherForm;
 
-    public static SettingsFragment newInstance(ISettingsController controller, Teacher teacher) {
+    public static SettingsFragment newInstance(ISettingsController controller) {
         SettingsFragment fragment = new SettingsFragment();
         fragment.controller = controller;
+
+        return fragment;
+    }
+
+    public static SettingsFragment newInstance(ISettingsController controller, Teacher teacher) {
+        SettingsFragment fragment = newInstance(controller);
         fragment.teacher = teacher;
 
         return fragment;
@@ -56,7 +63,10 @@ public class SettingsFragment extends Fragment {
 
     private void buildView(View view) {
         buildFormSettings(view);
-        bindFormWithTeacher();
+
+        if (teacher != null) {
+            bindFormWithTeacher();
+        }
     }
 
     private void buildFormSettings(View view) {
@@ -100,5 +110,11 @@ public class SettingsFragment extends Fragment {
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+
+        bindFormWithTeacher();
     }
 }
