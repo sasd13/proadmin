@@ -11,7 +11,6 @@ import com.sasd13.proadmin.view.IController;
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-
 public abstract class Controller implements IController {
 
     protected MainActivity mainActivity;

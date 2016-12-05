@@ -1,18 +1,15 @@
 package com.sasd13.proadmin.activity;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.sasd13.androidex.activity.DrawerActivity;
-import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.util.GUIHelper;
-import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.project.ProjectController;
 import com.sasd13.proadmin.controller.report.ReportController;
@@ -21,6 +18,7 @@ import com.sasd13.proadmin.controller.settings.SettingsController;
 import com.sasd13.proadmin.controller.team.TeamController;
 import com.sasd13.proadmin.gui.browser.Browser;
 import com.sasd13.proadmin.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.HomeFragment;
 import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.IProjectController;
@@ -107,7 +105,6 @@ public class MainActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.layout_container);
-        GUIHelper.colorTitles(this);
         showHome();
         init();
     }
@@ -151,17 +148,16 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void exit() {
-        final WaitDialog waitDialog = new WaitDialog(this);
-
-        new TaskPlanner(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, LogInActivity.class));
-                waitDialog.dismiss();
-                finish();
-            }
-        }).start(GUIConstants.TIMEOUT_ACTIVITY);
-
-        waitDialog.show();
+        OptionDialog.showOkCancelDialog(
+                this,
+                getResources().getString(R.string.button_logout),
+                getResources().getString(R.string.message_confirm),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SessionHelper.logOut(MainActivity.this);
+                    }
+                }
+        );
     }
 }

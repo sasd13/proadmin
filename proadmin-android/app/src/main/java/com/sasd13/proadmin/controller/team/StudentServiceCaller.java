@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-
 public class StudentServiceCaller implements StudentService.Caller {
 
     private TeamController controller;

@@ -12,11 +12,11 @@ import java.util.List;
  * Created by ssaidali2 on 13/11/2016.
  */
 
-public class StudentsOfReportBuilder implements IBuilder<List<Student>> {
+public class StudentsFromReportBuilder implements IBuilder<List<Student>> {
 
     private Report report;
 
-    public StudentsOfReportBuilder(Report report) {
+    public StudentsFromReportBuilder(Report report) {
         this.report = report;
     }
 

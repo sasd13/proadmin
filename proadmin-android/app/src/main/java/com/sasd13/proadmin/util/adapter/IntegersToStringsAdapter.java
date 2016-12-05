@@ -24,6 +24,5 @@ public class IntegersToStringsAdapter implements IAdapter<List<Integer>, List<St
 
     @Override
     public void adapt(List<Integer> integers, List<String> strings) {
-
     }
 }

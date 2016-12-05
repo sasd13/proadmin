@@ -2,15 +2,13 @@ package com.sasd13.proadmin.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.sasd13.androidex.gui.GUIConstants;
-import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.Session;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.LogInActivity;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.content.Extra;
@@ -45,28 +43,18 @@ public class SessionHelper {
     }
 
     public static void logOut(final Activity activity) {
-        OptionDialog.showOkCancelDialog(
-                activity,
-                activity.getResources().getString(R.string.button_logout),
-                activity.getResources().getString(R.string.message_confirm),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        exit(activity);
-                    }
-                }
-        );
-    }
+        final WaitDialog waitDialog = new WaitDialog(activity);
 
-    private static void exit(Activity activity) {
-        Session.clear(activity);
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                activity.startActivity(new Intent(activity, LogInActivity.class));
+                waitDialog.dismiss();
+                activity.finish();
+            }
+        }).start(GUIConstants.TIMEOUT_ACTIVITY);
 
-        Intent intent = new Intent(activity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(Extra.EXIT, true);
-
-        activity.startActivity(intent);
-        activity.finish();
+        waitDialog.show();
     }
 
     public static String getExtraId(Context context, String extraKey) {
