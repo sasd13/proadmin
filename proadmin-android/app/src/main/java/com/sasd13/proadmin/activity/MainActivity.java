@@ -8,7 +8,7 @@ import com.sasd13.androidex.activity.DrawerActivity;
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.gui.widget.pager.Pager;
+import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.proadmin.R;
@@ -43,11 +43,11 @@ public class MainActivity extends DrawerActivity {
     private RunningTeamController runningTeamController;
     private ReportController reportController;
 
-    private Pager pager;
+    private IPagerHandler pagerHandler;
     private Stack<Fragment> stack;
 
-    public void setPager(Pager pager) {
-        this.pager = pager;
+    public void setPagerHandler(IPagerHandler pagerHandler) {
+        this.pagerHandler = pagerHandler;
     }
 
     @Override
@@ -136,27 +136,25 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     public void onBackPressed() {
-        if (pager == null || !pager.handleBackPress(this)) {
-            if (stack.size() >= 2) {
-                stack.pop();
-                Fragment fragment = stack.pop();
+        if (pagerHandler == null || !pagerHandler.handleBackPress()) {
+            stack.pop();
+            Fragment fragment = stack.pop();
 
-                if (!ProxyFragment.class.isAssignableFrom(fragment.getClass())) {
-                    startFragment(fragment);
-                } else {
-                    if (!stack.isEmpty()) {
-                        startFragment(stack.pop());
-                    } else {
-                        super.onBackPressed();
-                    }
-                }
+            if (!ProxyFragment.class.isAssignableFrom(fragment.getClass())) {
+                startFragment(fragment);
             } else {
-                if (!stack.empty()) {
-                    stack.clear();
+                if (!stack.isEmpty()) {
+                    startFragment(stack.pop());
+                } else {
+                    super.onBackPressed();
                 }
-
-                super.onBackPressed();
             }
+        } else {
+            if (!stack.empty()) {
+                stack.clear();
+            }
+
+            super.onBackPressed();
         }
     }
 

@@ -13,7 +13,7 @@ import com.sasd13.proadmin.view.IReportController;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportDetailsPagerFragmentFactory extends FragmentStatePagerAdapter {
+public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 3;
 
@@ -29,7 +29,7 @@ public class ReportDetailsPagerFragmentFactory extends FragmentStatePagerAdapter
     private ReportDependencyWrapper dependencyWrapper;
     private Context context;
 
-    public ReportDetailsPagerFragmentFactory(Fragment fragment, IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
+    public ReportDetailsPagerFactory(Fragment fragment, IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;

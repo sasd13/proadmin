@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
+public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 4;
 
@@ -21,7 +21,7 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
     private ReportNewFragmentRunningTeams fragmentRunningTeams;
     private ReportNewFragmentLeadEvaluation fragmentLeadEvaluation;
 
-    public ReportNewPagerFragmentFactory(ReportNewFragment parentFragment, IReportController controller) {
+    public ReportNewPagerFactory(ReportNewFragment parentFragment, IReportController controller) {
         super(parentFragment.getChildFragmentManager());
 
         this.controller = controller;

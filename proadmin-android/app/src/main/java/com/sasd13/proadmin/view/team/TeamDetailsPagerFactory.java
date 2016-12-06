@@ -13,7 +13,7 @@ import com.sasd13.proadmin.view.ITeamController;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
+public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
@@ -25,7 +25,7 @@ public class TeamPagerFragmentFactory extends FragmentStatePagerAdapter {
     private TeamDependencyWrapper dependencyWrapper;
     private Context context;
 
-    public TeamPagerFragmentFactory(Fragment fragment, ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
+    public TeamDetailsPagerFactory(Fragment fragment, ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;

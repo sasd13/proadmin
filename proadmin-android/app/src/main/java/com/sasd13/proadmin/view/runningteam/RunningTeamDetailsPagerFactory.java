@@ -13,7 +13,7 @@ import com.sasd13.proadmin.view.IRunningTeamController;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class RunningTeamPagerFragmentFactory extends FragmentStatePagerAdapter {
+public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
@@ -25,7 +25,7 @@ public class RunningTeamPagerFragmentFactory extends FragmentStatePagerAdapter {
     private RunningTeamDependencyWrapper dependencyWrapper;
     private Context context;
 
-    public RunningTeamPagerFragmentFactory(Fragment fragment, IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
+    public RunningTeamDetailsPagerFactory(Fragment fragment, IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;

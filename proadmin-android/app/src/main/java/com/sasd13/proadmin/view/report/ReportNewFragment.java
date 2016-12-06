@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
@@ -19,12 +20,12 @@ import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 
-public class ReportNewFragment extends Fragment {
+public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     private IReportController controller;
-    private ReportNewPagerFragmentFactory fragmentFactory;
-    private Pager pager;
+    private ReportNewPagerFactory fragmentFactory;
     private Report reportToCreate;
+    private Pager pager;
 
     public static ReportNewFragment newInstance(IReportController controller) {
         ReportNewFragment fragment = new ReportNewFragment();
@@ -46,6 +47,11 @@ public class ReportNewFragment extends Fragment {
     }
 
     @Override
+    public boolean handleBackPress() {
+        return pager.handleBackPress(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -63,11 +69,11 @@ public class ReportNewFragment extends Fragment {
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
-        fragmentFactory = new ReportNewPagerFragmentFactory(this, controller);
+        fragmentFactory = new ReportNewPagerFactory(this, controller);
 
         pager.setAdapter(fragmentFactory);
         pager.setScrollable(false);
-        ((MainActivity) getActivity()).setPager(pager);
+        ((MainActivity) getActivity()).setPagerHandler(this);
     }
 
     public void setRunningTeams(List<RunningTeam> runningTeams) {
@@ -95,5 +101,12 @@ public class ReportNewFragment extends Fragment {
         super.onStart();
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        ((MainActivity) getActivity()).setPagerHandler(null);
     }
 }

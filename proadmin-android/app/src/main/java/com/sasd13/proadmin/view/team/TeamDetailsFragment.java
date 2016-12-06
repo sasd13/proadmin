@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
@@ -16,11 +17,12 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
 import com.sasd13.proadmin.view.ITeamController;
 
-public class TeamDetailsFragment extends Fragment {
+public class TeamDetailsFragment extends Fragment implements IPagerHandler {
 
     private ITeamController controller;
     private Team team;
     private TeamDependencyWrapper dependencyWrapper;
+    private Pager pager;
 
     public static TeamDetailsFragment newInstance(ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
@@ -29,6 +31,11 @@ public class TeamDetailsFragment extends Fragment {
         fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
+    }
+
+    @Override
+    public boolean handleBackPress() {
+        return pager.handleBackPress(this);
     }
 
     @Override
@@ -48,12 +55,12 @@ public class TeamDetailsFragment extends Fragment {
     }
 
     private void buildPager(View view) {
-        Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
+        pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new TeamPagerFragmentFactory(this, controller, team, dependencyWrapper));
+        pager.setAdapter(new TeamDetailsPagerFactory(this, controller, team, dependencyWrapper));
         tabsStrip.setViewPager(pager);
-        ((MainActivity) getActivity()).setPager(pager);
+        ((MainActivity) getActivity()).setPagerHandler(this);
     }
 
     @Override
@@ -68,6 +75,6 @@ public class TeamDetailsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        ((MainActivity) getActivity()).setPager(null);
+        ((MainActivity) getActivity()).setPagerHandler(null);
     }
 }
