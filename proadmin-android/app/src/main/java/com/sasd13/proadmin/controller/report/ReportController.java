@@ -111,6 +111,7 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void showReport(Report report) {
+        mode = Extra.MODE_EDIT;
         this.report = report;
 
         startProxyFragment();
