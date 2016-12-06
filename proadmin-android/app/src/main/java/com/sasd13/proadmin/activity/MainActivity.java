@@ -2,6 +2,7 @@ package com.sasd13.proadmin.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.activity.DrawerActivity;
 import com.sasd13.androidex.gui.IAction;
@@ -28,9 +29,11 @@ import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.ISettingsController;
 import com.sasd13.proadmin.view.IStudentController;
 import com.sasd13.proadmin.view.ITeamController;
+import com.sasd13.proadmin.view.ProxyFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
@@ -41,6 +44,7 @@ public class MainActivity extends DrawerActivity {
     private ReportController reportController;
 
     private Pager pager;
+    private Stack<Fragment> stack;
 
     public void setPager(Pager pager) {
         this.pager = pager;
@@ -104,16 +108,9 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        init();
         setContentView(R.layout.layout_container);
         showHome();
-        init();
-    }
-
-    private void showHome() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_container_fragment, HomeFragment.newInstance())
-                .commit();
     }
 
     private void init() {
@@ -122,12 +119,44 @@ public class MainActivity extends DrawerActivity {
         teamController = new TeamController(this);
         runningTeamController = new RunningTeamController(this);
         reportController = new ReportController(this);
+        stack = new Stack<>();
+    }
+
+    private void showHome() {
+        startFragment(HomeFragment.newInstance());
+    }
+
+    public void startFragment(Fragment fragment) {
+        addToBackStack(fragment);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, fragment)
+                .commit();
     }
 
     @Override
     public void onBackPressed() {
         if (pager == null || !pager.handleBackPress(this)) {
-            super.onBackPressed();
+            if (stack.size() >= 2) {
+                stack.pop();
+                Fragment fragment = stack.pop();
+
+                if (!ProxyFragment.class.isAssignableFrom(fragment.getClass())) {
+                    startFragment(fragment);
+                } else {
+                    if (!stack.isEmpty()) {
+                        startFragment(stack.pop());
+                    } else {
+                        super.onBackPressed();
+                    }
+                }
+            } else {
+                if (!stack.empty()) {
+                    stack.clear();
+                }
+
+                super.onBackPressed();
+            }
         }
     }
 
@@ -145,6 +174,10 @@ public class MainActivity extends DrawerActivity {
         } else {
             return null;
         }
+    }
+
+    public void addToBackStack(Fragment fragment) {
+        stack.push(fragment);
     }
 
     public void exit() {

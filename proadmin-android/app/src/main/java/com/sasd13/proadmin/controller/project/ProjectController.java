@@ -52,7 +52,7 @@ public class ProjectController extends Controller implements IProjectController,
         this.project = project;
 
         startProxyFragment();
-        runningService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
+        runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
     }
 
     void onReadRunnings(List<Running> runnings) {
@@ -63,7 +63,7 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void newRunning(Project project) {
-        startFragmentWithBackStack(RunningNewFragment.newInstance(this, project));
+        startFragment(RunningNewFragment.newInstance(this, project));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void showRunning(Running running) {
-        startFragmentWithBackStack(RunningDetailsFragment.newInstance(this, running));
+        startFragment(RunningDetailsFragment.newInstance(this, running));
     }
 
     @Override

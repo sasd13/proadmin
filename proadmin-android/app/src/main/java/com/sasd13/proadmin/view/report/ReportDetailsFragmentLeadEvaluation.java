@@ -34,12 +34,14 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
 
     private IReportController controller;
     private Report report;
+    private ReportDependencyWrapper dependencyWrapper;
     private LeadEvaluationForm leadEvaluationForm;
 
-    public static ReportDetailsFragmentLeadEvaluation newInstance(IReportController controller, Report report) {
+    public static ReportDetailsFragmentLeadEvaluation newInstance(IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
         fragment.controller = controller;
         fragment.report = report;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -65,6 +67,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
+        bindFormWithLeadEvaluation();
+        bindFormWithStudents(dependencyWrapper.getStudentTeams());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -74,6 +78,16 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
+    }
+
+    private void bindFormWithLeadEvaluation() {
+        leadEvaluationForm.bindLeadEvaluation(report.getLeadEvaluation());
+    }
+
+    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+        List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
+
+        leadEvaluationForm.bindLeader(students, report.getLeadEvaluation().getStudent());
     }
 
     @Override
@@ -112,24 +126,5 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
-    }
-
-    public void setLeadEvaluation(LeadEvaluation leadEvaluation) {
-        bindFormWithLeadEvaluation(leadEvaluation);
-    }
-
-    private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation) {
-        report.setLeadEvaluation(leadEvaluation);
-        leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
-    }
-
-    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
-        bindFormWithStudents(dependencyWrapper.getStudentTeams());
-    }
-
-    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
-        List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
-
-        leadEvaluationForm.bindLeader(students, report.getLeadEvaluation().getStudent());
     }
 }

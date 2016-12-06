@@ -40,14 +40,15 @@ import java.util.List;
 public class ReportsFragment extends Fragment {
 
     private IReportController controller;
+    private List<Report> reports;
     private Spin spinTeams;
     private Recycler reportsTab;
     private List<String> teamsNumbers;
-    private List<Report> reports;
 
-    public static ReportsFragment newInstance(IReportController controller) {
+    public static ReportsFragment newInstance(IReportController controller, List<Report> reports) {
         ReportsFragment fragment = new ReportsFragment();
         fragment.controller = controller;
+        fragment.reports = reports;
 
         return fragment;
     }
@@ -114,9 +115,7 @@ public class ReportsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-    }
 
-    public void setReports(List<Report> reports) {
         bindSpinWithTeams(reports);
         bindTabWithReports(reports);
     }

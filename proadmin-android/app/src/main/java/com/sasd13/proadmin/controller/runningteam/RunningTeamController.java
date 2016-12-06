@@ -39,7 +39,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void listRunningTeams() {
         startProxyFragment();
-        runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {

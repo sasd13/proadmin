@@ -24,7 +24,7 @@ public class TeacherService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_TEACHERS);
     }
 
-    public void readTeacher(String number) {
+    public void readByNumber(String number) {
         readService.clearParameters();
         readService.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
         readService.read();

@@ -28,7 +28,7 @@ public class IndividualEvaluationServiceCaller implements IndividualEvaluationSe
 
     @Override
     public void onReaded(List<IndividualEvaluation> individualEvaluations) {
-        controller.onReadIndividualEvaluations(individualEvaluations);
+        //Do nothing
     }
 
     @Override

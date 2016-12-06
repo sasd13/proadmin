@@ -12,24 +12,21 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
 import com.sasd13.proadmin.view.IReportController;
-
-import java.util.List;
 
 public class ReportDetailsFragment extends Fragment {
 
     private IReportController controller;
     private Report report;
-    private ReportDetailsPagerFragmentFactory fragmentFactory;
+    private ReportDependencyWrapper dependencyWrapper;
 
-    public static ReportDetailsFragment newInstance(IReportController controller, Report report) {
+    public static ReportDetailsFragment newInstance(IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
         ReportDetailsFragment fragment = new ReportDetailsFragment();
         fragment.controller = controller;
         fragment.report = report;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -52,24 +49,11 @@ public class ReportDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        fragmentFactory = new ReportDetailsPagerFragmentFactory(getChildFragmentManager(), controller, getContext(), report);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(fragmentFactory);
+        pager.setAdapter(new ReportDetailsPagerFragmentFactory(this, controller, report, dependencyWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
-    }
-
-    public void setLeadEaluation(LeadEvaluation leadEaluations) {
-        fragmentFactory.setLeadEvaluation(leadEaluations);
-    }
-
-    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
-        fragmentFactory.setDependencyWrapper(dependencyWrapper);
-    }
-
-    public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-        fragmentFactory.setIndividualEvaluations(individualEvaluations);
     }
 
     @Override

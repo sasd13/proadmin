@@ -26,7 +26,15 @@ public class ReportService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_REPORTS);
     }
 
-    public void read(String teacherNumber) {
+    public void readByNumber(String number) {
+        readService.clearHeaders();
+        readService.clearParameters();
+        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+        readService.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
+        readService.read();
+    }
+
+    public void readByTeacher(String teacherNumber) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
@@ -34,7 +42,7 @@ public class ReportService {
         readService.read();
     }
 
-    public void read(String teacherNumber, int year, String projectCode, String teamNumber, String academicLevelCode) {
+    public void readByRunningTeam(String teacherNumber, int year, String projectCode, String teamNumber, String academicLevelCode) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});

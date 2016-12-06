@@ -3,21 +3,21 @@ package com.sasd13.proadmin.controller.report;
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.LeadEvaluationService;
+import com.sasd13.proadmin.ws.service.StudentService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class LeadEvaluationServiceCaller implements LeadEvaluationService.Caller {
+public class StudentServiceCaller implements StudentService.Caller {
 
     private ReportController controller;
     private Context context;
 
-    public LeadEvaluationServiceCaller(ReportController controller, Context context) {
+    public StudentServiceCaller(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
@@ -27,8 +27,8 @@ public class LeadEvaluationServiceCaller implements LeadEvaluationService.Caller
     }
 
     @Override
-    public void onReaded(List<LeadEvaluation> leadEvaluations) {
-        //Do nothing
+    public void onReaded(List<StudentTeam> studentTeams) {
+        controller.onReadStudentTeams(studentTeams);
     }
 
     @Override

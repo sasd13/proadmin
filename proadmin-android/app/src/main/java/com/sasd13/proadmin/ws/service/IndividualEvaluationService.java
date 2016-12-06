@@ -29,7 +29,7 @@ public class IndividualEvaluationService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_INDIVIDUALEVALUATIONS);
     }
 
-    public void read(String reportNumber) {
+    public void readByReport(String reportNumber) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});

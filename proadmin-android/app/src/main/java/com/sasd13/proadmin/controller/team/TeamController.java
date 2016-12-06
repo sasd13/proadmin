@@ -50,7 +50,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newTeam() {
-        startFragmentWithBackStack(TeamNewFragment.newInstance(this));
+        startFragment(TeamNewFragment.newInstance(this));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TeamController extends Controller implements ITeamController, IStud
         this.team = team;
 
         startProxyFragment();
-        studentService.read(team.getNumber());
+        studentService.readByTeam(team.getNumber());
     }
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
@@ -84,7 +84,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newStudent(Team team) {
-        startFragmentWithBackStack(StudentNewFragment.newInstance(this, team));
+        startFragment(StudentNewFragment.newInstance(this, team));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showStudent(Student student) {
-        startFragmentWithBackStack(StudentDetailsFragment.newInstance(this, student));
+        startFragment(StudentDetailsFragment.newInstance(this, student));
     }
 
     @Override

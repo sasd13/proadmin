@@ -29,7 +29,7 @@ public class TeamService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_TEAMS);
     }
 
-    public void read(String number) {
+    public void readByNumber(String number) {
         readService.clearParameters();
         readService.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
         readService.read();

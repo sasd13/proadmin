@@ -25,7 +25,7 @@ public class RunningService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_RUNNINGS);
     }
 
-    public void read(String teacherNumber, String projectCode) {
+    public void readByTeacherAndProject(String teacherNumber, String projectCode) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});

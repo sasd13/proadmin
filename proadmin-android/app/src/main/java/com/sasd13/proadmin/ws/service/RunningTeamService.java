@@ -26,7 +26,7 @@ public class RunningTeamService {
         manageService = new ManageService<>(caller, WSResources.URL_WS_RUNNINGTEAMS);
     }
 
-    public void read(String teacherNumber) {
+    public void readByTeacher(String teacherNumber) {
         readService.clearHeaders();
         readService.clearParameters();
         readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});

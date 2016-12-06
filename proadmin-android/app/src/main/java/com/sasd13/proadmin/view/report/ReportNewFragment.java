@@ -63,7 +63,7 @@ public class ReportNewFragment extends Fragment {
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
-        fragmentFactory = new ReportNewPagerFragmentFactory(getChildFragmentManager(), controller, this);
+        fragmentFactory = new ReportNewPagerFragmentFactory(this, controller);
 
         pager.setAdapter(fragmentFactory);
         pager.setScrollable(false);

@@ -1,10 +1,12 @@
 package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -18,20 +20,22 @@ import com.sasd13.proadmin.ws.service.LeadEvaluationService;
 import com.sasd13.proadmin.ws.service.ReportDependencyService;
 import com.sasd13.proadmin.ws.service.ReportService;
 import com.sasd13.proadmin.ws.service.RunningTeamService;
+import com.sasd13.proadmin.ws.service.StudentService;
 
 import java.util.List;
 
 public class ReportController extends Controller implements IReportController {
 
-    private ReportsFragment reportsFragment;
     private ReportNewFragment reportNewFragment;
-    private ReportDetailsFragment reportDetailsFragment;
 
     private ReportService reportService;
     private LeadEvaluationService leadEvaluationService;
     private IndividualEvaluationService individualEvaluationService;
     private ReportDependencyService dependencyService;
     private RunningTeamService runningTeamService;
+    private StudentService studentService;
+    private Report report;
+    private int mode;
 
     public ReportController(MainActivity mainActivity) {
         super(mainActivity);
@@ -41,6 +45,7 @@ public class ReportController extends Controller implements IReportController {
         individualEvaluationService = new IndividualEvaluationService(new IndividualEvaluationServiceCaller(this, mainActivity));
         dependencyService = new ReportDependencyService(new ReportServiceCaller(this, mainActivity));
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
+        studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
     }
 
     @Override
@@ -50,15 +55,19 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void listReports() {
-        reportsFragment = ReportsFragment.newInstance(this);
+        mode = Extra.MODE_LIST;
 
-        startFragment(reportsFragment);
-        reportService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        startProxyFragment();
+        reportService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadReports(List<Report> reports) {
-        if (!reportsFragment.isDetached()) {
-            reportsFragment.setReports(reports);
+        if (isProxyFragmentNotDetached()) {
+            if (mode == Extra.MODE_EDIT) {
+                studentService.readByTeam(reports.get(0).getRunningTeam().getTeam().getNumber());
+            } else {
+                startFragment(ReportsFragment.newInstance(this, reports));
+            }
         }
     }
 
@@ -67,7 +76,7 @@ public class ReportController extends Controller implements IReportController {
         reportNewFragment = ReportNewFragment.newInstance(this);
 
         startFragment(reportNewFragment);
-        runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
         dependencyService.clearParametersStudentTeams();
         dependencyService.read();
     }
@@ -82,10 +91,6 @@ public class ReportController extends Controller implements IReportController {
         if (reportNewFragment != null && !reportNewFragment.isDetached()) {
             reportNewFragment.setDependencyWrapper(dependencyWrapper);
         }
-
-        if (reportDetailsFragment != null && !reportDetailsFragment.isDetached()) {
-            reportDetailsFragment.setDependencyWrapper(dependencyWrapper);
-        }
     }
 
     @Override
@@ -93,7 +98,7 @@ public class ReportController extends Controller implements IReportController {
         reportNewFragment = ReportNewFragment.newInstance(this);
 
         startFragment(reportNewFragment);
-        runningTeamService.read(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
         dependencyService.clearParametersStudentTeams();
         dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
         dependencyService.read();
@@ -106,20 +111,15 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void showReport(Report report) {
-        reportDetailsFragment = ReportDetailsFragment.newInstance(this, report);
+        this.report = report;
 
-        startFragment(reportDetailsFragment);
+        startProxyFragment();
+        reportService.readByNumber(report.getNumber());
     }
 
-    void onReadLeadEvaluation(LeadEvaluation leadEvaluation) {
-        if (!reportDetailsFragment.isDetached()) {
-            reportDetailsFragment.setLeadEaluation(leadEvaluation);
-        }
-    }
-
-    void onReadIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-        if (!reportDetailsFragment.isDetached()) {
-            reportDetailsFragment.setIndividualEvaluations(individualEvaluations);
+    void onReadStudentTeams(List<StudentTeam> studentTeams) {
+        if (isProxyFragmentNotDetached()) {
+            startFragment(ReportDetailsFragment.newInstance(this, report, new ReportDependencyWrapper(studentTeams)));
         }
     }
 

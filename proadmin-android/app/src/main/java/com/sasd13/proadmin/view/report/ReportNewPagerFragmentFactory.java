@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.view.report;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
@@ -19,12 +18,11 @@ public class ReportNewPagerFragmentFactory extends FragmentStatePagerAdapter {
 
     private IReportController controller;
     private ReportNewFragment parentFragment;
-    private List<RunningTeam> runningTeams;
     private ReportNewFragmentRunningTeams fragmentRunningTeams;
     private ReportNewFragmentLeadEvaluation fragmentLeadEvaluation;
 
-    public ReportNewPagerFragmentFactory(FragmentManager fragmentManager, IReportController controller, ReportNewFragment parentFragment) {
-        super(fragmentManager);
+    public ReportNewPagerFragmentFactory(ReportNewFragment parentFragment, IReportController controller) {
+        super(parentFragment.getChildFragmentManager());
 
         this.controller = controller;
         this.parentFragment = parentFragment;

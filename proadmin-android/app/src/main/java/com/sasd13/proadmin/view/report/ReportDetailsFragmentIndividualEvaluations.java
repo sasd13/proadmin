@@ -61,6 +61,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
+        bindFormWithIndividualEvaluations();
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -68,6 +69,11 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
 
         recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
+    }
+
+    private void bindFormWithIndividualEvaluations() {
+        individualEvaluationsForm.bindIndividualEvaluations(report.getIndividualEvaluations());
+        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
     @Override
@@ -105,14 +111,5 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
         } catch (IndividualEvaluationsFormException e) {
             controller.displayMessage(e.getMessage());
         }
-    }
-
-    public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-        bindFormWithIndividualEvaluations(individualEvaluations);
-    }
-
-    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
-        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 }

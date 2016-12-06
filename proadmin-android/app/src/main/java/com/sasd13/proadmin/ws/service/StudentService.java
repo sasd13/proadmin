@@ -39,7 +39,7 @@ public class StudentService implements ManageService.Caller {
         manageServiceStudentTeams = new ManageService<>(caller, WSResources.URL_WS_STUDENTTEAMS);
     }
 
-    public void read(String teamNumber) {
+    public void readByTeam(String teamNumber) {
         readServiceStudentTeams.clearHeaders();
         readServiceStudentTeams.clearParameters();
         readServiceStudentTeams.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
