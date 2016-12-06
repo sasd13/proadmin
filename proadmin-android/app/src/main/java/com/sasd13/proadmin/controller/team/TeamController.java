@@ -5,10 +5,11 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.Controller;
+import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
 import com.sasd13.proadmin.view.IStudentController;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.student.StudentDetailsFragment;
 import com.sasd13.proadmin.view.student.StudentNewFragment;
-import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.team.TeamNewFragment;
 import com.sasd13.proadmin.view.team.TeamsFragment;
@@ -19,11 +20,9 @@ import java.util.List;
 
 public class TeamController extends Controller implements ITeamController, IStudentController {
 
-    private TeamsFragment teamsFragment;
-    private TeamDetailsFragment teamDetailsFragment;
-
     private TeamService teamService;
     private StudentService studentService;
+    private Team team;
 
     public TeamController(MainActivity mainActivity) {
         super(mainActivity);
@@ -39,21 +38,19 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void listTeams() {
-        teamsFragment = TeamsFragment.newInstance(this);
-
-        startFragment(teamsFragment);
+        startProxyFragment();
         teamService.readAll();
     }
 
     public void onReadTeams(List<Team> teams) {
-        if (!teamsFragment.isDetached()) {
-            teamsFragment.setTeams(teams);
+        if (isProxyFragmentNotDetached()) {
+            startFragment(TeamsFragment.newInstance(this, teams));
         }
     }
 
     @Override
     public void newTeam() {
-        startFragment(TeamNewFragment.newInstance(this));
+        startFragmentWithBackStack(TeamNewFragment.newInstance(this));
     }
 
     @Override
@@ -63,15 +60,15 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showTeam(Team team) {
-        teamDetailsFragment = TeamDetailsFragment.newInstance(this, team);
+        this.team = team;
 
-        startFragment(TeamDetailsFragment.newInstance(this, team));
+        startProxyFragment();
         studentService.read(team.getNumber());
     }
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
-        if (!teamDetailsFragment.isDetached()) {
-            teamDetailsFragment.setStudentTeams(studentTeams);
+        if (isProxyFragmentNotDetached()) {
+            startFragment(TeamDetailsFragment.newInstance(this, team, new TeamDependencyWrapper(studentTeams)));
         }
     }
 
@@ -87,7 +84,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance(this, team));
+        startFragmentWithBackStack(StudentNewFragment.newInstance(this, team));
     }
 
     @Override
@@ -97,7 +94,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showStudent(Student student) {
-        startFragment(StudentDetailsFragment.newInstance(this, student));
+        startFragmentWithBackStack(StudentDetailsFragment.newInstance(this, student));
     }
 
     @Override

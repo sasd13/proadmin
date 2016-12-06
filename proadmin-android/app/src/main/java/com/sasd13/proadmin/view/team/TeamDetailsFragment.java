@@ -12,22 +12,21 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
 import com.sasd13.proadmin.view.ITeamController;
-
-import java.util.List;
 
 public class TeamDetailsFragment extends Fragment {
 
     private ITeamController controller;
     private Team team;
-    private TeamPagerFragmentFactory fragmentFactory;
+    private TeamDependencyWrapper dependencyWrapper;
 
-    public static TeamDetailsFragment newInstance(ITeamController controller, Team team) {
+    public static TeamDetailsFragment newInstance(ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
         fragment.controller = controller;
         fragment.team = team;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -50,16 +49,11 @@ public class TeamDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        fragmentFactory = new TeamPagerFragmentFactory(getChildFragmentManager(), controller, getContext(), team);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(fragmentFactory);
+        pager.setAdapter(new TeamPagerFragmentFactory(this, controller, team, dependencyWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
-    }
-
-    public void setStudentTeams(List<StudentTeam> studentTeams) {
-        fragmentFactory.setStudentTeams(studentTeams);
     }
 
     @Override

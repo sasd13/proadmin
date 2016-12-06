@@ -28,15 +28,9 @@ public class SettingsFragment extends Fragment {
     private Teacher teacher;
     private TeacherForm teacherForm;
 
-    public static SettingsFragment newInstance(ISettingsController controller) {
+    public static SettingsFragment newInstance(ISettingsController controller, Teacher teacher) {
         SettingsFragment fragment = new SettingsFragment();
         fragment.controller = controller;
-
-        return fragment;
-    }
-
-    public static SettingsFragment newInstance(ISettingsController controller, Teacher teacher) {
-        SettingsFragment fragment = newInstance(controller);
         fragment.teacher = teacher;
 
         return fragment;
@@ -54,7 +48,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_settings, container, false);
+        View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
 
@@ -63,16 +57,13 @@ public class SettingsFragment extends Fragment {
 
     private void buildView(View view) {
         buildFormSettings(view);
-
-        if (teacher != null) {
-            bindFormWithTeacher();
-        }
+        bindFormWithTeacher();
     }
 
     private void buildFormSettings(View view) {
         teacherForm = new TeacherForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.settings_recyclerview));
+        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, teacherForm.getHolder());
@@ -110,11 +101,5 @@ public class SettingsFragment extends Fragment {
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-
-        bindFormWithTeacher();
     }
 }

@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
 
     private IProjectController controller;
     private Project project;
+    private ProjectDependencyWrapper dependencyWrapper;
     private Recycler runningsTab;
 
-    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project) {
+    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project, ProjectDependencyWrapper dependencyWrapper) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
         fragment.controller = controller;
         fragment.project = project;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -56,6 +59,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
+        bindTabWithRunnings(dependencyWrapper.getRunnings());
     }
 
     private void buildTabRunnings(View view) {
@@ -71,10 +75,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
                 controller.newRunning(project);
             }
         });
-    }
-
-    public void setRunnings(List<Running> runnings) {
-        bindTabWithRunnings(runnings);
     }
 
     private void bindTabWithRunnings(List<Running> runnings) {

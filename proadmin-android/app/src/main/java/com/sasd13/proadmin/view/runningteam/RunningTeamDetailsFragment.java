@@ -12,23 +12,21 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
-
-import java.util.List;
 
 public class RunningTeamDetailsFragment extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
-    private RunningTeamPagerFragmentFactory fragmentFactory;
+    private RunningTeamDependencyWrapper dependencyWrapper;
 
-    public static RunningTeamDetailsFragment newInstance(IRunningTeamController controller, RunningTeam runningTeam) {
+    public static RunningTeamDetailsFragment newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
         RunningTeamDetailsFragment fragment = new RunningTeamDetailsFragment();
         fragment.controller = controller;
         fragment.runningTeam = runningTeam;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -51,20 +49,11 @@ public class RunningTeamDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        fragmentFactory = new RunningTeamPagerFragmentFactory(getChildFragmentManager(), controller, getContext(), runningTeam);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(fragmentFactory);
+        pager.setAdapter(new RunningTeamPagerFragmentFactory(this, controller, runningTeam, dependencyWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
-    }
-
-    public void setDependencyWrapper(RunningTeamDependencyWrapper dependencyWrapper) {
-        fragmentFactory.setDependencyWrapper(dependencyWrapper);
-    }
-
-    public void setReports(List<Report> reports) {
-        fragmentFactory.setReports(reports);
     }
 
     @Override

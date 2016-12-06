@@ -39,12 +39,14 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
+    private RunningTeamDependencyWrapper dependencyWrapper;
     private RunningTeamForm runningTeamForm;
 
-    public static RunningTeamDetailsFragmentInfos newInstance(IRunningTeamController controller, RunningTeam runningTeam) {
+    public static RunningTeamDetailsFragmentInfos newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
         RunningTeamDetailsFragmentInfos fragment = new RunningTeamDetailsFragmentInfos();
         fragment.controller = controller;
         fragment.runningTeam = runningTeam;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -71,6 +73,24 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
         bindFormWithRunningTeam();
+        bindFormWithRunnings(dependencyWrapper.getRunnings());
+        bindFormWithTeams(dependencyWrapper.getTeams());
+        bindFormWithAcademicLevels(dependencyWrapper.getAcademicLevels());
+    }
+
+    private void bindFormWithRunnings(List<Running> runnings) {
+        RunningsSorter.byProjectCode(runnings);
+        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
+    }
+
+    private void bindFormWithTeams(List<Team> teams) {
+        TeamsSorter.byNumber(teams);
+        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
+    }
+
+    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
+        AcademicLevelsSorter.byCode(academicLevels);
+        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
     }
 
     private void buildFormTeam(View view) {
@@ -130,27 +150,6 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
                         controller.deleteRunningTeam(runningTeam);
                     }
                 });
-    }
-
-    public void setDependencyWrapper(RunningTeamDependencyWrapper dependencyWrapper) {
-        bindFormWithRunnings(dependencyWrapper.getRunnings());
-        bindFormWithTeams(dependencyWrapper.getTeams());
-        bindFormWithAcademicLevels(dependencyWrapper.getAcademicLevels());
-    }
-
-    private void bindFormWithRunnings(List<Running> runnings) {
-        RunningsSorter.byProjectCode(runnings);
-        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
-    }
-
-    private void bindFormWithTeams(List<Team> teams) {
-        TeamsSorter.byNumber(teams);
-        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
-    }
-
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        AcademicLevelsSorter.byCode(academicLevels);
-        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
     }
 
     @Override

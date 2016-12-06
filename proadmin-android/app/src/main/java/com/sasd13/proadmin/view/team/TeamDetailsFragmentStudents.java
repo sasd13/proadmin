@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
+import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
 import com.sasd13.proadmin.view.ITeamController;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class TeamDetailsFragmentStudents extends Fragment {
 
     private ITeamController controller;
     private Team team;
+    private TeamDependencyWrapper dependencyWrapper;
     private Recycler studentTeamsTab;
 
-    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team) {
+    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
         fragment.controller = controller;
         fragment.team = team;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -56,6 +59,7 @@ public class TeamDetailsFragmentStudents extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
+        bindTabWithStudentTeams(dependencyWrapper.getStudentTeams());
     }
 
     private void buildTabStudents(View view) {
@@ -71,10 +75,6 @@ public class TeamDetailsFragmentStudents extends Fragment {
                 controller.newStudent(team);
             }
         });
-    }
-
-    public void setStudentTeams(List<StudentTeam> studentTeams) {
-        bindTabWithStudentTeams(studentTeams);
     }
 
     private void bindTabWithStudentTeams(List<StudentTeam> studentTeams) {

@@ -41,14 +41,15 @@ import java.util.List;
 public class ProjectsFragment extends Fragment {
 
     private IProjectController controller;
+    private List<Project> projects;
+    private List<String> years;
     private Spin spinYears;
     private Recycler projectsTab;
-    private List<String> years;
-    private List<Project> projects;
 
-    public static ProjectsFragment newInstance(IProjectController controller) {
+    public static ProjectsFragment newInstance(IProjectController controller, List<Project> projects) {
         ProjectsFragment fragment = new ProjectsFragment();
         fragment.controller = controller;
+        fragment.projects = projects;
 
         return fragment;
     }
@@ -106,15 +107,9 @@ public class ProjectsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-    }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-
-        if (spinYears != null) {
-            bindSpinWithYears();
-            bindTabWithProjects();
-        }
+        bindSpinWithYears();
+        bindTabWithProjects();
     }
 
     private void bindSpinWithYears() {

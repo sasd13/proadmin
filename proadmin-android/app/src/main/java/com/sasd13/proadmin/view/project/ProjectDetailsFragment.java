@@ -13,21 +13,20 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
 import com.sasd13.proadmin.view.IProjectController;
-
-import java.util.List;
 
 public class ProjectDetailsFragment extends Fragment {
 
     private IProjectController controller;
     private Project project;
-    private ProjectPagerFragmentFactory fragmentFactory;
+    private ProjectDependencyWrapper dependencyWrapper;
 
-    public static ProjectDetailsFragment newInstance(IProjectController controller, Project project) {
+    public static ProjectDetailsFragment newInstance(IProjectController controller, Project project, ProjectDependencyWrapper dependencyWrapper) {
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.controller = controller;
         fragment.project = project;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -50,16 +49,11 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void buildPager(View view) {
         Pager pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        fragmentFactory = new ProjectPagerFragmentFactory(this, controller, project);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(fragmentFactory);
+        pager.setAdapter(new ProjectPagerFragmentFactory(this, controller, project, dependencyWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPager(pager);
-    }
-
-    public void setRunnings(List<Running> runnings) {
-        fragmentFactory.setRunnings(runnings);
     }
 
     @Override

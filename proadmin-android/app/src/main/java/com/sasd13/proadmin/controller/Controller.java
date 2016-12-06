@@ -7,6 +7,7 @@ import android.view.View;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.view.IController;
+import com.sasd13.proadmin.view.ProxyFragment;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -16,11 +17,13 @@ public abstract class Controller implements IController {
     protected MainActivity mainActivity;
     private View contentView;
     private boolean backStacked;
+    private ProxyFragment proxyFragment;
 
     protected Controller(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         contentView = mainActivity.findViewById(android.R.id.content);
         backStacked = true;
+        proxyFragment = ProxyFragment.newInstance();
     }
 
     @Override
@@ -32,19 +35,27 @@ public abstract class Controller implements IController {
         this.backStacked = backStacked;
     }
 
+    protected void startProxyFragment() {
+        startFragmentWithBackStack(proxyFragment);
+    }
+
     protected void startFragment(Fragment fragment) {
-        if (backStacked) {
-            mainActivity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_container_fragment, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            mainActivity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_container_fragment, fragment)
-                    .commit();
-        }
+        mainActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, fragment)
+                .commit();
+    }
+
+    protected void startFragmentWithBackStack(Fragment fragment) {
+        mainActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    protected boolean isProxyFragmentNotDetached() {
+        return !proxyFragment.isDetached();
     }
 
     public void backPress() {

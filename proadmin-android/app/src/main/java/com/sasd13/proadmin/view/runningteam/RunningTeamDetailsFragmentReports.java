@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
+    private RunningTeamDependencyWrapper dependencyWrapper;
     private Recycler reportsTab;
 
-    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeam runningTeam) {
+    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
         fragment.controller = controller;
         fragment.runningTeam = runningTeam;
+        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -56,6 +59,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
+        bindTabWithReports(dependencyWrapper.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -71,10 +75,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
                 controller.newReport(runningTeam);
             }
         });
-    }
-
-    public void setReports(List<Report> reports) {
-        bindTabWithReports(reports);
     }
 
     private void bindTabWithReports(List<Report> reports) {

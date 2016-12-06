@@ -10,8 +10,6 @@ import com.sasd13.proadmin.ws.service.TeacherService;
 
 public class SettingsController extends Controller implements ISettingsController {
 
-    private SettingsFragment settingsFragment;
-
     private TeacherService teacherService;
 
     public SettingsController(MainActivity mainActivity) {
@@ -22,15 +20,13 @@ public class SettingsController extends Controller implements ISettingsControlle
 
     @Override
     public void entry() {
-        settingsFragment = SettingsFragment.newInstance(this);
-
-        startFragment(settingsFragment);
+        startProxyFragment();
         teacherService.readTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadTeacher(Teacher teacher) {
-        if (!settingsFragment.isDetached()) {
-            settingsFragment.setTeacher(teacher);
+        if (isProxyFragmentNotDetached()) {
+            startFragment(SettingsFragment.newInstance(this, teacher));
         }
     }
 

@@ -2,6 +2,7 @@ package com.sasd13.proadmin.util.wrapper;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class RunningTeamDependencyWrapper {
     private List<Running> runnings;
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
+    private List<Report> reports;
 
     public RunningTeamDependencyWrapper(List<Running> runnings, List<Team> teams, List<AcademicLevel> academicLevels) {
         this.runnings = runnings;
@@ -32,5 +34,13 @@ public class RunningTeamDependencyWrapper {
 
     public List<AcademicLevel> getAcademicLevels() {
         return academicLevels;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

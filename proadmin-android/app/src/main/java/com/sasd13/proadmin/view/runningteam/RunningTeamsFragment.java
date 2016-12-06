@@ -42,14 +42,15 @@ import java.util.List;
 public class RunningTeamsFragment extends Fragment {
 
     private IRunningTeamController controller;
-    private Spin spinYears;
-    private Recycler runningTeamsTab;
     private List<RunningTeam> runningTeams;
     private List<Integer> years;
+    private Spin spinYears;
+    private Recycler runningTeamsTab;
 
-    public static RunningTeamsFragment newInstance(IRunningTeamController controller) {
+    public static RunningTeamsFragment newInstance(IRunningTeamController controller, List<RunningTeam> runningTeams) {
         RunningTeamsFragment fragment = new RunningTeamsFragment();
         fragment.controller = controller;
+        fragment.runningTeams = runningTeams;
 
         return fragment;
     }
@@ -59,6 +60,7 @@ public class RunningTeamsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
         years = new ArrayList<>();
     }
 
@@ -120,15 +122,9 @@ public class RunningTeamsFragment extends Fragment {
 
             }
         });
-    }
 
-    public void setRunningTeams(List<RunningTeam> runningTeams) {
-        this.runningTeams = runningTeams;
-
-        if (spinYears != null) {
-            bindSpinWithYears();
-            bindTabWithRunningTeams();
-        }
+        bindSpinWithYears();
+        bindTabWithRunningTeams();
     }
 
     private void bindSpinWithYears() {

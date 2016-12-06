@@ -31,11 +31,13 @@ import java.util.List;
 public class TeamsFragment extends Fragment {
 
     private ITeamController controller;
+    private List<Team> teams;
     private Recycler teamsTab;
 
-    public static TeamsFragment newInstance(ITeamController controller) {
+    public static TeamsFragment newInstance(ITeamController controller, List<Team> teams) {
         TeamsFragment fragment = new TeamsFragment();
         fragment.controller = controller;
+        fragment.teams = teams;
 
         return fragment;
     }
@@ -62,6 +64,7 @@ public class TeamsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
+        bindTabWithTeams();
     }
 
     private void buildTabRunnings(View view) {
@@ -79,16 +82,12 @@ public class TeamsFragment extends Fragment {
         });
     }
 
-    public void setTeams(List<Team> teams) {
-        bindTabWithTeams(teams);
-    }
-
-    private void bindTabWithTeams(List<Team> teams) {
+    private void bindTabWithTeams() {
         TeamsSorter.byNumber(teams);
-        addRunningsToTab(teams);
+        addRunningsToTab();
     }
 
-    private void addRunningsToTab(List<Team> teams) {
+    private void addRunningsToTab() {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
