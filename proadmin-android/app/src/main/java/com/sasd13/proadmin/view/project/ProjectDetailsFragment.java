@@ -21,8 +21,8 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
 
     private IProjectController controller;
     private Project project;
-    private ProjectDependencyWrapper dependencyWrapper;
     private Pager pager;
+    private ProjectDependencyWrapper dependencyWrapper;
 
     public static ProjectDetailsFragment newInstance(IProjectController controller, Project project, ProjectDependencyWrapper dependencyWrapper) {
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
@@ -76,7 +76,5 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
         super.onDestroyView();
 
         ((MainActivity) getActivity()).setPagerHandler(null);
-
-
     }
 }

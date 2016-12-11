@@ -5,7 +5,6 @@ import android.content.Context;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
 import com.sasd13.proadmin.ws.service.ReportDependencyService;
 import com.sasd13.proadmin.ws.service.ReportService;
 
@@ -34,8 +33,8 @@ public class ReportServiceCaller implements ReportService.Caller, ReportDependen
     }
 
     @Override
-    public void onRetrieved(ReportDependencyWrapper dependencyWrapper) {
-        controller.onRetrieved(dependencyWrapper);
+    public void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
+        controller.onRetrieved(resultHolder);
     }
 
     @Override

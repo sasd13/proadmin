@@ -17,7 +17,20 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
 
     public interface RetrieveCaller extends IWebServiceCaller {
 
-        void onRetrieved(ReportDependencyWrapper dependencyWrapper);
+        void onRetrieved(ResultHolder resultHolder);
+    }
+
+    public static class ResultHolder {
+
+        private List<StudentTeam> studentTeams;
+
+        public ResultHolder(List<StudentTeam> studentTeams) {
+            this.studentTeams = studentTeams;
+        }
+
+        public List<StudentTeam> getStudentTeams() {
+            return studentTeams;
+        }
     }
 
     private static final String CODE_STUDENTTEAMS = "STUDENTTEAM";
@@ -25,12 +38,14 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     private RetrieveCaller caller;
     private MultiReadRESTCallback callback;
     private Map<String, String[]> parametersStudentTeams, headers;
+    private ReportDependencyWrapper dependencyWrapper;
 
     public ReportDependencyService(RetrieveCaller caller) {
         this.caller = caller;
         callback = new MultiReadRESTCallback(this);
         parametersStudentTeams = new HashMap<>();
         headers = new HashMap<>();
+        dependencyWrapper = new ReportDependencyWrapper();
     }
 
     public void addParameterStudentTeams(String parameter, String[] values) {
@@ -57,7 +72,7 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     public void onReaded(Map<String, List> results) {
         List<StudentTeam> studentTeams = (List<StudentTeam>) results.get(CODE_STUDENTTEAMS);
 
-        caller.onRetrieved(new ReportDependencyWrapper(studentTeams));
+        caller.onRetrieved(new ResultHolder(studentTeams));
     }
 
     @Override

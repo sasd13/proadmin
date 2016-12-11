@@ -35,6 +35,7 @@ import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.view.IReportController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportsFragment extends Fragment {
@@ -58,6 +59,8 @@ public class ReportsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        teamsNumbers = new ArrayList<>();
     }
 
     @Override
@@ -121,9 +124,14 @@ public class ReportsFragment extends Fragment {
     }
 
     private void bindSpinWithTeams(List<Report> reports) {
-        teamsNumbers = new ReportsTeamsNumbersBuilder(reports).build();
-
+        teamsNumbers.clear();
+        teamsNumbers.addAll((new ReportsTeamsNumbersBuilder(reports)).build());
         StringsSorter.byAsc(teamsNumbers);
+        fillSpinTeams();
+    }
+
+    private void fillSpinTeams() {
+        spinTeams.clear();
         spinTeams.addItems(teamsNumbers);
         spinTeams.resetPosition();
     }
@@ -135,8 +143,6 @@ public class ReportsFragment extends Fragment {
     }
 
     private void fillTabReportsByTeam() {
-        reportsTab.clear();
-
         String teamNumber = teamsNumbers.get(spinTeams.getSelectedPosition());
         List<Report> reportsToTab = new ReportTeamCriteria(teamNumber).meetCriteria(reports);
 
@@ -145,6 +151,8 @@ public class ReportsFragment extends Fragment {
     }
 
     private void addReportsToTab(List<Report> reports) {
+        reportsTab.clear();
+
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

@@ -34,6 +34,8 @@ public class IndividualEvaluationsForm extends Form {
     }
 
     public void bindIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        holder.clear();
+
         this.individualEvaluations = individualEvaluations;
 
         TextItemModel modelMark;

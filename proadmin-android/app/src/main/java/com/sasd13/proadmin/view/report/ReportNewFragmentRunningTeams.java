@@ -106,12 +106,13 @@ public class ReportNewFragmentRunningTeams extends Fragment {
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeams) {
-        runningTeamsTab.clear();
         RunningTeamsSorter.byRunningYear(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
 
     private void addRunningTeamsToTab(List<RunningTeam> runningTeams) {
+        runningTeamsTab.clear();
+
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
         RunningTeamItemModel model;

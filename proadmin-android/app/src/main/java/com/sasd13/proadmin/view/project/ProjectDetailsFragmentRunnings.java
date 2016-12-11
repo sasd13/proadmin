@@ -27,19 +27,19 @@ import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ProjectDetailsFragmentRunnings extends Fragment {
+public class ProjectDetailsFragmentRunnings extends Fragment implements Observer {
 
     private IProjectController controller;
     private Project project;
-    private ProjectDependencyWrapper dependencyWrapper;
     private Recycler runningsTab;
 
-    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project, ProjectDependencyWrapper dependencyWrapper) {
+    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
         fragment.controller = controller;
         fragment.project = project;
-        fragment.dependencyWrapper = dependencyWrapper;
 
         return fragment;
     }
@@ -59,7 +59,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithRunnings(dependencyWrapper.getRunnings());
     }
 
     private void buildTabRunnings(View view) {
@@ -77,13 +76,21 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         });
     }
 
+    @Override
+    public void update(Observable observable, Object o) {
+        ProjectDependencyWrapper dependencyWrapper = (ProjectDependencyWrapper) observable;
+
+        bindTabWithRunnings(dependencyWrapper.getRunnings());
+    }
+
     private void bindTabWithRunnings(List<Running> runnings) {
-        runningsTab.clear();
         RunningsSorter.byYear(runnings);
         addRunningsToTab(runnings);
     }
 
     private void addRunningsToTab(List<Running> runnings) {
+        runningsTab.clear();
+
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

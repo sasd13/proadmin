@@ -35,28 +35,28 @@ public class Browser {
         if (navItems.isEmpty()) {
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.PROJECTS,
-                    context.getResources().getString(R.string.activity_projects),
+                    context.getResources().getString(R.string.title_projects),
                     ContextCompat.getDrawable(context, R.drawable.ic_project_small),
                     ContextCompat.getColor(context, R.color.orange),
                     ProjectController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.TEAMS,
-                    context.getResources().getString(R.string.activity_teams),
+                    context.getResources().getString(R.string.title_teams),
                     ContextCompat.getDrawable(context, R.drawable.ic_team_small),
                     ContextCompat.getColor(context, R.color.green),
                     TeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.RUNNINGTEAMS,
-                    context.getResources().getString(R.string.activity_runningteams),
+                    context.getResources().getString(R.string.title_runningteams),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.purple),
                     RunningTeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.REPORTS,
-                    context.getResources().getString(R.string.activity_reports),
+                    context.getResources().getString(R.string.title_reports),
                     ContextCompat.getDrawable(context, R.drawable.ic_report_small),
                     ContextCompat.getColor(context, R.color.blue),
                     ReportController.class
@@ -70,7 +70,7 @@ public class Browser {
         if (accountItems.isEmpty()) {
             accountItems.add(new BrowserItemModel(
                     EnumBrowserItemType.SETTINGS,
-                    context.getResources().getString(R.string.activity_settings),
+                    context.getResources().getString(R.string.title_settings),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.brown),
                     SettingsController.class

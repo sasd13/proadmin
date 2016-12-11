@@ -21,6 +21,7 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
@@ -114,5 +115,13 @@ public class TeamsFragment extends Fragment {
         if (menu != null) {
             menu.setGroupVisible(R.id.menu_edit_group, false);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_teams));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

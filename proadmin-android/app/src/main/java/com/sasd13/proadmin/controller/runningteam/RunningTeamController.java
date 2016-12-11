@@ -12,6 +12,7 @@ import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.ws.service.ReportService;
 import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
 import com.sasd13.proadmin.ws.service.RunningTeamService;
 
@@ -21,7 +22,9 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     private RunningTeamService runningTeamService;
     private RunningTeamDependencyService runningTeamDependencyService;
+    private ReportService reportService;
     private RunningTeam runningTeam;
+    private RunningTeamDependencyWrapper dependencyWrapper;
     private int mode;
 
     public RunningTeamController(MainActivity mainActivity) {
@@ -29,6 +32,8 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
         runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCaller(this, mainActivity));
+        reportService = new ReportService(new ReportServiceCaller(this, mainActivity));
+        dependencyWrapper = new RunningTeamDependencyWrapper();
     }
 
     @Override
@@ -52,11 +57,16 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     public void newRunningTeam() {
         mode = Extra.MODE_NEW;
 
+        startProxyFragment();
         runningTeamDependencyService.read();
     }
 
-    void onRetrieved(RunningTeamDependencyWrapper dependencyWrapper) {
+    void onRetrieved(RunningTeamDependencyService.ResultHolder resultHolder) {
         if (isProxyFragmentNotDetached()) {
+            dependencyWrapper.setRunnings(resultHolder.getRunnings());
+            dependencyWrapper.setTeams(resultHolder.getTeams());
+            dependencyWrapper.setAcademicLevels(resultHolder.getAcademicLevels());
+
             if (mode == Extra.MODE_EDIT) {
                 startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeam, dependencyWrapper));
             } else {
@@ -75,7 +85,21 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         mode = Extra.MODE_EDIT;
         this.runningTeam = runningTeam;
 
+        startProxyFragment();
         runningTeamDependencyService.read();
+        reportService.readByRunningTeam(
+                runningTeam.getRunning().getTeacher().getNumber(),
+                runningTeam.getRunning().getYear(),
+                runningTeam.getRunning().getProject().getCode(),
+                runningTeam.getTeam().getNumber(),
+                runningTeam.getAcademicLevel().getCode()
+        );
+    }
+
+    void onReadReports(List<Report> reports) {
+        if (isProxyFragmentNotDetached()) {
+            dependencyWrapper.setReports(reports);
+        }
     }
 
     @Override

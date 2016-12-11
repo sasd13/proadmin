@@ -23,12 +23,14 @@ public class TeamController extends Controller implements ITeamController, IStud
     private TeamService teamService;
     private StudentService studentService;
     private Team team;
+    private TeamDependencyWrapper dependencyWrapper;
 
     public TeamController(MainActivity mainActivity) {
         super(mainActivity);
 
         teamService = new TeamService(new TeamServiceCaller(this, mainActivity));
         studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
+        dependencyWrapper = new TeamDependencyWrapper();
     }
 
     @Override
@@ -68,7 +70,8 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(TeamDetailsFragment.newInstance(this, team, new TeamDependencyWrapper(studentTeams)));
+            dependencyWrapper.setStudentTeams(studentTeams);
+            startFragment(TeamDetailsFragment.newInstance(this, team, dependencyWrapper));
         }
     }
 

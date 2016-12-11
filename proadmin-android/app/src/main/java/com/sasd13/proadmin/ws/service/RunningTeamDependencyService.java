@@ -5,7 +5,6 @@ import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -14,9 +13,34 @@ import java.util.Map;
 
 public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadWebService {
 
+    public static class ResultHolder {
+
+        private List<Running> runnings;
+        private List<Team> teams;
+        private List<AcademicLevel> academicLevels;
+
+        public ResultHolder(List<Running> runnings, List<Team> teams, List<AcademicLevel> academicLevels) {
+            this.runnings = runnings;
+            this.teams = teams;
+            this.academicLevels = academicLevels;
+        }
+
+        public List<Running> getRunnings() {
+            return runnings;
+        }
+
+        public List<Team> getTeams() {
+            return teams;
+        }
+
+        public List<AcademicLevel> getAcademicLevels() {
+            return academicLevels;
+        }
+    }
+
     public interface RetrieveCaller extends IWebServiceCaller {
 
-        void onRetrieved(RunningTeamDependencyWrapper dependencyWrapper);
+        void onRetrieved(ResultHolder resultHolder);
     }
 
     private static final String CODE_RUNNINGS = "RUNNINGS";
@@ -68,7 +92,7 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         List<Team> teams = (List<Team>) results.get(CODE_TEAMS);
         List<AcademicLevel> academicLevels = (List<AcademicLevel>) results.get(CODE_ACADEMICLEVELS);
 
-        caller.onRetrieved(new RunningTeamDependencyWrapper(runnings, teams, academicLevels));
+        caller.onRetrieved(new ResultHolder(runnings, teams, academicLevels));
     }
 
     @Override

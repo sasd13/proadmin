@@ -74,4 +74,12 @@ public class HomeFragment extends Fragment {
         imageViewProject.setOnClickListener(listener);
         imageViewReport.setOnClickListener(listener);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_home));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
 }

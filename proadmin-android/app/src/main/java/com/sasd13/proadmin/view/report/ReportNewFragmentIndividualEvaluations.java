@@ -98,7 +98,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         parentFragment.createReport();
     }
 
-    public void setIndividualEvaluations(ReportDependencyWrapper dependencyWrapper) {
+    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
         List<IndividualEvaluation> individualEvaluations = new IndividualEvaluationsBuilder(dependencyWrapper.getStudentTeams()).build();
 
         bindFormWithIndividualEvaluations(individualEvaluations);

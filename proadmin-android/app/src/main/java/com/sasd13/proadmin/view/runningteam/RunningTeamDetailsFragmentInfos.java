@@ -20,7 +20,6 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
@@ -150,13 +149,5 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
                         controller.deleteRunningTeam(runningTeam);
                     }
                 });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

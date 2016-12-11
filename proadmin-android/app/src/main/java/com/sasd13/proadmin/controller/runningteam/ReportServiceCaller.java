@@ -3,22 +3,21 @@ package com.sasd13.proadmin.controller.runningteam;
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
-import com.sasd13.proadmin.ws.service.RunningTeamService;
+import com.sasd13.proadmin.ws.service.ReportService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class RunningTeamServiceCaller implements RunningTeamService.Caller, RunningTeamDependencyService.RetrieveCaller {
+public class ReportServiceCaller implements ReportService.Caller {
 
     private RunningTeamController controller;
     private Context context;
 
-    public RunningTeamServiceCaller(RunningTeamController controller, Context context) {
+    public ReportServiceCaller(RunningTeamController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
@@ -28,13 +27,8 @@ public class RunningTeamServiceCaller implements RunningTeamService.Caller, Runn
     }
 
     @Override
-    public void onReaded(List<RunningTeam> runningTeams) {
-        controller.onReadRunningTeams(runningTeams);
-    }
-
-    @Override
-    public void onRetrieved(RunningTeamDependencyService.ResultHolder resultHolder) {
-        controller.onRetrieved(resultHolder);
+    public void onReaded(List<Report> reports) {
+        controller.onReadReports(reports);
     }
 
     @Override

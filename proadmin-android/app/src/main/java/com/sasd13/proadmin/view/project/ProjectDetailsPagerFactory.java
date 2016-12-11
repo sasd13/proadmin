@@ -10,6 +10,8 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
+import java.util.Observer;
+
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
@@ -36,14 +38,19 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
+
         switch (position) {
             case 0:
-                return ProjectDetailsFragmentInfos.newInstance(project);
+                fragment = ProjectDetailsFragmentInfos.newInstance(project);
+                break;
             case 1:
-                return ProjectDetailsFragmentRunnings.newInstance(controller, project, dependencyWrapper);
-            default:
-                return null;
+                fragment = ProjectDetailsFragmentRunnings.newInstance(controller, project);
+                dependencyWrapper.addObserver((Observer) fragment);
+                break;
         }
+
+        return fragment;
     }
 
     @Override

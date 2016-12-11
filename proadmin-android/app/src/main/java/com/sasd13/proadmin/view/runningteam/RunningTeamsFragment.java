@@ -128,10 +128,11 @@ public class RunningTeamsFragment extends Fragment {
     }
 
     private void bindSpinWithYears() {
+        years.clear();
+
         List<Integer> yearsToSpin = new RunningTeamsYearsBuilder(runningTeams).build();
 
         IntegersSorter.byDesc(yearsToSpin);
-        years.clear();
         years.addAll(yearsToSpin);
         fillSpinYears();
     }

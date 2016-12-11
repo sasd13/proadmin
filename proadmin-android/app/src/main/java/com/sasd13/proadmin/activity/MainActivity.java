@@ -44,10 +44,34 @@ public class MainActivity extends DrawerActivity {
     private ReportController reportController;
 
     private IPagerHandler pagerHandler;
-    private Stack<Fragment> stack;
+    private Stack<Fragment> stack = new Stack<>();
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
         this.pagerHandler = pagerHandler;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        init();
+        setContentView(R.layout.layout_container);
+        showHome();
+    }
+
+    private void init() {
+        settingsController = new SettingsController(this);
+        projectController = new ProjectController(this);
+        teamController = new TeamController(this);
+        runningTeamController = new RunningTeamController(this);
+        reportController = new ReportController(this);
+    }
+
+    private void showHome() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, HomeFragment.newInstance())
+                .commit();
     }
 
     @Override
@@ -82,6 +106,22 @@ public class MainActivity extends DrawerActivity {
         recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
     }
 
+    public IController lookup(Class<? extends IController> mClass) {
+        if (ISettingsController.class.isAssignableFrom(mClass)) {
+            return settingsController;
+        } else if (IProjectController.class.isAssignableFrom(mClass) || IRunningController.class.isAssignableFrom(mClass)) {
+            return projectController;
+        } else if (ITeamController.class.isAssignableFrom(mClass) || IStudentController.class.isAssignableFrom(mClass)) {
+            return teamController;
+        } else if (IRunningTeamController.class.isAssignableFrom(mClass)) {
+            return runningTeamController;
+        } else if (IReportController.class.isAssignableFrom(mClass)) {
+            return reportController;
+        } else {
+            return null;
+        }
+    }
+
     private void addAccountItems(RecyclerHolder recyclerHolder) {
         List<BrowserItemModel> browserItemModels = Browser.getInstance().getAccountItems(this);
         List<RecyclerHolderPair> pairs = new ArrayList<>();
@@ -105,77 +145,27 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onBackPressed() {
+        if (pagerHandler == null || !pagerHandler.handleBackPress()) {
+            super.onBackPressed();
 
-        init();
-        setContentView(R.layout.layout_container);
-        showHome();
-    }
+            if (!stack.isEmpty()) {
+                stack.pop();
 
-    private void init() {
-        settingsController = new SettingsController(this);
-        projectController = new ProjectController(this);
-        teamController = new TeamController(this);
-        runningTeamController = new RunningTeamController(this);
-        reportController = new ReportController(this);
-        stack = new Stack<>();
-    }
-
-    private void showHome() {
-        startFragment(HomeFragment.newInstance());
+                if (!stack.isEmpty() && ProxyFragment.class.isAssignableFrom(stack.peek().getClass())) {
+                    onBackPressed();
+                }
+            }
+        }
     }
 
     public void startFragment(Fragment fragment) {
-        addToBackStack(fragment);
+        stack.push(fragment);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_container_fragment, fragment)
+                .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (pagerHandler == null || !pagerHandler.handleBackPress()) {
-            stack.pop();
-            Fragment fragment = stack.pop();
-
-            if (!ProxyFragment.class.isAssignableFrom(fragment.getClass())) {
-                startFragment(fragment);
-            } else {
-                if (!stack.isEmpty()) {
-                    startFragment(stack.pop());
-                } else {
-                    super.onBackPressed();
-                }
-            }
-        } else {
-            if (!stack.empty()) {
-                stack.clear();
-            }
-
-            super.onBackPressed();
-        }
-    }
-
-    public IController lookup(Class<? extends IController> mClass) {
-        if (ISettingsController.class.isAssignableFrom(mClass)) {
-            return settingsController;
-        } else if (IProjectController.class.isAssignableFrom(mClass) || IRunningController.class.isAssignableFrom(mClass)) {
-            return projectController;
-        } else if (ITeamController.class.isAssignableFrom(mClass) || IStudentController.class.isAssignableFrom(mClass)) {
-            return teamController;
-        } else if (IRunningTeamController.class.isAssignableFrom(mClass)) {
-            return runningTeamController;
-        } else if (IReportController.class.isAssignableFrom(mClass)) {
-            return reportController;
-        } else {
-            return null;
-        }
-    }
-
-    public void addToBackStack(Fragment fragment) {
-        stack.push(fragment);
     }
 
     public void exit() {

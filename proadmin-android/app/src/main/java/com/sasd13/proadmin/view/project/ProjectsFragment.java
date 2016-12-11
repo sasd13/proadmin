@@ -113,10 +113,17 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void bindSpinWithYears() {
+        years.clear();
+
         List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
 
         IntegersSorter.byDesc(projectsYears);
         years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
+        fillSpinYear();
+    }
+
+    private void fillSpinYear() {
+        spinYears.clear();
         spinYears.addItems(years);
         spinYears.resetPosition();
     }
@@ -126,8 +133,6 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void fillTabProjectsByYearCreated() {
-        projectsTab.clear();
-
         int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
         List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
 
@@ -136,6 +141,8 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void addProjectsToTab(List<Project> projects) {
+        projectsTab.clear();
+
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

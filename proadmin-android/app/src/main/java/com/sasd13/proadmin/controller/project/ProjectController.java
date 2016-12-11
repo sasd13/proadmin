@@ -21,13 +21,14 @@ public class ProjectController extends Controller implements IProjectController,
 
     private ProjectService projectService;
     private RunningService runningService;
-    private Project project;
+    private ProjectDependencyWrapper dependencyWrapper;
 
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
 
         projectService = new ProjectService(new ProjectServiceCaller(this, mainActivity));
         runningService = new RunningService(new RunningServiceCaller(this, mainActivity));
+        dependencyWrapper = new ProjectDependencyWrapper();
     }
 
     @Override
@@ -49,15 +50,13 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void showProject(Project project) {
-        this.project = project;
-
-        startProxyFragment();
+        startFragment(ProjectDetailsFragment.newInstance(this, project));
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
     }
 
     void onReadRunnings(List<Running> runnings) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(ProjectDetailsFragment.newInstance(this, project, new ProjectDependencyWrapper(runnings)));
+            dependencyWrapper.setRunnings(runnings);
         }
     }
 

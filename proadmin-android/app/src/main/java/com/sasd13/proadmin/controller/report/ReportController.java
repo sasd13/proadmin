@@ -35,6 +35,7 @@ public class ReportController extends Controller implements IReportController {
     private RunningTeamService runningTeamService;
     private StudentService studentService;
     private Report report;
+    private ReportDependencyWrapper dependencyWrapper;
     private int mode;
 
     public ReportController(MainActivity mainActivity) {
@@ -46,6 +47,7 @@ public class ReportController extends Controller implements IReportController {
         dependencyService = new ReportDependencyService(new ReportServiceCaller(this, mainActivity));
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
         studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
+        dependencyWrapper = new ReportDependencyWrapper();
     }
 
     @Override
@@ -87,8 +89,9 @@ public class ReportController extends Controller implements IReportController {
         }
     }
 
-    void onRetrieved(ReportDependencyWrapper dependencyWrapper) {
+    void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
         if (reportNewFragment != null && !reportNewFragment.isDetached()) {
+            dependencyWrapper.setStudentTeams(resultHolder.getStudentTeams());
             reportNewFragment.setDependencyWrapper(dependencyWrapper);
         }
     }
@@ -120,7 +123,8 @@ public class ReportController extends Controller implements IReportController {
 
     void onReadStudentTeams(List<StudentTeam> studentTeams) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(ReportDetailsFragment.newInstance(this, report, new ReportDependencyWrapper(studentTeams)));
+            dependencyWrapper.setStudentTeams(studentTeams);
+            startFragment(ReportDetailsFragment.newInstance(this, report, dependencyWrapper));
         }
     }
 

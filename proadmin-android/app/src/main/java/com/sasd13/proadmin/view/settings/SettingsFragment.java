@@ -17,6 +17,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.gui.form.TeacherForm;
 import com.sasd13.proadmin.util.builder.member.TeacherFromFormBuilder;
@@ -101,5 +102,13 @@ public class SettingsFragment extends Fragment {
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_settings));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }
