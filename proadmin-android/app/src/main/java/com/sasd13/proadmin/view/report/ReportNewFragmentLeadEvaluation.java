@@ -102,8 +102,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment {
         leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
     }
 
-    public void setDependencyWrapper(ReportWrapper dependencyWrapper) {
-        bindFormWithStudents(dependencyWrapper.getStudentTeams());
+    public void setReportWrapper(ReportWrapper reportWrapper) {
+        bindFormWithStudents(reportWrapper.getStudentTeams());
     }
 
     private void bindFormWithStudents(List<StudentTeam> studentTeams) {

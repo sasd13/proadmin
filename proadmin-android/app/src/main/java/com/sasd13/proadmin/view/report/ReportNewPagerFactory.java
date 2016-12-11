@@ -35,13 +35,13 @@ public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
         }
     }
 
-    public void setReportWrapper(ReportWrapper dependencyWrapper) {
+    public void setReportWrapper(ReportWrapper reportWrapper) {
         if (fragmentLeadEvaluation != null && !fragmentLeadEvaluation.isDetached()) {
-            fragmentLeadEvaluation.setDependencyWrapper(dependencyWrapper);
+            fragmentLeadEvaluation.setReportWrapper(reportWrapper);
         }
 
         if (fragmentIndividualEvaluations != null && !fragmentIndividualEvaluations.isDetached()) {
-            fragmentIndividualEvaluations.setDependencyWrapper(dependencyWrapper);
+            fragmentIndividualEvaluations.setReportWrapper(reportWrapper);
         }
     }
 
@@ -51,7 +51,7 @@ public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = fragmentRunningTeams = ReportNewFragmentRunningTeams.newInstance(parentFragment);
+                fragment = fragmentRunningTeams = ReportNewFragmentRunningTeams.newInstance(controller, parentFragment);
                 break;
             case 1:
                 fragment = ReportNewFragmentInfo.newInstance(controller, parentFragment);

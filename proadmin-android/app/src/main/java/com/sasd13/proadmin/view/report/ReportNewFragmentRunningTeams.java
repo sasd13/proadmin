@@ -24,6 +24,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
 
@@ -34,11 +35,13 @@ public class ReportNewFragmentRunningTeams extends Fragment {
         private RunningTeamItemModel model;
         private RunningTeam runningTeam;
         private ReportNewFragment parentFragment;
+        private IReportController controller;
 
-        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, ReportNewFragment parentFragment) {
+        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, ReportNewFragment parentFragment, IReportController controller) {
             this.model = model;
             this.runningTeam = runningTeam;
             this.parentFragment = parentFragment;
+            this.controller = controller;
         }
 
         @Override
@@ -49,16 +52,19 @@ public class ReportNewFragmentRunningTeams extends Fragment {
             } else {
                 model.setSelected(true);
                 parentFragment.getReportToCreate().setRunningTeam(runningTeam);
+                controller.readStudentTeams(runningTeam.getTeam());
                 parentFragment.forward();
             }
         }
     }
 
+    private IReportController controller;
     private ReportNewFragment parentFragment;
     private Recycler runningTeamsTab;
 
-    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentRunningTeams newInstance(IReportController controller, ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
+        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
 
         return fragment;
@@ -125,7 +131,7 @@ public class ReportNewFragmentRunningTeams extends Fragment {
                 model.setSelected(true);
             }
 
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, parentFragment));
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, parentFragment, controller));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 

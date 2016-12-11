@@ -2,6 +2,7 @@ package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -78,13 +79,11 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void newReport() {
-        reportWrapper = new ReportWrapper();
         reportNewFragment = ReportNewFragment.newInstance(this);
+        reportWrapper = new ReportWrapper();
 
         startFragment(reportNewFragment);
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
-        dependencyService.clearParametersStudentTeams();
-        dependencyService.read();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -103,11 +102,17 @@ public class ReportController extends Controller implements IReportController {
     @Override
     public void newReport(RunningTeam runningTeam) {
         reportNewFragment = ReportNewFragment.newInstance(this);
+        reportWrapper = new ReportWrapper();
 
         startFragment(reportNewFragment);
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        readStudentTeams(runningTeam.getTeam());
+    }
+
+    @Override
+    public void readStudentTeams(Team team) {
         dependencyService.clearParametersStudentTeams();
-        dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
+        dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
         dependencyService.read();
     }
 

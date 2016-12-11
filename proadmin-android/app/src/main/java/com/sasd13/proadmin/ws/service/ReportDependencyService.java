@@ -6,7 +6,6 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.Constants;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -38,7 +37,6 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     private RetrieveCaller caller;
     private MultiReadRESTCallback callback;
     private Map<String, String[]> parametersStudentTeams, headers;
-    private ReportWrapper dependencyWrapper;
 
     public ReportDependencyService(RetrieveCaller caller) {
         this.caller = caller;
@@ -58,7 +56,7 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     public void read() {
         headers.clear();
         headers.put(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        callback.addRequest(CODE_STUDENTTEAMS, Running.class, WSResources.URL_WS_STUDENTTEAMS, parametersStudentTeams, headers);
+        callback.addRequest(CODE_STUDENTTEAMS, StudentTeam.class, WSResources.URL_WS_STUDENTTEAMS, parametersStudentTeams, headers);
         callback.read();
     }
 

@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.view;
 
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.view.IController;
 
 import java.util.List;
 
@@ -19,6 +19,8 @@ public interface IReportController extends IController {
     void newReport();
 
     void newReport(RunningTeam runningTeam);
+
+    void readStudentTeams(Team team);
 
     void createReport(Report report);
 
