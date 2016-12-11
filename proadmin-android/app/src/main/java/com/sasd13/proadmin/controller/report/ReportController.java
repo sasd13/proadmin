@@ -10,7 +10,8 @@ import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
 import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.report.ReportNewFragment;
@@ -34,8 +35,8 @@ public class ReportController extends Controller implements IReportController {
     private ReportDependencyService dependencyService;
     private RunningTeamService runningTeamService;
     private StudentService studentService;
-    private Report report;
-    private ReportDependencyWrapper dependencyWrapper;
+    private ReportsWrapper reportsWrapper;
+    private ReportWrapper reportWrapper;
     private int mode;
 
     public ReportController(MainActivity mainActivity) {
@@ -47,7 +48,6 @@ public class ReportController extends Controller implements IReportController {
         dependencyService = new ReportDependencyService(new ReportServiceCaller(this, mainActivity));
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
         studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
-        dependencyWrapper = new ReportDependencyWrapper();
     }
 
     @Override
@@ -58,6 +58,7 @@ public class ReportController extends Controller implements IReportController {
     @Override
     public void listReports() {
         mode = Extra.MODE_LIST;
+        reportsWrapper = new ReportsWrapper();
 
         startProxyFragment();
         reportService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
@@ -65,16 +66,19 @@ public class ReportController extends Controller implements IReportController {
 
     void onReadReports(List<Report> reports) {
         if (isProxyFragmentNotDetached()) {
+            reportsWrapper.setReports(reports);
+
             if (mode == Extra.MODE_EDIT) {
                 studentService.readByTeam(reports.get(0).getRunningTeam().getTeam().getNumber());
             } else {
-                startFragment(ReportsFragment.newInstance(this, reports));
+                startFragment(ReportsFragment.newInstance(this, reportsWrapper));
             }
         }
     }
 
     @Override
     public void newReport() {
+        reportWrapper = new ReportWrapper();
         reportNewFragment = ReportNewFragment.newInstance(this);
 
         startFragment(reportNewFragment);
@@ -91,8 +95,8 @@ public class ReportController extends Controller implements IReportController {
 
     void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
         if (reportNewFragment != null && !reportNewFragment.isDetached()) {
-            dependencyWrapper.setStudentTeams(resultHolder.getStudentTeams());
-            reportNewFragment.setDependencyWrapper(dependencyWrapper);
+            reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
+            reportNewFragment.setReportWrapper(reportWrapper);
         }
     }
 
@@ -115,7 +119,7 @@ public class ReportController extends Controller implements IReportController {
     @Override
     public void showReport(Report report) {
         mode = Extra.MODE_EDIT;
-        this.report = report;
+        reportWrapper = new ReportWrapper(report);
 
         startProxyFragment();
         reportService.readByNumber(report.getNumber());
@@ -123,8 +127,8 @@ public class ReportController extends Controller implements IReportController {
 
     void onReadStudentTeams(List<StudentTeam> studentTeams) {
         if (isProxyFragmentNotDetached()) {
-            dependencyWrapper.setStudentTeams(studentTeams);
-            startFragment(ReportDetailsFragment.newInstance(this, report, dependencyWrapper));
+            reportWrapper.setStudentTeams(studentTeams);
+            startFragment(ReportDetailsFragment.newInstance(this, reportWrapper));
         }
     }
 

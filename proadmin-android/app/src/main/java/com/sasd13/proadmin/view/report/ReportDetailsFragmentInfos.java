@@ -23,6 +23,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 public class ReportDetailsFragmentInfos extends Fragment {
@@ -31,10 +32,10 @@ public class ReportDetailsFragmentInfos extends Fragment {
     private Report report;
     private ReportForm reportForm;
 
-    public static ReportDetailsFragmentInfos newInstance(IReportController controller, Report report) {
+    public static ReportDetailsFragmentInfos newInstance(IReportController controller, ReportWrapper reportWrapper) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
         fragment.controller = controller;
-        fragment.report = report;
+        fragment.report = reportWrapper.getReport();
 
         return fragment;
     }

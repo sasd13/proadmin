@@ -29,7 +29,7 @@ import com.sasd13.proadmin.util.builder.running.RunningTeamFromFormBuilder;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
 
 import java.util.List;
@@ -38,14 +38,18 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
-    private RunningTeamDependencyWrapper dependencyWrapper;
+    private List<Running> runnings;
+    private List<Team> teams;
+    private List<AcademicLevel> academicLevels;
     private RunningTeamForm runningTeamForm;
 
-    public static RunningTeamDetailsFragmentInfos newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
+    public static RunningTeamDetailsFragmentInfos newInstance(IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
         RunningTeamDetailsFragmentInfos fragment = new RunningTeamDetailsFragmentInfos();
         fragment.controller = controller;
-        fragment.runningTeam = runningTeam;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.runningTeam = runningTeamWrapper.getRunningTeam();
+        fragment.runnings = runningTeamWrapper.getRunnings();
+        fragment.teams = runningTeamWrapper.getTeams();
+        fragment.academicLevels = runningTeamWrapper.getAcademicLevels();
 
         return fragment;
     }
@@ -72,24 +76,9 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
         bindFormWithRunningTeam();
-        bindFormWithRunnings(dependencyWrapper.getRunnings());
-        bindFormWithTeams(dependencyWrapper.getTeams());
-        bindFormWithAcademicLevels(dependencyWrapper.getAcademicLevels());
-    }
-
-    private void bindFormWithRunnings(List<Running> runnings) {
-        RunningsSorter.byProjectCode(runnings);
-        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
-    }
-
-    private void bindFormWithTeams(List<Team> teams) {
-        TeamsSorter.byNumber(teams);
-        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
-    }
-
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        AcademicLevelsSorter.byCode(academicLevels);
-        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
+        bindFormWithRunnings();
+        bindFormWithTeams();
+        bindFormWithAcademicLevels();
     }
 
     private void buildFormTeam(View view) {
@@ -103,6 +92,21 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
 
     private void bindFormWithRunningTeam() {
         runningTeamForm.bindRunningTeam(runningTeam);
+    }
+
+    private void bindFormWithRunnings() {
+        RunningsSorter.byProjectCode(runnings);
+        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
+    }
+
+    private void bindFormWithTeams() {
+        TeamsSorter.byNumber(teams);
+        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
+    }
+
+    private void bindFormWithAcademicLevels() {
+        AcademicLevelsSorter.byCode(academicLevels);
+        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
@@ -80,8 +80,8 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
         fragmentFactory.setRunningTeams(runningTeams);
     }
 
-    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
-        fragmentFactory.setDependencyWrapper(dependencyWrapper);
+    public void setReportWrapper(ReportWrapper reportWrapper) {
+        fragmentFactory.setReportWrapper(reportWrapper);
     }
 
     public void forward() {

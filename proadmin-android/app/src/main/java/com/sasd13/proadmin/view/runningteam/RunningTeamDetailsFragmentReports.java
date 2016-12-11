@@ -23,7 +23,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
 
 import java.util.List;
@@ -32,14 +32,14 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
-    private RunningTeamDependencyWrapper dependencyWrapper;
+    private List<Report> reports;
     private Recycler reportsTab;
 
-    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
+    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
         fragment.controller = controller;
-        fragment.runningTeam = runningTeam;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.runningTeam = runningTeamWrapper.getRunningTeam();
+        fragment.reports = runningTeamWrapper.getReports();
 
         return fragment;
     }
@@ -59,7 +59,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports(dependencyWrapper.getReports());
+        bindTabWithReports();
     }
 
     private void buildTabReports(View view) {
@@ -77,7 +77,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
         });
     }
 
-    private void bindTabWithReports(List<Report> reports) {
+    private void bindTabWithReports() {
         ReportsSorter.byNumber(reports);
         addReportsToTab(reports);
     }

@@ -1,21 +1,28 @@
 package com.sasd13.proadmin.util.wrapper;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 /**
- * Created by ssaidali2 on 04/12/2016.
+ * Created by ssaidali2 on 06/12/2016.
  */
 
-public class ReportDependencyWrapper extends Observable {
+public class TeamWrapper extends Observable {
 
+    private Team team;
     private List<StudentTeam> studentTeams;
 
-    public ReportDependencyWrapper() {
+    public TeamWrapper(Team team) {
+        this.team = team;
         studentTeams = new ArrayList<>();
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public List<StudentTeam> getStudentTeams() {

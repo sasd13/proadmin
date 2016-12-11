@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
 
 /**
@@ -21,16 +20,14 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     private static final int[] TITLES = {R.string.title_information, R.string.title_reports};
 
     private IRunningTeamController controller;
-    private RunningTeam runningTeam;
-    private RunningTeamDependencyWrapper dependencyWrapper;
+    private RunningTeamWrapper runningTeamWrapper;
     private Context context;
 
-    public RunningTeamDetailsPagerFactory(Fragment fragment, IRunningTeamController controller, RunningTeam runningTeam, RunningTeamDependencyWrapper dependencyWrapper) {
+    public RunningTeamDetailsPagerFactory(Fragment fragment, IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;
-        this.runningTeam = runningTeam;
-        this.dependencyWrapper = dependencyWrapper;
+        this.runningTeamWrapper = runningTeamWrapper;
         context = fragment.getContext();
     }
 
@@ -38,9 +35,9 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return RunningTeamDetailsFragmentInfos.newInstance(controller, runningTeam, dependencyWrapper);
+                return RunningTeamDetailsFragmentInfos.newInstance(controller, runningTeamWrapper);
             case 1:
-                return RunningTeamDetailsFragmentReports.newInstance(controller, runningTeam, dependencyWrapper);
+                return RunningTeamDetailsFragmentReports.newInstance(controller, runningTeamWrapper);
             default:
                 return null;
         }

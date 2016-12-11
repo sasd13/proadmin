@@ -25,6 +25,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
+import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
 import com.sasd13.proadmin.view.ITeamController;
 
 import java.util.List;
@@ -35,10 +36,10 @@ public class TeamsFragment extends Fragment {
     private List<Team> teams;
     private Recycler teamsTab;
 
-    public static TeamsFragment newInstance(ITeamController controller, List<Team> teams) {
+    public static TeamsFragment newInstance(ITeamController controller, TeamsWrapper teamsWrapper) {
         TeamsFragment fragment = new TeamsFragment();
         fragment.controller = controller;
-        fragment.teams = teams;
+        fragment.teams = teamsWrapper.getTeams();
 
         return fragment;
     }

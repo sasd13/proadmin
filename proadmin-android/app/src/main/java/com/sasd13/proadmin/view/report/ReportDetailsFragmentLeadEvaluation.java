@@ -25,7 +25,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
@@ -34,14 +34,14 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
 
     private IReportController controller;
     private Report report;
-    private ReportDependencyWrapper dependencyWrapper;
+    private List<StudentTeam> studentTeams;
     private LeadEvaluationForm leadEvaluationForm;
 
-    public static ReportDetailsFragmentLeadEvaluation newInstance(IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
+    public static ReportDetailsFragmentLeadEvaluation newInstance(IReportController controller, ReportWrapper reportWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
         fragment.controller = controller;
-        fragment.report = report;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.report = reportWrapper.getReport();
+        fragment.studentTeams = reportWrapper.getStudentTeams();
 
         return fragment;
     }
@@ -68,7 +68,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
         bindFormWithLeadEvaluation();
-        bindFormWithStudents(dependencyWrapper.getStudentTeams());
+        bindFormWithStudents();
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -84,7 +84,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         leadEvaluationForm.bindLeadEvaluation(report.getLeadEvaluation());
     }
 
-    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+    private void bindFormWithStudents() {
         List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
 
         leadEvaluationForm.bindLeader(students, report.getLeadEvaluation().getStudent());

@@ -14,21 +14,20 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 public class ReportDetailsFragment extends Fragment implements IPagerHandler {
 
     private IReportController controller;
     private Report report;
-    private ReportDependencyWrapper dependencyWrapper;
+    private ReportWrapper reportWrapper;
     private Pager pager;
 
-    public static ReportDetailsFragment newInstance(IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
+    public static ReportDetailsFragment newInstance(IReportController controller, ReportWrapper reportWrapper) {
         ReportDetailsFragment fragment = new ReportDetailsFragment();
         fragment.controller = controller;
-        fragment.report = report;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.reportWrapper = reportWrapper;
 
         return fragment;
     }
@@ -58,7 +57,7 @@ public class ReportDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ReportDetailsPagerFactory(this, controller, report, dependencyWrapper));
+        pager.setAdapter(new ReportDetailsPagerFactory(this, controller, reportWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

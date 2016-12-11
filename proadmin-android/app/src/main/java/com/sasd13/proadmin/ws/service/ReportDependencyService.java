@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.Constants;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -38,14 +38,13 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     private RetrieveCaller caller;
     private MultiReadRESTCallback callback;
     private Map<String, String[]> parametersStudentTeams, headers;
-    private ReportDependencyWrapper dependencyWrapper;
+    private ReportWrapper dependencyWrapper;
 
     public ReportDependencyService(RetrieveCaller caller) {
         this.caller = caller;
         callback = new MultiReadRESTCallback(this);
         parametersStudentTeams = new HashMap<>();
         headers = new HashMap<>();
-        dependencyWrapper = new ReportDependencyWrapper();
     }
 
     public void addParameterStudentTeams(String parameter, String[] values) {

@@ -13,22 +13,19 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
 public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
 
     private IProjectController controller;
-    private Project project;
+    private ProjectWrapper projectWrapper;
     private Pager pager;
-    private ProjectDependencyWrapper dependencyWrapper;
 
-    public static ProjectDetailsFragment newInstance(IProjectController controller, Project project, ProjectDependencyWrapper dependencyWrapper) {
+    public static ProjectDetailsFragment newInstance(IProjectController controller, ProjectWrapper projectWrapper) {
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.controller = controller;
-        fragment.project = project;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.projectWrapper = projectWrapper;
 
         return fragment;
     }
@@ -58,7 +55,7 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ProjectDetailsPagerFactory(this, controller, project, dependencyWrapper));
+        pager.setAdapter(new ProjectDetailsPagerFactory(this, controller, projectWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

@@ -24,7 +24,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
@@ -102,7 +102,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment {
         leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
     }
 
-    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+    public void setDependencyWrapper(ReportWrapper dependencyWrapper) {
         bindFormWithStudents(dependencyWrapper.getStudentTeams());
     }
 

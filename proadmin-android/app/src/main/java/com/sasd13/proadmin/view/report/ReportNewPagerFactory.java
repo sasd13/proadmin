@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
         }
     }
 
-    public void setDependencyWrapper(ReportDependencyWrapper dependencyWrapper) {
+    public void setReportWrapper(ReportWrapper dependencyWrapper) {
         if (fragmentLeadEvaluation != null && !fragmentLeadEvaluation.isDetached()) {
             fragmentLeadEvaluation.setDependencyWrapper(dependencyWrapper);
         }

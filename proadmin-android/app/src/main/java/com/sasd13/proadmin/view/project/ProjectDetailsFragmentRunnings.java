@@ -23,23 +23,23 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class ProjectDetailsFragmentRunnings extends Fragment implements Observer {
+public class ProjectDetailsFragmentRunnings extends Fragment {
 
     private IProjectController controller;
     private Project project;
+    private List<Running> runnings;
     private Recycler runningsTab;
 
-    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, Project project) {
+    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, ProjectWrapper projectWrapper) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
         fragment.controller = controller;
-        fragment.project = project;
+        fragment.project = projectWrapper.getProject();
+        fragment.runnings = projectWrapper.getRunnings();
 
         return fragment;
     }
@@ -59,6 +59,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
+        bindTabWithRunnings();
     }
 
     private void buildTabRunnings(View view) {
@@ -71,26 +72,20 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newRunning(project);
+                if (project != null) {
+                    controller.newRunning(project);
+                }
             }
         });
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-        ProjectDependencyWrapper dependencyWrapper = (ProjectDependencyWrapper) observable;
-
-        bindTabWithRunnings(dependencyWrapper.getRunnings());
-    }
-
-    private void bindTabWithRunnings(List<Running> runnings) {
+    private void bindTabWithRunnings() {
         RunningsSorter.byYear(runnings);
+        runningsTab.clear();
         addRunningsToTab(runnings);
     }
 
     private void addRunningsToTab(List<Running> runnings) {
-        runningsTab.clear();
-
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

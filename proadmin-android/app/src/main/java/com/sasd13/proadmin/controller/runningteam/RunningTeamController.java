@@ -6,7 +6,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.RunningTeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.runningteam.RunningTeamDetailsFragment;
@@ -23,8 +24,8 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     private RunningTeamService runningTeamService;
     private RunningTeamDependencyService runningTeamDependencyService;
     private ReportService reportService;
-    private RunningTeam runningTeam;
-    private RunningTeamDependencyWrapper dependencyWrapper;
+    private RunningTeamsWrapper runningTeamsWrapper;
+    private RunningTeamWrapper runningTeamWrapper;
     private int mode;
 
     public RunningTeamController(MainActivity mainActivity) {
@@ -33,7 +34,6 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
         runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCaller(this, mainActivity));
         reportService = new ReportService(new ReportServiceCaller(this, mainActivity));
-        dependencyWrapper = new RunningTeamDependencyWrapper();
     }
 
     @Override
@@ -43,19 +43,23 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     @Override
     public void listRunningTeams() {
+        runningTeamsWrapper = new RunningTeamsWrapper();
+
         startProxyFragment();
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(RunningTeamsFragment.newInstance(this, runningTeams));
+            runningTeamsWrapper.setRunningTeams(runningTeams);
+            startFragment(RunningTeamsFragment.newInstance(this, runningTeamsWrapper));
         }
     }
 
     @Override
     public void newRunningTeam() {
         mode = Extra.MODE_NEW;
+        runningTeamsWrapper = new RunningTeamsWrapper();
 
         startProxyFragment();
         runningTeamDependencyService.read();
@@ -63,14 +67,14 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     void onRetrieved(RunningTeamDependencyService.ResultHolder resultHolder) {
         if (isProxyFragmentNotDetached()) {
-            dependencyWrapper.setRunnings(resultHolder.getRunnings());
-            dependencyWrapper.setTeams(resultHolder.getTeams());
-            dependencyWrapper.setAcademicLevels(resultHolder.getAcademicLevels());
+            runningTeamWrapper.setRunnings(resultHolder.getRunnings());
+            runningTeamWrapper.setTeams(resultHolder.getTeams());
+            runningTeamWrapper.setAcademicLevels(resultHolder.getAcademicLevels());
 
             if (mode == Extra.MODE_EDIT) {
-                startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeam, dependencyWrapper));
+                startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeamWrapper));
             } else {
-                startFragment(RunningTeamNewFragment.newInstance(this, dependencyWrapper));
+                startFragment(RunningTeamNewFragment.newInstance(this, runningTeamWrapper));
             }
         }
     }
@@ -83,7 +87,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void showRunningTeam(RunningTeam runningTeam) {
         mode = Extra.MODE_EDIT;
-        this.runningTeam = runningTeam;
+        runningTeamWrapper = new RunningTeamWrapper(runningTeam);
 
         startProxyFragment();
         runningTeamDependencyService.read();
@@ -98,7 +102,8 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     void onReadReports(List<Report> reports) {
         if (isProxyFragmentNotDetached()) {
-            dependencyWrapper.setReports(reports);
+            runningTeamWrapper.setReports(reports);
+            startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeamWrapper));
         }
     }
 

@@ -33,23 +33,23 @@ import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
+import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectsFragment extends Fragment {
 
     private IProjectController controller;
     private List<Project> projects;
-    private List<String> years;
+    private List<Integer> years;
     private Spin spinYears;
     private Recycler projectsTab;
 
-    public static ProjectsFragment newInstance(IProjectController controller, List<Project> projects) {
+    public static ProjectsFragment newInstance(IProjectController controller, ProjectsWrapper projectsWrapper) {
         ProjectsFragment fragment = new ProjectsFragment();
         fragment.controller = controller;
-        fragment.projects = projects;
+        fragment.projects = projectsWrapper.getProjects();
 
         return fragment;
     }
@@ -59,8 +59,6 @@ public class ProjectsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        years = new ArrayList<>();
     }
 
     @Override
@@ -108,21 +106,18 @@ public class ProjectsFragment extends Fragment {
             }
         });
 
-        bindSpinWithYears();
+        bindSpinWithProjectsYears();
         bindTabWithProjects();
     }
 
-    private void bindSpinWithYears() {
-        years.clear();
+    private void bindSpinWithProjectsYears() {
+        years = new ProjectsYearsBuilder(projects).build();
 
-        List<Integer> projectsYears = new ProjectsYearsBuilder(projects).build();
-
-        IntegersSorter.byDesc(projectsYears);
-        years.addAll(new IntegersToStringsAdapter().adapt(projectsYears));
-        fillSpinYear();
+        IntegersSorter.byDesc(years);
+        fillSpinYear(new IntegersToStringsAdapter().adapt(years));
     }
 
-    private void fillSpinYear() {
+    private void fillSpinYear(List<String> years) {
         spinYears.clear();
         spinYears.addItems(years);
         spinYears.resetPosition();
@@ -133,16 +128,15 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void fillTabProjectsByYearCreated() {
-        int year = Integer.parseInt(years.get(spinYears.getSelectedPosition()));
+        int year = years.get(spinYears.getSelectedPosition());
         List<Project> projectsToTab = new ProjectDateCreationCriteria(year).meetCriteria(projects);
 
         ProjectsSorter.byCode(projectsToTab);
+        projectsTab.clear();
         addProjectsToTab(projectsToTab);
     }
 
     private void addProjectsToTab(List<Project> projects) {
-        projectsTab.clear();
-
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

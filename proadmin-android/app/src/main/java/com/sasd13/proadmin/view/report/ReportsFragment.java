@@ -33,6 +33,7 @@ import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class ReportsFragment extends Fragment {
     private Recycler reportsTab;
     private List<String> teamsNumbers;
 
-    public static ReportsFragment newInstance(IReportController controller, List<Report> reports) {
+    public static ReportsFragment newInstance(IReportController controller, ReportsWrapper reportsWrapper) {
         ReportsFragment fragment = new ReportsFragment();
         fragment.controller = controller;
-        fragment.reports = reports;
+        fragment.reports = reportsWrapper.getReports();
 
         return fragment;
     }
@@ -119,11 +120,11 @@ public class ReportsFragment extends Fragment {
             }
         });
 
-        bindSpinWithTeams(reports);
-        bindTabWithReports(reports);
+        bindSpinWithTeams();
+        bindTabWithReports();
     }
 
-    private void bindSpinWithTeams(List<Report> reports) {
+    private void bindSpinWithTeams() {
         teamsNumbers.clear();
         teamsNumbers.addAll((new ReportsTeamsNumbersBuilder(reports)).build());
         StringsSorter.byAsc(teamsNumbers);
@@ -136,9 +137,7 @@ public class ReportsFragment extends Fragment {
         spinTeams.resetPosition();
     }
 
-    private void bindTabWithReports(List<Report> reports) {
-        this.reports = reports;
-
+    private void bindTabWithReports() {
         fillTabReportsByTeam();
     }
 

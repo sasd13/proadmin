@@ -23,7 +23,7 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.TeamWrapper;
 import com.sasd13.proadmin.view.ITeamController;
 
 import java.util.List;
@@ -32,14 +32,14 @@ public class TeamDetailsFragmentStudents extends Fragment {
 
     private ITeamController controller;
     private Team team;
-    private TeamDependencyWrapper dependencyWrapper;
+    private List<StudentTeam> studentTeams;
     private Recycler studentTeamsTab;
 
-    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
+    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, TeamWrapper teamWrapper) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
         fragment.controller = controller;
-        fragment.team = team;
-        fragment.dependencyWrapper = dependencyWrapper;
+        fragment.team = teamWrapper.getTeam();
+        fragment.studentTeams = teamWrapper.getStudentTeams();
 
         return fragment;
     }
@@ -59,7 +59,7 @@ public class TeamDetailsFragmentStudents extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
-        bindTabWithStudentTeams(dependencyWrapper.getStudentTeams());
+        bindTabWithStudentTeams();
     }
 
     private void buildTabStudents(View view) {
@@ -77,12 +77,14 @@ public class TeamDetailsFragmentStudents extends Fragment {
         });
     }
 
-    private void bindTabWithStudentTeams(List<StudentTeam> studentTeams) {
+    private void bindTabWithStudentTeams() {
         StudentTeamsSorter.byStudentNumber(studentTeams);
         addTeamsToTab(studentTeams);
     }
 
     private void addTeamsToTab(List<StudentTeam> studentTeams) {
+        studentTeamsTab.clear();
+
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

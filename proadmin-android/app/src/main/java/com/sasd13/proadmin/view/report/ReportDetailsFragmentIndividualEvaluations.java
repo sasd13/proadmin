@@ -21,6 +21,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 import java.util.List;
@@ -32,10 +33,10 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
 
-    public static ReportDetailsFragmentIndividualEvaluations newInstance(IReportController controller, Report report) {
+    public static ReportDetailsFragmentIndividualEvaluations newInstance(IReportController controller, ReportWrapper reportWrapper) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
         fragment.controller = controller;
-        fragment.report = report;
+        fragment.report = reportWrapper.getReport();
 
         return fragment;
     }

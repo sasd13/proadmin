@@ -16,15 +16,16 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.gui.form.ProjectForm;
+import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 
 public class ProjectDetailsFragmentInfos extends Fragment {
 
     private Project project;
     private ProjectForm projectForm;
 
-    public static ProjectDetailsFragmentInfos newInstance(Project project) {
+    public static ProjectDetailsFragmentInfos newInstance(ProjectWrapper projectWrapper) {
         ProjectDetailsFragmentInfos fragment = new ProjectDetailsFragmentInfos();
-        fragment.project = project;
+        fragment.project = projectWrapper.getProject();
 
         return fragment;
     }

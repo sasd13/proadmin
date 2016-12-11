@@ -5,7 +5,8 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.ProjectDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
 import com.sasd13.proadmin.view.IProjectController;
 import com.sasd13.proadmin.view.IRunningController;
 import com.sasd13.proadmin.view.project.ProjectDetailsFragment;
@@ -21,14 +22,14 @@ public class ProjectController extends Controller implements IProjectController,
 
     private ProjectService projectService;
     private RunningService runningService;
-    private ProjectDependencyWrapper dependencyWrapper;
+    private ProjectsWrapper projectsWrapper;
+    private ProjectWrapper projectWrapper;
 
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
 
         projectService = new ProjectService(new ProjectServiceCaller(this, mainActivity));
         runningService = new RunningService(new RunningServiceCaller(this, mainActivity));
-        dependencyWrapper = new ProjectDependencyWrapper();
     }
 
     @Override
@@ -38,25 +39,31 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void listProjects() {
+        projectsWrapper = new ProjectsWrapper();
+
         startProxyFragment();
         projectService.readAll();
     }
 
     void onReadProjects(List<Project> projects) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(ProjectsFragment.newInstance(this, projects));
+            projectsWrapper.setProjects(projects);
+            startFragment(ProjectsFragment.newInstance(this, projectsWrapper));
         }
     }
 
     @Override
     public void showProject(Project project) {
-        startFragment(ProjectDetailsFragment.newInstance(this, project));
+        projectWrapper = new ProjectWrapper(project);
+
+        startProxyFragment();
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
     }
 
     void onReadRunnings(List<Running> runnings) {
         if (isProxyFragmentNotDetached()) {
-            dependencyWrapper.setRunnings(runnings);
+            projectWrapper.setRunnings(runnings);
+            startFragment(ProjectDetailsFragment.newInstance(this, projectWrapper));
         }
     }
 

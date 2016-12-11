@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.wrapper.ReportDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.view.IReportController;
 
 /**
@@ -25,16 +24,14 @@ public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
     };
 
     private IReportController controller;
-    private Report report;
-    private ReportDependencyWrapper dependencyWrapper;
+    private ReportWrapper reportWrapper;
     private Context context;
 
-    public ReportDetailsPagerFactory(Fragment fragment, IReportController controller, Report report, ReportDependencyWrapper dependencyWrapper) {
+    public ReportDetailsPagerFactory(Fragment fragment, IReportController controller, ReportWrapper reportWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;
-        this.report = report;
-        this.dependencyWrapper = dependencyWrapper;
+        this.reportWrapper = reportWrapper;
         context = fragment.getContext();
     }
 
@@ -42,11 +39,11 @@ public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ReportDetailsFragmentInfos.newInstance(controller, report);
+                return ReportDetailsFragmentInfos.newInstance(controller, reportWrapper);
             case 1:
-                return ReportDetailsFragmentLeadEvaluation.newInstance(controller, report, dependencyWrapper);
+                return ReportDetailsFragmentLeadEvaluation.newInstance(controller, reportWrapper);
             case 2:
-                return ReportDetailsFragmentIndividualEvaluations.newInstance(controller, report);
+                return ReportDetailsFragmentIndividualEvaluations.newInstance(controller, reportWrapper);
             default:
                 return null;
         }

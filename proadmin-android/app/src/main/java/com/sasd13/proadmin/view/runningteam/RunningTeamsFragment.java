@@ -34,6 +34,7 @@ import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.running.RunningTeamsYearsBuilder;
 import com.sasd13.proadmin.util.filter.running.RunningTeamYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 import com.sasd13.proadmin.view.IRunningTeamController;
 
 import java.util.ArrayList;
@@ -47,10 +48,10 @@ public class RunningTeamsFragment extends Fragment {
     private Spin spinYears;
     private Recycler runningTeamsTab;
 
-    public static RunningTeamsFragment newInstance(IRunningTeamController controller, List<RunningTeam> runningTeams) {
+    public static RunningTeamsFragment newInstance(IRunningTeamController controller, RunningTeamsWrapper runningTeamsWrapper) {
         RunningTeamsFragment fragment = new RunningTeamsFragment();
         fragment.controller = controller;
-        fragment.runningTeams = runningTeams;
+        fragment.runningTeams = runningTeamsWrapper.getRunningTeams();
 
         return fragment;
     }

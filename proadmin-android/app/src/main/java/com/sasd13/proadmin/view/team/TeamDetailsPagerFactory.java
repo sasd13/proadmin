@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.util.wrapper.TeamDependencyWrapper;
+import com.sasd13.proadmin.util.wrapper.TeamWrapper;
 import com.sasd13.proadmin.view.ITeamController;
 
 /**
@@ -21,16 +20,14 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     private static final int[] TITLES = {R.string.title_information, R.string.title_students};
 
     private ITeamController controller;
-    private Team team;
-    private TeamDependencyWrapper dependencyWrapper;
+    private TeamWrapper teamWrapper;
     private Context context;
 
-    public TeamDetailsPagerFactory(Fragment fragment, ITeamController controller, Team team, TeamDependencyWrapper dependencyWrapper) {
+    public TeamDetailsPagerFactory(Fragment fragment, ITeamController controller, TeamWrapper teamWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.controller = controller;
-        this.team = team;
-        this.dependencyWrapper = dependencyWrapper;
+        this.teamWrapper = teamWrapper;
         context = fragment.getContext();
     }
 
@@ -38,9 +35,9 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return TeamDetailsFragmentInfos.newInstance(controller, team);
+                return TeamDetailsFragmentInfos.newInstance(controller, teamWrapper);
             case 1:
-                return TeamDetailsFragmentStudents.newInstance(controller, team, dependencyWrapper);
+                return TeamDetailsFragmentStudents.newInstance(controller, teamWrapper);
             default:
                 return null;
         }
