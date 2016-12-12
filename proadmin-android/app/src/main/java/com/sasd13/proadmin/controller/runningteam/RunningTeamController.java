@@ -8,11 +8,11 @@ import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
-import com.sasd13.proadmin.view.IReportController;
-import com.sasd13.proadmin.view.IRunningTeamController;
-import com.sasd13.proadmin.view.runningteam.RunningTeamDetailsFragment;
-import com.sasd13.proadmin.view.runningteam.RunningTeamNewFragment;
-import com.sasd13.proadmin.view.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.fragment.IRunningTeamController;
+import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
+import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
+import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
 import com.sasd13.proadmin.ws.service.ReportService;
 import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
 import com.sasd13.proadmin.ws.service.RunningTeamService;
@@ -59,7 +59,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void newRunningTeam() {
         mode = Extra.MODE_NEW;
-        runningTeamsWrapper = new RunningTeamsWrapper();
+        runningTeamWrapper = new RunningTeamWrapper();
 
         startProxyFragment();
         runningTeamDependencyService.read();

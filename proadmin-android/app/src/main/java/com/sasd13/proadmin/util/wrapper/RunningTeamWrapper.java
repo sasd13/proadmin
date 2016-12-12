@@ -22,12 +22,17 @@ public class RunningTeamWrapper extends Observable {
     private List<AcademicLevel> academicLevels;
     private List<Report> reports;
 
-    public RunningTeamWrapper(RunningTeam runningTeam) {
-        this.runningTeam = runningTeam;
+    public RunningTeamWrapper() {
         runnings = new ArrayList<>();
         teams = new ArrayList<>();
         academicLevels = new ArrayList<>();
         reports = new ArrayList<>();
+    }
+
+    public RunningTeamWrapper(RunningTeam runningTeam) {
+        this();
+
+        this.runningTeam = runningTeam;
     }
 
     public RunningTeam getRunningTeam() {

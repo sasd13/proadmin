@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.view.IController;
-import com.sasd13.proadmin.view.ProxyFragment;
+import com.sasd13.proadmin.fragment.IController;
+import com.sasd13.proadmin.fragment.ProxyFragment;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

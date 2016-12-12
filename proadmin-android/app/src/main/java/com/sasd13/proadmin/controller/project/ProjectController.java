@@ -7,12 +7,12 @@ import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
-import com.sasd13.proadmin.view.IProjectController;
-import com.sasd13.proadmin.view.IRunningController;
-import com.sasd13.proadmin.view.project.ProjectDetailsFragment;
-import com.sasd13.proadmin.view.project.ProjectsFragment;
-import com.sasd13.proadmin.view.running.RunningDetailsFragment;
-import com.sasd13.proadmin.view.running.RunningNewFragment;
+import com.sasd13.proadmin.fragment.IProjectController;
+import com.sasd13.proadmin.fragment.IRunningController;
+import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
+import com.sasd13.proadmin.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
+import com.sasd13.proadmin.fragment.running.RunningNewFragment;
 import com.sasd13.proadmin.ws.service.ProjectService;
 import com.sasd13.proadmin.ws.service.RunningService;
 

@@ -4,8 +4,8 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.view.ISettingsController;
-import com.sasd13.proadmin.view.settings.SettingsFragment;
+import com.sasd13.proadmin.fragment.ISettingsController;
+import com.sasd13.proadmin.fragment.settings.SettingsFragment;
 import com.sasd13.proadmin.ws.service.TeacherService;
 
 public class SettingsController extends Controller implements ISettingsController {
