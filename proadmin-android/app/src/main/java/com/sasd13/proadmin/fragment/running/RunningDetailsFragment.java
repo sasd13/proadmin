@@ -25,10 +25,7 @@ import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class RunningDetailsFragment extends Fragment implements Observer {
+public class RunningDetailsFragment extends Fragment {
 
     private IRunningController controller;
     private Running running;
@@ -37,8 +34,6 @@ public class RunningDetailsFragment extends Fragment implements Observer {
     public static RunningDetailsFragment newInstance(RunningWrapper runningWrapper) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
         fragment.running = runningWrapper.getRunning();
-
-        runningWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -128,14 +123,5 @@ public class RunningDetailsFragment extends Fragment implements Observer {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        RunningWrapper runningWrapper = (RunningWrapper) observable;
-
-        this.running = runningWrapper.getRunning();
-
-        bindFormWithRunning();
     }
 }

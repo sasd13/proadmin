@@ -26,7 +26,6 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
-import com.sasd13.proadmin.util.builder.running.RunningTeamFromFormBuilder;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
@@ -34,8 +33,10 @@ import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class RunningTeamDetailsFragmentInfos extends Fragment {
+public class RunningTeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private IRunningTeamController controller;
     private RunningTeam runningTeam;
@@ -155,5 +156,18 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
                         controller.deleteRunningTeam(runningTeam);
                     }
                 });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
+
+        runnings = runningTeamWrapper.getRunnings();
+        teams = runningTeamWrapper.getTeams();
+        academicLevels = runningTeamWrapper.getAcademicLevels();
+
+        bindFormWithRunnings();
+        bindFormWithTeams();
+        bindFormWithAcademicLevels();
     }
 }

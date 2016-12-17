@@ -35,7 +35,7 @@ public class ProjectsFragment extends Fragment implements Observer {
 
     private IProjectController controller;
     private List<Project> projects;
-    private Recycler projectsTab;
+    private Recycler recycler;
 
     public static ProjectsFragment newInstance(ProjectsWrapper projectsWrapper) {
         ProjectsFragment fragment = new ProjectsFragment();
@@ -71,12 +71,12 @@ public class ProjectsFragment extends Fragment implements Observer {
     }
 
     private void buildTabProjects(View view) {
-        projectsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        projectsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void bindTabWithProjects() {
-        ProjectsSorter.byDateCreation(projects, true);
+        ProjectsSorter.byDateCreation(projects);
         addProjectsToTab(projects);
     }
 
@@ -97,7 +97,7 @@ public class ProjectsFragment extends Fragment implements Observer {
             holder.add(String.valueOf(new DateTime(project.getDateCreation()).getYear()), pair);
         }
 
-        RecyclerHelper.addAll(projectsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override

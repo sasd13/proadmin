@@ -98,8 +98,8 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void newReport(RunningTeam runningTeam) {
-        reportWrapper = new ReportWrapper(new DefaultReportBuilder().build());
-        reportNewFragment = ReportNewFragment.newInstance(reportWrapper, runningTeam);
+        reportWrapper = new ReportWrapper(new DefaultReportBuilder(runningTeam).build());
+        reportNewFragment = ReportNewFragment.newInstance(reportWrapper);
 
         startFragment(reportNewFragment);
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));

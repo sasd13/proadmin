@@ -36,9 +36,7 @@ public class DefaultRunningTeamBuilder implements IBuilder<RunningTeam> {
             runningTeam.setRunning(new Running(Calendar.getInstance().get(Calendar.YEAR), null, null));
         }
 
-        if (team != null) {
-            runningTeam.setTeam(team);
-        }
+        runningTeam.setTeam(team);
 
         return runningTeam;
     }

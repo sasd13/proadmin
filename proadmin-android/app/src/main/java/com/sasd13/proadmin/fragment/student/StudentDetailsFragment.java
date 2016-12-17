@@ -22,7 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.gui.form.StudentForm;
-import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
+import com.sasd13.proadmin.util.wrapper.StudentWrapper;
 
 public class StudentDetailsFragment extends Fragment {
 
@@ -30,9 +30,9 @@ public class StudentDetailsFragment extends Fragment {
     private Student student;
     private StudentForm studentForm;
 
-    public static StudentDetailsFragment newInstance(Student student) {
+    public static StudentDetailsFragment newInstance(StudentWrapper studentWrapper) {
         StudentDetailsFragment fragment = new StudentDetailsFragment();
-        fragment.student = student;
+        fragment.student = studentWrapper.getStudent();
 
         return fragment;
     }

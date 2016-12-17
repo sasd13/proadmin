@@ -36,7 +36,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
     private IRunningController controller;
     private Project project;
     private List<Running> runnings;
-    private Recycler runningsTab;
+    private Recycler recycler;
 
     public static ProjectDetailsFragmentRunnings newInstance(ProjectWrapper projectWrapper) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
@@ -74,8 +74,8 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
     }
 
     private void buildTabRunnings(View view) {
-        runningsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        runningsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -92,7 +92,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
     private void bindTabWithRunnings() {
         RunningsSorter.byYear(runnings);
-        runningsTab.clear();
+        recycler.clear();
         addRunningsToTab(runnings);
     }
 
@@ -113,7 +113,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(runningsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override

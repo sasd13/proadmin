@@ -21,6 +21,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
@@ -38,12 +39,14 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
         private RunningTeamItemModel model;
         private RunningTeam runningTeam;
+        private Report report;
         private ReportNewFragment parentFragment;
         private IReportController controller;
 
-        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, ReportNewFragment parentFragment, IReportController controller) {
+        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, Report report, ReportNewFragment parentFragment, IReportController controller) {
             this.model = model;
             this.runningTeam = runningTeam;
+            this.report = report;
             this.parentFragment = parentFragment;
             this.controller = controller;
         }
@@ -52,10 +55,10 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         public void execute() {
             if (model.isSelected()) {
                 model.setSelected(false);
-                parentFragment.getReportToCreate().setRunningTeam(null);
+                report.setRunningTeam(null);
             } else {
                 model.setSelected(true);
-                parentFragment.getReportToCreate().setRunningTeam(runningTeam);
+                report.setRunningTeam(runningTeam);
                 controller.readStudentTeams(runningTeam.getTeam());
                 parentFragment.forward();
             }
@@ -63,13 +66,18 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     }
 
     private IReportController controller;
+    private Report report;
+    private List<RunningTeam> runningTeams;
     private ReportNewFragment parentFragment;
-    private Recycler runningTeamsTab;
+    private Recycler recycler;
 
-    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentRunningTeams newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
+        fragment.report = reportWrapper.getReport();
+        fragment.runningTeams = reportWrapper.getRunningTeams();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportWrapper().addObserver(fragment);
+
+        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -96,12 +104,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindRunningTeams(parentFragment.getReportWrapper().getRunningTeams());
+        bindRunningTeams();
     }
 
     private void buildTabRunningTeams(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        runningTeamsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -119,13 +127,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         parentFragment.forward();
     }
 
-    private void bindRunningTeams(List<RunningTeam> runningTeams) {
+    private void bindRunningTeams() {
         RunningTeamsSorter.byRunningYear(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
 
     private void addRunningTeamsToTab(List<RunningTeam> runningTeams) {
-        runningTeamsTab.clear();
+        recycler.clear();
 
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
@@ -135,21 +143,23 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (parentFragment.getReportToCreate().getRunningTeam() != null && Comparator.areTheSame(parentFragment.getReportToCreate().getRunningTeam(), runningTeam)) {
+            if (report.getRunningTeam() != null && Comparator.areTheSame(report.getRunningTeam(), runningTeam)) {
                 model.setSelected(true);
             }
 
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, parentFragment, controller));
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, report, parentFragment, controller));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
-        RecyclerHelper.addAll(runningTeamsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override
     public void update(Observable observable, Object o) {
         ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindRunningTeams(reportWrapper.getRunningTeams());
+        runningTeams = reportWrapper.getRunningTeams();
+
+        bindRunningTeams();
     }
 }

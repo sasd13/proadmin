@@ -19,18 +19,12 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.gui.form.RunningForm;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class RunningNewFragment extends Fragment implements Observer {
+public class RunningNewFragment extends Fragment {
 
     private IRunningController controller;
     private Running running;
@@ -39,8 +33,6 @@ public class RunningNewFragment extends Fragment implements Observer {
     public static RunningNewFragment newInstance(RunningWrapper runningWrapper) {
         RunningNewFragment fragment = new RunningNewFragment();
         fragment.running = runningWrapper.getRunning();
-
-        runningWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -113,14 +105,15 @@ public class RunningNewFragment extends Fragment implements Observer {
 
     private void createRunning() {
         try {
-            Running runningFromForm = new RunningFromFormBuilder(runningForm).build();
-
-            running.setProject(runningFromForm.getProject());
-            running.setTeacher(new Teacher(SessionHelper.getExtraIdTeacherNumber(getContext())));
+            editRunningWithForm();
             controller.createRunning(running);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private void editRunningWithForm() throws FormException {
+        running.setYear(runningForm.getYear());
     }
 
     @Override
@@ -129,14 +122,5 @@ public class RunningNewFragment extends Fragment implements Observer {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        RunningWrapper runningWrapper = (RunningWrapper) observable;
-
-        this.running = runningWrapper.getRunning();
-
-        bindFormWithRunning();
     }
 }

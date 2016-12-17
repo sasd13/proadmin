@@ -4,16 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -22,35 +16,32 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
-import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
-import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
-import com.sasd13.proadmin.util.builder.running.RunningTeamsYearsBuilder;
-import com.sasd13.proadmin.util.filter.running.RunningTeamYearCriteria;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class RunningTeamsFragment extends Fragment {
+public class RunningTeamsFragment extends Fragment implements Observer {
 
     private IRunningTeamController controller;
     private List<RunningTeam> runningTeams;
-    private List<Integer> years;
-    private Spin spinYears;
-    private Recycler runningTeamsTab;
+    private Recycler recycler;
 
     public static RunningTeamsFragment newInstance(RunningTeamsWrapper runningTeamsWrapper) {
         RunningTeamsFragment fragment = new RunningTeamsFragment();
         fragment.runningTeams = runningTeamsWrapper.getRunningTeams();
+
+        runningTeamsWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -59,10 +50,7 @@ public class RunningTeamsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
-        years = new ArrayList<>();
     }
 
     @Override
@@ -80,11 +68,12 @@ public class RunningTeamsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
+        bindTabWithRunningTeams();
     }
 
     private void buildTabRunningTeams(View view) {
-        runningTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
-        runningTeamsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -97,65 +86,9 @@ public class RunningTeamsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_runningteams, menu);
-
-        buildSpinYears(menu.findItem(R.id.menu_runningteams_spinner));
-        bindSpinWithYears();
-        bindTabWithRunningTeams();
-    }
-
-    private void buildSpinYears(MenuItem menuItem) {
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
-
-        spinYears = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabRunningTeamsByYear();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        bindSpinWithYears();
-        bindTabWithRunningTeams();
-    }
-
-    private void bindSpinWithYears() {
-        years.clear();
-
-        List<Integer> yearsToSpin = new RunningTeamsYearsBuilder(runningTeams).build();
-
-        IntegersSorter.byDesc(yearsToSpin);
-        years.addAll(yearsToSpin);
-        fillSpinYears();
-    }
-
-    private void fillSpinYears() {
-        spinYears.clear();
-        spinYears.addItems(new IntegersToStringsAdapter().adapt(years));
-        spinYears.resetPosition();
-    }
-
     private void bindTabWithRunningTeams() {
-        fillTabRunningTeamsByYear();
-    }
-
-    private void fillTabRunningTeamsByYear() {
-        runningTeamsTab.clear();
-
-        int year = years.get(spinYears.getSelectedPosition());
-        List<RunningTeam> runningTeamsToTab = new RunningTeamYearCriteria(year).meetCriteria(runningTeams);
-
-        RunningTeamsSorter.byAcademicLevelCode(runningTeamsToTab);
-        addRunningTeamsToTab(runningTeamsToTab);
+        RunningTeamsSorter.byAcademicLevelCode(runningTeams);
+        addRunningTeamsToTab(runningTeams);
     }
 
     private void addRunningTeamsToTab(List<RunningTeam> runningTeams) {
@@ -175,7 +108,7 @@ public class RunningTeamsFragment extends Fragment {
             holder.add(runningTeam.getAcademicLevel().getCode(), pair);
         }
 
-        RecyclerHelper.addAll(runningTeamsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override
@@ -184,5 +117,12 @@ public class RunningTeamsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteams));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        RunningTeamWrapper teamWrapper = (RunningTeamWrapper) observable;
+
+        //TODO : addNextRunningTeams
     }
 }

@@ -26,12 +26,13 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportDetailsFragmentLeadEvaluation extends Fragment {
+public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Observer {
 
     private IReportController controller;
     private Report report;
@@ -42,6 +43,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
         fragment.report = reportWrapper.getReport();
         fragment.studentTeams = reportWrapper.getStudentTeams();
+
+        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -128,5 +131,14 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
+
+        studentTeams = reportWrapper.getStudentTeams();
+
+        bindFormWithStudents();
     }
 }

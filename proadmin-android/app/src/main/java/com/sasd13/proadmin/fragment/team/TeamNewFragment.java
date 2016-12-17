@@ -22,15 +22,17 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.gui.form.TeamForm;
-import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
+import com.sasd13.proadmin.util.wrapper.TeamWrapper;
 
 public class TeamNewFragment extends Fragment {
 
     private ITeamController controller;
+    private Team team;
     private TeamForm teamForm;
 
-    public static TeamNewFragment newInstance() {
+    public static TeamNewFragment newInstance(TeamWrapper teamWrapper) {
         TeamNewFragment fragment = new TeamNewFragment();
+        fragment.team = teamWrapper.getTeam();
 
         return fragment;
     }
@@ -98,12 +100,15 @@ public class TeamNewFragment extends Fragment {
 
     private void createTeam() {
         try {
-            Team team = new TeamFromFormBuilder(teamForm).build();
-
+            editTeamWithForm(new TeamFromFormBuilder(teamForm).build());
             controller.createTeam(team);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private void editTeamWithForm(Team teamFromForm) {
+        team.setNumber(teamFromForm.getNumber());
     }
 
     @Override

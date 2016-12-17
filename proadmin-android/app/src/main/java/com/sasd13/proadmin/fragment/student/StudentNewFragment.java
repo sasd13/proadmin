@@ -23,17 +23,19 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.gui.form.StudentForm;
-import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
+import com.sasd13.proadmin.util.wrapper.StudentWrapper;
 
 public class StudentNewFragment extends Fragment {
 
     private IStudentController controller;
+    private Student student;
     private Team team;
     private StudentForm studentForm;
 
-    public static StudentNewFragment newInstance(Team team) {
+    public static StudentNewFragment newInstance(StudentWrapper studentWrapper) {
         StudentNewFragment fragment = new StudentNewFragment();
-        fragment.team = team;
+        fragment.student = studentWrapper.getStudent();
+        fragment.team = studentWrapper.getTeam();
 
         return fragment;
     }
@@ -101,12 +103,18 @@ public class StudentNewFragment extends Fragment {
 
     private void createStudent() {
         try {
-            Student student = new StudentFromFormBuilder(studentForm).build();
-
+            editStudentWithForm(new StudentFromFormBuilder(studentForm).build());
             controller.createStudent(student, team);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private void editStudentWithForm(Student studentFromForm) {
+        student.setNumber(studentFromForm.getNumber());
+        student.setFirstName(studentFromForm.getFirstName());
+        student.setLastName(studentFromForm.getLastName());
+        student.setEmail(studentFromForm.getEmail());
     }
 
     @Override

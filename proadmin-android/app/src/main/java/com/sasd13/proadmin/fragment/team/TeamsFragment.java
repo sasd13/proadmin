@@ -6,8 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,16 +27,20 @@ import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TeamsFragment extends Fragment {
+public class TeamsFragment extends Fragment implements Observer {
 
     private ITeamController controller;
     private List<Team> teams;
-    private Recycler teamsTab;
+    private Recycler recycler;
 
     public static TeamsFragment newInstance(TeamsWrapper teamsWrapper) {
         TeamsFragment fragment = new TeamsFragment();
         fragment.teams = teamsWrapper.getTeams();
+
+        teamsWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -46,8 +48,6 @@ public class TeamsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
     }
@@ -71,8 +71,8 @@ public class TeamsFragment extends Fragment {
     }
 
     private void buildTabRunnings(View view) {
-        teamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
-        teamsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -107,16 +107,7 @@ public class TeamsFragment extends Fragment {
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(teamsTab, holder);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        if (menu != null) {
-            menu.setGroupVisible(R.id.menu_edit_group, false);
-        }
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override
@@ -125,5 +116,12 @@ public class TeamsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_teams));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        TeamsWrapper teamsWrapper = (TeamsWrapper) observable;
+
+        //TODO : addNextTeams
     }
 }

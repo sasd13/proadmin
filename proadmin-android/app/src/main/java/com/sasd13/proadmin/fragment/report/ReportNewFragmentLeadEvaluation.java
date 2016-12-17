@@ -25,7 +25,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 import java.util.List;
@@ -35,13 +34,18 @@ import java.util.Observer;
 public class ReportNewFragmentLeadEvaluation extends Fragment implements Observer {
 
     private IReportController controller;
+    private Report report;
+    private List<StudentTeam> studentTeams;
     private ReportNewFragment parentFragment;
     private LeadEvaluationForm leadEvaluationForm;
 
-    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
+        fragment.report = reportWrapper.getReport();
+        fragment.studentTeams = reportWrapper.getStudentTeams();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportWrapper().addObserver(fragment);
+
+        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -68,8 +72,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
         buildFloatingActionButton(view);
-        bindFormWithLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
-        bindFormWithStudents(parentFragment.getReportWrapper().getStudentTeams());
+        bindFormWithLeadEvaluation(report.getLeadEvaluation());
+        bindFormWithStudents();
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -99,10 +103,9 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
 
     private void editLeadEvaluationWithForm() throws FormException {
         LeadEvaluation leadEvaluationFromForm = new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
-        Report reportToCreate = parentFragment.getReportToCreate();
 
-        leadEvaluationFromForm.setReport(reportToCreate);
-        reportToCreate.setLeadEvaluation(leadEvaluationFromForm);
+        leadEvaluationFromForm.setReport(report);
+        report.setLeadEvaluation(leadEvaluationFromForm);
     }
 
     private void goForward() {
@@ -113,7 +116,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
         leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
     }
 
-    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+    private void bindFormWithStudents() {
         List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
 
         leadEvaluationForm.bindLeader(students);
@@ -123,6 +126,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
     public void update(Observable observable, Object o) {
         ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindFormWithStudents(reportWrapper.getStudentTeams());
+        studentTeams = reportWrapper.getStudentTeams();
+
+        bindFormWithStudents();
     }
 }

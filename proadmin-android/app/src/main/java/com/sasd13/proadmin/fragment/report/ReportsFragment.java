@@ -4,16 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -22,34 +16,32 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
-import com.sasd13.androidex.gui.widget.spin.Spin;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
-import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
-import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportsFragment extends Fragment {
+public class ReportsFragment extends Fragment implements Observer {
 
     private IReportController controller;
     private List<Report> reports;
-    private Spin spinTeams;
-    private Recycler reportsTab;
-    private List<String> teamsNumbers;
+    private Recycler recycler;
 
     public static ReportsFragment newInstance(ReportsWrapper reportsWrapper) {
         ReportsFragment fragment = new ReportsFragment();
         fragment.reports = reportsWrapper.getReports();
+
+        reportsWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -58,10 +50,7 @@ public class ReportsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
-        teamsNumbers = new ArrayList<>();
     }
 
     @Override
@@ -79,11 +68,12 @@ public class ReportsFragment extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
+        bindTabWithReports();
     }
 
     private void buildTabReports(View view) {
-        reportsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        reportsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -96,61 +86,13 @@ public class ReportsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_reports, menu);
-
-        buildSpinYears(menu.findItem(R.id.menu_reports_spinner));
-    }
-
-    private void buildSpinYears(MenuItem menuItem) {
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(menuItem);
-
-        spinTeams = new Spin(spinner, new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                fillTabReportsByTeam();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        bindSpinWithTeams();
-        bindTabWithReports();
-    }
-
-    private void bindSpinWithTeams() {
-        teamsNumbers.clear();
-        teamsNumbers.addAll((new ReportsTeamsNumbersBuilder(reports)).build());
-        StringsSorter.byAsc(teamsNumbers);
-        fillSpinTeams();
-    }
-
-    private void fillSpinTeams() {
-        spinTeams.clear();
-        spinTeams.addItems(teamsNumbers);
-        spinTeams.resetPosition();
-    }
-
     private void bindTabWithReports() {
-        fillTabReportsByTeam();
-    }
-
-    private void fillTabReportsByTeam() {
-        String teamNumber = teamsNumbers.get(spinTeams.getSelectedPosition());
-        List<Report> reportsToTab = new ReportTeamCriteria(teamNumber).meetCriteria(reports);
-
-        ReportsSorter.byNumber(reportsToTab);
-        addReportsToTab(reportsToTab);
+        ReportsSorter.byNumber(reports);
+        addReportsToTab(reports);
     }
 
     private void addReportsToTab(List<Report> reports) {
-        reportsTab.clear();
+        recycler.clear();
 
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
@@ -168,7 +110,7 @@ public class ReportsFragment extends Fragment {
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(reportsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
     }
 
     @Override
@@ -177,5 +119,12 @@ public class ReportsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_reports));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
+
+        //TODO : addNextReports
     }
 }

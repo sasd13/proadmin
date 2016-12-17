@@ -76,7 +76,7 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void newRunning(Project project) {
-        runningWrapper = new RunningWrapper(new DefaultRunningBuilder(project).build());
+        runningWrapper = new RunningWrapper(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
 
         startFragment(RunningNewFragment.newInstance(runningWrapper));
     }

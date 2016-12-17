@@ -20,17 +20,19 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
-import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
 import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 public class ReportNewFragmentInfo extends Fragment {
 
     private IReportController controller;
+    private Report report;
     private ReportNewFragment parentFragment;
     private ReportForm reportForm;
 
-    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentInfo newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
         ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
+        fragment.report = reportWrapper.getReport();
         fragment.parentFragment = parentFragment;
 
         return fragment;
@@ -71,7 +73,7 @@ public class ReportNewFragmentInfo extends Fragment {
     }
 
     private void bindReportWithForm() {
-        reportForm.bindReport(parentFragment.getReportToCreate());
+        reportForm.bindReport(report);
     }
 
     private void buildFloatingActionButton(View view) {
@@ -81,7 +83,7 @@ public class ReportNewFragmentInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    editReportWithForm();
+                    editReportWithForm(new ReportFromFormBuilder(reportForm).build());
                     goForward();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
@@ -90,13 +92,10 @@ public class ReportNewFragmentInfo extends Fragment {
         });
     }
 
-    private void editReportWithForm() throws FormException {
-        Report reportFromForm = new ReportFromFormBuilder(reportForm).build();
-        Report reportToCreate = parentFragment.getReportToCreate();
-
-        reportToCreate.setSession(reportFromForm.getSession());
-        reportToCreate.setDateMeeting(reportFromForm.getDateMeeting());
-        reportToCreate.setComment(reportFromForm.getComment());
+    private void editReportWithForm(Report reportFromForm) throws FormException {
+        report.setSession(reportFromForm.getSession());
+        report.setDateMeeting(reportFromForm.getDateMeeting());
+        report.setComment(reportFromForm.getComment());
     }
 
     private void goForward() {

@@ -12,40 +12,20 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IReportController;
-import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     private IReportController controller;
     private ReportWrapper reportWrapper;
-    private Report reportToCreate;
     private Pager pager;
 
     public static ReportNewFragment newInstance(ReportWrapper reportWrapper) {
         ReportNewFragment fragment = new ReportNewFragment();
         fragment.reportWrapper = reportWrapper;
-        fragment.reportToCreate = new DefaultReportBuilder().build();
 
         return fragment;
-    }
-
-    public static ReportNewFragment newInstance(ReportWrapper reportWrapper, RunningTeam runningTeam) {
-        ReportNewFragment fragment = newInstance(reportWrapper);
-        fragment.reportToCreate.setRunningTeam(runningTeam);
-
-        return fragment;
-    }
-
-    public ReportWrapper getReportWrapper() {
-        return reportWrapper;
-    }
-
-    public Report getReportToCreate() {
-        return reportToCreate;
     }
 
     @Override
@@ -79,13 +59,13 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
 
-        pager.setAdapter(new ReportNewPagerFactory(this));
+        pager.setAdapter(new ReportNewPagerFactory(this, reportWrapper));
         pager.setScrollable(false);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
 
     public void forward() {
-        if (reportToCreate.getRunningTeam() != null) {
+        if (reportWrapper.getReport().getRunningTeam() != null) {
             pager.forward();
         } else {
             controller.displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
@@ -93,7 +73,7 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     }
 
     public void createReport() {
-        controller.createReport(reportToCreate);
+        controller.createReport(reportWrapper.getReport());
     }
 
     @Override

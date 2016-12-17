@@ -5,8 +5,6 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.util.wrapper.TeamWrapper;
-import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
 import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.fragment.student.StudentDetailsFragment;
@@ -16,6 +14,11 @@ import com.sasd13.proadmin.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamsFragment;
 import com.sasd13.proadmin.service.ws.StudentService;
 import com.sasd13.proadmin.service.ws.TeamService;
+import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
+import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
+import com.sasd13.proadmin.util.wrapper.StudentWrapper;
+import com.sasd13.proadmin.util.wrapper.TeamWrapper;
+import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
 
 import java.util.List;
 
@@ -55,7 +58,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newTeam() {
-        startFragment(TeamNewFragment.newInstance());
+        startFragment(TeamNewFragment.newInstance(new TeamWrapper(new DefaultTeamBuilder().build())));
     }
 
     @Override
@@ -90,7 +93,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance(team));
+        startFragment(StudentNewFragment.newInstance(new StudentWrapper(new DefaultStudentBuilder().build())));
     }
 
     @Override
@@ -100,7 +103,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showStudent(Student student) {
-        startFragment(StudentDetailsFragment.newInstance(student));
+        startFragment(StudentDetailsFragment.newInstance(new StudentWrapper(student)));
     }
 
     @Override

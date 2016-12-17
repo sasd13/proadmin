@@ -28,18 +28,22 @@ import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class RunningTeamDetailsFragmentReports extends Fragment {
+public class RunningTeamDetailsFragmentReports extends Fragment implements Observer {
 
     private IReportController controller;
     private RunningTeam runningTeam;
     private List<Report> reports;
-    private Recycler reportsTab;
+    private Recycler recycler;
 
     public static RunningTeamDetailsFragmentReports newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
         fragment.runningTeam = runningTeamWrapper.getRunningTeam();
         fragment.reports = runningTeamWrapper.getReports();
+
+        runningTeamWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -70,8 +74,8 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
     }
 
     private void buildTabReports(View view) {
-        reportsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        reportsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -106,6 +110,15 @@ public class RunningTeamDetailsFragmentReports extends Fragment {
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(reportsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
+
+        reports = runningTeamWrapper.getReports();
+
+        bindTabWithReports();
     }
 }

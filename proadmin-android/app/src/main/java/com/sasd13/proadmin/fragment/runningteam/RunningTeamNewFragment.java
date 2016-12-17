@@ -25,18 +25,19 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
-import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
-import com.sasd13.proadmin.util.builder.running.RunningTeamFromFormBuilder;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class RunningTeamNewFragment extends Fragment {
+public class RunningTeamNewFragment extends Fragment implements Observer {
 
     private IRunningTeamController controller;
+    private RunningTeam runningTeam;
     private List<Running> runnings;
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
@@ -44,9 +45,12 @@ public class RunningTeamNewFragment extends Fragment {
 
     public static RunningTeamNewFragment newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamNewFragment fragment = new RunningTeamNewFragment();
+        fragment.runningTeam = runningTeamWrapper.getRunningTeam();
         fragment.runnings = runningTeamWrapper.getRunnings();
         fragment.teams = runningTeamWrapper.getTeams();
         fragment.academicLevels = runningTeamWrapper.getAcademicLevels();
+
+        runningTeamWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -90,7 +94,7 @@ public class RunningTeamNewFragment extends Fragment {
     }
 
     private void bindFormWithRunningTeam() {
-        runningTeamForm.bindRunningTeam(new DefaultRunningTeamBuilder().build());
+        runningTeamForm.bindRunningTeam(runningTeam);
     }
 
     private void bindFormWithRunnings() {
@@ -137,11 +141,29 @@ public class RunningTeamNewFragment extends Fragment {
 
     private void createTeam() {
         try {
-            RunningTeam runningTeamFromForm = new RunningTeamFromFormBuilder(runningTeamForm).build();
-
-            controller.createRunningTeam(runningTeamFromForm);
+            editRunningTeamWithForm(new RunningTeamFromFormBuilder(runningTeamForm).build());
+            controller.createRunningTeam(runningTeam);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private void editRunningTeamWithForm(RunningTeam runningTeamFromForm) {
+        runningTeam.setRunning(runningTeamFromForm.getRunning());
+        runningTeam.setTeam(runningTeamFromForm.getTeam());
+        runningTeam.setAcademicLevel(runningTeamFromForm.getAcademicLevel());
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
+
+        runnings = runningTeamWrapper.getRunnings();
+        teams = runningTeamWrapper.getTeams();
+        academicLevels = runningTeamWrapper.getAcademicLevels();
+
+        bindFormWithRunnings();
+        bindFormWithTeams();
+        bindFormWithAcademicLevels();
     }
 }

@@ -28,18 +28,22 @@ import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
 import com.sasd13.proadmin.util.wrapper.TeamWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TeamDetailsFragmentStudents extends Fragment {
+public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
     private IStudentController controller;
     private Team team;
     private List<StudentTeam> studentTeams;
-    private Recycler studentTeamsTab;
+    private Recycler recycler;
 
     public static TeamDetailsFragmentStudents newInstance(TeamWrapper teamWrapper) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
         fragment.team = teamWrapper.getTeam();
         fragment.studentTeams = teamWrapper.getStudentTeams();
+
+        teamWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -70,8 +74,8 @@ public class TeamDetailsFragmentStudents extends Fragment {
     }
 
     private void buildTabStudents(View view) {
-        studentTeamsTab = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        studentTeamsTab.addDividerItemDecoration();
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
@@ -90,7 +94,7 @@ public class TeamDetailsFragmentStudents extends Fragment {
     }
 
     private void addTeamsToTab(List<StudentTeam> studentTeams) {
-        studentTeamsTab.clear();
+        recycler.clear();
 
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
@@ -108,6 +112,13 @@ public class TeamDetailsFragmentStudents extends Fragment {
             holder.add(pair);
         }
 
-        RecyclerHelper.addAll(studentTeamsTab, holder);
+        RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        TeamWrapper teamWrapper = (TeamWrapper) observable;
+
+        //TODO : addNextStudentTeams
     }
 }

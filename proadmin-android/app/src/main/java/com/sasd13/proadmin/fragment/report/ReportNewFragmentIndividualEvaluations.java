@@ -34,14 +34,19 @@ import java.util.Observer;
 public class ReportNewFragmentIndividualEvaluations extends Fragment implements Observer {
 
     private IReportController controller;
+    private Report report;
+    private List<StudentTeam> studentTeams;
     private ReportNewFragment parentFragment;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
 
-    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment) {
+    public static ReportNewFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
+        fragment.report = reportWrapper.getReport();
+        fragment.studentTeams = reportWrapper.getStudentTeams();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportWrapper().addObserver(fragment);
+
+        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -68,8 +73,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
         buildFloatingActionButton(view);
-
-        bindFormWithStudents(parentFragment.getReportWrapper().getStudentTeams());
+        bindFormWithStudents();
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -97,13 +101,12 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
 
     private void editIndividualEvaluationsWithForm() throws IndividualEvaluationsFormException {
         List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations();
-        Report reportToCreate = parentFragment.getReportToCreate();
 
-        reportToCreate.getIndividualEvaluations().clear();
+        report.getIndividualEvaluations().clear();
 
         for (IndividualEvaluation individualEvaluationFromForm : individualEvaluationsFromForm) {
-            individualEvaluationFromForm.setReport(reportToCreate);
-            reportToCreate.getIndividualEvaluations().add(individualEvaluationFromForm);
+            individualEvaluationFromForm.setReport(report);
+            report.getIndividualEvaluations().add(individualEvaluationFromForm);
         }
     }
 
@@ -111,7 +114,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
         parentFragment.createReport();
     }
 
-    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+    private void bindFormWithStudents() {
         individualEvaluationsForm.bindIndividualEvaluations(new IndividualEvaluationsBuilder(studentTeams).build());
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
@@ -120,6 +123,8 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
     public void update(Observable observable, Object o) {
         ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindFormWithStudents(reportWrapper.getStudentTeams());
+        studentTeams = reportWrapper.getStudentTeams();
+
+        bindFormWithStudents();
     }
 }
