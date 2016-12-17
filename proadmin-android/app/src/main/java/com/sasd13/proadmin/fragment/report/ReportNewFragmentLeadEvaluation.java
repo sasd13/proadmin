@@ -102,10 +102,13 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
     }
 
     private void editLeadEvaluationWithForm() throws FormException {
-        LeadEvaluation leadEvaluationFromForm = new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
+        LeadEvaluation leadEvaluation = report.getLeadEvaluation();
 
-        leadEvaluationFromForm.setReport(report);
-        report.setLeadEvaluation(leadEvaluationFromForm);
+        leadEvaluation.setPlanningMark(leadEvaluationForm.getPlanningMark());
+        leadEvaluation.setPlanningComment(leadEvaluationForm.getPlanningComment());
+        leadEvaluation.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
+        leadEvaluation.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
+        leadEvaluation.setStudent(leadEvaluationForm.getLeader());
     }
 
     private void goForward() {

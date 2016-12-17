@@ -26,7 +26,6 @@ public class ProjectController extends Controller implements IProjectController,
     private RunningService runningService;
     private ProjectsWrapper projectsWrapper;
     private ProjectWrapper projectWrapper;
-    private RunningWrapper runningWrapper;
 
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
@@ -76,7 +75,9 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void newRunning(Project project) {
-        runningWrapper = new RunningWrapper(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
+        Running running = new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build();
+        RunningWrapper runningWrapper = new RunningWrapper(running);
+        runningWrapper.setProject(project);
 
         startFragment(RunningNewFragment.newInstance(runningWrapper));
     }
@@ -88,7 +89,8 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void showRunning(Running running) {
-        runningWrapper = new RunningWrapper(running);
+        RunningWrapper runningWrapper = new RunningWrapper(running);
+        runningWrapper.setProject(running.getProject());
 
         startFragment(RunningDetailsFragment.newInstance(runningWrapper));
     }

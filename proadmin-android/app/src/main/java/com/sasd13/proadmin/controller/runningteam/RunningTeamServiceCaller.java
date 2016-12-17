@@ -40,7 +40,7 @@ public class RunningTeamServiceCaller implements RunningTeamService.Caller, Runn
     @Override
     public void onCreated() {
         controller.displayMessage(context.getString(R.string.message_saved));
-        controller.backPress();
+        controller.entry();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RunningTeamServiceCaller implements RunningTeamService.Caller, Runn
     @Override
     public void onDeleted() {
         controller.displayMessage(context.getString(R.string.message_deleted));
-        controller.backPress();
+        controller.entry();
     }
 
     @Override

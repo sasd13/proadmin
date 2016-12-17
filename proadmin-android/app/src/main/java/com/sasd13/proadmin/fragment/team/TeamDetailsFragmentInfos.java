@@ -103,12 +103,18 @@ public class TeamDetailsFragmentInfos extends Fragment {
 
     private void updateTeam() {
         try {
-            Team teamFromForm = new TeamFromFormBuilder(teamForm).build();
-
-            controller.updateTeam(teamFromForm, team);
+            controller.updateTeam(getTeamFromForm(), team);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private Team getTeamFromForm() throws FormException {
+        Team teamFromForm = new Team();
+
+        teamFromForm.setNumber(teamForm.getNumber());
+
+        return teamFromForm;
     }
 
     private void deleteTeam() {

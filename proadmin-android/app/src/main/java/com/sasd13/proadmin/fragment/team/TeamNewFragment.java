@@ -100,15 +100,15 @@ public class TeamNewFragment extends Fragment {
 
     private void createTeam() {
         try {
-            editTeamWithForm(new TeamFromFormBuilder(teamForm).build());
+            editTeamWithForm();
             controller.createTeam(team);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
     }
 
-    private void editTeamWithForm(Team teamFromForm) {
-        team.setNumber(teamFromForm.getNumber());
+    private void editTeamWithForm() throws FormException {
+        team.setNumber(teamForm.getNumber());
     }
 
     @Override

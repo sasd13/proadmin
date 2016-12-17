@@ -124,13 +124,23 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     private void updateTeam() {
         try {
-            LeadEvaluation leadEvaluationFromForm = new LeadEvaluationFromFormBuilder(leadEvaluationForm).build();
-
-            leadEvaluationFromForm.setReport(report);
-            controller.updateLeadEvaluation(leadEvaluationFromForm, report.getLeadEvaluation());
+            controller.updateLeadEvaluation(getLeadEvaluationFromForm(), report.getLeadEvaluation());
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private LeadEvaluation getLeadEvaluationFromForm() throws FormException {
+        LeadEvaluation leadEvaluationFromForm = new LeadEvaluation();
+
+        leadEvaluationFromForm.setPlanningMark(leadEvaluationForm.getPlanningMark());
+        leadEvaluationFromForm.setPlanningComment(leadEvaluationForm.getPlanningComment());
+        leadEvaluationFromForm.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
+        leadEvaluationFromForm.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
+        leadEvaluationFromForm.setStudent(leadEvaluationForm.getLeader());
+        leadEvaluationFromForm.setReport(report);
+
+        return leadEvaluationFromForm;
     }
 
     @Override

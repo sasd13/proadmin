@@ -58,7 +58,9 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newTeam() {
-        startFragment(TeamNewFragment.newInstance(new TeamWrapper(new DefaultTeamBuilder().build())));
+        teamWrapper = new TeamWrapper(new DefaultTeamBuilder().build());
+
+        startFragment(TeamNewFragment.newInstance(teamWrapper));
     }
 
     @Override
@@ -93,7 +95,10 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance(new StudentWrapper(new DefaultStudentBuilder().build())));
+        StudentWrapper studentWrapper = new StudentWrapper(new DefaultStudentBuilder().build());
+        studentWrapper.setTeam(team);
+
+        startFragment(StudentNewFragment.newInstance(studentWrapper));
     }
 
     @Override

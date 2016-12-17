@@ -98,12 +98,21 @@ public class StudentDetailsFragment extends Fragment {
 
     private void updateStudent() {
         try {
-            Student studentFromForm = new StudentFromFormBuilder(studentForm).build();
-
-            controller.updateStudent(studentFromForm, student);
+            controller.updateStudent(getStudentFromForm(), student);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private Student getStudentFromForm() throws FormException {
+        Student studentFromForm = new Student();
+
+        studentFromForm.setNumber(studentForm.getNumber());
+        studentFromForm.setFirstName(studentForm.getFirstName());
+        studentFromForm.setLastName(studentForm.getLastName());
+        studentFromForm.setEmail(studentForm.getEmail());
+
+        return studentFromForm;
     }
 
     @Override

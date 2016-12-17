@@ -19,8 +19,8 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 public class ReportNewFragmentInfo extends Fragment {
@@ -83,7 +83,7 @@ public class ReportNewFragmentInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    editReportWithForm(new ReportFromFormBuilder(reportForm).build());
+                    editReportWithForm();
                     goForward();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
@@ -92,10 +92,10 @@ public class ReportNewFragmentInfo extends Fragment {
         });
     }
 
-    private void editReportWithForm(Report reportFromForm) throws FormException {
-        report.setSession(reportFromForm.getSession());
-        report.setDateMeeting(reportFromForm.getDateMeeting());
-        report.setComment(reportFromForm.getComment());
+    private void editReportWithForm() throws FormException {
+        report.setDateMeeting(reportForm.getDateMeeting());
+        report.setSession(reportForm.getSession());
+        report.setComment(reportForm.getComment());
     }
 
     private void goForward() {

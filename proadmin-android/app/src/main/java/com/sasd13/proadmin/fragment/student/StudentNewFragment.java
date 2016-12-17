@@ -103,18 +103,18 @@ public class StudentNewFragment extends Fragment {
 
     private void createStudent() {
         try {
-            editStudentWithForm(new StudentFromFormBuilder(studentForm).build());
+            editStudentWithForm();
             controller.createStudent(student, team);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
     }
 
-    private void editStudentWithForm(Student studentFromForm) {
-        student.setNumber(studentFromForm.getNumber());
-        student.setFirstName(studentFromForm.getFirstName());
-        student.setLastName(studentFromForm.getLastName());
-        student.setEmail(studentFromForm.getEmail());
+    private void editStudentWithForm() throws FormException {
+        student.setNumber(studentForm.getNumber());
+        student.setFirstName(studentForm.getFirstName());
+        student.setLastName(studentForm.getLastName());
+        student.setEmail(studentForm.getEmail());
     }
 
     @Override

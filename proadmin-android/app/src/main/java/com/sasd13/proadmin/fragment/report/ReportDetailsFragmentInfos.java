@@ -22,9 +22,9 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
 
 public class ReportDetailsFragmentInfos extends Fragment {
 
@@ -103,12 +103,24 @@ public class ReportDetailsFragmentInfos extends Fragment {
 
     private void updateReport() {
         try {
-            Report reportFromForm = new ReportFromFormBuilder(reportForm).build();
-
-            controller.updateReport(reportFromForm, report);
+            controller.updateReport(getReportFromForm(), report);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private Report getReportFromForm() throws FormException {
+        Report reportFromForm = new Report();
+
+        reportFromForm.setNumber(reportForm.getNumber());
+        reportFromForm.setDateMeeting(reportForm.getDateMeeting());
+        reportFromForm.setSession(reportForm.getSession());
+        reportFromForm.setComment(reportForm.getComment());
+        reportFromForm.setRunningTeam(report.getRunningTeam());
+        reportFromForm.setLeadEvaluation(report.getLeadEvaluation());
+        reportFromForm.setIndividualEvaluations(report.getIndividualEvaluations());
+
+        return reportFromForm;
     }
 
     private void deleteReport() {

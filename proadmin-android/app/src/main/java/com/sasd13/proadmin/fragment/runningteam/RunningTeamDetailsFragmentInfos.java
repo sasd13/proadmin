@@ -25,12 +25,12 @@ import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
-import com.sasd13.proadmin.fragment.IRunningTeamController;
 
 import java.util.List;
 import java.util.Observable;
@@ -137,12 +137,21 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void updateTeam() {
         try {
-            RunningTeam runningTeamFromForm = new RunningTeamFromFormBuilder(runningTeamForm).build();
-
-            controller.updateRunningTeam(runningTeamFromForm, runningTeam);
+            controller.updateRunningTeam(getRunningTeamFromForm(), runningTeam);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private RunningTeam getRunningTeamFromForm() throws FormException {
+        RunningTeam runningTeamFromForm = new RunningTeam();
+
+        runningTeamFromForm.setRunning(runningTeamForm.getRunning());
+        runningTeamFromForm.setTeam(runningTeamForm.getTeam());
+        runningTeamFromForm.setAcademicLevel(runningTeamForm.getAcademicLevel());
+        runningTeamFromForm.setReports(runningTeam.getReports());
+
+        return runningTeamFromForm;
     }
 
     private void deleteTeam() {

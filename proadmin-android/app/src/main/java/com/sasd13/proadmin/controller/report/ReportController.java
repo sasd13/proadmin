@@ -29,8 +29,6 @@ import java.util.List;
 
 public class ReportController extends Controller implements IReportController {
 
-    private ReportNewFragment reportNewFragment;
-
     private ReportService reportService;
     private LeadEvaluationService leadEvaluationService;
     private IndividualEvaluationService individualEvaluationService;
@@ -74,34 +72,28 @@ public class ReportController extends Controller implements IReportController {
     @Override
     public void newReport() {
         reportWrapper = new ReportWrapper(new DefaultReportBuilder().build());
-        reportNewFragment = ReportNewFragment.newInstance(reportWrapper);
 
-        startFragment(reportNewFragment);
+        startFragment(ReportNewFragment.newInstance(reportWrapper));
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
-        if (reportNewFragment != null && !reportNewFragment.isDetached()) {
-            reportWrapper.setRunningTeams(runningTeams);
-        }
+        reportWrapper.setRunningTeams(runningTeams);
     }
 
     void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
-        if (reportNewFragment != null && !reportNewFragment.isDetached()) {
-            if (mode == Extra.MODE_EDIT) {
-                reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
-            } else {
-                reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
-            }
+        if (mode == Extra.MODE_EDIT) {
+            reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
+        } else {
+            reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
         }
     }
 
     @Override
     public void newReport(RunningTeam runningTeam) {
         reportWrapper = new ReportWrapper(new DefaultReportBuilder(runningTeam).build());
-        reportNewFragment = ReportNewFragment.newInstance(reportWrapper);
 
-        startFragment(reportNewFragment);
+        startFragment(ReportNewFragment.newInstance(reportWrapper));
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
         readStudentTeams(runningTeam.getTeam());
     }

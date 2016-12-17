@@ -34,7 +34,7 @@ public class IndividualEvaluationServiceCaller implements IndividualEvaluationSe
     @Override
     public void onCreated() {
         controller.displayMessage(context.getString(R.string.message_saved));
-        controller.backPress();
+        controller.entry();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class IndividualEvaluationServiceCaller implements IndividualEvaluationSe
     @Override
     public void onDeleted() {
         controller.displayMessage(context.getString(R.string.message_deleted));
-        controller.backPress();
+        controller.entry();
     }
 
     @Override

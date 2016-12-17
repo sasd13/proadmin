@@ -97,12 +97,21 @@ public class SettingsFragment extends Fragment {
 
     private void updateTeacher() {
         try {
-            Teacher teacherFromForm = new TeacherFromFormBuilder(teacherForm).build();
-
-            controller.updateTeacher(teacherFromForm, teacher);
+            controller.updateTeacher(getTeacherFromForm(), teacher);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    private Teacher getTeacherFromForm() throws FormException {
+        Teacher teacherFromForm = new Teacher();
+
+        teacherFromForm.setNumber(teacherForm.getNumber());
+        teacherFromForm.setFirstName(teacherForm.getFirstName());
+        teacherFromForm.setLastName(teacherForm.getLastName());
+        teacherFromForm.setEmail(teacherForm.getEmail());
+
+        return teacherFromForm;
     }
 
     @Override
