@@ -56,7 +56,7 @@ public class TeamsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
         buildView(view);
 
@@ -71,12 +71,12 @@ public class TeamsFragment extends Fragment implements Observer {
     }
 
     private void buildTabRunnings(View view) {
-        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
     }
 
     private void buildFloatingActionButton(View view) {
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
