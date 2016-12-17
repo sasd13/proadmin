@@ -5,7 +5,7 @@ import android.content.Context;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.TeacherService;
+import com.sasd13.proadmin.service.ws.TeacherService;
 
 import java.util.List;
 

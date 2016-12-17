@@ -17,30 +17,40 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportNewFragmentLeadEvaluation extends Fragment {
+public class ReportNewFragmentLeadEvaluation extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportNewFragment parentFragment;
     private LeadEvaluationForm leadEvaluationForm;
 
-    public static ReportNewFragmentLeadEvaluation newInstance(IReportController controller, ReportNewFragment parentFragment) {
+    public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
-        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
+        parentFragment.getReportNewWrapper().addObserver(fragment);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
@@ -59,6 +69,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment {
         buildFormLeadEvaluation(view);
         buildFloatingActionButton(view);
         bindFormWithLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
+        bindFormWithStudents(parentFragment.getReportNewWrapper().getStudentTeams());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -102,13 +113,16 @@ public class ReportNewFragmentLeadEvaluation extends Fragment {
         leadEvaluationForm.bindLeadEvaluation(leadEvaluation);
     }
 
-    public void setReportWrapper(ReportWrapper reportWrapper) {
-        bindFormWithStudents(reportWrapper.getStudentTeams());
-    }
-
     private void bindFormWithStudents(List<StudentTeam> studentTeams) {
         List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
 
         leadEvaluationForm.bindLeader(students);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+
+        bindFormWithStudents(reportNewWrapper.getStudentTeams());
     }
 }

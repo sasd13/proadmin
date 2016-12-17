@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service.ws;
 
 import com.sasd13.androidex.ws.rest.service.ReadService;
 import com.sasd13.proadmin.bean.project.Project;

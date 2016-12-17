@@ -24,7 +24,7 @@ public interface IReportController extends IController {
 
     void createReport(Report report);
 
-    void showReport(Report runningReport);
+    void showReport(Report report);
 
     void updateReport(Report report, Report reportToUpdate);
 

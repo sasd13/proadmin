@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service.ws;
 
 import com.sasd13.androidex.ws.rest.callback.MultiReadRESTCallback;
 import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
@@ -53,7 +53,6 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
 
     public RunningTeamDependencyService(RetrieveCaller caller) {
         this.caller = caller;
-        callback = new MultiReadRESTCallback(this);
         parametersRunnings = new HashMap<>();
         parametersTeams = new HashMap<>();
     }
@@ -75,6 +74,7 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
     }
 
     public void read() {
+        callback = new MultiReadRESTCallback(this);
         callback.addRequest(CODE_RUNNINGS, Running.class, WSResources.URL_WS_RUNNINGS, parametersRunnings);
         callback.addRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS, parametersTeams);
         callback.addRequest(CODE_ACADEMICLEVELS, AcademicLevel.class, WSResources.URL_WS_ACADEMICLEVELS);

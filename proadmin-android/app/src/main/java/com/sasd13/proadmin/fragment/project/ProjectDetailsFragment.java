@@ -14,17 +14,14 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
-import com.sasd13.proadmin.fragment.IProjectController;
 
 public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
 
-    private IProjectController controller;
     private ProjectWrapper projectWrapper;
     private Pager pager;
 
-    public static ProjectDetailsFragment newInstance(IProjectController controller, ProjectWrapper projectWrapper) {
+    public static ProjectDetailsFragment newInstance(ProjectWrapper projectWrapper) {
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
-        fragment.controller = controller;
         fragment.projectWrapper = projectWrapper;
 
         return fragment;
@@ -55,7 +52,7 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ProjectDetailsPagerFactory(this, controller, projectWrapper));
+        pager.setAdapter(new ProjectDetailsPagerFactory(this, projectWrapper));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

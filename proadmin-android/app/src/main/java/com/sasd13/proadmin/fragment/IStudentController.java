@@ -9,6 +9,10 @@ import com.sasd13.proadmin.bean.member.Team;
 
 public interface IStudentController extends IController {
 
+    void newStudent(Team team);
+
+    void showStudent(Student student);
+
     void createStudent(Student student, Team team);
 
     void updateStudent(Student student, Student studentToUpdate);

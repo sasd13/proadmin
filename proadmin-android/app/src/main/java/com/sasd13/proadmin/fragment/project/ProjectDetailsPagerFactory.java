@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
-import com.sasd13.proadmin.fragment.IProjectController;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -19,14 +18,12 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
     @StringRes
     private static final int[] TITLES = {R.string.title_information, R.string.title_runnings};
 
-    private IProjectController controller;
     private ProjectWrapper projectWrapper;
     private Context context;
 
-    public ProjectDetailsPagerFactory(Fragment fragment, IProjectController controller, ProjectWrapper projectWrapper) {
+    public ProjectDetailsPagerFactory(Fragment fragment, ProjectWrapper projectWrapper) {
         super(fragment.getChildFragmentManager());
 
-        this.controller = controller;
         this.projectWrapper = projectWrapper;
         context = fragment.getContext();
     }
@@ -37,7 +34,7 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
             case 0:
                 return ProjectDetailsFragmentInfos.newInstance(projectWrapper);
             case 1:
-                return ProjectDetailsFragmentRunnings.newInstance(controller, projectWrapper);
+                return ProjectDetailsFragmentRunnings.newInstance(projectWrapper);
             default:
                 return null;
         }

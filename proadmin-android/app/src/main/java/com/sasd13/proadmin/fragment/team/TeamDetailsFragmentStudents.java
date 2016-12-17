@@ -19,29 +19,36 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.gui.tab.StudentTeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
 import com.sasd13.proadmin.util.wrapper.TeamWrapper;
-import com.sasd13.proadmin.fragment.ITeamController;
 
 import java.util.List;
 
 public class TeamDetailsFragmentStudents extends Fragment {
 
-    private ITeamController controller;
+    private IStudentController controller;
     private Team team;
     private List<StudentTeam> studentTeams;
     private Recycler studentTeamsTab;
 
-    public static TeamDetailsFragmentStudents newInstance(ITeamController controller, TeamWrapper teamWrapper) {
+    public static TeamDetailsFragmentStudents newInstance(TeamWrapper teamWrapper) {
         TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
-        fragment.controller = controller;
         fragment.team = teamWrapper.getTeam();
         fragment.studentTeams = teamWrapper.getStudentTeams();
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
     }
 
     @Override

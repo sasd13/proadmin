@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,13 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.service.ws.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.LogInService;
 
 import java.util.List;
 
@@ -81,9 +85,29 @@ public class LogInActivity extends AppCompatActivity implements LogInService.Cal
     }
 
     @Override
-    public void onLoggedIn(Teacher teacherFromWS) {
+    public void onLoggedIn(Teacher teacher) {
         waitDialog.dismiss();
-        SessionHelper.logIn(this, teacherFromWS);
+        logIn(teacher);
+    }
+
+    private void logIn(final Teacher teacher) {
+        SessionHelper.setExtraId(this, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
+
+        final WaitDialog waitDialog = new WaitDialog(this);
+        final Intent intent = new Intent(this, MainActivity.class);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intent);
+                waitDialog.dismiss();
+                finish();
+            }
+        }).start(GUIConstants.TIMEOUT_ACTIVITY);
+
+        waitDialog.show();
     }
 
     @Override

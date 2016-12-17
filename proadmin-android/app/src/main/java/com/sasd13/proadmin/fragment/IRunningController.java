@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.fragment;
 
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 
 /**
@@ -7,6 +8,10 @@ import com.sasd13.proadmin.bean.running.Running;
  */
 
 public interface IRunningController extends IController {
+
+    void newRunning(Project project);
+
+    void showRunning(Running running);
 
     void createRunning(Running running);
 

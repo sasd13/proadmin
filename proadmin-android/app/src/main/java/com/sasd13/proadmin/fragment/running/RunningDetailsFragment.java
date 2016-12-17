@@ -21,8 +21,8 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.fragment.IRunningController;
+import com.sasd13.proadmin.gui.form.RunningForm;
 
 public class RunningDetailsFragment extends Fragment {
 
@@ -30,9 +30,8 @@ public class RunningDetailsFragment extends Fragment {
     private Running running;
     private RunningForm runningForm;
 
-    public static RunningDetailsFragment newInstance(IRunningController controller, Running running) {
+    public static RunningDetailsFragment newInstance(Running running) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
-        fragment.controller = controller;
         fragment.running = running;
 
         return fragment;
@@ -43,6 +42,8 @@ public class RunningDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
     }
 
     @Override

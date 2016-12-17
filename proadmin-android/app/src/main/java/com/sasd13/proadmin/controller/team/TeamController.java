@@ -14,8 +14,8 @@ import com.sasd13.proadmin.fragment.student.StudentNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamsFragment;
-import com.sasd13.proadmin.ws.service.StudentService;
-import com.sasd13.proadmin.ws.service.TeamService;
+import com.sasd13.proadmin.service.ws.StudentService;
+import com.sasd13.proadmin.service.ws.TeamService;
 
 import java.util.List;
 
@@ -49,13 +49,13 @@ public class TeamController extends Controller implements ITeamController, IStud
     public void onReadTeams(List<Team> teams) {
         if (isProxyFragmentNotDetached()) {
             teamsWrapper.setTeams(teams);
-            startFragment(TeamsFragment.newInstance(this, teamsWrapper));
+            startFragment(TeamsFragment.newInstance(teamsWrapper));
         }
     }
 
     @Override
     public void newTeam() {
-        startFragment(TeamNewFragment.newInstance(this));
+        startFragment(TeamNewFragment.newInstance());
     }
 
     @Override
@@ -65,7 +65,8 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showTeam(Team team) {
-        teamWrapper = new TeamWrapper(team);
+        teamWrapper = new TeamWrapper();
+        teamWrapper.setTeam(team);
 
         startProxyFragment();
         studentService.readByTeam(team.getNumber());
@@ -74,7 +75,7 @@ public class TeamController extends Controller implements ITeamController, IStud
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
         if (isProxyFragmentNotDetached()) {
             teamWrapper.setStudentTeams(studentTeams);
-            startFragment(TeamDetailsFragment.newInstance(this, teamWrapper));
+            startFragment(TeamDetailsFragment.newInstance(teamWrapper));
         }
     }
 
@@ -90,7 +91,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void newStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance(this, team));
+        startFragment(StudentNewFragment.newInstance(team));
     }
 
     @Override
@@ -100,7 +101,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showStudent(Student student) {
-        startFragment(StudentDetailsFragment.newInstance(this, student));
+        startFragment(StudentDetailsFragment.newInstance(student));
     }
 
     @Override

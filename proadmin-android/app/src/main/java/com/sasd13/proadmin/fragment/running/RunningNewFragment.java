@@ -34,9 +34,8 @@ public class RunningNewFragment extends Fragment {
     private Project project;
     private RunningForm runningForm;
 
-    public static RunningNewFragment newInstance(IRunningController controller, Project project) {
+    public static RunningNewFragment newInstance(Project project) {
         RunningNewFragment fragment = new RunningNewFragment();
-        fragment.controller = controller;
         fragment.project = project;
 
         return fragment;
@@ -47,6 +46,8 @@ public class RunningNewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
     }
 
     @Override

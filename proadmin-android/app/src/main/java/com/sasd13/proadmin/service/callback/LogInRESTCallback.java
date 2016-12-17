@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.callback;
+package com.sasd13.proadmin.service.callback;
 
 import com.sasd13.androidex.ws.rest.callback.RESTCallback;
 import com.sasd13.androidex.ws.rest.task.LogInAsyncTask;

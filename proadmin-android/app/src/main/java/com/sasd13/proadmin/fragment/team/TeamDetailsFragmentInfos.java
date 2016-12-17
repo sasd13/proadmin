@@ -20,11 +20,12 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.TeamWrapper;
-import com.sasd13.proadmin.fragment.ITeamController;
 
 public class TeamDetailsFragmentInfos extends Fragment {
 
@@ -32,9 +33,8 @@ public class TeamDetailsFragmentInfos extends Fragment {
     private Team team;
     private TeamForm teamForm;
 
-    public static TeamDetailsFragmentInfos newInstance(ITeamController controller, TeamWrapper teamWrapper) {
+    public static TeamDetailsFragmentInfos newInstance(TeamWrapper teamWrapper) {
         TeamDetailsFragmentInfos fragment = new TeamDetailsFragmentInfos();
-        fragment.controller = controller;
         fragment.team = teamWrapper.getTeam();
 
         return fragment;
@@ -45,6 +45,8 @@ public class TeamDetailsFragmentInfos extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
     }
 
     @Override

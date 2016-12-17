@@ -21,9 +21,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
-import com.sasd13.proadmin.fragment.IStudentController;
 
 public class StudentNewFragment extends Fragment {
 
@@ -31,9 +31,8 @@ public class StudentNewFragment extends Fragment {
     private Team team;
     private StudentForm studentForm;
 
-    public static StudentNewFragment newInstance(IStudentController controller, Team team) {
+    public static StudentNewFragment newInstance(Team team) {
         StudentNewFragment fragment = new StudentNewFragment();
-        fragment.controller = controller;
         fragment.team = team;
 
         return fragment;
@@ -44,6 +43,8 @@ public class StudentNewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
     }
 
     @Override

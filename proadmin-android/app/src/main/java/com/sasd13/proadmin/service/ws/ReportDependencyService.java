@@ -1,10 +1,9 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service.ws;
 
 import com.sasd13.androidex.ws.rest.callback.MultiReadRESTCallback;
 import com.sasd13.androidex.ws.rest.service.IWebServiceCaller;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
@@ -40,7 +39,6 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
 
     public ReportDependencyService(RetrieveCaller caller) {
         this.caller = caller;
-        callback = new MultiReadRESTCallback(this);
         parametersStudentTeams = new HashMap<>();
         headers = new HashMap<>();
     }
@@ -56,6 +54,8 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     public void read() {
         headers.clear();
         headers.put(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+
+        callback = new MultiReadRESTCallback(this);
         callback.addRequest(CODE_STUDENTTEAMS, StudentTeam.class, WSResources.URL_WS_STUDENTTEAMS, parametersStudentTeams, headers);
         callback.read();
     }

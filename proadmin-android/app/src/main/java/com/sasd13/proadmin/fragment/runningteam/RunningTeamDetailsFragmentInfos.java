@@ -20,6 +20,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
@@ -43,9 +44,8 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
     private List<AcademicLevel> academicLevels;
     private RunningTeamForm runningTeamForm;
 
-    public static RunningTeamDetailsFragmentInfos newInstance(IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
+    public static RunningTeamDetailsFragmentInfos newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamDetailsFragmentInfos fragment = new RunningTeamDetailsFragmentInfos();
-        fragment.controller = controller;
         fragment.runningTeam = runningTeamWrapper.getRunningTeam();
         fragment.runnings = runningTeamWrapper.getRunnings();
         fragment.teams = runningTeamWrapper.getTeams();
@@ -59,6 +59,8 @@ public class RunningTeamDetailsFragmentInfos extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
     }
 
     @Override

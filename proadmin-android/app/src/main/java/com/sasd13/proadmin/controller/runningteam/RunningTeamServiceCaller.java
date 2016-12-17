@@ -5,8 +5,8 @@ import android.content.Context;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
-import com.sasd13.proadmin.ws.service.RunningTeamService;
+import com.sasd13.proadmin.service.ws.RunningTeamDependencyService;
+import com.sasd13.proadmin.service.ws.RunningTeamService;
 
 import java.util.List;
 

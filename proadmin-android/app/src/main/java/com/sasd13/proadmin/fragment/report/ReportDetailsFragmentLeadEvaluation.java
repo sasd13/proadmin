@@ -18,15 +18,16 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
 
 import java.util.List;
 
@@ -37,9 +38,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
     private List<StudentTeam> studentTeams;
     private LeadEvaluationForm leadEvaluationForm;
 
-    public static ReportDetailsFragmentLeadEvaluation newInstance(IReportController controller, ReportWrapper reportWrapper) {
+    public static ReportDetailsFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
-        fragment.controller = controller;
         fragment.report = reportWrapper.getReport();
         fragment.studentTeams = reportWrapper.getStudentTeams();
 
@@ -51,6 +51,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override

@@ -23,10 +23,10 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
-import com.sasd13.proadmin.fragment.ITeamController;
 
 import java.util.List;
 
@@ -36,9 +36,8 @@ public class TeamsFragment extends Fragment {
     private List<Team> teams;
     private Recycler teamsTab;
 
-    public static TeamsFragment newInstance(ITeamController controller, TeamsWrapper teamsWrapper) {
+    public static TeamsFragment newInstance(TeamsWrapper teamsWrapper) {
         TeamsFragment fragment = new TeamsFragment();
-        fragment.controller = controller;
         fragment.teams = teamsWrapper.getTeams();
 
         return fragment;
@@ -49,6 +48,8 @@ public class TeamsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
     }
 
     @Override

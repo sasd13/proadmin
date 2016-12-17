@@ -6,7 +6,7 @@ import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.fragment.ISettingsController;
 import com.sasd13.proadmin.fragment.settings.SettingsFragment;
-import com.sasd13.proadmin.ws.service.TeacherService;
+import com.sasd13.proadmin.service.ws.TeacherService;
 
 public class SettingsController extends Controller implements ISettingsController {
 
@@ -26,7 +26,7 @@ public class SettingsController extends Controller implements ISettingsControlle
 
     void onReadTeacher(Teacher teacher) {
         if (isProxyFragmentNotDetached()) {
-            startFragment(SettingsFragment.newInstance(this, teacher));
+            startFragment(SettingsFragment.newInstance(teacher));
         }
     }
 

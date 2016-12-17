@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.service.ws.RunningService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.RunningService;
 
 import java.util.List;
 

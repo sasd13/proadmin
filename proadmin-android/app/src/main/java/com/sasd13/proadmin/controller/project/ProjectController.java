@@ -13,8 +13,8 @@ import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.fragment.running.RunningNewFragment;
-import com.sasd13.proadmin.ws.service.ProjectService;
-import com.sasd13.proadmin.ws.service.RunningService;
+import com.sasd13.proadmin.service.ws.ProjectService;
+import com.sasd13.proadmin.service.ws.RunningService;
 
 import java.util.List;
 
@@ -48,13 +48,14 @@ public class ProjectController extends Controller implements IProjectController,
     void onReadProjects(List<Project> projects) {
         if (isProxyFragmentNotDetached()) {
             projectsWrapper.setProjects(projects);
-            startFragment(ProjectsFragment.newInstance(this, projectsWrapper));
+            startFragment(ProjectsFragment.newInstance(projectsWrapper));
         }
     }
 
     @Override
     public void showProject(Project project) {
-        projectWrapper = new ProjectWrapper(project);
+        projectWrapper = new ProjectWrapper();
+        projectWrapper.setProject(project);
 
         startProxyFragment();
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
@@ -63,13 +64,13 @@ public class ProjectController extends Controller implements IProjectController,
     void onReadRunnings(List<Running> runnings) {
         if (isProxyFragmentNotDetached()) {
             projectWrapper.setRunnings(runnings);
-            startFragment(ProjectDetailsFragment.newInstance(this, projectWrapper));
+            startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
         }
     }
 
     @Override
     public void newRunning(Project project) {
-        startFragment(RunningNewFragment.newInstance(this, project));
+        startFragment(RunningNewFragment.newInstance(project));
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void showRunning(Running running) {
-        startFragment(RunningDetailsFragment.newInstance(this, running));
+        startFragment(RunningDetailsFragment.newInstance(running));
     }
 
     @Override

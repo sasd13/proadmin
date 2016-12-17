@@ -1,25 +1,26 @@
 package com.sasd13.proadmin.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.androidex.activity.DrawerActivity;
+import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.project.ProjectController;
 import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
 import com.sasd13.proadmin.controller.settings.SettingsController;
 import com.sasd13.proadmin.controller.team.TeamController;
-import com.sasd13.proadmin.gui.browser.Browser;
-import com.sasd13.proadmin.gui.browser.BrowserItemModel;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.fragment.HomeFragment;
 import com.sasd13.proadmin.fragment.IController;
 import com.sasd13.proadmin.fragment.IProjectController;
@@ -30,6 +31,8 @@ import com.sasd13.proadmin.fragment.ISettingsController;
 import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.fragment.ProxyFragment;
+import com.sasd13.proadmin.gui.browser.Browser;
+import com.sasd13.proadmin.gui.browser.BrowserItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,9 +179,25 @@ public class MainActivity extends DrawerActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        SessionHelper.logOut(MainActivity.this);
+                        logOut();
                     }
                 }
         );
+    }
+
+    private void logOut() {
+        final WaitDialog waitDialog = new WaitDialog(this);
+        final Intent intent = new Intent(this, LogInActivity.class);
+
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intent);
+                waitDialog.dismiss();
+                finish();
+            }
+        }).start(GUIConstants.TIMEOUT_ACTIVITY);
+
+        waitDialog.show();
     }
 }

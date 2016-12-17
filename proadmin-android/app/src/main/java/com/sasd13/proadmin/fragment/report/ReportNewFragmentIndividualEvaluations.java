@@ -17,29 +17,40 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportNewFragmentIndividualEvaluations extends Fragment {
+public class ReportNewFragmentIndividualEvaluations extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportNewFragment parentFragment;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
 
-    public static ReportNewFragmentIndividualEvaluations newInstance(IReportController controller, ReportNewFragment parentFragment) {
+    public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
-        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
+        parentFragment.getReportNewWrapper().addObserver(fragment);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
@@ -57,6 +68,8 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
         buildFloatingActionButton(view);
+
+        bindFormWithStudents(parentFragment.getReportNewWrapper().getStudentTeams());
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -98,14 +111,15 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment {
         parentFragment.createReport();
     }
 
-    public void setReportWrapper(ReportWrapper reportWrapper) {
-        List<IndividualEvaluation> individualEvaluations = new IndividualEvaluationsBuilder(reportWrapper.getStudentTeams()).build();
-
-        bindFormWithIndividualEvaluations(individualEvaluations);
+    private void bindFormWithStudents(List<StudentTeam> studentTeams) {
+        individualEvaluationsForm.bindIndividualEvaluations(new IndividualEvaluationsBuilder(studentTeams).build());
+        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
-    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
-        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+
+        bindFormWithStudents(reportNewWrapper.getStudentTeams());
     }
 }

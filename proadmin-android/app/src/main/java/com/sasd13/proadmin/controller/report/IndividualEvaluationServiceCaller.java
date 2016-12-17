@@ -5,7 +5,7 @@ import android.content.Context;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.ws.service.IndividualEvaluationService;
+import com.sasd13.proadmin.service.ws.IndividualEvaluationService;
 
 import java.util.List;
 

@@ -28,13 +28,13 @@ import com.sasd13.javaex.util.sorter.IntegersSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.fragment.IProjectController;
 import com.sasd13.proadmin.gui.tab.ProjectItemModel;
 import com.sasd13.proadmin.util.adapter.IntegersToStringsAdapter;
 import com.sasd13.proadmin.util.builder.project.ProjectsYearsBuilder;
 import com.sasd13.proadmin.util.filter.project.ProjectDateCreationCriteria;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
-import com.sasd13.proadmin.fragment.IProjectController;
 
 import java.util.List;
 
@@ -46,9 +46,8 @@ public class ProjectsFragment extends Fragment {
     private Spin spinYears;
     private Recycler projectsTab;
 
-    public static ProjectsFragment newInstance(IProjectController controller, ProjectsWrapper projectsWrapper) {
+    public static ProjectsFragment newInstance(ProjectsWrapper projectsWrapper) {
         ProjectsFragment fragment = new ProjectsFragment();
-        fragment.controller = controller;
         fragment.projects = projectsWrapper.getProjects();
 
         return fragment;
@@ -59,6 +58,8 @@ public class ProjectsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IProjectController) ((MainActivity) getActivity()).lookup(IProjectController.class);
     }
 
     @Override

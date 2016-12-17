@@ -20,15 +20,19 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportNewFragmentRunningTeams extends Fragment {
+public class ReportNewFragmentRunningTeams extends Fragment implements Observer {
 
     private static class ActionSelectRunningTeam implements IAction {
 
@@ -62,12 +66,19 @@ public class ReportNewFragmentRunningTeams extends Fragment {
     private ReportNewFragment parentFragment;
     private Recycler runningTeamsTab;
 
-    public static ReportNewFragmentRunningTeams newInstance(IReportController controller, ReportNewFragment parentFragment) {
+    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
-        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
+        parentFragment.getReportNewWrapper().addObserver(fragment);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
@@ -85,6 +96,7 @@ public class ReportNewFragmentRunningTeams extends Fragment {
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
+        bindRunningTeams(parentFragment.getReportNewWrapper().getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -105,10 +117,6 @@ public class ReportNewFragmentRunningTeams extends Fragment {
 
     private void goForward() {
         parentFragment.forward();
-    }
-
-    public void setRunningTeams(List<RunningTeam> runningTeams) {
-        bindRunningTeams(runningTeams);
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeams) {
@@ -136,5 +144,12 @@ public class ReportNewFragmentRunningTeams extends Fragment {
         }
 
         RecyclerHelper.addAll(runningTeamsTab, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+
+        bindRunningTeams(reportNewWrapper.getRunningTeams());
     }
 }

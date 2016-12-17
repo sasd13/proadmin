@@ -19,29 +19,36 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
-import com.sasd13.proadmin.fragment.IRunningTeamController;
 
 import java.util.List;
 
 public class RunningTeamDetailsFragmentReports extends Fragment {
 
-    private IRunningTeamController controller;
+    private IReportController controller;
     private RunningTeam runningTeam;
     private List<Report> reports;
     private Recycler reportsTab;
 
-    public static RunningTeamDetailsFragmentReports newInstance(IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
+    public static RunningTeamDetailsFragmentReports newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
-        fragment.controller = controller;
         fragment.runningTeam = runningTeamWrapper.getRunningTeam();
         fragment.reports = runningTeamWrapper.getReports();
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override

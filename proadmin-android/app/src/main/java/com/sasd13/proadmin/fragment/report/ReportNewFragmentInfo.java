@@ -17,6 +17,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
@@ -28,12 +29,18 @@ public class ReportNewFragmentInfo extends Fragment {
     private ReportNewFragment parentFragment;
     private ReportForm reportForm;
 
-    public static ReportNewFragmentInfo newInstance(IReportController controller, ReportNewFragment parentFragment) {
+    public static ReportNewFragmentInfo newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
-        fragment.controller = controller;
         fragment.parentFragment = parentFragment;
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override

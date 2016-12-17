@@ -29,14 +29,15 @@ public class RunningTeamWrapper extends Observable {
         reports = new ArrayList<>();
     }
 
-    public RunningTeamWrapper(RunningTeam runningTeam) {
-        this();
-
-        this.runningTeam = runningTeam;
-    }
-
     public RunningTeam getRunningTeam() {
         return runningTeam;
+    }
+
+    public void setRunningTeam(RunningTeam runningTeam) {
+        this.runningTeam = runningTeam;
+
+        setChanged();
+        notifyObservers();
     }
 
     public List<Running> getRunnings() {

@@ -5,17 +5,16 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.content.Extra;
 import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
-import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
-import com.sasd13.proadmin.ws.service.ReportService;
-import com.sasd13.proadmin.ws.service.RunningTeamDependencyService;
-import com.sasd13.proadmin.ws.service.RunningTeamService;
+import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
+import com.sasd13.proadmin.service.ws.ReportService;
+import com.sasd13.proadmin.service.ws.RunningTeamDependencyService;
+import com.sasd13.proadmin.service.ws.RunningTeamService;
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
         if (isProxyFragmentNotDetached()) {
             runningTeamsWrapper.setRunningTeams(runningTeams);
-            startFragment(RunningTeamsFragment.newInstance(this, runningTeamsWrapper));
+            startFragment(RunningTeamsFragment.newInstance(runningTeamsWrapper));
         }
     }
 
@@ -71,10 +70,18 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
             runningTeamWrapper.setTeams(resultHolder.getTeams());
             runningTeamWrapper.setAcademicLevels(resultHolder.getAcademicLevels());
 
-            if (mode == Extra.MODE_EDIT) {
-                startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeamWrapper));
+            if (mode == Extra.MODE_NEW) {
+                startFragment(RunningTeamNewFragment.newInstance(runningTeamWrapper));
             } else {
-                startFragment(RunningTeamNewFragment.newInstance(this, runningTeamWrapper));
+                RunningTeam runningTeam = runningTeamWrapper.getRunningTeam();
+
+                reportService.readByRunningTeam(
+                        runningTeam.getRunning().getTeacher().getNumber(),
+                        runningTeam.getRunning().getYear(),
+                        runningTeam.getRunning().getProject().getCode(),
+                        runningTeam.getTeam().getNumber(),
+                        runningTeam.getAcademicLevel().getCode()
+                );
             }
         }
     }
@@ -87,23 +94,17 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void showRunningTeam(RunningTeam runningTeam) {
         mode = Extra.MODE_EDIT;
-        runningTeamWrapper = new RunningTeamWrapper(runningTeam);
+        runningTeamWrapper = new RunningTeamWrapper();
+        runningTeamWrapper.setRunningTeam(runningTeam);
 
         startProxyFragment();
         runningTeamDependencyService.read();
-        reportService.readByRunningTeam(
-                runningTeam.getRunning().getTeacher().getNumber(),
-                runningTeam.getRunning().getYear(),
-                runningTeam.getRunning().getProject().getCode(),
-                runningTeam.getTeam().getNumber(),
-                runningTeam.getAcademicLevel().getCode()
-        );
     }
 
     void onReadReports(List<Report> reports) {
         if (isProxyFragmentNotDetached()) {
             runningTeamWrapper.setReports(reports);
-            startFragment(RunningTeamDetailsFragment.newInstance(this, runningTeamWrapper));
+            startFragment(RunningTeamDetailsFragment.newInstance(runningTeamWrapper));
         }
     }
 
@@ -115,15 +116,5 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void deleteRunningTeam(RunningTeam runningTeam) {
         runningTeamService.delete(runningTeam);
-    }
-
-    @Override
-    public void newReport(RunningTeam runningTeam) {
-        ((IReportController) mainActivity.lookup(IReportController.class)).newReport(runningTeam);
-    }
-
-    @Override
-    public void showReport(Report report) {
-        ((IReportController) mainActivity.lookup(IReportController.class)).showReport(report);
     }
 }

@@ -29,12 +29,12 @@ import com.sasd13.javaex.util.sorter.StringsSorter;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.builder.running.ReportsTeamsNumbersBuilder;
 import com.sasd13.proadmin.util.filter.running.ReportTeamCriteria;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +47,8 @@ public class ReportsFragment extends Fragment {
     private Recycler reportsTab;
     private List<String> teamsNumbers;
 
-    public static ReportsFragment newInstance(IReportController controller, ReportsWrapper reportsWrapper) {
+    public static ReportsFragment newInstance(ReportsWrapper reportsWrapper) {
         ReportsFragment fragment = new ReportsFragment();
-        fragment.controller = controller;
         fragment.reports = reportsWrapper.getReports();
 
         return fragment;
@@ -61,6 +60,7 @@ public class ReportsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         teamsNumbers = new ArrayList<>();
     }
 

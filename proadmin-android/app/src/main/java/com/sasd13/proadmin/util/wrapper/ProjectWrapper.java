@@ -16,13 +16,19 @@ public class ProjectWrapper extends Observable {
     private Project project;
     private List<Running> runnings;
 
-    public ProjectWrapper(Project project) {
-        this.project = project;
+    public ProjectWrapper() {
         runnings = new ArrayList<>();
     }
 
     public Project getProject() {
         return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+
+        setChanged();
+        notifyObservers();
     }
 
     public List<Running> getRunnings() {

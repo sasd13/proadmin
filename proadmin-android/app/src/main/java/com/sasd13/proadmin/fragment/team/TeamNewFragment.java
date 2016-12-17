@@ -20,18 +20,17 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.gui.form.TeamForm;
 import com.sasd13.proadmin.util.builder.member.TeamFromFormBuilder;
-import com.sasd13.proadmin.fragment.ITeamController;
 
 public class TeamNewFragment extends Fragment {
 
     private ITeamController controller;
     private TeamForm teamForm;
 
-    public static TeamNewFragment newInstance(ITeamController controller) {
+    public static TeamNewFragment newInstance() {
         TeamNewFragment fragment = new TeamNewFragment();
-        fragment.controller = controller;
 
         return fragment;
     }
@@ -41,6 +40,8 @@ public class TeamNewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
     }
 
     @Override

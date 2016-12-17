@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.fragment;
 
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
 /**
@@ -20,8 +19,4 @@ public interface IRunningTeamController extends IController {
     void updateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate);
 
     void deleteRunningTeam(RunningTeam runningTeam);
-
-    void newReport(RunningTeam runningTeam);
-
-    void showReport(Report report);
 }

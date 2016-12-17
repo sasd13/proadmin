@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.util.wrapper.TeamWrapper;
-import com.sasd13.proadmin.fragment.ITeamController;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -19,14 +18,12 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     @StringRes
     private static final int[] TITLES = {R.string.title_information, R.string.title_students};
 
-    private ITeamController controller;
     private TeamWrapper teamWrapper;
     private Context context;
 
-    public TeamDetailsPagerFactory(Fragment fragment, ITeamController controller, TeamWrapper teamWrapper) {
+    public TeamDetailsPagerFactory(Fragment fragment, TeamWrapper teamWrapper) {
         super(fragment.getChildFragmentManager());
 
-        this.controller = controller;
         this.teamWrapper = teamWrapper;
         context = fragment.getContext();
     }
@@ -35,9 +32,9 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return TeamDetailsFragmentInfos.newInstance(controller, teamWrapper);
+                return TeamDetailsFragmentInfos.newInstance(teamWrapper);
             case 1:
-                return TeamDetailsFragmentStudents.newInstance(controller, teamWrapper);
+                return TeamDetailsFragmentStudents.newInstance(teamWrapper);
             default:
                 return null;
         }

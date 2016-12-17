@@ -19,29 +19,36 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
-import com.sasd13.proadmin.fragment.IProjectController;
 
 import java.util.List;
 
 public class ProjectDetailsFragmentRunnings extends Fragment {
 
-    private IProjectController controller;
+    private IRunningController controller;
     private Project project;
     private List<Running> runnings;
     private Recycler runningsTab;
 
-    public static ProjectDetailsFragmentRunnings newInstance(IProjectController controller, ProjectWrapper projectWrapper) {
+    public static ProjectDetailsFragmentRunnings newInstance(ProjectWrapper projectWrapper) {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
-        fragment.controller = controller;
         fragment.project = projectWrapper.getProject();
         fragment.runnings = projectWrapper.getRunnings();
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
     }
 
     @Override

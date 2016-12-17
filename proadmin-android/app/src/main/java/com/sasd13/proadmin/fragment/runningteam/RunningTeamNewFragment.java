@@ -18,10 +18,12 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.RunningTeamFromFormBuilder;
@@ -29,7 +31,6 @@ import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
-import com.sasd13.proadmin.fragment.IRunningTeamController;
 
 import java.util.List;
 
@@ -40,12 +41,9 @@ public class RunningTeamNewFragment extends Fragment {
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
     private RunningTeamForm runningTeamForm;
-    private Running running;
-    private Team team;
 
-    public static RunningTeamNewFragment newInstance(IRunningTeamController controller, RunningTeamWrapper runningTeamWrapper) {
+    public static RunningTeamNewFragment newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamNewFragment fragment = new RunningTeamNewFragment();
-        fragment.controller = controller;
         fragment.runnings = runningTeamWrapper.getRunnings();
         fragment.teams = runningTeamWrapper.getTeams();
         fragment.academicLevels = runningTeamWrapper.getAcademicLevels();
@@ -53,19 +51,13 @@ public class RunningTeamNewFragment extends Fragment {
         return fragment;
     }
 
-    public void setRunning(Running running) {
-        this.running = running;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
     }
 
     @Override
@@ -98,13 +90,7 @@ public class RunningTeamNewFragment extends Fragment {
     }
 
     private void bindFormWithRunningTeam() {
-        if (running != null) {
-            runningTeamForm.bindRunningTeam(new DefaultRunningTeamBuilder(running).build());
-        } else if (team != null) {
-            runningTeamForm.bindRunningTeam(new DefaultRunningTeamBuilder(team).build());
-        } else {
-            runningTeamForm.bindRunningTeam(new DefaultRunningTeamBuilder().build());
-        }
+        runningTeamForm.bindRunningTeam(new DefaultRunningTeamBuilder().build());
     }
 
     private void bindFormWithRunnings() {

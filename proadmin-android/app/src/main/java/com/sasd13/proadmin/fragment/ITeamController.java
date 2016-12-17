@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.fragment;
 
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
 
 /**
@@ -20,8 +19,4 @@ public interface ITeamController extends IController {
     void updateTeam(Team team, Team teamToUpdate);
 
     void deleteTeam(Team team);
-
-    void newStudent(Team team);
-
-    void showStudent(Student student);
 }

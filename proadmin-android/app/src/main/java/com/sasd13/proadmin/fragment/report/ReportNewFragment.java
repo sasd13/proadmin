@@ -14,32 +14,34 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.fragment.IReportController;
-
-import java.util.List;
+import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
+import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     private IReportController controller;
-    private ReportNewPagerFactory fragmentFactory;
+    private ReportNewWrapper reportNewWrapper;
     private Report reportToCreate;
     private Pager pager;
 
-    public static ReportNewFragment newInstance(IReportController controller) {
+    public static ReportNewFragment newInstance(ReportNewWrapper reportNewWrapper) {
         ReportNewFragment fragment = new ReportNewFragment();
-        fragment.controller = controller;
+        fragment.reportNewWrapper = reportNewWrapper;
         fragment.reportToCreate = new DefaultReportBuilder().build();
 
         return fragment;
     }
 
-    public static ReportNewFragment newInstance(IReportController controller, RunningTeam runningTeam) {
-        ReportNewFragment fragment = newInstance(controller);
+    public static ReportNewFragment newInstance(ReportNewWrapper reportNewWrapper, RunningTeam runningTeam) {
+        ReportNewFragment fragment = newInstance(reportNewWrapper);
         fragment.reportToCreate.setRunningTeam(runningTeam);
 
         return fragment;
+    }
+
+    public ReportNewWrapper getReportNewWrapper() {
+        return reportNewWrapper;
     }
 
     public Report getReportToCreate() {
@@ -49,6 +51,13 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     @Override
     public boolean handleBackPress() {
         return pager.handleBackPress(this);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
@@ -69,19 +78,10 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
-        fragmentFactory = new ReportNewPagerFactory(this, controller);
 
-        pager.setAdapter(fragmentFactory);
+        pager.setAdapter(new ReportNewPagerFactory(this));
         pager.setScrollable(false);
         ((MainActivity) getActivity()).setPagerHandler(this);
-    }
-
-    public void setRunningTeams(List<RunningTeam> runningTeams) {
-        fragmentFactory.setRunningTeams(runningTeams);
-    }
-
-    public void setReportWrapper(ReportWrapper reportWrapper) {
-        fragmentFactory.setReportWrapper(reportWrapper);
     }
 
     public void forward() {

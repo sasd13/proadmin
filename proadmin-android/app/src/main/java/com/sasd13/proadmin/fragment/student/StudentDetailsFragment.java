@@ -20,9 +20,9 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.fragment.IStudentController;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.builder.member.StudentFromFormBuilder;
-import com.sasd13.proadmin.fragment.IStudentController;
 
 public class StudentDetailsFragment extends Fragment {
 
@@ -30,9 +30,8 @@ public class StudentDetailsFragment extends Fragment {
     private Student student;
     private StudentForm studentForm;
 
-    public static StudentDetailsFragment newInstance(IStudentController controller, Student student) {
+    public static StudentDetailsFragment newInstance(Student student) {
         StudentDetailsFragment fragment = new StudentDetailsFragment();
-        fragment.controller = controller;
         fragment.student = student;
 
         return fragment;
@@ -43,6 +42,8 @@ public class StudentDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
     }
 
     @Override

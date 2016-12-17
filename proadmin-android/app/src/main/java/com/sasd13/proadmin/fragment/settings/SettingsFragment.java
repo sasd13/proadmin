@@ -19,9 +19,9 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.fragment.ISettingsController;
 import com.sasd13.proadmin.gui.form.TeacherForm;
 import com.sasd13.proadmin.util.builder.member.TeacherFromFormBuilder;
-import com.sasd13.proadmin.fragment.ISettingsController;
 
 public class SettingsFragment extends Fragment {
 
@@ -29,9 +29,8 @@ public class SettingsFragment extends Fragment {
     private Teacher teacher;
     private TeacherForm teacherForm;
 
-    public static SettingsFragment newInstance(ISettingsController controller, Teacher teacher) {
+    public static SettingsFragment newInstance(Teacher teacher) {
         SettingsFragment fragment = new SettingsFragment();
-        fragment.controller = controller;
         fragment.teacher = teacher;
 
         return fragment;
@@ -42,6 +41,8 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (ISettingsController) ((MainActivity) getActivity()).lookup(ISettingsController.class);
     }
 
     @Nullable

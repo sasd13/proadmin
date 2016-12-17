@@ -16,13 +16,19 @@ public class TeamWrapper extends Observable {
     private Team team;
     private List<StudentTeam> studentTeams;
 
-    public TeamWrapper(Team team) {
-        this.team = team;
+    public TeamWrapper() {
         studentTeams = new ArrayList<>();
     }
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+
+        setChanged();
+        notifyObservers();
     }
 
     public List<StudentTeam> getStudentTeams() {

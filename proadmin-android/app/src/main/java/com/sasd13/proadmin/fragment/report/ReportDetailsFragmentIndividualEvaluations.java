@@ -17,6 +17,7 @@ import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
@@ -33,9 +34,8 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
 
-    public static ReportDetailsFragmentIndividualEvaluations newInstance(IReportController controller, ReportWrapper reportWrapper) {
+    public static ReportDetailsFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
-        fragment.controller = controller;
         fragment.report = reportWrapper.getReport();
 
         return fragment;
@@ -46,6 +46,8 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override

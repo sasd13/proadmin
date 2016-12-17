@@ -20,6 +20,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.gui.form.ReportForm;
 import com.sasd13.proadmin.util.builder.running.ReportFromFormBuilder;
@@ -32,9 +33,8 @@ public class ReportDetailsFragmentInfos extends Fragment {
     private Report report;
     private ReportForm reportForm;
 
-    public static ReportDetailsFragmentInfos newInstance(IReportController controller, ReportWrapper reportWrapper) {
+    public static ReportDetailsFragmentInfos newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
-        fragment.controller = controller;
         fragment.report = reportWrapper.getReport();
 
         return fragment;
@@ -45,6 +45,8 @@ public class ReportDetailsFragmentInfos extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
