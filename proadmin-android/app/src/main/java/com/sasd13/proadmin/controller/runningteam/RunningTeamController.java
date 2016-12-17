@@ -10,6 +10,7 @@ import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 import com.sasd13.proadmin.service.ws.ReportService;
@@ -58,7 +59,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void newRunningTeam() {
         mode = Extra.MODE_NEW;
-        runningTeamWrapper = new RunningTeamWrapper();
+        runningTeamWrapper = new RunningTeamWrapper(new DefaultRunningTeamBuilder().build());
 
         startProxyFragment();
         runningTeamDependencyService.read();
@@ -94,8 +95,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     @Override
     public void showRunningTeam(RunningTeam runningTeam) {
         mode = Extra.MODE_EDIT;
-        runningTeamWrapper = new RunningTeamWrapper();
-        runningTeamWrapper.setRunningTeam(runningTeam);
+        runningTeamWrapper = new RunningTeamWrapper(runningTeam);
 
         startProxyFragment();
         runningTeamDependencyService.read();

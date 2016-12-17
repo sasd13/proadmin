@@ -4,9 +4,6 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
-import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
 import com.sasd13.proadmin.fragment.IProjectController;
 import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
@@ -15,6 +12,11 @@ import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.fragment.running.RunningNewFragment;
 import com.sasd13.proadmin.service.ws.ProjectService;
 import com.sasd13.proadmin.service.ws.RunningService;
+import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
+import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class ProjectController extends Controller implements IProjectController,
     private RunningService runningService;
     private ProjectsWrapper projectsWrapper;
     private ProjectWrapper projectWrapper;
+    private RunningWrapper runningWrapper;
 
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
@@ -49,13 +52,14 @@ public class ProjectController extends Controller implements IProjectController,
         if (isProxyFragmentNotDetached()) {
             projectsWrapper.setProjects(projects);
             startFragment(ProjectsFragment.newInstance(projectsWrapper));
+        } else if (isLoadingNext()) {
+            projectsWrapper.setNextProjects(projects);
         }
     }
 
     @Override
     public void showProject(Project project) {
-        projectWrapper = new ProjectWrapper();
-        projectWrapper.setProject(project);
+        projectWrapper = new ProjectWrapper(project);
 
         startProxyFragment();
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
@@ -65,12 +69,16 @@ public class ProjectController extends Controller implements IProjectController,
         if (isProxyFragmentNotDetached()) {
             projectWrapper.setRunnings(runnings);
             startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
+        } else if (isLoadingNext()) {
+            projectWrapper.setNextRunnings(runnings);
         }
     }
 
     @Override
     public void newRunning(Project project) {
-        startFragment(RunningNewFragment.newInstance(project));
+        runningWrapper = new RunningWrapper(new DefaultRunningBuilder(project).build());
+
+        startFragment(RunningNewFragment.newInstance(runningWrapper));
     }
 
     @Override
@@ -80,7 +88,9 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void showRunning(Running running) {
-        startFragment(RunningDetailsFragment.newInstance(running));
+        runningWrapper = new RunningWrapper(running);
+
+        startFragment(RunningDetailsFragment.newInstance(runningWrapper));
     }
 
     @Override

@@ -16,6 +16,7 @@ public abstract class Controller implements IController {
     protected MainActivity mainActivity;
     private View contentView;
     private ProxyFragment proxyFragment;
+    private boolean loadingNext;
 
     protected Controller(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -29,6 +30,7 @@ public abstract class Controller implements IController {
     }
 
     protected void startProxyFragment() {
+        loadingNext = false;
         mainActivity.startFragment(proxyFragment);
     }
 
@@ -38,6 +40,14 @@ public abstract class Controller implements IController {
 
     protected boolean isProxyFragmentNotDetached() {
         return !proxyFragment.isDetached();
+    }
+
+    protected boolean isLoadingNext() {
+        return loadingNext;
+    }
+
+    public void setLoadingNext(boolean loadingNext) {
+        this.loadingNext = loadingNext;
     }
 
     public void backPress() {

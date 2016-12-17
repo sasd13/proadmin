@@ -2,6 +2,7 @@ package com.sasd13.proadmin.util.wrapper;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,12 @@ import java.util.Observable;
 public class ReportWrapper extends Observable {
 
     private Report report;
+    private List<RunningTeam> runningTeams;
     private List<StudentTeam> studentTeams;
 
-    public ReportWrapper() {
+    public ReportWrapper(Report report) {
+        this.report = report;
+        runningTeams = new ArrayList<>();
         studentTeams = new ArrayList<>();
     }
 
@@ -24,8 +28,12 @@ public class ReportWrapper extends Observable {
         return report;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public List<RunningTeam> getRunningTeams() {
+        return runningTeams;
+    }
+
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        this.runningTeams = runningTeams;
 
         setChanged();
         notifyObservers();

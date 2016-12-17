@@ -26,7 +26,7 @@ import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -69,7 +69,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportNewWrapper().addObserver(fragment);
+        parentFragment.getReportWrapper().addObserver(fragment);
 
         return fragment;
     }
@@ -96,7 +96,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindRunningTeams(parentFragment.getReportNewWrapper().getRunningTeams());
+        bindRunningTeams(parentFragment.getReportWrapper().getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -148,8 +148,8 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindRunningTeams(reportNewWrapper.getRunningTeams());
+        bindRunningTeams(reportWrapper.getRunningTeams());
     }
 }

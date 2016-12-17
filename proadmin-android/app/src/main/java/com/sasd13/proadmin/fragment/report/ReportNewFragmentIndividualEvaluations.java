@@ -25,7 +25,7 @@ import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
 import com.sasd13.proadmin.util.builder.running.IndividualEvaluationsBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -41,7 +41,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
     public static ReportNewFragmentIndividualEvaluations newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentIndividualEvaluations fragment = new ReportNewFragmentIndividualEvaluations();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportNewWrapper().addObserver(fragment);
+        parentFragment.getReportWrapper().addObserver(fragment);
 
         return fragment;
     }
@@ -69,7 +69,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
         buildFormIndividualEvaluations(view);
         buildFloatingActionButton(view);
 
-        bindFormWithStudents(parentFragment.getReportNewWrapper().getStudentTeams());
+        bindFormWithStudents(parentFragment.getReportWrapper().getStudentTeams());
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -118,8 +118,8 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindFormWithStudents(reportNewWrapper.getStudentTeams());
+        bindFormWithStudents(reportWrapper.getStudentTeams());
     }
 }

@@ -65,8 +65,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void showTeam(Team team) {
-        teamWrapper = new TeamWrapper();
-        teamWrapper.setTeam(team);
+        teamWrapper = new TeamWrapper(team);
 
         startProxyFragment();
         studentService.readByTeam(team.getNumber());

@@ -20,23 +20,27 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.util.builder.running.RunningFromFormBuilder;
-import com.sasd13.proadmin.fragment.IRunningController;
+import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
-public class RunningNewFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class RunningNewFragment extends Fragment implements Observer {
 
     private IRunningController controller;
-    private Project project;
+    private Running running;
     private RunningForm runningForm;
 
-    public static RunningNewFragment newInstance(Project project) {
+    public static RunningNewFragment newInstance(RunningWrapper runningWrapper) {
         RunningNewFragment fragment = new RunningNewFragment();
-        fragment.project = project;
+        fragment.running = runningWrapper.getRunning();
+
+        runningWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -77,7 +81,7 @@ public class RunningNewFragment extends Fragment {
     }
 
     private void bindFormWithRunning() {
-        runningForm.bindRunning(new DefaultRunningBuilder(project).build());
+        runningForm.bindRunning(running);
     }
 
     @Override
@@ -108,22 +112,15 @@ public class RunningNewFragment extends Fragment {
     }
 
     private void createRunning() {
-        controller.createRunning(getRunningToCreate());
-    }
-
-    private Running getRunningToCreate() {
-        Running running = null;
-
         try {
-            running = new RunningFromFormBuilder(runningForm).build();
+            Running runningFromForm = new RunningFromFormBuilder(runningForm).build();
 
-            running.setProject(project);
+            running.setProject(runningFromForm.getProject());
             running.setTeacher(new Teacher(SessionHelper.getExtraIdTeacherNumber(getContext())));
+            controller.createRunning(running);
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
-
-        return running;
     }
 
     @Override
@@ -132,5 +129,14 @@ public class RunningNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        RunningWrapper runningWrapper = (RunningWrapper) observable;
+
+        this.running = runningWrapper.getRunning();
+
+        bindFormWithRunning();
     }
 }

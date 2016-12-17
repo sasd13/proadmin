@@ -14,21 +14,15 @@ import java.util.Observable;
 public class ProjectWrapper extends Observable {
 
     private Project project;
-    private List<Running> runnings;
+    private List<Running> runnings, nextRunnings;
 
-    public ProjectWrapper() {
+    public ProjectWrapper(Project project) {
+        this.project = project;
         runnings = new ArrayList<>();
     }
 
     public Project getProject() {
         return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-
-        setChanged();
-        notifyObservers();
     }
 
     public List<Running> getRunnings() {
@@ -37,6 +31,17 @@ public class ProjectWrapper extends Observable {
 
     public void setRunnings(List<Running> runnings) {
         this.runnings = runnings;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public List<Running> getNextRunnings() {
+        return nextRunnings;
+    }
+
+    public void setNextRunnings(List<Running> nextRunnings) {
+        this.nextRunnings = nextRunnings;
 
         setChanged();
         notifyObservers();

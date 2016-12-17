@@ -1,9 +1,0 @@
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:proadmin="http://schemas.android.com/apk/res-auto">
-
-    <item android:id="@+id/menu_projects_spinner"
-        android:title="@string/label_year"
-        proadmin:showAsAction="ifRoom"
-        proadmin:actionViewClass="android.widget.Spinner"/>
-</menu>

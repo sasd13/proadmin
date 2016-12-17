@@ -26,7 +26,7 @@ import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.builder.running.LeadEvaluationFromFormBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -41,7 +41,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
     public static ReportNewFragmentLeadEvaluation newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentLeadEvaluation fragment = new ReportNewFragmentLeadEvaluation();
         fragment.parentFragment = parentFragment;
-        parentFragment.getReportNewWrapper().addObserver(fragment);
+        parentFragment.getReportWrapper().addObserver(fragment);
 
         return fragment;
     }
@@ -69,7 +69,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
         buildFormLeadEvaluation(view);
         buildFloatingActionButton(view);
         bindFormWithLeadEvaluation(parentFragment.getReportToCreate().getLeadEvaluation());
-        bindFormWithStudents(parentFragment.getReportNewWrapper().getStudentTeams());
+        bindFormWithStudents(parentFragment.getReportWrapper().getStudentTeams());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -121,8 +121,8 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportNewWrapper reportNewWrapper = (ReportNewWrapper) observable;
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
 
-        bindFormWithStudents(reportNewWrapper.getStudentTeams());
+        bindFormWithStudents(reportWrapper.getStudentTeams());
     }
 }

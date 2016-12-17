@@ -22,7 +22,8 @@ public class RunningTeamWrapper extends Observable {
     private List<AcademicLevel> academicLevels;
     private List<Report> reports;
 
-    public RunningTeamWrapper() {
+    public RunningTeamWrapper(RunningTeam runningTeam) {
+        this.runningTeam = runningTeam;
         runnings = new ArrayList<>();
         teams = new ArrayList<>();
         academicLevels = new ArrayList<>();
@@ -31,13 +32,6 @@ public class RunningTeamWrapper extends Observable {
 
     public RunningTeam getRunningTeam() {
         return runningTeam;
-    }
-
-    public void setRunningTeam(RunningTeam runningTeam) {
-        this.runningTeam = runningTeam;
-
-        setChanged();
-        notifyObservers();
     }
 
     public List<Running> getRunnings() {

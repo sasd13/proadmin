@@ -28,8 +28,10 @@ import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ProjectDetailsFragmentRunnings extends Fragment {
+public class ProjectDetailsFragmentRunnings extends Fragment implements Observer {
 
     private IRunningController controller;
     private Project project;
@@ -40,6 +42,8 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
         fragment.project = projectWrapper.getProject();
         fragment.runnings = projectWrapper.getRunnings();
+
+        projectWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -110,5 +114,12 @@ public class ProjectDetailsFragmentRunnings extends Fragment {
         }
 
         RecyclerHelper.addAll(runningsTab, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ProjectWrapper projectWrapper = (ProjectWrapper) observable;
+
+        //TODO : addNextRunnings
     }
 }

@@ -39,6 +39,7 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
 
     public ReportDependencyService(RetrieveCaller caller) {
         this.caller = caller;
+        callback = new MultiReadRESTCallback(this);
         parametersStudentTeams = new HashMap<>();
         headers = new HashMap<>();
     }
@@ -54,8 +55,7 @@ public class ReportDependencyService implements MultiReadRESTCallback.ReadWebSer
     public void read() {
         headers.clear();
         headers.put(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-
-        callback = new MultiReadRESTCallback(this);
+        callback.clearRequests();
         callback.addRequest(CODE_STUDENTTEAMS, StudentTeam.class, WSResources.URL_WS_STUDENTTEAMS, parametersStudentTeams, headers);
         callback.read();
     }

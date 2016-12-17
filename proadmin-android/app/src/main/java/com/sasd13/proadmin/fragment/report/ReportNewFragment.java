@@ -16,32 +16,32 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportNewWrapper;
+import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     private IReportController controller;
-    private ReportNewWrapper reportNewWrapper;
+    private ReportWrapper reportWrapper;
     private Report reportToCreate;
     private Pager pager;
 
-    public static ReportNewFragment newInstance(ReportNewWrapper reportNewWrapper) {
+    public static ReportNewFragment newInstance(ReportWrapper reportWrapper) {
         ReportNewFragment fragment = new ReportNewFragment();
-        fragment.reportNewWrapper = reportNewWrapper;
+        fragment.reportWrapper = reportWrapper;
         fragment.reportToCreate = new DefaultReportBuilder().build();
 
         return fragment;
     }
 
-    public static ReportNewFragment newInstance(ReportNewWrapper reportNewWrapper, RunningTeam runningTeam) {
-        ReportNewFragment fragment = newInstance(reportNewWrapper);
+    public static ReportNewFragment newInstance(ReportWrapper reportWrapper, RunningTeam runningTeam) {
+        ReportNewFragment fragment = newInstance(reportWrapper);
         fragment.reportToCreate.setRunningTeam(runningTeam);
 
         return fragment;
     }
 
-    public ReportNewWrapper getReportNewWrapper() {
-        return reportNewWrapper;
+    public ReportWrapper getReportWrapper() {
+        return reportWrapper;
     }
 
     public Report getReportToCreate() {
