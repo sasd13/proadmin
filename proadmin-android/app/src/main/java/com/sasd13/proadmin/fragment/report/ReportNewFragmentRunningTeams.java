@@ -118,13 +118,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goForward();
+                if (report.getRunningTeam() != null) {
+                    parentFragment.forward();
+                } else {
+                    controller.displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
+                }
             }
         });
-    }
-
-    private void goForward() {
-        parentFragment.forward();
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeams) {

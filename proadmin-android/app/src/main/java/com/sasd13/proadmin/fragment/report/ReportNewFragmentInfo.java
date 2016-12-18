@@ -80,7 +80,7 @@ public class ReportNewFragmentInfo extends Fragment {
             public void onClick(View view) {
                 try {
                     editReportWithForm();
-                    goForward();
+                    parentFragment.forward();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
                 }
@@ -96,9 +96,5 @@ public class ReportNewFragmentInfo extends Fragment {
 
     private void bindFormWithReport() {
         reportForm.bindReport(report);
-    }
-
-    private void goForward() {
-        parentFragment.forward();
     }
 }

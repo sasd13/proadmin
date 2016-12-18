@@ -91,7 +91,7 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
             public void onClick(View view) {
                 try {
                     editIndividualEvaluationsWithForm();
-                    createReport();
+                    parentFragment.createReport();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
                 }
@@ -108,10 +108,6 @@ public class ReportNewFragmentIndividualEvaluations extends Fragment implements 
             individualEvaluationFromForm.setReport(report);
             report.getIndividualEvaluations().add(individualEvaluationFromForm);
         }
-    }
-
-    private void createReport() {
-        parentFragment.createReport();
     }
 
     private void bindFormWithStudents() {

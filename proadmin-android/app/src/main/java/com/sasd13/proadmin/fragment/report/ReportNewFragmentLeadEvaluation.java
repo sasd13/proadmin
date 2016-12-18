@@ -93,7 +93,7 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
             public void onClick(View view) {
                 try {
                     editLeadEvaluationWithForm();
-                    goForward();
+                    parentFragment.forward();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
                 }
@@ -109,10 +109,6 @@ public class ReportNewFragmentLeadEvaluation extends Fragment implements Observe
         leadEvaluation.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
         leadEvaluation.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
         leadEvaluation.setStudent(leadEvaluationForm.getLeader());
-    }
-
-    private void goForward() {
-        parentFragment.forward();
     }
 
     private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation) {

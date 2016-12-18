@@ -64,24 +64,20 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
 
-    public void forward() {
-        if (reportWrapper.getReport().getRunningTeam() != null) {
-            pager.forward();
-        } else {
-            controller.displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
-        }
-    }
-
-    public void createReport() {
-        controller.createReport(reportWrapper.getReport());
-    }
-
     @Override
     public void onStart() {
         super.onStart();
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+    }
+
+    public void forward() {
+        pager.forward();
+    }
+
+    public void createReport() {
+        controller.createReport(reportWrapper.getReport());
     }
 
     @Override
