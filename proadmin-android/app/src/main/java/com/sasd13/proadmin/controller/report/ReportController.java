@@ -52,6 +52,7 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void entry() {
+        mainActivity.clearHistory();
         listReports();
     }
 

@@ -36,6 +36,7 @@ public class ProjectController extends Controller implements IProjectController,
 
     @Override
     public void entry() {
+        mainActivity.clearHistory();
         listProjects();
     }
 

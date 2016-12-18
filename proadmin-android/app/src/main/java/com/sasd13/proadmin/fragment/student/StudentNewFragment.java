@@ -63,6 +63,7 @@ public class StudentNewFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormStudent(view);
+        bindFormWithStudent();
     }
 
     private void buildFormStudent(View view) {
@@ -72,6 +73,10 @@ public class StudentNewFragment extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, studentForm.getHolder());
+    }
+
+    private void bindFormWithStudent() {
+        studentForm.bindStudent(student);
     }
 
     @Override
@@ -121,7 +126,7 @@ public class StudentNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
     }
 }

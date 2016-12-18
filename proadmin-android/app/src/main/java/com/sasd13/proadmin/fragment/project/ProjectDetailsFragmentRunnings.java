@@ -92,7 +92,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
     private void bindTabWithRunnings() {
         RunningsSorter.byYear(runnings);
-        recycler.clear();
         addRunningsToTab(runnings);
     }
 

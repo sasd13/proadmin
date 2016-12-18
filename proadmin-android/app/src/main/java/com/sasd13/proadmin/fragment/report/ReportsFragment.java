@@ -92,8 +92,6 @@ public class ReportsFragment extends Fragment implements Observer {
     }
 
     private void addReportsToTab(List<Report> reports) {
-        recycler.clear();
-
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

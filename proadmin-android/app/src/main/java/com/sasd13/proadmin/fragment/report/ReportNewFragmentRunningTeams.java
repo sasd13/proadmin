@@ -133,8 +133,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     }
 
     private void addRunningTeamsToTab(List<RunningTeam> runningTeams) {
-        recycler.clear();
-
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
         RunningTeamItemModel model;
@@ -160,6 +158,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
         runningTeams = reportWrapper.getRunningTeams();
 
+        recycler.clear();
         bindRunningTeams();
     }
 }

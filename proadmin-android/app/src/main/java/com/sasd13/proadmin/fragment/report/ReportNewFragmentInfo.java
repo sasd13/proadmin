@@ -59,8 +59,8 @@ public class ReportNewFragmentInfo extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-        bindReportWithForm();
         buildFloatingActionButton(view);
+        bindFormWithReport();
     }
 
     private void buildFormRunning(View view) {
@@ -70,10 +70,6 @@ public class ReportNewFragmentInfo extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, reportForm.getHolder());
-    }
-
-    private void bindReportWithForm() {
-        reportForm.bindReport(report);
     }
 
     private void buildFloatingActionButton(View view) {
@@ -96,6 +92,10 @@ public class ReportNewFragmentInfo extends Fragment {
         report.setDateMeeting(reportForm.getDateMeeting());
         report.setSession(reportForm.getSession());
         report.setComment(reportForm.getComment());
+    }
+
+    private void bindFormWithReport() {
+        reportForm.bindReport(report);
     }
 
     private void goForward() {

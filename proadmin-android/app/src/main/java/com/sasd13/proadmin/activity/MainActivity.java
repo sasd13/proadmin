@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.sasd13.androidex.activity.DrawerActivity;
 import com.sasd13.androidex.gui.GUIConstants;
@@ -45,7 +46,6 @@ public class MainActivity extends DrawerActivity {
     private TeamController teamController;
     private RunningTeamController runningTeamController;
     private ReportController reportController;
-
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 
@@ -199,5 +199,12 @@ public class MainActivity extends DrawerActivity {
         }).start(GUIConstants.TIMEOUT_ACTIVITY);
 
         waitDialog.show();
+    }
+
+    public void clearHistory() {
+        if (!stack.isEmpty()) {
+            stack.clear();
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
     }
 }

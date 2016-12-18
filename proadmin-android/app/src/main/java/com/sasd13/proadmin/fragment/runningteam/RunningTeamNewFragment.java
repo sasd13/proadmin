@@ -155,6 +155,14 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
         RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
 

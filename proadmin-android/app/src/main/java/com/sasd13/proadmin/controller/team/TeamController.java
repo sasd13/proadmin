@@ -38,6 +38,7 @@ public class TeamController extends Controller implements ITeamController, IStud
 
     @Override
     public void entry() {
+        mainActivity.clearHistory();
         listTeams();
     }
 

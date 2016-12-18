@@ -94,8 +94,6 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
     }
 
     private void addTeamsToTab(List<StudentTeam> studentTeams) {
-        recycler.clear();
-
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 

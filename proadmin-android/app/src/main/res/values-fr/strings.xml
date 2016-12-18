@@ -92,6 +92,7 @@
     <string name="title_individualevaluation">Evaluation individuelle</string>
     <string name="title_settings">Paramètres</string>
     <string name="title_home">Accueil</string>
+    <string name="title_new">Nouveau</string>
 
     <!-- Web service -->
     <string name="error_unknown">Erreur inconnue</string>

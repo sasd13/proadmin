@@ -21,6 +21,11 @@ public class SettingsController extends Controller implements ISettingsControlle
 
     @Override
     public void entry() {
+        mainActivity.clearHistory();
+        showTeacher();
+    }
+
+    public void showTeacher() {
         startProxyFragment();
         teacherService.readByNumber(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }

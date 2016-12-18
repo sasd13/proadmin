@@ -120,7 +120,7 @@ public class RunningNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_running));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
     }
 }

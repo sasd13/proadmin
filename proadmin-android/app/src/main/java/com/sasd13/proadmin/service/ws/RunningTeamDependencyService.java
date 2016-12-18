@@ -49,7 +49,7 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
 
     private RetrieveCaller caller;
     private MultiReadRESTCallback callback;
-    private Map<String, String[]> parametersRunnings, parametersTeams;
+    private Map<String, String[]> parametersRunnings;
 
     public RunningTeamDependencyService(RetrieveCaller caller) {
         this.caller = caller;
@@ -65,18 +65,10 @@ public class RunningTeamDependencyService implements MultiReadRESTCallback.ReadW
         parametersRunnings.clear();
     }
 
-    public void addParameterTeams(String parameter, String[] values) {
-        parametersTeams.put(parameter, values);
-    }
-
-    public void clearParametersTeams() {
-        parametersTeams.clear();
-    }
-
     public void read() {
         callback.clearRequests();
         callback.addRequest(CODE_RUNNINGS, Running.class, WSResources.URL_WS_RUNNINGS, parametersRunnings);
-        callback.addRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS, parametersTeams);
+        callback.addRequest(CODE_TEAMS, Team.class, WSResources.URL_WS_TEAMS);
         callback.addRequest(CODE_ACADEMICLEVELS, AcademicLevel.class, WSResources.URL_WS_ACADEMICLEVELS);
         callback.read();
     }

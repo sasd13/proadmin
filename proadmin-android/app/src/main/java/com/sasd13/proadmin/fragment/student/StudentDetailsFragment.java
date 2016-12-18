@@ -119,7 +119,7 @@ public class StudentDetailsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

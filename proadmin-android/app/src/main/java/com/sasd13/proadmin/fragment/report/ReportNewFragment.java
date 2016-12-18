@@ -81,7 +81,7 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
         super.onStart();
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
     }
 
     @Override

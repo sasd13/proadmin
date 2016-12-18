@@ -9,6 +9,7 @@ import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
@@ -38,6 +39,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
     @Override
     public void entry() {
+        mainActivity.clearHistory();
         listRunningTeams();
     }
 
@@ -62,6 +64,8 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         runningTeamWrapper = new RunningTeamWrapper(new DefaultRunningTeamBuilder().build());
 
         startProxyFragment();
+        runningTeamDependencyService.clearParametersRunnings();
+        runningTeamDependencyService.addParameterRunnings(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
         runningTeamDependencyService.read();
     }
 

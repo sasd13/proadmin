@@ -60,6 +60,7 @@ public class TeamNewFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
+        bindFormWithTeam();
     }
 
     private void buildFormTeam(View view) {
@@ -69,6 +70,10 @@ public class TeamNewFragment extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, teamForm.getHolder());
+    }
+
+    private void bindFormWithTeam() {
+        teamForm.bindTeam(team);
     }
 
     @Override
@@ -116,6 +121,6 @@ public class TeamNewFragment extends Fragment {
         super.onStart();
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
     }
 }

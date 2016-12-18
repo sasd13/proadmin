@@ -117,8 +117,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
     public void update(Observable observable, Object o) {
         RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
 
-        reports = runningTeamWrapper.getReports();
-
-        bindTabWithReports();
+        //TODO : addNextReports
     }
 }
