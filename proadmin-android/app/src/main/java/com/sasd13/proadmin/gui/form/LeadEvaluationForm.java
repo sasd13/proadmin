@@ -6,17 +6,15 @@ import android.view.inputmethod.EditorInfo;
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.Finder;
 import com.sasd13.proadmin.util.builder.member.StudentsNumberBuilder;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -24,21 +22,21 @@ import java.util.List;
  */
 public class LeadEvaluationForm extends Form {
 
+    private static final String[] MARKS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+
     private SpinRadioItemModel modelLeader;
-    private TextItemModel modelPlanningMark, modelPlanningComment, modelCommunicationMark, modelCommunicationComment;
+    private NumberItemModel modelPlanningMark, modelCommunicationMark;
+    private TextItemModel modelPlanningComment, modelCommunicationComment;
     private List<Student> students;
-    private DecimalFormat formatter;
 
     public LeadEvaluationForm(Context context) {
         super(context);
-
-        formatter = new DecimalFormat(Constants.DEFAULT_MARK_PATTERN);
 
         modelLeader = new SpinRadioItemModel();
         modelLeader.setLabel(context.getResources().getString(R.string.label_leader));
         holder.add(new RecyclerHolderPair(modelLeader));
 
-        modelPlanningMark = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL, formatter);
+        modelPlanningMark = new NumberItemModel();
         modelPlanningMark.setLabel(context.getResources().getString(R.string.label_planningmark));
         holder.add(new RecyclerHolderPair(modelPlanningMark));
 
@@ -47,7 +45,7 @@ public class LeadEvaluationForm extends Form {
         modelPlanningComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelPlanningComment));
 
-        modelCommunicationMark = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL, formatter);
+        modelCommunicationMark = new NumberItemModel();
         modelCommunicationMark.setLabel(context.getResources().getString(R.string.label_communicationmark));
         holder.add(new RecyclerHolderPair(modelCommunicationMark));
 
@@ -58,10 +56,40 @@ public class LeadEvaluationForm extends Form {
     }
 
     public void bindLeadEvaluation(LeadEvaluation leadEvaluation) {
-        modelPlanningMark.setValue(formatter.format(leadEvaluation.getPlanningMark()));
+        bindPlanningMark(MARKS, leadEvaluation.getPlanningMark());
         modelPlanningComment.setValue(leadEvaluation.getPlanningComment());
-        modelCommunicationMark.setValue(formatter.format(leadEvaluation.getCommunicationMark()));
+        bindCommunicationMark(MARKS, leadEvaluation.getCommunicationMark());
         modelCommunicationComment.setValue(leadEvaluation.getCommunicationComment());
+    }
+
+    public void bindPlanningMark(String[] values) {
+        modelPlanningMark.setItems(values);
+    }
+
+    public void bindPlanningMark(String[] values, float mark) {
+        bindPlanningMark(values);
+
+        modelPlanningMark.setValue(indexOf(mark, values));
+    }
+
+    private int indexOf(float mark, String[] values) {
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(String.valueOf((int) mark))) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public void bindCommunicationMark(String[] values) {
+        modelCommunicationMark.setItems(values);
+    }
+
+    public void bindCommunicationMark(String[] values, float mark) {
+        bindCommunicationMark(values);
+
+        modelCommunicationMark.setValue(indexOf(mark, values));
     }
 
     public void bindLeader(List<Student> studentsToBind) {
@@ -86,11 +114,11 @@ public class LeadEvaluationForm extends Form {
     }
 
     public float getPlanningMark() throws FormException {
-        try {
-            return formatter.parse(modelPlanningMark.getValue()).floatValue();
-        } catch (ParseException e) {
+        if (modelPlanningMark.getValue() < 0) {
             throw new FormException(context, R.string.form_leadevaluation_message_error_planningmark);
         }
+
+        return Float.valueOf(modelPlanningMark.getStringValue());
     }
 
     public String getPlanningComment() {
@@ -98,11 +126,11 @@ public class LeadEvaluationForm extends Form {
     }
 
     public float getCommunicationMark() throws FormException {
-        try {
-            return formatter.parse(modelCommunicationMark.getValue()).floatValue();
-        } catch (ParseException e) {
+        if (modelCommunicationMark.getValue() < 0) {
             throw new FormException(context, R.string.form_leadevaluation_message_error_communicationmark);
         }
+
+        return Float.valueOf(modelCommunicationMark.getStringValue());
     }
 
     public String getCommunicationComment() {
