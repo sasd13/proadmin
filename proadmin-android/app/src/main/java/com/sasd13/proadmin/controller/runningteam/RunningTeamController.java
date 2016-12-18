@@ -9,14 +9,14 @@ import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.service.ws.ReportService;
+import com.sasd13.proadmin.service.ws.RunningTeamDependencyService;
+import com.sasd13.proadmin.service.ws.RunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
-import com.sasd13.proadmin.service.ws.ReportService;
-import com.sasd13.proadmin.service.ws.RunningTeamDependencyService;
-import com.sasd13.proadmin.service.ws.RunningTeamService;
 
 import java.util.List;
 
@@ -64,6 +64,10 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         runningTeamWrapper = new RunningTeamWrapper(new DefaultRunningTeamBuilder().build());
 
         startProxyFragment();
+        readDependencies();
+    }
+
+    private void readDependencies() {
         runningTeamDependencyService.clearParametersRunnings();
         runningTeamDependencyService.addParameterRunnings(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
         runningTeamDependencyService.read();
@@ -77,18 +81,25 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
 
             if (mode == Extra.MODE_NEW) {
                 startFragment(RunningTeamNewFragment.newInstance(runningTeamWrapper));
-            } else {
-                RunningTeam runningTeam = runningTeamWrapper.getRunningTeam();
-
-                reportService.readByRunningTeam(
-                        runningTeam.getRunning().getTeacher().getNumber(),
-                        runningTeam.getRunning().getYear(),
-                        runningTeam.getRunning().getProject().getCode(),
-                        runningTeam.getTeam().getNumber(),
-                        runningTeam.getAcademicLevel().getCode()
-                );
+            } else if (mode == Extra.MODE_EDIT) {
+                startFragment(RunningTeamDetailsFragment.newInstance(runningTeamWrapper));
+                readReports(runningTeamWrapper.getRunningTeam());
             }
         }
+    }
+
+    private void readReports(RunningTeam runningTeam) {
+        reportService.readByRunningTeam(
+                runningTeam.getRunning().getTeacher().getNumber(),
+                runningTeam.getRunning().getYear(),
+                runningTeam.getRunning().getProject().getCode(),
+                runningTeam.getTeam().getNumber(),
+                runningTeam.getAcademicLevel().getCode()
+        );
+    }
+
+    void onReadReports(List<Report> reports) {
+        runningTeamWrapper.setReports(reports);
     }
 
     @Override
@@ -102,14 +113,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         runningTeamWrapper = new RunningTeamWrapper(runningTeam);
 
         startProxyFragment();
-        runningTeamDependencyService.read();
-    }
-
-    void onReadReports(List<Report> reports) {
-        if (isProxyFragmentNotDetached()) {
-            runningTeamWrapper.setReports(reports);
-            startFragment(RunningTeamDetailsFragment.newInstance(runningTeamWrapper));
-        }
+        readDependencies();
     }
 
     @Override

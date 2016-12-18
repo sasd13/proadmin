@@ -24,7 +24,6 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.fragment.IRunningController;
 import com.sasd13.proadmin.gui.tab.RunningItemModel;
-import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
 
 import java.util.List;
@@ -70,7 +69,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithRunnings();
+        bindTabWithRunnings(runnings);
     }
 
     private void buildTabRunnings(View view) {
@@ -90,8 +89,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         });
     }
 
-    private void bindTabWithRunnings() {
-        RunningsSorter.byYear(runnings);
+    private void bindTabWithRunnings(List<Running> runnings) {
         addRunningsToTab(runnings);
     }
 
@@ -119,6 +117,13 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
     public void update(Observable observable, Object o) {
         ProjectWrapper projectWrapper = (ProjectWrapper) observable;
 
-        //TODO : addNextRunnings
+        if (!runnings.containsAll(projectWrapper.getRunnings())) {
+            addNextRunnings(projectWrapper.getRunnings());
+        }
+    }
+
+    private void addNextRunnings(List<Running> nextRunnings) {
+        runnings.addAll(nextRunnings);
+        bindTabWithRunnings(nextRunnings);
     }
 }

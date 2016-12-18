@@ -67,7 +67,7 @@ public class TeamsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithTeams();
+        bindTabWithTeams(teams);
     }
 
     private void buildTabRunnings(View view) {
@@ -85,12 +85,12 @@ public class TeamsFragment extends Fragment implements Observer {
         });
     }
 
-    private void bindTabWithTeams() {
+    private void bindTabWithTeams(List<Team> teams) {
         TeamsSorter.byNumber(teams);
-        addRunningsToTab();
+        addRunningsToTab(teams);
     }
 
-    private void addRunningsToTab() {
+    private void addRunningsToTab(List<Team> teams) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
 
@@ -122,6 +122,13 @@ public class TeamsFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         TeamsWrapper teamsWrapper = (TeamsWrapper) observable;
 
-        //TODO : addNextTeams
+        if (!teams.containsAll(teamsWrapper.getTeams())) {
+            addNextTeams(teamsWrapper.getTeams());
+        }
+    }
+
+    private void addNextTeams(List<Team> nextTeams) {
+        teams.addAll(nextTeams);
+        bindTabWithTeams(nextTeams);
     }
 }

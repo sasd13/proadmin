@@ -24,7 +24,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
 
 import java.util.List;
@@ -68,7 +67,7 @@ public class ReportsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports();
+        bindTabWithReports(reports);
     }
 
     private void buildTabReports(View view) {
@@ -86,7 +85,7 @@ public class ReportsFragment extends Fragment implements Observer {
         });
     }
 
-    private void bindTabWithReports() {
+    private void bindTabWithReports(List<Report> reports) {
         ReportsSorter.byNumber(reports);
         addReportsToTab(reports);
     }
@@ -121,8 +120,15 @@ public class ReportsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportWrapper reportWrapper = (ReportWrapper) observable;
+        ReportsWrapper reportsWrapper = (ReportsWrapper) observable;
 
-        //TODO : addNextReports
+        if (!reports.containsAll(reportsWrapper.getReports())) {
+            addNextReports(reportsWrapper.getReports());
+        }
+    }
+
+    private void addNextReports(List<Report> nextReports) {
+        reports.addAll(nextReports);
+        bindTabWithReports(nextReports);
     }
 }

@@ -67,7 +67,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabProjects(view);
-        bindTabWithProjects();
+        bindTabWithProjects(projects);
     }
 
     private void buildTabProjects(View view) {
@@ -75,7 +75,7 @@ public class ProjectsFragment extends Fragment implements Observer {
         recycler.addDividerItemDecoration();
     }
 
-    private void bindTabWithProjects() {
+    private void bindTabWithProjects(List<Project> projects) {
         ProjectsSorter.byDateCreation(projects);
         addProjectsToTab(projects);
     }
@@ -112,6 +112,13 @@ public class ProjectsFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         ProjectsWrapper projectsWrapper = (ProjectsWrapper) observable;
 
-        //TODO : addNextProjects
+        if (!projects.containsAll(projectsWrapper.getProjects())) {
+            addNextProjects(projectsWrapper.getProjects());
+        }
+    }
+
+    private void addNextProjects(List<Project> nextProjects) {
+        projects.addAll(nextProjects);
+        bindTabWithProjects(nextProjects);
     }
 }

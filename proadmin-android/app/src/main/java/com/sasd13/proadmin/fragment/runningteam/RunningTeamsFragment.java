@@ -24,7 +24,6 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 
 import java.util.List;
@@ -68,7 +67,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindTabWithRunningTeams();
+        bindTabWithRunningTeams(runningTeams);
     }
 
     private void buildTabRunningTeams(View view) {
@@ -86,7 +85,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
         });
     }
 
-    private void bindTabWithRunningTeams() {
+    private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
         RunningTeamsSorter.byAcademicLevelCode(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
@@ -121,8 +120,15 @@ public class RunningTeamsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamWrapper teamWrapper = (RunningTeamWrapper) observable;
+        RunningTeamsWrapper runningTeamWrapper = (RunningTeamsWrapper) observable;
 
-        //TODO : addNextRunningTeams
+        if (!runningTeams.containsAll(runningTeamWrapper.getRunningTeams())) {
+            addNextRunningTeams(runningTeamWrapper.getRunningTeams());
+        }
+    }
+
+    private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
+        runningTeams.addAll(nextRunningTeams);
+        bindTabWithRunningTeams(nextRunningTeams);
     }
 }

@@ -52,8 +52,6 @@ public class ProjectController extends Controller implements IProjectController,
         if (isProxyFragmentNotDetached()) {
             projectsWrapper.setProjects(projects);
             startFragment(ProjectsFragment.newInstance(projectsWrapper));
-        } else if (isLoadingNext()) {
-            projectsWrapper.setNextProjects(projects);
         }
     }
 
@@ -61,17 +59,12 @@ public class ProjectController extends Controller implements IProjectController,
     public void showProject(Project project) {
         projectWrapper = new ProjectWrapper(project);
 
-        startProxyFragment();
+        startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
     }
 
     void onReadRunnings(List<Running> runnings) {
-        if (isProxyFragmentNotDetached()) {
-            projectWrapper.setRunnings(runnings);
-            startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
-        } else if (isLoadingNext()) {
-            projectWrapper.setNextRunnings(runnings);
-        }
+        projectWrapper.setRunnings(runnings);
     }
 
     @Override

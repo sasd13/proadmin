@@ -70,7 +70,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports();
+        bindTabWithReports(reports);
     }
 
     private void buildTabReports(View view) {
@@ -88,7 +88,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         });
     }
 
-    private void bindTabWithReports() {
+    private void bindTabWithReports(List<Report> reports) {
         ReportsSorter.byNumber(reports);
         addReportsToTab(reports);
     }
@@ -117,6 +117,13 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
     public void update(Observable observable, Object o) {
         RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
 
-        //TODO : addNextReports
+        if (!reports.containsAll(runningTeamWrapper.getReports())) {
+            addNextReports(runningTeamWrapper.getReports());
+        }
+    }
+
+    private void addNextReports(List<Report> nextReports) {
+        reports.addAll(nextReports);
+        bindTabWithReports(nextReports);
     }
 }

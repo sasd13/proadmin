@@ -12,11 +12,10 @@ import java.util.Observable;
 
 public class ProjectsWrapper extends Observable {
 
-    private List<Project> projects, nextProjects;
+    private List<Project> projects;
 
     public ProjectsWrapper() {
         projects = new ArrayList<>();
-        nextProjects = new ArrayList<>();
     }
 
     public List<Project> getProjects() {
@@ -25,17 +24,6 @@ public class ProjectsWrapper extends Observable {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
-
-        setChanged();
-        notifyObservers();
-    }
-
-    public List<Project> getNextProjects() {
-        return nextProjects;
-    }
-
-    public void setNextProjects(List<Project> nextProjects) {
-        this.nextProjects = nextProjects;
 
         setChanged();
         notifyObservers();

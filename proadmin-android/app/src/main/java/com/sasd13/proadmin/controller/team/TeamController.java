@@ -73,15 +73,12 @@ public class TeamController extends Controller implements ITeamController, IStud
     public void showTeam(Team team) {
         teamWrapper = new TeamWrapper(team);
 
-        startProxyFragment();
+        startFragment(TeamDetailsFragment.newInstance(teamWrapper));
         studentService.readByTeam(team.getNumber());
     }
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
-        if (isProxyFragmentNotDetached()) {
-            teamWrapper.setStudentTeams(studentTeams);
-            startFragment(TeamDetailsFragment.newInstance(teamWrapper));
-        }
+        teamWrapper.setStudentTeams(studentTeams);
     }
 
     @Override

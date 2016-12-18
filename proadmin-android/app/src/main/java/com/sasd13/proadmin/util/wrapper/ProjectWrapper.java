@@ -14,7 +14,7 @@ import java.util.Observable;
 public class ProjectWrapper extends Observable {
 
     private Project project;
-    private List<Running> runnings, nextRunnings;
+    private List<Running> runnings;
 
     public ProjectWrapper(Project project) {
         this.project = project;
@@ -31,17 +31,6 @@ public class ProjectWrapper extends Observable {
 
     public void setRunnings(List<Running> runnings) {
         this.runnings = runnings;
-
-        setChanged();
-        notifyObservers();
-    }
-
-    public List<Running> getNextRunnings() {
-        return nextRunnings;
-    }
-
-    public void setNextRunnings(List<Running> nextRunnings) {
-        this.nextRunnings = nextRunnings;
 
         setChanged();
         notifyObservers();
