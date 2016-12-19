@@ -25,4 +25,8 @@ public class SessionHelper {
     public static String getExtraIdTeacherNumber(Context context) {
         return Session.getAttribute(context, Extra.ID_TEACHER_NUMBER);
     }
+
+    public static void clear(Context context) {
+        Session.clear(context);
+    }
 }

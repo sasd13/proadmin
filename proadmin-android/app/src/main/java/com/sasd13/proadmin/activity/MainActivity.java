@@ -34,6 +34,7 @@ import com.sasd13.proadmin.fragment.ITeamController;
 import com.sasd13.proadmin.fragment.ProxyFragment;
 import com.sasd13.proadmin.gui.browser.Browser;
 import com.sasd13.proadmin.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.util.SessionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,7 +172,7 @@ public class MainActivity extends DrawerActivity {
                 .commit();
     }
 
-    public void exit() {
+    public void logOut() {
         OptionDialog.showOkCancelDialog(
                 this,
                 getResources().getString(R.string.button_logout),
@@ -179,19 +180,20 @@ public class MainActivity extends DrawerActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        logOut();
+                        exit();
                     }
                 }
         );
     }
 
-    private void logOut() {
+    private void exit() {
         final WaitDialog waitDialog = new WaitDialog(this);
         final Intent intent = new Intent(this, LogInActivity.class);
 
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
+                SessionHelper.clear(MainActivity.this);
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();

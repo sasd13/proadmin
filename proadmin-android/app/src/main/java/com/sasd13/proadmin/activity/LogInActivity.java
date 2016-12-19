@@ -87,10 +87,10 @@ public class LogInActivity extends AppCompatActivity implements LogInService.Cal
     @Override
     public void onLoggedIn(Teacher teacher) {
         waitDialog.dismiss();
-        logIn(teacher);
+        goToMainActivity(teacher);
     }
 
-    private void logIn(final Teacher teacher) {
+    private void goToMainActivity(final Teacher teacher) {
         SessionHelper.setExtraId(this, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
 
         final WaitDialog waitDialog = new WaitDialog(this);
