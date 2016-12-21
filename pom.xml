@@ -18,6 +18,7 @@
 		<module>proadmin-dao</module>
 		<module>proadmin-util</module>
 		<module>proadmin-ws</module>
+		<module>proadmin-ws2</module>
 	</modules>
 
 	<properties>
