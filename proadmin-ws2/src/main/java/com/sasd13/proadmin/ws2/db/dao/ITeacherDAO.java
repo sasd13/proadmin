@@ -1,16 +1,13 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
+import org.hibernate.HibernateException;
+
+import com.sasd13.javaex.orm.IDAO;
 import com.sasd13.proadmin.bean.member.Teacher;
 
-public interface ITeacherDAO {
+public interface ITeacherDAO extends IDAO<Teacher> {
 
-	void create(Teacher teacher);
+	Teacher readByNumber(String number) throws HibernateException;
 
-	void update(String number, Teacher teacher);
-
-	void delete(String number);
-
-	Teacher read(String number);
-
-	Teacher readByEmail(String email);
+	Teacher readByEmail(String email) throws HibernateException;
 }

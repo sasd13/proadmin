@@ -11,11 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.sasd13.javaex.orm.IDTO;
 import com.sasd13.proadmin.bean.project.Project;
 
 @Entity
 @Table(name = "projects")
-public class ProjectDTO implements Serializable, IBeanDTO<Project> {
+public class ProjectDTO implements Serializable, IDTO<Project> {
 
 	/**
 	 * 
