@@ -31,6 +31,7 @@
 		<xstream.version>1.4.7</xstream.version>
 		<javaex.version>0.1</javaex.version>
 		<jodatime.version>2.9.4</jodatime.version>
+		<hibernate.version>5.2.5.Final</hibernate.version>
 	</properties>
 
 	<build>
@@ -123,6 +124,21 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${jodatime.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.3.3.Final</version>
 		</dependency>
 	</dependencies>
 
