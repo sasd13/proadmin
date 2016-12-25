@@ -22,7 +22,7 @@ public class CredentialCheckService implements ICheckService<Credential> {
 	}
 
 	@Override
-	public boolean contains(Credential credential) throws ServiceException {
+	public boolean contains(Credential credential) {
 		LOGGER.info("check : username=" + credential.getUsername());
 
 		boolean contains = false;

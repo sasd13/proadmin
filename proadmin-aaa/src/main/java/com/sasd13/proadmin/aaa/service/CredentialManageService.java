@@ -25,7 +25,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void create(List<Credential> credentials) throws ServiceException {
+	public void create(List<Credential> credentials) {
 		try {
 			dao.open();
 
@@ -46,7 +46,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<Credential>> updateWrappers) throws ServiceException {
+	public void update(List<IUpdateWrapper<Credential>> updateWrappers) {
 		try {
 			dao.open();
 
@@ -71,7 +71,7 @@ public class CredentialManageService implements IManageService<Credential> {
 	}
 
 	@Override
-	public void delete(List<Credential> credentials) throws ServiceException {
+	public void delete(List<Credential> credentials) {
 		try {
 			dao.open();
 

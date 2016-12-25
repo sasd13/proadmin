@@ -19,6 +19,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
 @Repository
@@ -33,7 +34,7 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 	public long insert(Teacher teacher) {
 		TeacherDTO teacherDTO = new TeacherDTO(teacher);
 
-		HibernateUtils.create(this, teacherDTO);
+		HibernateUtils.insert(this, teacherDTO);
 
 		return teacherDTO.getId();
 	}
@@ -82,7 +83,6 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 
 	@Override
 	public boolean contains(Teacher teacher) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -103,31 +103,43 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 
 	@Override
 	public void editQueryForUpdate(Query query, IUpdateWrapper<Teacher> updateWrapper) {
-		// TODO Auto-generated method stub
+		TeacherUpdateWrapper wrapper = (TeacherUpdateWrapper) updateWrapper;
 
+		query.setParameter(0, wrapper.getWrapped().getNumber());
+		query.setParameter(1, wrapper.getWrapped().getFirstName());
+		query.setParameter(2, wrapper.getWrapped().getLastName());
+		query.setParameter(3, wrapper.getWrapped().getEmail());
+		query.setParameter(4, wrapper.getNumber());
 	}
 
 	@Override
 	public void editQueryForDelete(Query query, Teacher teacher) {
-		// TODO Auto-generated method stub
-
+		query.setParameter(0, teacher.getNumber());
 	}
 
 	@Override
-	public void editQueryForSelect(Query query, int index, String key, String value) {
-		// TODO Auto-generated method stub
-
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			query.setParameter(index, value);
+		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+			query.setParameter(index, value);
+		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+			query.setParameter(index, value);
+		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+			query.setParameter(index, value);
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override
 	public Teacher getResultValues(Serializable serializable) {
 		Teacher teacher = new Teacher();
-		TeacherDTO dto = (TeacherDTO) serializable;
 
-		teacher.setNumber(dto.getCode());
-		teacher.setFirstName(dto.getFirstName());
-		teacher.setLastName(dto.getLastName());
-		teacher.setEmail(dto.getEmail());
+		teacher.setNumber(((TeacherDTO) serializable).getCode());
+		teacher.setFirstName(((TeacherDTO) serializable).getFirstName());
+		teacher.setLastName(((TeacherDTO) serializable).getLastName());
+		teacher.setEmail(((TeacherDTO) serializable).getEmail());
 
 		return teacher;
 	}

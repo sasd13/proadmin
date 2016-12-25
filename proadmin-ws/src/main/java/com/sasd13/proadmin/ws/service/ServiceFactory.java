@@ -1,0 +1,56 @@
+package com.sasd13.proadmin.ws.service;
+
+import com.sasd13.javaex.service.ServiceException;
+import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.ws.service.member.StudentService;
+import com.sasd13.proadmin.ws.service.member.StudentTeamService;
+import com.sasd13.proadmin.ws.service.member.TeacherService;
+import com.sasd13.proadmin.ws.service.member.TeamService;
+import com.sasd13.proadmin.ws.service.project.ProjectService;
+import com.sasd13.proadmin.ws.service.running.IndividualEvaluationService;
+import com.sasd13.proadmin.ws.service.running.LeadEvaluationService;
+import com.sasd13.proadmin.ws.service.running.ReportService;
+import com.sasd13.proadmin.ws.service.running.RunningService;
+import com.sasd13.proadmin.ws.service.running.RunningTeamService;
+
+public class ServiceFactory {
+
+	@SuppressWarnings("unchecked")
+	public static <T> AbstractService<T> make(Class<T> mClass) {
+		if (Project.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new ProjectService();
+		} else if (Teacher.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new TeacherService();
+		} else if (Student.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new StudentService();
+		} else if (Team.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new TeamService();
+		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new StudentTeamService();
+		} else if (Running.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new RunningService();
+		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new AcademicLevelService();
+		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new RunningTeamService();
+		} else if (Report.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new ReportService();
+		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new LeadEvaluationService();
+		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
+			return (AbstractService<T>) new IndividualEvaluationService();
+		} else {
+			throw new ServiceException("Entity " + mClass.getSimpleName() + " has no service");
+		}
+	}
+}

@@ -26,9 +26,6 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.service.IDeepReadService;
-import com.sasd13.javaex.service.IManageService;
-import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
@@ -40,9 +37,8 @@ import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
-import com.sasd13.proadmin.ws.service.DeepReadServiceFactory;
-import com.sasd13.proadmin.ws.service.ManageServiceFactory;
-import com.sasd13.proadmin.ws.service.ReadServiceFactory;
+import com.sasd13.proadmin.ws.service.AbstractService;
+import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Names;
 
 /**
@@ -59,9 +55,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private TranslationBundle bundle;
 	private IValidator<T> validator;
 	private IValidator<IUpdateWrapper<T>> updateWrapperValidator;
-	private IReadService<T> readService;
-	private IDeepReadService<T> deepReadService;
-	private IManageService<T> manageService;
+	private AbstractService<T> abstractService;
 
 	protected abstract Class<T> getBeanClass();
 
@@ -75,9 +69,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		try {
 			validator = ValidatorFactory.make(getBeanClass());
 			updateWrapperValidator = (IValidator<IUpdateWrapper<T>>) UpdateWrapperValidatorFactory.make(getBeanClass());
-			readService = ReadServiceFactory.make(getBeanClass());
-			deepReadService = DeepReadServiceFactory.make(getBeanClass());
-			manageService = ManageServiceFactory.make(getBeanClass());
+			abstractService = ServiceFactory.make(getBeanClass());
 		} catch (ValidatorException | ServiceException e) {
 			LOGGER.error(e);
 		}
@@ -128,11 +120,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			if (parameters.isEmpty()) {
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? deepReadService.deepReadAll() : readService.readAll();
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? abstractService.deepReadAll() : abstractService.readAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? deepReadService.deepRead(parameters) : readService.read(parameters);
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? abstractService.deepRead(parameters) : abstractService.read(parameters);
 			}
 
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
@@ -154,7 +146,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 				validator.validate(t);
 			}
 
-			manageService.create(ts);
+			abstractService.create(ts);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -171,7 +163,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 				updateWrapperValidator.validate(updateWrapper);
 			}
 
-			manageService.update(updateWrappers);
+			abstractService.update(updateWrappers);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -188,7 +180,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 				validator.validate(t);
 			}
 
-			manageService.delete(ts);
+			abstractService.delete(ts);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
