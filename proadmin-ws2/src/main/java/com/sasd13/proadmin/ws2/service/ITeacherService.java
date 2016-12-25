@@ -6,5 +6,5 @@ import com.sasd13.proadmin.bean.member.Teacher;
 
 public interface ITeacherService extends IManageService<Teacher>, IReadService<Teacher> {
 
-	Teacher findByNumber(String number);
+	Teacher find(String number);
 }

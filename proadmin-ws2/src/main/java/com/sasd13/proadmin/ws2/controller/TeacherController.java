@@ -60,11 +60,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> post(@RequestBody Teacher teacher) {
-		LOGGER.info("Post : teacher=" + String.valueOf(teacher.getNumber()));
+	public ResponseEntity<HttpStatus> post(@RequestBody List<Teacher> teachers) {
+		LOGGER.info("Post");
 		
 		try {
-			teacherService.create(teacher);
+			//teacherService.create(teachers);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {
@@ -81,7 +81,7 @@ public class TeacherController {
 		LOGGER.info("Put : teacher=" + String.valueOf(number));
 		
 		try {
-			teacherService.update(number, teacher);
+			//teacherService.update(number, teacher);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {
@@ -96,7 +96,7 @@ public class TeacherController {
 		LOGGER.info("Delete : teacher=" + String.valueOf(number));
 		
 		try {
-			teacherService.delete(number);
+			//teacherService.delete(number);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {

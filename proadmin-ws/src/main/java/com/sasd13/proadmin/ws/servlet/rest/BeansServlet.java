@@ -30,6 +30,7 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
@@ -37,6 +38,7 @@ import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
+import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.service.AbstractService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Names;
@@ -55,7 +57,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private TranslationBundle bundle;
 	private IValidator<T> validator;
 	private IValidator<IUpdateWrapper<T>> updateWrapperValidator;
-	private AbstractService<T> abstractService;
 
 	protected abstract Class<T> getBeanClass();
 
@@ -69,7 +70,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		try {
 			validator = ValidatorFactory.make(getBeanClass());
 			updateWrapperValidator = (IValidator<IUpdateWrapper<T>>) UpdateWrapperValidatorFactory.make(getBeanClass());
-			abstractService = ServiceFactory.make(getBeanClass());
 		} catch (ValidatorException | ServiceException e) {
 			LOGGER.error(e);
 		}
@@ -115,10 +115,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doGet");
 
+		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
 		List<T> results = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
+			AbstractService<T> abstractService = ServiceFactory.make(getBeanClass(), dao);
+
 			if (parameters.isEmpty()) {
 				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? abstractService.deepReadAll() : abstractService.readAll();
 			} else {
@@ -139,14 +142,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
 
+		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+
 		try {
-			List<T> ts = readFromRequest(req);
+			T t = readFromRequest(req).get(0);
 
-			for (T t : ts) {
-				validator.validate(t);
-			}
-
-			abstractService.create(ts);
+			validator.validate(t);
+			ServiceFactory.make(getBeanClass(), dao).create(t);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -156,14 +158,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPut");
 
+		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+
 		try {
-			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
+			IUpdateWrapper<T> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
 
-			for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
-				updateWrapperValidator.validate(updateWrapper);
-			}
-
-			abstractService.update(updateWrappers);
+			updateWrapperValidator.validate(updateWrapper);
+			ServiceFactory.make(getBeanClass(), dao).update(updateWrapper);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -173,14 +174,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doDelete");
 
+		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+
 		try {
-			List<T> ts = readFromRequest(req);
+			T t = readFromRequest(req).get(0);
 
-			for (T t : ts) {
-				validator.validate(t);
-			}
-
-			abstractService.delete(ts);
+			validator.validate(t);
+			ServiceFactory.make(getBeanClass(), dao).delete(t);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

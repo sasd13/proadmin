@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.ws.service.running;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +7,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 import com.sasd13.proadmin.ws.service.AbstractService;
 
@@ -20,79 +19,43 @@ public class ReportService extends AbstractService<Report> {
 
 	private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 
-	public ReportService() {
-		super();
+	public ReportService(DAO dao) {
+		super(dao);
 	}
 
 	@Override
-	public void create(List<Report> reports) {
+	public void create(Report report) {
+		LOGGER.info("create : number=" + report.getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Report> session = dao.getSession(Report.class);
-
-			for (Report report : reports) {
-				LOGGER.info("create : number=" + report.getNumber());
-				session.insert(report);
-			}
+			currentConnection().getSession(Report.class).insert(report);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<Report>> updateWrappers) {
+	public void update(IUpdateWrapper<Report> updateWrapper) {
+		LOGGER.info("update : number=" + ((IReportUpdateWrapper) updateWrapper).getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Report> session = dao.getSession(Report.class);
-			IReportUpdateWrapper reportUpdateWrapper;
-
-			for (IUpdateWrapper<Report> updateWrapper : updateWrappers) {
-				reportUpdateWrapper = (IReportUpdateWrapper) updateWrapper;
-
-				LOGGER.info("update : number=" + reportUpdateWrapper.getNumber());
-				session.update(reportUpdateWrapper);
-			}
+			currentConnection().getSession(Report.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void delete(List<Report> reports) {
+	public void delete(Report report) {
+		LOGGER.info("delete : number=" + report.getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Report> session = dao.getSession(Report.class);
-
-			for (Report report : reports) {
-				LOGGER.info("delete : number=" + report.getNumber());
-				session.delete(report);
-			}
+			currentConnection().getSession(Report.class).delete(report);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
@@ -103,18 +66,10 @@ public class ReportService extends AbstractService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			reports = dao.getSession(Report.class).select(parameters);
+			reports = currentConnection().getSession(Report.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return reports;
@@ -127,18 +82,10 @@ public class ReportService extends AbstractService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			reports = dao.getSession(Report.class).selectAll();
+			reports = currentConnection().getSession(Report.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return reports;
@@ -151,18 +98,10 @@ public class ReportService extends AbstractService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			reports = dao.getDeepReader(Report.class).select(parameters);
+			reports = currentConnection().getDeepReader(Report.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return reports;
@@ -175,18 +114,10 @@ public class ReportService extends AbstractService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			reports = dao.getDeepReader(Report.class).selectAll();
+			reports = currentConnection().getDeepReader(Report.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return reports;

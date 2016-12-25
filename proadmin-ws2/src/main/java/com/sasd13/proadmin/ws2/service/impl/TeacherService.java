@@ -12,13 +12,11 @@ import org.springframework.stereotype.Service;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.service.IManageService;
-import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.service.ITeacherService;
 
 @Service
@@ -30,12 +28,11 @@ public class TeacherService implements ITeacherService {
 	private ITeacherDAO dao;
 
 	@Override
-	public void create(List<Teacher> teachers) throws ServiceException {
+	public void create(Teacher teacher) throws ServiceException {
+		LOGGER.info("create : number=" + teacher.getNumber());
+
 		try {
-			for (Teacher teacher : teachers) {
-				LOGGER.info("create : number=" + teacher.getNumber());
-				dao.insert(teacher);
-			}
+			dao.insert(teacher);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -43,16 +40,11 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<Teacher>> updateWrappers) throws ServiceException {
-		ITeacherUpdateWrapper teacherUpdateWrapper;
+	public void update(IUpdateWrapper<Teacher> updateWrapper) throws ServiceException {
+		LOGGER.info("update : number=" + ((TeacherUpdateWrapper) updateWrapper).getNumber());
 
 		try {
-			for (IUpdateWrapper<Teacher> updateWrapper : updateWrappers) {
-				teacherUpdateWrapper = (ITeacherUpdateWrapper) updateWrapper;
-
-				LOGGER.info("update : number=" + teacherUpdateWrapper.getNumber());
-				dao.update(updateWrapper);
-			}
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -60,12 +52,11 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public void delete(List<Teacher> teachers) throws ServiceException {
+	public void delete(Teacher teacher) throws ServiceException {
+		LOGGER.info("delete : number=" + teacher.getNumber());
+
 		try {
-			for (Teacher teacher : teachers) {
-				LOGGER.info("delete : number=" + teacher.getNumber());
-				dao.delete(teacher);
-			}
+			dao.delete(teacher);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -103,14 +94,14 @@ public class TeacherService implements ITeacherService {
 
 		return list;
 	}
-	
+
 	@Override
-	public Teacher findByNumber(String number) {
+	public Teacher find(String number) {
 		Map<String, String[]> parameters = new HashMap<>();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[]{ number });
-		
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+
 		List<Teacher> results = read(parameters);
-		
+
 		return results.isEmpty() ? null : results.get(0);
 	}
 }

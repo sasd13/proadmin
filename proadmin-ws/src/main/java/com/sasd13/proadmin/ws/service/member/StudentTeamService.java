@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.ws.service.member;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,70 +7,48 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.service.AbstractService;
 
 public class StudentTeamService extends AbstractService<StudentTeam> {
 
 	private static final Logger LOGGER = Logger.getLogger(StudentTeamService.class);
 
-	public StudentTeamService() {
-		super();
+	public StudentTeamService(DAO dao) {
+		super(dao);
 	}
 
 	@Override
-	public void create(List<StudentTeam> studentTeams) {
+	public void create(StudentTeam studentTeam) {
+		LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+
 		try {
-			dao.open();
-
-			ISession<StudentTeam> session = dao.getSession(StudentTeam.class);
-
-			for (StudentTeam studentTeam : studentTeams) {
-				LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-				session.insert(studentTeam);
-			}
+			currentConnection().getSession(StudentTeam.class).insert(studentTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<StudentTeam>> updateWrappers) {
+	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
 		LOGGER.info("update unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void delete(List<StudentTeam> studentTeams) {
+	public void delete(StudentTeam studentTeam) {
+		LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+
 		try {
-			dao.open();
-
-			ISession<StudentTeam> session = dao.getSession(StudentTeam.class);
-
-			for (StudentTeam studentTeam : studentTeams) {
-				LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
-				session.delete(studentTeam);
-			}
+			currentConnection().getSession(StudentTeam.class).delete(studentTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
@@ -82,18 +59,10 @@ public class StudentTeamService extends AbstractService<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			studentTeams = dao.getSession(StudentTeam.class).select(parameters);
+			studentTeams = currentConnection().getSession(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return studentTeams;
@@ -106,18 +75,10 @@ public class StudentTeamService extends AbstractService<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			studentTeams = dao.getSession(StudentTeam.class).selectAll();
+			studentTeams = currentConnection().getSession(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return studentTeams;
@@ -130,18 +91,10 @@ public class StudentTeamService extends AbstractService<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			studentTeams = dao.getDeepReader(StudentTeam.class).select(parameters);
+			studentTeams = currentConnection().getDeepReader(StudentTeam.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return studentTeams;
@@ -154,18 +107,10 @@ public class StudentTeamService extends AbstractService<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			studentTeams = dao.getDeepReader(StudentTeam.class).selectAll();
+			studentTeams = currentConnection().getDeepReader(StudentTeam.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return studentTeams;

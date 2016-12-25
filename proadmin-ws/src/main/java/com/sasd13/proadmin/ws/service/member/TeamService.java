@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.ws.service.member;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +7,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 import com.sasd13.proadmin.ws.service.AbstractService;
 
@@ -20,79 +19,43 @@ public class TeamService extends AbstractService<Team> {
 
 	private static final Logger LOGGER = Logger.getLogger(TeamService.class);
 
-	public TeamService() {
-		super();
+	public TeamService(DAO dao) {
+		super(dao);
 	}
 
 	@Override
-	public void create(List<Team> teams) {
+	public void create(Team team) {
+		LOGGER.info("create : code=" + team.getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Team> session = dao.getSession(Team.class);
-
-			for (Team team : teams) {
-				LOGGER.info("create : code=" + team.getNumber());
-				session.insert(team);
-			}
+			currentConnection().getSession(Team.class).insert(team);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<Team>> updateWrappers) {
+	public void update(IUpdateWrapper<Team> updateWrapper) {
+		LOGGER.info("update : code=" + ((ITeamUpdateWrapper) updateWrapper).getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Team> session = dao.getSession(Team.class);
-			ITeamUpdateWrapper teamUpdateWrapper;
-
-			for (IUpdateWrapper<Team> updateWrapper : updateWrappers) {
-				teamUpdateWrapper = (ITeamUpdateWrapper) updateWrapper;
-
-				LOGGER.info("update : code=" + teamUpdateWrapper.getNumber());
-				session.update(teamUpdateWrapper);
-			}
+			currentConnection().getSession(Team.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void delete(List<Team> teams) {
+	public void delete(Team team) {
+		LOGGER.info("delete : code=" + team.getNumber());
+
 		try {
-			dao.open();
-
-			ISession<Team> session = dao.getSession(Team.class);
-
-			for (Team team : teams) {
-				LOGGER.info("delete : code=" + team.getNumber());
-				session.delete(team);
-			}
+			currentConnection().getSession(Team.class).delete(team);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
@@ -103,18 +66,10 @@ public class TeamService extends AbstractService<Team> {
 		List<Team> teams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			teams = dao.getSession(Team.class).select(parameters);
+			teams = currentConnection().getSession(Team.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return teams;
@@ -127,18 +82,10 @@ public class TeamService extends AbstractService<Team> {
 		List<Team> teams = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			teams = dao.getSession(Team.class).selectAll();
+			teams = currentConnection().getSession(Team.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return teams;

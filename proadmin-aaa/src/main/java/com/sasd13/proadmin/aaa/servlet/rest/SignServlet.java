@@ -23,7 +23,7 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.proadmin.aaa.service.CredentialManageService;
+import com.sasd13.proadmin.aaa.service.CredentialService;
 import com.sasd13.proadmin.aaa.validator.CredentialUpdateWrapperValidator;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
@@ -50,7 +50,7 @@ public class SignServlet extends AAAServlet {
 
 		validator = new CredentialValidator();
 		updateWrapperValidator = new CredentialUpdateWrapperValidator();
-		manageService = new CredentialManageService();
+		manageService = new CredentialService();
 	}
 
 	@Override
@@ -58,13 +58,10 @@ public class SignServlet extends AAAServlet {
 		LOGGER.info("doPost");
 
 		try {
-			List<Credential> credentials = readFromRequest(req);
+			Credential credential = readFromRequest(req).get(0);
 
-			for (Credential credential : credentials) {
-				validator.validate(credential);
-			}
-
-			manageService.create(credentials);
+			validator.validate(credential);
+			manageService.create(credential);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -75,13 +72,10 @@ public class SignServlet extends AAAServlet {
 		LOGGER.info("doPut");
 
 		try {
-			List<IUpdateWrapper<Credential>> updateWrappers = readUpdateWrappersFromRequest(req);
+			IUpdateWrapper<Credential> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
 
-			for (IUpdateWrapper<Credential> updateWrapper : updateWrappers) {
-				updateWrapperValidator.validate(updateWrapper);
-			}
-
-			manageService.update(updateWrappers);
+			updateWrapperValidator.validate(updateWrapper);
+			manageService.update(updateWrapper);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -101,13 +95,10 @@ public class SignServlet extends AAAServlet {
 		LOGGER.info("doDelete");
 
 		try {
-			List<Credential> credentials = readFromRequest(req);
+			Credential credential = readFromRequest(req).get(0);
 
-			for (Credential credential : credentials) {
-				validator.validate(credential);
-			}
-
-			manageService.delete(credentials);
+			validator.validate(credential);
+			manageService.delete(credential);
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

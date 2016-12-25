@@ -18,7 +18,7 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICheckService;
 import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.proadmin.aaa.service.CredentialCheckService;
+import com.sasd13.proadmin.aaa.service.CredentialService;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.aaa.validator.CredentialValidator;
 import com.sasd13.proadmin.util.exception.EnumError;
@@ -42,7 +42,7 @@ public class LogInServlet extends AAAServlet {
 		super.init();
 
 		validator = new CredentialValidator();
-		checkService = new CredentialCheckService();
+		checkService = new CredentialService();
 	}
 
 	@Override

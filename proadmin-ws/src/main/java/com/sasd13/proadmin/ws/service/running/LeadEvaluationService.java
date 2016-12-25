@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.ws.service.running;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +7,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.ISession;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.service.AbstractService;
 
@@ -20,44 +19,30 @@ public class LeadEvaluationService extends AbstractService<LeadEvaluation> {
 
 	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationService.class);
 
-	public LeadEvaluationService() {
-		super();
+	public LeadEvaluationService(DAO dao) {
+		super(dao);
 	}
 
 	@Override
-	public void create(List<LeadEvaluation> leadEvaluations) {
+	public void create(LeadEvaluation leadEvaluation) {
 		LOGGER.info("create unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
-	public void update(List<IUpdateWrapper<LeadEvaluation>> updateWrappers) {
+	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
+		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber() + ", studentNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+
 		try {
-			dao.open();
-
-			ISession<LeadEvaluation> session = dao.getSession(LeadEvaluation.class);
-			ILeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper;
-
-			for (IUpdateWrapper<LeadEvaluation> updateWrapper : updateWrappers) {
-				leadEvaluationUpdateWrapper = (ILeadEvaluationUpdateWrapper) updateWrapper;
-
-				LOGGER.info("update : reportNumber=" + leadEvaluationUpdateWrapper.getReportNumber() + ", studentNumber=" + leadEvaluationUpdateWrapper.getStudentNumber());
-				session.update(leadEvaluationUpdateWrapper);
-			}
+			currentConnection().getSession(LeadEvaluation.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 	}
 
 	@Override
-	public void delete(List<LeadEvaluation> leadEvaluations) {
+	public void delete(LeadEvaluation leadEvaluation) {
 		LOGGER.info("delete unavailable");
 		throw new ServiceException("Service unavailable");
 	}
@@ -69,18 +54,10 @@ public class LeadEvaluationService extends AbstractService<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			leadEvaluations = dao.getSession(LeadEvaluation.class).select(parameters);
+			leadEvaluations = currentConnection().getSession(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return leadEvaluations;
@@ -93,18 +70,10 @@ public class LeadEvaluationService extends AbstractService<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			leadEvaluations = dao.getSession(LeadEvaluation.class).selectAll();
+			leadEvaluations = currentConnection().getSession(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return leadEvaluations;
@@ -117,18 +86,10 @@ public class LeadEvaluationService extends AbstractService<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).select(parameters);
+			leadEvaluations = currentConnection().getDeepReader(LeadEvaluation.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return leadEvaluations;
@@ -141,18 +102,10 @@ public class LeadEvaluationService extends AbstractService<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			dao.open();
-
-			leadEvaluations = dao.getDeepReader(LeadEvaluation.class).selectAll();
+			leadEvaluations = currentConnection().getDeepReader(LeadEvaluation.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
-		} finally {
-			try {
-				dao.close();
-			} catch (IOException e) {
-				LOGGER.warn(e);
-			}
 		}
 
 		return leadEvaluations;

@@ -12,6 +12,7 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.service.member.StudentService;
 import com.sasd13.proadmin.ws.service.member.StudentTeamService;
 import com.sasd13.proadmin.ws.service.member.TeacherService;
@@ -26,29 +27,29 @@ import com.sasd13.proadmin.ws.service.running.RunningTeamService;
 public class ServiceFactory {
 
 	@SuppressWarnings("unchecked")
-	public static <T> AbstractService<T> make(Class<T> mClass) {
+	public static <T> AbstractService<T> make(Class<T> mClass, DAO dao) {
 		if (Project.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new ProjectService();
+			return (AbstractService<T>) new ProjectService(dao);
 		} else if (Teacher.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new TeacherService();
+			return (AbstractService<T>) new TeacherService(dao);
 		} else if (Student.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new StudentService();
+			return (AbstractService<T>) new StudentService(dao);
 		} else if (Team.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new TeamService();
+			return (AbstractService<T>) new TeamService(dao);
 		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new StudentTeamService();
+			return (AbstractService<T>) new StudentTeamService(dao);
 		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new RunningService();
+			return (AbstractService<T>) new RunningService(dao);
 		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new AcademicLevelService();
+			return (AbstractService<T>) new AcademicLevelService(dao);
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new RunningTeamService();
+			return (AbstractService<T>) new RunningTeamService(dao);
 		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new ReportService();
+			return (AbstractService<T>) new ReportService(dao);
 		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new LeadEvaluationService();
+			return (AbstractService<T>) new LeadEvaluationService(dao);
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new IndividualEvaluationService();
+			return (AbstractService<T>) new IndividualEvaluationService(dao);
 		} else {
 			throw new ServiceException("Entity " + mClass.getSimpleName() + " has no service");
 		}
