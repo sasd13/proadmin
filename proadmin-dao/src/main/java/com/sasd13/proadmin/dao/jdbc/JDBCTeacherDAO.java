@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO {
 
 	@Override
-	public long insert(Teacher teacher) throws DAOException {
+	public long insert(Teacher teacher) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -43,7 +42,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Teacher> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Teacher> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -59,7 +58,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public void delete(Teacher teacher) throws DAOException {
+	public void delete(Teacher teacher) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -70,22 +69,22 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public Teacher select(long id) throws DAOException {
+	public Teacher select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Teacher> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Teacher> selectAll() throws DAOException {
+	public List<Teacher> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Teacher teacher) throws DAOException {
+	public boolean contains(Teacher teacher) {
 		return false;
 	}
 

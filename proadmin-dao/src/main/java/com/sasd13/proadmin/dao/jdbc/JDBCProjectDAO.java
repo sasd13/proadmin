@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -29,7 +28,7 @@ import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
 
 	@Override
-	public long insert(Project project) throws DAOException {
+	public long insert(Project project) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -44,7 +43,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Project> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Project> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -60,7 +59,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void delete(Project project) throws DAOException {
+	public void delete(Project project) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -71,22 +70,22 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public Project select(long id) throws DAOException {
+	public Project select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Project> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Project> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Project> selectAll() throws DAOException {
+	public List<Project> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Project project) throws DAOException {
+	public boolean contains(Project project) {
 		return false;
 	}
 

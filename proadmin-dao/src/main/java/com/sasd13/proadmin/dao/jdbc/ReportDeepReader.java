@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
@@ -25,14 +24,14 @@ public class ReportDeepReader extends DeepReader<Report> {
 	}
 
 	@Override
-	protected void retrieveData(Report report) throws DAOException {
+	protected void retrieveData(Report report) {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		retrieveDataLeadEvaluation(report, parameters);
 		retrieveDataIndividualEvaluations(report, parameters);
 	}
 
-	private void retrieveDataLeadEvaluation(Report report, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataLeadEvaluation(Report report, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
@@ -42,7 +41,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		leadEvaluation.setReport(report);
 	}
 
-	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 

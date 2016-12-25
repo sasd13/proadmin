@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO {
 
 	@Override
-	public long insert(Student student) throws DAOException {
+	public long insert(Student student) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -43,7 +42,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Student> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Student> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -59,7 +58,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void delete(Student student) throws DAOException {
+	public void delete(Student student) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -70,22 +69,22 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public Student select(long id) throws DAOException {
+	public Student select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Student> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Student> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Student> selectAll() throws DAOException {
+	public List<Student> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Student student) throws DAOException {
+	public boolean contains(Student student) {
 		return false;
 	}
 

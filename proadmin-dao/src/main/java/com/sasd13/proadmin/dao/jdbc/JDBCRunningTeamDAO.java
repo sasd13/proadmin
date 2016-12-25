@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper
 public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
 
 	@Override
-	public long insert(RunningTeam runningTeam) throws DAOException {
+	public long insert(RunningTeam runningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -44,7 +43,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void update(IUpdateWrapper<RunningTeam> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<RunningTeam> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -65,7 +64,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) throws DAOException {
+	public void delete(RunningTeam runningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -80,22 +79,22 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public RunningTeam select(long id) throws DAOException {
+	public RunningTeam select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<RunningTeam> select(Map<String, String[]> parameters) throws DAOException {
+	public List<RunningTeam> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<RunningTeam> selectAll() throws DAOException {
+	public List<RunningTeam> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(RunningTeam runningTeam) throws DAOException {
+	public boolean contains(RunningTeam runningTeam) {
 		return false;
 	}
 

@@ -3,7 +3,6 @@ package com.sasd13.proadmin.dao.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
@@ -22,13 +21,13 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 	}
 
 	@Override
-	protected void retrieveData(LeadEvaluation leadEvaluation) throws DAOException {
+	protected void retrieveData(LeadEvaluation leadEvaluation) {
 		Map<String, String[]> parameters = new HashMap<>();
 
 		retrieveDataStudent(leadEvaluation, parameters);
 	}
 
-	private void retrieveDataStudent(LeadEvaluation leadEvaluation, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataStudent(LeadEvaluation leadEvaluation, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { leadEvaluation.getStudent().getNumber() });
 

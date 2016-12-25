@@ -9,13 +9,14 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.service.IDeepReadService;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.dao.DAOManager;
 
-public class StudentTeamReadService implements IReadService<StudentTeam> {
+public class StudentTeamReadService implements IReadService<StudentTeam>, IDeepReadService<StudentTeam> {
 
 	private static final Logger LOGGER = Logger.getLogger(StudentTeamReadService.class);
 

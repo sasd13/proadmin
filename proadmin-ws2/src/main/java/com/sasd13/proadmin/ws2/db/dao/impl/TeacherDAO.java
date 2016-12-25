@@ -6,34 +6,31 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.hibernate.HibernateSession;
 import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
+import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO {
 
-	private static final Logger LOGGER = Logger.getLogger(TeacherDAO.class);
-
 	public TeacherDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Teacher teacher) throws DAOException {
+	public long insert(Teacher teacher) {
 		TeacherDTO teacherDTO = new TeacherDTO(teacher);
 
 		HibernateUtils.create(this, teacherDTO);
@@ -42,47 +39,66 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Teacher> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Teacher> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE teachers SET ");
-		builder.append("_code= :code");
-		builder.append("AND _firstname= :firstname");
-		builder.append("AND _lastname= :firstname");
-		builder.append("AND _firstname= :firstname");
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_CODE + " = ?");
+		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
+		builder.append(", " + COLUMN_LASTNAME + " = ?");
+		builder.append(", " + COLUMN_EMAIL + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_CODE + " = ?");
+
+		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
-	public void delete(Teacher teacher) throws DAOException {
-		// TODO Auto-generated method stub
+	public void delete(Teacher teacher) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DELETE FROM ");
+		builder.append(TABLE);
+		builder.append(" WHERE ");
+		builder.append(COLUMN_CODE + " = ?");
 
+		HibernateUtils.delete(this, builder.toString(), teacher);
 	}
 
 	@Override
-	public Teacher select(long id) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+	public Teacher select(long id) {
+		return HibernateUtils.select(this, TABLE, COLUMN_ID, id);
 	}
 
 	@Override
-	public List<Teacher> select(Map<String, String[]> parameters) throws DAOException {
-		return HibernateUtils.read(this, TABLE, parameters);
+	public List<Teacher> select(Map<String, String[]> parameters) {
+		return HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Teacher> selectAll() throws DAOException {
-		return HibernateUtils.readAll(this, TABLE);
+	public List<Teacher> selectAll() {
+		return HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Teacher teacher) throws DAOException {
+	public boolean contains(Teacher teacher) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
-		// TODO Auto-generated method stub
-		return null;
+		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_CODE;
+		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_FIRSTNAME;
+		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_LASTNAME;
+		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_EMAIL;
+		} else {
+			throw new ConditionException("Parameter " + key + " is unknown");
+		}
 	}
 
 	@Override

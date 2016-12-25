@@ -46,7 +46,7 @@ public class JDBCDAO extends DAO {
 	}
 
 	@Override
-	public void open() throws DAOException {
+	public void open() {
 		try {
 			connection = DriverManager.getConnection(url, properties);
 

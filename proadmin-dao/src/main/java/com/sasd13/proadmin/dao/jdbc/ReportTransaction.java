@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.IJDBCTransaction;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
@@ -33,7 +32,7 @@ public class ReportTransaction implements IJDBCTransaction {
 	}
 
 	@Override
-	public long insert(Connection connection) throws SQLException, DAOException {
+	public long insert(Connection connection) throws SQLException {
 		long id = 0;
 
 		PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.NO_GENERATED_KEYS);
@@ -51,7 +50,7 @@ public class ReportTransaction implements IJDBCTransaction {
 	}
 
 	@Override
-	public void update(Connection connection) throws SQLException, DAOException {
+	public void update(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 
 		reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
@@ -69,7 +68,7 @@ public class ReportTransaction implements IJDBCTransaction {
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, DAOException {
+	public void delete(Connection connection) throws SQLException {
 		reportDAO.getLeadEvaluationDAO().delete(report.getLeadEvaluation());
 
 		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {

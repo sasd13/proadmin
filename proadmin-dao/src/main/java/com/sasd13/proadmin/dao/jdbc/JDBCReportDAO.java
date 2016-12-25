@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -60,7 +59,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public long insert(Report report) throws DAOException {
+	public long insert(Report report) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -82,7 +81,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Report> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Report> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -104,7 +103,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void delete(Report report) throws DAOException {
+	public void delete(Report report) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -117,22 +116,22 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public Report select(long id) throws DAOException {
+	public Report select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Report> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Report> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Report> selectAll() throws DAOException {
+	public List<Report> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Report report) throws DAOException {
+	public boolean contains(Report report) {
 		return false;
 	}
 

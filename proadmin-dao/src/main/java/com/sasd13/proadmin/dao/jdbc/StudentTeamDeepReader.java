@@ -3,7 +3,6 @@ package com.sasd13.proadmin.dao.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -26,14 +25,14 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	}
 
 	@Override
-	protected void retrieveData(StudentTeam studentTeam) throws DAOException {
+	protected void retrieveData(StudentTeam studentTeam) {
 		Map<String, String[]> parameters = new HashMap<>();
 
 		retrieveDataStudent(studentTeam, parameters);
 		retrieveDataTeam(studentTeam, parameters);
 	}
 
-	private void retrieveDataStudent(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataStudent(StudentTeam studentTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getStudent().getNumber() });
 
@@ -41,7 +40,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		studentTeam.setStudent(student);
 	}
 
-	private void retrieveDataTeam(StudentTeam studentTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataTeam(StudentTeam studentTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getTeam().getNumber() });
 

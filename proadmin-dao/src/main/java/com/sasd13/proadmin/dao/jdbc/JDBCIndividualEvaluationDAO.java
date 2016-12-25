@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpda
 public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
 
 	@Override
-	public long insert(IndividualEvaluation individualEvaluation) throws DAOException {
+	public long insert(IndividualEvaluation individualEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -42,7 +41,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void update(IUpdateWrapper<IndividualEvaluation> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<IndividualEvaluation> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -57,7 +56,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void delete(IndividualEvaluation individualEvaluation) throws DAOException {
+	public void delete(IndividualEvaluation individualEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -69,22 +68,22 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public IndividualEvaluation select(long id) throws DAOException {
+	public IndividualEvaluation select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<IndividualEvaluation> select(Map<String, String[]> parameters) throws DAOException {
+	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<IndividualEvaluation> selectAll() throws DAOException {
+	public List<IndividualEvaluation> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(IndividualEvaluation individualEvaluation) throws DAOException {
+	public boolean contains(IndividualEvaluation individualEvaluation) {
 		return false;
 	}
 

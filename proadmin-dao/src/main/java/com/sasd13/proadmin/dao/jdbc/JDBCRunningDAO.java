@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
 public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO {
 
 	@Override
-	public long insert(Running running) throws DAOException {
+	public long insert(Running running) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -42,7 +41,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Running> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Running> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -59,7 +58,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void delete(Running running) throws DAOException {
+	public void delete(Running running) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -72,22 +71,22 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public Running select(long id) throws DAOException {
+	public Running select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Running> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Running> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Running> selectAll() throws DAOException {
+	public List<Running> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(Running running) throws DAOException {
+	public boolean contains(Running running) {
 		return false;
 	}
 

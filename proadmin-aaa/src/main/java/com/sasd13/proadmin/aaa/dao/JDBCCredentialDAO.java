@@ -35,7 +35,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public void open() throws DAOException {
+	public void open() {
 		try {
 			setConnection(DriverManager.getConnection(url, properties));
 		} catch (SQLException e) {
@@ -56,7 +56,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public long insert(Credential credential) throws DAOException {
+	public long insert(Credential credential) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -69,7 +69,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Credential> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<Credential> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -83,7 +83,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public void delete(Credential credential) throws DAOException {
+	public void delete(Credential credential) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -94,7 +94,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public boolean contains(Credential credential) throws DAOException {
+	public boolean contains(Credential credential) {
 		parameters.clear();
 		parameters.put(EnumParameter.USERNAME.getName(), new String[] { credential.getUsername() });
 		parameters.put(EnumParameter.PASSWORD.getName(), new String[] { credential.getPassword() });
@@ -103,17 +103,17 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public Credential select(long id) throws DAOException {
+	public Credential select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Credential> select(Map<String, String[]> parameters) throws DAOException {
+	public List<Credential> select(Map<String, String[]> parameters) {
 		return null;
 	}
 
 	@Override
-	public List<Credential> selectAll() throws DAOException {
+	public List<Credential> selectAll() {
 		return null;
 	}
 

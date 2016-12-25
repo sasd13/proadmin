@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -28,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements IAcademicLevelDAO {
 
 	@Override
-	public long insert(AcademicLevel academicLevel) throws DAOException {
+	public long insert(AcademicLevel academicLevel) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -40,7 +39,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<AcademicLevel> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<AcademicLevel> updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -53,7 +52,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public void delete(AcademicLevel academicLevel) throws DAOException {
+	public void delete(AcademicLevel academicLevel) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -64,22 +63,22 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public AcademicLevel select(long id) throws DAOException {
+	public AcademicLevel select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<AcademicLevel> select(Map<String, String[]> parameters) throws DAOException {
+	public List<AcademicLevel> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<AcademicLevel> selectAll() throws DAOException {
+	public List<AcademicLevel> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(AcademicLevel academicLevel) throws DAOException {
+	public boolean contains(AcademicLevel academicLevel) {
 		return false;
 	}
 

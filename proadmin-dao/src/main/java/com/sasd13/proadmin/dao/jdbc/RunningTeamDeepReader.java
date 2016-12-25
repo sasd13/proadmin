@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
@@ -33,7 +32,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	}
 
 	@Override
-	protected void retrieveData(RunningTeam runningTeam) throws DAOException {
+	protected void retrieveData(RunningTeam runningTeam) {
 		Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		retrieveDataRunning(runningTeam, parameters);
@@ -42,7 +41,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		retrieveDataReports(runningTeam, parameters);
 	}
 
-	private void retrieveDataRunning(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataRunning(RunningTeam runningTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { runningTeam.getRunning().getProject().getCode() });
@@ -52,7 +51,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		runningTeam.setRunning(running);
 	}
 
-	private void retrieveDataTeam(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataTeam(RunningTeam runningTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { runningTeam.getTeam().getNumber() });
 
@@ -60,7 +59,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		runningTeam.setTeam(team);
 	}
 
-	private void retrieveDataAcademicLevel(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataAcademicLevel(RunningTeam runningTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { runningTeam.getAcademicLevel().getCode() });
 
@@ -68,7 +67,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		runningTeam.setAcademicLevel(academicLevel);
 	}
 
-	private void retrieveDataReports(RunningTeam runningTeam, Map<String, String[]> parameters) throws DAOException {
+	private void retrieveDataReports(RunningTeam runningTeam, Map<String, String[]> parameters) {
 		parameters.clear();
 		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { runningTeam.getRunning().getProject().getCode() });

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -27,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
 
 	@Override
-	public long insert(StudentTeam studentTeam) throws DAOException {
+	public long insert(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -40,12 +39,12 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public void update(IUpdateWrapper<StudentTeam> updateWrapper) throws DAOException {
+	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
 		// Do nothing
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) throws DAOException {
+	public void delete(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -57,22 +56,22 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public StudentTeam select(long id) throws DAOException {
+	public StudentTeam select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<StudentTeam> select(Map<String, String[]> parameters) throws DAOException {
+	public List<StudentTeam> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<StudentTeam> selectAll() throws DAOException {
+	public List<StudentTeam> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
-	public boolean contains(StudentTeam studentTeam) throws DAOException {
+	public boolean contains(StudentTeam studentTeam) {
 		return false;
 	}
 

@@ -76,7 +76,7 @@ public abstract class DAO implements ILayeredDAO {
 	}
 
 	@Override
-	public <T> ISession<T> getSession(Class<T> mClass) throws DAOException {
+	public <T> ISession<T> getSession(Class<T> mClass) {
 		if (Teacher.class.isAssignableFrom(mClass)) {
 			return (ISession<T>) teacherDAO;
 		} else if (Project.class.isAssignableFrom(mClass)) {
@@ -105,7 +105,7 @@ public abstract class DAO implements ILayeredDAO {
 	}
 
 	@Override
-	public <T> DeepReader<T> getDeepReader(Class<T> mClass) throws DAOException {
+	public <T> DeepReader<T> getDeepReader(Class<T> mClass) {
 		if (StudentTeam.class.isAssignableFrom(mClass)) {
 			return (DeepReader<T>) studentTeamDeepReader;
 		} else if (Running.class.isAssignableFrom(mClass)) {
