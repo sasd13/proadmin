@@ -13,10 +13,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
-import com.sasd13.javaex.dao.jdbc.ConditionException;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.credential.ICredentialUpdateWrapper;
 
@@ -136,7 +136,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	}
 
 	@Override
-	public String buildCondition(String key) throws ConditionException {
+	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
 			return ICredentialDAO.COLUMN_USERNAME;
 		} else if (EnumParameter.PASSWORD.getName().equalsIgnoreCase(key)) {

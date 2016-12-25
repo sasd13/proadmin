@@ -23,7 +23,7 @@ import com.sasd13.proadmin.ws2.service.ITeacherService;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-	private static final Logger LOG = Logger.getLogger(TeacherController.class);
+	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);
 
 	@Autowired
 	private ITeacherService teacherService;
@@ -32,14 +32,14 @@ public class TeacherController {
 	public ResponseEntity<List<Teacher>> get(
 			@RequestParam(value = "number", required = false) String[] numbers, 
 			@RequestParam(value = "email", required = false) String[] emails) {
-		LOG.info("Get");
+		LOGGER.info("Get");
 		
 		try {
 			List<Teacher> teachers = teacherService.read(getParameters(numbers, emails));
 			
 			return new ResponseEntity<List<Teacher>>(teachers, HttpStatus.OK);
 		} catch (ServiceException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 		}
 
 		return new ResponseEntity<List<Teacher>>(HttpStatus.EXPECTATION_FAILED);
@@ -61,14 +61,14 @@ public class TeacherController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> post(@RequestBody Teacher teacher) {
-		LOG.info("Post : teacher=" + String.valueOf(teacher.getNumber()));
+		LOGGER.info("Post : teacher=" + String.valueOf(teacher.getNumber()));
 		
 		try {
 			teacherService.create(teacher);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 		}
 
 		return new ResponseEntity<HttpStatus>(HttpStatus.EXPECTATION_FAILED);
@@ -78,14 +78,14 @@ public class TeacherController {
 	public ResponseEntity<HttpStatus> put(
 			@RequestParam(value = "number") String number, 
 			@RequestBody Teacher teacher) {
-		LOG.info("Put : teacher=" + String.valueOf(number));
+		LOGGER.info("Put : teacher=" + String.valueOf(number));
 		
 		try {
 			teacherService.update(number, teacher);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 		}
 
 		return new ResponseEntity<HttpStatus>(HttpStatus.EXPECTATION_FAILED);
@@ -93,14 +93,14 @@ public class TeacherController {
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ResponseEntity<HttpStatus> delete(@RequestParam(value = "number") String number) {
-		LOG.info("Delete : teacher=" + String.valueOf(number));
+		LOGGER.info("Delete : teacher=" + String.valueOf(number));
 		
 		try {
 			teacherService.delete(number);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} catch (ServiceException e) {
-			LOG.error(e);
+			LOGGER.error(e);
 		}
 
 		return new ResponseEntity<HttpStatus>(HttpStatus.EXPECTATION_FAILED);

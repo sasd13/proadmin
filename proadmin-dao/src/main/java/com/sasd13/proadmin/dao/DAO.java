@@ -15,22 +15,12 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.member.IStudentDAO;
-import com.sasd13.proadmin.dao.member.IStudentTeamDAO;
-import com.sasd13.proadmin.dao.member.ITeacherDAO;
-import com.sasd13.proadmin.dao.member.ITeamDAO;
-import com.sasd13.proadmin.dao.member.StudentTeamDeepReader;
-import com.sasd13.proadmin.dao.project.IProjectDAO;
-import com.sasd13.proadmin.dao.running.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.running.ILeadEvaluationDAO;
-import com.sasd13.proadmin.dao.running.IReportDAO;
-import com.sasd13.proadmin.dao.running.IRunningDAO;
-import com.sasd13.proadmin.dao.running.IRunningTeamDAO;
-import com.sasd13.proadmin.dao.running.IndividualEvaluationDeepReader;
-import com.sasd13.proadmin.dao.running.LeadEvaluationDeepReader;
-import com.sasd13.proadmin.dao.running.ReportDeepReader;
-import com.sasd13.proadmin.dao.running.RunningDeepReader;
-import com.sasd13.proadmin.dao.running.RunningTeamDeepReader;
+import com.sasd13.proadmin.dao.jdbc.IndividualEvaluationDeepReader;
+import com.sasd13.proadmin.dao.jdbc.LeadEvaluationDeepReader;
+import com.sasd13.proadmin.dao.jdbc.ReportDeepReader;
+import com.sasd13.proadmin.dao.jdbc.RunningDeepReader;
+import com.sasd13.proadmin.dao.jdbc.RunningTeamDeepReader;
+import com.sasd13.proadmin.dao.jdbc.StudentTeamDeepReader;
 
 @SuppressWarnings("unchecked")
 public abstract class DAO implements ILayeredDAO {
