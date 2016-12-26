@@ -3,11 +3,12 @@ package com.sasd13.proadmin.util.exception;
 public enum EnumError {
 	UNKNOWN(0, "error.unknown"), 
 	AAA(1, "exception.aaa"), 
-	AAA_LOGIN_FAILED(100, "error.aaa.login.failed"), 
-	PARSING_DATA(2, "exception.parsing.data"), 
-	VALIDATING_DATA(3, "exception.validating.data"), 
+	AAA_LOGIN_FAILED(100, "exception.aaa.login.failed"), 
+	PARSER(2, "exception.parser"), 
+	VALIDATOR(3, "exception.validator"), 
 	SERVICE(4, "exception.service"), 
-	WEB_SERVICE(5, "exception.ws"), 
+	WEB_SERVICE(5, "exception.webservice"), 
+	BUSINESS(6, "exception.business"),
 	;
 
 	private int code;
