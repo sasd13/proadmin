@@ -12,8 +12,8 @@ import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.ws.DAOManager;
 import com.sasd13.proadmin.ws.WSConstants;
-import com.sasd13.proadmin.ws.dao.DAOManager;
 
 public class DAOFilter implements Filter {
 

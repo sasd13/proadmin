@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service;
 
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.AcademicLevel;

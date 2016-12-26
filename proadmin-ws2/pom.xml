@@ -37,11 +37,6 @@
 			<version>2.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4.1212</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-bean</artifactId>
 			<version>0.1</version>
@@ -55,6 +50,26 @@
 			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-util</artifactId>
 			<version>0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4.1212</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.3.3.Final</version>
 		</dependency>
 	</dependencies>
 </project>

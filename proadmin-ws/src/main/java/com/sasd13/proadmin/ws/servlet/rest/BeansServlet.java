@@ -31,6 +31,8 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.ServiceFactory;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
@@ -38,10 +40,8 @@ import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
 import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
+import com.sasd13.proadmin.ws.Names;
 import com.sasd13.proadmin.ws.WSConstants;
-import com.sasd13.proadmin.ws.service.AbstractService;
-import com.sasd13.proadmin.ws.service.ServiceFactory;
-import com.sasd13.proadmin.ws.util.Names;
 
 /**
  *
@@ -92,7 +92,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		LOGGER.info("Message send by WS : " + message);
+		LOGGER.info("Message sent by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
@@ -103,7 +103,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
-		LOGGER.info("Error send by WS : code=" + error.getCode());
+		LOGGER.info("Error sent by WS : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 
 		String message = bundle.getString(error.getBundleKey());

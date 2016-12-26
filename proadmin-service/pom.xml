@@ -10,32 +10,12 @@
 		<version>0.1</version>
 	</parent>
 
-	<artifactId>proadmin-ws</artifactId>
-	<packaging>war</packaging>
+	<artifactId>proadmin-service</artifactId>
 
-	<name>proadmin-ws</name>
+	<name>proadmin-service</name>
 	<url>http://maven.apache.org</url>
 
-	<build>
-		<finalName>proadmin-ws</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.tomcat.maven</groupId>
-			<artifactId>tomcat7-maven-plugin</artifactId>
-			<version>2.2</version>
-		</dependency>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-bean</artifactId>
@@ -48,14 +28,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
-			<artifactId>proadmin-service</artifactId>
+			<artifactId>proadmin-dao</artifactId>
 			<version>0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4.1212</version>
-		</dependency>
 	</dependencies>
-
 </project>

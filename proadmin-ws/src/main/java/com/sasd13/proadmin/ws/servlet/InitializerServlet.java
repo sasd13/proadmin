@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.conf.Config;
 import com.sasd13.javaex.i18n.TranslationBundle;
-import com.sasd13.proadmin.ws.util.Names;
+import com.sasd13.proadmin.ws.Names;
 
 /**
  *

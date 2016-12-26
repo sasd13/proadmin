@@ -12,7 +12,7 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.ws.service.AbstractService;
+import com.sasd13.proadmin.service.AbstractService;
 
 public class StudentTeamService extends AbstractService<StudentTeam> {
 

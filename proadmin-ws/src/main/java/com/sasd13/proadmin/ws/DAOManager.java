@@ -1,11 +1,10 @@
-package com.sasd13.proadmin.ws.dao;
+package com.sasd13.proadmin.ws;
 
 import java.util.Properties;
 
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.dao.jdbc.JDBCDAO;
-import com.sasd13.proadmin.ws.util.Names;
 
 public class DAOManager {
 

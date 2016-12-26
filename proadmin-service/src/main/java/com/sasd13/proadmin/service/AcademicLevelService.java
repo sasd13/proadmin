@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service;
 
 import java.util.ArrayList;
 import java.util.List;

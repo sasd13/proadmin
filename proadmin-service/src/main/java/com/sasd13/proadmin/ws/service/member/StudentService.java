@@ -12,8 +12,8 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.service.AbstractService;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
-import com.sasd13.proadmin.ws.service.AbstractService;
 
 public class StudentService extends AbstractService<Student> {
 

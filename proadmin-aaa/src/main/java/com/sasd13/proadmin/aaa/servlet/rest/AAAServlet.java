@@ -56,7 +56,7 @@ public abstract class AAAServlet extends HttpServlet {
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		LOGGER.info("Message send by AAA : " + message);
+		LOGGER.info("Message sent by AAA : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
@@ -67,7 +67,7 @@ public abstract class AAAServlet extends HttpServlet {
 	}
 
 	protected void writeError(HttpServletResponse resp, EnumError error) throws IOException {
-		LOGGER.info("Error send by AAA : code=" + error.getCode());
+		LOGGER.info("Error sent by AAA : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 
 		String message = bundle.getString(error.getBundleKey());

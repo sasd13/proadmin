@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.util;
+package com.sasd13.proadmin.ws;
 
 public interface Names {
 

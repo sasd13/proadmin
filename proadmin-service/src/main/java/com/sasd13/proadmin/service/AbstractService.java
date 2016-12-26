@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service;
+package com.sasd13.proadmin.service;
 
 import com.sasd13.javaex.service.IDeepReadService;
 import com.sasd13.javaex.service.IManageService;
@@ -12,7 +12,7 @@ public abstract class AbstractService<T> implements IManageService<T>, IReadServ
 	protected AbstractService(DAO dao) {
 		this.dao = dao;
 	}
-	
+
 	protected DAO currentConnection() {
 		return dao;
 	}
