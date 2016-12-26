@@ -42,13 +42,16 @@ dependencies {
 	compile 'com.android.support:design:25.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.sasd13.androidex:androidex-release@aar'
-    compile 'com.sasd13.javaex:javaex:0.1'
+    compile ('com.sasd13.javaex:javaex:0.1') {
+        exclude group: 'org.hibernate', module: 'hibernate-core'
+        exclude group: 'org.hibernate', module: 'hibernate-validator'
+    }
     compile 'com.sasd13.proadmin:proadmin-bean:0.1'
     compile 'com.sasd13.proadmin:proadmin-util:0.1'
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
-    compile('com.thoughtworks.xstream:xstream:1.4.7') {
+    compile ('com.thoughtworks.xstream:xstream:1.4.7') {
         exclude group: 'xmlpull', module: 'xmlpull'
     }
     compile 'commons-codec:commons-codec:1.4'
@@ -57,4 +60,6 @@ dependencies {
 
 configurations {
     compile.exclude group: 'commons-logging', module:'commons-logging'
+    compile.exclude group: 'org.hibernate', module: 'hibernate-core'
+    compile.exclude group: 'org.hibernate', module: 'hibernate-validator'
 }
