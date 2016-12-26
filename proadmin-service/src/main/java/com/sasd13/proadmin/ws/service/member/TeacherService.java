@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.IUpdateWrapper;
@@ -13,11 +12,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 
-@Service
-public class TeacherService extends AbstractService<Teacher> {
+public class TeacherService extends Service<Teacher> {
 
 	private static final Logger LOGGER = Logger.getLogger(TeacherService.class);
 

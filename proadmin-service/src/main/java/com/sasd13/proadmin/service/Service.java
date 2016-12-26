@@ -5,11 +5,11 @@ import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.IReadService;
 import com.sasd13.proadmin.dao.DAO;
 
-public abstract class AbstractService<T> implements IManageService<T>, IReadService<T>, IDeepReadService<T> {
+public abstract class Service<T> implements IManageService<T>, IReadService<T>, IDeepReadService<T> {
 
 	private DAO dao;
 
-	protected AbstractService(DAO dao) {
+	protected Service(DAO dao) {
 		this.dao = dao;
 	}
 

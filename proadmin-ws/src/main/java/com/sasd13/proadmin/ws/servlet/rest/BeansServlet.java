@@ -31,7 +31,7 @@ import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.validator.IValidator;
 import com.sasd13.javaex.validator.ValidatorException;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.service.ServiceFactory;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.exception.EnumError;
@@ -120,14 +120,14 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
-			AbstractService<T> abstractService = ServiceFactory.make(getBeanClass(), dao);
+			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
 			if (parameters.isEmpty()) {
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? abstractService.deepReadAll() : abstractService.readAll();
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? service.deepReadAll() : service.readAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? abstractService.deepRead(parameters) : abstractService.read(parameters);
+				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? service.deepRead(parameters) : service.read(parameters);
 			}
 
 			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);

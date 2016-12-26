@@ -12,10 +12,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 
-public class IndividualEvaluationService extends AbstractService<IndividualEvaluation> {
+public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 
 	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationService.class);
 

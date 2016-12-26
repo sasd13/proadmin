@@ -12,10 +12,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
-public class ReportService extends AbstractService<Report> {
+public class ReportService extends Service<Report> {
 
 	private static final Logger LOGGER = Logger.getLogger(ReportService.class);
 

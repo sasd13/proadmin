@@ -27,29 +27,29 @@ import com.sasd13.proadmin.ws.service.running.RunningTeamService;
 public class ServiceFactory {
 
 	@SuppressWarnings("unchecked")
-	public static <T> AbstractService<T> make(Class<T> mClass, DAO dao) {
+	public static <T> Service<T> make(Class<T> mClass, DAO dao) {
 		if (Project.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new ProjectService(dao);
+			return (Service<T>) new ProjectService(dao);
 		} else if (Teacher.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new TeacherService(dao);
+			return (Service<T>) new TeacherService(dao);
 		} else if (Student.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new StudentService(dao);
+			return (Service<T>) new StudentService(dao);
 		} else if (Team.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new TeamService(dao);
+			return (Service<T>) new TeamService(dao);
 		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new StudentTeamService(dao);
+			return (Service<T>) new StudentTeamService(dao);
 		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new RunningService(dao);
+			return (Service<T>) new RunningService(dao);
 		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new AcademicLevelService(dao);
+			return (Service<T>) new AcademicLevelService(dao);
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new RunningTeamService(dao);
+			return (Service<T>) new RunningTeamService(dao);
 		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new ReportService(dao);
+			return (Service<T>) new ReportService(dao);
 		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new LeadEvaluationService(dao);
+			return (Service<T>) new LeadEvaluationService(dao);
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (AbstractService<T>) new IndividualEvaluationService(dao);
+			return (Service<T>) new IndividualEvaluationService(dao);
 		} else {
 			throw new ServiceException("Entity " + mClass.getSimpleName() + " has no service");
 		}

@@ -12,9 +12,9 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.AbstractService;
+import com.sasd13.proadmin.service.Service;
 
-public class StudentTeamService extends AbstractService<StudentTeam> {
+public class StudentTeamService extends Service<StudentTeam> {
 
 	private static final Logger LOGGER = Logger.getLogger(StudentTeamService.class);
 

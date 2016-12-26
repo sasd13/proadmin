@@ -13,7 +13,7 @@ import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 
-public class AcademicLevelService extends AbstractService<AcademicLevel> {
+public class AcademicLevelService extends Service<AcademicLevel> {
 
 	private static final Logger LOGGER = Logger.getLogger(AcademicLevelService.class);
 
