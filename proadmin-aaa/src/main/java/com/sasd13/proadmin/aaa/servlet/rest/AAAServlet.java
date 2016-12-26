@@ -69,9 +69,6 @@ public abstract class AAAServlet extends HttpServlet {
 	protected void writeError(HttpServletResponse resp, EnumError error) throws IOException {
 		LOGGER.info("Error sent by AAA : code=" + error.getCode());
 		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
-
-		String message = bundle.getString(error.getBundleKey());
-
-		writeToResponse(resp, message);
+		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 }
