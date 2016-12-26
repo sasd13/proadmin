@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service.project;
+package com.sasd13.proadmin.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 
 public class ProjectService extends Service<Project> {

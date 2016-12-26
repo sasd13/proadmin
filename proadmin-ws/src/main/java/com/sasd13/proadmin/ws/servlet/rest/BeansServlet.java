@@ -28,8 +28,8 @@ import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.javaex.validator.ValidatorException;
+import com.sasd13.javaex.util.validator.IValidator;
+import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.service.ServiceFactory;
@@ -112,7 +112,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doGet");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 		List<T> results = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
 
@@ -139,7 +139,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
 			T t = readFromRequest(req).get(0);
@@ -155,7 +155,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPut");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
 			IUpdateWrapper<T> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
@@ -171,7 +171,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doDelete");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.ATTRIBUTE_DAO);
+		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
 			T t = readFromRequest(req).get(0);

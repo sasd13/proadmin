@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.util.validator;
 
-import com.sasd13.javaex.validator.IValidator;
-import com.sasd13.javaex.validator.ValidatorException;
+import com.sasd13.javaex.util.validator.IValidator;
+import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;

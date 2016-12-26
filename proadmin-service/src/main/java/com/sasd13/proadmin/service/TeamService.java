@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws.service.member;
+package com.sasd13.proadmin.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 
 public class TeamService extends Service<Team> {

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.ws;
+package com.sasd13.proadmin.util.aaa;
 
 public enum EnumAAASession {
 	UNKNOWN("unknown"), 

@@ -33,7 +33,7 @@ public class DAOFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
 		DAO dao = DAOManager.create();
 
-		req.setAttribute(WSConstants.ATTRIBUTE_DAO, dao);
+		req.setAttribute(WSConstants.REQ_ATTR_DAO, dao);
 
 		try {
 			dao.open();

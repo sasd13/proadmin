@@ -1,10 +1,8 @@
-package com.sasd13.proadmin.business.running;
+package com.sasd13.proadmin.business;
 
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.business.BusinessException;
-import com.sasd13.proadmin.business.BusinessService;
 
 /**
  * Created by Samir on 12/03/2016.

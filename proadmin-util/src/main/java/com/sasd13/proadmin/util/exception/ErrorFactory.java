@@ -2,7 +2,7 @@ package com.sasd13.proadmin.util.exception;
 
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.javaex.validator.ValidatorException;
+import com.sasd13.javaex.util.validator.ValidatorException;
 
 public class ErrorFactory {
 

@@ -17,10 +17,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICheckService;
-import com.sasd13.javaex.validator.IValidator;
+import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.proadmin.aaa.service.CredentialService;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
-import com.sasd13.proadmin.aaa.validator.CredentialValidator;
+import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
 import com.sasd13.proadmin.util.exception.EnumError;
 
 /**

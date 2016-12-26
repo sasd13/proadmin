@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.catalina.util.SessionIdGenerator;
 
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.util.ws.EnumAAASession;
+import com.sasd13.proadmin.util.aaa.EnumAAASession;
 
 public class SessionBuilder {
 
