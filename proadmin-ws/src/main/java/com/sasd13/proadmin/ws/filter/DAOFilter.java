@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.ws.DAOManager;
 import com.sasd13.proadmin.ws.WSConstants;
@@ -38,6 +39,8 @@ public class DAOFilter implements Filter {
 		try {
 			dao.open();
 			chain.doFilter(req, resp);
+		} catch (DAOException e) {
+			LOGGER.fatal(e);
 		} finally {
 			try {
 				dao.close();
