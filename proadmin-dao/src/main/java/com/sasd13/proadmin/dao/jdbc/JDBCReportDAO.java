@@ -32,12 +32,12 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	private JDBCLeadEvaluationDAO leadEvaluationDAO;
 	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-	private ReportTransaction transaction;
+	private JDBCReportTransaction transaction;
 
 	public JDBCReportDAO() {
 		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
 		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
-		transaction = new ReportTransaction(this);
+		transaction = new JDBCReportTransaction(this);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		return JDBCUtils.insertInTransaction(getConnection(), transaction);
+		return JDBCUtils.insertInTransaction(this, transaction);
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
 
-		JDBCUtils.updateInTransaction(getConnection(), transaction);
+		JDBCUtils.updateInTransaction(this, transaction);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		JDBCUtils.deleteInTransaction(getConnection(), transaction);
+		JDBCUtils.deleteInTransaction(this, transaction);
 	}
 
 	@Override

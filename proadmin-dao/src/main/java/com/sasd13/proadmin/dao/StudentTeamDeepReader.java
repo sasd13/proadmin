@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.dao.jdbc;
+package com.sasd13.proadmin.dao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,32 +7,29 @@ import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.dao.IStudentDAO;
-import com.sasd13.proadmin.dao.IStudentTeamDAO;
-import com.sasd13.proadmin.dao.ITeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
 	private IStudentDAO studentDAO;
 	private ITeamDAO teamDAO;
+	private Map<String, String[]> parameters;
 
 	public StudentTeamDeepReader(IStudentTeamDAO studentTeamDAO, IStudentDAO studentDAO, ITeamDAO teamDAO) {
 		super(studentTeamDAO);
 
 		this.studentDAO = studentDAO;
 		this.teamDAO = teamDAO;
+		parameters = new HashMap<>();
 	}
 
 	@Override
 	protected void retrieveData(StudentTeam studentTeam) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		retrieveDataStudent(studentTeam, parameters);
-		retrieveDataTeam(studentTeam, parameters);
+		retrieveDataStudent(studentTeam);
+		retrieveDataTeam(studentTeam);
 	}
 
-	private void retrieveDataStudent(StudentTeam studentTeam, Map<String, String[]> parameters) {
+	private void retrieveDataStudent(StudentTeam studentTeam) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getStudent().getNumber() });
 
@@ -40,7 +37,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		studentTeam.setStudent(student);
 	}
 
-	private void retrieveDataTeam(StudentTeam studentTeam, Map<String, String[]> parameters) {
+	private void retrieveDataTeam(StudentTeam studentTeam) {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getTeam().getNumber() });
 

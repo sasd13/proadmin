@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.dao.jdbc;
+package com.sasd13.proadmin.dao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,30 +8,29 @@ import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.dao.IReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportDeepReader extends DeepReader<Report> {
 
 	private LeadEvaluationDeepReader leadEvaluationDeepReader;
 	private IndividualEvaluationDeepReader individualEvaluationDeepReader;
+	private Map<String, String[]> parameters;
 
 	public ReportDeepReader(IReportDAO reportDAO, LeadEvaluationDeepReader leadEvaluationDeepReader, IndividualEvaluationDeepReader individualEvaluationDeepReader) {
 		super(reportDAO);
 
 		this.leadEvaluationDeepReader = leadEvaluationDeepReader;
 		this.individualEvaluationDeepReader = individualEvaluationDeepReader;
+		parameters = new HashMap<>();
 	}
 
 	@Override
 	protected void retrieveData(Report report) {
-		Map<String, String[]> parameters = new HashMap<String, String[]>();
-
-		retrieveDataLeadEvaluation(report, parameters);
-		retrieveDataIndividualEvaluations(report, parameters);
+		retrieveDataLeadEvaluation(report);
+		retrieveDataIndividualEvaluations(report);
 	}
 
-	private void retrieveDataLeadEvaluation(Report report, Map<String, String[]> parameters) {
+	private void retrieveDataLeadEvaluation(Report report) {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 
@@ -41,7 +40,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		leadEvaluation.setReport(report);
 	}
 
-	private void retrieveDataIndividualEvaluations(Report report, Map<String, String[]> parameters) {
+	private void retrieveDataIndividualEvaluations(Report report) {
 		parameters.clear();
 		parameters.put(EnumParameter.REPORT.getName(), new String[] { report.getNumber() });
 

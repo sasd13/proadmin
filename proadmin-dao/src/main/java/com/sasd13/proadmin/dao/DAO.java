@@ -15,12 +15,6 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.jdbc.IndividualEvaluationDeepReader;
-import com.sasd13.proadmin.dao.jdbc.LeadEvaluationDeepReader;
-import com.sasd13.proadmin.dao.jdbc.ReportDeepReader;
-import com.sasd13.proadmin.dao.jdbc.RunningDeepReader;
-import com.sasd13.proadmin.dao.jdbc.RunningTeamDeepReader;
-import com.sasd13.proadmin.dao.jdbc.StudentTeamDeepReader;
 
 @SuppressWarnings("unchecked")
 public abstract class DAO implements ILayeredDAO {

@@ -10,14 +10,14 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
-public class ReportTransaction implements IJDBCTransaction {
+public class JDBCReportTransaction implements IJDBCTransaction {
 
 	private JDBCReportDAO reportDAO;
 	private String query;
 	private Report report;
 	private IReportUpdateWrapper updateWrapper;
 
-	public ReportTransaction(JDBCReportDAO reportDAO) {
+	public JDBCReportTransaction(JDBCReportDAO reportDAO) {
 		this.reportDAO = reportDAO;
 	}
 
