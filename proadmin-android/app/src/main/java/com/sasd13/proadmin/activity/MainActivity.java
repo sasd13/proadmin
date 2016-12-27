@@ -17,6 +17,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.controller.LogOutController;
 import com.sasd13.proadmin.controller.project.ProjectController;
 import com.sasd13.proadmin.controller.report.ReportController;
 import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
@@ -24,6 +25,7 @@ import com.sasd13.proadmin.controller.settings.SettingsController;
 import com.sasd13.proadmin.controller.team.TeamController;
 import com.sasd13.proadmin.fragment.HomeFragment;
 import com.sasd13.proadmin.fragment.IController;
+import com.sasd13.proadmin.fragment.ILogOutController;
 import com.sasd13.proadmin.fragment.IProjectController;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.fragment.IRunningController;
@@ -47,6 +49,7 @@ public class MainActivity extends DrawerActivity {
     private ITeamController teamController;
     private IRunningTeamController runningTeamController;
     private IReportController reportController;
+    private ILogOutController logOutController;
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 
@@ -69,6 +72,7 @@ public class MainActivity extends DrawerActivity {
         teamController = new TeamController(this);
         runningTeamController = new RunningTeamController(this);
         reportController = new ReportController(this);
+        logOutController = new LogOutController(this);
     }
 
     private void showHome() {
@@ -121,6 +125,8 @@ public class MainActivity extends DrawerActivity {
             return runningTeamController;
         } else if (IReportController.class.isAssignableFrom(mClass)) {
             return reportController;
+        } else if (ILogOutController.class.isAssignableFrom(mClass)) {
+            return logOutController;
         } else {
             return null;
         }

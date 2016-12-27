@@ -1,12 +1,12 @@
 package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.fragment.IController;
+import com.sasd13.proadmin.fragment.ILogOutController;
 
 /**
  * Created by ssaidali2 on 05/12/2016.
  */
-public class LogOutController extends Controller implements IController {
+public class LogOutController extends Controller implements ILogOutController {
 
     public LogOutController(MainActivity mainActivity) {
         super(mainActivity);
@@ -14,6 +14,11 @@ public class LogOutController extends Controller implements IController {
 
     @Override
     public void entry() {
+        logOut();
+    }
+
+    @Override
+    public void logOut() {
         mainActivity.logOut();
     }
 }
