@@ -24,7 +24,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 
 	@Override
 	public void create(RunningTeam runningTeam) {
-		LOGGER.info("create : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+		LOGGER.info("create : year=" + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
 			currentConnection().getSession(RunningTeam.class).insert(runningTeam);
@@ -36,7 +36,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 
 	@Override
 	public void update(IUpdateWrapper<RunningTeam> updateWrapper) {
-		LOGGER.info("update : year = " + ((IRunningTeamUpdateWrapper) updateWrapper).getRunningYear() + ", projectCode=" + ((IRunningTeamUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeacherNumber() + ", teamNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeamNumber() + ", academicLevel=" + ((IRunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
+		LOGGER.info("update : year=" + ((IRunningTeamUpdateWrapper) updateWrapper).getRunningYear() + ", projectCode=" + ((IRunningTeamUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeacherNumber() + ", teamNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeamNumber() + ", academicLevel=" + ((IRunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
 
 		try {
 			currentConnection().getSession(RunningTeam.class).update(updateWrapper);
@@ -48,7 +48,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 
 	@Override
 	public void delete(RunningTeam runningTeam) {
-		LOGGER.info("delete : year = " + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
+		LOGGER.info("delete : year=" + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
 			currentConnection().getSession(RunningTeam.class).delete(runningTeam);

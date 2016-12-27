@@ -3,10 +3,10 @@
 <properties>
 	<entry key="error.unknown">Unknown error</entry>
 	<entry key="exception.aaa">AAA exception</entry>
-	<entry key="exception.aaa.login.failed">Username/password not matched</entry>
+	<entry key="exception.aaa.login">Username/password not matched</entry>
 	<entry key="exception.parser">Data parsing exception</entry>
 	<entry key="exception.validator">Data validating exception</entry>
-	<entry key="exception.service">Service exception</entry>
-	<entry key="exception.webservice">Web service exception</entry>
 	<entry key="exception.business">Business exception</entry>
+	<entry key="exception.service">Service exception</entry>
+	<entry key="exception.ws">Web service exception</entry>
 </properties>

@@ -23,7 +23,7 @@ public class StudentTeamService extends Service<StudentTeam> {
 
 	@Override
 	public void create(StudentTeam studentTeam) {
-		LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+		LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
 
 		try {
 			currentConnection().getSession(StudentTeam.class).insert(studentTeam);
@@ -41,7 +41,7 @@ public class StudentTeamService extends Service<StudentTeam> {
 
 	@Override
 	public void delete(StudentTeam studentTeam) {
-		LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamCode=" + studentTeam.getTeam().getNumber());
+		LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
 
 		try {
 			currentConnection().getSession(StudentTeam.class).delete(studentTeam);

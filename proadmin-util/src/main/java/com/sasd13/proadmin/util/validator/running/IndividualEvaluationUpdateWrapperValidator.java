@@ -25,11 +25,11 @@ public class IndividualEvaluationUpdateWrapperValidator implements IValidator<IU
 		}
 
 		if (StringUtils.isBlank(individualEvaluationUpdateWrapper.getReportNumber())) {
-			throw new ValidatorException("IndividualEvaluationUpdateWrapper : report number is not valid");
+			throw new ValidatorException("IndividualEvaluationUpdateWrapper : report -> number is not valid");
 		}
 
 		if (StringUtils.isBlank(individualEvaluationUpdateWrapper.getStudentNumber())) {
-			throw new ValidatorException("IndividualEvaluationUpdateWrapper : student number is not valid");
+			throw new ValidatorException("IndividualEvaluationUpdateWrapper : student -> number is not valid");
 		}
 
 		individualEvaluationValidator.validate(individualEvaluationUpdateWrapper.getWrapped());

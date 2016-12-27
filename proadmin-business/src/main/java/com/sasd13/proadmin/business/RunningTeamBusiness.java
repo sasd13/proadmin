@@ -30,7 +30,7 @@ public class RunningTeamBusiness implements IBusiness<RunningTeam> {
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { runningTeam.getTeam().getNumber() });
 		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { runningTeam.getAcademicLevel().getCode() });
 
-		if (dao.getSession(RunningTeam.class).select(parameters) != null) {
+		if (!dao.getSession(RunningTeam.class).select(parameters).isEmpty()) {
 			throw new BusinessException("RunningTeam already exist");
 		}
 	}
@@ -42,8 +42,8 @@ public class RunningTeamBusiness implements IBusiness<RunningTeam> {
 		if (runningTeamUpdateWrapper.getRunningYear() != runningTeamUpdateWrapper.getWrapped().getRunning().getYear() 
 				|| !runningTeamUpdateWrapper.getProjectCode().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getProject().getCode()) 
 				|| !runningTeamUpdateWrapper.getTeacherNumber().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getTeacher().getNumber()) 
-				|| !runningTeamUpdateWrapper.getTeacherNumber().equals(runningTeamUpdateWrapper.getWrapped().getTeam().getNumber()) 
-				|| !runningTeamUpdateWrapper.getTeacherNumber().equals(runningTeamUpdateWrapper.getWrapped().getAcademicLevel().getCode())) {
+				|| !runningTeamUpdateWrapper.getTeamNumber().equals(runningTeamUpdateWrapper.getWrapped().getTeam().getNumber()) 
+				|| !runningTeamUpdateWrapper.getAcademicLevelCode().equals(runningTeamUpdateWrapper.getWrapped().getAcademicLevel().getCode())) {
 			verify(dao, runningTeamUpdateWrapper.getWrapped());
 		}
 	}

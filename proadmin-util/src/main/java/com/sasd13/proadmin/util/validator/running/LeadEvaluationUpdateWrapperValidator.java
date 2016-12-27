@@ -25,11 +25,11 @@ public class LeadEvaluationUpdateWrapperValidator implements IValidator<IUpdateW
 		}
 
 		if (StringUtils.isBlank(leadEvaluationUpdateWrapper.getReportNumber())) {
-			throw new ValidatorException("LeadEvaluationUpdateWrapper : report number is not valid");
+			throw new ValidatorException("LeadEvaluationUpdateWrapper : report -> number is not valid");
 		}
 
 		if (StringUtils.isBlank(leadEvaluationUpdateWrapper.getStudentNumber())) {
-			throw new ValidatorException("LeadEvaluationUpdateWrapper : student number is not valid");
+			throw new ValidatorException("LeadEvaluationUpdateWrapper : student -> number is not valid");
 		}
 
 		leadEvaluationValidator.validate(leadEvaluationUpdateWrapper.getWrapped());

@@ -23,7 +23,7 @@ public class TeacherBusiness implements IBusiness<Teacher> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { member.getNumber() });
 
-		if (dao.getSession(Teacher.class).select(parameters) != null) {
+		if (!dao.getSession(Teacher.class).select(parameters).isEmpty()) {
 			throw new BusinessException("Teacher already exist");
 		}
 	}

@@ -23,7 +23,7 @@ public class TeamBusiness implements IBusiness<Team> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { team.getNumber() });
 
-		if (dao.getSession(Team.class).select(parameters) != null) {
+		if (!dao.getSession(Team.class).select(parameters).isEmpty()) {
 			throw new BusinessException("Team already exist");
 		}
 	}

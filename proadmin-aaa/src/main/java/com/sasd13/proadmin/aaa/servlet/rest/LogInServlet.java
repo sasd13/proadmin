@@ -59,7 +59,7 @@ public class LogInServlet extends AAAServlet {
 
 				writeToResponse(resp, message);
 			} else {
-				writeError(resp, EnumError.AAA_LOGIN_FAILED);
+				writeError(resp, EnumError.AAA_LOGIN);
 			}
 		} catch (Exception e) {
 			handleError(e, resp);

@@ -30,10 +30,13 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
+import com.sasd13.proadmin.business.BusinessFactory;
+import com.sasd13.proadmin.business.IBusiness;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.service.ServiceFactory;
 import com.sasd13.proadmin.util.Constants;
+import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
 import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
@@ -57,6 +60,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private TranslationBundle bundle;
 	private IValidator<T> validator;
 	private IValidator<IUpdateWrapper<T>> updateWrapperValidator;
+	private IBusiness<T> business;
 
 	protected abstract Class<T> getBeanClass();
 
@@ -70,7 +74,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		try {
 			validator = ValidatorFactory.make(getBeanClass());
 			updateWrapperValidator = (IValidator<IUpdateWrapper<T>>) UpdateWrapperValidatorFactory.make(getBeanClass());
-		} catch (ValidatorException | ServiceException e) {
+			business = (IBusiness<T>) BusinessFactory.make(getBeanClass());
+		} catch (ValidatorException | ServiceException | BusinessException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -145,6 +150,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			T t = readFromRequest(req).get(0);
 
 			validator.validate(t);
+			business.verify(dao, t);
 			ServiceFactory.make(getBeanClass(), dao).create(t);
 		} catch (Exception e) {
 			handleError(e, resp);
@@ -161,6 +167,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			IUpdateWrapper<T> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
 
 			updateWrapperValidator.validate(updateWrapper);
+			business.verify(dao, updateWrapper);
 			ServiceFactory.make(getBeanClass(), dao).update(updateWrapper);
 		} catch (Exception e) {
 			handleError(e, resp);

@@ -24,16 +24,24 @@ public class RunningTeamUpdateWrapperValidator implements IValidator<IUpdateWrap
 			throw new ValidatorException("RunningTeamUpdateWrapper is not valid");
 		}
 
+		if (StringUtils.isBlank(runningTeamUpdateWrapper.getTeacherNumber())) {
+			throw new ValidatorException("RunningTeamUpdateWrapper : team -> number is not valid");
+		}
+		
 		if (StringUtils.isBlank(runningTeamUpdateWrapper.getAcademicLevelCode())) {
-			throw new ValidatorException("RunningTeamUpdateWrapper : academicLevel code is not valid");
+			throw new ValidatorException("RunningTeamUpdateWrapper : academicLevel -> code is not valid");
+		}
+		
+		if (runningTeamUpdateWrapper.getRunningYear() < 0) {
+			throw new ValidatorException("RunningTeamUpdateWrapper : running -> year is not valid");
 		}
 
 		if (StringUtils.isBlank(runningTeamUpdateWrapper.getProjectCode())) {
-			throw new ValidatorException("RunningTeamUpdateWrapper : project code is not valid");
+			throw new ValidatorException("RunningTeamUpdateWrapper : running -> project -> code is not valid");
 		}
 
 		if (StringUtils.isBlank(runningTeamUpdateWrapper.getTeacherNumber())) {
-			throw new ValidatorException("RunningTeamUpdateWrapper : teacher number is not valid");
+			throw new ValidatorException("RunningTeamUpdateWrapper : running -> teacher -> number is not valid");
 		}
 
 		runningTeamValidator.validate(runningTeamUpdateWrapper.getWrapped());

@@ -23,7 +23,7 @@ public class AcademicLevelBusiness implements IBusiness<AcademicLevel> {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { academicLevel.getCode() });
 
-		if (dao.getSession(AcademicLevel.class).select(parameters) != null) {
+		if (!dao.getSession(AcademicLevel.class).select(parameters).isEmpty()) {
 			throw new BusinessException("AcademicLevel already exist");
 		}
 	}

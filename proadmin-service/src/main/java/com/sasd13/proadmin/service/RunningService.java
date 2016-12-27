@@ -24,7 +24,7 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void create(Running running) {
-		LOGGER.info("create : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOGGER.info("create : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
 			currentConnection().getSession(Running.class).insert(running);
@@ -36,7 +36,7 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void update(IUpdateWrapper<Running> updateWrapper) {
-		LOGGER.info("update : year = " + ((IRunningUpdateWrapper) updateWrapper).getYear() + ", projectCode=" + ((IRunningUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
+		LOGGER.info("update : year=" + ((IRunningUpdateWrapper) updateWrapper).getYear() + ", projectCode=" + ((IRunningUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
 
 		try {
 			currentConnection().getSession(Running.class).update(updateWrapper);
@@ -48,7 +48,7 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void delete(Running running) {
-		LOGGER.info("delete : year = " + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
+		LOGGER.info("delete : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
 			currentConnection().getSession(Running.class).delete(running);

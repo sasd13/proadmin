@@ -15,11 +15,11 @@ public class StudentTeamValidator implements IValidator<StudentTeam> {
 		}
 
 		if (studentTeam.getStudent() == null || StringUtils.isBlank(studentTeam.getStudent().getNumber())) {
-			throw new ValidatorException("StudentTeam : student number is not valid");
+			throw new ValidatorException("StudentTeam : student -> number is not valid");
 		}
 
 		if (studentTeam.getTeam() == null || StringUtils.isBlank(studentTeam.getTeam().getNumber())) {
-			throw new ValidatorException("StudentTeam : team number is not valid");
+			throw new ValidatorException("StudentTeam : team -> number is not valid");
 		}
 	}
 }

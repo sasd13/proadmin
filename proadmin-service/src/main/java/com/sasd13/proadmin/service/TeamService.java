@@ -24,7 +24,7 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void create(Team team) {
-		LOGGER.info("create : code=" + team.getNumber());
+		LOGGER.info("create : number=" + team.getNumber());
 
 		try {
 			currentConnection().getSession(Team.class).insert(team);
@@ -36,7 +36,7 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void update(IUpdateWrapper<Team> updateWrapper) {
-		LOGGER.info("update : code=" + ((ITeamUpdateWrapper) updateWrapper).getNumber());
+		LOGGER.info("update : number=" + ((ITeamUpdateWrapper) updateWrapper).getNumber());
 
 		try {
 			currentConnection().getSession(Team.class).update(updateWrapper);
@@ -48,7 +48,7 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void delete(Team team) {
-		LOGGER.info("delete : code=" + team.getNumber());
+		LOGGER.info("delete : number=" + team.getNumber());
 
 		try {
 			currentConnection().getSession(Team.class).delete(team);

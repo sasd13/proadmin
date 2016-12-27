@@ -13,13 +13,17 @@ public class RunningValidator implements IValidator<Running> {
 		if (running == null) {
 			throw new ValidatorException("Running is not valid");
 		}
+		
+		if (running.getYear() < 0) {
+			throw new ValidatorException("Running : year is not valid");
+		}
 
 		if (running.getProject() == null || StringUtils.isBlank(running.getProject().getCode())) {
-			throw new ValidatorException("Running : project code is not valid");
+			throw new ValidatorException("Running : project -> code is not valid");
 		}
 
 		if (running.getTeacher() == null || StringUtils.isBlank(running.getTeacher().getNumber())) {
-			throw new ValidatorException("Running : teacher number is not valid");
+			throw new ValidatorException("Running : teacher -> number is not valid");
 		}
 	}
 }

@@ -25,11 +25,11 @@ public class StudentTeamUpdateWrapperValidator implements IValidator<IUpdateWrap
 		}
 
 		if (StringUtils.isBlank(studentTeamUpdateWrapper.getStudentNumber())) {
-			throw new ValidatorException("StudentTeamUpdateWrapper : student number is not valid");
+			throw new ValidatorException("StudentTeamUpdateWrapper : student -> number is not valid");
 		}
 
 		if (StringUtils.isBlank(studentTeamUpdateWrapper.getTeamNumber())) {
-			throw new ValidatorException("StudentTeamUpdateWrapper : team number is not valid");
+			throw new ValidatorException("StudentTeamUpdateWrapper : team -> number is not valid");
 		}
 
 		studentTeamValidator.validate(studentTeamUpdateWrapper.getWrapped());

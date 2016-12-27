@@ -23,13 +23,17 @@ public class RunningUpdateWrapperValidator implements IValidator<IUpdateWrapper<
 		if (runningUpdateWrapper == null) {
 			throw new ValidatorException("RunningUpdateWrapper is not valid");
 		}
+		
+		if (runningUpdateWrapper.getYear() < 0) {
+			throw new ValidatorException("RunningUpdateWrapper : year is not valid");
+		}
 
 		if (StringUtils.isBlank(runningUpdateWrapper.getProjectCode())) {
-			throw new ValidatorException("RunningUpdateWrapper : project code is not valid");
+			throw new ValidatorException("RunningUpdateWrapper : project -> code is not valid");
 		}
 
 		if (StringUtils.isBlank(runningUpdateWrapper.getTeacherNumber())) {
-			throw new ValidatorException("RunningUpdateWrapper : teacher number is not valid");
+			throw new ValidatorException("RunningUpdateWrapper : teacher -> number is not valid");
 		}
 
 		runningValidator.validate(runningUpdateWrapper.getWrapped());
