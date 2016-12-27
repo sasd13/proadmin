@@ -42,11 +42,11 @@ import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private SettingsController settingsController;
-    private ProjectController projectController;
-    private TeamController teamController;
-    private RunningTeamController runningTeamController;
-    private ReportController reportController;
+    private ISettingsController settingsController;
+    private IProjectController projectController;
+    private ITeamController teamController;
+    private IRunningTeamController runningTeamController;
+    private IReportController reportController;
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 

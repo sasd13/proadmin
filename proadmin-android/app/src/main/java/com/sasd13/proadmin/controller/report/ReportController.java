@@ -6,7 +6,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.fragment.report.ReportDetailsFragment;

@@ -3,7 +3,6 @@ package com.sasd13.proadmin.util;
 import android.content.Context;
 
 import com.sasd13.androidex.util.Session;
-import com.sasd13.proadmin.content.Extra;
 
 /**
  * Created by Samir on 05/03/2016.

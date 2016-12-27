@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.content;
+package com.sasd13.proadmin.util;
 
 public interface Extra {
 

@@ -3,7 +3,7 @@ package com.sasd13.proadmin.controller.runningteam;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.content.Extra;
+import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
