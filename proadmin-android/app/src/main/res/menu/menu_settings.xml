@@ -2,8 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:proadmin="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_settings_action_accept"
+    <item android:id="@+id/menu_settings_action_save"
         android:icon="@drawable/ic_save_white_36dp"
-        android:title="@string/menu_item_action_valid"
+        android:title="@string/button_save"
         proadmin:showAsAction="ifRoom"/>
 </menu>

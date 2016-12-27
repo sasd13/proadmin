@@ -10,7 +10,7 @@ import com.sasd13.proadmin.util.exception.EnumError;
  */
 
 public enum EnumErrorRes {
-    UNKNOWN(EnumError.UNKNOWN, R.string.error_unknown),
+    UNKNOWN(EnumError.UNKNOWN, R.string.exception_unknown),
     AAA(EnumError.AAA, R.string.exception_aaa),
     AAA_LOGIN(EnumError.AAA_LOGIN, R.string.exception_aaa_login),
     PARSER(EnumError.PARSER, R.string.exception_parser),

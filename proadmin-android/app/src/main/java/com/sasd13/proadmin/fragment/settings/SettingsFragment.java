@@ -85,7 +85,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_settings_action_accept:
+            case R.id.menu_settings_action_save:
                 updateTeacher();
                 break;
             default:

@@ -9,9 +9,6 @@
     <string name="login_hint_number">number</string>
     <string name="login_button_connect">Connect</string>
 
-    <!-- Activity Projects -->
-    <string name="projects_textview_projects">Projects</string>
-
     <!-- Application -->
     <string name="app_name">Proadmin</string>
 
@@ -28,8 +25,6 @@
     <string name="form_settings_message_error_email">Invalid email</string>
     <string name="form_running_message_error_year">Invalid year</string>
     <string name="form_running_message_error_project">Invalid project</string>
-    <string name="form_runningteam_message_error_number">Numéro invalide</string>
-    <string name="form_runningteam_message_error_year">Invalid year</string>
     <string name="form_runningteam_message_error_project">Invalid project</string>
     <string name="form_runningteam_message_error_academiclevel">Invalid academic level</string>
     <string name="form_runningteam_message_error_team">Invalid team</string>
@@ -46,9 +41,6 @@
     <string name="form_leadevaluation_message_error_planningmark">Invalid planning mark</string>
     <string name="form_leadevaluation_message_error_communicationmark">Invalid communication mark</string>
     <string name="form_individualevaluation_message_error_mark">Invalid mark</string>
-
-    <!-- Menu -->
-    <string name="menu_item_action_valid">Valid</string>
 
     <!-- Textview -->
     <string name="label_number">Number</string>
@@ -96,7 +88,7 @@
     <string name="title_new">New</string>
 
     <!-- Web service -->
-    <string name="error_unknown">Unknown error</string>
+    <string name="exception_unknown">Unknown error</string>
     <string name="exception_aaa">Authentication error</string>
     <string name="exception_aaa_login">Username/password not matched</string>
     <string name="exception_parser">Data parsing error</string>
@@ -106,9 +98,5 @@
     <string name="exception_webservice">Web service error</string>
     <string name="error_ws_server_connection">Server connection error</string>
     <string name="error_no_runningteam_selected">Running team not selected</string>
-
-    <!-- Menu -->
-    <string name="menuitem_action_save">Save</string>
-    <string name="menuitem_action_next">Next</string>
 
 </resources>

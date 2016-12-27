@@ -9,9 +9,6 @@
     <string name="login_hint_number">matricule</string>
     <string name="login_button_connect">Connexion</string>
 
-    <!-- Activity Projects -->
-    <string name="projects_textview_projects">Projets</string>
-
     <!-- Application -->
     <string name="app_name">Proadmin</string>
 
@@ -28,7 +25,6 @@
     <string name="form_settings_message_error_email">Email invalide</string>
     <string name="form_running_message_error_year">Année invalide</string>
     <string name="form_running_message_error_project">Projet invalide</string>
-    <string name="form_runningteam_message_error_number">Numéro invalide</string>
     <string name="form_runningteam_message_error_project">Projet invalide</string>
     <string name="form_runningteam_message_error_academiclevel">Niveau académique invalide</string>
     <string name="form_runningteam_message_error_team">Groupe invalide</string>
@@ -45,9 +41,6 @@
     <string name="form_leadevaluation_message_error_planningmark">Note de planning invalide</string>
     <string name="form_leadevaluation_message_error_communicationmark">Note de communication invalide</string>
     <string name="form_individualevaluation_message_error_mark">Note invalide</string>
-
-    <!-- Menu -->
-    <string name="menu_item_action_valid">Valider</string>
 
     <!-- Textview -->
     <string name="label_number">Matricule</string>
@@ -95,7 +88,7 @@
     <string name="title_new">Nouveau</string>
 
     <!-- Web service -->
-    <string name="error_unknown">Erreur inconnue</string>
+    <string name="exception_unknown">Erreur inconnue</string>
     <string name="exception_aaa">Erreur d\'authentification</string>
     <string name="exception_aaa_login">Erreur de correspondance identifiant/mot de passe</string>
     <string name="exception_parser">Erreur de parsing des données</string>
@@ -105,9 +98,5 @@
     <string name="exception_webservice">Erreur du web service</string>
     <string name="error_ws_server_connection">Erreur de connection au serveur</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>
-
-    <!-- Menu -->
-    <string name="menuitem_action_save">Enregistrer</string>
-    <string name="menuitem_action_next">Suivant</string>
 
 </resources>
