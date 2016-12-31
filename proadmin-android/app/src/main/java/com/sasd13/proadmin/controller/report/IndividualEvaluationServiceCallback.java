@@ -3,32 +3,32 @@ package com.sasd13.proadmin.controller.report;
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.service.IndividualEvaluationService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.RunningTeamService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class RunningTeamServiceCaller implements RunningTeamService.Caller {
+public class IndividualEvaluationServiceCallback implements IndividualEvaluationService.Callback {
 
     private ReportController controller;
     private Context context;
 
-    public RunningTeamServiceCaller(ReportController controller, Context context) {
+    public IndividualEvaluationServiceCallback(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<RunningTeam> runningTeams) {
-        controller.onReadRunningTeams(runningTeams);
+    public void onReaded(List<IndividualEvaluation> individualEvaluations) {
+        //Do nothing
     }
 
     @Override

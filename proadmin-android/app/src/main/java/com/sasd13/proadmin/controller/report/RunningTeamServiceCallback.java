@@ -1,34 +1,34 @@
-package com.sasd13.proadmin.controller.runningteam;
+package com.sasd13.proadmin.controller.report;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.service.RunningTeamService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.ReportService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class ReportServiceCaller implements ReportService.Caller {
+public class RunningTeamServiceCallback implements RunningTeamService.Callback {
 
-    private RunningTeamController controller;
+    private ReportController controller;
     private Context context;
 
-    public ReportServiceCaller(RunningTeamController controller, Context context) {
+    public RunningTeamServiceCallback(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<Report> reports) {
-        controller.onReadReports(reports);
+    public void onReaded(List<RunningTeam> runningTeams) {
+        controller.onReadRunningTeams(runningTeams);
     }
 
     @Override

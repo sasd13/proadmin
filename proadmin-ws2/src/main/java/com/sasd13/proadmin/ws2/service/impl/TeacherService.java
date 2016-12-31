@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;

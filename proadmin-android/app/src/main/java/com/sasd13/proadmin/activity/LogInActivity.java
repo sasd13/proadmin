@@ -14,14 +14,15 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.service.LogInService;
 import com.sasd13.proadmin.util.Extra;
-import com.sasd13.proadmin.service.ws.LogInService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.WebServiceUtils;
+import com.sasd13.proadmin.ws.LogInPromise;
 
 import java.util.List;
 
-public class LogInActivity extends AppCompatActivity implements LogInService.Caller {
+public class LogInActivity extends AppCompatActivity implements LogInPromise.Callback {
 
     private static class LogInForm {
         EditText editTextNumber, editTextPassword;
@@ -79,7 +80,7 @@ public class LogInActivity extends AppCompatActivity implements LogInService.Cal
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
         waitDialog = new WaitDialog(this);
         waitDialog.show();
     }

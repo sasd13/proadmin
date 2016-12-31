@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.service.ws;
+package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.service.ManageService;
-import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.androidex.ws.rest.promise.ManagePromise;
+import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.Constants;
@@ -18,27 +18,27 @@ import java.util.List;
 
 public class IndividualEvaluationService {
 
-    public interface Caller extends ReadService.Caller<IndividualEvaluation>, ManageService.Caller {
+    public interface Callback extends ReadPromise.Callback<IndividualEvaluation>, ManagePromise.Callback {
     }
 
-    private ReadService<IndividualEvaluation> readService;
-    private ManageService<IndividualEvaluation> manageService;
+    private ReadPromise<IndividualEvaluation> readPromise;
+    private ManagePromise<IndividualEvaluation> managePromise;
 
-    public IndividualEvaluationService(Caller caller) {
-        readService = new ReadService<>(caller, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
-        manageService = new ManageService<>(caller, WSResources.URL_WS_INDIVIDUALEVALUATIONS);
+    public IndividualEvaluationService(Callback callback) {
+        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
+        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_INDIVIDUALEVALUATIONS);
     }
 
     public void readByReport(String reportNumber) {
-        readService.clearHeaders();
-        readService.clearParameters();
-        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readService.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
-        readService.read();
+        readPromise.clearHeaders();
+        readPromise.clearParameters();
+        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+        readPromise.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
+        readPromise.read();
     }
 
     public void update(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        manageService.update(getUpdateWrapper(individualEvaluations, individualEvaluationsToUpdate));
+        managePromise.update(getUpdateWrapper(individualEvaluations, individualEvaluationsToUpdate));
     }
 
     private IndividualEvaluationUpdateWrapper[] getUpdateWrapper(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {

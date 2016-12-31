@@ -12,8 +12,8 @@ import com.sasd13.proadmin.fragment.student.StudentNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamsFragment;
-import com.sasd13.proadmin.service.ws.StudentService;
-import com.sasd13.proadmin.service.ws.TeamService;
+import com.sasd13.proadmin.service.StudentService;
+import com.sasd13.proadmin.service.TeamService;
 import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.StudentWrapper;
@@ -32,8 +32,8 @@ public class TeamController extends Controller implements ITeamController, IStud
     public TeamController(MainActivity mainActivity) {
         super(mainActivity);
 
-        teamService = new TeamService(new TeamServiceCaller(this, mainActivity));
-        studentService = new StudentService(new StudentServiceCaller(this, mainActivity));
+        teamService = new TeamService(new TeamServiceCallback(this, mainActivity));
+        studentService = new StudentService(new StudentServiceCallback(this, mainActivity));
     }
 
     @Override

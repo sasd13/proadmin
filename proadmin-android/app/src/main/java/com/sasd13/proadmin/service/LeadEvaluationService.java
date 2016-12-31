@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.service.ws;
+package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.service.ManageService;
-import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.androidex.ws.rest.promise.ManagePromise;
+import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.Constants;
@@ -15,27 +15,27 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class LeadEvaluationService {
 
-    public interface Caller extends ReadService.Caller<LeadEvaluation>, ManageService.Caller {
+    public interface Callback extends ReadPromise.Callback<LeadEvaluation>, ManagePromise.Callback {
     }
 
-    private ReadService<LeadEvaluation> readService;
-    private ManageService<LeadEvaluation> manageService;
+    private ReadPromise<LeadEvaluation> readPromise;
+    private ManagePromise<LeadEvaluation> managePromise;
 
-    public LeadEvaluationService(Caller caller) {
-        readService = new ReadService<>(caller, WSResources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
-        manageService = new ManageService<>(caller, WSResources.URL_WS_LEADEVALUATIONS);
+    public LeadEvaluationService(Callback callback) {
+        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
+        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_LEADEVALUATIONS);
     }
 
     public void readByReport(String reportNumber) {
-        readService.clearHeaders();
-        readService.clearParameters();
-        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readService.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
-        readService.read();
+        readPromise.clearHeaders();
+        readPromise.clearParameters();
+        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+        readPromise.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
+        readPromise.read();
     }
 
     public void update(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
-        manageService.update(getUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
+        managePromise.update(getUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
     }
 
     private LeadEvaluationUpdateWrapper getUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {

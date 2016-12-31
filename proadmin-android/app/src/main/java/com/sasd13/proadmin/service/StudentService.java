@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.service.ws;
+package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.service.ManageService;
-import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.androidex.ws.rest.promise.ManagePromise;
+import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -17,45 +17,45 @@ import java.util.List;
  * Created by ssaidali2 on 27/11/2016.
  */
 
-public class StudentService implements ManageService.Caller {
+public class StudentService implements ManagePromise.Callback {
 
-    public interface Caller extends ReadService.Caller<StudentTeam>, ManageService.Caller {
+    public interface Callback extends ReadPromise.Callback<StudentTeam>, ManagePromise.Callback {
     }
 
     private static final int TASKTYPE_STUDENT = 0;
     private static final int TASKTYPE_STUDENTTEAM = 1;
 
-    private Caller caller;
-    private ReadService<StudentTeam> readServiceStudentTeams;
-    private ManageService<Student> manageServiceStudents;
-    private ManageService<StudentTeam> manageServiceStudentTeams;
+    private Callback callback;
+    private ReadPromise<StudentTeam> readPromiseStudentTeams;
+    private ManagePromise<Student> managePromiseStudents;
+    private ManagePromise<StudentTeam> managePromiseStudentTeams;
     private StudentTeam studentTeam;
     private int taskType;
 
-    public StudentService(Caller caller) {
-        this.caller = caller;
-        readServiceStudentTeams = new ReadService<>(caller, WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
-        manageServiceStudents = new ManageService<>(this, WSResources.URL_WS_STUDENTS);
-        manageServiceStudentTeams = new ManageService<>(caller, WSResources.URL_WS_STUDENTTEAMS);
+    public StudentService(Callback callback) {
+        this.callback = callback;
+        readPromiseStudentTeams = new ReadPromise<>(callback, WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
+        managePromiseStudents = new ManagePromise<>(this, WSResources.URL_WS_STUDENTS);
+        managePromiseStudentTeams = new ManagePromise<>(callback, WSResources.URL_WS_STUDENTTEAMS);
     }
 
     public void readByTeam(String teamNumber) {
-        readServiceStudentTeams.clearHeaders();
-        readServiceStudentTeams.clearParameters();
-        readServiceStudentTeams.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readServiceStudentTeams.putParameters(EnumParameter.TEAM.getName(), new String[]{teamNumber});
-        readServiceStudentTeams.read();
+        readPromiseStudentTeams.clearHeaders();
+        readPromiseStudentTeams.clearParameters();
+        readPromiseStudentTeams.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+        readPromiseStudentTeams.putParameters(EnumParameter.TEAM.getName(), new String[]{teamNumber});
+        readPromiseStudentTeams.read();
     }
 
     public void create(Student student, Team team) {
         taskType = TASKTYPE_STUDENT;
         studentTeam = new StudentTeam(student.getNumber(), team.getNumber());
 
-        manageServiceStudents.create(student);
+        managePromiseStudents.create(student);
     }
 
     public void update(Student student, Student studentToUpdate) {
-        manageServiceStudents.update(getUpdateWrapper(student, studentToUpdate));
+        managePromiseStudents.update(getUpdateWrapper(student, studentToUpdate));
     }
 
     private StudentUpdateWrapper getUpdateWrapper(Student student, Student studentToUpdate) {
@@ -68,13 +68,13 @@ public class StudentService implements ManageService.Caller {
     }
 
     public void delete(StudentTeam studentTeam) {
-        manageServiceStudentTeams.delete(studentTeam);
+        managePromiseStudentTeams.delete(studentTeam);
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
         if (taskType == TASKTYPE_STUDENT) {
-            caller.onWaiting();
+            callback.onPreExecute();
         }
     }
 
@@ -83,22 +83,22 @@ public class StudentService implements ManageService.Caller {
         if (taskType == TASKTYPE_STUDENT) {
             taskType = TASKTYPE_STUDENTTEAM;
 
-            manageServiceStudentTeams.create(studentTeam);
+            managePromiseStudentTeams.create(studentTeam);
         }
     }
 
     @Override
     public void onUpdated() {
-        caller.onUpdated();
+        callback.onUpdated();
     }
 
     @Override
     public void onDeleted() {
-        caller.onDeleted();
+        callback.onUpdated();
     }
 
     @Override
     public void onErrors(List<String> errors) {
-        caller.onErrors(errors);
+        callback.onErrors(errors);
     }
 }

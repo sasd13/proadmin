@@ -1,34 +1,34 @@
-package com.sasd13.proadmin.controller.report;
+package com.sasd13.proadmin.controller.project;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.service.RunningService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.LeadEvaluationService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class LeadEvaluationServiceCaller implements LeadEvaluationService.Caller {
+public class RunningServiceCallback implements RunningService.Callback {
 
-    private ReportController controller;
+    private ProjectController controller;
     private Context context;
 
-    public LeadEvaluationServiceCaller(ReportController controller, Context context) {
+    public RunningServiceCallback(ProjectController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<LeadEvaluation> leadEvaluations) {
-        //Do nothing
+    public void onReaded(List<Running> runnings) {
+        controller.onReadRunnings(runnings);
     }
 
     @Override

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="error.unknown">Erreur inconnue</entry>
+	<entry key="exception.unknown">Erreur inconnue</entry>
+	<entry key="exception.connection">Erreur de connection</entry>
 	<entry key="exception.aaa">Exception AAA</entry>
 	<entry key="exception.aaa.login">Nom d'utilisateur/mot de passe invalide</entry>
 	<entry key="exception.parser">Exception parsing des données</entry>

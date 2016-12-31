@@ -1,11 +1,11 @@
-package com.sasd13.proadmin.service.callback;
+package com.sasd13.proadmin.ws;
 
-import com.sasd13.androidex.ws.rest.callback.RESTCallback;
+import com.sasd13.androidex.ws.rest.promise.Promise;
 import com.sasd13.androidex.ws.rest.task.LogInAsyncTask;
 import com.sasd13.androidex.ws.rest.task.ReadAsyncTask;
-import com.sasd13.javaex.ws.ILoginWebService;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.aaa.EnumAAASession;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -15,7 +15,12 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by ssaidali2 on 03/07/2016.
  */
-public class LogInRESTCallback extends RESTCallback {
+public class LogInPromise extends Promise {
+
+    public interface Callback extends Promise.Callback {
+
+        void onLoggedIn(Teacher teacher);
+    }
 
     private static final int TASKTYPE_LOGIN = 0;
     private static final int TASKTYPE_READ = 1;
@@ -23,29 +28,27 @@ public class LogInRESTCallback extends RESTCallback {
     private LogInAsyncTask logInTask;
     private ReadAsyncTask<Teacher> readTask;
     private int taskType;
-    private String number;
     private Map<String, String[]> parameters;
 
-    public LogInRESTCallback(ILoginWebService<Teacher> webService) {
-        super(webService);
+    public LogInPromise(Callback callback) {
+        super(callback);
 
         parameters = new HashMap<>();
     }
 
     public void logIn(String number, String password) {
         taskType = TASKTYPE_LOGIN;
-        this.number = number;
-        logInTask = new LogInAsyncTask(WSResources.URL_AAA_LOGIN, this);
+        logInTask = new LogInAsyncTask(this, WSResources.URL_AAA_LOGIN);
 
         logInTask.setCredential(number, password);
         logInTask.execute();
     }
 
     @Override
-    public void onLoad() {
+    public void onPreExecute() {
         switch (taskType) {
             case TASKTYPE_LOGIN:
-                service.onPreExecute();
+                callback.onPreExecute();
                 break;
         }
     }
@@ -63,35 +66,26 @@ public class LogInRESTCallback extends RESTCallback {
     }
 
     private void onLogInTaskSucceeded() {
-        if (!logInTask.getResponseErrors().isEmpty()) {
-            service.onErrors(logInTask.getResponseErrors());
-        } else {
-            readTeacher();
+        taskType = TASKTYPE_READ;
+        readTask = new ReadAsyncTask<>(this, WSResources.URL_WS_TEACHERS, Teacher.class);
+
+        parameters.clear();
+
+        try {
+            parameters.put(EnumParameter.NUMBER.getName(), new String[]{logInTask.get().get(EnumAAASession.USERNAME.getName())});
+            readTask.setRequestParameters(parameters);
+
+            readTask.execute();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readTeacher() {
-        taskType = TASKTYPE_READ;
-        readTask = new ReadAsyncTask<>(WSResources.URL_WS_TEACHERS, this, Teacher.class);
-
-        parameters.clear();
-        parameters.put(EnumParameter.NUMBER.getName(), new String[]{number});
-        readTask.setRequestParameters(parameters);
-
-        readTask.execute();
-    }
-
     private void onReadTaskSucceeded() {
-        if (!readTask.getResponseErrors().isEmpty()) {
-            service.onErrors(readTask.getResponseErrors());
-        } else {
-            try {
-                ((ILoginWebService) service).onLoggedIn(readTask.get().get(0));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+        try {
+            ((Callback) callback).onLoggedIn(readTask.get().get(0));
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
     }
 }

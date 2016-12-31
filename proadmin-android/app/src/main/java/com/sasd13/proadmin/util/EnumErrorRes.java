@@ -11,6 +11,7 @@ import com.sasd13.proadmin.util.exception.EnumError;
 
 public enum EnumErrorRes {
     UNKNOWN(EnumError.UNKNOWN, R.string.exception_unknown),
+    CONNECTION(EnumError.CONNECTION, R.string.exception_connection),
     AAA(EnumError.AAA, R.string.exception_aaa),
     AAA_LOGIN(EnumError.AAA_LOGIN, R.string.exception_aaa_login),
     PARSER(EnumError.PARSER, R.string.exception_parser),
@@ -40,7 +41,7 @@ public enum EnumErrorRes {
 
     public static EnumErrorRes find(EnumError error) {
         for (EnumErrorRes errorRes : values()) {
-            if (errorRes.error.equals(error)) {
+            if (errorRes.error.getCode() == error.getCode()) {
                 return errorRes;
             }
         }

@@ -5,11 +5,11 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICheckService;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.service.ServiceException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 import com.sasd13.proadmin.util.wrapper.update.credential.CredentialUpdateWrapper;

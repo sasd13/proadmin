@@ -96,7 +96,7 @@
     <string name="exception_business">Erreur métier</string>
     <string name="exception_service">Erreur de service</string>
     <string name="exception_webservice">Erreur du web service</string>
-    <string name="error_ws_server_connection">Erreur de connection au serveur</string>
+    <string name="exception_connection">Erreur de connection</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>
 
 </resources>

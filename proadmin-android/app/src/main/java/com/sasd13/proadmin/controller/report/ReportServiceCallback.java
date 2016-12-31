@@ -2,29 +2,30 @@ package com.sasd13.proadmin.controller.report;
 
 import android.content.Context;
 
+import com.sasd13.androidex.ws.rest.promise.MultiReadPromise;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.service.ReportService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.ReportDependencyService;
-import com.sasd13.proadmin.service.ws.ReportService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class ReportServiceCaller implements ReportService.Caller, ReportDependencyService.RetrieveCaller {
+public class ReportServiceCallback implements ReportService.Callback, MultiReadPromise.Callback {
 
     private ReportController controller;
     private Context context;
 
-    public ReportServiceCaller(ReportController controller, Context context) {
+    public ReportServiceCallback(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
@@ -33,8 +34,8 @@ public class ReportServiceCaller implements ReportService.Caller, ReportDependen
     }
 
     @Override
-    public void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
-        controller.onRetrieved(resultHolder);
+    public void onReaded(Map<String, List> results) {
+        controller.onRetrieved(results);
     }
 
     @Override

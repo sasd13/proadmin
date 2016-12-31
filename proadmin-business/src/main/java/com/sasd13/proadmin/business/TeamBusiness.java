@@ -3,7 +3,7 @@ package com.sasd13.proadmin.business;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.EnumParameter;

@@ -1,40 +1,39 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.settings;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.service.TeacherService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.TeamService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class TeamServiceCaller implements TeamService.Caller {
+public class TeacherServiceCallback implements TeacherService.Callback {
 
-    private TeamController controller;
+    private SettingsController controller;
     private Context context;
 
-    public TeamServiceCaller(TeamController controller, Context context) {
+    public TeacherServiceCallback(SettingsController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<Team> teams) {
-        controller.onReadTeams(teams);
+    public void onReaded(List<Teacher> teachers) {
+        controller.onReadTeacher(teachers.get(0));
     }
 
     @Override
     public void onCreated() {
-        controller.displayMessage(context.getString(R.string.message_saved));
-        controller.entry();
+        //Do nothing
     }
 
     @Override
@@ -44,8 +43,7 @@ public class TeamServiceCaller implements TeamService.Caller {
 
     @Override
     public void onDeleted() {
-        controller.displayMessage(context.getString(R.string.message_deleted));
-        controller.entry();
+        //Do nothing
     }
 
     @Override

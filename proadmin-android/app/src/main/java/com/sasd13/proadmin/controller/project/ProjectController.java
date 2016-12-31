@@ -10,8 +10,8 @@ import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.fragment.running.RunningNewFragment;
-import com.sasd13.proadmin.service.ws.ProjectService;
-import com.sasd13.proadmin.service.ws.RunningService;
+import com.sasd13.proadmin.service.ProjectService;
+import com.sasd13.proadmin.service.RunningService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
@@ -30,8 +30,8 @@ public class ProjectController extends Controller implements IProjectController,
     public ProjectController(MainActivity mainActivity) {
         super(mainActivity);
 
-        projectService = new ProjectService(new ProjectServiceCaller(this, mainActivity));
-        runningService = new RunningService(new RunningServiceCaller(this, mainActivity));
+        projectService = new ProjectService(new ProjectServiceCallback(this, mainActivity));
+        runningService = new RunningService(new RunningServiceCallback(this, mainActivity));
     }
 
     @Override
@@ -44,14 +44,13 @@ public class ProjectController extends Controller implements IProjectController,
     public void listProjects() {
         projectsWrapper = new ProjectsWrapper();
 
-        startProxyFragment();
+        startFragment(ProjectsFragment.newInstance(projectsWrapper));
         projectService.readAll();
     }
 
     void onReadProjects(List<Project> projects) {
         if (isProxyFragmentNotDetached()) {
             projectsWrapper.setProjects(projects);
-            startFragment(ProjectsFragment.newInstance(projectsWrapper));
         }
     }
 

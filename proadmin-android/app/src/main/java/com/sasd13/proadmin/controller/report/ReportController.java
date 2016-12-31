@@ -6,24 +6,25 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.fragment.report.ReportsFragment;
-import com.sasd13.proadmin.service.ws.IndividualEvaluationService;
-import com.sasd13.proadmin.service.ws.LeadEvaluationService;
-import com.sasd13.proadmin.service.ws.ReportDependencyService;
-import com.sasd13.proadmin.service.ws.ReportService;
-import com.sasd13.proadmin.service.ws.RunningTeamService;
+import com.sasd13.proadmin.service.IndividualEvaluationService;
+import com.sasd13.proadmin.service.LeadEvaluationService;
+import com.sasd13.proadmin.service.ReportDependencyService;
+import com.sasd13.proadmin.service.ReportService;
+import com.sasd13.proadmin.service.RunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 public class ReportController extends Controller implements IReportController {
 
@@ -39,11 +40,11 @@ public class ReportController extends Controller implements IReportController {
     public ReportController(MainActivity mainActivity) {
         super(mainActivity);
 
-        reportService = new ReportService(new ReportServiceCaller(this, mainActivity));
-        leadEvaluationService = new LeadEvaluationService(new LeadEvaluationServiceCaller(this, mainActivity));
-        individualEvaluationService = new IndividualEvaluationService(new IndividualEvaluationServiceCaller(this, mainActivity));
-        dependencyService = new ReportDependencyService(new ReportServiceCaller(this, mainActivity));
-        runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
+        reportService = new ReportService(new ReportServiceCallback(this, mainActivity));
+        leadEvaluationService = new LeadEvaluationService(new LeadEvaluationServiceCallback(this, mainActivity));
+        individualEvaluationService = new IndividualEvaluationService(new IndividualEvaluationServiceCallback(this, mainActivity));
+        dependencyService = new ReportDependencyService(new ReportServiceCallback(this, mainActivity));
+        runningTeamService = new RunningTeamService(new RunningTeamServiceCallback(this, mainActivity));
     }
 
     @Override
@@ -104,8 +105,8 @@ public class ReportController extends Controller implements IReportController {
         dependencyService.read();
     }
 
-    void onRetrieved(ReportDependencyService.ResultHolder resultHolder) {
-        reportWrapper.setStudentTeams(resultHolder.getStudentTeams());
+    void onRetrieved(Map<String, List> results) {
+        reportWrapper.setStudentTeams(results.get(ReportDependencyService.CODE_STUDENTTEAMS));
     }
 
     @Override

@@ -13,10 +13,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.dao.ILeadEvaluationDAO;

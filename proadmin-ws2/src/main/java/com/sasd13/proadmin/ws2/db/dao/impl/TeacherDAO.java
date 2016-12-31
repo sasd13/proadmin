@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.dao.hibernate.HibernateSession;
 import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;

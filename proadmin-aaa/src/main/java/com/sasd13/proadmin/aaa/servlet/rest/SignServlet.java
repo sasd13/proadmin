@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserException;
@@ -23,6 +22,7 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.util.validator.IValidator;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.aaa.service.CredentialService;
 import com.sasd13.proadmin.aaa.util.validator.CredentialUpdateWrapperValidator;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;

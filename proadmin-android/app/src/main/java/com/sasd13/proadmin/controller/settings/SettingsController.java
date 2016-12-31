@@ -6,7 +6,7 @@ import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.fragment.ISettingsController;
 import com.sasd13.proadmin.fragment.settings.SettingsFragment;
-import com.sasd13.proadmin.service.ws.TeacherService;
+import com.sasd13.proadmin.service.TeacherService;
 import com.sasd13.proadmin.util.wrapper.TeacherWrapper;
 
 public class SettingsController extends Controller implements ISettingsController {
@@ -16,7 +16,7 @@ public class SettingsController extends Controller implements ISettingsControlle
     public SettingsController(MainActivity mainActivity) {
         super(mainActivity);
 
-        teacherService = new TeacherService(new TeacherServiceCaller(this, mainActivity));
+        teacherService = new TeacherService(new TeacherServiceCallback(this, mainActivity));
     }
 
     @Override

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.conf.AppProperties;
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.URLQueryUtils;
@@ -30,6 +29,7 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.business.BusinessFactory;
 import com.sasd13.proadmin.business.IBusiness;
 import com.sasd13.proadmin.dao.DAO;
@@ -109,7 +109,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
 		LOGGER.info("Error sent by WS : code=" + error.getCode());
-		resp.setHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
+		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}
 

@@ -1,34 +1,34 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.runningteam;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.service.ReportService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.StudentService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class StudentServiceCaller implements StudentService.Caller {
+public class ReportServiceCallback implements ReportService.Callback {
 
-    private TeamController controller;
+    private RunningTeamController controller;
     private Context context;
 
-    public StudentServiceCaller(TeamController controller, Context context) {
+    public ReportServiceCallback(RunningTeamController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<StudentTeam> studentTeams) {
-        controller.onReadStudenTeams(studentTeams);
+    public void onReaded(List<Report> reports) {
+        controller.onReadReports(reports);
     }
 
     @Override

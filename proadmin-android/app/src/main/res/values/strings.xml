@@ -96,7 +96,7 @@
     <string name="exception_business">Business error</string>
     <string name="exception_service">Service error</string>
     <string name="exception_webservice">Web service error</string>
-    <string name="error_ws_server_connection">Server connection error</string>
+    <string name="exception_connection">Connection error</string>
     <string name="error_no_runningteam_selected">Running team not selected</string>
 
 </resources>

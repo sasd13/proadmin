@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.dao.IUpdateWrapper;
 import com.sasd13.javaex.service.ServiceException;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;

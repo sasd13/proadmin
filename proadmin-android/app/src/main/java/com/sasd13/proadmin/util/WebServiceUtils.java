@@ -12,7 +12,7 @@ import java.util.List;
 public class WebServiceUtils {
 
     public static String handleErrors(Context context, List<String> errors) {
-        EnumError error = EnumError.find(Integer.parseInt(errors.get(0)));
+        EnumError error = errors.isEmpty() ? EnumError.UNKNOWN : EnumError.find(Integer.parseInt(errors.get(0)));
 
         return context.getResources().getString(EnumErrorRes.find(error).getStringRes());
     }

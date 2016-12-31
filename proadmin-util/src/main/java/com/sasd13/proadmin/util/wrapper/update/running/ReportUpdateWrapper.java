@@ -2,7 +2,7 @@ package com.sasd13.proadmin.util.wrapper.update.running;
 
 import java.util.List;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;

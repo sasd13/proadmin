@@ -3,22 +3,23 @@ package com.sasd13.proadmin.controller.runningteam;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.fragment.IRunningTeamController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
-import com.sasd13.proadmin.service.ws.ReportService;
-import com.sasd13.proadmin.service.ws.RunningTeamDependencyService;
-import com.sasd13.proadmin.service.ws.RunningTeamService;
+import com.sasd13.proadmin.service.ReportService;
+import com.sasd13.proadmin.service.RunningTeamDependencyService;
+import com.sasd13.proadmin.service.RunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
 import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 public class RunningTeamController extends Controller implements IRunningTeamController {
 
@@ -32,9 +33,9 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     public RunningTeamController(MainActivity mainActivity) {
         super(mainActivity);
 
-        runningTeamService = new RunningTeamService(new RunningTeamServiceCaller(this, mainActivity));
-        runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCaller(this, mainActivity));
-        reportService = new ReportService(new ReportServiceCaller(this, mainActivity));
+        runningTeamService = new RunningTeamService(new RunningTeamServiceCallback(this, mainActivity));
+        runningTeamDependencyService = new RunningTeamDependencyService(new RunningTeamServiceCallback(this, mainActivity));
+        reportService = new ReportService(new ReportServiceCallback(this, mainActivity));
     }
 
     @Override
@@ -73,11 +74,11 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         runningTeamDependencyService.read();
     }
 
-    void onRetrieved(RunningTeamDependencyService.ResultHolder resultHolder) {
+    void onRetrieved(Map<String, List> results) {
         if (isProxyFragmentNotDetached()) {
-            runningTeamWrapper.setRunnings(resultHolder.getRunnings());
-            runningTeamWrapper.setTeams(resultHolder.getTeams());
-            runningTeamWrapper.setAcademicLevels(resultHolder.getAcademicLevels());
+            runningTeamWrapper.setRunnings(results.get(RunningTeamDependencyService.CODE_RUNNINGS));
+            runningTeamWrapper.setTeams(results.get(RunningTeamDependencyService.CODE_TEAMS));
+            runningTeamWrapper.setAcademicLevels(results.get(RunningTeamDependencyService.CODE_ACADEMICLEVELS));
 
             if (mode == Extra.MODE_NEW) {
                 startFragment(RunningTeamNewFragment.newInstance(runningTeamWrapper));

@@ -1,39 +1,40 @@
-package com.sasd13.proadmin.controller.settings;
+package com.sasd13.proadmin.controller.report;
 
 import android.content.Context;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.service.LeadEvaluationService;
 import com.sasd13.proadmin.util.WebServiceUtils;
-import com.sasd13.proadmin.service.ws.TeacherService;
 
 import java.util.List;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public class TeacherServiceCaller implements TeacherService.Caller {
+public class LeadEvaluationServiceCallback implements LeadEvaluationService.Callback {
 
-    private SettingsController controller;
+    private ReportController controller;
     private Context context;
 
-    public TeacherServiceCaller(SettingsController controller, Context context) {
+    public LeadEvaluationServiceCallback(ReportController controller, Context context) {
         this.controller = controller;
         this.context = context;
     }
 
     @Override
-    public void onWaiting() {
+    public void onPreExecute() {
     }
 
     @Override
-    public void onReaded(List<Teacher> teachers) {
-        controller.onReadTeacher(teachers.get(0));
+    public void onReaded(List<LeadEvaluation> leadEvaluations) {
+        //Do nothing
     }
 
     @Override
     public void onCreated() {
-        //Do nothing
+        controller.displayMessage(context.getString(R.string.message_saved));
+        controller.entry();
     }
 
     @Override
@@ -43,7 +44,8 @@ public class TeacherServiceCaller implements TeacherService.Caller {
 
     @Override
     public void onDeleted() {
-        //Do nothing
+        controller.displayMessage(context.getString(R.string.message_deleted));
+        controller.entry();
     }
 
     @Override

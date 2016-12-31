@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.business;
 
-import com.sasd13.javaex.dao.IUpdateWrapper;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.util.exception.BusinessException;
 

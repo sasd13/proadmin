@@ -57,7 +57,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl, container, false);
 
         buildView(view);
 
@@ -71,7 +71,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     }
 
     private void buildTabProjects(View view) {
-        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         recycler.addDividerItemDecoration();
     }
 

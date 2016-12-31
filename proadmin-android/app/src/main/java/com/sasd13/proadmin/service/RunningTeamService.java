@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.service.ws;
+package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.service.ManageService;
-import com.sasd13.androidex.ws.rest.service.ReadService;
+import com.sasd13.androidex.ws.rest.promise.ManagePromise;
+import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Constants;
@@ -15,31 +15,31 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningTeamService {
 
-    public interface Caller extends ReadService.Caller<RunningTeam>, ManageService.Caller {
+    public interface Callback extends ReadPromise.Callback<RunningTeam>, ManagePromise.Callback {
     }
 
-    private ReadService<RunningTeam> readService;
-    private ManageService<RunningTeam> manageService;
+    private ReadPromise<RunningTeam> readPromise;
+    private ManagePromise<RunningTeam> managePromise;
 
-    public RunningTeamService(Caller caller) {
-        readService = new ReadService<>(caller, WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
-        manageService = new ManageService<>(caller, WSResources.URL_WS_RUNNINGTEAMS);
+    public RunningTeamService(Callback callback) {
+        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
+        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_RUNNINGTEAMS);
     }
 
     public void readByTeacher(String teacherNumber) {
-        readService.clearHeaders();
-        readService.clearParameters();
-        readService.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readService.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
-        readService.read();
+        readPromise.clearHeaders();
+        readPromise.clearParameters();
+        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
+        readPromise.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        readPromise.read();
     }
 
     public void create(RunningTeam runningTeam) {
-        manageService.create(runningTeam);
+        managePromise.create(runningTeam);
     }
 
     public void update(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
-        manageService.update(getUpdateWrapper(runningTeam, runningTeamToUpdate));
+        managePromise.update(getUpdateWrapper(runningTeam, runningTeamToUpdate));
     }
 
     private RunningTeamUpdateWrapper getUpdateWrapper(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
@@ -56,6 +56,6 @@ public class RunningTeamService {
     }
 
     public void delete(RunningTeam runningTeam) {
-        manageService.delete(runningTeam);
+        managePromise.delete(runningTeam);
     }
 }
