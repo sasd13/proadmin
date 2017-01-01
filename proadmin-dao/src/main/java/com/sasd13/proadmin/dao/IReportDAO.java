@@ -10,11 +10,11 @@ public interface IReportDAO extends ISession<Report> {
 	String COLUMN_DATEMEETING = "_datemeeting";
 	String COLUMN_SESSION = "_session";
 	String COLUMN_COMMENT = "_comment";
-	String COLUMN_RUNNINGTEAM_RUNNING_YEAR = "_runningteam_running_year";
-	String COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE = "_runningteam_running_project_code";
-	String COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE = "_runningteam_running_teacher_code";
-	String COLUMN_RUNNINGTEAM_TEAM_CODE = "_runningteam_team_code";
-	String COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE = "_runningteam_academiclevel_code";
+	String COLUMN_YEAR = "_year";
+	String COLUMN_PROJECT = "_project";
+	String COLUMN_TEACHER = "_teacher";
+	String COLUMN_TEAM = "_team";
+	String COLUMN_ACADEMICLEVEL = "_academiclevel";
 
 	ILeadEvaluationDAO getLeadEvaluationDAO();
 

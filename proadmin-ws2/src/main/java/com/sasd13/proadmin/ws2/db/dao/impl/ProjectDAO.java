@@ -6,12 +6,12 @@
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +24,28 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.IProjectDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
+import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.ProjectDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO {
 
+	private ProjectDTOAdapter adapter;
+
+	public ProjectDAO(SessionFactory connectionFactory) {
+		super(connectionFactory);
+
+		adapter = new ProjectDTOAdapter();
+	}
+
 	@Override
 	public long insert(Project project) {
-		TeacherDTO teacherDTO = new TeacherDTO(teacher);
+		ProjectDTO dto = new ProjectDTO(project);
 
-		HibernateUtils.insert(this, teacherDTO);
+		HibernateUtils.insert(this, dto);
 
-		return teacherDTO.getId();
+		return dto.getId();
 	}
 
 	@Override
@@ -124,11 +133,9 @@ public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO
 
 	@Override
 	public Project getResultValues(Serializable serializable) {
-		Project project = new Project(resultSet.getString(COLUMN_CODE));
+		Project project = new Project();
 
-		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
-		project.setTitle(resultSet.getString(COLUMN_TITLE));
-		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
+		adapter.adapt((ProjectDTO) serializable, project);
 
 		return project;
 	}

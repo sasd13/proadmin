@@ -37,11 +37,11 @@ public class IndividualEvaluationDTO implements Serializable {
 	private float mark;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_REPORT_CODE)
+	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_REPORT)
 	private Report report;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_STUDENT_CODE)
+	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_STUDENT)
 	private Student student;
 
 	public IndividualEvaluationDTO() {

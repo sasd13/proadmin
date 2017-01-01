@@ -10,27 +10,45 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.dao.IStudentDAO;
 
 @Entity
 @Table(name = IAcademicLevelDAO.TABLE)
 public class StudentDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6331209696281730059L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
-	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")
-	@Column(name = IAcademicLevelDAO.COLUMN_ID)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_students_id")
+	@SequenceGenerator(name = "seq_students_id", sequenceName = "seq_students_id")
+	@Column(name = IStudentDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = IAcademicLevelDAO.COLUMN_CODE)
+	@Column(name = IStudentDAO.COLUMN_CODE)
 	private String code;
+
+	@Column(name = IStudentDAO.COLUMN_FIRSTNAME)
+	private String firstName;
+
+	@Column(name = IStudentDAO.COLUMN_LASTNAME)
+	private String lastName;
+
+	@Column(name = IStudentDAO.COLUMN_EMAIL)
+	private String email;
 
 	public StudentDTO() {
 	}
 
-	public StudentDTO(AcademicLevel academiclevel) {
-		code = academiclevel.getCode();
+	public StudentDTO(Student student) {
+		code = student.getNumber();
+		firstName = student.getFirstName();
+		lastName = student.getLastName();
+		email = student.getEmail();
 	}
 
 	public long getId() {
@@ -49,6 +67,30 @@ public class StudentDTO implements Serializable {
 		this.code = code;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public int hashCode() {
 		int result = 1;
@@ -56,6 +98,9 @@ public class StudentDTO implements Serializable {
 		final int prime = 31;
 
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 
 		return super.hashCode();
 	}
@@ -74,6 +119,21 @@ public class StudentDTO implements Serializable {
 		if (code == null && other.code != null)
 			return false;
 		else if (!code.equals(other.code))
+			return false;
+
+		if (firstName == null && other.firstName != null)
+			return false;
+		else if (!firstName.equals(other.firstName))
+			return false;
+
+		if (lastName == null && other.lastName != null)
+			return false;
+		else if (!lastName.equals(other.lastName))
+			return false;
+
+		if (email == null && other.email != null)
+			return false;
+		else if (!email.equals(other.email))
 			return false;
 
 		return true;

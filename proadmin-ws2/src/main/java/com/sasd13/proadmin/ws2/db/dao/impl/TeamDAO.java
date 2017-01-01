@@ -5,37 +5,48 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.jdbc.JDBCSession;
-import com.sasd13.javaex.dao.jdbc.JDBCUtils;
+import javax.persistence.Query;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sasd13.javaex.dao.hibernate.HibernateSession;
+import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.ITeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.TeamDTOAdapter;
 
-/**
- *
- * @author Samir
- */
-public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
+public class TeamDAO extends HibernateSession<Team> implements ITeamDAO {
+
+	private TeamDTOAdapter adapter;
+
+	public TeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
+
+		adapter = new TeamDTOAdapter();
+	}
 
 	@Override
 	public long insert(Team team) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO ");
-		builder.append(TABLE);
-		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(") VALUES (?)");
+		TeamDTO dto = new TeamDTO(team);
 
-		return JDBCUtils.insert(this, builder.toString(), team);
+		HibernateUtils.insert(this, dto);
+
+		return dto.getId();
 	}
 
 	@Override
@@ -48,7 +59,7 @@ public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), updateWrapper);
+		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -59,7 +70,7 @@ public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.delete(this, builder.toString(), team);
+		HibernateUtils.delete(this, builder.toString(), team);
 	}
 
 	@Override
@@ -69,12 +80,12 @@ public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
 	public List<Team> select(Map<String, String[]> parameters) {
-		return JDBCUtils.select(this, TABLE, parameters);
+		return HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
 	public List<Team> selectAll() {
-		return JDBCUtils.selectAll(this, TABLE);
+		return HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -83,20 +94,14 @@ public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getNumber());
+	public void editQueryForUpdate(Query query, IUpdateWrapper<Team> updateWrapper) {
+		query.setParameter(1, updateWrapper.getWrapped().getNumber());
+		query.setParameter(2, ((ITeamUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Team> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
-
-		preparedStatement.setString(2, ((ITeamUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getNumber());
+	public void editQueryForDelete(Query query, Team team) {
+		query.setParameter(1, team.getNumber());
 	}
 
 	@Override
@@ -109,17 +114,19 @@ public class TeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public Team getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new Team(resultSet.getString(COLUMN_CODE));
+	public Team getResultValues(Serializable serializable) {
+		Team team = new Team();
+
+		adapter.adapt((TeamDTO) serializable, team);
 
 		return team;
 	}

@@ -5,37 +5,47 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.jdbc.JDBCSession;
-import com.sasd13.javaex.dao.jdbc.JDBCUtils;
+import javax.persistence.Query;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sasd13.javaex.dao.hibernate.HibernateSession;
+import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.StudentTeamDTOAdapter;
 
-/**
- *
- * @author Samir
- */
-public class StudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
+public class StudentTeamDAO extends HibernateSession<StudentTeam> implements IStudentTeamDAO {
+
+	private StudentTeamDTOAdapter adapter;
+
+	public StudentTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
+
+		adapter = new StudentTeamDTOAdapter();
+	}
 
 	@Override
 	public long insert(StudentTeam studentTeam) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO ");
-		builder.append(TABLE);
-		builder.append("(");
-		builder.append(COLUMN_STUDENT_CODE);
-		builder.append(", " + COLUMN_TEAM_CODE);
-		builder.append(") VALUES (?, ?)");
+		StudentTeamDTO dto = new StudentTeamDTO(studentTeam);
 
-		return JDBCUtils.insert(this, builder.toString(), studentTeam);
+		HibernateUtils.insert(this, dto);
+
+		return dto.getId();
 	}
 
 	@Override
@@ -49,10 +59,10 @@ public class StudentTeamDAO extends JDBCSession<StudentTeam> implements IStudent
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_STUDENT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
+		builder.append(COLUMN_STUDENT + " = ?");
+		builder.append(" AND " + COLUMN_TEAM + " = ?");
 
-		JDBCUtils.delete(this, builder.toString(), studentTeam);
+		HibernateUtils.delete(this, builder.toString(), studentTeam);
 	}
 
 	@Override
@@ -62,12 +72,12 @@ public class StudentTeamDAO extends JDBCSession<StudentTeam> implements IStudent
 
 	@Override
 	public List<StudentTeam> select(Map<String, String[]> parameters) {
-		return JDBCUtils.select(this, TABLE, parameters);
+		return HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
 	public List<StudentTeam> selectAll() {
-		return JDBCUtils.selectAll(this, TABLE);
+		return HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -76,47 +86,43 @@ public class StudentTeamDAO extends JDBCSession<StudentTeam> implements IStudent
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
-		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<StudentTeam> updateWrapper) throws SQLException {
+	public void editQueryForUpdate(Query query, IUpdateWrapper<StudentTeam> updateWrapper) {
 		// Do nothing
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
-		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
-		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
+	public void editQueryForDelete(Query query, StudentTeam studentTeam) {
+		query.setParameter(1, studentTeam.getStudent().getNumber());
+		query.setParameter(2, studentTeam.getTeam().getNumber());
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT_CODE;
+			return IStudentTeamDAO.COLUMN_STUDENT;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM_CODE;
+			return IStudentTeamDAO.COLUMN_TEAM;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		StudentTeam studentTeam = new StudentTeam(resultSet.getString(COLUMN_STUDENT_CODE), resultSet.getString(COLUMN_TEAM_CODE));
+	public StudentTeam getResultValues(Serializable serializable) {
+		StudentTeam studentTeam = new StudentTeam();
+
+		adapter.adapt((StudentTeamDTO) serializable, studentTeam);
 
 		return studentTeam;
 	}

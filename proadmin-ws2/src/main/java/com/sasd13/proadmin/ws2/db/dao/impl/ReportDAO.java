@@ -13,6 +13,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
@@ -24,10 +28,8 @@ import com.sasd13.proadmin.dao.IReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
-/**
- *
- * @author Samir
- */
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
 public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	private LeadEvaluationDAO leadEvaluationDAO;
@@ -68,11 +70,11 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_DATEMEETING);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE);
+		builder.append(", " + COLUMN_YEAR);
+		builder.append(", " + COLUMN_PROJECT);
+		builder.append(", " + COLUMN_TEACHER);
+		builder.append(", " + COLUMN_TEAM);
+		builder.append(", " + COLUMN_ACADEMICLEVEL);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		transaction.editTransaction(builder.toString(), report);
@@ -89,11 +91,11 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(", " + COLUMN_YEAR + " = ?");
+		builder.append(", " + COLUMN_PROJECT + " = ?");
+		builder.append(", " + COLUMN_TEACHER + " = ?");
+		builder.append(", " + COLUMN_TEAM + " = ?");
+		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
@@ -175,15 +177,15 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_SESSION;
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_YEAR;
+			return IReportDAO.COLUMN_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE;
+			return IReportDAO.COLUMN_PROJECT;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE;
+			return IReportDAO.COLUMN_TEACHER;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE;
+			return IReportDAO.COLUMN_TEAM;
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE;
+			return IReportDAO.COLUMN_ACADEMICLEVEL;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -220,7 +222,7 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE));
+		Report report = new Report(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT), resultSet.getString(COLUMN_TEACHER), resultSet.getString(COLUMN_TEAM), resultSet.getString(COLUMN_ACADEMICLEVEL));
 
 		report.setNumber(resultSet.getString(COLUMN_CODE));
 		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));

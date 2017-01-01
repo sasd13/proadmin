@@ -59,10 +59,10 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
-		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -73,8 +73,8 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		HibernateUtils.delete(this, builder.toString(), leadEvaluation);
 	}
@@ -119,9 +119,9 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT_CODE;
+			return ILeadEvaluationDAO.COLUMN_REPORT;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE;
+			return ILeadEvaluationDAO.COLUMN_STUDENT;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

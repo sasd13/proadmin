@@ -5,39 +5,47 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.jdbc.JDBCSession;
-import com.sasd13.javaex.dao.jdbc.JDBCUtils;
+import javax.persistence.Query;
+
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sasd13.javaex.dao.hibernate.HibernateSession;
+import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.RunningDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.RunningDTOAdapter;
 
-/**
- *
- * @author Samir
- */
-public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
+public class RunningDAO extends HibernateSession<Running> implements IRunningDAO {
+
+	private RunningDTOAdapter adapter;
+
+	public RunningDAO(SessionFactory connectionFactory) {
+		super(connectionFactory);
+
+		adapter = new RunningDTOAdapter();
+	}
 
 	@Override
 	public long insert(Running running) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO ");
-		builder.append(TABLE);
-		builder.append("(");
-		builder.append(COLUMN_YEAR);
-		builder.append(", " + COLUMN_PROJECT_CODE);
-		builder.append(", " + COLUMN_TEACHER_CODE);
-		builder.append(") VALUES (?, ?, ?)");
+		RunningDTO dto = new RunningDTO(running);
 
-		return JDBCUtils.insert(this, builder.toString(), running);
+		HibernateUtils.insert(this, dto);
+
+		return dto.getId();
 	}
 
 	@Override
@@ -47,14 +55,14 @@ public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(", " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(", " + COLUMN_PROJECT + " = ?");
+		builder.append(", " + COLUMN_TEACHER + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), updateWrapper);
+		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -64,10 +72,10 @@ public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
 
-		JDBCUtils.delete(this, builder.toString(), running);
+		HibernateUtils.delete(this, builder.toString(), running);
 	}
 
 	@Override
@@ -77,12 +85,12 @@ public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
 
 	@Override
 	public List<Running> select(Map<String, String[]> parameters) {
-		return JDBCUtils.select(this, TABLE, parameters);
+		return HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
 	public List<Running> selectAll() {
-		return JDBCUtils.selectAll(this, TABLE);
+		return HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -91,26 +99,20 @@ public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Running running) throws SQLException {
-		preparedStatement.setInt(1, running.getYear());
-		preparedStatement.setString(2, running.getProject().getCode());
-		preparedStatement.setString(3, running.getTeacher().getNumber());
+	public void editQueryForUpdate(Query query, IUpdateWrapper<Running> updateWrapper) {
+		query.setParameter(1, updateWrapper.getWrapped().getYear());
+		query.setParameter(2, updateWrapper.getWrapped().getProject().getCode());
+		query.setParameter(3, updateWrapper.getWrapped().getTeacher().getNumber());
+		query.setParameter(4, ((IRunningUpdateWrapper) updateWrapper).getYear());
+		query.setParameter(5, ((IRunningUpdateWrapper) updateWrapper).getProjectCode());
+		query.setParameter(6, ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Running> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
-
-		preparedStatement.setInt(4, ((IRunningUpdateWrapper) updateWrapper).getYear());
-		preparedStatement.setString(5, ((IRunningUpdateWrapper) updateWrapper).getProjectCode());
-		preparedStatement.setString(6, ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
-		preparedStatement.setInt(1, running.getYear());
-		preparedStatement.setString(2, running.getProject().getCode());
-		preparedStatement.setString(3, running.getTeacher().getNumber());
+	public void editQueryForDelete(Query query, Running running) {
+		query.setParameter(1, running.getYear());
+		query.setParameter(2, running.getProject().getCode());
+		query.setParameter(3, running.getTeacher().getNumber());
 	}
 
 	@Override
@@ -118,34 +120,36 @@ public class RunningDAO extends JDBCSession<Running> implements IRunningDAO {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
 			return IRunningDAO.COLUMN_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT_CODE;
+			return IRunningDAO.COLUMN_PROJECT;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER_CODE;
+			return IRunningDAO.COLUMN_TEACHER;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
 			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
+				query.setParameter(index, Integer.parseInt(value));
 			} catch (NumberFormatException e) {
 				throw new ConditionException("Parameter " + key + " parsing error");
 			}
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
-		Running running = new Running(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT_CODE), resultSet.getString(COLUMN_TEACHER_CODE));
+	public Running getResultValues(Serializable serializable) {
+		Running running = new Running();
+
+		adapter.adapt((RunningDTO) serializable, running);
 
 		return running;
 	}

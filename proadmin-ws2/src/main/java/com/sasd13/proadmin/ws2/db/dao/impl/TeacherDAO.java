@@ -32,11 +32,11 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 
 	@Override
 	public long insert(Teacher teacher) {
-		TeacherDTO teacherDTO = new TeacherDTO(teacher);
+		TeacherDTO dto = new TeacherDTO(teacher);
 
-		HibernateUtils.insert(this, teacherDTO);
+		HibernateUtils.insert(this, dto);
 
-		return teacherDTO.getId();
+		return dto.getId();
 	}
 
 	@Override

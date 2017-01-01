@@ -10,27 +10,42 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.dao.IRunningDAO;
 
 @Entity
-@Table(name = IAcademicLevelDAO.TABLE)
+@Table(name = IRunningDAO.TABLE)
 public class RunningDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7579626282532440081L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
-	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")
-	@Column(name = IAcademicLevelDAO.COLUMN_ID)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_runnings_id")
+	@SequenceGenerator(name = "seq_runnings_id", sequenceName = "seq_runnings_id")
+	@Column(name = IRunningDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = IAcademicLevelDAO.COLUMN_CODE)
-	private String code;
+	@Column(name = IRunningDAO.COLUMN_YEAR)
+	private int year;
+
+	@Column(name = IRunningDAO.COLUMN_PROJECT)
+	private Project project;
+
+	@Column(name = IRunningDAO.COLUMN_TEACHER)
+	private Teacher teacher;
 
 	public RunningDTO() {
 	}
 
-	public RunningDTO(AcademicLevel academiclevel) {
-		code = academiclevel.getCode();
+	public RunningDTO(Running running) {
+		year = running.getYear();
+		project = running.getProject();
+		teacher = running.getTeacher();
 	}
 
 	public long getId() {
@@ -41,12 +56,28 @@ public class RunningDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public int getYear() {
+		return year;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 
 	@Override
@@ -55,7 +86,8 @@ public class RunningDTO implements Serializable {
 
 		final int prime = 31;
 
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((project == null) ? 0 : project.hashCode());
+		result = prime * result + ((teacher == null) ? 0 : teacher.hashCode());
 
 		return super.hashCode();
 	}
@@ -71,9 +103,14 @@ public class RunningDTO implements Serializable {
 
 		RunningDTO other = (RunningDTO) obj;
 
-		if (code == null && other.code != null)
+		if (project == null && other.project != null)
 			return false;
-		else if (!code.equals(other.code))
+		else if (!project.equals(other.project))
+			return false;
+
+		if (teacher == null && other.teacher != null)
+			return false;
+		else if (!teacher.equals(other.teacher))
 			return false;
 
 		return true;

@@ -38,8 +38,8 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(", " + COLUMN_PLANNINGCOMMENT);
 		builder.append(", " + COLUMN_COMMUNICATIONMARK);
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT);
-		builder.append(", " + COLUMN_REPORT_CODE);
-		builder.append(", " + COLUMN_STUDENT_CODE);
+		builder.append(", " + COLUMN_REPORT);
+		builder.append(", " + COLUMN_STUDENT);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), leadEvaluation);
@@ -55,10 +55,10 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
 		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
-		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -69,8 +69,8 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), leadEvaluation);
 	}
@@ -127,9 +127,9 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT_CODE;
+			return ILeadEvaluationDAO.COLUMN_REPORT;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT_CODE;
+			return ILeadEvaluationDAO.COLUMN_STUDENT;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -156,12 +156,12 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
 
 		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+		report.setNumber(resultSet.getString(COLUMN_REPORT));
 
 		leadEvaluation.setReport(report);
 
 		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+		student.setNumber(resultSet.getString(COLUMN_STUDENT));
 
 		leadEvaluation.setStudent(student);
 

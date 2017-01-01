@@ -33,8 +33,8 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_STUDENT_CODE);
-		builder.append(", " + COLUMN_TEAM_CODE);
+		builder.append(COLUMN_STUDENT);
+		builder.append(", " + COLUMN_TEAM);
 		builder.append(") VALUES (?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), studentTeam);
@@ -51,8 +51,8 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_STUDENT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
+		builder.append(COLUMN_STUDENT + " = ?");
+		builder.append(" AND " + COLUMN_TEAM + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), studentTeam);
 	}
@@ -97,9 +97,9 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT_CODE;
+			return IStudentTeamDAO.COLUMN_STUDENT;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM_CODE;
+			return IStudentTeamDAO.COLUMN_TEAM;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -121,12 +121,12 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		StudentTeam studentTeam = new StudentTeam();
 
 		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+		student.setNumber(resultSet.getString(COLUMN_STUDENT));
 
 		studentTeam.setStudent(student);
 
 		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
+		team.setNumber(resultSet.getString(COLUMN_TEAM));
 
 		studentTeam.setTeam(team);
 

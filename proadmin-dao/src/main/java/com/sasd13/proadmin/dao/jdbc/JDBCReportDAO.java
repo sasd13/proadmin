@@ -76,11 +76,11 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_DATEMEETING);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE);
-		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE);
+		builder.append(", " + COLUMN_YEAR);
+		builder.append(", " + COLUMN_PROJECT);
+		builder.append(", " + COLUMN_TEACHER);
+		builder.append(", " + COLUMN_TEAM);
+		builder.append(", " + COLUMN_ACADEMICLEVEL);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		transaction.editTransaction(builder.toString(), report);
@@ -97,11 +97,11 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_YEAR + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_TEAM_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(", " + COLUMN_YEAR + " = ?");
+		builder.append(", " + COLUMN_PROJECT + " = ?");
+		builder.append(", " + COLUMN_TEACHER + " = ?");
+		builder.append(", " + COLUMN_TEAM + " = ?");
+		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
@@ -183,15 +183,15 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_SESSION;
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_YEAR;
+			return IReportDAO.COLUMN_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE;
+			return IReportDAO.COLUMN_PROJECT;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE;
+			return IReportDAO.COLUMN_TEACHER;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_TEAM_CODE;
+			return IReportDAO.COLUMN_TEAM;
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE;
+			return IReportDAO.COLUMN_ACADEMICLEVEL;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -236,21 +236,21 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
 		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE));
+		project.setCode(resultSet.getString(COLUMN_PROJECT));
 
 		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE));
+		teacher.setNumber(resultSet.getString(COLUMN_TEACHER));
 
 		Running running = new Running();
-		running.setYear(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR));
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
 		running.setProject(project);
 		running.setTeacher(teacher);
 
 		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE));
+		team.setNumber(resultSet.getString(COLUMN_TEAM));
 
 		AcademicLevel academicLevel = new AcademicLevel();
-		academicLevel.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE));
+		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
 
 		RunningTeam runningTeam = new RunningTeam();
 		runningTeam.setRunning(running);

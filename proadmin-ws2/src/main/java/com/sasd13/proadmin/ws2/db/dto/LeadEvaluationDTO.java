@@ -46,11 +46,11 @@ public class LeadEvaluationDTO implements Serializable {
 	private String communicationComment;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_REPORT_CODE)
+	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_REPORT)
 	private Report report;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_STUDENT_CODE)
+	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_STUDENT)
 	private Student student;
 
 	public LeadEvaluationDTO() {

@@ -7,6 +7,6 @@ public interface IIndividualEvaluationDAO extends ISession<IndividualEvaluation>
 
 	String TABLE = "individualevaluations";
 	String COLUMN_MARK = "_mark";
-	String COLUMN_REPORT_CODE = "_report_code";
-	String COLUMN_STUDENT_CODE = "_student_code";
+	String COLUMN_REPORT = "_report";
+	String COLUMN_STUDENT = "_student";
 }

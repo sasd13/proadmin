@@ -10,27 +10,32 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.dao.ITeamDAO;
 
 @Entity
-@Table(name = IAcademicLevelDAO.TABLE)
+@Table(name = ITeamDAO.TABLE)
 public class TeamDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1738292554927147241L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
-	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")
-	@Column(name = IAcademicLevelDAO.COLUMN_ID)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_teams_id")
+	@SequenceGenerator(name = "seq_teams_id", sequenceName = "seq_teams_id")
+	@Column(name = ITeamDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = IAcademicLevelDAO.COLUMN_CODE)
+	@Column(name = ITeamDAO.COLUMN_CODE)
 	private String code;
 
 	public TeamDTO() {
 	}
 
-	public TeamDTO(AcademicLevel academiclevel) {
-		code = academiclevel.getCode();
+	public TeamDTO(Team team) {
+		code = team.getNumber();
 	}
 
 	public long getId() {

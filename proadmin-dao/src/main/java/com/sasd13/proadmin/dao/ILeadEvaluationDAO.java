@@ -10,6 +10,6 @@ public interface ILeadEvaluationDAO extends ISession<LeadEvaluation> {
 	String COLUMN_PLANNINGCOMMENT = "_planningcomment";
 	String COLUMN_COMMUNICATIONMARK = "_communicationmark";
 	String COLUMN_COMMUNICATIONCOMMENT = "_communicationcomment";
-	String COLUMN_REPORT_CODE = "_report_code";
-	String COLUMN_STUDENT_CODE = "_student_code";
+	String COLUMN_REPORT = "_report";
+	String COLUMN_STUDENT = "_student";
 }

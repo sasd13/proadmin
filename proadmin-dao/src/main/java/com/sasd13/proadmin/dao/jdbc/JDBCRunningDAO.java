@@ -35,8 +35,8 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append(TABLE);
 		builder.append("(");
 		builder.append(COLUMN_YEAR);
-		builder.append(", " + COLUMN_PROJECT_CODE);
-		builder.append(", " + COLUMN_TEACHER_CODE);
+		builder.append(", " + COLUMN_PROJECT);
+		builder.append(", " + COLUMN_TEACHER);
 		builder.append(") VALUES (?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), running);
@@ -49,12 +49,12 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(", " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(", " + COLUMN_PROJECT + " = ?");
+		builder.append(", " + COLUMN_TEACHER + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -66,8 +66,8 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER_CODE + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), running);
 	}
@@ -120,9 +120,9 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
 			return IRunningDAO.COLUMN_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT_CODE;
+			return IRunningDAO.COLUMN_PROJECT;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER_CODE;
+			return IRunningDAO.COLUMN_TEACHER;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -152,12 +152,12 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 		running.setYear(resultSet.getInt(COLUMN_YEAR));
 
 		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_PROJECT_CODE));
+		project.setCode(resultSet.getString(COLUMN_PROJECT));
 
 		running.setProject(project);
 
 		Teacher teacher = new Teacher();
-		teacher.setNumber(resultSet.getString(COLUMN_TEACHER_CODE));
+		teacher.setNumber(resultSet.getString(COLUMN_TEACHER));
 
 		running.setTeacher(teacher);
 

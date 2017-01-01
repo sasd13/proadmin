@@ -56,10 +56,10 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -70,8 +70,8 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		HibernateUtils.delete(this, builder.toString(), individualEvaluation);
 	}
@@ -113,9 +113,9 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT_CODE;
+			return IIndividualEvaluationDAO.COLUMN_REPORT;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT_CODE;
+			return IIndividualEvaluationDAO.COLUMN_STUDENT;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

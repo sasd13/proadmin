@@ -35,8 +35,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(TABLE);
 		builder.append("(");
 		builder.append(COLUMN_MARK);
-		builder.append(", " + COLUMN_REPORT_CODE);
-		builder.append(", " + COLUMN_STUDENT_CODE);
+		builder.append(", " + COLUMN_REPORT);
+		builder.append(", " + COLUMN_STUDENT);
 		builder.append(") VALUES (?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), individualEvaluation);
@@ -49,10 +49,10 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -63,8 +63,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT_CODE + " = ?");
+		builder.append(COLUMN_REPORT + " = ?");
+		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), individualEvaluation);
 	}
@@ -115,9 +115,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT_CODE;
+			return IIndividualEvaluationDAO.COLUMN_REPORT;
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT_CODE;
+			return IIndividualEvaluationDAO.COLUMN_STUDENT;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -141,12 +141,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 
 		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+		report.setNumber(resultSet.getString(COLUMN_REPORT));
 
 		individualEvaluation.setReport(report);
 
 		Student student = new Student();
-		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+		student.setNumber(resultSet.getString(COLUMN_STUDENT));
 
 		individualEvaluation.setStudent(student);
 

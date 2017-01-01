@@ -11,6 +11,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
@@ -20,10 +24,8 @@ import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
 
-/**
- *
- * @author Samir
- */
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
 public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
 
 	@Override
@@ -32,11 +34,11 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_RUNNING_YEAR);
-		builder.append(", " + COLUMN_RUNNING_PROJECT_CODE);
-		builder.append(", " + COLUMN_RUNNING_TEACHER_CODE);
-		builder.append(", " + COLUMN_TEAM_CODE);
-		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE);
+		builder.append(COLUMN_YEAR);
+		builder.append(", " + COLUMN_PROJECT);
+		builder.append(", " + COLUMN_TEACHER);
+		builder.append(", " + COLUMN_TEAM);
+		builder.append(", " + COLUMN_ACADEMICLEVEL);
 		builder.append(") VALUES (?, ?, ?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), runningTeam);
@@ -48,17 +50,17 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_RUNNING_YEAR + " = ?");
-		builder.append(", " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
-		builder.append(", " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
-		builder.append(", " + COLUMN_TEAM_CODE + " = ?");
-		builder.append(", " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(", " + COLUMN_PROJECT + " = ?");
+		builder.append(", " + COLUMN_TEACHER + " = ?");
+		builder.append(", " + COLUMN_TEAM + " = ?");
+		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
 		builder.append(" WHERE ");
-		builder.append(COLUMN_RUNNING_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
-		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		builder.append(" AND " + COLUMN_TEAM + " = ?");
+		builder.append(" AND " + COLUMN_ACADEMICLEVEL + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -69,11 +71,11 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
 		builder.append(" WHERE ");
-		builder.append(COLUMN_RUNNING_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_RUNNING_PROJECT_CODE + " = ?");
-		builder.append(" AND " + COLUMN_RUNNING_TEACHER_CODE + " = ?");
-		builder.append(" AND " + COLUMN_TEAM_CODE + " = ?");
-		builder.append(" AND " + COLUMN_ACADEMICLEVEL_CODE + " = ?");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		builder.append(" AND " + COLUMN_TEAM + " = ?");
+		builder.append(" AND " + COLUMN_ACADEMICLEVEL + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), runningTeam);
 	}
@@ -130,15 +132,15 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_RUNNING_YEAR;
+			return IRunningTeamDAO.COLUMN_YEAR;
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_RUNNING_PROJECT_CODE;
+			return IRunningTeamDAO.COLUMN_PROJECT;
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_RUNNING_TEACHER_CODE;
+			return IRunningTeamDAO.COLUMN_TEACHER;
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_TEAM_CODE;
+			return IRunningTeamDAO.COLUMN_TEAM;
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_ACADEMICLEVEL_CODE;
+			return IRunningTeamDAO.COLUMN_ACADEMICLEVEL;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -167,7 +169,7 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 
 	@Override
 	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeam(resultSet.getInt(COLUMN_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_TEAM_CODE), resultSet.getString(COLUMN_ACADEMICLEVEL_CODE));
+		RunningTeam runningTeam = new RunningTeam(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT), resultSet.getString(COLUMN_TEACHER), resultSet.getString(COLUMN_TEAM), resultSet.getString(COLUMN_ACADEMICLEVEL));
 
 		return runningTeam;
 	}

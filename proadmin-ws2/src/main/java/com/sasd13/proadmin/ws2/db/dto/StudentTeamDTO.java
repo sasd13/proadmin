@@ -10,43 +10,58 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.dao.IStudentTeamDAO;
 
 @Entity
-@Table(name = IAcademicLevelDAO.TABLE)
+@Table(name = IStudentTeamDAO.TABLE)
 public class StudentTeamDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2038936998479170893L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
-	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")
-	@Column(name = IAcademicLevelDAO.COLUMN_ID)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_studentteams_id")
+	@SequenceGenerator(name = "seq_studentteams_id", sequenceName = "seq_studentteams_id")
+	@Column(name = IStudentTeamDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = IAcademicLevelDAO.COLUMN_CODE)
-	private String code;
+	@Column(name = IStudentTeamDAO.COLUMN_STUDENT)
+	private Student student;
+
+	@Column(name = IStudentTeamDAO.COLUMN_TEAM)
+	private Team team;
 
 	public StudentTeamDTO() {
 	}
 
-	public StudentTeamDTO(AcademicLevel academiclevel) {
-		code = academiclevel.getCode();
+	public StudentTeamDTO(StudentTeam studentTeam) {
+		student = studentTeam.getStudent();
+		team = studentTeam.getTeam();
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public Student getStudent() {
+		return student;
 	}
 
-	public String getCode() {
-		return code;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	@Override
@@ -55,7 +70,8 @@ public class StudentTeamDTO implements Serializable {
 
 		final int prime = 31;
 
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((student == null) ? 0 : student.hashCode());
+		result = prime * result + ((team == null) ? 0 : team.hashCode());
 
 		return super.hashCode();
 	}
@@ -71,9 +87,14 @@ public class StudentTeamDTO implements Serializable {
 
 		StudentTeamDTO other = (StudentTeamDTO) obj;
 
-		if (code == null && other.code != null)
+		if (student == null && other.student != null)
 			return false;
-		else if (!code.equals(other.code))
+		else if (!student.equals(other.student))
+			return false;
+
+		if (team == null && other.team != null)
+			return false;
+		else if (!team.equals(other.team))
 			return false;
 
 		return true;

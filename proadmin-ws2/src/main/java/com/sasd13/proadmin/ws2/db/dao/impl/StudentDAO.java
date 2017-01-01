@@ -5,40 +5,48 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.dao.jdbc.JDBCSession;
-import com.sasd13.javaex.dao.jdbc.JDBCUtils;
+import javax.persistence.Query;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sasd13.javaex.dao.hibernate.HibernateSession;
+import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.IStudentDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.StudentDTOAdapter;
 
-/**
- *
- * @author Samir
- */
-public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
+@Repository
+@Transactional(propagation = Propagation.REQUIRED)
+public class StudentDAO extends HibernateSession<Student> implements IStudentDAO {
+
+	private StudentDTOAdapter adapter;
+
+	public StudentDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
+
+		adapter = new StudentDTOAdapter();
+	}
 
 	@Override
 	public long insert(Student student) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO ");
-		builder.append(TABLE);
-		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_FIRSTNAME);
-		builder.append(", " + COLUMN_LASTNAME);
-		builder.append(", " + COLUMN_EMAIL);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		StudentDTO dto = new StudentDTO(student);
 
-		return JDBCUtils.insert(this, builder.toString(), student);
+		HibernateUtils.insert(this, dto);
+
+		return dto.getId();
 	}
 
 	@Override
@@ -54,7 +62,7 @@ public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.update(this, builder.toString(), updateWrapper);
+		HibernateUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -65,7 +73,7 @@ public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		JDBCUtils.delete(this, builder.toString(), student);
+		HibernateUtils.delete(this, builder.toString(), student);
 	}
 
 	@Override
@@ -75,12 +83,12 @@ public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
 
 	@Override
 	public List<Student> select(Map<String, String[]> parameters) {
-		return JDBCUtils.select(this, TABLE, parameters);
+		return HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
 	public List<Student> selectAll() {
-		return JDBCUtils.selectAll(this, TABLE);
+		return HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -89,23 +97,17 @@ public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Student student) throws SQLException {
-		preparedStatement.setString(1, student.getNumber());
-		preparedStatement.setString(2, student.getFirstName());
-		preparedStatement.setString(3, student.getLastName());
-		preparedStatement.setString(4, student.getEmail());
+	public void editQueryForUpdate(Query query, IUpdateWrapper<Student> updateWrapper) {
+		query.setParameter(1, updateWrapper.getWrapped().getNumber());
+		query.setParameter(2, updateWrapper.getWrapped().getFirstName());
+		query.setParameter(3, updateWrapper.getWrapped().getLastName());
+		query.setParameter(4, updateWrapper.getWrapped().getEmail());
+		query.setParameter(5, ((IStudentUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Student> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
-
-		preparedStatement.setString(5, ((IStudentUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Student student) throws SQLException {
-		preparedStatement.setString(1, student.getNumber());
+	public void editQueryForDelete(Query query, Student student) {
+		query.setParameter(1, student.getNumber());
 	}
 
 	@Override
@@ -124,27 +126,25 @@ public class StudentDAO extends JDBCSession<Student> implements IStudentDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public Student getResultSetValues(ResultSet resultSet) throws SQLException {
-		Student student = new Student(resultSet.getString(COLUMN_CODE));
+	public Student getResultValues(Serializable serializable) {
+		Student student = new Student();
 
-		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
-		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
-		student.setEmail(resultSet.getString(COLUMN_EMAIL));
+		adapter.adapt((StudentDTO) serializable, student);
 
 		return student;
 	}

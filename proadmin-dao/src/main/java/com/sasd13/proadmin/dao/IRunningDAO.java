@@ -7,6 +7,6 @@ public interface IRunningDAO extends ISession<Running> {
 
 	String TABLE = "runnings";
 	String COLUMN_YEAR = "_year";
-	String COLUMN_PROJECT_CODE = "_project_code";
-	String COLUMN_TEACHER_CODE = "_teacher_code";
+	String COLUMN_PROJECT = "_project";
+	String COLUMN_TEACHER = "_teacher";
 }

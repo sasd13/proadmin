@@ -6,9 +6,9 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 public interface IRunningTeamDAO extends ISession<RunningTeam> {
 
 	String TABLE = "runningteams";
-	String COLUMN_RUNNING_YEAR = "_running_year";
-	String COLUMN_RUNNING_PROJECT_CODE = "_running_project_code";
-	String COLUMN_RUNNING_TEACHER_CODE = "_running_teacher_code";
-	String COLUMN_TEAM_CODE = "_team_code";
-	String COLUMN_ACADEMICLEVEL_CODE = "_academiclevel_code";
+	String COLUMN_YEAR = "_year";
+	String COLUMN_PROJECT = "_project";
+	String COLUMN_TEACHER = "_teacher";
+	String COLUMN_TEAM = "_team";
+	String COLUMN_ACADEMICLEVEL = "_academiclevel";
 }

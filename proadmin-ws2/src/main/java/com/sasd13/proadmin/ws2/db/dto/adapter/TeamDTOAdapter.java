@@ -1,14 +1,14 @@
 package com.sasd13.proadmin.ws2.db.dto.adapter;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
 
-public class TeamDTOAdapter implements IAdapter<LeadEvaluationDTO, LeadEvaluation> {
+public class TeamDTOAdapter implements IAdapter<TeamDTO, Team> {
 
 	@Override
-	public LeadEvaluation adapt(LeadEvaluationDTO source) {
-		LeadEvaluation target = new LeadEvaluation();
+	public Team adapt(TeamDTO source) {
+		Team target = new Team();
 
 		adapt(source, target);
 
@@ -16,12 +16,7 @@ public class TeamDTOAdapter implements IAdapter<LeadEvaluationDTO, LeadEvaluatio
 	}
 
 	@Override
-	public void adapt(LeadEvaluationDTO source, LeadEvaluation target) {
-		target.setPlanningMark(source.getPlanningMark());
-		target.setPlanningComment(source.getPlanningComment());
-		target.setCommunicationMark(source.getCommunicationMark());
-		target.setCommunicationComment(source.getCommunicationComment());
-		target.setReport(source.getReport());
-		target.setStudent(source.getStudent());
+	public void adapt(TeamDTO source, Team target) {
+		target.setNumber(source.getCode());
 	}
 }
