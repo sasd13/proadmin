@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.util.exception;
 
 public enum EnumError {
-	UNKNOWN(0, "exception.unknown"), 
-	CONNECTION(-1, "exception.connection"), 
+	CONNECTION(0, "exception.connection"), 
+	UNKNOWN(1, "exception.unknown"), 
 	AAA(100, "exception.aaa"), 
 	AAA_LOGIN(101, "exception.aaa.login"), 
 	PARSER(200, "exception.parser"), 
