@@ -2,5 +2,6 @@
     <wb-module deploy-name="proadmin-util">
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/resource"/>
+        <wb-resource deploy-path="/" source-path="/res"/>
     </wb-module>
 </project-modules>
