@@ -103,13 +103,11 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 
 	@Override
 	public void editQueryForUpdate(Query query, IUpdateWrapper<Teacher> updateWrapper) {
-		TeacherUpdateWrapper wrapper = (TeacherUpdateWrapper) updateWrapper;
-
-		query.setParameter(0, wrapper.getWrapped().getNumber());
-		query.setParameter(1, wrapper.getWrapped().getFirstName());
-		query.setParameter(2, wrapper.getWrapped().getLastName());
-		query.setParameter(3, wrapper.getWrapped().getEmail());
-		query.setParameter(4, wrapper.getNumber());
+		query.setParameter(0, updateWrapper.getWrapped().getNumber());
+		query.setParameter(1, updateWrapper.getWrapped().getFirstName());
+		query.setParameter(2, updateWrapper.getWrapped().getLastName());
+		query.setParameter(3, updateWrapper.getWrapped().getEmail());
+		query.setParameter(4, ((TeacherUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

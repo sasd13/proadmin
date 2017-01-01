@@ -1,33 +1,34 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IStudentDAO;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class StudentService extends Service<Student> {
+public class StudentService implements IService<Student> {
 
 	private static final Logger LOGGER = Logger.getLogger(StudentService.class);
 
-	public StudentService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IStudentDAO dao;
 
 	@Override
 	public void create(Student student) {
 		LOGGER.info("create : number=" + student.getNumber());
 
 		try {
-			getSession(Student.class).insert(student);
+			dao.insert(student);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +40,7 @@ public class StudentService extends Service<Student> {
 		LOGGER.info("update : number=" + ((IStudentUpdateWrapper) updateWrapper).getNumber());
 
 		try {
-			getSession(Student.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +52,7 @@ public class StudentService extends Service<Student> {
 		LOGGER.info("delete : number=" + student.getNumber());
 
 		try {
-			getSession(Student.class).delete(student);
+			dao.delete(student);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +66,7 @@ public class StudentService extends Service<Student> {
 		List<Student> students = new ArrayList<>();
 
 		try {
-			students = getSession(Student.class).select(parameters);
+			students = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,24 +82,12 @@ public class StudentService extends Service<Student> {
 		List<Student> students = new ArrayList<>();
 
 		try {
-			students = getSession(Student.class).selectAll();
+			students = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		return students;
-	}
-
-	@Override
-	public List<Student> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead unavailable");
-		throw new ServiceException("Service unavailable");
-	}
-
-	@Override
-	public List<Student> deepReadAll() {
-		LOGGER.info("deepRead unavailable");
-		throw new ServiceException("Service unavailable");
 	}
 }

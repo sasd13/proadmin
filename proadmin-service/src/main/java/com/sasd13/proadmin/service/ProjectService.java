@@ -27,7 +27,7 @@ public class ProjectService extends Service<Project> {
 		LOGGER.info("create : code=" + project.getCode());
 
 		try {
-			currentConnection().getSession(Project.class).insert(project);
+			getSession(Project.class).insert(project);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +39,7 @@ public class ProjectService extends Service<Project> {
 		LOGGER.info("update : code=" + ((IProjectUpdateWrapper) updateWrapper).getCode());
 
 		try {
-			currentConnection().getSession(Project.class).update(updateWrapper);
+			getSession(Project.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +51,7 @@ public class ProjectService extends Service<Project> {
 		LOGGER.info("delete : code=" + project.getCode());
 
 		try {
-			currentConnection().getSession(Project.class).delete(project);
+			getSession(Project.class).delete(project);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +65,7 @@ public class ProjectService extends Service<Project> {
 		List<Project> projects = new ArrayList<>();
 
 		try {
-			projects = currentConnection().getSession(Project.class).select(parameters);
+			projects = getSession(Project.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,7 +81,7 @@ public class ProjectService extends Service<Project> {
 		List<Project> projects = new ArrayList<>();
 
 		try {
-			projects = currentConnection().getSession(Project.class).selectAll();
+			projects = getSession(Project.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

@@ -1,32 +1,33 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class AcademicLevelService extends Service<AcademicLevel> {
+public class AcademicLevelService implements IService<AcademicLevel> {
 
-	private static final Logger LOGGER = Logger.getLogger(AcademicLevelService.class);
+	private static final Logger LOGGER = Logger.getLogger(AcademicLevel.class);
 
-	public AcademicLevelService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IAcademicLevelDAO dao;
 
 	@Override
 	public void create(AcademicLevel academicLevel) {
 		LOGGER.info("create : code=" + academicLevel.getCode());
 
 		try {
-			getSession(AcademicLevel.class).insert(academicLevel);
+			dao.insert(academicLevel);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -38,7 +39,7 @@ public class AcademicLevelService extends Service<AcademicLevel> {
 		LOGGER.info("update : code=" + ((IAcademicLevelUpdateWrapper) updateWrapper).getCode());
 
 		try {
-			getSession(AcademicLevel.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -50,7 +51,7 @@ public class AcademicLevelService extends Service<AcademicLevel> {
 		LOGGER.info("delete : code=" + academicLevel.getCode());
 
 		try {
-			getSession(AcademicLevel.class).delete(academicLevel);
+			dao.delete(academicLevel);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -64,7 +65,7 @@ public class AcademicLevelService extends Service<AcademicLevel> {
 		List<AcademicLevel> academicLevels = new ArrayList<>();
 
 		try {
-			academicLevels = getSession(AcademicLevel.class).select(parameters);
+			academicLevels = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -80,24 +81,12 @@ public class AcademicLevelService extends Service<AcademicLevel> {
 		List<AcademicLevel> academicLevels = new ArrayList<>();
 
 		try {
-			academicLevels = getSession(AcademicLevel.class).selectAll();
+			academicLevels = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		return academicLevels;
-	}
-
-	@Override
-	public List<AcademicLevel> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead unavailable");
-		throw new ServiceException("Service unavailable");
-	}
-
-	@Override
-	public List<AcademicLevel> deepReadAll() {
-		LOGGER.info("deepReadAll unavailable");
-		throw new ServiceException("Service unavailable");
 	}
 }

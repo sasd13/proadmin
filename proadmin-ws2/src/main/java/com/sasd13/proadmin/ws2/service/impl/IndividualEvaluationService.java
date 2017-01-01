@@ -1,26 +1,27 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class IndividualEvaluationService extends Service<IndividualEvaluation> {
+public class IndividualEvaluationService implements IService<IndividualEvaluation> {
 
 	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationService.class);
 
-	public IndividualEvaluationService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IIndividualEvaluationDAO dao;
 
 	@Override
 	public void create(IndividualEvaluation individualEvaluation) {
@@ -33,7 +34,7 @@ public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 		LOGGER.info("update : reportNumber=" + ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber() + ", studentNumber=" + ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 
 		try {
-			getSession(IndividualEvaluation.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -53,7 +54,7 @@ public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		try {
-			individualEvaluations = getSession(IndividualEvaluation.class).select(parameters);
+			individualEvaluations = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -69,39 +70,7 @@ public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
 		try {
-			individualEvaluations = getSession(IndividualEvaluation.class).selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return individualEvaluations;
-	}
-
-	@Override
-	public List<IndividualEvaluation> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
-
-		try {
-			individualEvaluations = getDeepReader(IndividualEvaluation.class).select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return individualEvaluations;
-	}
-
-	@Override
-	public List<IndividualEvaluation> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
-		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
-
-		try {
-			individualEvaluations = getDeepReader(IndividualEvaluation.class).selectAll();
+			individualEvaluations = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

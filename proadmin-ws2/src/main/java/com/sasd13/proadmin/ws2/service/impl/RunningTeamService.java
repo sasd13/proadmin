@@ -1,33 +1,34 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class RunningTeamService extends Service<RunningTeam> {
+public class RunningTeamService implements IService<RunningTeam> {
 
 	private static final Logger LOGGER = Logger.getLogger(RunningTeamService.class);
 
-	public RunningTeamService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IRunningTeamDAO dao;
 
 	@Override
 	public void create(RunningTeam runningTeam) {
 		LOGGER.info("create : year=" + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
-			getSession(RunningTeam.class).insert(runningTeam);
+			dao.insert(runningTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +40,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 		LOGGER.info("update : year=" + ((IRunningTeamUpdateWrapper) updateWrapper).getRunningYear() + ", projectCode=" + ((IRunningTeamUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeacherNumber() + ", teamNumber=" + ((IRunningTeamUpdateWrapper) updateWrapper).getTeamNumber() + ", academicLevel=" + ((IRunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
 
 		try {
-			getSession(RunningTeam.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +52,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 		LOGGER.info("delete : year=" + runningTeam.getRunning().getYear() + ", projectCode=" + runningTeam.getRunning().getProject().getCode() + ", teacherNumber=" + runningTeam.getRunning().getTeacher().getNumber() + ", teamNumber=" + runningTeam.getTeam().getNumber() + ", academicLevel=" + runningTeam.getAcademicLevel().getCode());
 
 		try {
-			getSession(RunningTeam.class).delete(runningTeam);
+			dao.delete(runningTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +66,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 		List<RunningTeam> runningTeams = new ArrayList<>();
 
 		try {
-			runningTeams = getSession(RunningTeam.class).select(parameters);
+			runningTeams = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,39 +82,7 @@ public class RunningTeamService extends Service<RunningTeam> {
 		List<RunningTeam> runningTeams = new ArrayList<>();
 
 		try {
-			runningTeams = getSession(RunningTeam.class).selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return runningTeams;
-	}
-
-	@Override
-	public List<RunningTeam> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<RunningTeam> runningTeams = new ArrayList<>();
-
-		try {
-			runningTeams = getDeepReader(RunningTeam.class).select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return runningTeams;
-	}
-
-	@Override
-	public List<RunningTeam> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
-		List<RunningTeam> runningTeams = new ArrayList<>();
-
-		try {
-			runningTeams = getDeepReader(RunningTeam.class).selectAll();
+			runningTeams = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

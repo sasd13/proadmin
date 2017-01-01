@@ -11,24 +11,24 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.ITeacherDAO;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.dao.IProjectDAO;
+import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
 import com.sasd13.proadmin.ws2.service.IService;
 
-public class TeacherService implements IService<Teacher> {
+public class ProjectService implements IService<Project> {
 
-	private static final Logger LOGGER = Logger.getLogger(TeacherService.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectService.class);
 
 	@Autowired
-	private ITeacherDAO dao;
+	private IProjectDAO dao;
 
 	@Override
-	public void create(Teacher teacher) {
-		LOGGER.info("create : number=" + teacher.getNumber());
+	public void create(Project project) {
+		LOGGER.info("create : code=" + project.getCode());
 
 		try {
-			dao.insert(teacher);
+			dao.insert(project);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -36,8 +36,8 @@ public class TeacherService implements IService<Teacher> {
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Teacher> updateWrapper) {
-		LOGGER.info("update : number=" + ((TeacherUpdateWrapper) updateWrapper).getNumber());
+	public void update(IUpdateWrapper<Project> updateWrapper) {
+		LOGGER.info("update : code=" + ((IProjectUpdateWrapper) updateWrapper).getCode());
 
 		try {
 			dao.update(updateWrapper);
@@ -48,11 +48,11 @@ public class TeacherService implements IService<Teacher> {
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
-		LOGGER.info("delete : number=" + teacher.getNumber());
+	public void delete(Project project) {
+		LOGGER.info("delete : code=" + project.getCode());
 
 		try {
-			dao.delete(teacher);
+			dao.delete(project);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -60,34 +60,34 @@ public class TeacherService implements IService<Teacher> {
 	}
 
 	@Override
-	public List<Teacher> read(Map<String, String[]> parameters) {
+	public List<Project> read(Map<String, String[]> parameters) {
 		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
-		List<Teacher> list = new ArrayList<>();
+		List<Project> projects = new ArrayList<>();
 
 		try {
-			list = dao.select(parameters);
+			projects = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		return list;
+		return projects;
 	}
 
 	@Override
-	public List<Teacher> readAll() {
+	public List<Project> readAll() {
 		LOGGER.info("readAll");
 
-		List<Teacher> list = new ArrayList<>();
+		List<Project> projects = new ArrayList<>();
 
 		try {
-			list = dao.selectAll();
+			projects = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		return list;
+		return projects;
 	}
 }

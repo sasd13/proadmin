@@ -1,26 +1,27 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class LeadEvaluationService extends Service<LeadEvaluation> {
+public class LeadEvaluationService implements IService<LeadEvaluation> {
 
 	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationService.class);
 
-	public LeadEvaluationService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private ILeadEvaluationDAO dao;
 
 	@Override
 	public void create(LeadEvaluation leadEvaluation) {
@@ -33,7 +34,7 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber() + ", studentNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 
 		try {
-			getSession(LeadEvaluation.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -53,7 +54,7 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			leadEvaluations = getSession(LeadEvaluation.class).select(parameters);
+			leadEvaluations = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -69,39 +70,7 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
-			leadEvaluations = getSession(LeadEvaluation.class).selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return leadEvaluations;
-	}
-
-	@Override
-	public List<LeadEvaluation> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
-
-		try {
-			leadEvaluations = getDeepReader(LeadEvaluation.class).select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return leadEvaluations;
-	}
-
-	@Override
-	public List<LeadEvaluation> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
-		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
-
-		try {
-			leadEvaluations = getDeepReader(LeadEvaluation.class).selectAll();
+			leadEvaluations = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

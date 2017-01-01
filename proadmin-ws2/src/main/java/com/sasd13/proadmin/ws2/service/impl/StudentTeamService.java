@@ -1,32 +1,33 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IStudentTeamDAO;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class StudentTeamService extends Service<StudentTeam> {
+public class StudentTeamService implements IService<StudentTeam> {
 
 	private static final Logger LOGGER = Logger.getLogger(StudentTeamService.class);
 
-	public StudentTeamService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IStudentTeamDAO dao;
 
 	@Override
 	public void create(StudentTeam studentTeam) {
 		LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
 
 		try {
-			getSession(StudentTeam.class).insert(studentTeam);
+			dao.insert(studentTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -44,7 +45,7 @@ public class StudentTeamService extends Service<StudentTeam> {
 		LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
 
 		try {
-			getSession(StudentTeam.class).delete(studentTeam);
+			dao.delete(studentTeam);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -58,7 +59,7 @@ public class StudentTeamService extends Service<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			studentTeams = getSession(StudentTeam.class).select(parameters);
+			studentTeams = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -74,39 +75,7 @@ public class StudentTeamService extends Service<StudentTeam> {
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
 		try {
-			studentTeams = getSession(StudentTeam.class).selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return studentTeams;
-	}
-
-	@Override
-	public List<StudentTeam> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<StudentTeam> studentTeams = new ArrayList<>();
-
-		try {
-			studentTeams = getDeepReader(StudentTeam.class).select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return studentTeams;
-	}
-
-	@Override
-	public List<StudentTeam> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
-		List<StudentTeam> studentTeams = new ArrayList<>();
-
-		try {
-			studentTeams = getDeepReader(StudentTeam.class).selectAll();
+			studentTeams = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

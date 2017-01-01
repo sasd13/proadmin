@@ -48,7 +48,7 @@ public class LogInPromise extends Promise {
     public void onPreExecute() {
         switch (taskType) {
             case TASKTYPE_LOGIN:
-                callback.onPreExecute();
+                super.onPreExecute();
                 break;
         }
     }

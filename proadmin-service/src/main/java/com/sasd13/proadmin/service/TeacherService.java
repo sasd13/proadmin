@@ -27,7 +27,7 @@ public class TeacherService extends Service<Teacher> {
 		LOGGER.info("create : number=" + teacher.getNumber());
 
 		try {
-			currentConnection().getSession(Teacher.class).insert(teacher);
+			getSession(Teacher.class).insert(teacher);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +39,7 @@ public class TeacherService extends Service<Teacher> {
 		LOGGER.info("update : number=" + ((ITeacherUpdateWrapper) updateWrapper).getNumber());
 
 		try {
-			currentConnection().getSession(Teacher.class).update(updateWrapper);
+			getSession(Teacher.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +51,7 @@ public class TeacherService extends Service<Teacher> {
 		LOGGER.info("delete : number=" + teacher.getNumber());
 
 		try {
-			currentConnection().getSession(Teacher.class).delete(teacher);
+			getSession(Teacher.class).delete(teacher);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +65,7 @@ public class TeacherService extends Service<Teacher> {
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			teachers = currentConnection().getSession(Teacher.class).select(parameters);
+			teachers = getSession(Teacher.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,7 +81,7 @@ public class TeacherService extends Service<Teacher> {
 		List<Teacher> teachers = new ArrayList<>();
 
 		try {
-			teachers = currentConnection().getSession(Teacher.class).selectAll();
+			teachers = getSession(Teacher.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

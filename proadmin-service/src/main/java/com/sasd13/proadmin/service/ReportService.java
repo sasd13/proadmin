@@ -27,7 +27,7 @@ public class ReportService extends Service<Report> {
 		LOGGER.info("create : number=" + report.getNumber());
 
 		try {
-			currentConnection().getSession(Report.class).insert(report);
+			getSession(Report.class).insert(report);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +39,7 @@ public class ReportService extends Service<Report> {
 		LOGGER.info("update : number=" + ((IReportUpdateWrapper) updateWrapper).getNumber());
 
 		try {
-			currentConnection().getSession(Report.class).update(updateWrapper);
+			getSession(Report.class).update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +51,7 @@ public class ReportService extends Service<Report> {
 		LOGGER.info("delete : number=" + report.getNumber());
 
 		try {
-			currentConnection().getSession(Report.class).delete(report);
+			getSession(Report.class).delete(report);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +65,7 @@ public class ReportService extends Service<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = currentConnection().getSession(Report.class).select(parameters);
+			reports = getSession(Report.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,7 +81,7 @@ public class ReportService extends Service<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = currentConnection().getSession(Report.class).selectAll();
+			reports = getSession(Report.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -97,7 +97,7 @@ public class ReportService extends Service<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = currentConnection().getDeepReader(Report.class).select(parameters);
+			reports = getDeepReader(Report.class).select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -113,7 +113,7 @@ public class ReportService extends Service<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = currentConnection().getDeepReader(Report.class).selectAll();
+			reports = getDeepReader(Report.class).selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

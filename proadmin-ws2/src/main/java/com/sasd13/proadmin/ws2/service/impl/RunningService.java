@@ -1,33 +1,34 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.ws2.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IService;
 
-public class RunningService extends Service<Running> {
+public class RunningService implements IService<Running> {
 
 	private static final Logger LOGGER = Logger.getLogger(RunningService.class);
 
-	public RunningService(DAO dao) {
-		super(dao);
-	}
+	@Autowired
+	private IRunningDAO dao;
 
 	@Override
 	public void create(Running running) {
 		LOGGER.info("create : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
-			getSession(Running.class).insert(running);
+			dao.insert(running);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -39,7 +40,7 @@ public class RunningService extends Service<Running> {
 		LOGGER.info("update : year=" + ((IRunningUpdateWrapper) updateWrapper).getYear() + ", projectCode=" + ((IRunningUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
 
 		try {
-			getSession(Running.class).update(updateWrapper);
+			dao.update(updateWrapper);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -51,7 +52,7 @@ public class RunningService extends Service<Running> {
 		LOGGER.info("delete : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
 
 		try {
-			getSession(Running.class).delete(running);
+			dao.delete(running);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -65,7 +66,7 @@ public class RunningService extends Service<Running> {
 		List<Running> runnings = new ArrayList<>();
 
 		try {
-			runnings = getSession(Running.class).select(parameters);
+			runnings = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -81,39 +82,7 @@ public class RunningService extends Service<Running> {
 		List<Running> runnings = new ArrayList<>();
 
 		try {
-			runnings = getSession(Running.class).selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return runnings;
-	}
-
-	@Override
-	public List<Running> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
-		List<Running> runnings = new ArrayList<>();
-
-		try {
-			runnings = getDeepReader(Running.class).select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return runnings;
-	}
-
-	@Override
-	public List<Running> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
-		List<Running> runnings = new ArrayList<>();
-
-		try {
-			runnings = getDeepReader(Running.class).selectAll();
+			runnings = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
