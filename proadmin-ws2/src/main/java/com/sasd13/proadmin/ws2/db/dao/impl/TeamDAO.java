@@ -22,22 +22,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.dao.ITeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.ITeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.TeamDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class TeamDAO extends HibernateSession<Team> implements ITeamDAO {
 
-	private TeamDTOAdapter adapter;
-
 	public TeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new TeamDTOAdapter();
 	}
 
 	@Override
@@ -74,18 +69,18 @@ public class TeamDAO extends HibernateSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public Team select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Team> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Team> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -120,14 +115,5 @@ public class TeamDAO extends HibernateSession<Team> implements ITeamDAO {
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Team getResultValues(Serializable serializable) {
-		Team team = new Team();
-
-		adapter.adapt((TeamDTO) serializable, team);
-
-		return team;
 	}
 }

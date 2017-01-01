@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.dao.IProjectDAO;
+import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 
 @Entity
 @Table(name = IProjectDAO.TABLE)

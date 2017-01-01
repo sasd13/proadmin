@@ -11,8 +11,8 @@ import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class AcademicLevelService implements IService<AcademicLevel> {

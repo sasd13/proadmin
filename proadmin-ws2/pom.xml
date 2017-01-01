@@ -43,11 +43,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
-			<artifactId>proadmin-dao</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-util</artifactId>
 			<version>0.1</version>
 		</dependency>

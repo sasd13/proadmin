@@ -22,21 +22,16 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.StudentTeamDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class StudentTeamDAO extends HibernateSession<StudentTeam> implements IStudentTeamDAO {
 
-	private StudentTeamDTOAdapter adapter;
-
 	public StudentTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new StudentTeamDTOAdapter();
 	}
 
 	@Override
@@ -66,18 +61,18 @@ public class StudentTeamDAO extends HibernateSession<StudentTeam> implements ISt
 	}
 
 	@Override
-	public StudentTeam select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<StudentTeam> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<StudentTeam> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -116,14 +111,5 @@ public class StudentTeamDAO extends HibernateSession<StudentTeam> implements ISt
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public StudentTeam getResultValues(Serializable serializable) {
-		StudentTeam studentTeam = new StudentTeam();
-
-		adapter.adapt((StudentTeamDTO) serializable, studentTeam);
-
-		return studentTeam;
 	}
 }

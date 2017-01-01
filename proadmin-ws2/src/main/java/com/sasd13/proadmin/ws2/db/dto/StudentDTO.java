@@ -11,11 +11,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
-import com.sasd13.proadmin.dao.IStudentDAO;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 
 @Entity
-@Table(name = IAcademicLevelDAO.TABLE)
+@Table(name = IStudentDAO.TABLE)
 public class StudentDTO implements Serializable {
 
 	/**

@@ -12,8 +12,8 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class TeacherService implements IService<Teacher> {

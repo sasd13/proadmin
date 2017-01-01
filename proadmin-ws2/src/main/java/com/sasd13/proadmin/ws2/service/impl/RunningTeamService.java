@@ -12,8 +12,8 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class RunningTeamService implements IService<RunningTeam> {

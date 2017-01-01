@@ -12,8 +12,8 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class LeadEvaluationService implements IService<LeadEvaluation> {

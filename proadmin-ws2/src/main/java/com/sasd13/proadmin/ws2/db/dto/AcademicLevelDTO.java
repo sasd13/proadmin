@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 
 @Entity
 @Table(name = IAcademicLevelDAO.TABLE)
@@ -34,8 +34,8 @@ public class AcademicLevelDTO implements Serializable {
 	public AcademicLevelDTO() {
 	}
 
-	public AcademicLevelDTO(AcademicLevel academiclevel) {
-		code = academiclevel.getCode();
+	public AcademicLevelDTO(AcademicLevel academicLevel) {
+		code = academicLevel.getCode();
 	}
 
 	public long getId() {

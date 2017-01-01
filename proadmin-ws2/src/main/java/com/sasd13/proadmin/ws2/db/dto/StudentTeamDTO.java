@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.dao.IStudentTeamDAO;
+import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
 
 @Entity
 @Table(name = IStudentTeamDAO.TABLE)
@@ -30,37 +31,43 @@ public class StudentTeamDTO implements Serializable {
 	@Column(name = IStudentTeamDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = IStudentTeamDAO.COLUMN_STUDENT)
-	private Student student;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = IStudentTeamDAO.COLUMN_STUDENT)
+	private StudentDTO student;
 
-	@Column(name = IStudentTeamDAO.COLUMN_TEAM)
-	private Team team;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = IStudentTeamDAO.COLUMN_TEAM)
+	private TeamDTO team;
 
 	public StudentTeamDTO() {
 	}
 
 	public StudentTeamDTO(StudentTeam studentTeam) {
-		student = studentTeam.getStudent();
-		team = studentTeam.getTeam();
+		student = new StudentDTO(studentTeam.getStudent());
+		team = new TeamDTO(studentTeam.getTeam());
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public Student getStudent() {
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public StudentDTO getStudent() {
 		return student;
 	}
 
-	public void setStudent(Student student) {
+	public void setStudent(StudentDTO student) {
 		this.student = student;
 	}
 
-	public Team getTeam() {
+	public TeamDTO getTeam() {
 		return team;
 	}
 
-	public void setTeam(Team team) {
+	public void setTeam(TeamDTO team) {
 		this.team = team;
 	}
 

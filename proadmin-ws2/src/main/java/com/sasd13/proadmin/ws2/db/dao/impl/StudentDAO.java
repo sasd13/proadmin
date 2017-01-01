@@ -22,22 +22,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.dao.IStudentDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.StudentDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class StudentDAO extends HibernateSession<Student> implements IStudentDAO {
 
-	private StudentDTOAdapter adapter;
-
 	public StudentDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new StudentDTOAdapter();
 	}
 
 	@Override
@@ -77,18 +72,18 @@ public class StudentDAO extends HibernateSession<Student> implements IStudentDAO
 	}
 
 	@Override
-	public Student select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Student> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Student> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -138,14 +133,5 @@ public class StudentDAO extends HibernateSession<Student> implements IStudentDAO
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Student getResultValues(Serializable serializable) {
-		Student student = new Student();
-
-		adapter.adapt((StudentDTO) serializable, student);
-
-		return student;
 	}
 }

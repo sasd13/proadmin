@@ -21,22 +21,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.dao.IProjectDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.ProjectDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO {
 
-	private ProjectDTOAdapter adapter;
-
 	public ProjectDAO(SessionFactory connectionFactory) {
 		super(connectionFactory);
-
-		adapter = new ProjectDTOAdapter();
 	}
 
 	@Override
@@ -76,18 +71,18 @@ public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO
 	}
 
 	@Override
-	public Project select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Project> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Project> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -129,14 +124,5 @@ public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Project getResultValues(Serializable serializable) {
-		Project project = new Project();
-
-		adapter.adapt((ProjectDTO) serializable, project);
-
-		return project;
 	}
 }

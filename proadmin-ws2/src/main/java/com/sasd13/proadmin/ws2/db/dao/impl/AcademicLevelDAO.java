@@ -22,22 +22,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.ws2.db.dto.AcademicLevelDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.AcademicLevelDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class AcademicLevelDAO extends HibernateSession<AcademicLevel> implements IAcademicLevelDAO {
 
-	private AcademicLevelDTOAdapter adapter;
-
 	public AcademicLevelDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new AcademicLevelDTOAdapter();
 	}
 
 	@Override
@@ -74,18 +69,18 @@ public class AcademicLevelDAO extends HibernateSession<AcademicLevel> implements
 	}
 
 	@Override
-	public AcademicLevel select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<AcademicLevel> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<AcademicLevel> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -120,14 +115,5 @@ public class AcademicLevelDAO extends HibernateSession<AcademicLevel> implements
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public AcademicLevel getResultValues(Serializable serializable) {
-		AcademicLevel academicLevel = new AcademicLevel();
-
-		adapter.adapt((AcademicLevelDTO) serializable, academicLevel);
-
-		return academicLevel;
 	}
 }

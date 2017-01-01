@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.ITeacherDAO;
+import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
 
 @Entity
 @Table(name = ITeacherDAO.TABLE)

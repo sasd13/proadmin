@@ -12,7 +12,7 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.dao.IStudentTeamDAO;
+import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class StudentTeamService implements IService<StudentTeam> {

@@ -10,13 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 
 @Entity
 @Table(name = ILeadEvaluationDAO.TABLE)
@@ -33,34 +32,36 @@ public class LeadEvaluationDTO implements Serializable {
 	@Column(name = ILeadEvaluationDAO.COLUMN_ID)
 	private long id;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_PLANNINGMARK)
+	@Column(name = ILeadEvaluationDAO.COLUMN_PLANNINGMARK, precision = 4, scale = 2)
 	private float planningMark;
 
 	@Column(name = ILeadEvaluationDAO.COLUMN_PLANNINGCOMMENT)
 	private String planningComment;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_COMMUNICATIONMARK)
+	@Column(name = ILeadEvaluationDAO.COLUMN_COMMUNICATIONMARK, precision = 4, scale = 2)
 	private float communicationMark;
 
 	@Column(name = ILeadEvaluationDAO.COLUMN_COMMUNICATIONCOMMENT)
 	private String communicationComment;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_REPORT)
-	private Report report;
+	private ReportDTO report;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_STUDENT)
-	private Student student;
+	private StudentDTO student;
 
 	public LeadEvaluationDTO() {
 	}
 
-	public LeadEvaluationDTO(LeadEvaluation leadevaluation) {
-		planningMark = leadevaluation.getPlanningMark();
-		planningComment = leadevaluation.getPlanningComment();
-		communicationMark = leadevaluation.getCommunicationMark();
-		communicationComment = leadevaluation.getCommunicationComment();
+	public LeadEvaluationDTO(LeadEvaluation leadEvaluation) {
+		planningMark = leadEvaluation.getPlanningMark();
+		planningComment = leadEvaluation.getPlanningComment();
+		communicationMark = leadEvaluation.getCommunicationMark();
+		communicationComment = leadEvaluation.getCommunicationComment();
+		report = new ReportDTO(leadEvaluation.getReport());
+		student = new StudentDTO(leadEvaluation.getStudent());
 	}
 
 	public long getId() {
@@ -102,20 +103,20 @@ public class LeadEvaluationDTO implements Serializable {
 	public void setCommunicationComment(String communicationComment) {
 		this.communicationComment = communicationComment;
 	}
-	
-	public Report getReport() {
+
+	public ReportDTO getReport() {
 		return report;
 	}
-	
-	public void setReport(Report report) {
+
+	public void setReport(ReportDTO report) {
 		this.report = report;
 	}
-	
-	public Student getStudent() {
+
+	public StudentDTO getStudent() {
 		return student;
 	}
-	
-	public void setStudent(Student student) {
+
+	public void setStudent(StudentDTO student) {
 		this.student = student;
 	}
 

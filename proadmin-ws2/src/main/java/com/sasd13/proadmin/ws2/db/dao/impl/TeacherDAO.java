@@ -17,9 +17,9 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
 @Repository
@@ -67,18 +67,18 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 	}
 
 	@Override
-	public Teacher select(long id) {
-		return HibernateUtils.select(this, TABLE, COLUMN_ID, id);
+	public Serializable select(long id) {
+		return null;
 	}
 
 	@Override
-	public List<Teacher> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Teacher> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -128,17 +128,5 @@ public class TeacherDAO extends HibernateSession<Teacher> implements ITeacherDAO
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Teacher getResultValues(Serializable serializable) {
-		Teacher teacher = new Teacher();
-
-		teacher.setNumber(((TeacherDTO) serializable).getCode());
-		teacher.setFirstName(((TeacherDTO) serializable).getFirstName());
-		teacher.setLastName(((TeacherDTO) serializable).getLastName());
-		teacher.setEmail(((TeacherDTO) serializable).getEmail());
-
-		return teacher;
 	}
 }

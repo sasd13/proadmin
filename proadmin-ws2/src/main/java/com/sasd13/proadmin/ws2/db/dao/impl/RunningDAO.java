@@ -21,22 +21,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 import com.sasd13.proadmin.ws2.db.dto.RunningDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.RunningDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningDAO extends HibernateSession<Running> implements IRunningDAO {
 
-	private RunningDTOAdapter adapter;
-
 	public RunningDAO(SessionFactory connectionFactory) {
 		super(connectionFactory);
-
-		adapter = new RunningDTOAdapter();
 	}
 
 	@Override
@@ -79,18 +74,18 @@ public class RunningDAO extends HibernateSession<Running> implements IRunningDAO
 	}
 
 	@Override
-	public Running select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Running> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Running> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -143,14 +138,5 @@ public class RunningDAO extends HibernateSession<Running> implements IRunningDAO
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Running getResultValues(Serializable serializable) {
-		Running running = new Running();
-
-		adapter.adapt((RunningDTO) serializable, running);
-
-		return running;
 	}
 }

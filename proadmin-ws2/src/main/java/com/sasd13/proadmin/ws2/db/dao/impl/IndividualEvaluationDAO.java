@@ -22,22 +22,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.IndividualEvaluationDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
 
-	private IndividualEvaluationDTOAdapter adapter;
-
 	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new IndividualEvaluationDTOAdapter();
 	}
 
 	@Override
@@ -77,18 +72,18 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 	}
 
 	@Override
-	public IndividualEvaluation select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<IndividualEvaluation> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -130,14 +125,5 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public IndividualEvaluation getResultValues(Serializable serializable) {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
-
-		adapter.adapt((IndividualEvaluationDTO) serializable, individualEvaluation);
-
-		return individualEvaluation;
 	}
 }

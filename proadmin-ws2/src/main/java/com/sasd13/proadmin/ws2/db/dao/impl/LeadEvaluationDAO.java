@@ -22,22 +22,17 @@ import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.LeadEvaluationDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implements ILeadEvaluationDAO {
 
-	private LeadEvaluationDTOAdapter adapter;
-
 	public LeadEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
-
-		adapter = new LeadEvaluationDTOAdapter();
 	}
 
 	@Override
@@ -80,18 +75,18 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 	}
 
 	@Override
-	public LeadEvaluation select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
-		return HibernateUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<LeadEvaluation> selectAll() {
-		return HibernateUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -136,14 +131,5 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public LeadEvaluation getResultValues(Serializable serializable) {
-		LeadEvaluation leadEvaluation = new LeadEvaluation();
-
-		adapter.adapt((LeadEvaluationDTO) serializable, leadEvaluation);
-
-		return leadEvaluation;
 	}
 }

@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.dao.IRunningDAO;
+import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 
 @Entity
 @Table(name = IRunningDAO.TABLE)
@@ -33,19 +34,21 @@ public class RunningDTO implements Serializable {
 	@Column(name = IRunningDAO.COLUMN_YEAR)
 	private int year;
 
-	@Column(name = IRunningDAO.COLUMN_PROJECT)
-	private Project project;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = IRunningDAO.COLUMN_PROJECT)
+	private ProjectDTO project;
 
-	@Column(name = IRunningDAO.COLUMN_TEACHER)
-	private Teacher teacher;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = IRunningDAO.COLUMN_TEACHER)
+	private TeacherDTO teacher;
 
 	public RunningDTO() {
 	}
 
 	public RunningDTO(Running running) {
 		year = running.getYear();
-		project = running.getProject();
-		teacher = running.getTeacher();
+		project = new ProjectDTO(running.getProject());
+		teacher = new TeacherDTO(running.getTeacher());
 	}
 
 	public long getId() {
@@ -64,19 +67,19 @@ public class RunningDTO implements Serializable {
 		this.year = year;
 	}
 
-	public Project getProject() {
+	public ProjectDTO getProject() {
 		return project;
 	}
 
-	public void setProject(Project project) {
+	public void setProject(ProjectDTO project) {
 		this.project = project;
 	}
 
-	public Teacher getTeacher() {
+	public TeacherDTO getTeacher() {
 		return teacher;
 	}
 
-	public void setTeacher(Teacher teacher) {
+	public void setTeacher(TeacherDTO teacher) {
 		this.teacher = teacher;
 	}
 

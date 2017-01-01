@@ -21,11 +21,11 @@ import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
-import com.sasd13.proadmin.dao.IReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
