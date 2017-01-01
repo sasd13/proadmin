@@ -49,7 +49,7 @@ public class ProjectDTO implements Serializable {
 
 	public ProjectDTO(Project project) {
 		code = project.getCode();
-		dateCreation = new Timestamp(project.getDateCreation().getMillis());
+		dateCreation = new Timestamp(project.getDateCreation().getTime());
 		title = project.getTitle();
 		description = project.getDescription();
 	}

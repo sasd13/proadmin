@@ -10,10 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
 
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -146,7 +145,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
-		preparedStatement.setTimestamp(2, new Timestamp(report.getDateMeeting().getMillis()));
+		preparedStatement.setTimestamp(2, new Timestamp(report.getDateMeeting().getTime()));
 		preparedStatement.setInt(3, report.getSession());
 		preparedStatement.setString(4, report.getComment());
 		preparedStatement.setInt(5, report.getRunningTeam().getRunning().getYear());
@@ -231,7 +230,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		Report report = new Report();
 
 		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setDateMeeting(new DateTime(resultSet.getTimestamp(COLUMN_DATEMEETING)));
+		report.setDateMeeting(new Date(resultSet.getTimestamp(COLUMN_DATEMEETING).getTime()));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 

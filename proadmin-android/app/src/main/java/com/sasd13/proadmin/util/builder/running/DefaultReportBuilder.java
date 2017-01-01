@@ -5,7 +5,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Constants;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 /**
  * Created by ssaidali2 on 02/12/2016.
@@ -26,7 +26,7 @@ public class DefaultReportBuilder implements IBuilder<Report> {
         Report report = new Report();
 
         report.setNumber(Constants.DEFAULT_REPORT_NUMBER);
-        report.setDateMeeting(new DateTime());
+        report.setDateMeeting(new Date());
         report.setRunningTeam(runningTeam);
 
         return report;

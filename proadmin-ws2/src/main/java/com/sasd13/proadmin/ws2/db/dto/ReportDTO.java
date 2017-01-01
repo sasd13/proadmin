@@ -18,8 +18,6 @@ import javax.persistence.TemporalType;
 
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.IProjectDAO;
 import com.sasd13.proadmin.dao.IReportDAO;
 
 @Entity
@@ -34,17 +32,17 @@ public class ReportDTO implements Serializable {
 
 	@Column(name = IReportDAO.COLUMN_CODE)
 	private String code;
-	
+
 	@Column(name = IReportDAO.COLUMN_DATEMEETING)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp dateMeeting;
-	
+
 	@Column(name = IReportDAO.COLUMN_SESSION)
 	private int session;
-	
+
 	@Column(name = IReportDAO.COLUMN_COMMENT)
 	private String comment;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "")
 	private RunningTeam runningTeam;
@@ -54,7 +52,7 @@ public class ReportDTO implements Serializable {
 
 	public ReportDTO(Report report) {
 		code = report.getNumber();
-		dateMeeting = new Timestamp(report.getDateMeeting().getMillis());
+		dateMeeting = new Timestamp(report.getDateMeeting().getTime());
 		session = report.getSession();
 		comment = report.getComment();
 	}

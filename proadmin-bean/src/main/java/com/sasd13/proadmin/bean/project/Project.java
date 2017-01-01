@@ -1,11 +1,11 @@
 package com.sasd13.proadmin.bean.project;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 public class Project {
 
 	private String code, title, description;
-	private DateTime dateCreation;
+	private Date dateCreation;
 
 	public String getCode() {
 		return code;
@@ -15,11 +15,11 @@ public class Project {
 		this.code = code;
 	}
 
-	public DateTime getDateCreation() {
+	public Date getDateCreation() {
 		return dateCreation;
 	}
 
-	public void setDateCreation(DateTime dateCreation) {
+	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
 	}
 

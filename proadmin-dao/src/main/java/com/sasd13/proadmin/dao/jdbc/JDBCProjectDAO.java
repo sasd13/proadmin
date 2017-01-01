@@ -9,10 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
 
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -94,7 +93,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setTimestamp(2, new Timestamp(project.getDateCreation().getMillis()));
+		preparedStatement.setTimestamp(2, new Timestamp(project.getDateCreation().getTime()));
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
 	}
@@ -138,7 +137,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		Project project = new Project();
 
 		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setDateCreation(new DateTime(resultSet.getTimestamp(COLUMN_DATECREATION)));
+		project.setDateCreation(new Date(resultSet.getTimestamp(COLUMN_DATECREATION).getTime()));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 

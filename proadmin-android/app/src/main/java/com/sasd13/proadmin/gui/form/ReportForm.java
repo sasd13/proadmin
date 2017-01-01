@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import java.util.Date;
+
 /**
  * Created by ssaidali2 on 26/07/2016.
  */
@@ -86,8 +88,8 @@ public class ReportForm extends Form {
         return Integer.parseInt(modelSession.getValue());
     }
 
-    public DateTime getDateMeeting() throws FormException {
-        return new DateTime(modelDateMeeting.getValue());
+    public Date getDateMeeting() throws FormException {
+        return new DateTime(modelDateMeeting.getValue()).toDate();
     }
 
     public String getComment() {
