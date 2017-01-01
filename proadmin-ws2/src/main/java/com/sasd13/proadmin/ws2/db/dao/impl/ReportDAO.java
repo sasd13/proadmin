@@ -5,80 +5,43 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
+
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.jdbc.JDBCSession;
-import com.sasd13.javaex.dao.jdbc.JDBCUtils;
+import com.sasd13.javaex.dao.hibernate.HibernateSession;
+import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
+import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
+public class ReportDAO extends HibernateSession<Report> implements IReportDAO {
 
-	private LeadEvaluationDAO leadEvaluationDAO;
-	private IndividualEvaluationDAO individualEvaluationDAO;
-	private ReportTransaction transaction;
-
-	public ReportDAO() {
-		leadEvaluationDAO = new LeadEvaluationDAO(null);
-		individualEvaluationDAO = new IndividualEvaluationDAO(null);
-		transaction = new ReportTransaction(this);
-	}
-
-	@Override
-	public ILeadEvaluationDAO getLeadEvaluationDAO() {
-		return leadEvaluationDAO;
-	}
-
-	@Override
-	public IIndividualEvaluationDAO getIndividualEvaluationDAO() {
-		return individualEvaluationDAO;
-	}
-
-	@Override
-	public void setConnection(Connection connection) {
-		super.setConnection(connection);
-
-		// leadEvaluationDAO.setConnection(connection);
-		// individualEvaluationDAO.setConnection(connection);
+	public ReportDAO(SessionFactory connectionFactory) {
+		super(connectionFactory);
 	}
 
 	@Override
 	public long insert(Report report) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO ");
-		builder.append(TABLE);
-		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_DATEMEETING);
-		builder.append(", " + COLUMN_SESSION);
-		builder.append(", " + COLUMN_COMMENT);
-		builder.append(", " + COLUMN_YEAR);
-		builder.append(", " + COLUMN_PROJECT);
-		builder.append(", " + COLUMN_TEACHER);
-		builder.append(", " + COLUMN_TEAM);
-		builder.append(", " + COLUMN_ACADEMICLEVEL);
-		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		ReportDTO dto = new ReportDTO(report);
 
-		transaction.editTransaction(builder.toString(), report);
+		HibernateUtils.insert(this, dto);
 
-		return JDBCUtils.insertInTransaction(this, transaction);
+		return dto.getId();
 	}
 
 	@Override
@@ -90,17 +53,13 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(COLUMN_DATEMEETING + " = ?");
 		builder.append(", " + COLUMN_SESSION + " = ?");
 		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT + " = ?");
-		builder.append(", " + COLUMN_TEACHER + " = ?");
-		builder.append(", " + COLUMN_TEAM + " = ?");
-		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
+		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
 		transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
 
-		JDBCUtils.updateInTransaction(this, transaction);
+		HibernateUtils.updateInTransaction(this, transaction);
 	}
 
 	@Override
@@ -113,22 +72,22 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 		transaction.editTransaction(builder.toString(), report);
 
-		JDBCUtils.deleteInTransaction(this, transaction);
+		HibernateUtils.deleteInTransaction(this, transaction);
 	}
 
 	@Override
-	public Report select(long id) {
+	public Serializable select(long id) {
 		return null;
 	}
 
 	@Override
-	public List<Report> select(Map<String, String[]> parameters) {
-		return JDBCUtils.select(this, TABLE, parameters);
+	public List<Serializable> select(Map<String, String[]> parameters) {
+		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Report> selectAll() {
-		return JDBCUtils.selectAll(this, TABLE);
+	public List<Serializable> selectAll() {
+		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
 	}
 
 	@Override
@@ -137,36 +96,21 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, report.getNumber());
-		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
-		preparedStatement.setInt(3, report.getSession());
-		preparedStatement.setString(4, report.getComment());
-		preparedStatement.setInt(5, report.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(7, report.getRunningTeam().getRunning().getTeacher().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(9, report.getRunningTeam().getAcademicLevel().getCode());
+	public void editQueryForUpdate(Query query, IUpdateWrapper<Report> updateWrapper) {
+		query.setParameter(1, new Timestamp(updateWrapper.getWrapped().getDateMeeting().getTime()));
+		query.setParameter(2, updateWrapper.getWrapped().getSession());
+		query.setParameter(3, updateWrapper.getWrapped().getComment());
+		query.setParameter(4, updateWrapper.getWrapped().getRunningTeam().getRunning().getYear());
+		query.setParameter(5, updateWrapper.getWrapped().getRunningTeam().getRunning().getProject().getCode());
+		query.setParameter(6, updateWrapper.getWrapped().getRunningTeam().getRunning().getTeacher().getNumber());
+		query.setParameter(7, updateWrapper.getWrapped().getRunningTeam().getTeam().getNumber());
+		query.setParameter(8, updateWrapper.getWrapped().getRunningTeam().getAcademicLevel().getCode());
+		query.setParameter(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
-		Report report = updateWrapper.getWrapped();
-
-		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
-		preparedStatement.setInt(2, report.getSession());
-		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
-		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
-		preparedStatement.setString(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, report.getNumber());
+	public void editQueryForDelete(Query query, Report report) {
+		query.setParameter(1, report.getNumber());
 	}
 
 	@Override
@@ -175,54 +119,39 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 			return IReportDAO.COLUMN_CODE;
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_SESSION;
-		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_YEAR;
-		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_PROJECT;
-		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEACHER;
-		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEAM;
-		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_ACADEMICLEVEL;
+		} else if (EnumParameter.RUNNINGTEAM.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_RUNNINGTEAM;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
+	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
+				query.setParameter(index, Integer.parseInt(value));
 			} catch (NumberFormatException e) {
 				throw new ConditionException("Parameter " + key + " parsing error");
 			}
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
 			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
+				query.setParameter(index, Integer.parseInt(value));
 			} catch (NumberFormatException e) {
 				throw new ConditionException("Parameter " + key + " parsing error");
 			}
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
+			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
-	}
-
-	@Override
-	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
-
-		return report;
 	}
 }
