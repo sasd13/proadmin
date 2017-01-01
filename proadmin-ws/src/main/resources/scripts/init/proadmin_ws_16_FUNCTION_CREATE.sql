@@ -11,7 +11,7 @@ $set_rp_code_next$ LANGUAGE plpgsql;
 CREATE FUNCTION set_rp_code_curr()
 	RETURNS TRIGGER AS $set_rp_code_curr$
     BEGIN
-        NEW._report_code = NEW._report_code || currval('sq_rp');
+        NEW._report = NEW._report || currval('sq_rp');
         RETURN NEW;
     END;
 $set_rp_code_curr$ LANGUAGE plpgsql;

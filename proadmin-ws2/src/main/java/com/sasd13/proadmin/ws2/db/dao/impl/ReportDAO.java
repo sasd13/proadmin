@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +36,8 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 	private ReportTransaction transaction;
 
 	public ReportDAO() {
-		leadEvaluationDAO = new LeadEvaluationDAO();
-		individualEvaluationDAO = new IndividualEvaluationDAO();
+		leadEvaluationDAO = new LeadEvaluationDAO(null);
+		individualEvaluationDAO = new IndividualEvaluationDAO(null);
 		transaction = new ReportTransaction(this);
 	}
 
@@ -56,8 +55,8 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 	public void setConnection(Connection connection) {
 		super.setConnection(connection);
 
-		leadEvaluationDAO.setConnection(connection);
-		individualEvaluationDAO.setConnection(connection);
+		// leadEvaluationDAO.setConnection(connection);
+		// individualEvaluationDAO.setConnection(connection);
 	}
 
 	@Override
@@ -222,12 +221,7 @@ public class ReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT), resultSet.getString(COLUMN_TEACHER), resultSet.getString(COLUMN_TEAM), resultSet.getString(COLUMN_ACADEMICLEVEL));
-
-		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
-		report.setSession(resultSet.getInt(COLUMN_SESSION));
-		report.setComment(resultSet.getString(COLUMN_COMMENT));
+		Report report = new Report();
 
 		return report;
 	}

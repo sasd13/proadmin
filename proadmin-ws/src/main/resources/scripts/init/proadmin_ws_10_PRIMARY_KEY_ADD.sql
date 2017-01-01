@@ -18,11 +18,11 @@ ALTER TABLE teams
 
 ALTER TABLE studentteams 
 	ADD CONSTRAINT pk_sttm 
-	PRIMARY KEY (_student_code,_team_code);
+	PRIMARY KEY (_student,_team);
 
 ALTER TABLE runnings 
 	ADD CONSTRAINT pk_rn 
-	PRIMARY KEY (_year,_project_code,_teacher_code);
+	PRIMARY KEY (_year,_project,_teacher);
 
 ALTER TABLE academiclevels 
 	ADD CONSTRAINT pk_al 
@@ -30,7 +30,7 @@ ALTER TABLE academiclevels
 
 ALTER TABLE runningteams 
 	ADD CONSTRAINT pk_rntm 
-	PRIMARY KEY (_running_year,_running_project_code,_running_teacher_code,_team_code,_academiclevel_code);
+	PRIMARY KEY (_year,_project,_teacher,_team,_academiclevel);
 
 ALTER TABLE reports 
 	ADD CONSTRAINT pk_rp 
@@ -38,10 +38,10 @@ ALTER TABLE reports
 
 ALTER TABLE leadevaluations 
 	ADD CONSTRAINT pk_le 
-	PRIMARY KEY (_report_code,_student_code);
+	PRIMARY KEY (_report,_student);
 
 ALTER TABLE individualevaluations 
 	ADD CONSTRAINT pk_ie 
-	PRIMARY KEY (_report_code,_student_code);
+	PRIMARY KEY (_report,_student);
 
 --COMMIT;

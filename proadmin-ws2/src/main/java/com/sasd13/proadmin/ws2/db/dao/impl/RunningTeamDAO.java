@@ -169,7 +169,7 @@ public class RunningTeamDAO extends JDBCSession<RunningTeam> implements IRunning
 
 	@Override
 	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeam(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT), resultSet.getString(COLUMN_TEACHER), resultSet.getString(COLUMN_TEAM), resultSet.getString(COLUMN_ACADEMICLEVEL));
+		RunningTeam runningTeam = new RunningTeam();
 
 		return runningTeam;
 	}

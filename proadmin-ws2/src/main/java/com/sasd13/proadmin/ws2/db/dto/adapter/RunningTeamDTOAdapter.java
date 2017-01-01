@@ -17,11 +17,6 @@ public class RunningTeamDTOAdapter implements IAdapter<RunningTeamDTO, RunningTe
 
 	@Override
 	public void adapt(RunningTeamDTO source, RunningTeam target) {
-		target.setPlanningMark(source.getPlanningMark());
-		target.setPlanningComment(source.getPlanningComment());
-		target.setCommunicationMark(source.getCommunicationMark());
-		target.setCommunicationComment(source.getCommunicationComment());
-		target.setReport(source.getReport());
-		target.setStudent(source.getStudent());
+
 	}
 }
