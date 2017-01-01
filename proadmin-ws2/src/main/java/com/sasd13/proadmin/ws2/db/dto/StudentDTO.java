@@ -17,11 +17,6 @@ import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 @Table(name = IAcademicLevelDAO.TABLE)
 public class StudentDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8100226380687413119L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
 	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")

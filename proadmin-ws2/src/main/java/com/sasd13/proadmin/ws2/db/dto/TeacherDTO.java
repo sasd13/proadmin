@@ -24,7 +24,7 @@ public class TeacherDTO implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_teachers_id")
-	@SequenceGenerator(name = "seq_teachers_id", sequenceName = "SEQ_TEACHERS_ID")
+	@SequenceGenerator(name = "seq_teachers_id", sequenceName = "seq_teachers_id")
 	@Column(name = ITeacherDAO.COLUMN_ID)
 	private long id;
 
