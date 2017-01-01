@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.dao.IStudentDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 
 public class StudentBusiness implements IBusiness<Student> {
 

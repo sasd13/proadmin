@@ -57,9 +57,9 @@ public class ReportDAO extends HibernateSession<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
+		//transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
 
-		HibernateUtils.updateInTransaction(this, transaction);
+		//HibernateUtils.updateInTransaction(this, transaction);
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class ReportDAO extends HibernateSession<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		transaction.editTransaction(builder.toString(), report);
+		//transaction.editTransaction(builder.toString(), report);
 
-		HibernateUtils.deleteInTransaction(this, transaction);
+		//HibernateUtils.deleteInTransaction(this, transaction);
 	}
 
 	@Override

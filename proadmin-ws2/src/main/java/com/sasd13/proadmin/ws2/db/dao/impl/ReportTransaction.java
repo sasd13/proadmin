@@ -37,13 +37,13 @@ public class ReportTransaction implements IJDBCTransaction {
 
 		PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.NO_GENERATED_KEYS);
 
-		reportDAO.editPreparedStatementForInsert(preparedStatement, report);
+		// reportDAO.editPreparedStatementForInsert(preparedStatement, report);
 		preparedStatement.executeUpdate();
 
-		reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
+		// reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
 
 		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-			reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
+			// reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
 		}
 
 		return id;
@@ -53,31 +53,31 @@ public class ReportTransaction implements IJDBCTransaction {
 	public void update(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-		reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
+		// reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
 		preparedStatement.executeUpdate();
 
 		if (updateWrapper.getLeadEvaluationUpdateWrapper() != null) {
-			reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
+			// reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
 		}
 
 		if (updateWrapper.getIndividualEvaluationUpdateWrappers() != null) {
 			for (IUpdateWrapper<IndividualEvaluation> wrapper : updateWrapper.getIndividualEvaluationUpdateWrappers()) {
-				reportDAO.getIndividualEvaluationDAO().update(wrapper);
+				// reportDAO.getIndividualEvaluationDAO().update(wrapper);
 			}
 		}
 	}
 
 	@Override
 	public void delete(Connection connection) throws SQLException {
-		reportDAO.getLeadEvaluationDAO().delete(report.getLeadEvaluation());
+		// reportDAO.getLeadEvaluationDAO().delete(report.getLeadEvaluation());
 
 		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-			reportDAO.getIndividualEvaluationDAO().delete(individualEvaluation);
+			// reportDAO.getIndividualEvaluationDAO().delete(individualEvaluation);
 		}
 
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-		reportDAO.editPreparedStatementForDelete(preparedStatement, report);
+		// reportDAO.editPreparedStatementForDelete(preparedStatement, report);
 		preparedStatement.executeUpdate();
 	}
 }

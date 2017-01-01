@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 
 /**
  * Created by Samir on 12/03/2016.
@@ -44,11 +44,7 @@ public class RunningTeamBusiness implements IBusiness<RunningTeam> {
 	public void verify(IUpdateWrapper<RunningTeam> updateWrapper) throws BusinessException {
 		RunningTeamUpdateWrapper runningTeamUpdateWrapper = (RunningTeamUpdateWrapper) updateWrapper;
 
-		if (runningTeamUpdateWrapper.getRunningYear() != runningTeamUpdateWrapper.getWrapped().getRunning().getYear() 
-				|| !runningTeamUpdateWrapper.getProjectCode().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getProject().getCode()) 
-				|| !runningTeamUpdateWrapper.getTeacherNumber().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getTeacher().getNumber()) 
-				|| !runningTeamUpdateWrapper.getTeamNumber().equals(runningTeamUpdateWrapper.getWrapped().getTeam().getNumber()) 
-				|| !runningTeamUpdateWrapper.getAcademicLevelCode().equals(runningTeamUpdateWrapper.getWrapped().getAcademicLevel().getCode())) {
+		if (runningTeamUpdateWrapper.getRunningYear() != runningTeamUpdateWrapper.getWrapped().getRunning().getYear() || !runningTeamUpdateWrapper.getProjectCode().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getProject().getCode()) || !runningTeamUpdateWrapper.getTeacherNumber().equals(runningTeamUpdateWrapper.getWrapped().getRunning().getTeacher().getNumber()) || !runningTeamUpdateWrapper.getTeamNumber().equals(runningTeamUpdateWrapper.getWrapped().getTeam().getNumber()) || !runningTeamUpdateWrapper.getAcademicLevelCode().equals(runningTeamUpdateWrapper.getWrapped().getAcademicLevel().getCode())) {
 			verify(runningTeamUpdateWrapper.getWrapped());
 		}
 	}

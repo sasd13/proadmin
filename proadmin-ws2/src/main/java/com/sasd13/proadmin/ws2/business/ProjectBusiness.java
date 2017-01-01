@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.dao.IProjectDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 
 public class ProjectBusiness implements IBusiness<Project> {
 

@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.wrapper.update.AcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 
 public class AcademicLevelBusiness implements IBusiness<AcademicLevel> {
 
