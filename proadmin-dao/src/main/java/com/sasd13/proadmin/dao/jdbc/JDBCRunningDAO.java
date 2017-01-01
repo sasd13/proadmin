@@ -15,6 +15,8 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
@@ -145,7 +147,19 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
-		Running running = new Running(resultSet.getInt(COLUMN_YEAR), resultSet.getString(COLUMN_PROJECT_CODE), resultSet.getString(COLUMN_TEACHER_CODE));
+		Running running = new Running();
+
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
+
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_PROJECT_CODE));
+
+		running.setProject(project);
+
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_TEACHER_CODE));
+
+		running.setTeacher(teacher);
 
 		return running;
 	}

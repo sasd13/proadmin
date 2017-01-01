@@ -140,8 +140,9 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 
 	@Override
 	public Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
-		Teacher teacher = new Teacher(resultSet.getString(COLUMN_CODE));
+		Teacher teacher = new Teacher();
 
+		teacher.setNumber(resultSet.getString(COLUMN_CODE));
 		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));

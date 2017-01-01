@@ -25,23 +25,28 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
+import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.LeadEvaluationDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implements ILeadEvaluationDAO {
 
+	private LeadEvaluationDTOAdapter adapter;
+
 	public LeadEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
+
+		adapter = new LeadEvaluationDTOAdapter();
 	}
 
 	@Override
 	public long insert(LeadEvaluation leadEvaluation) {
-		TeacherDTO teacherDTO = new TeacherDTO(teacher);
+		LeadEvaluationDTO dto = new LeadEvaluationDTO(leadEvaluation);
 
-		HibernateUtils.insert(this, teacherDTO);
+		HibernateUtils.insert(this, dto);
 
-		return teacherDTO.getId();
+		return dto.getId();
 	}
 
 	@Override
@@ -135,12 +140,9 @@ public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implemen
 
 	@Override
 	public LeadEvaluation getResultValues(Serializable serializable) {
-		LeadEvaluation leadEvaluation = new LeadEvaluation(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE));
+		LeadEvaluation leadEvaluation = new LeadEvaluation();
 
-		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
-		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
-		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
-		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
+		adapter.adapt((LeadEvaluationDTO) serializable, leadEvaluation);
 
 		return leadEvaluation;
 	}

@@ -140,8 +140,9 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 
 	@Override
 	public Student getResultSetValues(ResultSet resultSet) throws SQLException {
-		Student student = new Student(resultSet.getString(COLUMN_CODE));
+		Student student = new Student();
 
+		student.setNumber(resultSet.getString(COLUMN_CODE));
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));

@@ -13,11 +13,19 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.dao.IReportDAO;
@@ -138,7 +146,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
 		preparedStatement.setString(1, report.getNumber());
-		preparedStatement.setString(2, String.valueOf(report.getDateMeeting()));
+		preparedStatement.setTimestamp(2, new Timestamp(report.getDateMeeting().getMillis()));
 		preparedStatement.setInt(3, report.getSession());
 		preparedStatement.setString(4, report.getComment());
 		preparedStatement.setInt(5, report.getRunningTeam().getRunning().getYear());
@@ -220,12 +228,36 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE), resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE));
+		Report report = new Report();
 
 		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setDateMeeting(Timestamp.valueOf(resultSet.getString(COLUMN_DATEMEETING)));
+		report.setDateMeeting(new DateTime(resultSet.getString(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
+
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_PROJECT_CODE));
+
+		Teacher teacher = new Teacher();
+		teacher.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_RUNNING_TEACHER_CODE));
+
+		Running running = new Running();
+		running.setYear(resultSet.getInt(COLUMN_RUNNINGTEAM_RUNNING_YEAR));
+		running.setProject(project);
+		running.setTeacher(teacher);
+
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_RUNNINGTEAM_TEAM_CODE));
+
+		AcademicLevel academicLevel = new AcademicLevel();
+		academicLevel.setCode(resultSet.getString(COLUMN_RUNNINGTEAM_ACADEMICLEVEL_CODE));
+
+		RunningTeam runningTeam = new RunningTeam();
+		runningTeam.setRunning(running);
+		runningTeam.setTeam(team);
+		runningTeam.setAcademicLevel(academicLevel);
+
+		report.setRunningTeam(runningTeam);
 
 		return report;
 	}

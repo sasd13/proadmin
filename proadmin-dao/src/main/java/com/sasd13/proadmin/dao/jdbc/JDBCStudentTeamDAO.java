@@ -15,7 +15,9 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 
@@ -116,7 +118,17 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 
 	@Override
 	public StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		StudentTeam studentTeam = new StudentTeam(resultSet.getString(COLUMN_STUDENT_CODE), resultSet.getString(COLUMN_TEAM_CODE));
+		StudentTeam studentTeam = new StudentTeam();
+
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		studentTeam.setStudent(student);
+
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_TEAM_CODE));
+
+		studentTeam.setTeam(team);
 
 		return studentTeam;
 	}

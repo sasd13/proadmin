@@ -26,22 +26,27 @@ import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dto.AcademicLevelDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.AcademicLevelDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class AcademicLevelDAO extends HibernateSession<AcademicLevel> implements IAcademicLevelDAO {
 
+	private AcademicLevelDTOAdapter adapter;
+
 	public AcademicLevelDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
+
+		adapter = new AcademicLevelDTOAdapter();
 	}
 
 	@Override
 	public long insert(AcademicLevel academicLevel) {
-		AcademicLevelDTO academicLevelDTO = new AcademicLevelDTO(academicLevel);
+		AcademicLevelDTO dto = new AcademicLevelDTO(academicLevel);
 
-		HibernateUtils.insert(this, academicLevelDTO);
+		HibernateUtils.insert(this, dto);
 
-		return academicLevelDTO.getId();
+		return dto.getId();
 	}
 
 	@Override
@@ -119,7 +124,9 @@ public class AcademicLevelDAO extends HibernateSession<AcademicLevel> implements
 
 	@Override
 	public AcademicLevel getResultValues(Serializable serializable) {
-		AcademicLevel academicLevel = new AcademicLevel(((AcademicLevelDTO) serializable).getCode());
+		AcademicLevel academicLevel = new AcademicLevel();
+
+		adapter.adapt((AcademicLevelDTO) serializable, academicLevel);
 
 		return academicLevel;
 	}

@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
@@ -92,7 +94,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
 		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setString(2, String.valueOf(project.getDateCreation()));
+		preparedStatement.setTimestamp(2, new Timestamp(project.getDateCreation().getMillis()));
 		preparedStatement.setString(3, project.getTitle());
 		preparedStatement.setString(4, project.getDescription());
 	}
@@ -133,9 +135,10 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public Project getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project(resultSet.getString(COLUMN_CODE));
+		Project project = new Project();
 
-		project.setDateCreation(Timestamp.valueOf(resultSet.getString(COLUMN_DATECREATION)));
+		project.setCode(resultSet.getString(COLUMN_CODE));
+		project.setDateCreation(new DateTime(resultSet.getString(COLUMN_DATECREATION)));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 

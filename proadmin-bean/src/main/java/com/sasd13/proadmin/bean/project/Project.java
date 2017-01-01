@@ -1,18 +1,11 @@
 package com.sasd13.proadmin.bean.project;
 
-import java.sql.Timestamp;
+import org.joda.time.DateTime;
 
 public class Project {
 
 	private String code, title, description;
-	private Timestamp dateCreation;
-
-	public Project() {
-	}
-
-	public Project(String code) {
-		this.code = code;
-	}
+	private DateTime dateCreation;
 
 	public String getCode() {
 		return code;
@@ -22,11 +15,11 @@ public class Project {
 		this.code = code;
 	}
 
-	public Timestamp getDateCreation() {
+	public DateTime getDateCreation() {
 		return dateCreation;
 	}
 
-	public void setDateCreation(Timestamp dateCreation) {
+	public void setDateCreation(DateTime dateCreation) {
 		this.dateCreation = dateCreation;
 	}
 

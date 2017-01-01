@@ -9,15 +9,6 @@ public class Running {
 	private Teacher teacher;
 	private int year;
 
-	public Running() {
-	}
-
-	public Running(int year, String projectCode, String teacherNumber) {
-		this.year = year;
-		project = new Project(projectCode);
-		teacher = new Teacher(teacherNumber);
-	}
-
 	public Project getProject() {
 		return project;
 	}

@@ -4,13 +4,6 @@ public class IndividualEvaluation extends Evaluation {
 
 	private float mark;
 
-	public IndividualEvaluation() {
-	}
-
-	public IndividualEvaluation(String reportNumber, String studentNumber) {
-		super(reportNumber, studentNumber);
-	}
-
 	public float getMark() {
 		return mark;
 	}

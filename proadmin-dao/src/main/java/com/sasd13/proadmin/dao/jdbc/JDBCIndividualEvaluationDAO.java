@@ -15,7 +15,9 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
@@ -134,9 +136,19 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 	@Override
 	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE));
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 
 		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+
+		Report report = new Report();
+		report.setNumber(resultSet.getString(COLUMN_REPORT_CODE));
+
+		individualEvaluation.setReport(report);
+
+		Student student = new Student();
+		student.setNumber(resultSet.getString(COLUMN_STUDENT_CODE));
+
+		individualEvaluation.setStudent(student);
 
 		return individualEvaluation;
 	}

@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.bean.running;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -12,7 +13,7 @@ public class Report {
 
 	private RunningTeam runningTeam;
 	private String number, comment;
-	private Timestamp dateMeeting;
+	private DateTime dateMeeting;
 	private int session;
 	private LeadEvaluation leadEvaluation;
 	private List<IndividualEvaluation> individualEvaluations;
@@ -22,18 +23,6 @@ public class Report {
 		individualEvaluations = new ArrayList<>();
 
 		leadEvaluation.setReport(this);
-	}
-
-	public Report(String number) {
-		this();
-
-		this.number = number;
-	}
-
-	public Report(int year, String projectCode, String teacherNumber, String teamNumber, String academicLevelCode) {
-		this();
-
-		runningTeam = new RunningTeam(year, projectCode, teacherNumber, teamNumber, academicLevelCode);
 	}
 
 	public RunningTeam getRunningTeam() {
@@ -52,11 +41,11 @@ public class Report {
 		this.number = number;
 	}
 
-	public Timestamp getDateMeeting() {
+	public DateTime getDateMeeting() {
 		return dateMeeting;
 	}
 
-	public void setDateMeeting(Timestamp dateMeeting) {
+	public void setDateMeeting(DateTime dateMeeting) {
 		this.dateMeeting = dateMeeting;
 	}
 

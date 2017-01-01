@@ -25,23 +25,28 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
+import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.IndividualEvaluationDTOAdapter;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
 
+	private IndividualEvaluationDTOAdapter adapter;
+
 	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
+
+		adapter = new IndividualEvaluationDTOAdapter();
 	}
 
 	@Override
 	public long insert(IndividualEvaluation individualEvaluation) {
-		TeacherDTO teacherDTO = new TeacherDTO(teacher);
+		IndividualEvaluationDTO dto = new IndividualEvaluationDTO(individualEvaluation);
 
-		HibernateUtils.insert(this, teacherDTO);
+		HibernateUtils.insert(this, dto);
 
-		return teacherDTO.getId();
+		return dto.getId();
 	}
 
 	@Override
@@ -129,9 +134,9 @@ public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluati
 
 	@Override
 	public IndividualEvaluation getResultValues(Serializable serializable) {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation(resultSet.getString(COLUMN_REPORT_CODE), resultSet.getString(COLUMN_STUDENT_CODE));
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		adapter.adapt((IndividualEvaluationDTO) serializable, individualEvaluation);
 
 		return individualEvaluation;
 	}

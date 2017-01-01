@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.IProjectDAO;
@@ -33,6 +35,7 @@ public class ProjectDTO implements Serializable {
 	private String code;
 
 	@Column(name = IProjectDAO.COLUMN_DATECREATION)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp dateCreation;
 
 	@Column(name = IProjectDAO.COLUMN_TITLE)
@@ -46,7 +49,7 @@ public class ProjectDTO implements Serializable {
 
 	public ProjectDTO(Project project) {
 		code = project.getCode();
-		dateCreation = project.getDateCreation();
+		dateCreation = new Timestamp(project.getDateCreation().getMillis());
 		title = project.getTitle();
 		description = project.getDescription();
 	}
