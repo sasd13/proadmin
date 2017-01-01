@@ -87,7 +87,6 @@ public class Report {
 
 		builder.append("Report [");
 		builder.append("number=" + getNumber());
-		builder.append(", dateMeeting=" + getDateMeeting());
 		builder.append(", session=" + getSession());
 		builder.append(", comment=" + getComment());
 		builder.append("]");

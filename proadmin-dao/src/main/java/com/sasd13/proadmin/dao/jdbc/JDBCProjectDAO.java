@@ -138,7 +138,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		Project project = new Project();
 
 		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setDateCreation(new DateTime(resultSet.getString(COLUMN_DATECREATION)));
+		project.setDateCreation(new DateTime(resultSet.getTimestamp(COLUMN_DATECREATION)));
 		project.setTitle(resultSet.getString(COLUMN_TITLE));
 		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 

@@ -45,7 +45,6 @@ public class Project {
 
 		builder.append("Project [");
 		builder.append("code=" + getCode());
-		builder.append(", dateCreation=" + String.valueOf(getDateCreation()));
 		builder.append(", title=" + getTitle());
 		builder.append(", description=" + getDescription());
 		builder.append("]");

@@ -1,7 +1,9 @@
 package com.sasd13.proadmin.util.builder.running;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
+import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
@@ -33,7 +35,13 @@ public class DefaultRunningTeamBuilder implements IBuilder<RunningTeam> {
         if (running != null) {
             runningTeam.setRunning(running);
         } else {
-            runningTeam.setRunning(new Running(Calendar.getInstance().get(Calendar.YEAR), null, null));
+            Running running = new Running();
+
+            running.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            running.setTeacher(new Teacher());
+            running.setProject(new Project());
+
+            runningTeam.setRunning(running);
         }
 
         runningTeam.setTeam(team);

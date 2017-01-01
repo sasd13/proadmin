@@ -49,7 +49,10 @@ public class StudentService implements ManagePromise.Callback {
 
     public void create(Student student, Team team) {
         taskType = TASKTYPE_STUDENT;
-        studentTeam = new StudentTeam(student.getNumber(), team.getNumber());
+        studentTeam = new StudentTeam();
+
+        studentTeam.setStudent(student);
+        studentTeam.setTeam(team);
 
         managePromiseStudents.create(student);
     }

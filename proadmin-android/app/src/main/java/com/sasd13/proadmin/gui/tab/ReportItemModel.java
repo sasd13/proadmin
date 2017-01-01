@@ -33,7 +33,7 @@ public class ReportItemModel extends Observable implements IRecyclerItemModel, I
     }
 
     public String getDateMeeting() {
-        return DateTimeHelper.format(report.getDateMeeting(), format);
+        return report.getDateMeeting().toString(format);
     }
 
     public String getSession() {

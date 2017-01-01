@@ -26,7 +26,11 @@ public class DefaultRunningBuilder implements IBuilder<Running> {
 
         running.setYear(Calendar.getInstance().get(Calendar.YEAR));
         running.setProject(project);
-        running.setTeacher(new Teacher(teacherNumber));
+
+        Teacher teacher = new Teacher();
+        teacher.setNumber(teacherNumber);
+
+        running.setTeacher(teacher);
 
         return running;
     }

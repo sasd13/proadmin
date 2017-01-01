@@ -231,7 +231,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		Report report = new Report();
 
 		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setDateMeeting(new DateTime(resultSet.getString(COLUMN_DATEMEETING)));
+		report.setDateMeeting(new DateTime(resultSet.getTimestamp(COLUMN_DATEMEETING)));
 		report.setSession(resultSet.getInt(COLUMN_SESSION));
 		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
