@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -36,6 +37,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     private IProjectController controller;
     private List<Project> projects;
     private Recycler recycler;
+    private ProgressBar progressBar;
 
     public static ProjectsFragment newInstance(ProjectsWrapper projectsWrapper) {
         ProjectsFragment fragment = new ProjectsFragment();
@@ -67,12 +69,25 @@ public class ProjectsFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabProjects(view);
+        buildProgressBar(view);
         bindTabWithProjects(projects);
     }
 
     private void buildTabProjects(View view) {
         recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         recycler.addDividerItemDecoration();
+    }
+
+    private void buildProgressBar(View view) {
+        progressBar = (ProgressBar) view.findViewById(R.id.layout_rv_w_srl_progressbar);
+    }
+
+    private void setProgressBarVisible(boolean visible) {
+        if (visible) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void bindTabWithProjects(List<Project> projects) {

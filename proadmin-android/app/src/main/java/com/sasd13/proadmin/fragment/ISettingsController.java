@@ -8,5 +8,7 @@ import com.sasd13.proadmin.bean.member.Teacher;
 
 public interface ISettingsController extends IController {
 
+    void readTeacher();
+
     void updateTeacher(Teacher teacher, Teacher teacherToUpdate);
 }

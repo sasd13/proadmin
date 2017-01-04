@@ -54,12 +54,17 @@ public class ReportController extends Controller implements IReportController {
     }
 
     @Override
+    public void readReports() {
+        reportService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+    }
+
+    @Override
     public void listReports() {
         mode = Extra.MODE_LIST;
         reportsWrapper = new ReportsWrapper();
 
         startProxyFragment();
-        reportService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        readReports();
     }
 
     void onReadReports(List<Report> reports) {

@@ -9,6 +9,8 @@ import com.sasd13.proadmin.bean.running.Running;
 
 public interface IRunningController extends IController {
 
+    void readRunnings(Project project);
+
     void newRunning(Project project);
 
     void showRunning(Running running);

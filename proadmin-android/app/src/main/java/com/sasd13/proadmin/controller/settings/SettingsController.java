@@ -25,9 +25,14 @@ public class SettingsController extends Controller implements ISettingsControlle
         showTeacher();
     }
 
+    @Override
+    public void readTeacher() {
+        teacherService.readByNumber(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+    }
+
     public void showTeacher() {
         startProxyFragment();
-        teacherService.readByNumber(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        readTeacher();
     }
 
     void onReadTeacher(Teacher teacher) {

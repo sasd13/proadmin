@@ -41,11 +41,16 @@ public class ProjectController extends Controller implements IProjectController,
     }
 
     @Override
+    public void readProjects() {
+        projectService.readAll();
+    }
+
+    @Override
     public void listProjects() {
         projectsWrapper = new ProjectsWrapper();
 
         startFragment(ProjectsFragment.newInstance(projectsWrapper));
-        projectService.readAll();
+        readProjects();
     }
 
     void onReadProjects(List<Project> projects) {
@@ -59,6 +64,11 @@ public class ProjectController extends Controller implements IProjectController,
         projectWrapper = new ProjectWrapper(project);
 
         startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
+        readRunnings(project);
+    }
+
+    @Override
+    public void readRunnings(Project project) {
         runningService.readByTeacherAndProject(SessionHelper.getExtraIdTeacherNumber(mainActivity), project.getCode());
     }
 

@@ -8,6 +8,8 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public interface IRunningTeamController extends IController {
 
+    void readRunningTeams();
+
     void listRunningTeams();
 
     void newRunningTeam();

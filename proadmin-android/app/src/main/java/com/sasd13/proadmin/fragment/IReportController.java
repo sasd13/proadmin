@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface IReportController extends IController {
 
+    void readReports();
+
     void listReports();
 
     void newReport();

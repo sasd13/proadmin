@@ -8,6 +8,8 @@ import com.sasd13.proadmin.bean.member.Team;
 
 public interface ITeamController extends IController {
 
+    void readTeams();
+
     void listTeams();
 
     void newTeam();

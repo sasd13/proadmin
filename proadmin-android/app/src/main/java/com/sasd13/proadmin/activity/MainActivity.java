@@ -3,6 +3,7 @@ package com.sasd13.proadmin.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -39,17 +40,14 @@ import com.sasd13.proadmin.gui.browser.BrowserItemModel;
 import com.sasd13.proadmin.util.SessionHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private ISettingsController settingsController;
-    private IProjectController projectController;
-    private ITeamController teamController;
-    private IRunningTeamController runningTeamController;
-    private IReportController reportController;
-    private ILogOutController logOutController;
+    private Map<Class<? extends IController>, IController> router;
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 
@@ -67,12 +65,20 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        settingsController = new SettingsController(this);
-        projectController = new ProjectController(this);
-        teamController = new TeamController(this);
-        runningTeamController = new RunningTeamController(this);
-        reportController = new ReportController(this);
-        logOutController = new LogOutController(this);
+        router = new HashMap<>();
+
+        router.put(ISettingsController.class, new SettingsController(this));
+        router.put(IRunningTeamController.class, new RunningTeamController(this));
+        router.put(IReportController.class, new ReportController(this));
+        router.put(ILogOutController.class, new LogOutController(this));
+
+        IProjectController projectController = new ProjectController(this);
+        router.put(IProjectController.class, projectController);
+        router.put(IRunningController.class, projectController);
+
+        ITeamController teamController = new TeamController(this);
+        router.put(ITeamController.class, teamController);
+        router.put(IStudentController.class, teamController);
     }
 
     private void showHome() {
@@ -93,47 +99,13 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void addNavItems(RecyclerHolder recyclerHolder) {
-        List<BrowserItemModel> browserItemModels = Browser.getInstance().getNavItems(this);
-        List<RecyclerHolderPair> pairs = new ArrayList<>();
-        RecyclerHolderPair pair;
-
-        for (final BrowserItemModel browserItemModel : browserItemModels) {
-            pair = new RecyclerHolderPair(browserItemModel);
-
-            pair.addController(EnumActionEvent.CLICK, new IAction() {
-                @Override
-                public void execute() {
-                    lookup(browserItemModel.getTarget()).entry();
-                    setDrawerOpened(false);
-                }
-            });
-
-            pairs.add(pair);
-        }
+        List<RecyclerHolderPair> pairs = makeItems(Browser.getInstance().getNavItems(this));
 
         recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
     }
 
-    public IController lookup(Class<? extends IController> mClass) {
-        if (ISettingsController.class.isAssignableFrom(mClass)) {
-            return settingsController;
-        } else if (IProjectController.class.isAssignableFrom(mClass) || IRunningController.class.isAssignableFrom(mClass)) {
-            return projectController;
-        } else if (ITeamController.class.isAssignableFrom(mClass) || IStudentController.class.isAssignableFrom(mClass)) {
-            return teamController;
-        } else if (IRunningTeamController.class.isAssignableFrom(mClass)) {
-            return runningTeamController;
-        } else if (IReportController.class.isAssignableFrom(mClass)) {
-            return reportController;
-        } else if (ILogOutController.class.isAssignableFrom(mClass)) {
-            return logOutController;
-        } else {
-            return null;
-        }
-    }
-
-    private void addAccountItems(RecyclerHolder recyclerHolder) {
-        List<BrowserItemModel> browserItemModels = Browser.getInstance().getAccountItems(this);
+    @NonNull
+    private List<RecyclerHolderPair> makeItems(List<BrowserItemModel> browserItemModels) {
         List<RecyclerHolderPair> pairs = new ArrayList<>();
         RecyclerHolderPair pair;
 
@@ -150,6 +122,15 @@ public class MainActivity extends DrawerActivity {
 
             pairs.add(pair);
         }
+        return pairs;
+    }
+
+    public IController lookup(Class<? extends IController> mClass) {
+        return router.get(mClass);
+    }
+
+    private void addAccountItems(RecyclerHolder recyclerHolder) {
+        List<RecyclerHolderPair> pairs = makeItems(Browser.getInstance().getAccountItems(this));
 
         recyclerHolder.addAll(getResources().getString(R.string.drawer_header_account), pairs);
     }

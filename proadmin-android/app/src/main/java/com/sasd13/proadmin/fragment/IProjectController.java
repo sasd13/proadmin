@@ -7,6 +7,8 @@ import com.sasd13.proadmin.bean.project.Project;
  */
 public interface IProjectController extends IController {
 
+    void readProjects();
+
     void listProjects();
 
     void showProject(Project project);

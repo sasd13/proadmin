@@ -43,11 +43,16 @@ public class TeamController extends Controller implements ITeamController, IStud
     }
 
     @Override
+    public void readTeams() {
+        teamService.readAll();
+    }
+
+    @Override
     public void listTeams() {
         teamsWrapper = new TeamsWrapper();
 
         startProxyFragment();
-        teamService.readAll();
+        readTeams();
     }
 
     public void onReadTeams(List<Team> teams) {
@@ -74,7 +79,7 @@ public class TeamController extends Controller implements ITeamController, IStud
         teamWrapper = new TeamWrapper(team);
 
         startFragment(TeamDetailsFragment.newInstance(teamWrapper));
-        studentService.readByTeam(team.getNumber());
+        readStudents(team);
     }
 
     public void onReadStudenTeams(List<StudentTeam> studentTeams) {
@@ -89,6 +94,11 @@ public class TeamController extends Controller implements ITeamController, IStud
     @Override
     public void deleteTeam(Team team) {
         teamService.delete(team);
+    }
+
+    @Override
+    public void readStudents(Team team) {
+        studentService.readByTeam(team.getNumber());
     }
 
     @Override
