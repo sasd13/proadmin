@@ -74,7 +74,7 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     }
 
     private void readDependencies() {
-        runningTeamDependencyService.clearParametersRunnings();
+        runningTeamDependencyService.clearParameters();
         runningTeamDependencyService.addParameterRunnings(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
         runningTeamDependencyService.read();
     }

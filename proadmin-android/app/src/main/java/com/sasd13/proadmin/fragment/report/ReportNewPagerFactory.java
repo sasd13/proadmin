@@ -10,7 +10,7 @@ import com.sasd13.proadmin.util.wrapper.ReportWrapper;
  */
 public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
 
-    private static final int COUNT = 4;
+    private static final int COUNT = 2;
 
     private ReportNewFragment parentFragment;
     private ReportWrapper reportWrapper;
@@ -29,10 +29,6 @@ public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
                 return ReportNewFragmentRunningTeams.newInstance(reportWrapper, parentFragment);
             case 1:
                 return ReportNewFragmentInfo.newInstance(reportWrapper, parentFragment);
-            case 2:
-                return ReportNewFragmentLeadEvaluation.newInstance(reportWrapper, parentFragment);
-            case 3:
-                return ReportNewFragmentIndividualEvaluations.newInstance(reportWrapper, parentFragment);
             default:
                 return null;
         }

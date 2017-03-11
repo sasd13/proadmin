@@ -4,6 +4,7 @@ import com.sasd13.androidex.ws.rest.promise.ManagePromise;
 import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
@@ -34,7 +35,15 @@ public class LeadEvaluationService {
         readPromise.read();
     }
 
+    public void create(LeadEvaluation leadEvaluation, Report report) {
+        leadEvaluation.setReport(report);
+
+        managePromise.create(leadEvaluation);
+    }
+
     public void update(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
+        leadEvaluation.setReport(leadEvaluationToUpdate.getReport());
+
         managePromise.update(getUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
     }
 

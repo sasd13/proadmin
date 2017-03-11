@@ -4,6 +4,7 @@ import com.sasd13.androidex.ws.rest.promise.ManagePromise;
 import com.sasd13.androidex.ws.rest.promise.ReadPromise;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
@@ -37,8 +38,37 @@ public class IndividualEvaluationService {
         readPromise.read();
     }
 
-    public void update(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        managePromise.update(getUpdateWrapper(individualEvaluations, individualEvaluationsToUpdate));
+    public void update(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate, Report report) {
+        List<IndividualEvaluation> individualEvaluationsToPost = new ArrayList<>();
+        List<IndividualEvaluation> individualEvaluationsToPut = new ArrayList<>();
+
+        boolean toPost;
+
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            toPost = true;
+
+            for (IndividualEvaluation individualEvaluationToUpdate : individualEvaluationsToUpdate) {
+                if (individualEvaluationToUpdate.getStudent().getNumber().equals(individualEvaluation.getStudent().getNumber())) {
+                    individualEvaluationsToPut.add(individualEvaluation);
+                    toPost = false;
+
+                    break;
+                }
+            }
+
+            if (toPost) {
+                individualEvaluation.setReport(report);
+                individualEvaluationsToPost.add(individualEvaluation);
+            }
+        }
+
+        if (!individualEvaluationsToPut.isEmpty()) {
+            managePromise.update(getUpdateWrapper(individualEvaluationsToPut, individualEvaluationsToUpdate));
+        }
+
+        if (!individualEvaluationsToPost.isEmpty()) {
+            managePromise.create(individualEvaluationsToPost.toArray(new IndividualEvaluation[individualEvaluationsToPost.size()]));
+        }
     }
 
     private IndividualEvaluationUpdateWrapper[] getUpdateWrapper(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
@@ -51,6 +81,7 @@ public class IndividualEvaluationService {
 
             for (IndividualEvaluation individualEvaluation : individualEvaluations) {
                 if (individualEvaluation.getStudent().getNumber().equals(individualEvaluationToUpdate.getStudent().getNumber())) {
+                    individualEvaluation.setReport(individualEvaluationToUpdate.getReport());
                     updateWrapper.setWrapped(individualEvaluation);
                     updateWrapper.setReportNumber(individualEvaluationToUpdate.getReport().getNumber());
                     updateWrapper.setStudentNumber(individualEvaluationToUpdate.getStudent().getNumber());

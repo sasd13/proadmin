@@ -54,7 +54,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	protected static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -80,7 +80,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
-	protected List<?> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	private List<?> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
@@ -96,13 +96,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		return (List<IUpdateWrapper<T>>) parser.fromStringArray(message, mClass);
 	}
 
-	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
 		LOGGER.info("Message sent by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
-	protected void handleError(Exception e, HttpServletResponse resp) throws IOException {
+	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		LOGGER.error(e);
 		writeError(resp, ErrorFactory.make(e));
 	}
@@ -148,11 +148,14 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
-			T t = ((List<T>) readFromRequest(req)).get(0);
+			List<T> ts = (List<T>) readFromRequest(req);
+			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
-			validator.validate(t);
-			business.verify(dao, t);
-			ServiceFactory.make(getBeanClass(), dao).create(t);
+			for (T t : ts) {
+				validator.validate(t);
+				business.verify(dao, t);
+				service.create(t);
+			}
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -165,11 +168,14 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
-			IUpdateWrapper<T> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
+			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
+			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
-			updateWrapperValidator.validate(updateWrapper);
-			business.verify(dao, updateWrapper);
-			ServiceFactory.make(getBeanClass(), dao).update(updateWrapper);
+			for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
+				updateWrapperValidator.validate(updateWrapper);
+				business.verify(dao, updateWrapper);
+				service.update(updateWrapper);
+			}
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -183,10 +189,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
-			T t = ((List<T>) readFromRequest(req)).get(0);
+			List<T> ts = (List<T>) readFromRequest(req);
+			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
-			validator.validate(t);
-			ServiceFactory.make(getBeanClass(), dao).delete(t);
+			for (T t : ts) {
+				validator.validate(t);
+				service.delete(t);
+			}
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

@@ -18,25 +18,32 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
+import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
-import com.sasd13.proadmin.fragment.IReportController;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
+public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements Observer {
 
     private IReportController controller;
-    private Report report;
+    private List<IndividualEvaluation> individualEvaluations;
+    private List<StudentTeam> studentTeams;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
 
     public static ReportDetailsFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
-        fragment.report = reportWrapper.getReport();
+        fragment.individualEvaluations = reportWrapper.getIndividualEvaluations();
+        fragment.studentTeams = reportWrapper.getStudentTeams();
+
+        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -75,7 +82,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
     }
 
     private void bindFormWithIndividualEvaluations() {
-        individualEvaluationsForm.bindIndividualEvaluations(report.getIndividualEvaluations());
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamBuilder(studentTeams).build());
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
@@ -110,9 +117,20 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment {
         try {
             List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations();
 
-            controller.updateIndividualEvaluations(individualEvaluationsFromForm, report.getIndividualEvaluations());
+            controller.updateIndividualEvaluations(individualEvaluationsFromForm, individualEvaluations);
         } catch (IndividualEvaluationsFormException e) {
             controller.displayMessage(e.getMessage());
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        ReportWrapper reportWrapper = (ReportWrapper) observable;
+
+        individualEvaluations = reportWrapper.getIndividualEvaluations();
+        studentTeams = reportWrapper.getStudentTeams();
+
+        recycler.clear();
+        bindFormWithIndividualEvaluations();
     }
 }

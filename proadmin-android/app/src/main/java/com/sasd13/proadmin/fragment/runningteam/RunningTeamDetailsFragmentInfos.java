@@ -149,7 +149,6 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
         runningTeamFromForm.setRunning(runningTeamForm.getRunning());
         runningTeamFromForm.setTeam(runningTeamForm.getTeam());
         runningTeamFromForm.setAcademicLevel(runningTeamForm.getAcademicLevel());
-        runningTeamFromForm.setReports(runningTeam.getReports());
 
         return runningTeamFromForm;
     }

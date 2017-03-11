@@ -6,6 +6,7 @@ import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class IndividualEvaluationsForm extends Form {
     private static final String[] MARKS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
     private Map<String, NumberItemModel> modelsMarks;
-    private List<IndividualEvaluation> individualEvaluations;
+    private List<Student> students;
 
     public IndividualEvaluationsForm(Context context) {
         super(context);
@@ -29,20 +30,25 @@ public class IndividualEvaluationsForm extends Form {
         modelsMarks = new HashMap<>();
     }
 
-    public void bindIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+    public void bindIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<Student> students) {
         holder.clear();
 
-        this.individualEvaluations = individualEvaluations;
+        this.students = students;
 
         NumberItemModel modelMark;
 
-        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+        for (Student student : students) {
             modelMark = new NumberItemModel();
-            modelMark.setLabel(individualEvaluation.getStudent().getFullName());
+            modelMark.setLabel(student.getFullName());
             modelMark.setItems(MARKS);
-            modelMark.setValue(indexOf(individualEvaluation.getMark(), MARKS));
 
-            modelsMarks.put(individualEvaluation.getStudent().getNumber(), modelMark);
+            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+                if (individualEvaluation.getStudent().getNumber().equals(student.getNumber())) {
+                    modelMark.setValue(indexOf(individualEvaluation.getMark(), MARKS));
+                }
+            }
+
+            modelsMarks.put(student.getNumber(), modelMark);
             holder.add(new RecyclerHolderPair(modelMark));
         }
     }
@@ -63,19 +69,20 @@ public class IndividualEvaluationsForm extends Form {
         IndividualEvaluation individualEvaluationFromForm;
 
         for (Map.Entry<String, NumberItemModel> entry : modelsMarks.entrySet()) {
-            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-                if (individualEvaluation.getStudent().getNumber().equals(entry.getKey())) {
+            for (Student student : students) {
+                if (student.getNumber().equals(entry.getKey())) {
                     if (entry.getValue().getValue() < 0) {
                         throw new IndividualEvaluationsFormException(context, R.string.form_individualevaluation_message_error_mark);
                     }
 
                     individualEvaluationFromForm = new IndividualEvaluation();
 
-                    individualEvaluationFromForm.setReport(individualEvaluation.getReport());
-                    individualEvaluationFromForm.setStudent(individualEvaluation.getStudent());
+                    individualEvaluationFromForm.setStudent(student);
                     individualEvaluationFromForm.setMark(Float.valueOf(MARKS[entry.getValue().getValue()]));
 
                     individualEvaluationsFromForm.add(individualEvaluationFromForm);
+
+                    break;
                 }
             }
         }

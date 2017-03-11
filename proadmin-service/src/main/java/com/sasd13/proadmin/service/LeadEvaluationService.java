@@ -24,8 +24,14 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void create(LeadEvaluation leadEvaluation) {
-		LOGGER.info("create unavailable");
-		throw new ServiceException("Service unavailable");
+		LOGGER.info("create : report=" + leadEvaluation.getReport().getNumber());
+
+		try {
+			getSession(LeadEvaluation.class).insert(leadEvaluation);
+		} catch (DAOException e) {
+			LOGGER.error(e);
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override
@@ -42,8 +48,14 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) {
-		LOGGER.info("delete unavailable");
-		throw new ServiceException("Service unavailable");
+		LOGGER.info("delete : report=" + leadEvaluation.getReport().getNumber());
+
+		try {
+			getSession(LeadEvaluation.class).delete(leadEvaluation);
+		} catch (DAOException e) {
+			LOGGER.error(e);
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override

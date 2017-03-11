@@ -55,18 +55,26 @@ public class LeadEvaluationForm extends Form {
         holder.add(new RecyclerHolderPair(modelCommunicationComment));
     }
 
-    public void bindLeadEvaluation(LeadEvaluation leadEvaluation) {
-        bindPlanningMark(MARKS, leadEvaluation.getPlanningMark());
-        modelPlanningComment.setValue(leadEvaluation.getPlanningComment());
-        bindCommunicationMark(MARKS, leadEvaluation.getCommunicationMark());
-        modelCommunicationComment.setValue(leadEvaluation.getCommunicationComment());
+    public void bindLeadEvaluation(LeadEvaluation leadEvaluation, List<Student> students) {
+        if (leadEvaluation != null) {
+            bindPlanningMark(MARKS, leadEvaluation.getPlanningMark());
+            modelPlanningComment.setValue(leadEvaluation.getPlanningComment());
+            bindCommunicationMark(MARKS, leadEvaluation.getCommunicationMark());
+            modelCommunicationComment.setValue(leadEvaluation.getCommunicationComment());
+        }
+
+        if (leadEvaluation != null) {
+            bindLeader(students, leadEvaluation.getStudent());
+        } else {
+            bindLeader(students);
+        }
     }
 
-    public void bindPlanningMark(String[] values) {
+    private void bindPlanningMark(String[] values) {
         modelPlanningMark.setItems(values);
     }
 
-    public void bindPlanningMark(String[] values, float mark) {
+    private void bindPlanningMark(String[] values, float mark) {
         bindPlanningMark(values);
 
         modelPlanningMark.setValue(indexOf(mark, values));
@@ -82,24 +90,24 @@ public class LeadEvaluationForm extends Form {
         return 0;
     }
 
-    public void bindCommunicationMark(String[] values) {
+    private void bindCommunicationMark(String[] values) {
         modelCommunicationMark.setItems(values);
     }
 
-    public void bindCommunicationMark(String[] values, float mark) {
+    private void bindCommunicationMark(String[] values, float mark) {
         bindCommunicationMark(values);
 
         modelCommunicationMark.setValue(indexOf(mark, values));
     }
 
-    public void bindLeader(List<Student> studentsToBind) {
+    private void bindLeader(List<Student> studentsToBind) {
         students = studentsToBind;
         List<String> studentsNumbersWithName = new StudentsNumberBuilder(students).buildWithName();
 
         modelLeader.setItems(studentsNumbersWithName.toArray(new String[studentsNumbersWithName.size()]));
     }
 
-    public void bindLeader(List<Student> studentsToBind, Student student) {
+    private void bindLeader(List<Student> studentsToBind, Student student) {
         bindLeader(studentsToBind);
 
         modelLeader.setValue(Finder.indexOfStudent(student.getNumber(), studentsToBind));

@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
@@ -87,10 +86,6 @@ public class ReportController extends Controller implements IReportController {
         if (isProxyFragmentNotDetached()) {
             reportWrapper.setRunningTeams(runningTeams);
             startFragment(ReportNewFragment.newInstance(reportWrapper));
-
-            if (reportWrapper.getReport().getRunningTeam() != null) {
-                readStudentTeams(reportWrapper.getReport().getRunningTeam().getTeam());
-            }
         }
     }
 
@@ -103,15 +98,15 @@ public class ReportController extends Controller implements IReportController {
         runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
     }
 
-    @Override
-    public void readStudentTeams(Team team) {
-        dependencyService.clearParametersStudentTeams();
-        dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
-        dependencyService.read();
-    }
-
     void onRetrieved(Map<String, List> results) {
         reportWrapper.setStudentTeams(results.get(ReportDependencyService.CODE_STUDENTTEAMS));
+
+        List<LeadEvaluation> leadEvaluations = results.get(ReportDependencyService.CODE_LEADEVALUATION);
+        if (!leadEvaluations.isEmpty()) {
+            reportWrapper.setLeadEvaluation(leadEvaluations.get(0));
+        }
+
+        reportWrapper.setIndividualEvaluations(results.get(ReportDependencyService.CODE_INDIVIDUALEVALUATIONS));
     }
 
     @Override
@@ -125,12 +120,25 @@ public class ReportController extends Controller implements IReportController {
         reportWrapper = new ReportWrapper(report);
 
         startFragment(ReportDetailsFragment.newInstance(reportWrapper));
-        readStudentTeams(report.getRunningTeam().getTeam());
+        readDependencies(report);
+    }
+
+    private void readDependencies(Report report) {
+        dependencyService.clearParameters();
+        dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
+        dependencyService.addParameterLeadEvaluation(EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        dependencyService.addParameterIndividualEvaluations(EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        dependencyService.read();
     }
 
     @Override
     public void updateReport(Report report, Report reportToUpdate) {
         reportService.update(report, reportToUpdate);
+    }
+
+    @Override
+    public void createLeadEvaluation(LeadEvaluation leadEvaluation) {
+        leadEvaluationService.create(leadEvaluation, reportWrapper.getReport());
     }
 
     @Override
@@ -140,7 +148,7 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void updateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        individualEvaluationService.update(individualEvaluations, individualEvaluationsToUpdate);
+        individualEvaluationService.update(individualEvaluations, individualEvaluationsToUpdate, reportWrapper.getReport());
     }
 
     @Override

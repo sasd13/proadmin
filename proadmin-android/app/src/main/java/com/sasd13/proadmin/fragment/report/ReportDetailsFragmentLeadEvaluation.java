@@ -19,10 +19,8 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.fragment.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
@@ -35,13 +33,13 @@ import java.util.Observer;
 public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Observer {
 
     private IReportController controller;
-    private Report report;
+    private LeadEvaluation leadEvaluation;
     private List<StudentTeam> studentTeams;
     private LeadEvaluationForm leadEvaluationForm;
 
     public static ReportDetailsFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
-        fragment.report = reportWrapper.getReport();
+        fragment.leadEvaluation = reportWrapper.getLeadEvaluation();
         fragment.studentTeams = reportWrapper.getStudentTeams();
 
         reportWrapper.addObserver(fragment);
@@ -73,7 +71,6 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
         bindFormWithLeadEvaluation();
-        bindFormWithStudents();
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -86,13 +83,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     }
 
     private void bindFormWithLeadEvaluation() {
-        leadEvaluationForm.bindLeadEvaluation(report.getLeadEvaluation());
-    }
-
-    private void bindFormWithStudents() {
-        List<Student> students = new StudentsFromStudentTeamBuilder(studentTeams).build();
-
-        leadEvaluationForm.bindLeader(students, report.getLeadEvaluation().getStudent());
+        leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamBuilder(studentTeams).build());
     }
 
     @Override
@@ -113,7 +104,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateTeam();
+                saveTeam();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -122,9 +113,13 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         return true;
     }
 
-    private void updateTeam() {
+    private void saveTeam() {
         try {
-            controller.updateLeadEvaluation(getLeadEvaluationFromForm(), report.getLeadEvaluation());
+            if (leadEvaluation != null) {
+                controller.updateLeadEvaluation(getLeadEvaluationFromForm(), leadEvaluation);
+            } else {
+                controller.createLeadEvaluation(getLeadEvaluationFromForm());
+            }
         } catch (FormException e) {
             controller.displayMessage(e.getMessage());
         }
@@ -138,7 +133,6 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         leadEvaluationFromForm.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
         leadEvaluationFromForm.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
         leadEvaluationFromForm.setStudent(leadEvaluationForm.getLeader());
-        leadEvaluationFromForm.setReport(report);
 
         return leadEvaluationFromForm;
     }
@@ -147,8 +141,9 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     public void update(Observable observable, Object o) {
         ReportWrapper reportWrapper = (ReportWrapper) observable;
 
+        leadEvaluation = reportWrapper.getLeadEvaluation();
         studentTeams = reportWrapper.getStudentTeams();
 
-        bindFormWithStudents();
+        bindFormWithLeadEvaluation();
     }
 }

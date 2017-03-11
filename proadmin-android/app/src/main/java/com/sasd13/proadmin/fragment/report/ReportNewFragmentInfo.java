@@ -74,13 +74,13 @@ public class ReportNewFragmentInfo extends Fragment {
 
     private void buildFloatingActionButton(View view) {
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
-        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_navigate_next_white_48dp));
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_save_white_48dp));
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     editReportWithForm();
-                    parentFragment.forward();
+                    parentFragment.createReport();
                 } catch (FormException e) {
                     controller.displayMessage(e.getMessage());
                 }

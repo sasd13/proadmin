@@ -24,8 +24,14 @@ public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 
 	@Override
 	public void create(IndividualEvaluation individualEvaluation) {
-		LOGGER.info("create unavailable");
-		throw new ServiceException("Service unavailable");
+		LOGGER.info("create : report=" + individualEvaluation.getReport().getNumber() + ", student=" + individualEvaluation.getStudent().getNumber());
+
+		try {
+			getSession(IndividualEvaluation.class).insert(individualEvaluation);
+		} catch (DAOException e) {
+			LOGGER.error(e);
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override
@@ -42,8 +48,14 @@ public class IndividualEvaluationService extends Service<IndividualEvaluation> {
 
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) {
-		LOGGER.info("delete unavailable");
-		throw new ServiceException("Service unavailable");
+		LOGGER.info("delete : report=" + individualEvaluation.getReport().getNumber() + ", student=" + individualEvaluation.getStudent().getNumber());
+
+		try {
+			getSession(IndividualEvaluation.class).delete(individualEvaluation);
+		} catch (DAOException e) {
+			LOGGER.error(e);
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Override

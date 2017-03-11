@@ -41,14 +41,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         private RunningTeam runningTeam;
         private Report report;
         private ReportNewFragment parentFragment;
-        private IReportController controller;
 
-        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, Report report, ReportNewFragment parentFragment, IReportController controller) {
+        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, Report report, ReportNewFragment parentFragment) {
             this.model = model;
             this.runningTeam = runningTeam;
             this.report = report;
             this.parentFragment = parentFragment;
-            this.controller = controller;
         }
 
         @Override
@@ -59,7 +57,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
             } else {
                 model.setSelected(true);
                 report.setRunningTeam(runningTeam);
-                controller.readStudentTeams(runningTeam.getTeam());
                 parentFragment.forward();
             }
         }
@@ -145,7 +142,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 model.setSelected(true);
             }
 
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, report, parentFragment, controller));
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, report, parentFragment));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 

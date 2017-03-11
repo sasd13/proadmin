@@ -117,8 +117,6 @@ public class ReportDetailsFragmentInfos extends Fragment {
         reportFromForm.setSession(reportForm.getSession());
         reportFromForm.setComment(reportForm.getComment());
         reportFromForm.setRunningTeam(report.getRunningTeam());
-        reportFromForm.setLeadEvaluation(report.getLeadEvaluation());
-        reportFromForm.setIndividualEvaluations(report.getIndividualEvaluations());
 
         return reportFromForm;
     }

@@ -27,7 +27,7 @@ public class RunningTeamDependencyService {
         parametersRunnings.put(parameter, values);
     }
 
-    public void clearParametersRunnings() {
+    public void clearParameters() {
         parametersRunnings.clear();
     }
 

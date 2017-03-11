@@ -12,7 +12,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import java.util.Date;
@@ -89,7 +88,7 @@ public class ReportForm extends Form {
     }
 
     public Date getDateMeeting() throws FormException {
-        return new DateTime(modelDateMeeting.getValue()).toDate();
+        return modelDateMeeting.getValue().toDate();
     }
 
     public String getComment() {
