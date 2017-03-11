@@ -34,7 +34,6 @@ public class LeadEvaluationServiceCallback implements LeadEvaluationService.Call
     @Override
     public void onCreated() {
         controller.displayMessage(context.getString(R.string.message_saved));
-        controller.entry();
     }
 
     @Override

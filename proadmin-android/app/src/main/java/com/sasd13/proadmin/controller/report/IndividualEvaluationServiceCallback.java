@@ -34,12 +34,11 @@ public class IndividualEvaluationServiceCallback implements IndividualEvaluation
     @Override
     public void onCreated() {
         controller.displayMessage(context.getString(R.string.message_saved));
-        controller.entry();
     }
 
     @Override
     public void onUpdated() {
-        controller.displayMessage(context.getString(R.string.message_updated));
+        controller.displayMessage(context.getString(R.string.message_saved));
     }
 
     @Override
