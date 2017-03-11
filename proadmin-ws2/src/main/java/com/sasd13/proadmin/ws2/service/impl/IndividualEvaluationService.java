@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.ws2.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.IndividualEvaluationDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class IndividualEvaluationService implements IService<IndividualEvaluation> {
@@ -52,9 +55,14 @@ public class IndividualEvaluationService implements IService<IndividualEvaluatio
 		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+		IndividualEvaluationDTOAdapter adapter = new IndividualEvaluationDTOAdapter();
 
 		try {
-			individualEvaluations = dao.select(parameters);
+			List<Serializable> results = dao.select(parameters);
+
+			for (Serializable result : results) {
+				individualEvaluations.add(adapter.adapt((IndividualEvaluationDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -68,9 +76,14 @@ public class IndividualEvaluationService implements IService<IndividualEvaluatio
 		LOGGER.info("readAll");
 
 		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+		IndividualEvaluationDTOAdapter adapter = new IndividualEvaluationDTOAdapter();
 
 		try {
-			individualEvaluations = dao.selectAll();
+			List<Serializable> results = dao.selectAll();
+
+			for (Serializable result : results) {
+				individualEvaluations.add(adapter.adapt((IndividualEvaluationDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

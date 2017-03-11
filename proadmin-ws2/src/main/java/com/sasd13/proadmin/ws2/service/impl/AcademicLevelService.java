@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.ws2.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.ws2.db.dto.AcademicLevelDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.AcademicLevelDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class AcademicLevelService implements IService<AcademicLevel> {
@@ -63,9 +66,14 @@ public class AcademicLevelService implements IService<AcademicLevel> {
 		LOGGER.info("read");
 
 		List<AcademicLevel> academicLevels = new ArrayList<>();
+		AcademicLevelDTOAdapter adapter = new AcademicLevelDTOAdapter();
 
 		try {
-			academicLevels = dao.select(parameters);
+			List<Serializable> results = dao.select(parameters);
+
+			for (Serializable result : results) {
+				academicLevels.add(adapter.adapt((AcademicLevelDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -79,9 +87,14 @@ public class AcademicLevelService implements IService<AcademicLevel> {
 		LOGGER.info("readAll");
 
 		List<AcademicLevel> academicLevels = new ArrayList<>();
+		AcademicLevelDTOAdapter adapter = new AcademicLevelDTOAdapter();
 
 		try {
-			academicLevels = dao.selectAll();
+			List<Serializable> results = dao.selectAll();
+
+			for (Serializable result : results) {
+				academicLevels.add(adapter.adapt((AcademicLevelDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

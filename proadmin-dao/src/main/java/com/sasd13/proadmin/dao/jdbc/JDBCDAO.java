@@ -38,7 +38,9 @@ public class JDBCDAO extends DAO {
 				new JDBCRunningDAO(), 
 				new JDBCAcademicLevelDAO(), 
 				new JDBCRunningTeamDAO(), 
-				new JDBCReportDAO()
+				new JDBCReportDAO(),
+				new JDBCLeadEvaluationDAO(),
+				new JDBCIndividualEvaluationDAO()
 		);
 
 		this.url = url;
@@ -59,6 +61,8 @@ public class JDBCDAO extends DAO {
 			((JDBCSession<?>) academicLevelDAO).setConnection(connection);
 			((JDBCSession<?>) runningTeamDAO).setConnection(connection);
 			((JDBCSession<?>) reportDAO).setConnection(connection);
+			((JDBCSession<?>) leadEvaluationDAO).setConnection(connection);
+			((JDBCSession<?>) individualEvaluationDAO).setConnection(connection);
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			throw new DAOException("Database connection error");

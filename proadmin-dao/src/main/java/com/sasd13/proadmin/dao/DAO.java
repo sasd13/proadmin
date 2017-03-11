@@ -28,8 +28,8 @@ public abstract class DAO implements ILayeredDAO {
 	protected IAcademicLevelDAO academicLevelDAO;
 	protected IRunningTeamDAO runningTeamDAO;
 	protected IReportDAO reportDAO;
-	private ILeadEvaluationDAO leadEvaluationDAO;
-	private IIndividualEvaluationDAO individualEvaluationDAO;
+	protected ILeadEvaluationDAO leadEvaluationDAO;
+	protected IIndividualEvaluationDAO individualEvaluationDAO;
 
 	private StudentTeamDeepReader studentTeamDeepReader;
 	private RunningDeepReader runningDeepReader;
@@ -47,7 +47,9 @@ public abstract class DAO implements ILayeredDAO {
 			IRunningDAO runningDAO, 
 			IAcademicLevelDAO academicLevelDAO, 
 			IRunningTeamDAO runningTeamDAO, 
-			IReportDAO reportDAO) {
+			IReportDAO reportDAO, 
+			ILeadEvaluationDAO leadEvaluationDAO, 
+			IIndividualEvaluationDAO individualEvaluationDAO) {
 
 		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;
@@ -58,15 +60,15 @@ public abstract class DAO implements ILayeredDAO {
 		this.academicLevelDAO = academicLevelDAO;
 		this.runningTeamDAO = runningTeamDAO;
 		this.reportDAO = reportDAO;
-		this.leadEvaluationDAO = reportDAO.getLeadEvaluationDAO();
-		this.individualEvaluationDAO = reportDAO.getIndividualEvaluationDAO();
+		this.leadEvaluationDAO = leadEvaluationDAO;
+		this.individualEvaluationDAO = individualEvaluationDAO;
 
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
 		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
-		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, studentDAO);
-		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, studentDAO);
-		reportDeepReader = new ReportDeepReader(reportDAO, leadEvaluationDeepReader, individualEvaluationDeepReader);
-		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, academicLevelDAO, reportDeepReader);
+		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, academicLevelDAO);
+		reportDeepReader = new ReportDeepReader(reportDAO, runningTeamDeepReader);
+		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, reportDeepReader, studentDAO);
+		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, reportDeepReader, studentDAO);
 	}
 
 	@Override

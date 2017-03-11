@@ -5,7 +5,6 @@
  */
 package com.sasd13.proadmin.dao.jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,8 +24,6 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.dao.IReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
@@ -36,34 +33,6 @@ import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
  * @author Samir
  */
 public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
-
-	private JDBCLeadEvaluationDAO leadEvaluationDAO;
-	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
-	private JDBCReportTransaction transaction;
-
-	public JDBCReportDAO() {
-		leadEvaluationDAO = new JDBCLeadEvaluationDAO();
-		individualEvaluationDAO = new JDBCIndividualEvaluationDAO();
-		transaction = new JDBCReportTransaction(this);
-	}
-
-	@Override
-	public ILeadEvaluationDAO getLeadEvaluationDAO() {
-		return leadEvaluationDAO;
-	}
-
-	@Override
-	public IIndividualEvaluationDAO getIndividualEvaluationDAO() {
-		return individualEvaluationDAO;
-	}
-
-	@Override
-	public void setConnection(Connection connection) {
-		super.setConnection(connection);
-
-		leadEvaluationDAO.setConnection(connection);
-		individualEvaluationDAO.setConnection(connection);
-	}
 
 	@Override
 	public long insert(Report report) {
@@ -82,9 +51,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_ACADEMICLEVEL);
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		transaction.editTransaction(builder.toString(), report);
-
-		return JDBCUtils.insertInTransaction(this, transaction);
+		return JDBCUtils.insert(this, builder.toString(), report);
 	}
 
 	@Override
@@ -104,9 +71,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
-
-		JDBCUtils.updateInTransaction(this, transaction);
+		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -117,9 +82,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
-		transaction.editTransaction(builder.toString(), report);
-
-		JDBCUtils.deleteInTransaction(this, transaction);
+		JDBCUtils.delete(this, builder.toString(), report);
 	}
 
 	@Override

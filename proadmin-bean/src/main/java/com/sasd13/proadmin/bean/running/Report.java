@@ -1,28 +1,13 @@
 package com.sasd13.proadmin.bean.running;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Report {
 
 	private RunningTeam runningTeam;
 	private String number, comment;
 	private Date dateMeeting;
 	private int session;
-	private LeadEvaluation leadEvaluation;
-	private List<IndividualEvaluation> individualEvaluations;
-
-	public Report() {
-		leadEvaluation = new LeadEvaluation();
-		individualEvaluations = new ArrayList<>();
-
-		leadEvaluation.setReport(this);
-	}
 
 	public RunningTeam getRunningTeam() {
 		return runningTeam;
@@ -62,22 +47,6 @@ public class Report {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public LeadEvaluation getLeadEvaluation() {
-		return leadEvaluation;
-	}
-
-	public void setLeadEvaluation(LeadEvaluation leadEvaluation) {
-		this.leadEvaluation = leadEvaluation;
-	}
-
-	public List<IndividualEvaluation> getIndividualEvaluations() {
-		return individualEvaluations;
-	}
-
-	public void setIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
-		this.individualEvaluations = individualEvaluations;
 	}
 
 	@Override

@@ -54,7 +54,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	private static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
+	protected static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -80,7 +80,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
-	private List<T> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	protected List<?> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
@@ -96,13 +96,13 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		return (List<IUpdateWrapper<T>>) parser.fromStringArray(message, mClass);
 	}
 
-	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
 		LOGGER.info("Message sent by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
-	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
+	protected void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		LOGGER.error(e);
 		writeError(resp, ErrorFactory.make(e));
 	}
@@ -140,6 +140,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
@@ -147,7 +148,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
-			T t = readFromRequest(req).get(0);
+			T t = ((List<T>) readFromRequest(req)).get(0);
 
 			validator.validate(t);
 			business.verify(dao, t);
@@ -174,6 +175,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doDelete");
@@ -181,7 +183,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
 
 		try {
-			T t = readFromRequest(req).get(0);
+			T t = ((List<T>) readFromRequest(req)).get(0);
 
 			validator.validate(t);
 			ServiceFactory.make(getBeanClass(), dao).delete(t);

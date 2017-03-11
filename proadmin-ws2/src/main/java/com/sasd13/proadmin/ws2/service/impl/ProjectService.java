@@ -66,7 +66,7 @@ public class ProjectService implements IService<Project> {
 		List<Project> projects = new ArrayList<>();
 
 		try {
-			projects = dao.select(parameters);
+			//projects = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class ProjectService implements IService<Project> {
 		List<Project> projects = new ArrayList<>();
 
 		try {
-			projects = dao.selectAll();
+			//projects = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

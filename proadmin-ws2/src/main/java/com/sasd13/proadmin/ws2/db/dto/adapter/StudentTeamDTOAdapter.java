@@ -17,7 +17,7 @@ public class StudentTeamDTOAdapter implements IAdapter<StudentTeamDTO, StudentTe
 
 	@Override
 	public void adapt(StudentTeamDTO source, StudentTeam target) {
-		target.setStudent(source.getStudent());
-		target.setTeam(source.getTeam());
+		target.setStudent(new StudentDTOAdapter().adapt(source.getStudent()));
+		target.setTeam(new TeamDTOAdapter().adapt(source.getTeam()));
 	}
 }

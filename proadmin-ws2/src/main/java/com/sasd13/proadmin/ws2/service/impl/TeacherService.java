@@ -66,7 +66,7 @@ public class TeacherService implements IService<Teacher> {
 		List<Teacher> list = new ArrayList<>();
 
 		try {
-			list = dao.select(parameters);
+			//list = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class TeacherService implements IService<Teacher> {
 		List<Teacher> list = new ArrayList<>();
 
 		try {
-			list = dao.selectAll();
+			//list = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

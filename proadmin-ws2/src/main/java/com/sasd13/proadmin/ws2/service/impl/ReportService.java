@@ -66,7 +66,7 @@ public class ReportService implements IService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = dao.select(parameters);
+			//reports = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class ReportService implements IService<Report> {
 		List<Report> reports = new ArrayList<>();
 
 		try {
-			reports = dao.selectAll();
+			//reports = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

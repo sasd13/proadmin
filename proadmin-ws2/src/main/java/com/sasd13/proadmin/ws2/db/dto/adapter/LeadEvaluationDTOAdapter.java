@@ -21,7 +21,7 @@ public class LeadEvaluationDTOAdapter implements IAdapter<LeadEvaluationDTO, Lea
 		target.setPlanningComment(source.getPlanningComment());
 		target.setCommunicationMark(source.getCommunicationMark());
 		target.setCommunicationComment(source.getCommunicationComment());
-		target.setReport(source.getReport());
-		target.setStudent(source.getStudent());
+		target.setReport(new ReportDTOAdapter().adapt(source.getReport()));
+		target.setStudent(new StudentDTOAdapter().adapt(source.getStudent()));
 	}
 }

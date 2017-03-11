@@ -66,7 +66,7 @@ public class RunningService implements IService<Running> {
 		List<Running> runnings = new ArrayList<>();
 
 		try {
-			runnings = dao.select(parameters);
+			//runnings = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class RunningService implements IService<Running> {
 		List<Running> runnings = new ArrayList<>();
 
 		try {
-			runnings = dao.selectAll();
+			//runnings = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

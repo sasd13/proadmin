@@ -3,32 +3,36 @@ package com.sasd13.proadmin.dao.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.commons.lang3.NotImplementedException;
 
 import com.sasd13.javaex.dao.jdbc.IJDBCTransaction;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 
 public class JDBCReportTransaction implements IJDBCTransaction {
 
 	private JDBCReportDAO reportDAO;
+	private JDBCLeadEvaluationDAO leadEvaluationDAO;
+	private JDBCIndividualEvaluationDAO individualEvaluationDAO;
 	private String query;
 	private Report report;
-	private IReportUpdateWrapper updateWrapper;
+	private LeadEvaluation leadEvaluation;
+	private List<IndividualEvaluation> individualEvaluations;
 
-	public JDBCReportTransaction(JDBCReportDAO reportDAO) {
+	public JDBCReportTransaction(JDBCReportDAO reportDAO, JDBCLeadEvaluationDAO leadEvaluationDAO, JDBCIndividualEvaluationDAO individualEvaluationDAO) {
 		this.reportDAO = reportDAO;
+		this.leadEvaluationDAO = leadEvaluationDAO;
+		this.individualEvaluationDAO = individualEvaluationDAO;
 	}
 
-	public void editTransaction(String query, Report report) {
+	public void editTransaction(String query, Report report, LeadEvaluation leadEvaluation, List<IndividualEvaluation> individualEvaluations) {
 		this.query = query;
 		this.report = report;
-	}
-
-	public void editTransaction(String query, IReportUpdateWrapper updateWrapper) {
-		this.query = query;
-		this.updateWrapper = updateWrapper;
+		this.leadEvaluation = leadEvaluation;
+		this.individualEvaluations = individualEvaluations;
 	}
 
 	@Override
@@ -40,10 +44,10 @@ public class JDBCReportTransaction implements IJDBCTransaction {
 		reportDAO.editPreparedStatementForInsert(preparedStatement, report);
 		preparedStatement.executeUpdate();
 
-		reportDAO.getLeadEvaluationDAO().insert(report.getLeadEvaluation());
+		leadEvaluationDAO.insert(leadEvaluation);
 
-		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-			reportDAO.getIndividualEvaluationDAO().insert(individualEvaluation);
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			individualEvaluationDAO.insert(individualEvaluation);
 		}
 
 		return id;
@@ -51,28 +55,15 @@ public class JDBCReportTransaction implements IJDBCTransaction {
 
 	@Override
 	public void update(Connection connection) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-		reportDAO.editPreparedStatementForUpdate(preparedStatement, updateWrapper);
-		preparedStatement.executeUpdate();
-
-		if (updateWrapper.getLeadEvaluationUpdateWrapper() != null) {
-			reportDAO.getLeadEvaluationDAO().update(updateWrapper.getLeadEvaluationUpdateWrapper());
-		}
-
-		if (updateWrapper.getIndividualEvaluationUpdateWrappers() != null) {
-			for (IUpdateWrapper<IndividualEvaluation> wrapper : updateWrapper.getIndividualEvaluationUpdateWrappers()) {
-				reportDAO.getIndividualEvaluationDAO().update(wrapper);
-			}
-		}
+		throw new NotImplementedException("Update not implemented");
 	}
 
 	@Override
 	public void delete(Connection connection) throws SQLException {
-		reportDAO.getLeadEvaluationDAO().delete(report.getLeadEvaluation());
+		leadEvaluationDAO.delete(leadEvaluation);
 
-		for (IndividualEvaluation individualEvaluation : report.getIndividualEvaluations()) {
-			reportDAO.getIndividualEvaluationDAO().delete(individualEvaluation);
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			individualEvaluationDAO.delete(individualEvaluation);
 		}
 
 		PreparedStatement preparedStatement = connection.prepareStatement(query);

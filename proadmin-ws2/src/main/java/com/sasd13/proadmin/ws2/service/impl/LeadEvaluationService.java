@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.ws2.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.LeadEvaluationDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IService;
 
 public class LeadEvaluationService implements IService<LeadEvaluation> {
@@ -52,9 +55,14 @@ public class LeadEvaluationService implements IService<LeadEvaluation> {
 		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
 
 		try {
-			leadEvaluations = dao.select(parameters);
+			List<Serializable> results = dao.select(parameters);
+
+			for (Serializable result : results) {
+				leadEvaluations.add(adapter.adapt((LeadEvaluationDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -68,9 +76,14 @@ public class LeadEvaluationService implements IService<LeadEvaluation> {
 		LOGGER.info("readAll");
 
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
 
 		try {
-			leadEvaluations = dao.selectAll();
+			List<Serializable> results = dao.selectAll();
+
+			for (Serializable result : results) {
+				leadEvaluations.add(adapter.adapt((LeadEvaluationDTO) result));
+			}
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

@@ -15,8 +15,4 @@ public interface IReportDAO extends ISession<Report> {
 	String COLUMN_TEACHER = "_teacher";
 	String COLUMN_TEAM = "_team";
 	String COLUMN_ACADEMICLEVEL = "_academiclevel";
-
-	ILeadEvaluationDAO getLeadEvaluationDAO();
-
-	IIndividualEvaluationDAO getIndividualEvaluationDAO();
 }

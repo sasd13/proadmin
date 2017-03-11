@@ -18,7 +18,7 @@ public class RunningDTOAdapter implements IAdapter<RunningDTO, Running> {
 	@Override
 	public void adapt(RunningDTO source, Running target) {
 		target.setYear(source.getYear());
-		target.setProject(source.getProject());
-		target.setTeacher(source.getTeacher());
+		target.setProject(new ProjectDTOAdapter().adapt(source.getProject()));
+		target.setTeacher(new TeacherDTOAdapter().adapt(source.getTeacher()));
 	}
 }

@@ -1,10 +1,7 @@
 package com.sasd13.proadmin.bean.running;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sasd13.proadmin.bean.member.Student;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public abstract class Evaluation {
 
 	private Report report;

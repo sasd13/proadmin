@@ -66,7 +66,7 @@ public class TeamService implements IService<Team> {
 		List<Team> teams = new ArrayList<>();
 
 		try {
-			teams = dao.select(parameters);
+			//teams = dao.select(parameters);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class TeamService implements IService<Team> {
 		List<Team> teams = new ArrayList<>();
 
 		try {
-			teams = dao.selectAll();
+			//teams = dao.selectAll();
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
