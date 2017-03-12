@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.StudentTeamDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IStudentTeamService;
+import com.sasd13.proadmin.ws2.util.adapter.StudentTeamDTOAdapter;
 
 @Service
 public class StudentTeamService implements IStudentTeamService {
@@ -25,8 +25,8 @@ public class StudentTeamService implements IStudentTeamService {
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
-		studentTeamDAO.delete(studentTeam);
+	public void delete(List<StudentTeam> studentTeams) {
+		studentTeamDAO.delete(studentTeams);
 	}
 
 	@Override

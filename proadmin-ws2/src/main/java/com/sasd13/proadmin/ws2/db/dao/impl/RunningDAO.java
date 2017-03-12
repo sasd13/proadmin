@@ -22,7 +22,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
@@ -73,13 +73,24 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	}
 
 	@Override
-	public void update(IRunningUpdateWrapper updateWrapper) {
-		RunningDTO dto = read(updateWrapper.getYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherNumber());
+	public void update(List<RunningUpdateWrapper> updateWrappers) {
+		RunningUpdateWrapper updateWrapper;
+		RunningDTO dto;
 
-		dto.setYear(updateWrapper.getWrapped().getYear());
-		dto.setProject(readProject(updateWrapper.getWrapped().getProject().getCode()));
-		dto.setTeacher(readTeacher(updateWrapper.getWrapped().getTeacher().getNumber()));
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherNumber());
+
+			dto.setYear(updateWrapper.getWrapped().getYear());
+			dto.setProject(readProject(updateWrapper.getWrapped().getProject().getCode()));
+			dto.setTeacher(readTeacher(updateWrapper.getWrapped().getTeacher().getNumber()));
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -94,10 +105,21 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	}
 
 	@Override
-	public void delete(Running running) {
-		RunningDTO dto = read(running.getYear(), running.getProject().getCode(), running.getTeacher().getNumber());
+	public void delete(List<Running> runnings) {
+		Running running;
+		RunningDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < runnings.size(); i++) {
+			running = runnings.get(i);
+			dto = read(running.getYear(), running.getProject().getCode(), running.getTeacher().getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

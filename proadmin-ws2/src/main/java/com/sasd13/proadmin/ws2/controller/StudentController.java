@@ -14,33 +14,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.ws2.service.ITeacherService;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IStudentService;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/student")
+public class StudentController {
 
-	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);
+	private static final Logger LOGGER = Logger.getLogger(StudentController.class);
 
 	@Autowired
-	private ITeacherService teacherService;
+	private IStudentService studentService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Teacher>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
+	public ResponseEntity<List<Student>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
 		LOGGER.info("Get");
 
 		try {
-			List<Teacher> teachers = teacherService.read(getParameters(numbers));
+			List<Student> students = studentService.read(getParameters(numbers));
 
-			return new ResponseEntity<List<Teacher>>(teachers, HttpStatus.OK);
+			return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<List<Teacher>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<List<Student>>(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	private Map<String, String[]> getParameters(List<String> numbers) {
@@ -56,11 +56,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody Teacher teacher) {
+	public ResponseEntity<Integer> post(@RequestBody Student student) {
 		LOGGER.info("Post");
 
 		try {
-			teacherService.create(teacher);
+			studentService.create(student);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -71,11 +71,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<TeacherUpdateWrapper> updateWrappers) {
+	public ResponseEntity<Integer> put(@RequestBody List<StudentUpdateWrapper> updateWrappers) {
 		LOGGER.info("Put");
 
 		try {
-			teacherService.update(updateWrappers);
+			studentService.update(updateWrappers);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,11 +86,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<Teacher> teachers) {
+	public ResponseEntity<Integer> delete(@RequestBody List<Student> students) {
 		LOGGER.info("Delete");
 
 		try {
-			teacherService.delete(teachers);
+			studentService.delete(students);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {

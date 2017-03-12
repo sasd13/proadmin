@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.member;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
 
-public class TeamUpdateWrapper implements ITeamUpdateWrapper {
+public class TeamUpdateWrapper implements IUpdateWrapper<Team> {
 
 	private Team team;
 	private String number;
@@ -17,12 +18,10 @@ public class TeamUpdateWrapper implements ITeamUpdateWrapper {
 		this.team = team;
 	}
 
-	@Override
 	public String getNumber() {
 		return number;
 	}
 
-	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}

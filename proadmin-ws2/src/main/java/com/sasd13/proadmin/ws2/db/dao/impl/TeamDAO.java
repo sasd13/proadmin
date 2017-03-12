@@ -21,7 +21,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ITeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
 
@@ -44,10 +44,21 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 	}
 
 	@Override
-	public void update(ITeamUpdateWrapper updateWrapper) {
-		TeamDTO dto = read(updateWrapper.getNumber());
+	public void update(List<TeamUpdateWrapper> updateWrappers) {
+		TeamUpdateWrapper updateWrapper;
+		TeamDTO dto;
 
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getNumber());
+
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -60,10 +71,21 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 	}
 
 	@Override
-	public void delete(Team team) {
-		TeamDTO dto = read(team.getNumber());
+	public void delete(List<Team> teams) {
+		Team team;
+		TeamDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < teams.size(); i++) {
+			team = teams.get(i);
+			dto = read(team.getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

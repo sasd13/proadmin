@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.TeacherDTOAdapter;
 import com.sasd13.proadmin.ws2.service.ITeacherService;
+import com.sasd13.proadmin.ws2.util.adapter.TeacherDTOAdapter;
 
 @Service
 public class TeacherService implements ITeacherService {
@@ -26,13 +26,13 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public void update(ITeacherUpdateWrapper updateWrapper) {
-		teacherDAO.update(updateWrapper);
+	public void update(List<TeacherUpdateWrapper> updateWrappers) {
+		teacherDAO.update(updateWrappers);
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
-		teacherDAO.delete(teacher);
+	public void delete(List<Teacher> teachers) {
+		teacherDAO.delete(teachers);
 	}
 
 	@Override

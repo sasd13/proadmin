@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.ProjectDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IProjectService;
+import com.sasd13.proadmin.ws2.util.adapter.ProjectDTOAdapter;
 
 @Service
 public class ProjectService implements IProjectService {
@@ -26,13 +26,13 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
-	public void update(IProjectUpdateWrapper updateWrapper) {
-		projectDAO.update(updateWrapper);
+	public void update(List<ProjectUpdateWrapper> updateWrappers) {
+		projectDAO.update(updateWrappers);
 	}
 
 	@Override
-	public void delete(Project project) {
-		projectDAO.delete(project);
+	public void delete(List<Project> projects) {
+		projectDAO.delete(projects);
 	}
 
 	@Override

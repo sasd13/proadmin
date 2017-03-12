@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.running;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 
-public class IndividualEvaluationUpdateWrapper implements IIndividualEvaluationUpdateWrapper {
+public class IndividualEvaluationUpdateWrapper implements IUpdateWrapper<IndividualEvaluation> {
 
 	private IndividualEvaluation individualEvaluation;
 	private String reportNumber, studentNumber;
@@ -17,22 +18,18 @@ public class IndividualEvaluationUpdateWrapper implements IIndividualEvaluationU
 		this.individualEvaluation = individualEvaluation;
 	}
 
-	@Override
 	public String getReportNumber() {
 		return reportNumber;
 	}
 
-	@Override
 	public void setReportNumber(String reportNumber) {
 		this.reportNumber = reportNumber;
 	}
 
-	@Override
 	public String getStudentNumber() {
 		return studentNumber;
 	}
 
-	@Override
 	public void setStudentNumber(String studentNumber) {
 		this.studentNumber = studentNumber;
 	}

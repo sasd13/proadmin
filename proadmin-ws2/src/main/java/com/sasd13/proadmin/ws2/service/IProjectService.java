@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 
 public interface IProjectService {
 
 	void create(Project project);
 
-	void update(IProjectUpdateWrapper updateWrapper);
+	void update(List<ProjectUpdateWrapper> updateWrappers);
 
-	void delete(Project project);
+	void delete(List<Project> projects);
 
 	List<Project> read(Map<String, String[]> parameters);
 }

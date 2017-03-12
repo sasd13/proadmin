@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 public class RunningTeamUpdateWrapperValidator implements IValidator<IUpdateWrapper<RunningTeam>> {
 
@@ -18,7 +18,7 @@ public class RunningTeamUpdateWrapperValidator implements IValidator<IUpdateWrap
 
 	@Override
 	public void validate(IUpdateWrapper<RunningTeam> updateWrapper) throws ValidatorException {
-		IRunningTeamUpdateWrapper runningTeamUpdateWrapper = (IRunningTeamUpdateWrapper) updateWrapper;
+		RunningTeamUpdateWrapper runningTeamUpdateWrapper = (RunningTeamUpdateWrapper) updateWrapper;
 
 		if (runningTeamUpdateWrapper == null) {
 			throw new ValidatorException("RunningTeamUpdateWrapper is not valid");
@@ -27,11 +27,11 @@ public class RunningTeamUpdateWrapperValidator implements IValidator<IUpdateWrap
 		if (StringUtils.isBlank(runningTeamUpdateWrapper.getTeacherNumber())) {
 			throw new ValidatorException("RunningTeamUpdateWrapper : team -> number is not valid");
 		}
-		
+
 		if (StringUtils.isBlank(runningTeamUpdateWrapper.getAcademicLevelCode())) {
 			throw new ValidatorException("RunningTeamUpdateWrapper : academicLevel -> code is not valid");
 		}
-		
+
 		if (runningTeamUpdateWrapper.getRunningYear() < 0) {
 			throw new ValidatorException("RunningTeamUpdateWrapper : running -> year is not valid");
 		}

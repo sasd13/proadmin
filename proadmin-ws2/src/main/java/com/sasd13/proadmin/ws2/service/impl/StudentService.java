@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.StudentDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IStudentService;
+import com.sasd13.proadmin.ws2.util.adapter.StudentDTOAdapter;
 
 @Service
 public class StudentService implements IStudentService {
@@ -26,13 +26,13 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public void update(IStudentUpdateWrapper updateWrapper) {
-		studentDAO.update(updateWrapper);
+	public void update(List<StudentUpdateWrapper> updateWrappers) {
+		studentDAO.update(updateWrappers);
 	}
 
 	@Override
-	public void delete(Student student) {
-		studentDAO.delete(student);
+	public void delete(List<Student> students) {
+		studentDAO.delete(students);
 	}
 
 	@Override

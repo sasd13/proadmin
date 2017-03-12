@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 public class IndividualEvaluationUpdateWrapperValidator implements IValidator<IUpdateWrapper<IndividualEvaluation>> {
 
@@ -18,7 +18,7 @@ public class IndividualEvaluationUpdateWrapperValidator implements IValidator<IU
 
 	@Override
 	public void validate(IUpdateWrapper<IndividualEvaluation> updateWrapper) throws ValidatorException {
-		IIndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper = (IIndividualEvaluationUpdateWrapper) updateWrapper;
+		IndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper = (IndividualEvaluationUpdateWrapper) updateWrapper;
 
 		if (individualEvaluationUpdateWrapper == null) {
 			throw new ValidatorException("IndividualEvaluationUpdateWrapper is not valid");

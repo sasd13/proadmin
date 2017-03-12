@@ -20,7 +20,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 
 /**
  *
@@ -103,9 +103,9 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Running> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setInt(4, ((IRunningUpdateWrapper) updateWrapper).getYear());
-		preparedStatement.setString(5, ((IRunningUpdateWrapper) updateWrapper).getProjectCode());
-		preparedStatement.setString(6, ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
+		preparedStatement.setInt(4, ((RunningUpdateWrapper) updateWrapper).getYear());
+		preparedStatement.setString(5, ((RunningUpdateWrapper) updateWrapper).getProjectCode());
+		preparedStatement.setString(6, ((RunningUpdateWrapper) updateWrapper).getTeacherNumber());
 	}
 
 	@Override

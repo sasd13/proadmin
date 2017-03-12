@@ -10,7 +10,7 @@ public interface IStudentTeamDAO {
 
 	StudentTeamDTO create(StudentTeam studentTeam);
 
-	void delete(StudentTeam studentTeam);
+	void delete(List<StudentTeam> studentTeams);
 
 	List<StudentTeamDTO> read(Map<String, String[]> parameters);
 }

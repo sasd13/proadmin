@@ -20,7 +20,7 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.dao.IProjectDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 
 /**
  *
@@ -102,7 +102,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Project> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(5, ((IProjectUpdateWrapper) updateWrapper).getCode());
+		preparedStatement.setString(5, ((ProjectUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override

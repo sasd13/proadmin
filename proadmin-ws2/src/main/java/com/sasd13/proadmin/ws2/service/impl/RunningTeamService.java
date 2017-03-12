@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.RunningTeamDTOAdapter;
 import com.sasd13.proadmin.ws2.service.IRunningTeamService;
+import com.sasd13.proadmin.ws2.util.adapter.RunningTeamDTOAdapter;
 
 @Service
 public class RunningTeamService implements IRunningTeamService {
@@ -26,13 +26,13 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public void update(IRunningTeamUpdateWrapper updateWrapper) {
-		runningTeamDAO.update(updateWrapper);
+	public void update(List<RunningTeamUpdateWrapper> updateWrappers) {
+		runningTeamDAO.update(updateWrappers);
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) {
-		runningTeamDAO.delete(runningTeam);
+	public void delete(List<RunningTeam> runningTeams) {
+		runningTeamDAO.delete(runningTeams);
 	}
 
 	@Override

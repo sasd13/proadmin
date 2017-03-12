@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.util.wrapper.update.member.IStudentTeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentTeamUpdateWrapper;
 
 public class StudentTeamUpdateWrapperValidator implements IValidator<IUpdateWrapper<StudentTeam>> {
 
@@ -18,7 +18,7 @@ public class StudentTeamUpdateWrapperValidator implements IValidator<IUpdateWrap
 
 	@Override
 	public void validate(IUpdateWrapper<StudentTeam> updateWrapper) throws ValidatorException {
-		IStudentTeamUpdateWrapper studentTeamUpdateWrapper = (IStudentTeamUpdateWrapper) updateWrapper;
+		StudentTeamUpdateWrapper studentTeamUpdateWrapper = (StudentTeamUpdateWrapper) updateWrapper;
 
 		if (studentTeamUpdateWrapper == null) {
 			throw new ValidatorException("StudentTeamUpdateWrapper is not valid");

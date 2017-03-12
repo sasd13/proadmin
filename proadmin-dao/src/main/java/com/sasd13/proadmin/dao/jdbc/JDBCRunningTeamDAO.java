@@ -23,7 +23,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 /**
  *
@@ -116,11 +116,11 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<RunningTeam> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setInt(6, ((IRunningTeamUpdateWrapper) updateWrapper).getRunningYear());
-		preparedStatement.setString(7, ((IRunningTeamUpdateWrapper) updateWrapper).getProjectCode());
-		preparedStatement.setString(8, ((IRunningTeamUpdateWrapper) updateWrapper).getTeacherNumber());
-		preparedStatement.setString(9, ((IRunningTeamUpdateWrapper) updateWrapper).getTeamNumber());
-		preparedStatement.setString(10, ((IRunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
+		preparedStatement.setInt(6, ((RunningTeamUpdateWrapper) updateWrapper).getRunningYear());
+		preparedStatement.setString(7, ((RunningTeamUpdateWrapper) updateWrapper).getProjectCode());
+		preparedStatement.setString(8, ((RunningTeamUpdateWrapper) updateWrapper).getTeacherNumber());
+		preparedStatement.setString(9, ((RunningTeamUpdateWrapper) updateWrapper).getTeamNumber());
+		preparedStatement.setString(10, ((RunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
 	}
 
 	@Override

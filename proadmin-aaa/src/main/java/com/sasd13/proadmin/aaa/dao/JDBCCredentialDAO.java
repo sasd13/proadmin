@@ -17,7 +17,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.wrapper.update.credential.ICredentialUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.credential.CredentialUpdateWrapper;
 
 public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICredentialDAO {
 
@@ -128,7 +128,7 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Credential> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(3, ((ICredentialUpdateWrapper) updateWrapper).getUsername());
+		preparedStatement.setString(3, ((CredentialUpdateWrapper) updateWrapper).getUsername());
 	}
 
 	@Override

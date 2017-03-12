@@ -18,7 +18,7 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.dao.ITeacherDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 /**
  *
@@ -100,7 +100,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Teacher> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(5, ((ITeacherUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(5, ((TeacherUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

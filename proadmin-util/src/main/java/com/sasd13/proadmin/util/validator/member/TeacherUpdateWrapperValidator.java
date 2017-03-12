@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public class TeacherUpdateWrapperValidator implements IValidator<IUpdateWrapper<Teacher>> {
 
@@ -18,7 +18,7 @@ public class TeacherUpdateWrapperValidator implements IValidator<IUpdateWrapper<
 
 	@Override
 	public void validate(IUpdateWrapper<Teacher> updateWrapper) throws ValidatorException {
-		ITeacherUpdateWrapper teacherUpdateWrapper = (ITeacherUpdateWrapper) updateWrapper;
+		TeacherUpdateWrapper teacherUpdateWrapper = (TeacherUpdateWrapper) updateWrapper;
 
 		if (teacherUpdateWrapper == null) {
 			throw new ValidatorException("TeacherUpdateWrapper is not valid");

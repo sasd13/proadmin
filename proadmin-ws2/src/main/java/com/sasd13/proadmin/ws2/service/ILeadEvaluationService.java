@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 
 public interface ILeadEvaluationService {
 
 	void create(LeadEvaluation leadEvaluation);
 
-	void update(ILeadEvaluationUpdateWrapper updateWrapper);
+	void update(List<LeadEvaluationUpdateWrapper> updateWrappers);
 
-	void delete(LeadEvaluation leadEvaluation);
+	void delete(List<LeadEvaluation> leadEvaluations);
 
 	List<LeadEvaluation> read(Map<String, String[]> parameters);
 }

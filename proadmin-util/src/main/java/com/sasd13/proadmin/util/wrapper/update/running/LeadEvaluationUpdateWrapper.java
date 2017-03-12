@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.running;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 
-public class LeadEvaluationUpdateWrapper implements ILeadEvaluationUpdateWrapper {
+public class LeadEvaluationUpdateWrapper implements IUpdateWrapper<LeadEvaluation> {
 
 	private LeadEvaluation leadEvaluation;
 	private String reportNumber;
@@ -17,12 +18,10 @@ public class LeadEvaluationUpdateWrapper implements ILeadEvaluationUpdateWrapper
 		this.leadEvaluation = leadEvaluation;
 	}
 
-	@Override
 	public String getReportNumber() {
 		return reportNumber;
 	}
 
-	@Override
 	public void setReportNumber(String reportNumber) {
 		this.reportNumber = reportNumber;
 	}

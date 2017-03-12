@@ -72,10 +72,21 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
-		StudentTeamDTO dto = read(studentTeam.getStudent().getNumber(), studentTeam.getTeam().getNumber());
+	public void delete(List<StudentTeam> studentTeams) {
+		StudentTeam studentTeam;
+		StudentTeamDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < studentTeams.size(); i++) {
+			studentTeam = studentTeams.get(i);
+			dto = read(studentTeam.getStudent().getNumber(), studentTeam.getTeam().getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

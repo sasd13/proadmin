@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
-import com.sasd13.proadmin.ws2.db.dto.adapter.LeadEvaluationDTOAdapter;
 import com.sasd13.proadmin.ws2.service.ILeadEvaluationService;
+import com.sasd13.proadmin.ws2.util.adapter.LeadEvaluationDTOAdapter;
 
 @Service
 public class LeadEvaluationService implements ILeadEvaluationService {
@@ -26,12 +26,12 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public void update(ILeadEvaluationUpdateWrapper updateWrapper) {
-		leadEvaluationDAO.update(updateWrapper);
+	public void update(List<LeadEvaluationUpdateWrapper> updateWrappers) {
+		leadEvaluationDAO.update(updateWrappers);
 	}
 
-	public void delete(LeadEvaluation leadEvaluation) {
-		leadEvaluationDAO.delete(leadEvaluation);
+	public void delete(List<LeadEvaluation> leadEvaluations) {
+		leadEvaluationDAO.delete(leadEvaluations);
 	};
 
 	@Override

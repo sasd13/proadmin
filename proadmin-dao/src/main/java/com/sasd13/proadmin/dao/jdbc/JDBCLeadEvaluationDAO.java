@@ -20,7 +20,7 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 
 /**
  *
@@ -113,7 +113,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
 		preparedStatement.setString(5, leadEvaluation.getStudent().getNumber());
-		preparedStatement.setString(6, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(6, ((LeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
 	}
 
 	@Override

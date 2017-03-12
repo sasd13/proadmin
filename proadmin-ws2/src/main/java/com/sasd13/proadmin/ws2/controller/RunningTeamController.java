@@ -11,56 +11,52 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.ws2.service.ITeacherService;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IRunningTeamService;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/runningTeam")
+public class RunningTeamController {
 
-	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);
+	private static final Logger LOGGER = Logger.getLogger(RunningTeamController.class);
 
 	@Autowired
-	private ITeacherService teacherService;
+	private IRunningTeamService runningTeamService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Teacher>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
+	public ResponseEntity<List<RunningTeam>> get() {
 		LOGGER.info("Get");
 
 		try {
-			List<Teacher> teachers = teacherService.read(getParameters(numbers));
+			List<RunningTeam> runningTeams = runningTeamService.read(getParameters(null));
 
-			return new ResponseEntity<List<Teacher>>(teachers, HttpStatus.OK);
+			return new ResponseEntity<List<RunningTeam>>(runningTeams, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<List<Teacher>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<List<RunningTeam>>(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	private Map<String, String[]> getParameters(List<String> numbers) {
 		Map<String, String[]> parameters = new HashMap<>();
 
 		if (numbers != null) {
-			for (String number : numbers) {
-				parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
-			}
+			// TODO
 		}
 
 		return parameters;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody Teacher teacher) {
+	public ResponseEntity<Integer> post(@RequestBody RunningTeam runningTeam) {
 		LOGGER.info("Post");
 
 		try {
-			teacherService.create(teacher);
+			runningTeamService.create(runningTeam);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -71,11 +67,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<TeacherUpdateWrapper> updateWrappers) {
+	public ResponseEntity<Integer> put(@RequestBody List<RunningTeamUpdateWrapper> updateWrappers) {
 		LOGGER.info("Put");
 
 		try {
-			teacherService.update(updateWrappers);
+			runningTeamService.update(updateWrappers);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,11 +82,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<Teacher> teachers) {
+	public ResponseEntity<Integer> delete(@RequestBody List<RunningTeam> runningTeams) {
 		LOGGER.info("Delete");
 
 		try {
-			teacherService.delete(teachers);
+			runningTeamService.delete(runningTeams);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {

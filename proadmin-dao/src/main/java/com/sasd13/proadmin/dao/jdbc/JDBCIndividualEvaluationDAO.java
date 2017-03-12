@@ -20,7 +20,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 /**
  *
@@ -102,8 +102,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
-		preparedStatement.setString(3, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+		preparedStatement.setString(3, ((IndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(4, ((IndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override

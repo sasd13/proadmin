@@ -23,7 +23,7 @@ import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
 import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
@@ -65,15 +65,27 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	}
 
 	@Override
-	public void update(IReportUpdateWrapper updateWrapper) {
-		ReportDTO dto = read(updateWrapper.getNumber());
-		RunningTeam runningTeam = updateWrapper.getWrapped().getRunningTeam();
+	public void update(List<ReportUpdateWrapper> updateWrappers) {
+		ReportUpdateWrapper updateWrapper;
+		ReportDTO dto;
+		RunningTeam runningTeam;
 
-		dto.setDateMeeting(updateWrapper.getWrapped().getDateMeeting());
-		dto.setSession(updateWrapper.getWrapped().getSession());
-		dto.setComment(updateWrapper.getWrapped().getComment());
-		dto.setRunningTeam(readRunningTeam(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode()));
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getNumber());
+			runningTeam = updateWrapper.getWrapped().getRunningTeam();
+
+			dto.setDateMeeting(updateWrapper.getWrapped().getDateMeeting());
+			dto.setSession(updateWrapper.getWrapped().getSession());
+			dto.setComment(updateWrapper.getWrapped().getComment());
+			dto.setRunningTeam(readRunningTeam(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode()));
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -86,10 +98,21 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	}
 
 	@Override
-	public void delete(Report report) {
-		ReportDTO dto = read(report.getNumber());
+	public void delete(List<Report> reports) {
+		Report report;
+		ReportDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < reports.size(); i++) {
+			report = reports.get(i);
+			dto = read(report.getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

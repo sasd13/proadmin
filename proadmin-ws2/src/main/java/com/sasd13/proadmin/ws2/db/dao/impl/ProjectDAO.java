@@ -21,7 +21,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
 
@@ -44,13 +44,24 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 	}
 
 	@Override
-	public void update(IProjectUpdateWrapper updateWrapper) {
-		ProjectDTO dto = read(updateWrapper.getCode());
+	public void update(List<ProjectUpdateWrapper> updateWrappers) {
+		ProjectUpdateWrapper updateWrapper;
+		ProjectDTO dto;
 
-		dto.setDateCreation(updateWrapper.getWrapped().getDateCreation());
-		dto.setTitle(updateWrapper.getWrapped().getTitle());
-		dto.setDescription(updateWrapper.getWrapped().getDescription());
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getCode());
+
+			dto.setDateCreation(updateWrapper.getWrapped().getDateCreation());
+			dto.setTitle(updateWrapper.getWrapped().getTitle());
+			dto.setDescription(updateWrapper.getWrapped().getDescription());
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -63,10 +74,21 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 	}
 
 	@Override
-	public void delete(Project project) {
-		ProjectDTO dto = read(project.getCode());
+	public void delete(List<Project> projects) {
+		Project project;
+		ProjectDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < projects.size(); i++) {
+			project = projects.get(i);
+			dto = read(project.getCode());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

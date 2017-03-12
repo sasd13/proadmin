@@ -22,7 +22,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
@@ -59,11 +59,22 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	}
 
 	@Override
-	public void update(IIndividualEvaluationUpdateWrapper updateWrapper) {
-		IndividualEvaluationDTO dto = read(updateWrapper.getReportNumber(), updateWrapper.getStudentNumber());
+	public void update(List<IndividualEvaluationUpdateWrapper> updateWrappers) {
+		IndividualEvaluationUpdateWrapper updateWrapper;
+		IndividualEvaluationDTO dto;
 
-		dto.setMark(updateWrapper.getWrapped().getMark());
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getReportNumber(), updateWrapper.getStudentNumber());
+
+			dto.setMark(updateWrapper.getWrapped().getMark());
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -77,10 +88,21 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	}
 
 	@Override
-	public void delete(IndividualEvaluation individualEvaluation) {
-		IndividualEvaluationDTO dto = read(individualEvaluation.getReport().getNumber(), individualEvaluation.getStudent().getNumber());
+	public void delete(List<IndividualEvaluation> individualEvaluations) {
+		IndividualEvaluation individualEvaluation;
+		IndividualEvaluationDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < individualEvaluations.size(); i++) {
+			individualEvaluation = individualEvaluations.get(i);
+			dto = read(individualEvaluation.getReport().getNumber(), individualEvaluation.getStudent().getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

@@ -26,7 +26,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IReportDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 
 /**
  *
@@ -130,7 +130,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
 		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
 		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
-		preparedStatement.setString(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(9, ((ReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

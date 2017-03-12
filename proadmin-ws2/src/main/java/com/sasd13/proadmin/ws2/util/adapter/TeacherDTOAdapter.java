@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.ws2.db.dto.adapter;
+package com.sasd13.proadmin.ws2.util.adapter;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.bean.member.Teacher;

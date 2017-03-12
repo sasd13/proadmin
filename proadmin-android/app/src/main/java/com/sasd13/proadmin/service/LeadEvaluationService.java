@@ -52,7 +52,6 @@ public class LeadEvaluationService {
 
         updateWrapper.setWrapped(leadEvaluation);
         updateWrapper.setReportNumber(leadEvaluationToUpdate.getReport().getNumber());
-        updateWrapper.setStudentNumber(leadEvaluationToUpdate.getStudent().getNumber());
 
         return updateWrapper;
     }

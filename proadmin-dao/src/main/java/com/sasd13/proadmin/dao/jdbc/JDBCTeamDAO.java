@@ -18,7 +18,7 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.ITeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 
 /**
  *
@@ -91,7 +91,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Team> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(2, ((ITeamUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(2, ((TeamUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

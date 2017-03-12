@@ -14,41 +14,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.ws2.service.ITeacherService;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IProjectService;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/project")
+public class ProjectController {
 
-	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectController.class);
 
 	@Autowired
-	private ITeacherService teacherService;
+	private IProjectService projectService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Teacher>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
+	public ResponseEntity<List<Project>> get(@RequestParam(value = "codes", required = false) List<String> codes) {
 		LOGGER.info("Get");
 
 		try {
-			List<Teacher> teachers = teacherService.read(getParameters(numbers));
+			List<Project> projects = projectService.read(getParameters(codes));
 
-			return new ResponseEntity<List<Teacher>>(teachers, HttpStatus.OK);
+			return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<List<Teacher>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<List<Project>>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	private Map<String, String[]> getParameters(List<String> numbers) {
+	private Map<String, String[]> getParameters(List<String> codes) {
 		Map<String, String[]> parameters = new HashMap<>();
 
-		if (numbers != null) {
-			for (String number : numbers) {
-				parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+		if (codes != null) {
+			for (String code : codes) {
+				parameters.put(EnumParameter.CODE.getName(), new String[] { code });
 			}
 		}
 
@@ -56,11 +56,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody Teacher teacher) {
+	public ResponseEntity<Integer> post(@RequestBody Project project) {
 		LOGGER.info("Post");
 
 		try {
-			teacherService.create(teacher);
+			projectService.create(project);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -71,11 +71,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<TeacherUpdateWrapper> updateWrappers) {
+	public ResponseEntity<Integer> put(@RequestBody List<ProjectUpdateWrapper> updateWrappers) {
 		LOGGER.info("Put");
 
 		try {
-			teacherService.update(updateWrappers);
+			projectService.update(updateWrappers);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,11 +86,11 @@ public class TeacherController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<Teacher> teachers) {
+	public ResponseEntity<Integer> delete(@RequestBody List<Project> projects) {
 		LOGGER.info("Delete");
 
 		try {
-			teacherService.delete(teachers);
+			projectService.delete(projects);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {

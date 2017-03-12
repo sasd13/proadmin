@@ -16,7 +16,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
@@ -39,13 +39,24 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	}
 
 	@Override
-	public void update(ITeacherUpdateWrapper updateWrapper) {
-		TeacherDTO dto = read(updateWrapper.getNumber());
+	public void update(List<TeacherUpdateWrapper> updateWrappers) {
+		TeacherUpdateWrapper updateWrapper;
+		TeacherDTO dto;
 
-		dto.setFirstName(updateWrapper.getWrapped().getFirstName());
-		dto.setLastName(updateWrapper.getWrapped().getLastName());
-		dto.setEmail(updateWrapper.getWrapped().getEmail());
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getNumber());
+
+			dto.setFirstName(updateWrapper.getWrapped().getFirstName());
+			dto.setLastName(updateWrapper.getWrapped().getLastName());
+			dto.setEmail(updateWrapper.getWrapped().getEmail());
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -58,10 +69,21 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	}
 
 	@Override
-	public void delete(Teacher teacher) {
-		TeacherDTO dto = read(teacher.getNumber());
+	public void delete(List<Teacher> teachers) {
+		Teacher teacher;
+		TeacherDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < teachers.size(); i++) {
+			teacher = teachers.get(i);
+			dto = read(teacher.getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

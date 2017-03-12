@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
 public interface ITeacherDAO {
 
 	TeacherDTO create(Teacher teacher);
 
-	void update(ITeacherUpdateWrapper updateWrapper);
+	void update(List<TeacherUpdateWrapper> updateWrappers);
 
-	void delete(Teacher teacher);
+	void delete(List<Teacher> teachers);
 
 	List<TeacherDTO> read(Map<String, String[]> parameters);
 }

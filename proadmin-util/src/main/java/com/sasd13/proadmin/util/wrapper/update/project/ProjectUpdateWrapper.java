@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.project;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.Project;
 
-public class ProjectUpdateWrapper implements IProjectUpdateWrapper {
+public class ProjectUpdateWrapper implements IUpdateWrapper<Project> {
 
 	private Project project;
 	private String code;
@@ -17,12 +18,10 @@ public class ProjectUpdateWrapper implements IProjectUpdateWrapper {
 		this.project = project;
 	}
 
-	@Override
 	public String getCode() {
 		return code;
 	}
 
-	@Override
 	public void setCode(String code) {
 		this.code = code;
 	}

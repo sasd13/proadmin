@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 
 public class ProjectUpdateWrapperValidator implements IValidator<IUpdateWrapper<Project>> {
 
@@ -18,7 +18,7 @@ public class ProjectUpdateWrapperValidator implements IValidator<IUpdateWrapper<
 
 	@Override
 	public void validate(IUpdateWrapper<Project> updateWrapper) throws ValidatorException {
-		IProjectUpdateWrapper projectUpdateWrapper = (IProjectUpdateWrapper) updateWrapper;
+		ProjectUpdateWrapper projectUpdateWrapper = (ProjectUpdateWrapper) updateWrapper;
 
 		if (projectUpdateWrapper == null) {
 			throw new ValidatorException("ProjectUpdateWrapper is not valid");

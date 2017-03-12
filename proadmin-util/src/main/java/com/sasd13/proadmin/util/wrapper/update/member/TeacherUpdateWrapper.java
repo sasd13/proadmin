@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.member;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
 
-public class TeacherUpdateWrapper implements ITeacherUpdateWrapper {
+public class TeacherUpdateWrapper implements IUpdateWrapper<Teacher> {
 
 	private Teacher teacher;
 	private String number;
@@ -17,12 +18,10 @@ public class TeacherUpdateWrapper implements ITeacherUpdateWrapper {
 		this.teacher = teacher;
 	}
 
-	@Override
 	public String getNumber() {
 		return number;
 	}
 
-	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}

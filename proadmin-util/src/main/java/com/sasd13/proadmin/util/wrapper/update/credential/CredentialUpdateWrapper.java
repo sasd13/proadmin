@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update.credential;
 
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 
-public class CredentialUpdateWrapper implements ICredentialUpdateWrapper {
+public class CredentialUpdateWrapper implements IUpdateWrapper<Credential> {
 
 	private Credential credential;
 	private String username;
@@ -17,12 +18,10 @@ public class CredentialUpdateWrapper implements ICredentialUpdateWrapper {
 		this.credential = credential;
 	}
 
-	@Override
 	public String getUsername() {
 		return username;
 	}
 
-	@Override
 	public void setUsername(String username) {
 		this.username = username;
 	}

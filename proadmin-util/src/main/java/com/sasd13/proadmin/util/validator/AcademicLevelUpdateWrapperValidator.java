@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.AcademicLevelUpdateWrapper;
 
 public class AcademicLevelUpdateWrapperValidator implements IValidator<IUpdateWrapper<AcademicLevel>> {
 
@@ -18,7 +18,7 @@ public class AcademicLevelUpdateWrapperValidator implements IValidator<IUpdateWr
 
 	@Override
 	public void validate(IUpdateWrapper<AcademicLevel> updateWrapper) throws ValidatorException {
-		IAcademicLevelUpdateWrapper academicLevelUpdateWrapper = (IAcademicLevelUpdateWrapper) updateWrapper;
+		AcademicLevelUpdateWrapper academicLevelUpdateWrapper = (AcademicLevelUpdateWrapper) updateWrapper;
 
 		if (academicLevelUpdateWrapper == null) {
 			throw new ValidatorException("AcademicLevelUpdateWrapper is not valid");

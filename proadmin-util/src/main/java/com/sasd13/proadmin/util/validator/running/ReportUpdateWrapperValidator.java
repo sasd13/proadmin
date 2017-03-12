@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 
 public class ReportUpdateWrapperValidator implements IValidator<IUpdateWrapper<Report>> {
 
@@ -18,7 +18,7 @@ public class ReportUpdateWrapperValidator implements IValidator<IUpdateWrapper<R
 
 	@Override
 	public void validate(IUpdateWrapper<Report> updateWrapper) throws ValidatorException {
-		IReportUpdateWrapper reportUpdateWrapper = (IReportUpdateWrapper) updateWrapper;
+		ReportUpdateWrapper reportUpdateWrapper = (ReportUpdateWrapper) updateWrapper;
 
 		if (reportUpdateWrapper == null) {
 			throw new ValidatorException("ReportUpdateWrapper is not valid");

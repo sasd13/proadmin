@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util.wrapper.update;
 
+import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
 
-public class AcademicLevelUpdateWrapper implements IAcademicLevelUpdateWrapper {
+public class AcademicLevelUpdateWrapper implements IUpdateWrapper<AcademicLevel> {
 
 	private AcademicLevel academicLevel;
 	private String code;
@@ -17,12 +18,10 @@ public class AcademicLevelUpdateWrapper implements IAcademicLevelUpdateWrapper {
 		this.academicLevel = academicLevel;
 	}
 
-	@Override
 	public String getCode() {
 		return code;
 	}
 
-	@Override
 	public void setCode(String code) {
 		this.code = code;
 	}

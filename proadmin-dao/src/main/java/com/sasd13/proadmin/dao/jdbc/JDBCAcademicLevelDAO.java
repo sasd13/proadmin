@@ -18,7 +18,7 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.IAcademicLevelUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.AcademicLevelUpdateWrapper;
 
 /**
  *
@@ -91,7 +91,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<AcademicLevel> updateWrapper) throws SQLException {
 		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
 
-		preparedStatement.setString(2, ((IAcademicLevelUpdateWrapper) updateWrapper).getCode());
+		preparedStatement.setString(2, ((AcademicLevelUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override

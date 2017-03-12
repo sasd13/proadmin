@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 
 public class LeadEvaluationUpdateWrapperValidator implements IValidator<IUpdateWrapper<LeadEvaluation>> {
 
@@ -18,7 +18,7 @@ public class LeadEvaluationUpdateWrapperValidator implements IValidator<IUpdateW
 
 	@Override
 	public void validate(IUpdateWrapper<LeadEvaluation> updateWrapper) throws ValidatorException {
-		ILeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper = (ILeadEvaluationUpdateWrapper) updateWrapper;
+		LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper = (LeadEvaluationUpdateWrapper) updateWrapper;
 
 		if (leadEvaluationUpdateWrapper == null) {
 			throw new ValidatorException("LeadEvaluationUpdateWrapper is not valid");

@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public interface ITeacherService {
 
 	void create(Teacher teacher);
 
-	void update(ITeacherUpdateWrapper updateWrapper);
+	void update(List<TeacherUpdateWrapper> updateWrappers);
 
-	void delete(Teacher teacher);
+	void delete(List<Teacher> teachers);
 
 	List<Teacher> read(Map<String, String[]> parameters);
 }

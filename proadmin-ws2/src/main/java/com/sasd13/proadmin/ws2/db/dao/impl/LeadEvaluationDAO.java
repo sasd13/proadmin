@@ -22,7 +22,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
@@ -59,15 +59,26 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 	}
 
 	@Override
-	public void update(ILeadEvaluationUpdateWrapper updateWrapper) {
-		LeadEvaluationDTO dto = read(updateWrapper.getReportNumber());
+	public void update(List<LeadEvaluationUpdateWrapper> updateWrappers) {
+		LeadEvaluationUpdateWrapper updateWrapper;
+		LeadEvaluationDTO dto;
 
-		dto.setPlanningMark(updateWrapper.getWrapped().getPlanningMark());
-		dto.setPlanningComment(updateWrapper.getWrapped().getPlanningComment());
-		dto.setCommunicationMark(updateWrapper.getWrapped().getCommunicationMark());
-		dto.setCommunicationComment(updateWrapper.getWrapped().getCommunicationComment());
-		dto.setStudent(readStudent(updateWrapper.getWrapped().getStudent().getNumber()));
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getReportNumber());
+
+			dto.setPlanningMark(updateWrapper.getWrapped().getPlanningMark());
+			dto.setPlanningComment(updateWrapper.getWrapped().getPlanningComment());
+			dto.setCommunicationMark(updateWrapper.getWrapped().getCommunicationMark());
+			dto.setCommunicationComment(updateWrapper.getWrapped().getCommunicationComment());
+			dto.setStudent(readStudent(updateWrapper.getWrapped().getStudent().getNumber()));
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -80,10 +91,21 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 	}
 
 	@Override
-	public void delete(LeadEvaluation leadEvaluation) {
-		LeadEvaluationDTO dto = read(leadEvaluation.getReport().getNumber());
+	public void delete(List<LeadEvaluation> leadEvaluations) {
+		LeadEvaluation leadEvaluation;
+		LeadEvaluationDTO dto;
 
-		currentSession().remove(dto);
+		for (int i = 0; i < leadEvaluations.size(); i++) {
+			leadEvaluation = leadEvaluations.get(i);
+			dto = read(leadEvaluation.getReport().getNumber());
+
+			currentSession().remove(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

@@ -9,7 +9,7 @@ public interface IStudentTeamService {
 
 	void create(StudentTeam studentTeam);
 
-	void delete(StudentTeam studentTeam);
+	void delete(List<StudentTeam> studentTeams);
 
 	List<StudentTeam> read(Map<String, String[]> parameters);
 }

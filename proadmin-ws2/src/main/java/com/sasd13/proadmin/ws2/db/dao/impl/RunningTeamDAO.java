@@ -22,7 +22,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningTeamUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
@@ -93,14 +93,26 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	}
 
 	@Override
-	public void update(IRunningTeamUpdateWrapper updateWrapper) {
-		RunningTeamDTO dto = read(updateWrapper.getRunningYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherNumber(), updateWrapper.getTeamNumber(), updateWrapper.getAcademicLevelCode());
-		RunningTeam runningTeam = updateWrapper.getWrapped();
+	public void update(List<RunningTeamUpdateWrapper> updateWrappers) {
+		RunningTeamUpdateWrapper updateWrapper;
+		RunningTeamDTO dto;
+		RunningTeam runningTeam;
 
-		dto.setRunning(readRunning(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber()));
-		dto.setTeam(readTeam(runningTeam.getTeam().getNumber()));
-		dto.setAcademicLevel(readAcademicLevel(runningTeam.getAcademicLevel().getCode()));
-		currentSession().update(dto);
+		for (int i = 0; i < updateWrappers.size(); i++) {
+			updateWrapper = updateWrappers.get(i);
+			dto = read(updateWrapper.getRunningYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherNumber(), updateWrapper.getTeamNumber(), updateWrapper.getAcademicLevelCode());
+			runningTeam = updateWrapper.getWrapped();
+
+			dto.setRunning(readRunning(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber()));
+			dto.setTeam(readTeam(runningTeam.getTeam().getNumber()));
+			dto.setAcademicLevel(readAcademicLevel(runningTeam.getAcademicLevel().getCode()));
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 
@@ -117,10 +129,21 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) {
-		RunningTeamDTO dto = read(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode());
+	public void delete(List<RunningTeam> runningTeams) {
+		RunningTeam runningTeam;
+		RunningTeamDTO dto;
 
-		currentSession().update(dto);
+		for (int i = 0; i < runningTeams.size(); i++) {
+			runningTeam = runningTeams.get(i);
+			dto = read(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode());
+
+			currentSession().update(dto);
+
+			if (i % 100 == 0) {
+				currentSession().flush();
+			}
+		}
+
 		currentSession().flush();
 	}
 

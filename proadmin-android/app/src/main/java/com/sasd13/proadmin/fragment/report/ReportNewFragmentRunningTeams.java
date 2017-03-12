@@ -29,6 +29,7 @@ import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,12 +39,14 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     private static class ActionSelectRunningTeam implements IAction {
 
         private RunningTeamItemModel model;
+        private List<RunningTeamItemModel> models;
         private RunningTeam runningTeam;
         private Report report;
         private ReportNewFragment parentFragment;
 
-        private ActionSelectRunningTeam(RunningTeamItemModel model, RunningTeam runningTeam, Report report, ReportNewFragment parentFragment) {
+        private ActionSelectRunningTeam(RunningTeamItemModel model, List<RunningTeamItemModel> models, RunningTeam runningTeam, Report report, ReportNewFragment parentFragment) {
             this.model = model;
+            this.models = models;
             this.runningTeam = runningTeam;
             this.report = report;
             this.parentFragment = parentFragment;
@@ -55,6 +58,10 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 model.setSelected(false);
                 report.setRunningTeam(null);
             } else {
+                for (RunningTeamItemModel model : models) {
+                    model.setSelected(false);
+                }
+
                 model.setSelected(true);
                 report.setRunningTeam(runningTeam);
                 parentFragment.forward();
@@ -133,6 +140,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
         RunningTeamItemModel model;
+        List<RunningTeamItemModel> models = new ArrayList<>();
 
         for (RunningTeam runningTeam : runningTeams) {
             model = new RunningTeamItemModel(runningTeam);
@@ -142,7 +150,8 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 model.setSelected(true);
             }
 
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, runningTeam, report, parentFragment));
+            models.add(model);
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, models, runningTeam, report, parentFragment));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
