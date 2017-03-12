@@ -29,6 +29,7 @@ public class TeamNewFragment extends Fragment {
     private ITeamController controller;
     private Team team;
     private TeamForm teamForm;
+    private Menu menu;
 
     public static TeamNewFragment newInstance(TeamWrapper teamWrapper) {
         TeamNewFragment fragment = new TeamNewFragment();
@@ -80,6 +81,8 @@ public class TeamNewFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -122,5 +125,14 @@ public class TeamNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

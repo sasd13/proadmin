@@ -28,6 +28,7 @@ public class SettingsFragment extends Fragment {
     private ISettingsController controller;
     private Teacher teacher;
     private TeacherForm teacherForm;
+    private Menu menu;
 
     public static SettingsFragment newInstance(TeacherWrapper teacherWrapper) {
         SettingsFragment fragment = new SettingsFragment();
@@ -79,6 +80,8 @@ public class SettingsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_settings, menu);
     }
 
@@ -120,5 +123,14 @@ public class SettingsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_settings));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

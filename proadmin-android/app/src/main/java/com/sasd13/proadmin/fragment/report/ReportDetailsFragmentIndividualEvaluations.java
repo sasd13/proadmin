@@ -37,6 +37,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private List<StudentTeam> studentTeams;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
+    private Menu menu;
 
     public static ReportDetailsFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
@@ -90,6 +91,8 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -132,5 +135,14 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
         recycler.clear();
         bindFormWithIndividualEvaluations();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

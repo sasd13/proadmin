@@ -31,6 +31,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
     private ITeamController controller;
     private Team team;
     private TeamForm teamForm;
+    private Menu menu;
 
     public static TeamDetailsFragmentInfos newInstance(TeamWrapper teamWrapper) {
         TeamDetailsFragmentInfos fragment = new TeamDetailsFragmentInfos();
@@ -82,6 +83,8 @@ public class TeamDetailsFragmentInfos extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -128,5 +131,14 @@ public class TeamDetailsFragmentInfos extends Fragment {
                         controller.deleteTeam(team);
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

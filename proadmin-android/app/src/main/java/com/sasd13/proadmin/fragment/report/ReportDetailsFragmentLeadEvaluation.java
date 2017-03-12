@@ -36,6 +36,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private LeadEvaluation leadEvaluation;
     private List<StudentTeam> studentTeams;
     private LeadEvaluationForm leadEvaluationForm;
+    private Menu menu;
 
     public static ReportDetailsFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
@@ -89,6 +90,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
+        this.menu = menu;
 
         inflater.inflate(R.menu.menu_edit, menu);
     }
@@ -145,5 +148,14 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         studentTeams = reportWrapper.getStudentTeams();
 
         bindFormWithLeadEvaluation();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

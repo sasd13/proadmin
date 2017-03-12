@@ -31,6 +31,7 @@ public class StudentNewFragment extends Fragment {
     private Student student;
     private Team team;
     private StudentForm studentForm;
+    private Menu menu;
 
     public static StudentNewFragment newInstance(StudentWrapper studentWrapper) {
         StudentNewFragment fragment = new StudentNewFragment();
@@ -83,6 +84,8 @@ public class StudentNewFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -128,5 +131,14 @@ public class StudentNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

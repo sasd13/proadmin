@@ -29,6 +29,7 @@ public class StudentDetailsFragment extends Fragment {
     private IStudentController controller;
     private Student student;
     private StudentForm studentForm;
+    private Menu menu;
 
     public static StudentDetailsFragment newInstance(StudentWrapper studentWrapper) {
         StudentDetailsFragment fragment = new StudentDetailsFragment();
@@ -80,6 +81,8 @@ public class StudentDetailsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -121,5 +124,14 @@ public class StudentDetailsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

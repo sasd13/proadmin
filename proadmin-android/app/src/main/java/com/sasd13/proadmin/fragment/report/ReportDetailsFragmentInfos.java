@@ -31,6 +31,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
     private IReportController controller;
     private Report report;
     private ReportForm reportForm;
+    private Menu menu;
 
     public static ReportDetailsFragmentInfos newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
@@ -82,6 +83,8 @@ public class ReportDetailsFragmentInfos extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -132,5 +135,14 @@ public class ReportDetailsFragmentInfos extends Fragment {
                         controller.deleteReport(report);
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

@@ -30,6 +30,7 @@ public class RunningDetailsFragment extends Fragment {
     private IRunningController controller;
     private Running running;
     private RunningForm runningForm;
+    private Menu menu;
 
     public static RunningDetailsFragment newInstance(RunningWrapper runningWrapper) {
         RunningDetailsFragment fragment = new RunningDetailsFragment();
@@ -81,6 +82,8 @@ public class RunningDetailsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -123,5 +126,14 @@ public class RunningDetailsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }

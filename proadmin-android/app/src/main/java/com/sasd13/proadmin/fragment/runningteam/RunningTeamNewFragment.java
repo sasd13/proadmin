@@ -42,6 +42,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
     private RunningTeamForm runningTeamForm;
+    private Menu menu;
 
     public static RunningTeamNewFragment newInstance(RunningTeamWrapper runningTeamWrapper) {
         RunningTeamNewFragment fragment = new RunningTeamNewFragment();
@@ -116,6 +117,8 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        this.menu = menu;
+
         inflater.inflate(R.menu.menu_edit, menu);
     }
 
@@ -173,5 +176,14 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
         bindFormWithRunnings();
         bindFormWithTeams();
         bindFormWithAcademicLevels();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (menu != null) {
+            menu.setGroupVisible(R.id.menu_edit_group, false);
+        }
     }
 }
