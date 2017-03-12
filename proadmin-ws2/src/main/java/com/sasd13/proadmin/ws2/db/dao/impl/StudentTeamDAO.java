@@ -5,98 +5,114 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
+import com.sasd13.proadmin.ws2.db.dao.ITeamDAO;
+import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
+import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class StudentTeamDAO extends HibernateSession<StudentTeam> implements IStudentTeamDAO {
+public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, IConditionnal {
+
+	@Autowired
+	private IStudentDAO studentDAO;
+
+	@Autowired
+	private ITeamDAO teamDAO;
 
 	public StudentTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(StudentTeam studentTeam) {
+	public StudentTeamDTO create(StudentTeam studentTeam) {
 		StudentTeamDTO dto = new StudentTeamDTO(studentTeam);
 
-		HibernateUtils.insert(this, dto);
+		dto.setStudent(readStudent(studentTeam.getStudent().getNumber()));
+		dto.setTeam(readTeam(studentTeam.getTeam().getNumber()));
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
 	}
 
-	@Override
-	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
-		// Do nothing
+	private StudentDTO readStudent(String studentNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentNumber });
+
+		return studentDAO.read(parameters).get(0);
+	}
+
+	private TeamDTO readTeam(String teamNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { teamNumber });
+
+		return teamDAO.read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(StudentTeam studentTeam) {
+		StudentTeamDTO dto = read(studentTeam.getStudent().getNumber(), studentTeam.getTeam().getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	private StudentTeamDTO read(String studentNumber, String teamNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentNumber });
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { teamNumber });
+
+		return read(parameters).get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StudentTeamDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_STUDENT + " = ?");
-		builder.append(" AND " + COLUMN_TEAM + " = ?");
+		builder.append("from studentteams st");
 
-		HibernateUtils.delete(this, builder.toString(), studentTeam);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(StudentTeam studentTeam) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<StudentTeam> updateWrapper) {
-		// Do nothing
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, StudentTeam studentTeam) {
-		query.setParameter(1, studentTeam.getStudent().getNumber());
-		query.setParameter(2, studentTeam.getTeam().getNumber());
+		return (List<StudentTeamDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT;
+			return "st.student.number";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM;
+			return "st.team.number";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

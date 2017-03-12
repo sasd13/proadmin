@@ -15,5 +15,5 @@ public interface ITeamDAO {
 
 	void delete(Team team);
 
-	List<Team> read(Map<String, String[]> parameters);
+	List<TeamDTO> read(Map<String, String[]> parameters);
 }

@@ -5,7 +5,7 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +17,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
@@ -29,92 +27,78 @@ import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class StudentDAO extends HibernateSession<Student> implements IStudentDAO {
+public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionnal {
 
 	public StudentDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Student student) {
+	public StudentDTO create(Student student) {
 		StudentDTO dto = new StudentDTO(student);
 
-		HibernateUtils.insert(this, dto);
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Student> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
-		builder.append(", " + COLUMN_LASTNAME + " = ?");
-		builder.append(", " + COLUMN_EMAIL + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+	public void update(IStudentUpdateWrapper updateWrapper) {
+		StudentDTO dto = read(updateWrapper.getNumber());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		dto.setFirstName(updateWrapper.getWrapped().getFirstName());
+		dto.setLastName(updateWrapper.getWrapped().getLastName());
+		dto.setEmail(updateWrapper.getWrapped().getEmail());
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private StudentDTO read(String number) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(Student student) {
+		StudentDTO dto = read(student.getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StudentDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+		builder.append("from students s");
 
-		HibernateUtils.delete(this, builder.toString(), student);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Student student) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<Student> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getNumber());
-		query.setParameter(2, updateWrapper.getWrapped().getFirstName());
-		query.setParameter(3, updateWrapper.getWrapped().getLastName());
-		query.setParameter(4, updateWrapper.getWrapped().getEmail());
-		query.setParameter(5, ((IStudentUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, Student student) {
-		query.setParameter(1, student.getNumber());
+		return (List<StudentDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_CODE;
+			return "s.number";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_FIRSTNAME;
+			return "s.firstName";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_LASTNAME;
+			return "s.lastName";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_EMAIL;
+			return "s.email";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +32,7 @@ import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 @Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO, IConditionnal {
 
+	@Autowired
 	private IStudentDAO studentDAO;
 
 	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {

@@ -5,120 +5,129 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
+import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
+import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
 import com.sasd13.proadmin.ws2.db.dto.RunningDTO;
+import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class RunningDAO extends HibernateSession<Running> implements IRunningDAO {
+public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionnal {
+
+	@Autowired
+	private IProjectDAO projectDAO;
+
+	@Autowired
+	private ITeacherDAO teacherDAO;
 
 	public RunningDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Running running) {
+	public RunningDTO create(Running running) {
 		RunningDTO dto = new RunningDTO(running);
 
-		HibernateUtils.insert(this, dto);
+		dto.setProject(readProject(running.getProject().getCode()));
+		dto.setTeacher(readTeacher(running.getTeacher().getNumber()));
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
+	}
+
+	private ProjectDTO readProject(String projectCode) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.CODE.getName(), new String[] { projectCode });
+
+		return projectDAO.read(parameters).get(0);
+	}
+
+	private TeacherDTO readTeacher(String teacherNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { teacherNumber });
+
+		return teacherDAO.read(parameters).get(0);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Running> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT + " = ?");
-		builder.append(", " + COLUMN_TEACHER + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+	public void update(IRunningUpdateWrapper updateWrapper) {
+		RunningDTO dto = read(updateWrapper.getYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherNumber());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		dto.setYear(updateWrapper.getWrapped().getYear());
+		dto.setProject(readProject(updateWrapper.getWrapped().getProject().getCode()));
+		dto.setTeacher(readTeacher(updateWrapper.getWrapped().getTeacher().getNumber()));
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private RunningDTO read(int year, String projectCode, String teacherNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(year) });
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { projectCode });
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { teacherNumber });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(Running running) {
+		RunningDTO dto = read(running.getYear(), running.getProject().getCode(), running.getTeacher().getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RunningDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		builder.append("from runnings r");
 
-		HibernateUtils.delete(this, builder.toString(), running);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Running running) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<Running> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getYear());
-		query.setParameter(2, updateWrapper.getWrapped().getProject().getCode());
-		query.setParameter(3, updateWrapper.getWrapped().getTeacher().getNumber());
-		query.setParameter(4, ((IRunningUpdateWrapper) updateWrapper).getYear());
-		query.setParameter(5, ((IRunningUpdateWrapper) updateWrapper).getProjectCode());
-		query.setParameter(6, ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, Running running) {
-		query.setParameter(1, running.getYear());
-		query.setParameter(2, running.getProject().getCode());
-		query.setParameter(3, running.getTeacher().getNumber());
+		return (List<RunningDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_YEAR;
+			return "r.year";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT;
+			return "r.project.code";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER;
+			return "r.teacher.number";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

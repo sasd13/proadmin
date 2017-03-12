@@ -5,7 +5,7 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +17,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
@@ -29,80 +27,69 @@ import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class TeamDAO extends HibernateSession<Team> implements ITeamDAO {
+public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 
 	public TeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Team team) {
+	public TeamDTO create(Team team) {
 		TeamDTO dto = new TeamDTO(team);
 
-		HibernateUtils.insert(this, dto);
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Team> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+	public void update(ITeamUpdateWrapper updateWrapper) {
+		TeamDTO dto = read(updateWrapper.getNumber());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private TeamDTO read(String number) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(Team team) {
+		TeamDTO dto = read(team.getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TeamDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+		builder.append("from teams t");
 
-		HibernateUtils.delete(this, builder.toString(), team);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Team team) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<Team> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getNumber());
-		query.setParameter(2, ((ITeamUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, Team team) {
-		query.setParameter(1, team.getNumber());
+		return (List<TeamDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return ITeamDAO.COLUMN_CODE;
+			return "t.number";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

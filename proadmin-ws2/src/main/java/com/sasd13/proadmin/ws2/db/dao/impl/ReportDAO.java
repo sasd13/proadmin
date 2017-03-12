@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,6 +33,7 @@ import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal {
 
+	@Autowired
 	private IRunningTeamDAO runningTeamDAO;
 
 	public ReportDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
