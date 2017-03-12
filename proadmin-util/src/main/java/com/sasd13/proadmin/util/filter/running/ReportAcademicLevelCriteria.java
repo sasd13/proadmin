@@ -19,7 +19,7 @@ public class ReportAcademicLevelCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (code.equalsIgnoreCase(report.getRunningTeam().getAcademicLevel().getCode())) {
+			if (report.getRunningTeam().getAcademicLevel().getCode().equalsIgnoreCase(code)) {
 				results.add(report);
 			}
 		}

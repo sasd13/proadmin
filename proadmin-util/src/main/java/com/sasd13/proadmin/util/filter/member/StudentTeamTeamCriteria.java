@@ -19,7 +19,7 @@ public class StudentTeamTeamCriteria implements Criteria<StudentTeam> {
 		List<StudentTeam> results = new ArrayList<>();
 
 		for (StudentTeam studentTeam : list) {
-			if (number.equalsIgnoreCase(studentTeam.getTeam().getNumber())) {
+			if (studentTeam.getTeam().getNumber().equalsIgnoreCase(number)) {
 				results.add(studentTeam);
 			}
 		}

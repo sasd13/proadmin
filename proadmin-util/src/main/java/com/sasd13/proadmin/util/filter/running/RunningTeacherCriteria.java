@@ -19,7 +19,7 @@ public class RunningTeacherCriteria implements Criteria<Running> {
 		List<Running> results = new ArrayList<Running>();
 
 		for (Running running : list) {
-			if (number.equalsIgnoreCase(running.getTeacher().getNumber())) {
+			if (running.getTeacher().getNumber().equalsIgnoreCase(number)) {
 				results.add(running);
 			}
 		}

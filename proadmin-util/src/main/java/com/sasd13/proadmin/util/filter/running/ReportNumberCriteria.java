@@ -19,7 +19,7 @@ public class ReportNumberCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (number.equalsIgnoreCase(report.getNumber())) {
+			if (report.getNumber().equalsIgnoreCase(number)) {
 				results.add(report);
 			}
 		}

@@ -19,7 +19,7 @@ public class ReportTeacherCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (number.equalsIgnoreCase(report.getRunningTeam().getRunning().getTeacher().getNumber())) {
+			if (report.getRunningTeam().getRunning().getTeacher().getNumber().equalsIgnoreCase(number)) {
 				results.add(report);
 			}
 		}

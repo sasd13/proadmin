@@ -19,7 +19,7 @@ public class RunningProjectCriteria implements Criteria<Running> {
 		List<Running> results = new ArrayList<Running>();
 
 		for (Running running : list) {
-			if (code.equalsIgnoreCase(running.getProject().getCode())) {
+			if (running.getProject().getCode().equalsIgnoreCase(code)) {
 				results.add(running);
 			}
 		}

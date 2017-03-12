@@ -18,8 +18,8 @@ public class TeamFilter extends AndFilter<Team> {
 	protected void setCriterias(MultiAndCriteria<Team> multiAndCriteria, Map<String, String[]> parameters) throws FilterException {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.CODE.getName().equalsIgnoreCase(entry.getKey())) {
-					multiAndCriteria.addCriteria(new TeamCodeCriteria(value));
+				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {
+					multiAndCriteria.addCriteria(new TeamNumberCriteria(value));
 				}
 			}
 		}

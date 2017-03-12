@@ -19,7 +19,7 @@ public class RunningTeamAcademicLevelCriteria implements Criteria<RunningTeam> {
 		List<RunningTeam> results = new ArrayList<RunningTeam>();
 
 		for (RunningTeam runningTeam : list) {
-			if (code.equalsIgnoreCase(runningTeam.getAcademicLevel().getCode())) {
+			if (runningTeam.getAcademicLevel().getCode().equalsIgnoreCase(code)) {
 				results.add(runningTeam);
 			}
 		}
