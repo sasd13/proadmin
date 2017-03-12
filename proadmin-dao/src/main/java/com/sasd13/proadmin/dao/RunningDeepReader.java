@@ -11,25 +11,25 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningDeepReader extends DeepReader<Running> {
 
-	private ITeacherDAO teacherDAO;
 	private IProjectDAO projectDAO;
+	private ITeacherDAO teacherDAO;
 	private Map<String, String[]> parameters;
 
-	public RunningDeepReader(IRunningDAO runningDAO, ITeacherDAO teacherDAO, IProjectDAO projectDAO) {
+	public RunningDeepReader(IRunningDAO runningDAO, IProjectDAO projectDAO, ITeacherDAO teacherDAO) {
 		super(runningDAO);
 
-		this.teacherDAO = teacherDAO;
 		this.projectDAO = projectDAO;
+		this.teacherDAO = teacherDAO;
 		parameters = new HashMap<>();
 	}
 
 	@Override
 	protected void retrieveData(Running running) {
-		retrieveDatatProject(running);
+		retrieveDataProject(running);
 		retrieveDataTeacher(running);
 	}
 
-	private void retrieveDatatProject(Running running) {
+	private void retrieveDataProject(Running running) {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { running.getProject().getCode() });
 

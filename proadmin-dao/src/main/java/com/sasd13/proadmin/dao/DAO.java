@@ -64,7 +64,7 @@ public abstract class DAO implements ILayeredDAO {
 		this.individualEvaluationDAO = individualEvaluationDAO;
 
 		studentTeamDeepReader = new StudentTeamDeepReader(studentTeamDAO, studentDAO, teamDAO);
-		runningDeepReader = new RunningDeepReader(runningDAO, teacherDAO, projectDAO);
+		runningDeepReader = new RunningDeepReader(runningDAO, projectDAO, teacherDAO);
 		runningTeamDeepReader = new RunningTeamDeepReader(runningTeamDAO, runningDeepReader, teamDAO, academicLevelDAO);
 		reportDeepReader = new ReportDeepReader(reportDAO, runningTeamDeepReader);
 		leadEvaluationDeepReader = new LeadEvaluationDeepReader(leadEvaluationDAO, reportDeepReader, studentDAO);
