@@ -14,10 +14,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 
 @Entity
-@Table(name = IRunningDAO.TABLE)
+@Table(name = "runnings")
 public class RunningDTO implements Serializable {
 
 	/**
@@ -28,18 +27,18 @@ public class RunningDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_runnings_id")
 	@SequenceGenerator(name = "seq_runnings_id", sequenceName = "seq_runnings_id")
-	@Column(name = IRunningDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = IRunningDAO.COLUMN_YEAR)
+	@Column(name = "_year")
 	private int year;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IRunningDAO.COLUMN_PROJECT)
+	@JoinColumn(name = "_project")
 	private ProjectDTO project;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IRunningDAO.COLUMN_TEACHER)
+	@JoinColumn(name = "_teacher")
 	private TeacherDTO teacher;
 
 	public RunningDTO() {
@@ -89,10 +88,11 @@ public class RunningDTO implements Serializable {
 
 		final int prime = 31;
 
+		result = prime * result + year;
 		result = prime * result + ((project == null) ? 0 : project.hashCode());
 		result = prime * result + ((teacher == null) ? 0 : teacher.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override
@@ -105,6 +105,9 @@ public class RunningDTO implements Serializable {
 			return false;
 
 		RunningDTO other = (RunningDTO) obj;
+
+		if (year != other.year)
+			return false;
 
 		if (project == null && other.project != null)
 			return false;

@@ -1,13 +1,19 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
-import com.sasd13.javaex.dao.hibernate.ISession;
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 
-public interface IStudentDAO extends ISession<Student> {
+public interface IStudentDAO {
 
-	String TABLE = "students";
-	String COLUMN_CODE = "_code";
-	String COLUMN_FIRSTNAME = "_firstname";
-	String COLUMN_LASTNAME = "_lastname";
-	String COLUMN_EMAIL = "_email";
+	StudentDTO create(Student student);
+
+	void update(IStudentUpdateWrapper updateWrapper);
+
+	void delete(Student student);
+
+	List<StudentDTO> read(Map<String, String[]> parameters);
 }

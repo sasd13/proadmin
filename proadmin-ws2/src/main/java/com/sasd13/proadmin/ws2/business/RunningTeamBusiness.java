@@ -35,7 +35,7 @@ public class RunningTeamBusiness implements IBusiness<RunningTeam> {
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { runningTeam.getTeam().getNumber() });
 		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { runningTeam.getAcademicLevel().getCode() });
 
-		if (!dao.select(parameters).isEmpty()) {
+		if (!dao.read(parameters).isEmpty()) {
 			throw new BusinessException("RunningTeam already exist");
 		}
 	}

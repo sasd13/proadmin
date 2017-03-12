@@ -32,7 +32,7 @@ public class StudentTeamBusiness implements IBusiness<StudentTeam> {
 		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentTeam.getStudent().getNumber() });
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { studentTeam.getTeam().getNumber() });
 
-		if (!dao.select(parameters).isEmpty()) {
+		if (!dao.read(parameters).isEmpty()) {
 			throw new BusinessException("StudentTeam already exist");
 		}
 	}

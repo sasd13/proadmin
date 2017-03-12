@@ -33,7 +33,7 @@ public class RunningBusiness implements IBusiness<Running> {
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { running.getProject().getCode() });
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { running.getTeacher().getNumber() });
 
-		if (!dao.select(parameters).isEmpty()) {
+		if (!dao.read(parameters).isEmpty()) {
 			throw new BusinessException("Running already exist");
 		}
 	}

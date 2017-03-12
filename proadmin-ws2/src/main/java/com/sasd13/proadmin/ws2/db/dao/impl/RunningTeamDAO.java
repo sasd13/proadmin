@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,8 @@ import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningTeamDAO extends HibernateSession<RunningTeam> implements IRunningTeamDAO {
 
-	public RunningTeamDAO(SessionFactory connectionFactory) {
-		super(connectionFactory);
+	public RunningTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 	@Override

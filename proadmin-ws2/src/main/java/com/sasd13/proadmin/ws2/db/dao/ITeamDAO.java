@@ -1,10 +1,19 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
-import com.sasd13.javaex.dao.hibernate.ISession;
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
 
-public interface ITeamDAO extends ISession<Team> {
+public interface ITeamDAO {
 
-	String TABLE = "teams";
-	String COLUMN_CODE = "_code";
+	TeamDTO create(Team team);
+
+	void update(ITeamUpdateWrapper updateWrapper);
+
+	void delete(Team team);
+
+	List<Team> read(Map<String, String[]> parameters);
 }

@@ -11,10 +11,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.ws2.db.dao.ITeamDAO;
 
 @Entity
-@Table(name = ITeamDAO.TABLE)
+@Table(name = "teams")
 public class TeamDTO implements Serializable {
 
 	/**
@@ -25,17 +24,17 @@ public class TeamDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_teams_id")
 	@SequenceGenerator(name = "seq_teams_id", sequenceName = "seq_teams_id")
-	@Column(name = ITeamDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = ITeamDAO.COLUMN_CODE)
-	private String code;
+	@Column(name = "_code")
+	private String number;
 
 	public TeamDTO() {
 	}
 
 	public TeamDTO(Team team) {
-		code = team.getNumber();
+		number = team.getNumber();
 	}
 
 	public long getId() {
@@ -46,12 +45,12 @@ public class TeamDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	@Override
@@ -60,9 +59,9 @@ public class TeamDTO implements Serializable {
 
 		final int prime = 31;
 
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override
@@ -76,9 +75,9 @@ public class TeamDTO implements Serializable {
 
 		TeamDTO other = (TeamDTO) obj;
 
-		if (code == null && other.code != null)
+		if (number == null && other.number != null)
 			return false;
-		else if (!code.equals(other.code))
+		else if (!number.equals(other.number))
 			return false;
 
 		return true;

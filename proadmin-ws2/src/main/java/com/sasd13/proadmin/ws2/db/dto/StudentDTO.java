@@ -11,10 +11,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 
 @Entity
-@Table(name = IStudentDAO.TABLE)
+@Table(name = "students")
 public class StudentDTO implements Serializable {
 
 	/**
@@ -25,26 +24,26 @@ public class StudentDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_students_id")
 	@SequenceGenerator(name = "seq_students_id", sequenceName = "seq_students_id")
-	@Column(name = IStudentDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = IStudentDAO.COLUMN_CODE)
-	private String code;
+	@Column(name = "_code")
+	private String number;
 
-	@Column(name = IStudentDAO.COLUMN_FIRSTNAME)
+	@Column(name = "_firstname")
 	private String firstName;
 
-	@Column(name = IStudentDAO.COLUMN_LASTNAME)
+	@Column(name = "_lastname")
 	private String lastName;
 
-	@Column(name = IStudentDAO.COLUMN_EMAIL)
+	@Column(name = "_email")
 	private String email;
 
 	public StudentDTO() {
 	}
 
 	public StudentDTO(Student student) {
-		code = student.getNumber();
+		number = student.getNumber();
 		firstName = student.getFirstName();
 		lastName = student.getLastName();
 		email = student.getEmail();
@@ -58,12 +57,12 @@ public class StudentDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public String getFirstName() {
@@ -96,12 +95,9 @@ public class StudentDTO implements Serializable {
 
 		final int prime = 31;
 
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override
@@ -115,24 +111,9 @@ public class StudentDTO implements Serializable {
 
 		StudentDTO other = (StudentDTO) obj;
 
-		if (code == null && other.code != null)
+		if (number == null && other.number != null)
 			return false;
-		else if (!code.equals(other.code))
-			return false;
-
-		if (firstName == null && other.firstName != null)
-			return false;
-		else if (!firstName.equals(other.firstName))
-			return false;
-
-		if (lastName == null && other.lastName != null)
-			return false;
-		else if (!lastName.equals(other.lastName))
-			return false;
-
-		if (email == null && other.email != null)
-			return false;
-		else if (!email.equals(other.email))
+		else if (!number.equals(other.number))
 			return false;
 
 		return true;

@@ -28,7 +28,7 @@ public class ProjectBusiness implements IBusiness<Project> {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { project.getCode() });
 
-		if (!dao.select(parameters).isEmpty()) {
+		if (!dao.read(parameters).isEmpty()) {
 			throw new BusinessException("Project already exist");
 		}
 	}

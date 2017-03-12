@@ -1,12 +1,19 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
-import com.sasd13.javaex.dao.hibernate.ISession;
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
 
-public interface IIndividualEvaluationDAO extends ISession<IndividualEvaluation> {
+public interface IIndividualEvaluationDAO {
 
-	String TABLE = "individualevaluations";
-	String COLUMN_MARK = "_mark";
-	String COLUMN_REPORT = "_report";
-	String COLUMN_STUDENT = "_student";
+	IndividualEvaluationDTO create(IndividualEvaluation individualEvaluation);
+
+	void update(IIndividualEvaluationUpdateWrapper updateWrapper);
+
+	void delete(IndividualEvaluation individualEvaluation);
+
+	List<IndividualEvaluationDTO> read(Map<String, String[]> parameters);
 }

@@ -58,7 +58,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
@@ -115,7 +114,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
 		preparedStatement.setString(5, leadEvaluation.getStudent().getNumber());
 		preparedStatement.setString(6, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override

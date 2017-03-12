@@ -1,14 +1,19 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
-import com.sasd13.javaex.dao.hibernate.ISession;
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
 
-public interface IReportDAO extends ISession<Report> {
+public interface IReportDAO {
 
-	String TABLE = "reports";
-	String COLUMN_CODE = "_code";
-	String COLUMN_DATEMEETING = "_datemeeting";
-	String COLUMN_SESSION = "_session";
-	String COLUMN_COMMENT = "_comment";
-	String COLUMN_RUNNINGTEAM = "_runningteam";
+	ReportDTO create(Report report);
+
+	void update(IReportUpdateWrapper updateWrapper);
+
+	void delete(Report report);
+
+	List<ReportDTO> read(Map<String, String[]> parameters);
 }

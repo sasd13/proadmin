@@ -5,7 +5,7 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 public class LeadEvaluationUpdateWrapper implements ILeadEvaluationUpdateWrapper {
 
 	private LeadEvaluation leadEvaluation;
-	private String reportNumber, studentNumber;
+	private String reportNumber;
 
 	@Override
 	public LeadEvaluation getWrapped() {
@@ -25,15 +25,5 @@ public class LeadEvaluationUpdateWrapper implements ILeadEvaluationUpdateWrapper
 	@Override
 	public void setReportNumber(String reportNumber) {
 		this.reportNumber = reportNumber;
-	}
-
-	@Override
-	public String getStudentNumber() {
-		return studentNumber;
-	}
-
-	@Override
-	public void setStudentNumber(String studentNumber) {
-		this.studentNumber = studentNumber;
 	}
 }

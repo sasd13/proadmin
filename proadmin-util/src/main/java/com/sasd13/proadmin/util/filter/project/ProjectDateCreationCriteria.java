@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.util.filter.project;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -10,7 +9,7 @@ import com.sasd13.javaex.pattern.filter.Criteria;
 import com.sasd13.proadmin.bean.project.Project;
 
 public class ProjectDateCreationCriteria implements Criteria<Project> {
-	
+
 	public static final int YEAR_MIN_VALUE = 1;
 	public static final int MONTH_MIN_VALUE = 1;
 	public static final int MONTH_MAX_VALUE = 12;

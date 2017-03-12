@@ -1,13 +1,19 @@
 package com.sasd13.proadmin.ws2.db.dao;
 
-import com.sasd13.javaex.dao.hibernate.ISession;
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
+import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
 
-public interface IProjectDAO extends ISession<Project> {
+public interface IProjectDAO {
 
-	String TABLE = "projects";
-	String COLUMN_CODE = "_code";
-	String COLUMN_DATECREATION = "_datecreation";
-	String COLUMN_TITLE = "_title";
-	String COLUMN_DESCRIPTION = "_description";
+	ProjectDTO create(Project project);
+
+	void update(IProjectUpdateWrapper updateWrapper);
+
+	void delete(Project project);
+
+	List<ProjectDTO> read(Map<String, String[]> parameters);
 }

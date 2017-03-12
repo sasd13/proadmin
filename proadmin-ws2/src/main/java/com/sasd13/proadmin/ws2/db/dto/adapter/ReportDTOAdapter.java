@@ -17,9 +17,10 @@ public class ReportDTOAdapter implements IAdapter<ReportDTO, Report> {
 
 	@Override
 	public void adapt(ReportDTO source, Report target) {
-		target.setNumber(source.getCode());
+		target.setNumber(source.getNumber());
 		target.setDateMeeting(source.getDateMeeting());
 		target.setSession(source.getSession());
+		target.setComment(source.getComment());
 		target.setRunningTeam(new RunningTeamDTOAdapter().adapt(source.getRunningTeam()));
 	}
 }

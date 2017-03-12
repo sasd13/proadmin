@@ -114,8 +114,6 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
 			return IProjectDAO.COLUMN_CODE;
-		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_TITLE;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -124,8 +122,6 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setString(index, value);
-		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");

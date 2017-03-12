@@ -5,7 +5,7 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,107 +17,103 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IIndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class IndividualEvaluationDAO extends HibernateSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
+public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO, IConditionnal {
+
+	private IStudentDAO studentDAO;
 
 	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(IndividualEvaluation individualEvaluation) {
+	public IndividualEvaluationDTO create(IndividualEvaluation individualEvaluation) {
 		IndividualEvaluationDTO dto = new IndividualEvaluationDTO(individualEvaluation);
 
-		HibernateUtils.insert(this, dto);
+		dto.setStudent(readStudent(individualEvaluation.getStudent().getNumber()));
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
+	}
+
+	private StudentDTO readStudent(String studentNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentNumber });
+
+		return studentDAO.read(parameters).get(0);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<IndividualEvaluation> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_STUDENT + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
+	public void update(IIndividualEvaluationUpdateWrapper updateWrapper) {
+		IndividualEvaluationDTO dto = read(updateWrapper.getReportNumber(), updateWrapper.getStudentNumber());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		dto.setMark(updateWrapper.getWrapped().getMark());
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private IndividualEvaluationDTO read(String reportNumber, String studentNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { reportNumber });
+		parameters.put(EnumParameter.STUDENT.getName(), new String[] { studentNumber });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(IndividualEvaluation individualEvaluation) {
+		IndividualEvaluationDTO dto = read(individualEvaluation.getReport().getNumber(), individualEvaluation.getStudent().getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IndividualEvaluationDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
+		builder.append("from individualevaluations ie");
 
-		HibernateUtils.delete(this, builder.toString(), individualEvaluation);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(IndividualEvaluation individualEvaluation) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<IndividualEvaluation> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getMark());
-		query.setParameter(2, updateWrapper.getWrapped().getStudent().getNumber());
-		query.setParameter(3, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		query.setParameter(4, ((IIndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, IndividualEvaluation individualEvaluation) {
-		query.setParameter(1, individualEvaluation.getReport().getNumber());
-		query.setParameter(2, individualEvaluation.getStudent().getNumber());
+		return (List<IndividualEvaluationDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT;
+			return "ie.report.code";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT;
+			return "ie.student.code";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editQueryForSelect(javax.persistence.Query query, int index, String key, String value) throws ConditionException {
+	protected void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {

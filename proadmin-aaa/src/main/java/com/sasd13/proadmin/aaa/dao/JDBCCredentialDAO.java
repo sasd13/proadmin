@@ -17,12 +17,13 @@ import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.credential.ICredentialUpdateWrapper;
 
 public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICredentialDAO {
 
 	private static final Logger LOGGER = Logger.getLogger(JDBCCredentialDAO.class);
+	private static final String USERNAME = "username";
+	private static final String PASSWORD = "password";
 
 	private String url;
 	private Properties properties;
@@ -96,8 +97,8 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	@Override
 	public boolean contains(Credential credential) {
 		parameters.clear();
-		parameters.put(EnumParameter.USERNAME.getName(), new String[] { credential.getUsername() });
-		parameters.put(EnumParameter.PASSWORD.getName(), new String[] { credential.getPassword() });
+		parameters.put(USERNAME, new String[] { credential.getUsername() });
+		parameters.put(PASSWORD, new String[] { credential.getPassword() });
 
 		return JDBCUtils.contains(this, TABLE, parameters);
 	}
@@ -137,9 +138,9 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
-		if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
+		if (USERNAME.equalsIgnoreCase(key)) {
 			return ICredentialDAO.COLUMN_USERNAME;
-		} else if (EnumParameter.PASSWORD.getName().equalsIgnoreCase(key)) {
+		} else if (PASSWORD.equalsIgnoreCase(key)) {
 			return ICredentialDAO.COLUMN_PASSWORD;
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
@@ -148,9 +149,9 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
-		if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
+		if (USERNAME.equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.PASSWORD.getName().equalsIgnoreCase(key)) {
+		} else if (PASSWORD.equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");

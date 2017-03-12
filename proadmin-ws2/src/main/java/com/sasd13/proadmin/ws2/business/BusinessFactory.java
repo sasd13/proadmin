@@ -29,13 +29,9 @@ public class BusinessFactory {
 			return (IBusiness<T>) new StudentTeamBusiness();
 		} else if (Running.class.isAssignableFrom(mClass)) {
 			return (IBusiness<T>) new RunningBusiness();
-		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (IBusiness<T>) new AcademicLevelBusiness();
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
 			return (IBusiness<T>) new RunningTeamBusiness();
-		} else if (Report.class.isAssignableFrom(mClass) 
-				|| LeadEvaluation.class.isAssignableFrom(mClass) 
-				|| IndividualEvaluation.class.isAssignableFrom(mClass)) {
+		} else if (AcademicLevel.class.isAssignableFrom(mClass) || Report.class.isAssignableFrom(mClass) || LeadEvaluation.class.isAssignableFrom(mClass) || IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IBusiness<T>) new EmptyBusiness();
 		} else {
 			throw new BusinessException("Entity " + mClass.getSimpleName() + " has no business rule");

@@ -28,10 +28,6 @@ public class LeadEvaluationUpdateWrapperValidator implements IValidator<IUpdateW
 			throw new ValidatorException("LeadEvaluationUpdateWrapper : report -> number is not valid");
 		}
 
-		if (StringUtils.isBlank(leadEvaluationUpdateWrapper.getStudentNumber())) {
-			throw new ValidatorException("LeadEvaluationUpdateWrapper : student -> number is not valid");
-		}
-
 		leadEvaluationValidator.validate(leadEvaluationUpdateWrapper.getWrapped());
 	}
 }

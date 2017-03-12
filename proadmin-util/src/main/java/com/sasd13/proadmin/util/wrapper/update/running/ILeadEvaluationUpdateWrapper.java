@@ -8,8 +8,4 @@ public interface ILeadEvaluationUpdateWrapper extends IUpdateWrapper<LeadEvaluat
 	String getReportNumber();
 
 	void setReportNumber(String reportNumber);
-
-	String getStudentNumber();
-
-	void setStudentNumber(String studentNumber);
 }

@@ -30,7 +30,7 @@ public class AcademicLevelService implements IService<AcademicLevel> {
 		LOGGER.info("create : code=" + academicLevel.getCode());
 
 		try {
-			dao.insert(academicLevel);
+			dao.create(academicLevel);
 		} catch (DAOException e) {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());

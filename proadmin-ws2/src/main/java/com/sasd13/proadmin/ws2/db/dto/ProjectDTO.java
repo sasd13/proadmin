@@ -2,6 +2,7 @@ package com.sasd13.proadmin.ws2.db.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +15,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.ws2.db.dao.IProjectDAO;
 
 @Entity
-@Table(name = IProjectDAO.TABLE)
+@Table(name = "projects")
 public class ProjectDTO implements Serializable {
 
 	/**
@@ -28,20 +28,20 @@ public class ProjectDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_projects_id")
 	@SequenceGenerator(name = "seq_projects_id", sequenceName = "seq_projects_id")
-	@Column(name = IProjectDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = IProjectDAO.COLUMN_CODE)
+	@Column(name = "_code")
 	private String code;
 
-	@Column(name = IProjectDAO.COLUMN_DATECREATION)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp dateCreation;
+	@Column(name = "_datecreation")
+	@Temporal(TemporalType.DATE)
+	private Date dateCreation;
 
-	@Column(name = IProjectDAO.COLUMN_TITLE)
+	@Column(name = "_title")
 	private String title;
 
-	@Column(name = IProjectDAO.COLUMN_DESCRIPTION)
+	@Column(name = "_description")
 	private String description;
 
 	public ProjectDTO() {
@@ -70,11 +70,11 @@ public class ProjectDTO implements Serializable {
 		this.code = code;
 	}
 
-	public Timestamp getDateCreation() {
+	public Date getDateCreation() {
 		return dateCreation;
 	}
 
-	public void setDateCreation(Timestamp dateCreation) {
+	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
 	}
 
@@ -101,11 +101,8 @@ public class ProjectDTO implements Serializable {
 		final int prime = 31;
 
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override
@@ -122,21 +119,6 @@ public class ProjectDTO implements Serializable {
 		if (code == null && other.code != null)
 			return false;
 		else if (!code.equals(other.code))
-			return false;
-
-		if (dateCreation == null && other.dateCreation != null)
-			return false;
-		else if (!dateCreation.equals(other.dateCreation))
-			return false;
-
-		if (title == null && other.title != null)
-			return false;
-		else if (!title.equals(other.title))
-			return false;
-
-		if (description == null && other.description != null)
-			return false;
-		else if (!description.equals(other.description))
 			return false;
 
 		return true;

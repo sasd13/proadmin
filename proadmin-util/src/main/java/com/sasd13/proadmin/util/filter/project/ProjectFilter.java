@@ -20,8 +20,6 @@ public class ProjectFilter extends AndFilter<Project> {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.CODE.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ProjectCodeCriteria(value));
-				} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(entry.getKey())) {
-					multiAndCriteria.addCriteria(new ProjectTitleCriteria(value));
 				}
 			}
 		}

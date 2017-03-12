@@ -14,10 +14,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
 
 @Entity
-@Table(name = IIndividualEvaluationDAO.TABLE)
+@Table(name = "individualevaluations")
 public class IndividualEvaluationDTO implements Serializable {
 
 	/**
@@ -28,18 +27,18 @@ public class IndividualEvaluationDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_individualevaluations_id")
 	@SequenceGenerator(name = "seq_individualevaluations_id", sequenceName = "seq_individualevaluations_id")
-	@Column(name = IIndividualEvaluationDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = IIndividualEvaluationDAO.COLUMN_MARK, precision = 4, scale = 2)
+	@Column(name = "_mark", precision = 4, scale = 2)
 	private float mark;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_REPORT)
+	@JoinColumn(name = "_report")
 	private ReportDTO report;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IIndividualEvaluationDAO.COLUMN_STUDENT)
+	@JoinColumn(name = "_student")
 	private StudentDTO student;
 
 	public IndividualEvaluationDTO() {
@@ -92,7 +91,7 @@ public class IndividualEvaluationDTO implements Serializable {
 		result = prime * result + ((report == null) ? 0 : report.hashCode());
 		result = prime * result + ((student == null) ? 0 : student.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override

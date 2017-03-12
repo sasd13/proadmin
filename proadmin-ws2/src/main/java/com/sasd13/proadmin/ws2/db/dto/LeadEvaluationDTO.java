@@ -15,10 +15,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 
 @Entity
-@Table(name = ILeadEvaluationDAO.TABLE)
+@Table(name = "leadevaluations")
 public class LeadEvaluationDTO implements Serializable {
 
 	/**
@@ -29,27 +28,27 @@ public class LeadEvaluationDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_leadevaluations_id")
 	@SequenceGenerator(name = "seq_leadevaluations_id", sequenceName = "seq_leadevaluations_id")
-	@Column(name = ILeadEvaluationDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_PLANNINGMARK, precision = 4, scale = 2)
+	@Column(name = "_planningmark", precision = 4, scale = 2)
 	private float planningMark;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_PLANNINGCOMMENT)
+	@Column(name = "_planningcomment")
 	private String planningComment;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_COMMUNICATIONMARK, precision = 4, scale = 2)
+	@Column(name = "_communicationmark", precision = 4, scale = 2)
 	private float communicationMark;
 
-	@Column(name = ILeadEvaluationDAO.COLUMN_COMMUNICATIONCOMMENT)
+	@Column(name = "_communicationcomment")
 	private String communicationComment;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_REPORT)
+	@JoinColumn(name = "_report")
 	private ReportDTO report;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = ILeadEvaluationDAO.COLUMN_STUDENT)
+	@JoinColumn(name = "_student")
 	private StudentDTO student;
 
 	public LeadEvaluationDTO() {
@@ -126,12 +125,9 @@ public class LeadEvaluationDTO implements Serializable {
 
 		final int prime = 31;
 
-		result = prime * result + ((planningComment == null) ? 0 : planningComment.hashCode());
-		result = prime * result + ((communicationComment == null) ? 0 : communicationComment.hashCode());
 		result = prime * result + ((report == null) ? 0 : report.hashCode());
-		result = prime * result + ((student == null) ? 0 : student.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override
@@ -145,24 +141,9 @@ public class LeadEvaluationDTO implements Serializable {
 
 		LeadEvaluationDTO other = (LeadEvaluationDTO) obj;
 
-		if (planningComment == null && other.planningComment != null)
-			return false;
-		else if (!planningComment.equals(other.planningComment))
-			return false;
-
-		if (communicationComment == null && other.communicationComment != null)
-			return false;
-		else if (!communicationComment.equals(other.communicationComment))
-			return false;
-
 		if (report == null && other.report != null)
 			return false;
 		else if (!report.equals(other.report))
-			return false;
-
-		if (student == null && other.student != null)
-			return false;
-		else if (!student.equals(other.student))
 			return false;
 
 		return true;

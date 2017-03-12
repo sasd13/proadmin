@@ -5,21 +5,20 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.project.IProjectUpdateWrapper;
@@ -28,88 +27,72 @@ import com.sasd13.proadmin.ws2.db.dto.ProjectDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO {
+public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionnal {
 
-	public ProjectDAO(SessionFactory connectionFactory) {
-		super(connectionFactory);
+	public ProjectDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Project project) {
+	public ProjectDTO create(Project project) {
 		ProjectDTO dto = new ProjectDTO(project);
 
-		HibernateUtils.insert(this, dto);
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Project> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_DATECREATION + " = ?");
-		builder.append(", " + COLUMN_TITLE + " = ?");
-		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+	public void update(IProjectUpdateWrapper updateWrapper) {
+		ProjectDTO dto = read(updateWrapper.getCode());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		dto.setDateCreation(updateWrapper.getWrapped().getDateCreation());
+		dto.setTitle(updateWrapper.getWrapped().getTitle());
+		dto.setDescription(updateWrapper.getWrapped().getDescription());
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private ProjectDTO read(String code) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.CODE.getName(), new String[] { code });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(Project project) {
+		ProjectDTO dto = read(project.getCode());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProjectDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+		builder.append("from projects p");
 
-		HibernateUtils.delete(this, builder.toString(), project);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Project project) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<Project> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getCode());
-		query.setParameter(2, String.valueOf(updateWrapper.getWrapped().getDateCreation()));
-		query.setParameter(3, updateWrapper.getWrapped().getTitle());
-		query.setParameter(4, updateWrapper.getWrapped().getDescription());
-		query.setParameter(5, ((IProjectUpdateWrapper) updateWrapper).getCode());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, Project project) {
-		query.setParameter(1, project.getCode());
+		return (List<ProjectDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_CODE;
-		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
-			return IProjectDAO.COLUMN_TITLE;
+			return "p.code";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -118,8 +101,6 @@ public class ProjectDAO extends HibernateSession<Project> implements IProjectDAO
 	@Override
 	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			query.setParameter(index, value);
-		} else if (EnumParameter.TITLE.getName().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");

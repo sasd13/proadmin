@@ -11,10 +11,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
 
 @Entity
-@Table(name = IAcademicLevelDAO.TABLE)
+@Table(name = "academiclevels")
 public class AcademicLevelDTO implements Serializable {
 
 	/**
@@ -25,10 +24,10 @@ public class AcademicLevelDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_academiclevels_id")
 	@SequenceGenerator(name = "seq_academiclevels_id", sequenceName = "seq_academiclevels_id")
-	@Column(name = IAcademicLevelDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
-	@Column(name = IAcademicLevelDAO.COLUMN_CODE)
+	@Column(name = "_code")
 	private String code;
 
 	public AcademicLevelDTO() {
@@ -62,7 +61,7 @@ public class AcademicLevelDTO implements Serializable {
 
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override

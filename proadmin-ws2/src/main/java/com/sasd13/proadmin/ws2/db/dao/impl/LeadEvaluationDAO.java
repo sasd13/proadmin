@@ -5,118 +5,113 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.ws2.db.dao.IStudentDAO;
 import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.ws2.db.dto.StudentDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class LeadEvaluationDAO extends HibernateSession<LeadEvaluation> implements ILeadEvaluationDAO {
+public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO, IConditionnal {
+
+	@Autowired
+	private IStudentDAO studentDAO;
 
 	public LeadEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(LeadEvaluation leadEvaluation) {
+	public LeadEvaluationDTO create(LeadEvaluation leadEvaluation) {
 		LeadEvaluationDTO dto = new LeadEvaluationDTO(leadEvaluation);
 
-		HibernateUtils.insert(this, dto);
+		dto.setStudent(readStudent(leadEvaluation.getStudent().getNumber()));
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
+	}
+
+	private StudentDTO readStudent(String studentNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentNumber });
+
+		return studentDAO.read(parameters).get(0);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_PLANNINGMARK + " = ?");
-		builder.append(", " + COLUMN_PLANNINGCOMMENT + " = ?");
-		builder.append(", " + COLUMN_COMMUNICATIONMARK + " = ?");
-		builder.append(", " + COLUMN_COMMUNICATIONCOMMENT + " = ?");
-		builder.append(", " + COLUMN_STUDENT + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
+	public void update(ILeadEvaluationUpdateWrapper updateWrapper) {
+		LeadEvaluationDTO dto = read(updateWrapper.getReportNumber());
 
-		HibernateUtils.update(this, builder.toString(), updateWrapper);
+		dto.setPlanningMark(updateWrapper.getWrapped().getPlanningMark());
+		dto.setPlanningComment(updateWrapper.getWrapped().getPlanningComment());
+		dto.setCommunicationMark(updateWrapper.getWrapped().getCommunicationMark());
+		dto.setCommunicationComment(updateWrapper.getWrapped().getCommunicationComment());
+		dto.setStudent(readStudent(updateWrapper.getWrapped().getStudent().getNumber()));
+		currentSession().update(dto);
+		currentSession().flush();
+	}
+
+	private LeadEvaluationDTO read(String reportNumber) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.REPORT.getName(), new String[] { reportNumber });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) {
+		LeadEvaluationDTO dto = read(leadEvaluation.getReport().getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LeadEvaluationDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
+		builder.append("from leadevaluations le");
 
-		HibernateUtils.delete(this, builder.toString(), leadEvaluation);
-	}
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(LeadEvaluation leadEvaluation) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<LeadEvaluation> updateWrapper) {
-		query.setParameter(1, updateWrapper.getWrapped().getPlanningMark());
-		query.setParameter(2, updateWrapper.getWrapped().getPlanningComment());
-		query.setParameter(3, updateWrapper.getWrapped().getCommunicationMark());
-		query.setParameter(4, updateWrapper.getWrapped().getCommunicationComment());
-		query.setParameter(5, updateWrapper.getWrapped().getStudent().getNumber());
-		query.setParameter(6, ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		query.setParameter(7, ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, LeadEvaluation leadEvaluation) {
-		query.setParameter(1, leadEvaluation.getReport().getNumber());
-		query.setParameter(2, leadEvaluation.getStudent().getNumber());
+		return (List<LeadEvaluationDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT;
+			return "le.report.code";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT;
+			return "le.student.code";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

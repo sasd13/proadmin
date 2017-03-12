@@ -5,122 +5,127 @@
  */
 package com.sasd13.proadmin.ws2.db.dao.impl;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sasd13.javaex.dao.hibernate.HibernateSession;
-import com.sasd13.javaex.dao.hibernate.HibernateUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IReportUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
+import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
+import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class ReportDAO extends HibernateSession<Report> implements IReportDAO {
+public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal {
 
-	public ReportDAO(SessionFactory connectionFactory) {
-		super(connectionFactory);
+	private IRunningTeamDAO runningTeamDAO;
+
+	public ReportDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 	@Override
-	public long insert(Report report) {
+	public ReportDTO create(Report report) {
 		ReportDTO dto = new ReportDTO(report);
+		RunningTeam runningTeam = report.getRunningTeam();
 
-		HibernateUtils.insert(this, dto);
+		dto.setRunningTeam(readRunningTeam(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode()));
+		currentSession().save(dto);
+		currentSession().flush();
 
-		return dto.getId();
+		return dto;
+	}
+
+	private RunningTeamDTO readRunningTeam(int year, String projectCode, String teacherNumber, String teamNumber, String academicLevelCode) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(year) });
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { projectCode });
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { teacherNumber });
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { teamNumber });
+		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { academicLevelCode });
+
+		return runningTeamDAO.read(parameters).get(0);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Report> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_DATEMEETING + " = ?");
-		builder.append(", " + COLUMN_SESSION + " = ?");
-		builder.append(", " + COLUMN_COMMENT + " = ?");
-		builder.append(", " + COLUMN_RUNNINGTEAM + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+	public void update(IReportUpdateWrapper updateWrapper) {
+		ReportDTO dto = read(updateWrapper.getNumber());
+		RunningTeam runningTeam = updateWrapper.getWrapped().getRunningTeam();
 
-		//transaction.editTransaction(builder.toString(), (IReportUpdateWrapper) updateWrapper);
+		dto.setDateMeeting(updateWrapper.getWrapped().getDateMeeting());
+		dto.setSession(updateWrapper.getWrapped().getSession());
+		dto.setComment(updateWrapper.getWrapped().getComment());
+		dto.setRunningTeam(readRunningTeam(runningTeam.getRunning().getYear(), runningTeam.getRunning().getProject().getCode(), runningTeam.getRunning().getTeacher().getNumber(), runningTeam.getTeam().getNumber(), runningTeam.getAcademicLevel().getCode()));
+		currentSession().update(dto);
+		currentSession().flush();
+	}
 
-		//HibernateUtils.updateInTransaction(this, transaction);
+	private ReportDTO read(String number) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { number });
+
+		return read(parameters).get(0);
 	}
 
 	@Override
 	public void delete(Report report) {
+		ReportDTO dto = read(report.getNumber());
+
+		currentSession().remove(dto);
+		currentSession().flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DELETE FROM ");
-		builder.append(TABLE);
-		builder.append(" WHERE ");
-		builder.append(COLUMN_CODE + " = ?");
+		builder.append("from reports r");
 
-		//transaction.editTransaction(builder.toString(), report);
+		if (!parameters.isEmpty()) {
+			appendWhere(parameters, builder, this);
+		}
 
-		//HibernateUtils.deleteInTransaction(this, transaction);
-	}
+		Query query = currentSession().createQuery(builder.toString());
 
-	@Override
-	public Serializable select(long id) {
-		return null;
-	}
+		if (!parameters.isEmpty()) {
+			resolveWhere(parameters, query);
+		}
 
-	@Override
-	public List<Serializable> select(Map<String, String[]> parameters) {
-		return (List<Serializable>) HibernateUtils.select(this, TABLE, parameters);
-	}
-
-	@Override
-	public List<Serializable> selectAll() {
-		return (List<Serializable>) HibernateUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Report report) {
-		return false;
-	}
-
-	@Override
-	public void editQueryForUpdate(Query query, IUpdateWrapper<Report> updateWrapper) {
-		query.setParameter(1, new Timestamp(updateWrapper.getWrapped().getDateMeeting().getTime()));
-		query.setParameter(2, updateWrapper.getWrapped().getSession());
-		query.setParameter(3, updateWrapper.getWrapped().getComment());
-		query.setParameter(4, updateWrapper.getWrapped().getRunningTeam().getRunning().getYear());
-		query.setParameter(5, updateWrapper.getWrapped().getRunningTeam().getRunning().getProject().getCode());
-		query.setParameter(6, updateWrapper.getWrapped().getRunningTeam().getRunning().getTeacher().getNumber());
-		query.setParameter(7, updateWrapper.getWrapped().getRunningTeam().getTeam().getNumber());
-		query.setParameter(8, updateWrapper.getWrapped().getRunningTeam().getAcademicLevel().getCode());
-		query.setParameter(9, ((IReportUpdateWrapper) updateWrapper).getNumber());
-	}
-
-	@Override
-	public void editQueryForDelete(Query query, Report report) {
-		query.setParameter(1, report.getNumber());
+		return (List<ReportDTO>) query.getResultList();
 	}
 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_CODE;
+			return "r.code";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_SESSION;
-		} else if (EnumParameter.RUNNINGTEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_RUNNINGTEAM;
+			return "r.session";
+		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+			return "r.runningTeam.running.year";
+		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+			return "r.runningTeam.running.project.number";
+		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+			return "r.runningTeam.running.teacher.number";
+		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+			return "r.runningTeam.team.number";
+		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
+			return "r.runningTeam.academicLevel.code";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -17,7 +17,7 @@ public class StudentDTOAdapter implements IAdapter<StudentDTO, Student> {
 
 	@Override
 	public void adapt(StudentDTO source, Student target) {
-		target.setNumber(source.getCode());
+		target.setNumber(source.getNumber());
 		target.setFirstName(source.getFirstName());
 		target.setLastName(source.getLastName());
 		target.setEmail(source.getEmail());

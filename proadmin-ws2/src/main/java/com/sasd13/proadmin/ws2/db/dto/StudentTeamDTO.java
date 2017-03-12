@@ -14,10 +14,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
 
 @Entity
-@Table(name = IStudentTeamDAO.TABLE)
+@Table(name = "studentteams")
 public class StudentTeamDTO implements Serializable {
 
 	/**
@@ -28,15 +27,15 @@ public class StudentTeamDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_studentteams_id")
 	@SequenceGenerator(name = "seq_studentteams_id", sequenceName = "seq_studentteams_id")
-	@Column(name = IStudentTeamDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IStudentTeamDAO.COLUMN_STUDENT)
+	@JoinColumn(name = "_student")
 	private StudentDTO student;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IStudentTeamDAO.COLUMN_TEAM)
+	@JoinColumn(name = "_team")
 	private TeamDTO team;
 
 	public StudentTeamDTO() {
@@ -80,7 +79,7 @@ public class StudentTeamDTO implements Serializable {
 		result = prime * result + ((student == null) ? 0 : student.hashCode());
 		result = prime * result + ((team == null) ? 0 : team.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.ws2.db.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,16 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
-import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
 
 @Entity
-@Table(name = IRunningTeamDAO.TABLE)
+@Table(name = "runningteams")
 public class RunningTeamDTO implements Serializable {
 
 	/**
@@ -31,23 +27,20 @@ public class RunningTeamDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_runningteams_id")
 	@SequenceGenerator(name = "seq_runningteams_id", sequenceName = "seq_runningteams_id")
-	@Column(name = IRunningTeamDAO.COLUMN_ID)
+	@Column(name = "_id")
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IRunningTeamDAO.COLUMN_RUNNING)
+	@JoinColumn(name = "_running")
 	private RunningDTO running;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IRunningTeamDAO.COLUMN_TEAM)
+	@JoinColumn(name = "_team")
 	private TeamDTO team;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = IRunningTeamDAO.COLUMN_ACADEMICLEVEL)
+	@JoinColumn(name = "_academiclevel")
 	private AcademicLevelDTO academicLevel;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = IReportDAO.COLUMN_RUNNINGTEAM)
-	private List<ReportDTO> reports;
 
 	public RunningTeamDTO() {
 	}
@@ -90,14 +83,6 @@ public class RunningTeamDTO implements Serializable {
 		this.academicLevel = academicLevel;
 	}
 
-	public List<ReportDTO> getReports() {
-		return reports;
-	}
-
-	public void setReports(List<ReportDTO> reports) {
-		this.reports = reports;
-	}
-
 	@Override
 	public int hashCode() {
 		int result = 1;
@@ -108,7 +93,7 @@ public class RunningTeamDTO implements Serializable {
 		result = prime * result + ((team == null) ? 0 : team.hashCode());
 		result = prime * result + ((academicLevel == null) ? 0 : academicLevel.hashCode());
 
-		return super.hashCode();
+		return result;
 	}
 
 	@Override

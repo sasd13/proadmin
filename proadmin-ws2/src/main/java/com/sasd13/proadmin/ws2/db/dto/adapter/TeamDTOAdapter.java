@@ -17,6 +17,6 @@ public class TeamDTOAdapter implements IAdapter<TeamDTO, Team> {
 
 	@Override
 	public void adapt(TeamDTO source, Team target) {
-		target.setNumber(source.getCode());
+		target.setNumber(source.getNumber());
 	}
 }

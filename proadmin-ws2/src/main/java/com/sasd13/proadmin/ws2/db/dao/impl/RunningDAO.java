@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,8 @@ import com.sasd13.proadmin.ws2.db.dto.RunningDTO;
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningDAO extends HibernateSession<Running> implements IRunningDAO {
 
-	public RunningDAO(SessionFactory connectionFactory) {
-		super(connectionFactory);
+	public RunningDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 
 	@Override

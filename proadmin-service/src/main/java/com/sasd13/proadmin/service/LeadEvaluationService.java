@@ -36,7 +36,7 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
-		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber() + ", studentNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
 
 		try {
 			getSession(LeadEvaluation.class).update(updateWrapper);
