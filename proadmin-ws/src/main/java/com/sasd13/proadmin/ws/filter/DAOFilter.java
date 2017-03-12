@@ -40,7 +40,7 @@ public class DAOFilter implements Filter {
 			dao.open();
 			chain.doFilter(req, resp);
 		} catch (DAOException e) {
-			LOGGER.fatal(e);
+			LOGGER.error(e);
 		} finally {
 			try {
 				dao.close();

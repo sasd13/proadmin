@@ -28,6 +28,7 @@ INSERT INTO teachers(_code,_firstname,_lastname,_email) VALUES ('21010014','Nasr
 INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130876','Karim','Benzema','benzema@email.com');
 INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130877','Cristiano','Ronaldo','ronaldo@email.com');
 INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130878','Gareth','Bale','bale@email.com');
+INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130879','Luka','Modric','modric@email.com');
 
 -- TEAMS
 
@@ -39,6 +40,7 @@ INSERT INTO teams(_code) VALUES ('2016TE02');
 INSERT INTO studentteams(_student,_team) VALUES ('2130876','2015TE01');
 INSERT INTO studentteams(_student,_team) VALUES ('2130877','2015TE01');
 INSERT INTO studentteams(_student,_team) VALUES ('2130878','2016TE02');
+INSERT INTO studentteams(_student,_team) VALUES ('2130879','2016TE02');
 
 -- RUNNINGS
 

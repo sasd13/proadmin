@@ -118,8 +118,8 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		LOGGER.info("doGet");
 
 		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
-		List<T> results = new ArrayList<>();
 		Map<String, String[]> parameters = req.getParameterMap();
+		List<T> results = new ArrayList<>();
 
 		try {
 			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
@@ -132,9 +132,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? service.deepRead(parameters) : service.read(parameters);
 			}
 
-			String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results);
-
-			writeToResponse(resp, message);
+			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
