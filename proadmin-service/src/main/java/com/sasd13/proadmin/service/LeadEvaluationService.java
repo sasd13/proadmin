@@ -7,12 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 
 public class LeadEvaluationService extends Service<LeadEvaluation> {
 
@@ -24,8 +22,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void create(LeadEvaluation leadEvaluation) {
-		LOGGER.info("create : report=" + leadEvaluation.getReport().getNumber());
-
 		try {
 			getSession(LeadEvaluation.class).insert(leadEvaluation);
 		} catch (DAOException e) {
@@ -36,8 +32,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
-		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-
 		try {
 			getSession(LeadEvaluation.class).update(updateWrapper);
 		} catch (DAOException e) {
@@ -48,8 +42,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) {
-		LOGGER.info("delete : report=" + leadEvaluation.getReport().getNumber());
-
 		try {
 			getSession(LeadEvaluation.class).delete(leadEvaluation);
 		} catch (DAOException e) {
@@ -60,8 +52,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
@@ -76,8 +66,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public List<LeadEvaluation> readAll() {
-		LOGGER.info("readAll");
-
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
@@ -92,8 +80,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public List<LeadEvaluation> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {
@@ -108,8 +94,6 @@ public class LeadEvaluationService extends Service<LeadEvaluation> {
 
 	@Override
 	public List<LeadEvaluation> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
 
 		try {

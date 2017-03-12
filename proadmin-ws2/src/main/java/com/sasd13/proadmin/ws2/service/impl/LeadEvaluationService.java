@@ -1,92 +1,48 @@
 package com.sasd13.proadmin.ws2.service.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.ILeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
 import com.sasd13.proadmin.ws2.db.dto.adapter.LeadEvaluationDTOAdapter;
-import com.sasd13.proadmin.ws2.service.IService;
+import com.sasd13.proadmin.ws2.service.ILeadEvaluationService;
 
-public class LeadEvaluationService implements IService<LeadEvaluation> {
-
-	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationService.class);
+@Service
+public class LeadEvaluationService implements ILeadEvaluationService {
 
 	@Autowired
-	private ILeadEvaluationDAO dao;
+	private ILeadEvaluationDAO leadEvaluationDAO;
 
 	@Override
 	public void create(LeadEvaluation leadEvaluation) {
-		LOGGER.info("create unavailable");
-		throw new ServiceException("Service unavailable");
+		leadEvaluationDAO.create(leadEvaluation);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
-		LOGGER.info("update : reportNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getReportNumber() + ", studentNumber=" + ((ILeadEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
-
-		try {
-			dao.update(updateWrapper);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+	public void update(ILeadEvaluationUpdateWrapper updateWrapper) {
+		leadEvaluationDAO.update(updateWrapper);
 	}
 
-	@Override
 	public void delete(LeadEvaluation leadEvaluation) {
-		LOGGER.info("delete unavailable");
-		throw new ServiceException("Service unavailable");
-	}
+		leadEvaluationDAO.delete(leadEvaluation);
+	};
 
 	@Override
 	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+
+		List<LeadEvaluationDTO> dtos = leadEvaluationDAO.read(parameters);
 		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
 
-		try {
-			List<Serializable> results = dao.select(parameters);
-
-			for (Serializable result : results) {
-				leadEvaluations.add(adapter.adapt((LeadEvaluationDTO) result));
-			}
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return leadEvaluations;
-	}
-
-	@Override
-	public List<LeadEvaluation> readAll() {
-		LOGGER.info("readAll");
-
-		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
-		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
-
-		try {
-			List<Serializable> results = dao.selectAll();
-
-			for (Serializable result : results) {
-				leadEvaluations.add(adapter.adapt((LeadEvaluationDTO) result));
-			}
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
+		for (LeadEvaluationDTO dto : dtos) {
+			leadEvaluations.add(adapter.adapt(dto));
 		}
 
 		return leadEvaluations;

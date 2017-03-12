@@ -7,12 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.util.wrapper.update.running.IRunningUpdateWrapper;
 
 public class RunningService extends Service<Running> {
 
@@ -24,8 +22,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void create(Running running) {
-		LOGGER.info("create : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-
 		try {
 			getSession(Running.class).insert(running);
 		} catch (DAOException e) {
@@ -36,8 +32,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void update(IUpdateWrapper<Running> updateWrapper) {
-		LOGGER.info("update : year=" + ((IRunningUpdateWrapper) updateWrapper).getYear() + ", projectCode=" + ((IRunningUpdateWrapper) updateWrapper).getProjectCode() + ", teacherNumber=" + ((IRunningUpdateWrapper) updateWrapper).getTeacherNumber());
-
 		try {
 			getSession(Running.class).update(updateWrapper);
 		} catch (DAOException e) {
@@ -48,8 +42,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public void delete(Running running) {
-		LOGGER.info("delete : year=" + running.getYear() + ", projectCode=" + running.getProject().getCode() + ", teacherNumber=" + running.getTeacher().getNumber());
-
 		try {
 			getSession(Running.class).delete(running);
 		} catch (DAOException e) {
@@ -60,8 +52,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public List<Running> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<Running> runnings = new ArrayList<>();
 
 		try {
@@ -76,8 +66,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public List<Running> readAll() {
-		LOGGER.info("readAll");
-
 		List<Running> runnings = new ArrayList<>();
 
 		try {
@@ -92,8 +80,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public List<Running> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<Running> runnings = new ArrayList<>();
 
 		try {
@@ -108,8 +94,6 @@ public class RunningService extends Service<Running> {
 
 	@Override
 	public List<Running> deepReadAll() {
-		LOGGER.info("deepReadAll");
-
 		List<Running> runnings = new ArrayList<>();
 
 		try {

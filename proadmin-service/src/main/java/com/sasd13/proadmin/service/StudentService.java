@@ -7,12 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.util.wrapper.update.member.IStudentUpdateWrapper;
 
 public class StudentService extends Service<Student> {
 
@@ -24,8 +22,6 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public void create(Student student) {
-		LOGGER.info("create : number=" + student.getNumber());
-
 		try {
 			getSession(Student.class).insert(student);
 		} catch (DAOException e) {
@@ -36,8 +32,6 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public void update(IUpdateWrapper<Student> updateWrapper) {
-		LOGGER.info("update : number=" + ((IStudentUpdateWrapper) updateWrapper).getNumber());
-
 		try {
 			getSession(Student.class).update(updateWrapper);
 		} catch (DAOException e) {
@@ -48,8 +42,6 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public void delete(Student student) {
-		LOGGER.info("delete : number=" + student.getNumber());
-
 		try {
 			getSession(Student.class).delete(student);
 		} catch (DAOException e) {
@@ -60,8 +52,6 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public List<Student> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<Student> students = new ArrayList<>();
 
 		try {
@@ -76,8 +66,6 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public List<Student> readAll() {
-		LOGGER.info("readAll");
-
 		List<Student> students = new ArrayList<>();
 
 		try {
@@ -92,13 +80,11 @@ public class StudentService extends Service<Student> {
 
 	@Override
 	public List<Student> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<Student> deepReadAll() {
-		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

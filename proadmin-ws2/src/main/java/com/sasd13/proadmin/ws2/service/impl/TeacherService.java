@@ -4,90 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.ITeacherUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
-import com.sasd13.proadmin.ws2.service.IService;
+import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.TeacherDTOAdapter;
+import com.sasd13.proadmin.ws2.service.ITeacherService;
 
-public class TeacherService implements IService<Teacher> {
-
-	private static final Logger LOGGER = Logger.getLogger(TeacherService.class);
+@Service
+public class TeacherService implements ITeacherService {
 
 	@Autowired
-	private ITeacherDAO dao;
+	private ITeacherDAO teacherDAO;
 
 	@Override
 	public void create(Teacher teacher) {
-		LOGGER.info("create : number=" + teacher.getNumber());
-
-		try {
-			dao.insert(teacher);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+		teacherDAO.create(teacher);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Teacher> updateWrapper) {
-		LOGGER.info("update : number=" + ((TeacherUpdateWrapper) updateWrapper).getNumber());
-
-		try {
-			dao.update(updateWrapper);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+	public void update(ITeacherUpdateWrapper updateWrapper) {
+		teacherDAO.update(updateWrapper);
 	}
 
 	@Override
 	public void delete(Teacher teacher) {
-		LOGGER.info("delete : number=" + teacher.getNumber());
-
-		try {
-			dao.delete(teacher);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+		teacherDAO.delete(teacher);
 	}
 
 	@Override
 	public List<Teacher> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
+		List<Teacher> teachers = new ArrayList<>();
 
-		List<Teacher> list = new ArrayList<>();
+		List<TeacherDTO> dtos = teacherDAO.read(parameters);
+		TeacherDTOAdapter adapter = new TeacherDTOAdapter();
 
-		try {
-			//list = dao.select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
+		for (TeacherDTO dto : dtos) {
+			teachers.add(adapter.adapt(dto));
 		}
 
-		return list;
-	}
-
-	@Override
-	public List<Teacher> readAll() {
-		LOGGER.info("readAll");
-
-		List<Teacher> list = new ArrayList<>();
-
-		try {
-			//list = dao.selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-
-		return list;
+		return teachers;
 	}
 }

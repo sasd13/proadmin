@@ -7,12 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.util.wrapper.update.member.ITeamUpdateWrapper;
 
 public class TeamService extends Service<Team> {
 
@@ -24,8 +22,6 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void create(Team team) {
-		LOGGER.info("create : number=" + team.getNumber());
-
 		try {
 			getSession(Team.class).insert(team);
 		} catch (DAOException e) {
@@ -36,8 +32,6 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void update(IUpdateWrapper<Team> updateWrapper) {
-		LOGGER.info("update : number=" + ((ITeamUpdateWrapper) updateWrapper).getNumber());
-
 		try {
 			getSession(Team.class).update(updateWrapper);
 		} catch (DAOException e) {
@@ -48,8 +42,6 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public void delete(Team team) {
-		LOGGER.info("delete : number=" + team.getNumber());
-
 		try {
 			getSession(Team.class).delete(team);
 		} catch (DAOException e) {
@@ -60,8 +52,6 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public List<Team> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<Team> teams = new ArrayList<>();
 
 		try {
@@ -76,8 +66,6 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public List<Team> readAll() {
-		LOGGER.info("readAll");
-
 		List<Team> teams = new ArrayList<>();
 
 		try {
@@ -92,13 +80,11 @@ public class TeamService extends Service<Team> {
 
 	@Override
 	public List<Team> deepRead(Map<String, String[]> parameters) {
-		LOGGER.info("deepRead unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 
 	@Override
 	public List<Team> deepReadAll() {
-		LOGGER.info("deepReadAll unavailable");
 		throw new ServiceException("Service unavailable");
 	}
 }

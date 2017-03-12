@@ -4,81 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
-import com.sasd13.proadmin.ws2.service.IService;
+import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
+import com.sasd13.proadmin.ws2.db.dto.adapter.StudentTeamDTOAdapter;
+import com.sasd13.proadmin.ws2.service.IStudentTeamService;
 
-public class StudentTeamService implements IService<StudentTeam> {
-
-	private static final Logger LOGGER = Logger.getLogger(StudentTeamService.class);
+@Service
+public class StudentTeamService implements IStudentTeamService {
 
 	@Autowired
-	private IStudentTeamDAO dao;
+	private IStudentTeamDAO studentTeamDAO;
 
 	@Override
 	public void create(StudentTeam studentTeam) {
-		LOGGER.info("create : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
-
-		try {
-			dao.insert(studentTeam);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-	}
-
-	@Override
-	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
-		LOGGER.info("update unavailable");
-		throw new ServiceException("Service unavailable");
+		studentTeamDAO.create(studentTeam);
 	}
 
 	@Override
 	public void delete(StudentTeam studentTeam) {
-		LOGGER.info("delete : studentNumber=" + studentTeam.getStudent().getNumber() + ", teamNumber=" + studentTeam.getTeam().getNumber());
-
-		try {
-			dao.delete(studentTeam);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+		studentTeamDAO.delete(studentTeam);
 	}
 
 	@Override
 	public List<StudentTeam> read(Map<String, String[]> parameters) {
-		LOGGER.info("read : parameters=" + URLQueryUtils.toString(parameters));
-
 		List<StudentTeam> studentTeams = new ArrayList<>();
 
-		try {
-			//studentTeams = dao.select(parameters);
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
-		}
+		List<StudentTeamDTO> dtos = studentTeamDAO.read(parameters);
+		StudentTeamDTOAdapter adapter = new StudentTeamDTOAdapter();
 
-		return studentTeams;
-	}
-
-	@Override
-	public List<StudentTeam> readAll() {
-		LOGGER.info("readAll");
-
-		List<StudentTeam> studentTeams = new ArrayList<>();
-
-		try {
-			//studentTeams = dao.selectAll();
-		} catch (DAOException e) {
-			LOGGER.error(e);
-			throw new ServiceException(e.getMessage());
+		for (StudentTeamDTO dto : dtos) {
+			studentTeams.add(adapter.adapt(dto));
 		}
 
 		return studentTeams;
