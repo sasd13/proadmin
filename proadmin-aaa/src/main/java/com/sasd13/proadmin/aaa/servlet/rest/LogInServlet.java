@@ -55,9 +55,7 @@ public class LogInServlet extends AAAServlet {
 			validator.validate(credential);
 
 			if (checkService.contains(credential)) {
-				String message = ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential));
-
-				writeToResponse(resp, message);
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential)));
 			} else {
 				writeError(resp, EnumError.AAA_LOGIN);
 			}

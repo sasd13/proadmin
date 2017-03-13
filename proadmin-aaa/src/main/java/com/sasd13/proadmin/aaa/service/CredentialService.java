@@ -12,7 +12,6 @@ import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
 import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.util.wrapper.update.credential.CredentialUpdateWrapper;
 
 public class CredentialService implements IManageService<Credential>, ICheckService<Credential> {
 
@@ -26,8 +25,6 @@ public class CredentialService implements IManageService<Credential>, ICheckServ
 
 	@Override
 	public void create(Credential credential) {
-		LOGGER.info("create : username=" + credential.getUsername());
-
 		try {
 			dao.open();
 			dao.insert(credential);
@@ -45,8 +42,6 @@ public class CredentialService implements IManageService<Credential>, ICheckServ
 
 	@Override
 	public void update(IUpdateWrapper<Credential> updateWrapper) {
-		LOGGER.info("update : username=" + ((CredentialUpdateWrapper) updateWrapper).getUsername());
-
 		try {
 			dao.open();
 			dao.update(updateWrapper);
@@ -64,8 +59,6 @@ public class CredentialService implements IManageService<Credential>, ICheckServ
 
 	@Override
 	public void delete(Credential credential) {
-		LOGGER.info("delete : username=" + credential.getUsername());
-
 		try {
 			dao.open();
 			dao.delete(credential);
@@ -83,8 +76,6 @@ public class CredentialService implements IManageService<Credential>, ICheckServ
 
 	@Override
 	public boolean contains(Credential credential) {
-		LOGGER.info("check : username=" + credential.getUsername());
-
 		boolean contains = false;
 
 		try {

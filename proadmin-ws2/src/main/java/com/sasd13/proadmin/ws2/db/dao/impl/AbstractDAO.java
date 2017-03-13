@@ -46,7 +46,7 @@ public abstract class AbstractDAO {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				try {
-					editQueryForSelect(query, ++i, entry.getKey(), value);
+					editQueryForSelect(query, i++, entry.getKey(), value);
 				} catch (ConditionException e) {
 					LOGGER.error(e);
 					throw new HibernateException(e);
