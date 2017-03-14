@@ -6,6 +6,14 @@ import com.sasd13.proadmin.ws2.db.dto.RunningDTO;
 
 public class RunningDTOAdapter implements IAdapter<RunningDTO, Running> {
 
+	private ProjectDTOAdapter projectDTOAdapter;
+	private TeacherDTOAdapter teacherDTOAdapter;
+
+	public RunningDTOAdapter() {
+		projectDTOAdapter = new ProjectDTOAdapter();
+		teacherDTOAdapter = new TeacherDTOAdapter();
+	}
+
 	@Override
 	public Running adapt(RunningDTO source) {
 		Running target = new Running();
@@ -18,7 +26,7 @@ public class RunningDTOAdapter implements IAdapter<RunningDTO, Running> {
 	@Override
 	public void adapt(RunningDTO source, Running target) {
 		target.setYear(source.getYear());
-		target.setProject(new ProjectDTOAdapter().adapt(source.getProject()));
-		target.setTeacher(new TeacherDTOAdapter().adapt(source.getTeacher()));
+		target.setProject(projectDTOAdapter.adapt(source.getProject()));
+		target.setTeacher(teacherDTOAdapter.adapt(source.getTeacher()));
 	}
 }

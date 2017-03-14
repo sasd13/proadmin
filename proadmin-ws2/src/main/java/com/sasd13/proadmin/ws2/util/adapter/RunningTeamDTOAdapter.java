@@ -6,6 +6,16 @@ import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
 
 public class RunningTeamDTOAdapter implements IAdapter<RunningTeamDTO, RunningTeam> {
 
+	private RunningDTOAdapter runningDTOAdapter;
+	private TeamDTOAdapter teamDTOAdapter;
+	private AcademicLevelDTOAdapter academicLevelDTOAdapter;
+
+	public RunningTeamDTOAdapter() {
+		runningDTOAdapter = new RunningDTOAdapter();
+		teamDTOAdapter = new TeamDTOAdapter();
+		academicLevelDTOAdapter = new AcademicLevelDTOAdapter();
+	}
+
 	@Override
 	public RunningTeam adapt(RunningTeamDTO source) {
 		RunningTeam target = new RunningTeam();
@@ -17,8 +27,8 @@ public class RunningTeamDTOAdapter implements IAdapter<RunningTeamDTO, RunningTe
 
 	@Override
 	public void adapt(RunningTeamDTO source, RunningTeam target) {
-		target.setRunning(new RunningDTOAdapter().adapt(source.getRunning()));
-		target.setTeam(new TeamDTOAdapter().adapt(source.getTeam()));
-		target.setAcademicLevel(new AcademicLevelDTOAdapter().adapt(source.getAcademicLevel()));
+		target.setRunning(runningDTOAdapter.adapt(source.getRunning()));
+		target.setTeam(teamDTOAdapter.adapt(source.getTeam()));
+		target.setAcademicLevel(academicLevelDTOAdapter.adapt(source.getAcademicLevel()));
 	}
 }

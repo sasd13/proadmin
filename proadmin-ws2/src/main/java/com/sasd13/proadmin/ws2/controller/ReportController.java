@@ -14,33 +14,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.ws2.service.ITeamService;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.ws2.service.IReportService;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/report")
 public class ReportController {
 
 	private static final Logger LOGGER = Logger.getLogger(ReportController.class);
 
 	@Autowired
-	private ITeamService teamService;
+	private IReportService reportService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Team>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
+	public ResponseEntity<List<Report>> get(@RequestParam(value = "numbers", required = false) List<String> numbers) {
 		LOGGER.info("Get");
 
 		try {
-			List<Team> teams = teamService.read(getParameters(numbers));
+			List<Report> reports = reportService.read(getParameters(numbers));
 
-			return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
+			return new ResponseEntity<List<Report>>(reports, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<List<Team>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<List<Report>>(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	private Map<String, String[]> getParameters(List<String> numbers) {
@@ -56,11 +56,11 @@ public class ReportController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody Team team) {
+	public ResponseEntity<Integer> post(@RequestBody Report report) {
 		LOGGER.info("Post");
 
 		try {
-			teamService.create(team);
+			reportService.create(report);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -71,11 +71,11 @@ public class ReportController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<TeamUpdateWrapper> updateWrappers) {
+	public ResponseEntity<Integer> put(@RequestBody List<ReportUpdateWrapper> updateWrappers) {
 		LOGGER.info("Put");
 
 		try {
-			teamService.update(updateWrappers);
+			reportService.update(updateWrappers);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,11 +86,11 @@ public class ReportController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<Team> teams) {
+	public ResponseEntity<Integer> delete(@RequestBody List<Report> reports) {
 		LOGGER.info("Delete");
 
 		try {
-			teamService.delete(teams);
+			reportService.delete(reports);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {

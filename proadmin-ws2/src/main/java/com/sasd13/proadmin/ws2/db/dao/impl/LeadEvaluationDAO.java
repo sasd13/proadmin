@@ -131,9 +131,9 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return "le.report.code";
+			return "le.report.number";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return "le.student.code";
+			return "le.student.number";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

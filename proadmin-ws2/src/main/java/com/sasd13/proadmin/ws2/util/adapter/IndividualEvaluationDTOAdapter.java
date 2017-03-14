@@ -6,6 +6,14 @@ import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
 
 public class IndividualEvaluationDTOAdapter implements IAdapter<IndividualEvaluationDTO, IndividualEvaluation> {
 
+	private ReportDTOAdapter reportDTOAdapter;
+	private StudentDTOAdapter studentDTOAdapter;
+
+	public IndividualEvaluationDTOAdapter() {
+		reportDTOAdapter = new ReportDTOAdapter();
+		studentDTOAdapter = new StudentDTOAdapter();
+	}
+
 	@Override
 	public IndividualEvaluation adapt(IndividualEvaluationDTO source) {
 		IndividualEvaluation target = new IndividualEvaluation();
@@ -18,7 +26,7 @@ public class IndividualEvaluationDTOAdapter implements IAdapter<IndividualEvalua
 	@Override
 	public void adapt(IndividualEvaluationDTO source, IndividualEvaluation target) {
 		target.setMark(source.getMark());
-		target.setReport(new ReportDTOAdapter().adapt(source.getReport()));
-		target.setStudent(new StudentDTOAdapter().adapt(source.getStudent()));
+		target.setReport(reportDTOAdapter.adapt(source.getReport()));
+		target.setStudent(studentDTOAdapter.adapt(source.getStudent()));
 	}
 }

@@ -6,6 +6,12 @@ import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
 
 public class ReportDTOAdapter implements IAdapter<ReportDTO, Report> {
 
+	private RunningTeamDTOAdapter runningTeamDTOAdapter;
+
+	public ReportDTOAdapter() {
+		runningTeamDTOAdapter = new RunningTeamDTOAdapter();
+	}
+
 	@Override
 	public Report adapt(ReportDTO source) {
 		Report target = new Report();
@@ -21,6 +27,6 @@ public class ReportDTOAdapter implements IAdapter<ReportDTO, Report> {
 		target.setDateMeeting(source.getDateMeeting());
 		target.setSession(source.getSession());
 		target.setComment(source.getComment());
-		target.setRunningTeam(new RunningTeamDTOAdapter().adapt(source.getRunningTeam()));
+		target.setRunningTeam(runningTeamDTOAdapter.adapt(source.getRunningTeam()));
 	}
 }

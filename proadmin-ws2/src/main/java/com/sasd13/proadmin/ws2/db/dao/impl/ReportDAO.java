@@ -138,13 +138,13 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return "r.code";
+			return "r.number";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return "r.session";
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
 			return "r.runningTeam.running.year";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return "r.runningTeam.running.project.number";
+			return "r.runningTeam.running.project.code";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
 			return "r.runningTeam.running.teacher.number";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {

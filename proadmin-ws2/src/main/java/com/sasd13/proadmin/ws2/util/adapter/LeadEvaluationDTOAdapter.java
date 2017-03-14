@@ -6,6 +6,14 @@ import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
 
 public class LeadEvaluationDTOAdapter implements IAdapter<LeadEvaluationDTO, LeadEvaluation> {
 
+	private ReportDTOAdapter reportDTOAdapter;
+	private StudentDTOAdapter studentDTOAdapter;
+
+	public LeadEvaluationDTOAdapter() {
+		reportDTOAdapter = new ReportDTOAdapter();
+		studentDTOAdapter = new StudentDTOAdapter();
+	}
+
 	@Override
 	public LeadEvaluation adapt(LeadEvaluationDTO source) {
 		LeadEvaluation target = new LeadEvaluation();
@@ -21,7 +29,7 @@ public class LeadEvaluationDTOAdapter implements IAdapter<LeadEvaluationDTO, Lea
 		target.setPlanningComment(source.getPlanningComment());
 		target.setCommunicationMark(source.getCommunicationMark());
 		target.setCommunicationComment(source.getCommunicationComment());
-		target.setReport(new ReportDTOAdapter().adapt(source.getReport()));
-		target.setStudent(new StudentDTOAdapter().adapt(source.getStudent()));
+		target.setReport(reportDTOAdapter.adapt(source.getReport()));
+		target.setStudent(studentDTOAdapter.adapt(source.getStudent()));
 	}
 }

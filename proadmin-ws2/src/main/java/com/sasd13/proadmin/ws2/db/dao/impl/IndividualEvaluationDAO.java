@@ -128,9 +128,9 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return "ie.report.code";
+			return "ie.report.number";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return "ie.student.code";
+			return "ie.student.number";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -5,6 +5,14 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
 
 public class StudentTeamDTOAdapter implements IAdapter<StudentTeamDTO, StudentTeam> {
+	
+	private StudentDTOAdapter studentDTOAdapter;
+	private TeamDTOAdapter teamDTOAdapter;
+	
+	public StudentTeamDTOAdapter() {
+		studentDTOAdapter = new StudentDTOAdapter();
+		teamDTOAdapter = new TeamDTOAdapter();
+	}
 
 	@Override
 	public StudentTeam adapt(StudentTeamDTO source) {
@@ -17,7 +25,7 @@ public class StudentTeamDTOAdapter implements IAdapter<StudentTeamDTO, StudentTe
 
 	@Override
 	public void adapt(StudentTeamDTO source, StudentTeam target) {
-		target.setStudent(new StudentDTOAdapter().adapt(source.getStudent()));
-		target.setTeam(new TeamDTOAdapter().adapt(source.getTeam()));
+		target.setStudent(studentDTOAdapter.adapt(source.getStudent()));
+		target.setTeam(teamDTOAdapter.adapt(source.getTeam()));
 	}
 }
