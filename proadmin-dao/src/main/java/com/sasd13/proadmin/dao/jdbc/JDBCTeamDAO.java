@@ -119,7 +119,9 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
 	public Team getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new Team(resultSet.getString(COLUMN_CODE));
+		Team team = new Team();
+
+		team.setNumber(resultSet.getString(COLUMN_CODE));
 
 		return team;
 	}
