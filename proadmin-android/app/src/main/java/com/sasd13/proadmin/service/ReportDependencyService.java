@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.MultiReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.MultiReadPromise;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.HashMap;
@@ -13,46 +12,45 @@ import java.util.Map;
 
 public class ReportDependencyService {
 
+    private static final int NBR_REQUESTS = 3;
     public static final String CODE_STUDENTTEAMS = "STUDENTTEAMS";
     public static final String CODE_LEADEVALUATION = "LEADEVALUATION";
     public static final String CODE_INDIVIDUALEVALUATIONS = "INDIVIDUALEVALUATIONS";
 
-    private MultiReadPromise promise;
-    private Map<String, String[]> headers, parametersStudentTeams, parametersLeadEvaluation, parametersIndividualEvaluations;
+    private MultiReadPromise promiseRead;
+    private Map<String, Map<String, String[]>> allParameters;
 
-    public ReportDependencyService(MultiReadPromise.Callback callback) {
-        promise = new MultiReadPromise(callback);
-        headers = new HashMap<>();
-        parametersStudentTeams = new HashMap<>();
-        parametersLeadEvaluation = new HashMap<>();
-        parametersIndividualEvaluations = new HashMap<>();
+    public ReportDependencyService() {
+        promiseRead = new MultiReadPromise(NBR_REQUESTS);
+        allParameters = new HashMap<>();
+
+        resetParameters();
     }
 
-    public void addParameterStudentTeams(String parameter, String[] values) {
-        parametersStudentTeams.put(parameter, values);
+    public void addParameter(String code, String key, String[] values) {
+        allParameters.get(code).put(key, values);
     }
 
-    public void addParameterLeadEvaluation(String parameter, String[] values) {
-        parametersLeadEvaluation.put(parameter, values);
+    public void resetParameters() {
+        allParameters.clear();
+        allParameters.put(CODE_STUDENTTEAMS, new HashMap<String, String[]>());
+        allParameters.put(CODE_LEADEVALUATION, new HashMap<String, String[]>());
+        allParameters.put(CODE_INDIVIDUALEVALUATIONS, new HashMap<String, String[]>());
     }
 
-    public void addParameterIndividualEvaluations(String parameter, String[] values) {
-        parametersIndividualEvaluations.put(parameter, values);
-    }
+    public void read(ICallback callback) {
+        MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
-    public void clearParameters() {
-        parametersStudentTeams.clear();
-        parametersLeadEvaluation.clear();
-        parametersIndividualEvaluations.clear();
-    }
+        requests[0] = new MultiReadPromise.Request(CODE_STUDENTTEAMS, WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
+        requests[0].setParameters(allParameters.get(CODE_STUDENTTEAMS));
 
-    public void read() {
-        headers.clear();
-        headers.put(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        promise.clearRequests();
-        promise.addRequest(CODE_STUDENTTEAMS, StudentTeam.class, WSResources.URL_WS_STUDENTTEAMS, parametersStudentTeams, headers);
-        promise.addRequest(CODE_LEADEVALUATION, LeadEvaluation.class, WSResources.URL_WS_LEADEVALUATIONS, parametersLeadEvaluation, headers);
-        promise.addRequest(CODE_INDIVIDUALEVALUATIONS, IndividualEvaluation.class, WSResources.URL_WS_INDIVIDUALEVALUATIONS, parametersIndividualEvaluations, headers);
-        promise.read();
+        requests[1] = new MultiReadPromise.Request(CODE_LEADEVALUATION, WSResources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
+        requests[1].setParameters(allParameters.get(CODE_LEADEVALUATION));
+
+        requests[2] = new MultiReadPromise.Request(CODE_INDIVIDUALEVALUATIONS, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
+        requests[2].setParameters(allParameters.get(CODE_INDIVIDUALEVALUATIONS));
+
+        promiseRead.registerCallback(callback);
+        promiseRead.execute(requests);
     }
 }

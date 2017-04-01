@@ -1,13 +1,14 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 27/11/2016.
@@ -15,31 +16,34 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningTeamService {
 
-    public interface Callback extends ReadPromise.Callback<RunningTeam>, ManagePromise.Callback {
+    private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
+    private Map<String, String[]> parameters;
+
+    public RunningTeamService() {
+        promiseRead = new Promise("GET", WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
+        promiseCreate = new Promise("POST", WSResources.URL_WS_RUNNINGTEAMS);
+        promiseUpdate = new Promise("PUT", WSResources.URL_WS_RUNNINGTEAMS);
+        promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
+        parameters = new HashMap<>();
+
+        promiseRead.setParameters(parameters);
     }
 
-    private ReadPromise<RunningTeam> readPromise;
-    private ManagePromise<RunningTeam> managePromise;
-
-    public RunningTeamService(Callback callback) {
-        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
-        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_RUNNINGTEAMS);
+    public void readByTeacher(ICallback callback, String teacherNumber) {
+        parameters.clear();
+        parameters.put(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void readByTeacher(String teacherNumber) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
-        readPromise.read();
+    public void create(ICallback callback, RunningTeam runningTeam) {
+        promiseCreate.registerCallback(callback);
+        promiseCreate.execute(runningTeam);
     }
 
-    public void create(RunningTeam runningTeam) {
-        managePromise.create(runningTeam);
-    }
-
-    public void update(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
-        managePromise.update(getUpdateWrapper(runningTeam, runningTeamToUpdate));
+    public void update(ICallback callback, RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
+        promiseUpdate.registerCallback(callback);
+        promiseUpdate.execute(getUpdateWrapper(runningTeam, runningTeamToUpdate));
     }
 
     private RunningTeamUpdateWrapper getUpdateWrapper(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
@@ -55,7 +59,8 @@ public class RunningTeamService {
         return updateWrapper;
     }
 
-    public void delete(RunningTeam runningTeam) {
-        managePromise.delete(runningTeam);
+    public void delete(ICallback callback, RunningTeam runningTeam) {
+        promiseDelete.registerCallback(callback);
+        promiseDelete.execute(runningTeam);
     }
 }

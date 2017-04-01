@@ -1,13 +1,14 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 27/11/2016.
@@ -15,51 +16,52 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class ReportService {
 
-    public interface Callback extends ReadPromise.Callback<Report>, ManagePromise.Callback {
+    private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
+    private Map<String, String[]> parameters;
+
+    public ReportService() {
+        promiseRead = new Promise("GET", WSResources.URL_WS_REPORTS, Report.class);
+        promiseCreate = new Promise("POST", WSResources.URL_WS_REPORTS);
+        promiseUpdate = new Promise("PUT", WSResources.URL_WS_REPORTS);
+        promiseDelete = new Promise("DELETE", WSResources.URL_WS_REPORTS);
+        parameters = new HashMap<>();
+
+        promiseRead.setParameters(parameters);
     }
 
-    private ReadPromise<Report> readPromise;
-    private ManagePromise<Report> managePromise;
-
-    public ReportService(Callback callback) {
-        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_REPORTS, Report.class);
-        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_REPORTS);
+    public void readByNumber(ICallback callback, String number) {
+        parameters.clear();
+        parameters.put(EnumParameter.NUMBER.getName(), new String[]{number});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void readByNumber(String number) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.NUMBER.getName(), new String[]{number});
-        readPromise.read();
+    public void readByTeacher(ICallback callback, String teacherNumber) {
+        parameters.clear();
+        parameters.put(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void readByTeacher(String teacherNumber) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
-        readPromise.read();
+    public void readByRunningTeam(ICallback callback, String teacherNumber, int year, String projectCode, String teamNumber, String academicLevelCode) {
+        parameters.clear();
+        parameters.put(EnumParameter.YEAR.getName(), new String[]{String.valueOf(year)});
+        parameters.put(EnumParameter.PROJECT.getName(), new String[]{projectCode});
+        parameters.put(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        parameters.put(EnumParameter.TEAM.getName(), new String[]{teamNumber});
+        parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[]{academicLevelCode});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void readByRunningTeam(String teacherNumber, int year, String projectCode, String teamNumber, String academicLevelCode) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.YEAR.getName(), new String[]{String.valueOf(year)});
-        readPromise.putParameters(EnumParameter.PROJECT.getName(), new String[]{projectCode});
-        readPromise.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
-        readPromise.putParameters(EnumParameter.TEAM.getName(), new String[]{teamNumber});
-        readPromise.putParameters(EnumParameter.ACADEMICLEVEL.getName(), new String[]{academicLevelCode});
-        readPromise.read();
+    public void create(ICallback callback, Report report) {
+        promiseCreate.registerCallback(callback);
+        promiseCreate.execute(report);
     }
 
-    public void create(Report report) {
-        managePromise.create(report);
-    }
-
-    public void update(Report report, Report reportToUpdate) {
-        managePromise.update(getUpdateWrapper(report, reportToUpdate));
+    public void update(ICallback callback, Report report, Report reportToUpdate) {
+        promiseUpdate.registerCallback(callback);
+        promiseUpdate.execute(getUpdateWrapper(report, reportToUpdate));
     }
 
     private ReportUpdateWrapper getUpdateWrapper(Report report, Report reportToUpdate) {
@@ -71,7 +73,8 @@ public class ReportService {
         return updateWrapper;
     }
 
-    public void delete(Report report) {
-        managePromise.delete(report);
+    public void delete(ICallback callback, Report report) {
+        promiseDelete.registerCallback(callback);
+        promiseDelete.execute(report);
     }
 }

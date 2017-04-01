@@ -1,12 +1,13 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.ws.WSResources;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 27/11/2016.
@@ -14,31 +15,33 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class RunningService {
 
-    public interface Callback extends ReadPromise.Callback<Running>, ManagePromise.Callback {
+    private Promise promiseRead, promiseCreate, promiseDelete;
+    private Map<String, String[]> parameters;
+
+    public RunningService() {
+        promiseRead = new Promise("GET", WSResources.URL_WS_RUNNINGS, Running.class);
+        promiseCreate = new Promise("POST", WSResources.URL_WS_RUNNINGS);
+        promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGS);
+        parameters = new HashMap<>();
+
+        promiseRead.setParameters(parameters);
     }
 
-    private ReadPromise<Running> readPromise;
-    private ManagePromise<Running> managePromise;
-
-    public RunningService(Callback callback) {
-        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_RUNNINGS, Running.class);
-        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_RUNNINGS);
+    public void readByTeacherAndProject(ICallback callback, String teacherNumber, String projectCode) {
+        parameters.clear();
+        parameters.put(EnumParameter.PROJECT.getName(), new String[]{projectCode});
+        parameters.put(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void readByTeacherAndProject(String teacherNumber, String projectCode) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.PROJECT.getName(), new String[]{projectCode});
-        readPromise.putParameters(EnumParameter.TEACHER.getName(), new String[]{teacherNumber});
-        readPromise.read();
+    public void create(ICallback callback, Running running) {
+        promiseCreate.registerCallback(callback);
+        promiseCreate.execute(running);
     }
 
-    public void create(Running running) {
-        managePromise.create(running);
-    }
-
-    public void delete(Running running) {
-        managePromise.delete(running);
+    public void delete(ICallback callback, Running running) {
+        promiseDelete.registerCallback(callback);
+        promiseDelete.execute(running);
     }
 }

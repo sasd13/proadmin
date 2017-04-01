@@ -1,12 +1,9 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Constants;
-import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
@@ -16,35 +13,25 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class LeadEvaluationService {
 
-    public interface Callback extends ReadPromise.Callback<LeadEvaluation>, ManagePromise.Callback {
+    private Promise promiseCreate, promiseUpdate;
+
+    public LeadEvaluationService() {
+        promiseCreate = new Promise("POST", WSResources.URL_WS_LEADEVALUATIONS);
+        promiseUpdate = new Promise("PUT", WSResources.URL_WS_LEADEVALUATIONS);
     }
 
-    private ReadPromise<LeadEvaluation> readPromise;
-    private ManagePromise<LeadEvaluation> managePromise;
-
-    public LeadEvaluationService(Callback callback) {
-        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
-        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_LEADEVALUATIONS);
-    }
-
-    public void readByReport(String reportNumber) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
-        readPromise.read();
-    }
-
-    public void create(LeadEvaluation leadEvaluation, Report report) {
+    public void create(ICallback callback, LeadEvaluation leadEvaluation, Report report) {
         leadEvaluation.setReport(report);
 
-        managePromise.create(leadEvaluation);
+        promiseCreate.registerCallback(callback);
+        promiseCreate.execute(leadEvaluation);
     }
 
-    public void update(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
+    public void update(ICallback callback, LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
         leadEvaluation.setReport(leadEvaluationToUpdate.getReport());
 
-        managePromise.update(getUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
+        promiseUpdate.registerCallback(callback);
+        promiseUpdate.execute(getUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
     }
 
     private LeadEvaluationUpdateWrapper getUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {

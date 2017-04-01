@@ -1,64 +1,66 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 27/11/2016.
  */
 
-public class StudentService implements ManagePromise.Callback {
-
-    public interface Callback extends ReadPromise.Callback<StudentTeam>, ManagePromise.Callback {
-    }
+public class StudentService implements ICallback {
 
     private static final int TASKTYPE_STUDENT = 0;
     private static final int TASKTYPE_STUDENTTEAM = 1;
 
-    private Callback callback;
-    private ReadPromise<StudentTeam> readPromiseStudentTeams;
-    private ManagePromise<Student> managePromiseStudents;
-    private ManagePromise<StudentTeam> managePromiseStudentTeams;
+    private Promise promiseRead, promiseCreateStudent, promiseCreateStudentTeam, promiseUpdate, promiseDelete;
+    private Map<String, String[]> parameters;
     private StudentTeam studentTeam;
     private int taskType;
+    private ICallback callback;
 
-    public StudentService(Callback callback) {
-        this.callback = callback;
-        readPromiseStudentTeams = new ReadPromise<>(callback, WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
-        managePromiseStudents = new ManagePromise<>(this, WSResources.URL_WS_STUDENTS);
-        managePromiseStudentTeams = new ManagePromise<>(callback, WSResources.URL_WS_STUDENTTEAMS);
+    public StudentService() {
+        promiseRead = new Promise("GET", WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
+        promiseCreateStudent = new Promise("POST", WSResources.URL_WS_STUDENTS);
+        promiseCreateStudentTeam = new Promise("POST", WSResources.URL_WS_STUDENTTEAMS);
+        promiseUpdate = new Promise("PUT", WSResources.URL_WS_STUDENTS);
+        promiseDelete = new Promise("DELETE", WSResources.URL_WS_STUDENTS);
+        parameters = new HashMap<>();
+
+        promiseRead.setParameters(parameters);
     }
 
-    public void readByTeam(String teamNumber) {
-        readPromiseStudentTeams.clearHeaders();
-        readPromiseStudentTeams.clearParameters();
-        readPromiseStudentTeams.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromiseStudentTeams.putParameters(EnumParameter.TEAM.getName(), new String[]{teamNumber});
-        readPromiseStudentTeams.read();
+    public void readByTeam(ICallback callback, String teamNumber) {
+        parameters.clear();
+        parameters.put(EnumParameter.TEAM.getName(), new String[]{teamNumber});
+        promiseRead.registerCallback(callback);
+        promiseRead.execute();
     }
 
-    public void create(Student student, Team team) {
+    public void create(ICallback callback, Student student, Team team) {
         taskType = TASKTYPE_STUDENT;
+        this.callback = callback;
         studentTeam = new StudentTeam();
 
         studentTeam.setStudent(student);
         studentTeam.setTeam(team);
 
-        managePromiseStudents.create(student);
+        promiseCreateStudentTeam.registerCallback(this);
+        promiseCreateStudent.registerCallback(this);
+        promiseCreateStudent.execute(student);
     }
 
-    public void update(Student student, Student studentToUpdate) {
-        managePromiseStudents.update(getUpdateWrapper(student, studentToUpdate));
+    public void update(ICallback callback, Student student, Student studentToUpdate) {
+        promiseUpdate.registerCallback(callback);
+        promiseUpdate.execute(getUpdateWrapper(student, studentToUpdate));
     }
 
     private StudentUpdateWrapper getUpdateWrapper(Student student, Student studentToUpdate) {
@@ -70,8 +72,9 @@ public class StudentService implements ManagePromise.Callback {
         return updateWrapper;
     }
 
-    public void delete(StudentTeam studentTeam) {
-        managePromiseStudentTeams.delete(studentTeam);
+    public void delete(ICallback callback, StudentTeam studentTeam) {
+        promiseDelete.registerCallback(callback);
+        promiseDelete.execute(studentTeam);
     }
 
     @Override
@@ -82,26 +85,22 @@ public class StudentService implements ManagePromise.Callback {
     }
 
     @Override
-    public void onCreated() {
+    public void onPostExecute(int type, boolean success, Object result) {
         if (taskType == TASKTYPE_STUDENT) {
-            taskType = TASKTYPE_STUDENTTEAM;
+            if (success) {
+                taskType = TASKTYPE_STUDENTTEAM;
 
-            managePromiseStudentTeams.create(studentTeam);
+                promiseCreateStudentTeam.execute(studentTeam);
+            } else {
+                callback.onPostExecute(type, false, result);
+            }
+        } else {
+            callback.onPostExecute(type, success, result);
         }
     }
 
     @Override
-    public void onUpdated() {
-        callback.onUpdated();
-    }
-
-    @Override
-    public void onDeleted() {
-        callback.onUpdated();
-    }
-
-    @Override
-    public void onErrors(List<String> errors) {
-        callback.onErrors(errors);
+    public void onCancelled() {
+        callback.onCancelled();
     }
 }

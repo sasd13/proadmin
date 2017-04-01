@@ -35,7 +35,6 @@ import com.sasd13.proadmin.business.IBusiness;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.service.ServiceFactory;
-import com.sasd13.proadmin.util.Constants;
 import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
@@ -125,11 +124,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
 			if (parameters.isEmpty()) {
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? service.deepReadAll() : service.readAll();
+				results = service.deepReadAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = Constants.WS_REQUEST_READ_DEEP.equalsIgnoreCase(req.getHeader(EnumHttpHeader.READ_CODE.getName())) ? service.deepRead(parameters) : service.read(parameters);
+				results = service.deepRead(parameters);
 			}
 
 			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));

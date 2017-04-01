@@ -1,12 +1,9 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.androidex.ws.rest.promise.ManagePromise;
-import com.sasd13.androidex.ws.rest.promise.ReadPromise;
-import com.sasd13.javaex.util.EnumHttpHeader;
+import com.sasd13.androidex.net.ICallback;
+import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.Constants;
-import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
@@ -19,26 +16,14 @@ import java.util.List;
 
 public class IndividualEvaluationService {
 
-    public interface Callback extends ReadPromise.Callback<IndividualEvaluation>, ManagePromise.Callback {
+    private Promise promiseCreate, promiseUpdate;
+
+    public IndividualEvaluationService() {
+        promiseCreate = new Promise("POST", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
+        promiseUpdate = new Promise("PUT", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
     }
 
-    private ReadPromise<IndividualEvaluation> readPromise;
-    private ManagePromise<IndividualEvaluation> managePromise;
-
-    public IndividualEvaluationService(Callback callback) {
-        readPromise = new ReadPromise<>(callback, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
-        managePromise = new ManagePromise<>(callback, WSResources.URL_WS_INDIVIDUALEVALUATIONS);
-    }
-
-    public void readByReport(String reportNumber) {
-        readPromise.clearHeaders();
-        readPromise.clearParameters();
-        readPromise.putHeaders(EnumHttpHeader.READ_CODE.getName(), new String[]{Constants.WS_REQUEST_READ_DEEP});
-        readPromise.putParameters(EnumParameter.REPORT.getName(), new String[]{reportNumber});
-        readPromise.read();
-    }
-
-    public void update(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate, Report report) {
+    public void update(ICallback callback, List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate, Report report) {
         List<IndividualEvaluation> individualEvaluationsToPost = new ArrayList<>();
         List<IndividualEvaluation> individualEvaluationsToPut = new ArrayList<>();
 
@@ -63,11 +48,13 @@ public class IndividualEvaluationService {
         }
 
         if (!individualEvaluationsToPut.isEmpty()) {
-            managePromise.update(getUpdateWrapper(individualEvaluationsToPut, individualEvaluationsToUpdate));
+            promiseUpdate.registerCallback(callback);
+            promiseUpdate.execute(getUpdateWrapper(individualEvaluationsToPut, individualEvaluationsToUpdate));
         }
 
         if (!individualEvaluationsToPost.isEmpty()) {
-            managePromise.create(individualEvaluationsToPost.toArray(new IndividualEvaluation[individualEvaluationsToPost.size()]));
+            promiseCreate.registerCallback(callback);
+            promiseCreate.execute(individualEvaluationsToPost.toArray(new IndividualEvaluation[individualEvaluationsToPost.size()]));
         }
     }
 
