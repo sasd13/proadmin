@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.service;
+package com.sasd13.proadmin.service.impl;
 
 import com.sasd13.proadmin.ws.LogInPromise;
 

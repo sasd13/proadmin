@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.service.RunningService;
+import com.sasd13.proadmin.service.impl.RunningService;
 import com.sasd13.proadmin.util.WebServiceUtils;
 
 import java.util.List;
@@ -20,10 +20,6 @@ public class RunningServiceCallback implements RunningService.Callback {
     public RunningServiceCallback(ProjectController controller, Context context) {
         this.controller = controller;
         this.context = context;
-    }
-
-    @Override
-    public void onPreExecute() {
     }
 
     @Override

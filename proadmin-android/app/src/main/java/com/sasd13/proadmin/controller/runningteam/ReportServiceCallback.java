@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.service.ReportService;
+import com.sasd13.proadmin.service.impl.ReportService;
 import com.sasd13.proadmin.util.WebServiceUtils;
 
 import java.util.List;

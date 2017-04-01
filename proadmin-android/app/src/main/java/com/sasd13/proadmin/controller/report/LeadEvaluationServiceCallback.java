@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.service.LeadEvaluationService;
+import com.sasd13.proadmin.service.impl.LeadEvaluationService;
 import com.sasd13.proadmin.util.WebServiceUtils;
 
 import java.util.List;

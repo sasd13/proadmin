@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.service.TeamService;
+import com.sasd13.proadmin.service.impl.TeamService;
 import com.sasd13.proadmin.util.WebServiceUtils;
 
 import java.util.List;
