@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.fragment.IStudentController;
+import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.gui.form.StudentForm;
 import com.sasd13.proadmin.util.wrapper.StudentWrapper;
 

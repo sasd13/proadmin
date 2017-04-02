@@ -47,11 +47,11 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public void delete(Team team) {
+    public void delete(Team[] teams) {
         if (promiseDelete == null) {
             promiseDelete = new Promise("DELETE", WSResources.URL_WS_TEAMS);
         }
 
-        promiseDelete.execute(team);
+        promiseDelete.execute(teams);
     }
 }

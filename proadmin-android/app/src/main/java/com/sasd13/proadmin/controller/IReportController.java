@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.fragment;
+package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
@@ -12,8 +12,6 @@ import java.util.List;
  */
 
 public interface IReportController extends IController {
-
-    void readReports();
 
     void listReports();
 
@@ -33,5 +31,5 @@ public interface IReportController extends IController {
 
     void updateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate);
 
-    void deleteReport(Report report);
+    void deleteReports(Report[] reports);
 }

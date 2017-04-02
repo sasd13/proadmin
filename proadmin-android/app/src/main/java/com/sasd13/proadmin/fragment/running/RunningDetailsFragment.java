@@ -21,7 +21,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.fragment.IRunningController;
+import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.gui.form.RunningForm;
 import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 

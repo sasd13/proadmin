@@ -13,7 +13,9 @@ import java.util.Map;
 
 public interface IStudentService {
 
-    List<Student> read(Map<String, String[]> parameters);
+    List<StudentTeam> read(Map<String, String[]> parameters);
+
+    List<Student> readStudents(Map<String, String[]> parameters);
 
     void create(Student student);
 
@@ -21,5 +23,5 @@ public interface IStudentService {
 
     void update(StudentUpdateWrapper studentUpdateWrapper);
 
-    void delete(StudentTeam studentTeam);
+    void delete(StudentTeam[] studentTeams);
 }

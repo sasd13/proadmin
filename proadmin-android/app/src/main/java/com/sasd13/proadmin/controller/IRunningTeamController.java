@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.fragment;
+package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
@@ -7,8 +7,6 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
  */
 
 public interface IRunningTeamController extends IController {
-
-    void readRunningTeams();
 
     void listRunningTeams();
 
@@ -20,5 +18,5 @@ public interface IRunningTeamController extends IController {
 
     void updateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate);
 
-    void deleteRunningTeam(RunningTeam runningTeam);
+    void deleteRunningTeams(RunningTeam[] runningTeams);
 }

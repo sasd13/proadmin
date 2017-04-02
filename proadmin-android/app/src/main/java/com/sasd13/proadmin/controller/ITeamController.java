@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.fragment;
+package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.bean.member.Team;
 
@@ -7,8 +7,6 @@ import com.sasd13.proadmin.bean.member.Team;
  */
 
 public interface ITeamController extends IController {
-
-    void readTeams();
 
     void listTeams();
 
@@ -20,5 +18,5 @@ public interface ITeamController extends IController {
 
     void updateTeam(Team team, Team teamToUpdate);
 
-    void deleteTeam(Team team);
+    void deleteTeams(Team[] teams);
 }

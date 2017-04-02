@@ -16,17 +16,28 @@ import java.util.Map;
 
 public class StudentService implements IStudentService {
 
-    private Promise promiseRead, promiseCreateStudent, promiseCreateStudentTeam, promiseUpdate, promiseDelete;
+    private Promise promiseRead, promiseReadStudent, promiseCreateStudent, promiseCreateStudentTeam, promiseUpdate, promiseDelete;
 
     @Override
-    public List<Student> read(Map<String, String[]> parameters) {
+    public List<StudentTeam> read(Map<String, String[]> parameters) {
         if (promiseRead == null) {
             promiseRead = new Promise("GET", WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
         }
 
         promiseRead.setParameters(parameters);
 
-        return (List<Student>) promiseRead.execute();
+        return (List<StudentTeam>) promiseRead.execute();
+    }
+
+    @Override
+    public List<Student> readStudents(Map<String, String[]> parameters) {
+        if (promiseReadStudent == null) {
+            promiseReadStudent = new Promise("GET", WSResources.URL_WS_STUDENTS, Student.class);
+        }
+
+        promiseReadStudent.setParameters(parameters);
+
+        return (List<Student>) promiseReadStudent.execute();
     }
 
     @Override
@@ -57,11 +68,11 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void delete(StudentTeam studentTeam) {
+    public void delete(StudentTeam[] studentTeams) {
         if (promiseDelete == null) {
             promiseDelete = new Promise("DELETE", WSResources.URL_WS_STUDENTTEAMS);
         }
 
-        promiseDelete.execute(studentTeam);
+        promiseDelete.execute(studentTeams);
     }
 }

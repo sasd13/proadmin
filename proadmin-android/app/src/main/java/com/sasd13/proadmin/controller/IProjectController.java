@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.fragment;
+package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.bean.project.Project;
 
@@ -6,8 +6,6 @@ import com.sasd13.proadmin.bean.project.Project;
  * Created by ssaidali2 on 04/12/2016.
  */
 public interface IProjectController extends IController {
-
-    void readProjects();
 
     void listProjects();
 

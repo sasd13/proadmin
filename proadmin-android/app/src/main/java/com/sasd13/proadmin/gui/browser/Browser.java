@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.fragment.ILogOutController;
-import com.sasd13.proadmin.fragment.IProjectController;
-import com.sasd13.proadmin.fragment.IReportController;
-import com.sasd13.proadmin.fragment.IRunningTeamController;
-import com.sasd13.proadmin.fragment.ISettingsController;
-import com.sasd13.proadmin.fragment.ITeamController;
+import com.sasd13.proadmin.controller.ILogOutController;
+import com.sasd13.proadmin.controller.IProjectController;
+import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.controller.IRunningTeamController;
+import com.sasd13.proadmin.controller.ISettingsController;
+import com.sasd13.proadmin.controller.ITeamController;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -37,11 +37,11 @@ public class RunningService implements IRunningService {
     }
 
     @Override
-    public void delete(Running running) {
+    public void delete(Running[] runnings) {
         if (promiseDelete == null) {
             promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGS);
         }
 
-        promiseDelete.execute(running);
+        promiseDelete.execute(runnings);
     }
 }

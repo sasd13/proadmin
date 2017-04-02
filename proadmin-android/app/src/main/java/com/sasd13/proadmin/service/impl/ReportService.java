@@ -77,11 +77,11 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public void delete(Report report) {
+    public void delete(Report[] reports) {
         if (promiseDelete == null) {
             promiseDelete = new Promise("DELETE", WSResources.URL_WS_REPORTS);
         }
 
-        promiseDelete.execute(report);
+        promiseDelete.execute(reports);
     }
 }

@@ -18,5 +18,5 @@ public interface ITeamService {
 
     void update(TeamUpdateWrapper teamUpdateWrapper);
 
-    void delete(Team team);
+    void delete(Team[] teams);
 }

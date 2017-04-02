@@ -20,5 +20,5 @@ public interface IReportService {
 
     void update(ReportUpdateWrapper reportUpdateWrapper);
 
-    void delete(Report report);
+    void delete(Report[] reports);
 }

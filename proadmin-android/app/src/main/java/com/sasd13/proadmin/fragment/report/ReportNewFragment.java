@@ -12,7 +12,7 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.fragment.IReportController;
+import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {

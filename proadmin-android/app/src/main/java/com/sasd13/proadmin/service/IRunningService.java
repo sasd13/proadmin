@@ -15,5 +15,5 @@ public interface IRunningService {
 
     void create(Running running);
 
-    void delete(Running running);
+    void delete(Running[] runnings);
 }

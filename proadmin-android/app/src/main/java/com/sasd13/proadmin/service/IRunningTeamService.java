@@ -20,5 +20,5 @@ public interface IRunningTeamService {
 
     void update(RunningTeamUpdateWrapper runningTeamUpdateWrapper);
 
-    void delete(RunningTeam runningTeam);
+    void delete(RunningTeam[] runningTeams);
 }

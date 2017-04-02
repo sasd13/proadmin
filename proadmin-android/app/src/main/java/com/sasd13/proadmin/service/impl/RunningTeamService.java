@@ -77,11 +77,11 @@ public class RunningTeamService implements IRunningTeamService {
     }
 
     @Override
-    public void delete(RunningTeam runningTeam) {
+    public void delete(RunningTeam[] runningTeams) {
         if (promiseDelete == null) {
             promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
         }
 
-        promiseDelete.execute(runningTeam);
+        promiseDelete.execute(runningTeams);
     }
 }
