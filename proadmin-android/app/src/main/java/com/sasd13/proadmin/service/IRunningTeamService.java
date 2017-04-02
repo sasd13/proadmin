@@ -12,6 +12,10 @@ import java.util.Map;
 
 public interface IRunningTeamService {
 
+    String REQUEST_RUNNINGS = "RUNNINGS";
+    String REQUEST_TEAMS = "TEAMS";
+    String REQUEST_ACADEMICLEVELS = "ACADEMICLEVELS";
+
     List<RunningTeam> read(Map<String, String[]> parameters);
 
     Map<String, Object> retrieve(Map<String, Map<String, String[]>> allParameters);

@@ -18,19 +18,21 @@ public class StudentCreateStrategy extends RequestorStrategy<StudentTeam, Void> 
 
     private TeamController controller;
     private IStudentService service;
+    private Map<String, String[]> parameters;
 
     public StudentCreateStrategy(TeamController controller, IStudentService service) {
         super();
 
         this.controller = controller;
         this.service = service;
+        parameters = new HashMap<>();
     }
 
     @Override
     public Void doInBackgroung(StudentTeam[] in) {
         StudentTeam studentTeam = in[0];
-        Map<String, String[]> parameters = new HashMap<>();
 
+        parameters.clear();
         parameters.put(EnumParameter.NUMBER.getName(), new String[]{studentTeam.getStudent().getNumber()});
         List<Student> students = service.readStudents(parameters);
 

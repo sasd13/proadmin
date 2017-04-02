@@ -1,23 +1,29 @@
 package com.sasd13.proadmin.controller.settings;
 
+import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.controller.settings.TeacherServiceCallback;
-import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.controller.ISettingsController;
 import com.sasd13.proadmin.fragment.settings.SettingsFragment;
-import com.sasd13.proadmin.service.impl.TeacherService;
+import com.sasd13.proadmin.service.ITeacherService;
+import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.TeacherWrapper;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public class SettingsController extends Controller implements ISettingsController {
 
-    private TeacherService teacherService;
+    private Requestor requestor;
+    private ITeacherService teacherService;
+    private TeacherReadStrategy teacherReadStrategy;
+    private TeacherUpdateStrategy teacherUpdateStrategy;
 
-    public SettingsController(MainActivity mainActivity) {
+    public SettingsController(MainActivity mainActivity, Requestor requestor, ITeacherService teacherService) {
         super(mainActivity);
 
-        teacherService = new TeacherService(new TeacherServiceCallback(this, mainActivity));
+        this.requestor = requestor;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -26,14 +32,20 @@ public class SettingsController extends Controller implements ISettingsControlle
         showTeacher();
     }
 
-    @Override
-    public void readTeacher() {
-        teacherService.readByNumber(SessionHelper.getExtraIdTeacherNumber(mainActivity));
-    }
-
-    public void showTeacher() {
+    private void showTeacher() {
         startProxyFragment();
         readTeacher();
+    }
+
+    private void readTeacher() {
+        if (teacherReadStrategy == null) {
+            teacherReadStrategy = new TeacherReadStrategy(this, teacherService);
+        }
+
+        teacherReadStrategy.clearParameters();
+        teacherReadStrategy.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        requestor.setStrategy(teacherReadStrategy);
+        requestor.execute();
     }
 
     void onReadTeacher(Teacher teacher) {
@@ -44,6 +56,20 @@ public class SettingsController extends Controller implements ISettingsControlle
 
     @Override
     public void updateTeacher(Teacher teacher, Teacher teacherToUpdate) {
-        teacherService.updateTeacher(teacher, teacherToUpdate);
+        if (teacherUpdateStrategy == null) {
+            teacherUpdateStrategy = new TeacherUpdateStrategy(this, teacherService);
+        }
+
+        requestor.setStrategy(teacherUpdateStrategy);
+        requestor.execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
+    }
+
+    private TeacherUpdateWrapper getTeacherUpdateWrapper(Teacher teacher, Teacher teacherToUpdate) {
+        TeacherUpdateWrapper updateWrapper = new TeacherUpdateWrapper();
+
+        updateWrapper.setWrapped(teacher);
+        updateWrapper.setNumber(teacherToUpdate.getNumber());
+
+        return updateWrapper;
     }
 }

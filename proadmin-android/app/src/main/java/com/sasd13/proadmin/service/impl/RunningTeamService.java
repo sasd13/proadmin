@@ -20,9 +20,6 @@ import java.util.Map;
 public class RunningTeamService implements IRunningTeamService {
 
     private static final int NBR_REQUESTS = 3;
-    public static final String CODE_RUNNINGS = "RUNNINGS";
-    public static final String CODE_TEAMS = "TEAMS";
-    public static final String CODE_ACADEMICLEVELS = "ACADEMICLEVELS";
 
     private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
     private MultiReadPromise multiPromiseRead;
@@ -46,14 +43,14 @@ public class RunningTeamService implements IRunningTeamService {
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
-        requests[0] = new MultiReadPromise.Request(CODE_RUNNINGS, WSResources.URL_WS_RUNNINGS, Running.class);
-        requests[0].setParameters(allParameters.get(CODE_RUNNINGS));
+        requests[0] = new MultiReadPromise.Request(REQUEST_RUNNINGS, WSResources.URL_WS_RUNNINGS, Running.class);
+        requests[0].setParameters(allParameters.get(REQUEST_RUNNINGS));
 
-        requests[1] = new MultiReadPromise.Request(CODE_TEAMS, WSResources.URL_WS_TEAMS, Team.class);
-        requests[1].setParameters(allParameters.get(CODE_TEAMS));
+        requests[1] = new MultiReadPromise.Request(REQUEST_TEAMS, WSResources.URL_WS_TEAMS, Team.class);
+        requests[1].setParameters(allParameters.get(REQUEST_TEAMS));
 
-        requests[2] = new MultiReadPromise.Request(CODE_ACADEMICLEVELS, WSResources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
-        requests[2].setParameters(allParameters.get(CODE_ACADEMICLEVELS));
+        requests[2] = new MultiReadPromise.Request(REQUEST_ACADEMICLEVELS, WSResources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
+        requests[2].setParameters(allParameters.get(REQUEST_ACADEMICLEVELS));
 
         return multiPromiseRead.execute(requests);
     }
