@@ -4,7 +4,7 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.Controller;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
@@ -22,7 +22,7 @@ import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
 import java.util.List;
 
-public class ProjectController extends Controller implements IProjectController, IRunningController {
+public class ProjectController extends MainController implements IProjectController, IRunningController {
 
     private Requestor requestor;
     private IProjectService projectService;

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IIndividualEvaluationService {
 
-    void create(List<IndividualEvaluation> individualEvaluations);
+    ServiceResult<Void> create(List<IndividualEvaluation> individualEvaluations);
 
-    void update(List<IndividualEvaluationUpdateWrapper> individualEvaluationUpdateWrappers);
+    ServiceResult<Void> update(List<IndividualEvaluationUpdateWrapper> individualEvaluationUpdateWrappers);
 }

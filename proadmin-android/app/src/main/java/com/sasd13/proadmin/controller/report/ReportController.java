@@ -1,52 +1,61 @@
 package com.sasd13.proadmin.controller.report;
 
+import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.Controller;
-import com.sasd13.proadmin.controller.report.IndividualEvaluationServiceCallback;
-import com.sasd13.proadmin.controller.report.LeadEvaluationServiceCallback;
-import com.sasd13.proadmin.controller.report.ReportServiceCallback;
-import com.sasd13.proadmin.controller.report.RunningTeamServiceCallback;
 import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.fragment.report.ReportsFragment;
-import com.sasd13.proadmin.service.impl.IndividualEvaluationService;
-import com.sasd13.proadmin.service.impl.LeadEvaluationService;
-import com.sasd13.proadmin.service.impl.ReportService;
-import com.sasd13.proadmin.service.impl.RunningTeamService;
+import com.sasd13.proadmin.service.IIndividualEvaluationService;
+import com.sasd13.proadmin.service.ILeadEvaluationService;
+import com.sasd13.proadmin.service.IReportService;
+import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.ReportWrapper;
 import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReportController extends Controller implements IReportController {
+public class ReportController extends MainController implements IReportController {
 
-    private ReportService reportService;
-    private LeadEvaluationService leadEvaluationService;
-    private IndividualEvaluationService individualEvaluationService;
-    private ReportDependencyService dependencyService;
-    private RunningTeamService runningTeamService;
+    private Requestor requestor;
+    private IReportService reportService;
+    private ILeadEvaluationService leadEvaluationService;
+    private IIndividualEvaluationService individualEvaluationService;
+    private IRunningTeamService runningTeamService;
+    private ReportReadStrategy reportReadStrategy;
+    private RunningTeamReadStrategy runningTeamReadStrategy;
+    private ReportDependenciesStrategy reportDependenciesStrategy;
+    private ReportUpdateStrategy reportUpdateStrategy;
+    private LeadEvaluationCreateStrategy leadEvaluationCreateStrategy;
+    private LeadEvaluationUpdateStrategy leadEvaluationUpdateStrategy;
+    private IndividualEvaluationUpdateStrategy individualEvaluationUpdateStrategy;
+    private ReportDeleteStrategy reportDeleteStrategy;
     private ReportsWrapper reportsWrapper;
     private ReportWrapper reportWrapper;
-    private int mode;
 
-    public ReportController(MainActivity mainActivity) {
+    public ReportController(MainActivity mainActivity, Requestor requestor, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
 
-        reportService = new ReportService(new ReportServiceCallback(this, mainActivity));
-        leadEvaluationService = new LeadEvaluationService(new LeadEvaluationServiceCallback(this, mainActivity));
-        individualEvaluationService = new IndividualEvaluationService(new IndividualEvaluationServiceCallback(this, mainActivity));
-        dependencyService = new ReportDependencyService(new ReportServiceCallback(this, mainActivity));
-        runningTeamService = new RunningTeamService(new RunningTeamServiceCallback(this, mainActivity));
+        this.requestor = requestor;
+        this.reportService = reportService;
+        this.leadEvaluationService = leadEvaluationService;
+        this.individualEvaluationService = individualEvaluationService;
+        this.runningTeamService = runningTeamService;
     }
 
     @Override
@@ -56,17 +65,22 @@ public class ReportController extends Controller implements IReportController {
     }
 
     @Override
-    public void readReports() {
-        reportService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
-    }
-
-    @Override
     public void listReports() {
-        mode = Extra.MODE_LIST;
         reportsWrapper = new ReportsWrapper();
 
         startProxyFragment();
         readReports();
+    }
+
+    private void readReports() {
+        if (reportReadStrategy == null) {
+            reportReadStrategy = new ReportReadStrategy(this, reportService);
+        }
+
+        reportReadStrategy.clearParameters();
+        reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        requestor.setStrategy(reportReadStrategy);
+        requestor.execute();
     }
 
     void onReadReports(List<Report> reports) {
@@ -78,11 +92,21 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void newReport() {
-        mode = Extra.MODE_NEW;
         reportWrapper = new ReportWrapper(new DefaultReportBuilder().build());
 
         startProxyFragment();
-        runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
+        readRunningTeams();
+    }
+
+    private void readRunningTeams() {
+        if (runningTeamReadStrategy == null) {
+            runningTeamReadStrategy = new RunningTeamReadStrategy(this, runningTeamService);
+        }
+
+        runningTeamReadStrategy.clearParameters();
+        runningTeamReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        requestor.setStrategy(runningTeamReadStrategy);
+        requestor.execute();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -94,22 +118,10 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void newReport(RunningTeam runningTeam) {
-        mode = Extra.MODE_NEW;
         reportWrapper = new ReportWrapper(new DefaultReportBuilder(runningTeam).build());
 
         startProxyFragment();
-        runningTeamService.readByTeacher(SessionHelper.getExtraIdTeacherNumber(mainActivity));
-    }
-
-    void onRetrieved(Map<String, List> results) {
-        reportWrapper.setStudentTeams(results.get(ReportDependencyService.CODE_STUDENTTEAMS));
-
-        List<LeadEvaluation> leadEvaluations = results.get(ReportDependencyService.CODE_LEADEVALUATION);
-        if (!leadEvaluations.isEmpty()) {
-            reportWrapper.setLeadEvaluation(leadEvaluations.get(0));
-        }
-
-        reportWrapper.setIndividualEvaluations(results.get(ReportDependencyService.CODE_INDIVIDUALEVALUATIONS));
+        readRunningTeams();
     }
 
     @Override
@@ -119,7 +131,6 @@ public class ReportController extends Controller implements IReportController {
 
     @Override
     public void showReport(Report report) {
-        mode = Extra.MODE_EDIT;
         reportWrapper = new ReportWrapper(report);
 
         startFragment(ReportDetailsFragment.newInstance(reportWrapper));
@@ -127,35 +138,148 @@ public class ReportController extends Controller implements IReportController {
     }
 
     private void readDependencies(Report report) {
-        dependencyService.clearParameters();
-        dependencyService.addParameterStudentTeams(EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
-        dependencyService.addParameterLeadEvaluation(EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        dependencyService.addParameterIndividualEvaluations(EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        dependencyService.read();
+        if (reportDependenciesStrategy == null) {
+            reportDependenciesStrategy = new ReportDependenciesStrategy(this, reportService);
+        }
+
+        reportDependenciesStrategy.resetParameters();
+        reportDependenciesStrategy.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
+        reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        requestor.setStrategy(reportDependenciesStrategy);
+        requestor.execute();
+    }
+
+    void onRetrieved(Map<String, List> results) {
+        reportWrapper.setStudentTeams((List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM));
+
+        List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) results.get(IReportService.PARAMETERS_LEADEVALUATION);
+        if (!leadEvaluations.isEmpty()) {
+            reportWrapper.setLeadEvaluation(leadEvaluations.get(0));
+        }
+
+        reportWrapper.setIndividualEvaluations((List<IndividualEvaluation>) results.get(IReportService.PARAMETERS_INDIVIDUALEVALUATION));
     }
 
     @Override
     public void updateReport(Report report, Report reportToUpdate) {
-        reportService.update(report, reportToUpdate);
+        if (reportUpdateStrategy == null) {
+            reportUpdateStrategy = new ReportUpdateStrategy(this, reportService);
+        }
+
+        requestor.setStrategy(reportUpdateStrategy);
+        requestor.execute(getReportUpdateWrapper(report, reportToUpdate));
+    }
+
+    private ReportUpdateWrapper getReportUpdateWrapper(Report report, Report reportToUpdate) {
+        ReportUpdateWrapper updateWrapper = new ReportUpdateWrapper();
+
+        updateWrapper.setWrapped(report);
+        updateWrapper.setNumber(reportToUpdate.getNumber());
+
+        return updateWrapper;
     }
 
     @Override
     public void createLeadEvaluation(LeadEvaluation leadEvaluation) {
-        leadEvaluationService.create(leadEvaluation, reportWrapper.getReport());
+        if (leadEvaluationCreateStrategy == null) {
+            leadEvaluationCreateStrategy = new LeadEvaluationCreateStrategy(this, leadEvaluationService);
+        }
+
+        requestor.setStrategy(leadEvaluationCreateStrategy);
+        requestor.execute(leadEvaluation);
     }
 
     @Override
     public void updateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
-        leadEvaluationService.update(leadEvaluation, leadEvaluationToUpdate);
+        if (leadEvaluationUpdateStrategy == null) {
+            leadEvaluationUpdateStrategy = new LeadEvaluationUpdateStrategy(this, leadEvaluationService);
+        }
+
+        requestor.setStrategy(leadEvaluationUpdateStrategy);
+        requestor.execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
+    }
+
+    private LeadEvaluationUpdateWrapper getLeadEvaluationUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
+        LeadEvaluationUpdateWrapper updateWrapper = new LeadEvaluationUpdateWrapper();
+
+        updateWrapper.setWrapped(leadEvaluation);
+        updateWrapper.setReportNumber(leadEvaluationToUpdate.getReport().getNumber());
+
+        return updateWrapper;
     }
 
     @Override
     public void updateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        individualEvaluationService.update(individualEvaluations, individualEvaluationsToUpdate, reportWrapper.getReport());
+        if (individualEvaluationUpdateStrategy == null) {
+            individualEvaluationUpdateStrategy = new IndividualEvaluationUpdateStrategy(this, individualEvaluationService);
+        }
+
+        requestor.setStrategy(individualEvaluationUpdateStrategy);
+        requestor.execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
+    }
+
+    private Map<Class, List> getAllIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
+        Map<Class, List> map = new HashMap<>();
+        List<IndividualEvaluation> individualEvaluationsToPost = new ArrayList<>();
+        List<IndividualEvaluation> individualEvaluationsToPut = new ArrayList<>();
+
+        boolean toPost;
+
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            toPost = true;
+
+            for (IndividualEvaluation individualEvaluationToUpdate : individualEvaluationsToUpdate) {
+                if (individualEvaluationToUpdate.getStudent().getNumber().equals(individualEvaluation.getStudent().getNumber())) {
+                    toPost = false;
+
+                    break;
+                }
+            }
+
+            if (toPost) {
+                individualEvaluationsToPost.add(individualEvaluation);
+            } else {
+                individualEvaluationsToPut.add(individualEvaluation);
+            }
+        }
+
+        map.put(IndividualEvaluation.class, individualEvaluationsToPost);
+        map.put(IndividualEvaluationUpdateWrapper.class, getIndividualEvaluationUpdateWrapper(individualEvaluationsToPut, individualEvaluationsToUpdate));
+
+        return map;
+    }
+
+    private List<IndividualEvaluationUpdateWrapper> getIndividualEvaluationUpdateWrapper(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
+        List<IndividualEvaluationUpdateWrapper> updateWrappers = new ArrayList<>();
+
+        IndividualEvaluationUpdateWrapper updateWrapper;
+
+        for (IndividualEvaluation individualEvaluationToUpdate : individualEvaluationsToUpdate) {
+            updateWrapper = new IndividualEvaluationUpdateWrapper();
+
+            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+                if (individualEvaluation.getStudent().getNumber().equals(individualEvaluationToUpdate.getStudent().getNumber())) {
+                    individualEvaluation.setReport(individualEvaluationToUpdate.getReport());
+                    updateWrapper.setWrapped(individualEvaluation);
+                    updateWrapper.setReportNumber(individualEvaluationToUpdate.getReport().getNumber());
+                    updateWrapper.setStudentNumber(individualEvaluationToUpdate.getStudent().getNumber());
+                }
+            }
+
+            updateWrappers.add(updateWrapper);
+        }
+
+        return updateWrappers;
     }
 
     @Override
-    public void deleteReport(Report report) {
-        reportService.delete(report);
+    public void deleteReports(Report[] reports) {
+        if (reportDeleteStrategy == null) {
+            reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
+        }
+
+        requestor.setStrategy(reportDeleteStrategy);
+        requestor.execute(reports);
     }
 }

@@ -12,14 +12,14 @@ import com.sasd13.proadmin.util.exception.EnumError;
 public enum EnumErrorRes {
     UNKNOWN(EnumError.UNKNOWN, R.string.exception_unknown),
     CONNECTION(EnumError.CONNECTION, R.string.exception_connection),
+    CANCELLED(EnumError.CANCELLED, R.string.message_cancelled),
     AAA(EnumError.AAA, R.string.exception_aaa),
     AAA_LOGIN(EnumError.AAA_LOGIN, R.string.exception_aaa_login),
     PARSER(EnumError.PARSER, R.string.exception_parser),
     VALIDATOR(EnumError.VALIDATOR, R.string.exception_validator),
     BUSINESS(EnumError.BUSINESS, R.string.exception_business),
     SERVICE(EnumError.SERVICE, R.string.exception_service),
-    WEB_SERVICE(EnumError.WEB_SERVICE, R.string.exception_webservice),
-    ;
+    WEB_SERVICE(EnumError.WEB_SERVICE, R.string.exception_webservice),;
 
     private EnumError error;
 
@@ -42,6 +42,16 @@ public enum EnumErrorRes {
     public static EnumErrorRes find(EnumError error) {
         for (EnumErrorRes errorRes : values()) {
             if (errorRes.error.getCode() == error.getCode()) {
+                return errorRes;
+            }
+        }
+
+        return UNKNOWN;
+    }
+
+    public static EnumErrorRes find(int code) {
+        for (EnumErrorRes errorRes : values()) {
+            if (errorRes.error.getCode() == code) {
                 return errorRes;
             }
         }

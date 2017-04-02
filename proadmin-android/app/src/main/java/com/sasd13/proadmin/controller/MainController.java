@@ -1,31 +1,36 @@
 package com.sasd13.proadmin.controller;
 
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.controller.IController;
 import com.sasd13.proadmin.fragment.ProxyFragment;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public abstract class Controller implements IController {
+public abstract class MainController implements IController, IMessageHandler {
 
     protected MainActivity mainActivity;
     private View contentView;
     private ProxyFragment proxyFragment;
     private boolean loadingNext;
 
-    protected Controller(MainActivity mainActivity) {
+    protected MainController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         contentView = mainActivity.findViewById(android.R.id.content);
         proxyFragment = ProxyFragment.newInstance();
     }
 
     @Override
-    public void displayMessage(String message) {
+    public void display(@StringRes int messageId) {
+        Snackbar.make(contentView, messageId, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void display(String message) {
         Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 

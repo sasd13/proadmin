@@ -21,6 +21,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
@@ -34,6 +35,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     private IReportController controller;
     private LeadEvaluation leadEvaluation;
+    private Report report;
     private List<StudentTeam> studentTeams;
     private LeadEvaluationForm leadEvaluationForm;
     private Menu menu;
@@ -41,6 +43,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     public static ReportDetailsFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
         fragment.leadEvaluation = reportWrapper.getLeadEvaluation();
+        fragment.report = reportWrapper.getReport();
         fragment.studentTeams = reportWrapper.getStudentTeams();
 
         reportWrapper.addObserver(fragment);
@@ -135,6 +138,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         leadEvaluationFromForm.setPlanningComment(leadEvaluationForm.getPlanningComment());
         leadEvaluationFromForm.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
         leadEvaluationFromForm.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
+        leadEvaluationFromForm.setReport(report);
         leadEvaluationFromForm.setStudent(leadEvaluationForm.getLeader());
 
         return leadEvaluationFromForm;

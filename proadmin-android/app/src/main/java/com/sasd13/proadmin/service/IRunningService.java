@@ -11,9 +11,9 @@ import java.util.Map;
 
 public interface IRunningService {
 
-    List<Running> read(Map<String, String[]> parameters);
+    ServiceResult<List<Running>> read(Map<String, String[]> parameters);
 
-    void create(Running running);
+    ServiceResult<Void> create(Running running);
 
-    void delete(Running[] runnings);
+    ServiceResult<Void> delete(Running[] runnings);
 }

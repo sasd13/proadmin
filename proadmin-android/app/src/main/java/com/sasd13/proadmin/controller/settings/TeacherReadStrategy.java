@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.settings;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.service.ITeacherService;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeacherReadStrategy extends ReadRequestorStrategy<Void, List<Teacher>> {
+public class TeacherReadStrategy extends ReadRequestorStrategy {
 
     private SettingsController controller;
     private ITeacherService service;
@@ -23,21 +24,21 @@ public class TeacherReadStrategy extends ReadRequestorStrategy<Void, List<Teache
     }
 
     @Override
-    public List<Teacher> doInBackgroung(Void[] voids) {
+    public Object doInBackgroung(Object[] in) {
         return service.read(parameters);
     }
 
     @Override
-    public void onPostExecute(List<Teacher> out) {
+    public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onReadTeacher(out.get(0));
+        controller.onReadTeacher(((List<Teacher>) out).get(0));
     }
 
     @Override
-    public void onCancelled(List<Teacher> out) {
+    public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        //controller.displayMessage(WebServiceUtils.handleErrors(context, errors));
+        controller.display(R.string.message_cancelled);
     }
 }

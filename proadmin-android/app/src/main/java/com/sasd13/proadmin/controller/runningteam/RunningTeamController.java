@@ -7,13 +7,13 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.Controller;
 import com.sasd13.proadmin.controller.IRunningTeamController;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.fragment.runningteam.RunningTeamsFragment;
+import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.IRunningTeamService;
-import com.sasd13.proadmin.service.impl.ReportService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -25,26 +25,27 @@ import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import java.util.List;
 import java.util.Map;
 
-public class RunningTeamController extends Controller implements IRunningTeamController {
+public class RunningTeamController extends MainController implements IRunningTeamController {
 
     private Requestor requestor;
     private IRunningTeamService runningTeamService;
+    private IReportService reportService;
     private RunningTeamReadStrategy runningTeamReadStrategy;
     private RunningTeamDependenciesStrategy runningTeamDependenciesStrategy;
+    private ReportReadStrategy reportReadStrategy;
     private RunningTeamCreateStrategy runningTeamCreateStrategy;
     private RunningTeamUpdateStrategy runningTeamUpdateStrategy;
     private RunningTeamDeleteStrategy runningTeamDeleteStrategy;
-    private ReportService reportService;
     private RunningTeamsWrapper runningTeamsWrapper;
     private RunningTeamWrapper runningTeamWrapper;
     private int mode;
 
-    public RunningTeamController(MainActivity mainActivity, Requestor requestor, IRunningTeamService runningTeamService) {
+    public RunningTeamController(MainActivity mainActivity, Requestor requestor, IRunningTeamService runningTeamService, IReportService reportService) {
         super(mainActivity);
 
         this.requestor = requestor;
         this.runningTeamService = runningTeamService;
-        reportService = new ReportService(new ReportServiceCallback(this, mainActivity));
+        this.reportService = reportService;
     }
 
     @Override
@@ -94,16 +95,16 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
         }
 
         runningTeamDependenciesStrategy.resetParameters();
-        runningTeamDependenciesStrategy.putParameter(IRunningTeamService.REQUEST_RUNNINGS, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        runningTeamDependenciesStrategy.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
         requestor.setStrategy(runningTeamDependenciesStrategy);
         requestor.execute();
     }
 
-    void onRetrieved(Map<String, Object> results) {
+    void onRetrieved(Map<String, List> results) {
         if (isProxyFragmentNotDetached()) {
-            runningTeamWrapper.setRunnings((List<Running>) results.get(IRunningTeamService.REQUEST_RUNNINGS));
-            runningTeamWrapper.setTeams((List<Team>) results.get(IRunningTeamService.REQUEST_TEAMS));
-            runningTeamWrapper.setAcademicLevels((List<AcademicLevel>) results.get(IRunningTeamService.REQUEST_ACADEMICLEVELS));
+            runningTeamWrapper.setRunnings((List<Running>) results.get(IRunningTeamService.PARAMATERS_RUNNING));
+            runningTeamWrapper.setTeams((List<Team>) results.get(IRunningTeamService.PARAMETERS_TEAM));
+            runningTeamWrapper.setAcademicLevels((List<AcademicLevel>) results.get(IRunningTeamService.PARAMETERS_ACADEMICLEVEL));
 
             if (mode == Extra.MODE_NEW) {
                 startFragment(RunningTeamNewFragment.newInstance(runningTeamWrapper));
@@ -115,13 +116,18 @@ public class RunningTeamController extends Controller implements IRunningTeamCon
     }
 
     private void readReports(RunningTeam runningTeam) {
-        reportService.readByRunningTeam(
-                runningTeam.getRunning().getTeacher().getNumber(),
-                runningTeam.getRunning().getYear(),
-                runningTeam.getRunning().getProject().getCode(),
-                runningTeam.getTeam().getNumber(),
-                runningTeam.getAcademicLevel().getCode()
-        );
+        if (reportReadStrategy == null) {
+            reportReadStrategy = new ReportReadStrategy(this, reportService);
+        }
+
+        reportReadStrategy.clearParameters();
+        reportReadStrategy.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
+        reportReadStrategy.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
+        reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});
+        reportReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
+        reportReadStrategy.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
+        requestor.setStrategy(reportReadStrategy);
+        requestor.execute();
     }
 
     void onReadReports(List<Report> reports) {

@@ -128,7 +128,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteTeam(team);
+                        controller.deleteTeams(new Team[]{team});
                     }
                 });
     }

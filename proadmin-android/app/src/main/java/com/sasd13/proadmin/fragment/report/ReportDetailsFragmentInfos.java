@@ -132,7 +132,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteReport(report);
+                        controller.deleteReports(new Report[]{report});
                     }
                 });
     }

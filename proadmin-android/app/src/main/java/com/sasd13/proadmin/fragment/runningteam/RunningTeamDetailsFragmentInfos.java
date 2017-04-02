@@ -164,7 +164,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteRunningTeam(runningTeam);
+                        controller.deleteRunningTeams(new RunningTeam[]{runningTeam});
                     }
                 });
     }

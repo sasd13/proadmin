@@ -115,7 +115,7 @@ public class RunningDetailsFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteRunning(running);
+                        controller.deleteRunnings(new Running[]{running});
                     }
                 });
     }

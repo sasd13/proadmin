@@ -8,6 +8,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +64,7 @@ public class IndividualEvaluationsForm extends Form {
         return 0;
     }
 
-    public List<IndividualEvaluation> getIndividualEvaluations() throws IndividualEvaluationsFormException {
+    public List<IndividualEvaluation> getIndividualEvaluations(Report report) throws IndividualEvaluationsFormException {
         List<IndividualEvaluation> individualEvaluationsFromForm = new ArrayList<>();
 
         IndividualEvaluation individualEvaluationFromForm;
@@ -77,6 +78,7 @@ public class IndividualEvaluationsForm extends Form {
 
                     individualEvaluationFromForm = new IndividualEvaluation();
 
+                    individualEvaluationFromForm.setReport(report);
                     individualEvaluationFromForm.setStudent(student);
                     individualEvaluationFromForm.setMark(Float.valueOf(MARKS[entry.getValue().getValue()]));
 

@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".activity.LogInActivity"
+            android:name=".activity.IdentityActivity"
             android:label="@string/activity_login"
             android:theme="@style/Proadmin.NoActionBar"
             android:screenOrientation="portrait"

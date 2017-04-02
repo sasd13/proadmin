@@ -3,7 +3,7 @@ package com.sasd13.proadmin.controller.settings;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.controller.Controller;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.ISettingsController;
 import com.sasd13.proadmin.fragment.settings.SettingsFragment;
 import com.sasd13.proadmin.service.ITeacherService;
@@ -12,7 +12,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.TeacherWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
-public class SettingsController extends Controller implements ISettingsController {
+public class SettingsController extends MainController implements ISettingsController {
 
     private Requestor requestor;
     private ITeacherService teacherService;

@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.runningteam;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.service.IRunningTeamService;
 
@@ -8,7 +9,7 @@ import com.sasd13.proadmin.service.IRunningTeamService;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamDeleteStrategy extends RequestorStrategy<RunningTeam, Void> {
+public class RunningTeamDeleteStrategy extends RequestorStrategy {
 
     private RunningTeamController controller;
     private IRunningTeamService service;
@@ -21,24 +22,24 @@ public class RunningTeamDeleteStrategy extends RequestorStrategy<RunningTeam, Vo
     }
 
     @Override
-    public Void doInBackgroung(RunningTeam[] in) {
-        service.delete(in);
+    public Object doInBackgroung(Object[] in) {
+        service.delete((RunningTeam[]) in);
 
         return null;
     }
 
     @Override
-    public void onPostExecute(Void out) {
+    public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        //controller.displayMessage(context.getString(R.string.message_deleted));
+        controller.display(R.string.message_deleted);
         controller.entry();
     }
 
     @Override
-    public void onCancelled(Void out) {
+    public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        //controller.displayMessage(WebServiceUtils.handleErrors(context, errors));
+        controller.display(R.string.message_cancelled);
     }
 }

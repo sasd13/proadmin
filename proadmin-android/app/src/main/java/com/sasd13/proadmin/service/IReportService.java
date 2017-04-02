@@ -12,13 +12,17 @@ import java.util.Map;
 
 public interface IReportService {
 
-    List<Report> read(Map<String, String[]> parameters);
+    String PARAMATERS_STUDENTTEAM = "PARAMATERS_STUDENTTEAM";
+    String PARAMETERS_LEADEVALUATION = "PARAMETERS_LEADEVALUATION";
+    String PARAMETERS_INDIVIDUALEVALUATION = "PARAMETERS_INDIVIDUALEVALUATION";
 
-    Map<String, Object> retrieve(Map<String, Map<String, String[]>> allParameters);
+    ServiceResult<List<Report>> read(Map<String, String[]> parameters);
 
-    void create(Report report);
+    ServiceResult<Map<String, Object>> retrieve(Map<String, Map<String, String[]>> allParameters);
 
-    void update(ReportUpdateWrapper reportUpdateWrapper);
+    ServiceResult<Void> create(Report report);
 
-    void delete(Report[] reports);
+    ServiceResult<Void> update(ReportUpdateWrapper reportUpdateWrapper);
+
+    ServiceResult<Void> delete(Report[] reports);
 }

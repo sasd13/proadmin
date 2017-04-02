@@ -5,7 +5,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.Controller;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.fragment.student.StudentDetailsFragment;
@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 
 import java.util.List;
 
-public class TeamController extends Controller implements ITeamController, IStudentController {
+public class TeamController extends MainController implements ITeamController, IStudentController {
 
     private Requestor requestor;
     private ITeamService teamService;

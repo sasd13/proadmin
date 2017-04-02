@@ -17,37 +17,23 @@ import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.controller.LogOutController;
-import com.sasd13.proadmin.controller.project.ProjectController;
-import com.sasd13.proadmin.controller.report.ReportController;
-import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
-import com.sasd13.proadmin.controller.settings.SettingsController;
-import com.sasd13.proadmin.controller.team.TeamController;
-import com.sasd13.proadmin.fragment.HomeFragment;
 import com.sasd13.proadmin.controller.IController;
-import com.sasd13.proadmin.controller.ILogOutController;
-import com.sasd13.proadmin.controller.IProjectController;
-import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.controller.IRunningController;
-import com.sasd13.proadmin.controller.IRunningTeamController;
-import com.sasd13.proadmin.controller.ISettingsController;
-import com.sasd13.proadmin.controller.IStudentController;
-import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.fragment.HomeFragment;
 import com.sasd13.proadmin.fragment.ProxyFragment;
 import com.sasd13.proadmin.gui.browser.Browser;
 import com.sasd13.proadmin.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private Map<Class<? extends IController>, IController> router;
+    private Requestor requestor;
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 
@@ -65,20 +51,8 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        router = new HashMap<>();
-
-        router.put(ISettingsController.class, new SettingsController(this));
-        router.put(IRunningTeamController.class, new RunningTeamController(this));
-        router.put(IReportController.class, new ReportController(this));
-        router.put(ILogOutController.class, new LogOutController(this));
-
-        IProjectController projectController = new ProjectController(this);
-        router.put(IProjectController.class, projectController);
-        router.put(IRunningController.class, projectController);
-
-        ITeamController teamController = new TeamController(this);
-        router.put(ITeamController.class, teamController);
-        router.put(IStudentController.class, teamController);
+        requestor = new Requestor();
+        requestor.setTimeout(60000);
     }
 
     private void showHome() {
@@ -126,7 +100,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class<? extends IController> mClass) {
-        return router.get(mClass);
+        return ControllerProvider.provide(mClass, this, requestor);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {
@@ -175,7 +149,7 @@ public class MainActivity extends DrawerActivity {
 
     private void exit() {
         final WaitDialog waitDialog = new WaitDialog(this);
-        final Intent intent = new Intent(this, LogInActivity.class);
+        final Intent intent = new Intent(this, IdentityActivity.class);
 
         new TaskPlanner(new Runnable() {
             @Override

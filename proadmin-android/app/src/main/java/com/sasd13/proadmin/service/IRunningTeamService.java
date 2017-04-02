@@ -12,17 +12,17 @@ import java.util.Map;
 
 public interface IRunningTeamService {
 
-    String REQUEST_RUNNINGS = "RUNNINGS";
-    String REQUEST_TEAMS = "TEAMS";
-    String REQUEST_ACADEMICLEVELS = "ACADEMICLEVELS";
+    String PARAMATERS_RUNNING = "PARAMATERS_RUNNING";
+    String PARAMETERS_TEAM = "PARAMETERS_TEAM";
+    String PARAMETERS_ACADEMICLEVEL = "PARAMETERS_ACADEMICLEVEL";
 
-    List<RunningTeam> read(Map<String, String[]> parameters);
+    ServiceResult<List<RunningTeam>> read(Map<String, String[]> parameters);
 
-    Map<String, Object> retrieve(Map<String, Map<String, String[]>> allParameters);
+    ServiceResult<Map<String, Object>> retrieve(Map<String, Map<String, String[]>> allParameters);
 
-    void create(RunningTeam runningTeam);
+    ServiceResult<Void> create(RunningTeam runningTeam);
 
-    void update(RunningTeamUpdateWrapper runningTeamUpdateWrapper);
+    ServiceResult<Void> update(RunningTeamUpdateWrapper runningTeamUpdateWrapper);
 
-    void delete(RunningTeam[] runningTeams);
+    ServiceResult<Void> delete(RunningTeam[] runningTeams);
 }

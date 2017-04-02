@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.team;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.service.ITeamService;
 
@@ -8,7 +9,7 @@ import com.sasd13.proadmin.service.ITeamService;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeamCreateStrategy extends RequestorStrategy<Team, Void> {
+public class TeamCreateStrategy extends RequestorStrategy {
 
     private TeamController controller;
     private ITeamService service;
@@ -21,24 +22,24 @@ public class TeamCreateStrategy extends RequestorStrategy<Team, Void> {
     }
 
     @Override
-    public Void doInBackgroung(Team[] in) {
-        service.create(in[0]);
+    public Object doInBackgroung(Object[] in) {
+        service.create((Team) in[0]);
 
         return null;
     }
 
     @Override
-    public void onPostExecute(Void out) {
+    public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        //controller.displayMessage(context.getString(R.string.message_saved));
+        controller.display(R.string.message_saved);
         controller.entry();
     }
 
     @Override
-    public void onCancelled(Void out) {
+    public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        //controller.displayMessage(WebServiceUtils.handleErrors(context, errors));
+        controller.display(R.string.message_cancelled);
     }
 }

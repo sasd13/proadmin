@@ -6,6 +6,8 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +20,10 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICheckService;
 import com.sasd13.javaex.util.validator.IValidator;
+import com.sasd13.proadmin.aaa.AAAConstants;
+import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
 import com.sasd13.proadmin.aaa.service.CredentialService;
-import com.sasd13.proadmin.aaa.util.SessionBuilder;
+import com.sasd13.proadmin.aaa.session.SessionBuilder;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
 import com.sasd13.proadmin.util.exception.EnumError;
 
@@ -35,28 +39,30 @@ public class LogInServlet extends AAAServlet {
 	private static final Logger LOGGER = Logger.getLogger(LogInServlet.class);
 
 	private IValidator<Credential> validator;
-	private ICheckService<Credential> checkService;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
 		validator = new CredentialValidator();
-		checkService = new CredentialService();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
 
+		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+
 		try {
 			Credential credential = readFromRequest(req).get(0);
+			ICheckService<Credential> checkService = new CredentialService(dao);
 
 			validator.validate(credential);
 
 			if (checkService.contains(credential)) {
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(SessionBuilder.build(credential)));
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(credential) }));
 			} else {
+				resp.setStatus(HttpURLConnection.HTTP_UNAUTHORIZED);
 				writeError(resp, EnumError.AAA_LOGIN);
 			}
 		} catch (Exception e) {

@@ -13,15 +13,15 @@ import java.util.Map;
 
 public interface IStudentService {
 
-    List<StudentTeam> read(Map<String, String[]> parameters);
+    ServiceResult<List<StudentTeam>> read(Map<String, String[]> parameters);
 
-    List<Student> readStudents(Map<String, String[]> parameters);
+    ServiceResult<List<Student>> readStudents(Map<String, String[]> parameters);
 
-    void create(Student student);
+    ServiceResult<Void> create(Student student);
 
-    void create(StudentTeam studentTeam);
+    ServiceResult<Void> create(StudentTeam studentTeam);
 
-    void update(StudentUpdateWrapper studentUpdateWrapper);
+    ServiceResult<Void> update(StudentUpdateWrapper studentUpdateWrapper);
 
-    void delete(StudentTeam[] studentTeams);
+    ServiceResult<Void> delete(StudentTeam[] studentTeams);
 }

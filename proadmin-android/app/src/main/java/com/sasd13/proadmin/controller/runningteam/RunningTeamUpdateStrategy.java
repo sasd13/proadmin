@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.runningteam;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
@@ -8,7 +9,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamUpdateStrategy extends RequestorStrategy<RunningTeamUpdateWrapper, Void> {
+public class RunningTeamUpdateStrategy extends RequestorStrategy {
 
     private RunningTeamController controller;
     private IRunningTeamService service;
@@ -21,23 +22,23 @@ public class RunningTeamUpdateStrategy extends RequestorStrategy<RunningTeamUpda
     }
 
     @Override
-    public Void doInBackgroung(RunningTeamUpdateWrapper[] in) {
-        service.update(in[0]);
+    public Object doInBackgroung(Object[] in) {
+        service.update((RunningTeamUpdateWrapper) in[0]);
 
         return null;
     }
 
     @Override
-    public void onPostExecute(Void out) {
+    public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        //controller.displayMessage(context.getString(R.string.message_updated));
+        controller.display(R.string.message_updated);
     }
 
     @Override
-    public void onCancelled(Void out) {
+    public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        //controller.displayMessage(WebServiceUtils.handleErrors(context, errors));
+        controller.display(R.string.message_cancelled);
     }
 }

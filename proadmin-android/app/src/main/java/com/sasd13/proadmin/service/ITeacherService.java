@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface ITeacherService {
 
-    List<Teacher> read(Map<String, String[]> parameters);
+    ServiceResult<List<Teacher>> read(Map<String, String[]> parameters);
 
-    void update(TeacherUpdateWrapper teacherUpdateWrapper);
+    ServiceResult<Void> update(TeacherUpdateWrapper teacherUpdateWrapper);
 }

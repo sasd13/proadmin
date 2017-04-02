@@ -12,11 +12,11 @@ import java.util.Map;
 
 public interface ITeamService {
 
-    List<Team> read(Map<String, String[]> parameters);
+    ServiceResult<List<Team>> read(Map<String, String[]> parameters);
 
-    void create(Team team);
+    ServiceResult<Void> create(Team team);
 
-    void update(TeamUpdateWrapper teamUpdateWrapper);
+    ServiceResult<Void> update(TeamUpdateWrapper teamUpdateWrapper);
 
-    void delete(Team[] teams);
+    ServiceResult<Void> delete(Team[] teams);
 }

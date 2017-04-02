@@ -97,6 +97,7 @@
     <string name="exception_service">Service error</string>
     <string name="exception_webservice">Web service error</string>
     <string name="exception_connection">Connection error</string>
+    <string name="message_cancelled">Cancelled</string>
     <string name="error_no_runningteam_selected">Running team not selected</string>
 
 </resources>

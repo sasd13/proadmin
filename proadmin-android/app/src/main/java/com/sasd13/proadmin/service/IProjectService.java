@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface IProjectService {
 
-    List<Project> readAll();
+    ServiceResult<List<Project>> readAll();
 }

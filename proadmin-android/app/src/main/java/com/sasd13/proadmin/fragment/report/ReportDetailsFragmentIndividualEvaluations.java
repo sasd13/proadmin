@@ -20,6 +20,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.gui.form.IndividualEvaluationsFormException;
@@ -34,6 +35,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private IReportController controller;
     private List<IndividualEvaluation> individualEvaluations;
+    private Report report;
     private List<StudentTeam> studentTeams;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
@@ -42,6 +44,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     public static ReportDetailsFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper) {
         ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
         fragment.individualEvaluations = reportWrapper.getIndividualEvaluations();
+        fragment.report = reportWrapper.getReport();
         fragment.studentTeams = reportWrapper.getStudentTeams();
 
         reportWrapper.addObserver(fragment);
@@ -118,7 +121,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void updateIndividualEvaluations() {
         try {
-            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations();
+            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations(report);
 
             controller.updateIndividualEvaluations(individualEvaluationsFromForm, individualEvaluations);
         } catch (IndividualEvaluationsFormException e) {

@@ -1,8 +1,10 @@
 package com.sasd13.proadmin.controller.project;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.service.IProjectService;
+import com.sasd13.proadmin.service.ServiceResult;
 
 import java.util.List;
 
@@ -10,34 +12,38 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ProjectReadStrategy extends ReadRequestorStrategy<Void, List<Project>> {
+public class ProjectReadStrategy extends ReadRequestorStrategy {
 
     private ProjectController controller;
     private IProjectService service;
 
     public ProjectReadStrategy(ProjectController controller, IProjectService service) {
         super();
-        
+
         this.controller = controller;
         this.service = service;
     }
 
     @Override
-    public List<Project> doInBackgroung(Void[] in) {
+    public Object doInBackgroung(Object in) {
         return service.readAll();
     }
 
     @Override
-    public void onPostExecute(List<Project> out) {
+    public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onReadProjects(out);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onReadProjects((List<Project>) out);
+        } else {
+            controller.display(((ServiceResult) out).getHttpCode());
+        }
     }
 
     @Override
-    public void onCancelled(List<Project> out) {
+    public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        //controller.displayMessage(WebServiceUtils.handleErrors(context, errors));
+        controller.display(R.string.message_cancelled);
     }
 }
