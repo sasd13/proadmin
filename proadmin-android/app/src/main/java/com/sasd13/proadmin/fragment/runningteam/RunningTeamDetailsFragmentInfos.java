@@ -142,7 +142,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
         try {
             controller.updateRunningTeam(getRunningTeamFromForm(), runningTeam);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

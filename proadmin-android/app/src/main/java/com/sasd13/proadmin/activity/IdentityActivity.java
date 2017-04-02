@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.IController;
@@ -23,21 +22,14 @@ import java.util.Stack;
 
 public class IdentityActivity extends AppCompatActivity {
 
-    private Requestor requestor;
     private Stack<Fragment> stack = new Stack<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        init();
         setContentView(R.layout.layout_container);
         showAuthentication();
-    }
-
-    private void init() {
-        requestor = new Requestor();
-        requestor.setTimeout(60000);
     }
 
     private void showAuthentication() {
@@ -48,7 +40,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     public IController lookup(Class<? extends IController> mClass) {
-        return ControllerProvider.provide(mClass, this, requestor);
+        return ControllerProvider.provide(mClass, this);
     }
 
     @Override

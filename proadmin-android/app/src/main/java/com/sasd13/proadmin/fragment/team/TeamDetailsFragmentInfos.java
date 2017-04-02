@@ -108,7 +108,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
         try {
             controller.updateTeam(getTeamFromForm(), team);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

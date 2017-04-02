@@ -80,11 +80,11 @@ public class TeacherService extends Service<Teacher> {
 
 	@Override
 	public List<Teacher> deepRead(Map<String, String[]> parameters) {
-		throw new ServiceException("Service unavailable");
+		return read(parameters);
 	}
 
 	@Override
 	public List<Teacher> deepReadAll() {
-		throw new ServiceException("Service unavailable");
+		return readAll();
 	}
 }

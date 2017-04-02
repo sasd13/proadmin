@@ -125,7 +125,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
             controller.updateIndividualEvaluations(individualEvaluationsFromForm, individualEvaluations);
         } catch (IndividualEvaluationsFormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

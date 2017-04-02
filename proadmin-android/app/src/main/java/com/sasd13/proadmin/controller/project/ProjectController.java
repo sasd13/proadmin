@@ -4,9 +4,9 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
@@ -24,7 +24,6 @@ import java.util.List;
 
 public class ProjectController extends MainController implements IProjectController, IRunningController {
 
-    private Requestor requestor;
     private IProjectService projectService;
     private IRunningService runningService;
     private ProjectReadStrategy projectReadStrategy;
@@ -34,10 +33,9 @@ public class ProjectController extends MainController implements IProjectControl
     private ProjectsWrapper projectsWrapper;
     private ProjectWrapper projectWrapper;
 
-    public ProjectController(MainActivity mainActivity, Requestor requestor, IProjectService projectService, IRunningService runningService) {
+    public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
         super(mainActivity);
 
-        this.requestor = requestor;
         this.projectService = projectService;
         this.runningService = runningService;
     }
@@ -61,8 +59,7 @@ public class ProjectController extends MainController implements IProjectControl
             projectReadStrategy = new ProjectReadStrategy(this, projectService);
         }
 
-        requestor.setStrategy(projectReadStrategy);
-        requestor.execute();
+        new Requestor(projectReadStrategy).execute();
     }
 
     void onReadProjects(List<Project> projects) {
@@ -88,8 +85,7 @@ public class ProjectController extends MainController implements IProjectControl
         runningReadStrategy.clearParameters();
         runningReadStrategy.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
         runningReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(runningReadStrategy);
-        requestor.execute();
+        new Requestor(runningReadStrategy).execute();
     }
 
     void onReadRunnings(List<Running> runnings) {
@@ -111,8 +107,7 @@ public class ProjectController extends MainController implements IProjectControl
             runningCreateStrategy = new RunningCreateStrategy(this, runningService);
         }
 
-        requestor.setStrategy(runningCreateStrategy);
-        requestor.execute(running);
+        new Requestor(runningCreateStrategy).execute(running);
     }
 
     @Override
@@ -129,7 +124,6 @@ public class ProjectController extends MainController implements IProjectControl
             runningDeleteStrategy = new RunningDeleteStrategy(this, runningService);
         }
 
-        requestor.setStrategy(runningDeleteStrategy);
-        requestor.execute(runnings);
+        new Requestor(runningDeleteStrategy).execute(runnings);
     }
 }

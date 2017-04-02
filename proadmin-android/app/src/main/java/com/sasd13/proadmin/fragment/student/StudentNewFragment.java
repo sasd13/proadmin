@@ -114,7 +114,7 @@ public class StudentNewFragment extends Fragment {
             editStudentWithForm();
             controller.createStudent(student, team);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

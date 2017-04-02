@@ -5,6 +5,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -34,9 +35,9 @@ public class ProjectReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadProjects((List<Project>) out);
+            controller.onReadProjects(((ServiceResult<List<Project>>) out).getResult());
         } else {
-            controller.display(((ServiceResult) out).getHttpCode());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }
     }
 

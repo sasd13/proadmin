@@ -108,7 +108,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
         try {
             controller.updateReport(getReportFromForm(), report);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

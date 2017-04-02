@@ -82,7 +82,7 @@ public class ReportNewFragmentInfo extends Fragment {
                     editReportWithForm();
                     parentFragment.createReport();
                 } catch (FormException e) {
-                    controller.displayMessage(e.getMessage());
+                    controller.display(e.getMessage());
                 }
             }
         });

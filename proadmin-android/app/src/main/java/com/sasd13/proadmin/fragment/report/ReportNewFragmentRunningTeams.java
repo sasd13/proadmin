@@ -125,7 +125,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 if (report.getRunningTeam() != null) {
                     parentFragment.forward();
                 } else {
-                    controller.displayMessage(getResources().getString(R.string.error_no_runningteam_selected));
+                    controller.display(getResources().getString(R.string.error_no_runningteam_selected));
                 }
             }
         });

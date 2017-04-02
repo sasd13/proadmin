@@ -11,7 +11,7 @@ import com.sasd13.proadmin.fragment.ProxyFragment;
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public abstract class MainController implements IController, IMessageHandler {
+public abstract class MainController implements IController {
 
     protected MainActivity mainActivity;
     private View contentView;

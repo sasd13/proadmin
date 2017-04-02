@@ -4,6 +4,8 @@ import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.service.IRunningService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -32,7 +34,11 @@ public class RunningReadStrategy extends ReadRequestorStrategy {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onReadRunnings((List<Running>) out);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onReadRunnings(((ServiceResult<List<Running>>) out).getResult());
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

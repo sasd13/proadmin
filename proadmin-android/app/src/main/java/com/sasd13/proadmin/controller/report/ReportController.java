@@ -32,7 +32,6 @@ import java.util.Map;
 
 public class ReportController extends MainController implements IReportController {
 
-    private Requestor requestor;
     private IReportService reportService;
     private ILeadEvaluationService leadEvaluationService;
     private IIndividualEvaluationService individualEvaluationService;
@@ -48,10 +47,9 @@ public class ReportController extends MainController implements IReportControlle
     private ReportsWrapper reportsWrapper;
     private ReportWrapper reportWrapper;
 
-    public ReportController(MainActivity mainActivity, Requestor requestor, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
+    public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
 
-        this.requestor = requestor;
         this.reportService = reportService;
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
@@ -79,8 +77,7 @@ public class ReportController extends MainController implements IReportControlle
 
         reportReadStrategy.clearParameters();
         reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(reportReadStrategy);
-        requestor.execute();
+        new Requestor(reportReadStrategy).execute();
     }
 
     void onReadReports(List<Report> reports) {
@@ -105,8 +102,7 @@ public class ReportController extends MainController implements IReportControlle
 
         runningTeamReadStrategy.clearParameters();
         runningTeamReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(runningTeamReadStrategy);
-        requestor.execute();
+        new Requestor(runningTeamReadStrategy).execute();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -146,8 +142,7 @@ public class ReportController extends MainController implements IReportControlle
         reportDependenciesStrategy.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
         reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
         reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        requestor.setStrategy(reportDependenciesStrategy);
-        requestor.execute();
+        new Requestor(reportDependenciesStrategy).execute();
     }
 
     void onRetrieved(Map<String, List> results) {
@@ -167,8 +162,7 @@ public class ReportController extends MainController implements IReportControlle
             reportUpdateStrategy = new ReportUpdateStrategy(this, reportService);
         }
 
-        requestor.setStrategy(reportUpdateStrategy);
-        requestor.execute(getReportUpdateWrapper(report, reportToUpdate));
+        new Requestor(reportUpdateStrategy).execute(getReportUpdateWrapper(report, reportToUpdate));
     }
 
     private ReportUpdateWrapper getReportUpdateWrapper(Report report, Report reportToUpdate) {
@@ -186,8 +180,7 @@ public class ReportController extends MainController implements IReportControlle
             leadEvaluationCreateStrategy = new LeadEvaluationCreateStrategy(this, leadEvaluationService);
         }
 
-        requestor.setStrategy(leadEvaluationCreateStrategy);
-        requestor.execute(leadEvaluation);
+        new Requestor(leadEvaluationCreateStrategy).execute(leadEvaluation);
     }
 
     @Override
@@ -196,8 +189,7 @@ public class ReportController extends MainController implements IReportControlle
             leadEvaluationUpdateStrategy = new LeadEvaluationUpdateStrategy(this, leadEvaluationService);
         }
 
-        requestor.setStrategy(leadEvaluationUpdateStrategy);
-        requestor.execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
+        new Requestor(leadEvaluationUpdateStrategy).execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
     }
 
     private LeadEvaluationUpdateWrapper getLeadEvaluationUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
@@ -215,8 +207,7 @@ public class ReportController extends MainController implements IReportControlle
             individualEvaluationUpdateStrategy = new IndividualEvaluationUpdateStrategy(this, individualEvaluationService);
         }
 
-        requestor.setStrategy(individualEvaluationUpdateStrategy);
-        requestor.execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
+        new Requestor(individualEvaluationUpdateStrategy).execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
     }
 
     private Map<Class, List> getAllIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
@@ -279,7 +270,6 @@ public class ReportController extends MainController implements IReportControlle
             reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
         }
 
-        requestor.setStrategy(reportDeleteStrategy);
-        requestor.execute(reports);
+        new Requestor(reportDeleteStrategy).execute(reports);
     }
 }

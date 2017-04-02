@@ -5,6 +5,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.service.IStudentService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.HashMap;
@@ -30,28 +32,39 @@ public class StudentCreateStrategy extends RequestorStrategy {
     }
 
     @Override
-    public Object doInBackgroung(Object[] in) {
-        StudentTeam studentTeam = (StudentTeam) in[0];
+    public Object doInBackgroung(Object in) {
+        ServiceResult result;
+
+        StudentTeam studentTeam = (StudentTeam) in;
 
         parameters.clear();
         parameters.put(EnumParameter.NUMBER.getName(), new String[]{studentTeam.getStudent().getNumber()});
-        List<Student> students = service.readStudents(parameters);
 
-        if (students.isEmpty()) {
-            service.create(studentTeam.getStudent());
+        result = service.readStudents(parameters);
+
+        if (result.isSuccess()) {
+            if (((ServiceResult<List<Student>>) result).getResult().isEmpty()) {
+                result = service.create(studentTeam.getStudent());
+            }
+
+            if (result.isSuccess()) {
+                result = service.create(studentTeam);
+            }
         }
 
-        service.create(studentTeam);
-
-        return null;
+        return result;
     }
 
     @Override
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.display(R.string.message_saved);
-        controller.entry();
+        if (((ServiceResult) out).isSuccess()) {
+            controller.display(R.string.message_saved);
+            controller.entry();
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

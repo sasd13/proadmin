@@ -111,7 +111,7 @@ public class RunningNewFragment extends Fragment {
             editRunningWithForm();
             controller.createRunning(running);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

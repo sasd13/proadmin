@@ -17,7 +17,6 @@ import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.IController;
 import com.sasd13.proadmin.fragment.HomeFragment;
@@ -33,7 +32,6 @@ import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private Requestor requestor;
     private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
 
@@ -45,14 +43,8 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        init();
         setContentView(R.layout.layout_container);
         showHome();
-    }
-
-    private void init() {
-        requestor = new Requestor();
-        requestor.setTimeout(60000);
     }
 
     private void showHome() {
@@ -100,7 +92,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class<? extends IController> mClass) {
-        return ControllerProvider.provide(mClass, this, requestor);
+        return ControllerProvider.provide(mClass, this);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {

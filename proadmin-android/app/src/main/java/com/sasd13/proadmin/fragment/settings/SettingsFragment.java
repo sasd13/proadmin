@@ -102,7 +102,7 @@ public class SettingsFragment extends Fragment {
         try {
             controller.updateTeacher(getTeacherFromForm(), teacher);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

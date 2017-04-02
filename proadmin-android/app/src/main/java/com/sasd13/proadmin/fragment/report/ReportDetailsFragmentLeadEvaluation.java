@@ -127,7 +127,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
                 controller.createLeadEvaluation(getLeadEvaluationFromForm());
             }
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

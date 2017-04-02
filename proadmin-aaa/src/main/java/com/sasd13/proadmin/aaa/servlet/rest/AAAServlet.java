@@ -6,7 +6,7 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.HttpURLConnection;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -48,11 +48,11 @@ public abstract class AAAServlet extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	protected List<Credential> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	protected Credential readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
-		return (List<Credential>) parser.fromStringArray(message, Credential.class);
+		return (Credential) parser.fromString(message, Credential.class);
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
@@ -63,11 +63,12 @@ public abstract class AAAServlet extends HttpServlet {
 
 	protected void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		LOGGER.error(e);
-		writeError(resp, ErrorFactory.make(e));
+		writeError(resp, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
 	}
 
-	protected void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+	protected void writeError(HttpServletResponse resp, int httpStatus, EnumError error) throws IOException {
 		LOGGER.info("Error sent by AAA : code=" + error.getCode());
+		resp.setStatus(httpStatus);
 		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}

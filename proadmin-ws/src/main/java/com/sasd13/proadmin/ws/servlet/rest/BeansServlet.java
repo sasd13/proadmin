@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.servlet.rest;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -103,11 +104,12 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
 		LOGGER.error(e);
-		writeError(resp, ErrorFactory.make(e));
+		writeError(resp, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
 	}
 
-	private void writeError(HttpServletResponse resp, EnumError error) throws IOException {
+	private void writeError(HttpServletResponse resp, int httpStatus, EnumError error) throws IOException {
 		LOGGER.info("Error sent by WS : code=" + error.getCode());
+		resp.setStatus(httpStatus);
 		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
 		writeToResponse(resp, bundle.getString(error.getBundleKey()));
 	}

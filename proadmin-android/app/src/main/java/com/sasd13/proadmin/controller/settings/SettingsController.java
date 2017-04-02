@@ -3,8 +3,8 @@ package com.sasd13.proadmin.controller.settings;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.ISettingsController;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.fragment.settings.SettingsFragment;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
@@ -14,15 +14,13 @@ import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public class SettingsController extends MainController implements ISettingsController {
 
-    private Requestor requestor;
     private ITeacherService teacherService;
     private TeacherReadStrategy teacherReadStrategy;
     private TeacherUpdateStrategy teacherUpdateStrategy;
 
-    public SettingsController(MainActivity mainActivity, Requestor requestor, ITeacherService teacherService) {
+    public SettingsController(MainActivity mainActivity, ITeacherService teacherService) {
         super(mainActivity);
 
-        this.requestor = requestor;
         this.teacherService = teacherService;
     }
 
@@ -44,8 +42,7 @@ public class SettingsController extends MainController implements ISettingsContr
 
         teacherReadStrategy.clearParameters();
         teacherReadStrategy.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(teacherReadStrategy);
-        requestor.execute();
+        new Requestor(teacherReadStrategy).execute();
     }
 
     void onReadTeacher(Teacher teacher) {
@@ -60,8 +57,7 @@ public class SettingsController extends MainController implements ISettingsContr
             teacherUpdateStrategy = new TeacherUpdateStrategy(this, teacherService);
         }
 
-        requestor.setStrategy(teacherUpdateStrategy);
-        requestor.execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
+        new Requestor(teacherUpdateStrategy).execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
     }
 
     private TeacherUpdateWrapper getTeacherUpdateWrapper(Teacher teacher, Teacher teacherToUpdate) {

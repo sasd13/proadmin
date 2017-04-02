@@ -4,6 +4,8 @@ import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 import java.util.List;
@@ -27,19 +29,21 @@ public class IndividualEvaluationUpdateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        Map<Class, List> allIndividualEvaluations = (Map<Class, List>) in[0];
+        ServiceResult result = ServiceResult.NULL;
+
+        Map<Class, List> allIndividualEvaluations = ((Map<Class, List>) in);
         List<IndividualEvaluation> individualEvaluationsToCreate = allIndividualEvaluations.get(IndividualEvaluation.class);
         List<IndividualEvaluationUpdateWrapper> individualEvaluationsToUpdate = allIndividualEvaluations.get(IndividualEvaluationUpdateWrapper.class);
 
-        if (!individualEvaluationsToCreate.isEmpty()) {
-            service.create(individualEvaluationsToCreate);
-        }
-
         if (!individualEvaluationsToUpdate.isEmpty()) {
-            service.update(individualEvaluationsToUpdate);
+            result = service.update(individualEvaluationsToUpdate);
         }
 
-        return null;
+        if (!individualEvaluationsToCreate.isEmpty()) {
+            result = service.create(individualEvaluationsToCreate);
+        }
+
+        return result;
     }
 
     @Override
@@ -47,6 +51,12 @@ public class IndividualEvaluationUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         controller.display(R.string.message_updated);
+
+        if (((ServiceResult) out).isSuccess()) {
+            controller.display(R.string.message_updated);
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

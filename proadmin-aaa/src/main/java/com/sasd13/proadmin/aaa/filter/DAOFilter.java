@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.aaa.filter;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,6 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -41,6 +43,7 @@ public class DAOFilter implements Filter {
 			chain.doFilter(req, resp);
 		} catch (DAOException e) {
 			LOGGER.error(e);
+			((HttpServletResponse) resp).setStatus(HttpURLConnection.HTTP_INTERNAL_ERROR);
 		} finally {
 			try {
 				dao.close();

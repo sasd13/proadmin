@@ -6,7 +6,6 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -37,6 +36,7 @@ public class LogInServlet extends AAAServlet {
 	private static final long serialVersionUID = 4147483186176202467L;
 
 	private static final Logger LOGGER = Logger.getLogger(LogInServlet.class);
+	private static final int HTTP_EXPECTATION_FAILED = 417;
 
 	private IValidator<Credential> validator;
 
@@ -54,7 +54,7 @@ public class LogInServlet extends AAAServlet {
 		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req).get(0);
+			Credential credential = readFromRequest(req);
 			ICheckService<Credential> checkService = new CredentialService(dao);
 
 			validator.validate(credential);
@@ -62,8 +62,7 @@ public class LogInServlet extends AAAServlet {
 			if (checkService.contains(credential)) {
 				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(credential) }));
 			} else {
-				resp.setStatus(HttpURLConnection.HTTP_UNAUTHORIZED);
-				writeError(resp, EnumError.AAA_LOGIN);
+				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA_LOGIN);
 			}
 		} catch (Exception e) {
 			handleError(e, resp);

@@ -3,6 +3,8 @@ package com.sasd13.proadmin.controller.runningteam;
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.service.IRunningTeamService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 /**
@@ -22,17 +24,19 @@ public class RunningTeamUpdateStrategy extends RequestorStrategy {
     }
 
     @Override
-    public Object doInBackgroung(Object[] in) {
-        service.update((RunningTeamUpdateWrapper) in[0]);
-
-        return null;
+    public Object doInBackgroung(Object in) {
+        return service.update((RunningTeamUpdateWrapper) in);
     }
 
     @Override
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.display(R.string.message_updated);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.display(R.string.message_updated);
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

@@ -19,16 +19,14 @@ import java.util.Map;
 
 public class LogInController extends IdentityController implements ILogInController {
 
-    private Requestor requestor;
     private IAuthenticationService authenticationService;
     private ITeacherService teacherService;
     private LogInStrategy logInStrategy;
     private WaitDialog waitDialog;
 
-    public LogInController(IdentityActivity identityActivity, Requestor requestor, IAuthenticationService authenticationService, ITeacherService teacherService) {
+    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService, ITeacherService teacherService) {
         super(identityActivity);
 
-        this.requestor = requestor;
         this.authenticationService = authenticationService;
         this.teacherService = teacherService;
     }
@@ -53,8 +51,7 @@ public class LogInController extends IdentityController implements ILogInControl
             logInStrategy = new LogInStrategy(this, authenticationService, teacherService);
         }
 
-        requestor.setStrategy(logInStrategy);
-        requestor.execute(credentials);
+        new Requestor(logInStrategy).execute(credentials);
     }
 
     void onWaiting() {

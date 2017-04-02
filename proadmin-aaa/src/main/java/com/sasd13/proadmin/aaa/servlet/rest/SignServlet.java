@@ -60,7 +60,7 @@ public class SignServlet extends AAAServlet {
 		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req).get(0);
+			Credential credential = readFromRequest(req);
 			IManageService<Credential> manageService = new CredentialService(dao);
 
 			validator.validate(credential);
@@ -103,7 +103,7 @@ public class SignServlet extends AAAServlet {
 		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req).get(0);
+			Credential credential = readFromRequest(req);
 			IManageService<Credential> manageService = new CredentialService(dao);
 
 			validator.validate(credential);

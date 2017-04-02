@@ -9,7 +9,7 @@ import com.sasd13.proadmin.activity.IdentityActivity;
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
-public abstract class IdentityController implements IController, IMessageHandler {
+public abstract class IdentityController implements IController {
 
     protected IdentityActivity identityActivity;
     private View contentView;

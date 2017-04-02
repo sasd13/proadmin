@@ -3,6 +3,8 @@ package com.sasd13.proadmin.controller.report;
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.service.IReportService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ public class ReportDependenciesStrategy extends RequestorStrategy {
     }
 
     @Override
-    public Object doInBackgroung(Object[] in) {
+    public Object doInBackgroung(Object in) {
         return service.retrieve(allParameters);
     }
 
@@ -48,7 +50,11 @@ public class ReportDependenciesStrategy extends RequestorStrategy {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onRetrieved((Map<String, List>) out);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onRetrieved(((ServiceResult<Map<String, List>>) out).getResult());
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

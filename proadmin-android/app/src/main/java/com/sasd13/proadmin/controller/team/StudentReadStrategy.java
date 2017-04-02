@@ -4,6 +4,8 @@ import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.service.IStudentService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class StudentReadStrategy extends ReadRequestorStrategy {
     }
 
     @Override
-    public Object doInBackgroung(Object[] in) {
+    public Object doInBackgroung(Object in) {
         return service.read(parameters);
     }
 
@@ -32,7 +34,11 @@ public class StudentReadStrategy extends ReadRequestorStrategy {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onReadStudenTeams((List<StudentTeam>) out);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onReadStudenTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

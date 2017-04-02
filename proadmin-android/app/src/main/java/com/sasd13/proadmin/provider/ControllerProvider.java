@@ -2,7 +2,6 @@ package com.sasd13.proadmin.provider;
 
 import android.app.Activity;
 
-import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.IdentityActivity;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.controller.IController;
@@ -10,6 +9,7 @@ import com.sasd13.proadmin.controller.ILogInController;
 import com.sasd13.proadmin.controller.ILogOutController;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.IRunningTeamController;
 import com.sasd13.proadmin.controller.ISettingsController;
 import com.sasd13.proadmin.controller.IStudentController;
@@ -43,56 +43,50 @@ public class ControllerProvider {
 
     private static Map<Class<? extends IController>, IController> provider = new HashMap<>();
 
-    public static IController provide(Class<? extends IController> mClass, Activity activity, Requestor requestor) {
+    public static IController provide(Class<? extends IController> mClass, Activity activity) {
         IController controller = provider.get(mClass);
 
         if (controller == null) {
-            controller = make(mClass, activity, requestor);
+            controller = make(mClass, activity);
             provider.put(mClass, controller);
         }
 
         return controller;
     }
 
-    private static IController make(Class<? extends IController> mClass, Activity activity, Requestor requestor) {
+    private static IController make(Class<? extends IController> mClass, Activity activity) {
         if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
-                    requestor,
                     (IAuthenticationService) ServiceProvider.provide(IAuthenticationService.class),
                     (ITeacherService) ServiceProvider.provide(ITeacherService.class)
             );
         } else if (ISettingsController.class.equals(mClass)) {
             return new SettingsController(
                     (MainActivity) activity,
-                    requestor,
                     (ITeacherService) ServiceProvider.provide(ITeacherService.class)
             );
-        } else if (IProjectController.class.equals(mClass) || IRunningService.class.equals(mClass)) {
+        } else if (IProjectController.class.equals(mClass) || IRunningController.class.equals(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
-                    requestor,
                     (IProjectService) ServiceProvider.provide(IProjectService.class),
                     (IRunningService) ServiceProvider.provide(IRunningService.class)
             );
         } else if (ITeamController.class.equals(mClass) || IStudentController.class.equals(mClass)) {
             return new TeamController(
                     (MainActivity) activity,
-                    requestor,
                     (ITeamService) ServiceProvider.provide(ITeamService.class),
                     (IStudentService) ServiceProvider.provide(IStudentService.class)
             );
         } else if (IRunningTeamController.class.equals(mClass)) {
             return new RunningTeamController(
                     (MainActivity) activity,
-                    requestor,
                     (IRunningTeamService) ServiceProvider.provide(IRunningTeamService.class),
                     (IReportService) ServiceProvider.provide(IReportService.class)
             );
         } else if (IReportController.class.equals(mClass)) {
             return new ReportController(
                     (MainActivity) activity,
-                    requestor,
                     (IReportService) ServiceProvider.provide(IReportService.class),
                     (ILeadEvaluationService) ServiceProvider.provide(ILeadEvaluationService.class),
                     (IIndividualEvaluationService) ServiceProvider.provide(IIndividualEvaluationService.class),

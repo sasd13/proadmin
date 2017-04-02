@@ -103,7 +103,7 @@ public class StudentDetailsFragment extends Fragment {
         try {
             controller.updateStudent(getStudentFromForm(), student);
         } catch (FormException e) {
-            controller.displayMessage(e.getMessage());
+            controller.display(e.getMessage());
         }
     }
 

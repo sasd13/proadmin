@@ -27,7 +27,6 @@ import java.util.Map;
 
 public class RunningTeamController extends MainController implements IRunningTeamController {
 
-    private Requestor requestor;
     private IRunningTeamService runningTeamService;
     private IReportService reportService;
     private RunningTeamReadStrategy runningTeamReadStrategy;
@@ -40,10 +39,9 @@ public class RunningTeamController extends MainController implements IRunningTea
     private RunningTeamWrapper runningTeamWrapper;
     private int mode;
 
-    public RunningTeamController(MainActivity mainActivity, Requestor requestor, IRunningTeamService runningTeamService, IReportService reportService) {
+    public RunningTeamController(MainActivity mainActivity, IRunningTeamService runningTeamService, IReportService reportService) {
         super(mainActivity);
 
-        this.requestor = requestor;
         this.runningTeamService = runningTeamService;
         this.reportService = reportService;
     }
@@ -69,8 +67,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         runningTeamReadStrategy.clearParameters();
         runningTeamReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(runningTeamReadStrategy);
-        requestor.execute();
+        new Requestor(runningTeamReadStrategy).execute();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -96,8 +93,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         runningTeamDependenciesStrategy.resetParameters();
         runningTeamDependenciesStrategy.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        requestor.setStrategy(runningTeamDependenciesStrategy);
-        requestor.execute();
+        new Requestor(runningTeamDependenciesStrategy).execute();
     }
 
     void onRetrieved(Map<String, List> results) {
@@ -126,8 +122,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});
         reportReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
         reportReadStrategy.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
-        requestor.setStrategy(reportReadStrategy);
-        requestor.execute();
+        new Requestor(reportReadStrategy).execute();
     }
 
     void onReadReports(List<Report> reports) {
@@ -140,8 +135,7 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningTeamCreateStrategy = new RunningTeamCreateStrategy(this, runningTeamService);
         }
 
-        requestor.setStrategy(runningTeamCreateStrategy);
-        requestor.execute(runningTeam);
+        new Requestor(runningTeamCreateStrategy).execute(runningTeam);
     }
 
     @Override
@@ -159,8 +153,7 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningTeamUpdateStrategy = new RunningTeamUpdateStrategy(this, runningTeamService);
         }
 
-        requestor.setStrategy(runningTeamUpdateStrategy);
-        requestor.execute(getRunningTeamUpdateWrapper(runningTeam, runningTeamToUpdate));
+        new Requestor(runningTeamUpdateStrategy).execute(getRunningTeamUpdateWrapper(runningTeam, runningTeamToUpdate));
     }
 
     private RunningTeamUpdateWrapper getRunningTeamUpdateWrapper(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
@@ -182,7 +175,6 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningTeamDeleteStrategy = new RunningTeamDeleteStrategy(this, runningTeamService);
         }
 
-        requestor.setStrategy(runningTeamDeleteStrategy);
-        requestor.execute(runningTeams);
+        new Requestor(runningTeamDeleteStrategy).execute(runningTeams);
     }
 }

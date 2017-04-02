@@ -29,7 +29,7 @@ public class AuthenticationService implements IAuthenticationService {
         return new ServiceResult<>(
                 promiseLogin.isSuccess(),
                 promiseLogin.getResponseCode(),
-                !results.isEmpty() ? results.get(0) : Collections.<String, String>emptyMap()
+                promiseLogin.isSuccess() && !results.isEmpty() ? results.get(0) : Collections.<String, String>emptyMap()
         );
     }
 }

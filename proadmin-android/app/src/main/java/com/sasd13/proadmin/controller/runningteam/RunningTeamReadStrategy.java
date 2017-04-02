@@ -4,6 +4,8 @@ import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.service.IRunningTeamService;
+import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class RunningTeamReadStrategy extends ReadRequestorStrategy {
     }
 
     @Override
-    public Object doInBackgroung(Object[] in) {
+    public Object doInBackgroung(Object in) {
         return service.read(parameters);
     }
 
@@ -32,7 +34,11 @@ public class RunningTeamReadStrategy extends ReadRequestorStrategy {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.onReadRunningTeams((List<RunningTeam>) out);
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onReadRunningTeams(((ServiceResult<List<RunningTeam>>) out).getResult());
+        } else {
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+        }
     }
 
     @Override

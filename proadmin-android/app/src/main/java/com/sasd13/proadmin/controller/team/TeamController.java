@@ -5,9 +5,9 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.fragment.student.StudentDetailsFragment;
 import com.sasd13.proadmin.fragment.student.StudentNewFragment;
 import com.sasd13.proadmin.fragment.team.TeamDetailsFragment;
@@ -28,7 +28,6 @@ import java.util.List;
 
 public class TeamController extends MainController implements ITeamController, IStudentController {
 
-    private Requestor requestor;
     private ITeamService teamService;
     private IStudentService studentService;
     private TeamReadStrategy teamReadStrategy;
@@ -42,10 +41,9 @@ public class TeamController extends MainController implements ITeamController, I
     private TeamsWrapper teamsWrapper;
     private TeamWrapper teamWrapper;
 
-    public TeamController(MainActivity mainActivity, Requestor requestor, ITeamService teamService, IStudentService studentService) {
+    public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
         super(mainActivity);
 
-        this.requestor = requestor;
         this.teamService = teamService;
         this.studentService = studentService;
     }
@@ -69,8 +67,7 @@ public class TeamController extends MainController implements ITeamController, I
             teamReadStrategy = new TeamReadStrategy(this, teamService);
         }
 
-        requestor.setStrategy(teamReadStrategy);
-        requestor.execute();
+        new Requestor(teamReadStrategy).execute();
     }
 
     void onReadTeams(List<Team> teams) {
@@ -93,8 +90,7 @@ public class TeamController extends MainController implements ITeamController, I
             teamCreateStrategy = new TeamCreateStrategy(this, teamService);
         }
 
-        requestor.setStrategy(teamCreateStrategy);
-        requestor.execute(team);
+        new Requestor(teamCreateStrategy).execute(team);
     }
 
     @Override
@@ -115,8 +111,7 @@ public class TeamController extends MainController implements ITeamController, I
             teamUpdateStrategy = new TeamUpdateStrategy(this, teamService);
         }
 
-        requestor.setStrategy(teamUpdateStrategy);
-        requestor.execute(getTeamUpdateWrapper(team, teamToUpdate));
+        new Requestor(teamUpdateStrategy).execute(getTeamUpdateWrapper(team, teamToUpdate));
     }
 
     private TeamUpdateWrapper getTeamUpdateWrapper(Team team, Team teamToUpdate) {
@@ -134,8 +129,7 @@ public class TeamController extends MainController implements ITeamController, I
             teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
         }
 
-        requestor.setStrategy(teamDeleteStrategy);
-        requestor.execute(teams);
+        new Requestor(teamDeleteStrategy).execute(teams);
     }
 
     @Override
@@ -146,8 +140,7 @@ public class TeamController extends MainController implements ITeamController, I
 
         studentReadStrategy.clearParameters();
         studentReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
-        requestor.setStrategy(studentReadStrategy);
-        requestor.execute();
+        new Requestor(studentReadStrategy).execute();
     }
 
     @Override
@@ -164,8 +157,7 @@ public class TeamController extends MainController implements ITeamController, I
             studentCreateStrategy = new StudentCreateStrategy(this, studentService);
         }
 
-        requestor.setStrategy(studentCreateStrategy);
-        requestor.execute(getStudentTeam(student, team));
+        new Requestor(studentCreateStrategy).execute(getStudentTeam(student, team));
     }
 
     private StudentTeam getStudentTeam(Student student, Team team) {
@@ -188,8 +180,7 @@ public class TeamController extends MainController implements ITeamController, I
             studentUpdateStrategy = new StudentUpdateStrategy(this, studentService);
         }
 
-        requestor.setStrategy(studentUpdateStrategy);
-        requestor.execute(getStudentUpdateWrapper(student, studentToUpdate));
+        new Requestor(studentUpdateStrategy).execute(getStudentUpdateWrapper(student, studentToUpdate));
     }
 
     private StudentUpdateWrapper getStudentUpdateWrapper(Student student, Student studentToUpdate) {
@@ -207,7 +198,6 @@ public class TeamController extends MainController implements ITeamController, I
             studentDeleteStrategy = new StudentDeleteStrategy(this, studentService);
         }
 
-        requestor.setStrategy(studentDeleteStrategy);
-        requestor.execute(studentTeams);
+        new Requestor(studentDeleteStrategy).execute(studentTeams);
     }
 }

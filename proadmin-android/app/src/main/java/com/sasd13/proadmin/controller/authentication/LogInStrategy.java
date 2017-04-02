@@ -37,21 +37,18 @@ public class LogInStrategy extends ReadRequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        ServiceResult<Map<String, String>> resultAuthentication = authenticationService.logIn(((Map<String, String>[]) in)[0]);
+        ServiceResult result = authenticationService.logIn((Map<String, String>) in);
 
-        if (resultAuthentication.isSuccess()) {
-            Map<String, String> session = resultAuthentication.getResult();
+        if (result.isSuccess()) {
+            Map<String, String> session = (Map<String, String>) result.getResult();
+
             parameters.clear();
             parameters.put(EnumParameter.NUMBER.getName(), new String[]{session.get(EnumAAASession.USERNAME.getName())});
 
-            ServiceResult<List<Teacher>> resultTeacher = teacherService.read(parameters);
-
-            if (resultTeacher.isSuccess()) {
-                return resultTeacher;
-            }
+            result = teacherService.read(parameters);
         }
 
-        return resultAuthentication;
+        return result;
     }
 
     @Override
@@ -59,9 +56,9 @@ public class LogInStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadTeacher(((ServiceResult<Teacher>) out).getResult());
+            controller.onReadTeacher(((ServiceResult<List<Teacher>>) out).getResult().get(0));
         } else {
-            controller.onFail(((ServiceResult) out).getHttpCode());
+            controller.onFail(((ServiceResult) out).getHttpStatus());
         }
     }
 
@@ -69,6 +66,6 @@ public class LogInStrategy extends ReadRequestorStrategy {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.display(R.string.message_cancelled);
+        controller.onFail(((ServiceResult) out).getHttpStatus());
     }
 }
