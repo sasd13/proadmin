@@ -17,13 +17,11 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
     @StringRes
     private static final int[] TITLES = {R.string.title_information, R.string.title_runnings};
 
-    private ProjectWrapper projectWrapper;
     private Context context;
 
-    public ProjectDetailsPagerFactory(Fragment fragment, ProjectWrapper projectWrapper) {
+    public ProjectDetailsPagerFactory(Fragment fragment) {
         super(fragment.getChildFragmentManager());
 
-        this.projectWrapper = projectWrapper;
         context = fragment.getContext();
     }
 
@@ -31,9 +29,9 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ProjectDetailsFragmentInfos.newInstance(projectWrapper);
+                return ProjectDetailsFragmentInfos.newInstance();
             case 1:
-                return ProjectDetailsFragmentRunnings.newInstance(projectWrapper);
+                return ProjectDetailsFragmentRunnings.newInstance();
             default:
                 return null;
         }

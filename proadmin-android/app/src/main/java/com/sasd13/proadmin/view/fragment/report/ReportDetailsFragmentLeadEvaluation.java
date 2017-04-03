@@ -25,7 +25,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
+import com.sasd13.proadmin.util.scope.ReportWrapper;
 
 import java.util.List;
 import java.util.Observable;

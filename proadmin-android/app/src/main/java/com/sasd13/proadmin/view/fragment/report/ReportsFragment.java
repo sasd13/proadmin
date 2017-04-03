@@ -24,7 +24,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.util.wrapper.ReportsWrapper;
+import com.sasd13.proadmin.util.scope.ReportsWrapper;
 
 import java.util.List;
 import java.util.Observable;

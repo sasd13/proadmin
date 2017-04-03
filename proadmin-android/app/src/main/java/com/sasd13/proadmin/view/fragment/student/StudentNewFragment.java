@@ -23,7 +23,7 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
-import com.sasd13.proadmin.util.wrapper.StudentWrapper;
+import com.sasd13.proadmin.util.scope.StudentWrapper;
 
 public class StudentNewFragment extends Fragment {
 

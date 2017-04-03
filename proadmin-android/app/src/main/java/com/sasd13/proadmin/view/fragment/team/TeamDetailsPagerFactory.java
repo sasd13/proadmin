@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.util.wrapper.TeamWrapper;
+import com.sasd13.proadmin.util.scope.TeamWrapper;
 
 /**
  * Created by ssaidali2 on 05/11/2016.

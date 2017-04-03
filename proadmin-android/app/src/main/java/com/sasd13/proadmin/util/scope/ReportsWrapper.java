@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.wrapper;
+package com.sasd13.proadmin.util.scope;
 
 import com.sasd13.proadmin.bean.running.Report;
 

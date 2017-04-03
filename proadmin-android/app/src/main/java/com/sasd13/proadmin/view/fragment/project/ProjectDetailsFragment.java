@@ -16,14 +16,10 @@ import com.sasd13.proadmin.activity.MainActivity;
 
 public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
 
-    private ProjectWrapper projectWrapper;
     private Pager pager;
 
-    public static ProjectDetailsFragment newInstance(ProjectWrapper projectWrapper) {
-        ProjectDetailsFragment fragment = new ProjectDetailsFragment();
-        fragment.projectWrapper = projectWrapper;
-
-        return fragment;
+    public static ProjectDetailsFragment newInstance() {
+        return new ProjectDetailsFragment();;
     }
 
     @Override
@@ -51,7 +47,7 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ProjectDetailsPagerFactory(this, projectWrapper));
+        pager.setAdapter(new ProjectDetailsPagerFactory(this));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

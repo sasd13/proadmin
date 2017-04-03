@@ -7,36 +7,41 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
-import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
-import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
-import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
-import com.sasd13.proadmin.util.wrapper.ProjectScope;
-import com.sasd13.proadmin.util.wrapper.RunningWrapper;
+import com.sasd13.proadmin.util.scope.ProjectScope;
+import com.sasd13.proadmin.util.scope.RunningWrapper;
+import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
+import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 
 import java.util.List;
 
 public class ProjectController extends MainController implements IProjectController, IRunningController {
 
+    private ProjectScope scope;
     private IProjectService projectService;
     private IRunningService runningService;
     private ProjectReadStrategy projectReadStrategy;
     private RunningReadStrategy runningReadStrategy;
     private RunningCreateStrategy runningCreateStrategy;
     private RunningDeleteStrategy runningDeleteStrategy;
-    private ProjectScope projectScope;
-    private ProjectWrapper projectWrapper;
 
     public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
         super(mainActivity);
 
+        scope = new ProjectScope();
         this.projectService = projectService;
         this.runningService = runningService;
+    }
+
+    @Override
+    public Object getScope() {
+        return scope;
     }
 
     @Override
@@ -47,9 +52,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void listProjects() {
-        projectScope = new ProjectScope();
-
-        startFragment(ProjectsFragment.newInstance(projectScope));
+        startFragment(ProjectsFragment.newInstance());
         readProjects();
     }
 
@@ -63,15 +66,15 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadProjects(List<Project> projects) {
         if (isProxyFragmentNotDetached()) {
-            projectScope.setProjects(projects);
+            scope.setProjects(projects);
         }
     }
 
     @Override
     public void showProject(Project project) {
-        projectWrapper = new ProjectWrapper(project);
+        scope.setProject(project);
 
-        startFragment(ProjectDetailsFragment.newInstance(projectWrapper));
+        startFragment(ProjectDetailsFragment.newInstance());
         listRunnings(project);
     }
 
@@ -88,7 +91,7 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     void onReadRunnings(List<Running> runnings) {
-        projectWrapper.setRunnings(runnings);
+        scope.setRunnings(runnings);
     }
 
     @Override

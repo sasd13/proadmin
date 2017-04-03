@@ -9,7 +9,7 @@ import com.sasd13.proadmin.view.fragment.settings.SettingsFragment;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.wrapper.TeacherWrapper;
+import com.sasd13.proadmin.util.scope.TeacherWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public class SettingsController extends MainController implements ISettingsController {

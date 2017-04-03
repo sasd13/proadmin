@@ -21,7 +21,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.ISettingsController;
 import com.sasd13.proadmin.view.gui.form.TeacherForm;
-import com.sasd13.proadmin.util.wrapper.TeacherWrapper;
+import com.sasd13.proadmin.util.scope.TeacherWrapper;
 
 public class SettingsFragment extends Fragment {
 

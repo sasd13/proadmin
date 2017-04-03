@@ -18,9 +18,9 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
-import com.sasd13.proadmin.util.wrapper.StudentWrapper;
-import com.sasd13.proadmin.util.wrapper.TeamWrapper;
-import com.sasd13.proadmin.util.wrapper.TeamsWrapper;
+import com.sasd13.proadmin.util.scope.StudentWrapper;
+import com.sasd13.proadmin.util.scope.TeamWrapper;
+import com.sasd13.proadmin.util.scope.TeamsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 

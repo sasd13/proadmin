@@ -27,7 +27,7 @@ import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.util.wrapper.ReportWrapper;
+import com.sasd13.proadmin.util.scope.ReportWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

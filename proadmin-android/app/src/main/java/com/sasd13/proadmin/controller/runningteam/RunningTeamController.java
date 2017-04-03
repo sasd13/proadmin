@@ -18,8 +18,8 @@ import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
-import com.sasd13.proadmin.util.wrapper.RunningTeamWrapper;
-import com.sasd13.proadmin.util.wrapper.RunningTeamsWrapper;
+import com.sasd13.proadmin.util.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.util.scope.RunningTeamsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 import java.util.List;

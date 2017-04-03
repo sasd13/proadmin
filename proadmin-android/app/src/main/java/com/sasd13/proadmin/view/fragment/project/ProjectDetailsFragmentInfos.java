@@ -19,14 +19,10 @@ import com.sasd13.proadmin.view.gui.form.ProjectForm;
 
 public class ProjectDetailsFragmentInfos extends Fragment {
 
-    private Project project;
     private ProjectForm projectForm;
 
-    public static ProjectDetailsFragmentInfos newInstance(ProjectWrapper projectWrapper) {
-        ProjectDetailsFragmentInfos fragment = new ProjectDetailsFragmentInfos();
-        fragment.project = projectWrapper.getProject();
-
-        return fragment;
+    public static ProjectDetailsFragmentInfos newInstance() {
+        return new ProjectDetailsFragmentInfos();
     }
 
     @Override

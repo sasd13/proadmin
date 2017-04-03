@@ -23,7 +23,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.util.wrapper.ProjectScope;
+import com.sasd13.proadmin.util.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.tab.ProjectItemModel;
 
 import org.joda.time.DateTime;
@@ -125,13 +125,13 @@ public class ProjectsFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         ProjectScope projectScope = (ProjectScope) observable;
 
-        if (!projects.containsAll(projectScope.getProjects())) {
+        /*if (!projects.containsAll(projectScope.getProjects())) {
             addNextProjects(projectScope.getProjects());
-        }
+        }*/
     }
 
-    private void addNextProjects(List<Project> nextProjects) {
+    /*private void addNextProjects(List<Project> nextProjects) {
         projects.addAll(nextProjects);
         bindTabWithProjects(nextProjects);
-    }
+    }*/
 }

@@ -20,9 +20,9 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.util.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.tab.RunningItemModel;
 
 import java.util.List;
@@ -32,18 +32,11 @@ import java.util.Observer;
 public class ProjectDetailsFragmentRunnings extends Fragment implements Observer {
 
     private IRunningController controller;
-    private Project project;
-    private List<Running> runnings;
+    private ProjectScope scope;
     private Recycler recycler;
 
-    public static ProjectDetailsFragmentRunnings newInstance(ProjectWrapper projectWrapper) {
-        ProjectDetailsFragmentRunnings fragment = new ProjectDetailsFragmentRunnings();
-        fragment.project = projectWrapper.getProject();
-        fragment.runnings = projectWrapper.getRunnings();
-
-        projectWrapper.addObserver(fragment);
-
-        return fragment;
+    public static ProjectDetailsFragmentRunnings newInstance() {
+        return new ProjectDetailsFragmentRunnings();
     }
 
     @Override
@@ -51,6 +44,9 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         super.onCreate(savedInstanceState);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
+        scope = (ProjectScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -68,7 +64,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithRunnings(runnings);
+        bindTabWithRunnings(scope.getRunnings());
     }
 
     private void buildTabRunnings(View view) {
@@ -81,9 +77,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (project != null) {
-                    controller.newRunning(project);
-                }
+                controller.newRunning(scope.getProject());
             }
         });
     }
@@ -114,15 +108,13 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
     @Override
     public void update(Observable observable, Object o) {
-        ProjectWrapper projectWrapper = (ProjectWrapper) observable;
-
-        if (!runnings.containsAll(projectWrapper.getRunnings())) {
+        /*if (!runnings.containsAll(projectWrapper.getRunnings())) {
             addNextRunnings(projectWrapper.getRunnings());
-        }
+        }*/
     }
 
-    private void addNextRunnings(List<Running> nextRunnings) {
+    /*private void addNextRunnings(List<Running> nextRunnings) {
         runnings.addAll(nextRunnings);
         bindTabWithRunnings(nextRunnings);
-    }
+    }*/
 }

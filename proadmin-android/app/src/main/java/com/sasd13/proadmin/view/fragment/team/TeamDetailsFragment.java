@@ -13,7 +13,7 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.util.wrapper.TeamWrapper;
+import com.sasd13.proadmin.util.scope.TeamWrapper;
 
 public class TeamDetailsFragment extends Fragment implements IPagerHandler {
 
