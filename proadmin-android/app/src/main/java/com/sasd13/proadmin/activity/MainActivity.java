@@ -19,10 +19,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.IController;
-import com.sasd13.proadmin.fragment.HomeFragment;
-import com.sasd13.proadmin.fragment.ProxyFragment;
-import com.sasd13.proadmin.gui.browser.Browser;
-import com.sasd13.proadmin.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.view.fragment.HomeFragment;
+import com.sasd13.proadmin.view.fragment.ProxyFragment;
+import com.sasd13.proadmin.view.gui.browser.Browser;
+import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
 

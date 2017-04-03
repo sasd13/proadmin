@@ -32,8 +32,8 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     @Override
-    public void entry() {
-        identityActivity.clearHistory();
+    public Object getScope() {
+        return null;
     }
 
     @Override

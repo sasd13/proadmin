@@ -5,7 +5,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.ISettingsController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.fragment.settings.SettingsFragment;
+import com.sasd13.proadmin.view.fragment.settings.SettingsFragment;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;

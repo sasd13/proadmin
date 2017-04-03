@@ -7,17 +7,16 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.fragment.project.ProjectDetailsFragment;
-import com.sasd13.proadmin.fragment.project.ProjectsFragment;
-import com.sasd13.proadmin.fragment.running.RunningDetailsFragment;
-import com.sasd13.proadmin.fragment.running.RunningNewFragment;
+import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
+import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
-import com.sasd13.proadmin.util.wrapper.ProjectWrapper;
-import com.sasd13.proadmin.util.wrapper.ProjectsWrapper;
+import com.sasd13.proadmin.util.wrapper.ProjectScope;
 import com.sasd13.proadmin.util.wrapper.RunningWrapper;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class ProjectController extends MainController implements IProjectControl
     private RunningReadStrategy runningReadStrategy;
     private RunningCreateStrategy runningCreateStrategy;
     private RunningDeleteStrategy runningDeleteStrategy;
-    private ProjectsWrapper projectsWrapper;
+    private ProjectScope projectScope;
     private ProjectWrapper projectWrapper;
 
     public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
@@ -48,9 +47,9 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void listProjects() {
-        projectsWrapper = new ProjectsWrapper();
+        projectScope = new ProjectScope();
 
-        startFragment(ProjectsFragment.newInstance(projectsWrapper));
+        startFragment(ProjectsFragment.newInstance(projectScope));
         readProjects();
     }
 
@@ -64,7 +63,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadProjects(List<Project> projects) {
         if (isProxyFragmentNotDetached()) {
-            projectsWrapper.setProjects(projects);
+            projectScope.setProjects(projects);
         }
     }
 

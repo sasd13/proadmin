@@ -6,5 +6,5 @@ package com.sasd13.proadmin.controller;
 
 public interface IController extends IMessageHandler {
 
-    void entry();
+    Object getScope();
 }
