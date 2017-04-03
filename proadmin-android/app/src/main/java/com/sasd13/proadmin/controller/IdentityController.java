@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 
 import com.sasd13.proadmin.activity.IdentityActivity;
 
@@ -15,5 +16,9 @@ public abstract class IdentityController extends Controller {
         super(activity);
 
         identityActivity = (IdentityActivity) activity;
+    }
+
+    protected void startFragment(Fragment fragment) {
+        identityActivity.startFragment(fragment);
     }
 }
