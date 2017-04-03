@@ -22,7 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
-import com.sasd13.proadmin.util.scope.TeamWrapper;
+import com.sasd13.proadmin.scope.TeamWrapper;
 
 public class TeamNewFragment extends Fragment {
 
@@ -123,8 +123,8 @@ public class TeamNewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_team));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_team));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
     }
 
     @Override

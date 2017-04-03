@@ -19,8 +19,8 @@ import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.util.scope.ReportWrapper;
-import com.sasd13.proadmin.util.scope.ReportsWrapper;
+import com.sasd13.proadmin.scope.ReportWrapper;
+import com.sasd13.proadmin.scope.ReportsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
@@ -54,6 +54,11 @@ public class ReportController extends MainController implements IReportControlle
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
         this.runningTeamService = runningTeamService;
+    }
+
+    @Override
+    public Object getScope() {
+        return null;
     }
 
     @Override

@@ -18,8 +18,8 @@ import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
-import com.sasd13.proadmin.util.scope.RunningTeamWrapper;
-import com.sasd13.proadmin.util.scope.RunningTeamsWrapper;
+import com.sasd13.proadmin.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 import java.util.List;
@@ -44,6 +44,11 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         this.runningTeamService = runningTeamService;
         this.reportService = reportService;
+    }
+
+    @Override
+    public Object getScope() {
+        return null;
     }
 
     @Override

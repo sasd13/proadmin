@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.settings;
+package com.sasd13.proadmin.controller.setting;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
@@ -13,10 +13,10 @@ import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public class TeacherUpdateStrategy extends RequestorStrategy {
 
-    private SettingsController controller;
+    private SettingController controller;
     private ITeacherService service;
 
-    public TeacherUpdateStrategy(SettingsController controller, ITeacherService service) {
+    public TeacherUpdateStrategy(SettingController controller, ITeacherService service) {
         super();
 
         this.controller = controller;

@@ -30,7 +30,7 @@ import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -159,8 +159,8 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     private void deleteTeam() {
         OptionDialog.showOkCancelDialog(
                 getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
+                getString(R.string.message_delete),
+                getString(R.string.message_confirm),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

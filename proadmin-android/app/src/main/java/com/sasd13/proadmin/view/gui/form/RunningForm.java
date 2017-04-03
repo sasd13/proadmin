@@ -23,12 +23,12 @@ public class RunningForm extends Form {
 
         modelYear = new TextItemModel();
         modelYear.setReadOnly(true);
-        modelYear.setLabel(context.getResources().getString(R.string.label_year));
+        modelYear.setLabel(context.getString(R.string.label_year));
         holder.add(new RecyclerHolderPair(modelYear));
 
         modelProject = new TextItemModel();
         modelProject.setReadOnly(true);
-        modelProject.setLabel(context.getResources().getString(R.string.label_project));
+        modelProject.setLabel(context.getString(R.string.label_project));
         holder.add(new RecyclerHolderPair(modelProject));
     }
 

@@ -33,22 +33,22 @@ public class ReportForm extends Form {
         if (inModeEdit) {
             modelNumber = new TextItemModel();
             modelNumber.setReadOnly(true);
-            modelNumber.setLabel(context.getResources().getString(R.string.label_number));
-            modelNumber.setHint(context.getResources().getString(R.string.label_number));
+            modelNumber.setLabel(context.getString(R.string.label_number));
+            modelNumber.setHint(context.getString(R.string.label_number));
             holder.add(new RecyclerHolderPair(modelNumber));
         }
 
         modelSession = new TextItemModel(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_NORMAL);
-        modelSession.setLabel(context.getResources().getString(R.string.label_session));
+        modelSession.setLabel(context.getString(R.string.label_session));
         holder.add(new RecyclerHolderPair(modelSession));
 
         modelDateMeeting = new DateItemModel();
-        modelDateMeeting.setLabel(context.getResources().getString(R.string.label_datemeeting));
+        modelDateMeeting.setLabel(context.getString(R.string.label_datemeeting));
         modelDateMeeting.setValue(new LocalDate());
         holder.add(new RecyclerHolderPair(modelDateMeeting));
 
         modelComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-        modelComment.setLabel(context.getResources().getString(R.string.label_comment));
+        modelComment.setLabel(context.getString(R.string.label_comment));
         modelComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelComment));
     }

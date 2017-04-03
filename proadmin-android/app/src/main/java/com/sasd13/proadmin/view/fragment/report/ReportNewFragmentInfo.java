@@ -21,7 +21,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.form.ReportForm;
-import com.sasd13.proadmin.util.scope.ReportWrapper;
+import com.sasd13.proadmin.scope.ReportWrapper;
 
 public class ReportNewFragmentInfo extends Fragment {
 

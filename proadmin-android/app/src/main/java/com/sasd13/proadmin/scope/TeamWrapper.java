@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.scope;
+package com.sasd13.proadmin.scope;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;

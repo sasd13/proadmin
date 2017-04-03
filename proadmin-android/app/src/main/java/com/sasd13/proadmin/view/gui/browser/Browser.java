@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.controller.ILogOutController;
-import com.sasd13.proadmin.controller.IProjectController;
-import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.controller.IRunningTeamController;
-import com.sasd13.proadmin.controller.ISettingsController;
-import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.controller.authentication.LogOutController;
+import com.sasd13.proadmin.controller.project.ProjectController;
+import com.sasd13.proadmin.controller.report.ReportController;
+import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
+import com.sasd13.proadmin.controller.setting.SettingController;
+import com.sasd13.proadmin.controller.team.TeamController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,31 +35,31 @@ public class Browser {
         if (navItems.isEmpty()) {
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.PROJECTS,
-                    context.getResources().getString(R.string.title_projects),
+                    context.getString(R.string.title_projects),
                     ContextCompat.getDrawable(context, R.drawable.ic_project_small),
                     ContextCompat.getColor(context, R.color.orange),
-                    IProjectController.class
+                    ProjectController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.TEAMS,
-                    context.getResources().getString(R.string.title_teams),
+                    context.getString(R.string.title_teams),
                     ContextCompat.getDrawable(context, R.drawable.ic_team_small),
                     ContextCompat.getColor(context, R.color.green),
-                    ITeamController.class
+                    TeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.RUNNINGTEAMS,
-                    context.getResources().getString(R.string.title_runningteams),
+                    context.getString(R.string.title_runningteams),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.purple),
-                    IRunningTeamController.class
+                    RunningTeamController.class
             ));
             navItems.add(new BrowserItemModel(
                     EnumBrowserItemType.REPORTS,
-                    context.getResources().getString(R.string.title_reports),
+                    context.getString(R.string.title_reports),
                     ContextCompat.getDrawable(context, R.drawable.ic_report_small),
                     ContextCompat.getColor(context, R.color.blue),
-                    IReportController.class
+                    ReportController.class
             ));
         }
 
@@ -70,17 +70,17 @@ public class Browser {
         if (accountItems.isEmpty()) {
             accountItems.add(new BrowserItemModel(
                     EnumBrowserItemType.SETTINGS,
-                    context.getResources().getString(R.string.title_settings),
+                    context.getString(R.string.title_settings),
                     ContextCompat.getDrawable(context, R.drawable.ic_settings_black_24dp),
                     ContextCompat.getColor(context, R.color.brown),
-                    ISettingsController.class
+                    SettingController.class
             ));
             accountItems.add(new BrowserItemModel(
                     EnumBrowserItemType.LOGOUT,
-                    context.getResources().getString(R.string.drawer_label_logout),
+                    context.getString(R.string.drawer_label_logout),
                     ContextCompat.getDrawable(context, R.drawable.ic_exit_to_app_black_24dp),
                     ContextCompat.getColor(context, R.color.greyBackground),
-                    ILogOutController.class
+                    LogOutController.class
             ));
         }
 

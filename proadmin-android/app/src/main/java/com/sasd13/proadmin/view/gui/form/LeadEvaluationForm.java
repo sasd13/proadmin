@@ -33,24 +33,24 @@ public class LeadEvaluationForm extends Form {
         super(context);
 
         modelLeader = new SpinRadioItemModel();
-        modelLeader.setLabel(context.getResources().getString(R.string.label_leader));
+        modelLeader.setLabel(context.getString(R.string.label_leader));
         holder.add(new RecyclerHolderPair(modelLeader));
 
         modelPlanningMark = new NumberItemModel();
-        modelPlanningMark.setLabel(context.getResources().getString(R.string.label_planningmark));
+        modelPlanningMark.setLabel(context.getString(R.string.label_planningmark));
         holder.add(new RecyclerHolderPair(modelPlanningMark));
 
         modelPlanningComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-        modelPlanningComment.setLabel(context.getResources().getString(R.string.label_planningcomment));
+        modelPlanningComment.setLabel(context.getString(R.string.label_planningcomment));
         modelPlanningComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelPlanningComment));
 
         modelCommunicationMark = new NumberItemModel();
-        modelCommunicationMark.setLabel(context.getResources().getString(R.string.label_communicationmark));
+        modelCommunicationMark.setLabel(context.getString(R.string.label_communicationmark));
         holder.add(new RecyclerHolderPair(modelCommunicationMark));
 
         modelCommunicationComment = new TextItemModel(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-        modelCommunicationComment.setLabel(context.getResources().getString(R.string.label_communicationcomment));
+        modelCommunicationComment.setLabel(context.getString(R.string.label_communicationcomment));
         modelCommunicationComment.setMultiLine(true);
         holder.add(new RecyclerHolderPair(modelCommunicationComment));
     }

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.settings;
+package com.sasd13.proadmin.controller.setting;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
 import com.sasd13.proadmin.R;
@@ -15,10 +15,10 @@ import java.util.List;
 
 public class TeacherReadStrategy extends ReadRequestorStrategy {
 
-    private SettingsController controller;
+    private SettingController controller;
     private ITeacherService service;
 
-    public TeacherReadStrategy(SettingsController controller, ITeacherService service) {
+    public TeacherReadStrategy(SettingController controller, ITeacherService service) {
         super();
 
         this.controller = controller;

@@ -27,7 +27,7 @@ import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.util.scope.ReportWrapper;
+import com.sasd13.proadmin.scope.ReportWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +125,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 if (report.getRunningTeam() != null) {
                     parentFragment.forward();
                 } else {
-                    controller.display(getResources().getString(R.string.error_no_runningteam_selected));
+                    controller.display(getString(R.string.error_no_runningteam_selected));
                 }
             }
         });

@@ -1,27 +1,34 @@
-package com.sasd13.proadmin.controller.settings;
+package com.sasd13.proadmin.controller.setting;
 
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.controller.ISettingsController;
+import com.sasd13.proadmin.controller.ISettingController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.view.fragment.settings.SettingsFragment;
+import com.sasd13.proadmin.scope.SettingScope;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.scope.TeacherWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.view.fragment.setting.SettingFragment;
 
-public class SettingsController extends MainController implements ISettingsController {
+public class SettingController extends MainController implements ISettingController {
 
+    private SettingScope scope;
     private ITeacherService teacherService;
     private TeacherReadStrategy teacherReadStrategy;
     private TeacherUpdateStrategy teacherUpdateStrategy;
 
-    public SettingsController(MainActivity mainActivity, ITeacherService teacherService) {
+    public SettingController(MainActivity mainActivity, ITeacherService teacherService) {
         super(mainActivity);
 
+        scope = new SettingScope();
         this.teacherService = teacherService;
+    }
+
+    @Override
+    public Object getScope() {
+        return scope;
     }
 
     @Override
@@ -31,7 +38,10 @@ public class SettingsController extends MainController implements ISettingsContr
     }
 
     private void showTeacher() {
-        startProxyFragment();
+        SettingFragment fragment = SettingFragment.newInstance();
+
+        scope.addObserver(fragment);
+        startFragment(fragment);
         readTeacher();
     }
 
@@ -46,9 +56,7 @@ public class SettingsController extends MainController implements ISettingsContr
     }
 
     void onReadTeacher(Teacher teacher) {
-        if (isProxyFragmentNotDetached()) {
-            startFragment(SettingsFragment.newInstance(new TeacherWrapper(teacher)));
-        }
+        scope.setTeacher(teacher);
     }
 
     @Override

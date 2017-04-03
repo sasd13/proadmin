@@ -19,7 +19,7 @@ public class ReportItemModel extends Observable implements IRecyclerItemModel, I
     public ReportItemModel(Report report, Context context) {
         this.report = report;
         format = DateTimeHelper.getLocaleDateFormatPattern(context, DateTimeHelper.EnumFormat.LONG);
-        labelSession = context.getResources().getString(R.string.label_session);
+        labelSession = context.getString(R.string.label_session);
     }
 
     @Override

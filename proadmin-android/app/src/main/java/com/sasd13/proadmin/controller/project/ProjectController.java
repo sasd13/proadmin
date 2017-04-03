@@ -7,13 +7,13 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.scope.ProjectScope;
+import com.sasd13.proadmin.scope.RunningWrapper;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
-import com.sasd13.proadmin.util.scope.ProjectScope;
-import com.sasd13.proadmin.util.scope.RunningWrapper;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
@@ -52,7 +52,10 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void listProjects() {
-        startFragment(ProjectsFragment.newInstance());
+        ProjectsFragment fragment = ProjectsFragment.newInstance();
+
+        scope.addObserver(fragment);
+        startFragment(fragment);
         readProjects();
     }
 
@@ -65,9 +68,7 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     void onReadProjects(List<Project> projects) {
-        if (isProxyFragmentNotDetached()) {
-            scope.setProjects(projects);
-        }
+        scope.setProjects(projects);
     }
 
     @Override

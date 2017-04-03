@@ -24,7 +24,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.view.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.util.scope.TeamsWrapper;
+import com.sasd13.proadmin.scope.TeamsWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -114,7 +114,7 @@ public class TeamsFragment extends Fragment implements Observer {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_teams));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_teams));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 

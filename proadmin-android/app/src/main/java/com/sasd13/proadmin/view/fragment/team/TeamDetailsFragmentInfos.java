@@ -24,7 +24,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
-import com.sasd13.proadmin.util.scope.TeamWrapper;
+import com.sasd13.proadmin.scope.TeamWrapper;
 
 public class TeamDetailsFragmentInfos extends Fragment {
 
@@ -123,8 +123,8 @@ public class TeamDetailsFragmentInfos extends Fragment {
     private void deleteTeam() {
         OptionDialog.showOkCancelDialog(
                 getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
+                getString(R.string.message_delete),
+                getString(R.string.message_confirm),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

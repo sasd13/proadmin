@@ -22,24 +22,24 @@ public class StudentForm extends Form {
     public StudentForm(Context context) {
         super(context);
 
-        String title = context.getResources().getString(R.string.title_identity);
+        String title = context.getString(R.string.title_identity);
 
         modelNumber = new TextItemModel();
-        modelNumber.setLabel(context.getResources().getString(R.string.label_number));
+        modelNumber.setLabel(context.getString(R.string.label_number));
         holder.add(title, new RecyclerHolderPair(modelNumber));
 
         modelFirstName = new TextItemModel(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        modelFirstName.setLabel(context.getResources().getString(R.string.label_firstname));
+        modelFirstName.setLabel(context.getString(R.string.label_firstname));
         modelFirstName.setHint(modelFirstName.getLabel().toLowerCase());
         holder.add(title, new RecyclerHolderPair(modelFirstName));
 
         modelLastName = new TextItemModel(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        modelLastName.setLabel(context.getResources().getString(R.string.label_lastname));
+        modelLastName.setLabel(context.getString(R.string.label_lastname));
         modelLastName.setHint(modelLastName.getLabel().toLowerCase());
         holder.add(title, new RecyclerHolderPair(modelLastName));
 
         modelEmail = new TextItemModel(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        modelEmail.setLabel(context.getResources().getString(R.string.label_email));
+        modelEmail.setLabel(context.getString(R.string.label_email));
         modelEmail.setHint(modelEmail.getLabel().toLowerCase());
         holder.add(title, new RecyclerHolderPair(modelEmail));
     }

@@ -35,19 +35,19 @@ public class RunningTeamForm extends Form {
 
         modelYear = new TextItemModel();
         modelYear.setReadOnly(true);
-        modelYear.setLabel(context.getResources().getString(R.string.label_year));
+        modelYear.setLabel(context.getString(R.string.label_year));
         holder.add(new RecyclerHolderPair(modelYear));
 
         modelRunning = new SpinRadioItemModel();
-        modelRunning.setLabel(context.getResources().getString(R.string.label_project));
+        modelRunning.setLabel(context.getString(R.string.label_project));
         holder.add(new RecyclerHolderPair(modelRunning));
 
         modelAcademicLevel = new SpinRadioItemModel();
-        modelAcademicLevel.setLabel(context.getResources().getString(R.string.label_academiclevel));
+        modelAcademicLevel.setLabel(context.getString(R.string.label_academiclevel));
         holder.add(new RecyclerHolderPair(modelAcademicLevel));
 
         modelTeam = new SpinRadioItemModel();
-        modelTeam.setLabel(context.getResources().getString(R.string.label_team));
+        modelTeam.setLabel(context.getString(R.string.label_team));
         holder.add(new RecyclerHolderPair(modelTeam));
     }
 

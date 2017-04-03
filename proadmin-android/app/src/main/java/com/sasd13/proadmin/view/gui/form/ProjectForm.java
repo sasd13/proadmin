@@ -20,17 +20,17 @@ public class ProjectForm extends Form {
 
         modelTitle = new TextItemModel();
         modelTitle.setReadOnly(true);
-        modelTitle.setLabel(context.getResources().getString(R.string.label_title));
+        modelTitle.setLabel(context.getString(R.string.label_title));
         holder.add(new RecyclerHolderPair(modelTitle));
 
         modelCode = new TextItemModel();
         modelCode.setReadOnly(true);
-        modelCode.setLabel(context.getResources().getString(R.string.label_code));
+        modelCode.setLabel(context.getString(R.string.label_code));
         holder.add(new RecyclerHolderPair(modelCode));
 
         modelDescription = new TextItemModel();
         modelDescription.setReadOnly(true);
-        modelDescription.setLabel(context.getResources().getString(R.string.label_description));
+        modelDescription.setLabel(context.getString(R.string.label_description));
         holder.add(new RecyclerHolderPair(modelDescription));
     }
 

@@ -28,7 +28,7 @@ import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -161,8 +161,8 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_runningteam));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_runningteam));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
     }
 
     @Override

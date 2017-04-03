@@ -22,7 +22,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
-import com.sasd13.proadmin.util.scope.ProjectScope;
+import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.tab.RunningItemModel;
 
 import java.util.List;
@@ -45,8 +45,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
         scope = (ProjectScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
@@ -64,7 +62,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithRunnings(scope.getRunnings());
     }
 
     private void buildTabRunnings(View view) {
@@ -80,10 +77,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
                 controller.newRunning(scope.getProject());
             }
         });
-    }
-
-    private void bindTabWithRunnings(List<Running> runnings) {
-        addRunningsToTab(runnings);
     }
 
     private void addRunningsToTab(List<Running> runnings) {
@@ -108,9 +101,17 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
     @Override
     public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindTabWithRunnings(scope.getRunnings());
+
         /*if (!runnings.containsAll(projectWrapper.getRunnings())) {
             addNextRunnings(projectWrapper.getRunnings());
         }*/
+    }
+
+    private void bindTabWithRunnings(List<Running> runnings) {
+        addRunningsToTab(runnings);
     }
 
     /*private void addNextRunnings(List<Running> nextRunnings) {

@@ -1,12 +1,10 @@
 package com.sasd13.proadmin.view.fragment.runningteam;
 
-import android.content.Context;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.util.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamWrapper;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -15,17 +13,19 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
-    @StringRes
-    private static final int[] TITLES = {R.string.title_information, R.string.title_reports};
+    private final String[] TITLES;
 
     private RunningTeamWrapper runningTeamWrapper;
-    private Context context;
 
     public RunningTeamDetailsPagerFactory(Fragment fragment, RunningTeamWrapper runningTeamWrapper) {
         super(fragment.getChildFragmentManager());
 
         this.runningTeamWrapper = runningTeamWrapper;
-        context = fragment.getContext();
+
+        TITLES = new String[]{
+                fragment.getString(R.string.title_information),
+                fragment.getString(R.string.title_reports)
+        };
     }
 
     @Override
@@ -47,6 +47,6 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getResources().getString(TITLES[position]);
+        return TITLES[position];
     }
 }

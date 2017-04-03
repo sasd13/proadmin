@@ -14,15 +14,25 @@ import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.controller.IProjectController;
+import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.form.ProjectForm;
 
 public class ProjectDetailsFragmentInfos extends Fragment {
 
+    private ProjectScope scope;
     private ProjectForm projectForm;
 
     public static ProjectDetailsFragmentInfos newInstance() {
         return new ProjectDetailsFragmentInfos();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        scope = (ProjectScope) ((MainActivity) getActivity()).lookup(IProjectController.class).getScope();
     }
 
     @Override
@@ -52,6 +62,6 @@ public class ProjectDetailsFragmentInfos extends Fragment {
     }
 
     private void bindFormWithProject() {
-        projectForm.bind(project);
+        projectForm.bind(scope.getProject());
     }
 }

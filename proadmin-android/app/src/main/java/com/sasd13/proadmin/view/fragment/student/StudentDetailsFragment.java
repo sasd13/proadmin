@@ -22,7 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
-import com.sasd13.proadmin.util.scope.StudentWrapper;
+import com.sasd13.proadmin.scope.StudentWrapper;
 
 public class StudentDetailsFragment extends Fragment {
 
@@ -122,7 +122,7 @@ public class StudentDetailsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_student));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_student));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 

@@ -13,8 +13,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.controller.ISettingsController;
+import com.sasd13.proadmin.controller.ISettingController;
 import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.controller.MainController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -55,11 +56,11 @@ public class HomeFragment extends Fragment {
                         mClass = IReportController.class;
                         break;
                     case R.id.home_imageview_calendar:
-                        mClass = ISettingsController.class;
+                        mClass = ISettingController.class;
                         break;
                 }
 
-                ((MainActivity) getActivity()).lookup(mClass).entry();
+                ((MainController) ((MainActivity) getActivity()).lookup(mClass)).entry();
             }
         };
 
@@ -83,7 +84,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_home));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_home));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 }

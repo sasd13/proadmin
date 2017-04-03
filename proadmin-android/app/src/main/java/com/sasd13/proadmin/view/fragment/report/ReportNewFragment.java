@@ -13,7 +13,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.util.scope.ReportWrapper;
+import com.sasd13.proadmin.scope.ReportWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {
 
@@ -68,8 +68,8 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_report));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getResources().getString(R.string.title_new));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_report));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
     }
 
     public void forward() {

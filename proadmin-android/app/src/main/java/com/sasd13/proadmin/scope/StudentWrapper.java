@@ -1,13 +1,8 @@
-package com.sasd13.proadmin.util.scope;
+package com.sasd13.proadmin.scope;
 
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 /**

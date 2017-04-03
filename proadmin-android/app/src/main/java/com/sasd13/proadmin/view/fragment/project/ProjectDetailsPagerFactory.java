@@ -1,7 +1,5 @@
 package com.sasd13.proadmin.view.fragment.project;
 
-import android.content.Context;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
@@ -14,15 +12,15 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
-    @StringRes
-    private static final int[] TITLES = {R.string.title_information, R.string.title_runnings};
-
-    private Context context;
+    private final String[] TITLES;
 
     public ProjectDetailsPagerFactory(Fragment fragment) {
         super(fragment.getChildFragmentManager());
 
-        context = fragment.getContext();
+        TITLES = new String[]{
+                fragment.getContext().getString(R.string.title_information),
+                fragment.getContext().getString(R.string.title_runnings)
+        };
     }
 
     @Override
@@ -44,6 +42,6 @@ public class ProjectDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getResources().getString(TITLES[position]);
+        return TITLES[position];
     }
 }

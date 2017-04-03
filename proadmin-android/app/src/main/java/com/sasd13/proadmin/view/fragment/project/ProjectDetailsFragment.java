@@ -19,7 +19,7 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
     private Pager pager;
 
     public static ProjectDetailsFragment newInstance() {
-        return new ProjectDetailsFragment();;
+        return new ProjectDetailsFragment();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_project));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_project));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 

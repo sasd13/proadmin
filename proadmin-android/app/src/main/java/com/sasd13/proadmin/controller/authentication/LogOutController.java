@@ -14,6 +14,11 @@ public class LogOutController extends MainController implements ILogOutControlle
     }
 
     @Override
+    public Object getScope() {
+        return null;
+    }
+
+    @Override
     public void entry() {
         logOut();
     }

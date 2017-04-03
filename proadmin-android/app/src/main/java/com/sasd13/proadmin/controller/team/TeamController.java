@@ -18,9 +18,9 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
-import com.sasd13.proadmin.util.scope.StudentWrapper;
-import com.sasd13.proadmin.util.scope.TeamWrapper;
-import com.sasd13.proadmin.util.scope.TeamsWrapper;
+import com.sasd13.proadmin.scope.StudentWrapper;
+import com.sasd13.proadmin.scope.TeamWrapper;
+import com.sasd13.proadmin.scope.TeamsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 
@@ -46,6 +46,11 @@ public class TeamController extends MainController implements ITeamController, I
 
         this.teamService = teamService;
         this.studentService = studentService;
+    }
+
+    @Override
+    public Object getScope() {
+        return null;
     }
 
     @Override

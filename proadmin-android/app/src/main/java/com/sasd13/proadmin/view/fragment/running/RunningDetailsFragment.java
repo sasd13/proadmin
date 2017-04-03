@@ -23,7 +23,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
-import com.sasd13.proadmin.util.scope.RunningWrapper;
+import com.sasd13.proadmin.scope.RunningWrapper;
 
 public class RunningDetailsFragment extends Fragment {
 
@@ -110,8 +110,8 @@ public class RunningDetailsFragment extends Fragment {
     private void deleteRunning() {
         OptionDialog.showOkCancelDialog(
                 getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
+                getString(R.string.message_delete),
+                getString(R.string.message_confirm),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -124,7 +124,7 @@ public class RunningDetailsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_running));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 

@@ -22,8 +22,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.controller.IProjectController;
+import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.util.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.tab.ProjectItemModel;
 
 import org.joda.time.DateTime;
@@ -49,8 +49,6 @@ public class ProjectsFragment extends Fragment implements Observer {
 
         controller = (IProjectController) ((MainActivity) getActivity()).lookup(IProjectController.class);
         scope = (ProjectScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
@@ -68,7 +66,6 @@ public class ProjectsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabProjects(view);
         buildProgressBar(view);
-        bindTabWithProjects(scope.getProjects());
     }
 
     private void buildTabProjects(View view) {
@@ -86,6 +83,25 @@ public class ProjectsFragment extends Fragment implements Observer {
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_projects));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindTabWithProjects(scope.getProjects());
+
+        /*if (!projects.containsAll(projectScope.getProjects())) {
+            addNextProjects(projectScope.getProjects());
+        }*/
     }
 
     private void bindTabWithProjects(List<Project> projects) {
@@ -111,23 +127,6 @@ public class ProjectsFragment extends Fragment implements Observer {
         }
 
         RecyclerHelper.addAll(recycler, holder);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_projects));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        ProjectScope projectScope = (ProjectScope) observable;
-
-        /*if (!projects.containsAll(projectScope.getProjects())) {
-            addNextProjects(projectScope.getProjects());
-        }*/
     }
 
     /*private void addNextProjects(List<Project> nextProjects) {

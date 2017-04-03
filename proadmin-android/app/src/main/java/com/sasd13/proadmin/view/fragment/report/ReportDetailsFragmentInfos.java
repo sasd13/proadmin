@@ -24,7 +24,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.form.ReportForm;
-import com.sasd13.proadmin.util.scope.ReportWrapper;
+import com.sasd13.proadmin.scope.ReportWrapper;
 
 public class ReportDetailsFragmentInfos extends Fragment {
 
@@ -127,8 +127,8 @@ public class ReportDetailsFragmentInfos extends Fragment {
     private void deleteReport() {
         OptionDialog.showOkCancelDialog(
                 getContext(),
-                getResources().getString(R.string.message_delete),
-                getResources().getString(R.string.message_confirm),
+                getString(R.string.message_delete),
+                getString(R.string.message_confirm),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

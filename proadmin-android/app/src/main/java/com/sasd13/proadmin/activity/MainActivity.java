@@ -19,12 +19,13 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.controller.IController;
+import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.provider.ControllerProvider;
+import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
 import com.sasd13.proadmin.view.fragment.ProxyFragment;
 import com.sasd13.proadmin.view.gui.browser.Browser;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
-import com.sasd13.proadmin.provider.ControllerProvider;
-import com.sasd13.proadmin.util.SessionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class MainActivity extends DrawerActivity {
     private void addNavItems(RecyclerHolder recyclerHolder) {
         List<RecyclerHolderPair> pairs = makeItems(Browser.getInstance().getNavItems(this));
 
-        recyclerHolder.addAll(getResources().getString(R.string.drawer_header_menu), pairs);
+        recyclerHolder.addAll(getString(R.string.drawer_header_menu), pairs);
     }
 
     @NonNull
@@ -81,7 +82,7 @@ public class MainActivity extends DrawerActivity {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    lookup(browserItemModel.getTarget()).entry();
+                    ((MainController) lookup(browserItemModel.getTarget())).entry();
                     setDrawerOpened(false);
                 }
             });
@@ -98,7 +99,7 @@ public class MainActivity extends DrawerActivity {
     private void addAccountItems(RecyclerHolder recyclerHolder) {
         List<RecyclerHolderPair> pairs = makeItems(Browser.getInstance().getAccountItems(this));
 
-        recyclerHolder.addAll(getResources().getString(R.string.drawer_header_account), pairs);
+        recyclerHolder.addAll(getString(R.string.drawer_header_account), pairs);
     }
 
     @Override
@@ -128,8 +129,8 @@ public class MainActivity extends DrawerActivity {
     public void logOut() {
         OptionDialog.showOkCancelDialog(
                 this,
-                getResources().getString(R.string.button_logout),
-                getResources().getString(R.string.message_confirm),
+                getString(R.string.button_logout),
+                getString(R.string.message_confirm),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

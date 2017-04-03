@@ -24,7 +24,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.util.scope.ReportsWrapper;
+import com.sasd13.proadmin.scope.ReportsWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -114,7 +114,7 @@ public class ReportsFragment extends Fragment implements Observer {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_reports));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_reports));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 

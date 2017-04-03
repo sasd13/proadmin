@@ -22,7 +22,7 @@ public class TeamForm extends Form {
         super(context);
 
         modelNumber = new TextItemModel();
-        modelNumber.setLabel(context.getResources().getString(R.string.label_number));
+        modelNumber.setLabel(context.getString(R.string.label_number));
         holder.add(new RecyclerHolderPair(modelNumber));
     }
 

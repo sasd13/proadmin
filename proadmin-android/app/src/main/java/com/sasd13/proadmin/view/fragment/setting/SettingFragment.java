@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.settings;
+package com.sasd13.proadmin.view.fragment.setting;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,22 +19,22 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.controller.ISettingsController;
+import com.sasd13.proadmin.controller.ISettingController;
+import com.sasd13.proadmin.scope.SettingScope;
 import com.sasd13.proadmin.view.gui.form.TeacherForm;
-import com.sasd13.proadmin.util.scope.TeacherWrapper;
 
-public class SettingsFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
 
-    private ISettingsController controller;
-    private Teacher teacher;
+public class SettingFragment extends Fragment implements Observer {
+
+    private ISettingController controller;
+    private SettingScope scope;
     private TeacherForm teacherForm;
     private Menu menu;
 
-    public static SettingsFragment newInstance(TeacherWrapper teacherWrapper) {
-        SettingsFragment fragment = new SettingsFragment();
-        fragment.teacher = teacherWrapper.getTeacher();
-
-        return fragment;
+    public static SettingFragment newInstance() {
+        return new SettingFragment();
     }
 
     @Override
@@ -43,7 +43,8 @@ public class SettingsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        controller = (ISettingsController) ((MainActivity) getActivity()).lookup(ISettingsController.class);
+        controller = (ISettingController) ((MainActivity) getActivity()).lookup(ISettingController.class);
+        scope = (SettingScope) controller.getScope();
     }
 
     @Nullable
@@ -60,7 +61,6 @@ public class SettingsFragment extends Fragment {
 
     private void buildView(View view) {
         buildFormSettings(view);
-        bindFormWithTeacher();
     }
 
     private void buildFormSettings(View view) {
@@ -70,10 +70,6 @@ public class SettingsFragment extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, teacherForm.getHolder());
-    }
-
-    private void bindFormWithTeacher() {
-        teacherForm.bindTeacher(teacher);
     }
 
     @Override
@@ -100,7 +96,7 @@ public class SettingsFragment extends Fragment {
 
     private void updateTeacher() {
         try {
-            controller.updateTeacher(getTeacherFromForm(), teacher);
+            controller.updateTeacher(getTeacherFromForm(), scope.getTeacher());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -121,8 +117,19 @@ public class SettingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.title_settings));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_settings));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (SettingScope) observable;
+
+        bindFormWithTeacher();
+    }
+
+    private void bindFormWithTeacher() {
+        teacherForm.bindTeacher(scope.getTeacher());
     }
 
     @Override
