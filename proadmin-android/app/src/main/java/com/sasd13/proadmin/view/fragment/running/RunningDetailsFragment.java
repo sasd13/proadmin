@@ -22,21 +22,21 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
-import com.sasd13.proadmin.scope.RunningWrapper;
 
-public class RunningDetailsFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class RunningDetailsFragment extends Fragment implements Observer {
 
     private IRunningController controller;
-    private Running running;
+    private ProjectScope scope;
     private RunningForm runningForm;
     private Menu menu;
 
-    public static RunningDetailsFragment newInstance(RunningWrapper runningWrapper) {
-        RunningDetailsFragment fragment = new RunningDetailsFragment();
-        fragment.running = runningWrapper.getRunning();
-
-        return fragment;
+    public static RunningDetailsFragment newInstance() {
+        return new RunningDetailsFragment();
     }
 
     @Override
@@ -46,6 +46,9 @@ public class RunningDetailsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
+        scope = (ProjectScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class RunningDetailsFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-        bindFormWithRunning();
+        bindFormWithRunning(scope.getRunning());
     }
 
     private void buildFormRunning(View view) {
@@ -74,7 +77,7 @@ public class RunningDetailsFragment extends Fragment {
         RecyclerHelper.addAll(form, runningForm.getHolder());
     }
 
-    private void bindFormWithRunning() {
+    private void bindFormWithRunning(Running running) {
         runningForm.bindRunning(running);
     }
 
@@ -115,7 +118,7 @@ public class RunningDetailsFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteRunnings(new Running[]{running});
+                        controller.deleteRunnings(new Running[]{scope.getRunning()});
                     }
                 });
     }
@@ -126,6 +129,13 @@ public class RunningDetailsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindFormWithRunning(scope.getRunning());
     }
 
     @Override

@@ -11,18 +11,37 @@ import java.util.Observable;
  * Created by ssaidali2 on 06/12/2016.
  */
 
-public class TeamWrapper extends Observable {
+public class TeamScope extends Observable {
 
+    private List<Team> teams;
     private Team team;
     private List<StudentTeam> studentTeams;
 
-    public TeamWrapper(Team team) {
-        this.team = team;
+    public TeamScope() {
+        teams = new ArrayList<>();
         studentTeams = new ArrayList<>();
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+
+        setChanged();
+        notifyObservers();
     }
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+
+        setChanged();
+        notifyObservers();
     }
 
     public List<StudentTeam> getStudentTeams() {

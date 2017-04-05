@@ -45,6 +45,8 @@ public class SettingFragment extends Fragment implements Observer {
 
         controller = (ISettingController) ((MainActivity) getActivity()).lookup(ISettingController.class);
         scope = (SettingScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Nullable
@@ -61,6 +63,7 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void buildView(View view) {
         buildFormSettings(view);
+        bindFormWithTeacher(scope.getTeacher());
     }
 
     private void buildFormSettings(View view) {
@@ -125,11 +128,11 @@ public class SettingFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         scope = (SettingScope) observable;
 
-        bindFormWithTeacher();
+        bindFormWithTeacher(scope.getTeacher());
     }
 
-    private void bindFormWithTeacher() {
-        teacherForm.bindTeacher(scope.getTeacher());
+    private void bindFormWithTeacher(Teacher teacher) {
+        teacherForm.bindTeacher(teacher);
     }
 
     @Override

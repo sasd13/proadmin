@@ -22,9 +22,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
-import com.sasd13.proadmin.view.gui.tab.TeamItemModel;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.scope.TeamsWrapper;
+import com.sasd13.proadmin.view.gui.tab.TeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -33,16 +33,11 @@ import java.util.Observer;
 public class TeamsFragment extends Fragment implements Observer {
 
     private ITeamController controller;
-    private List<Team> teams;
+    private TeamScope scope;
     private Recycler recycler;
 
-    public static TeamsFragment newInstance(TeamsWrapper teamsWrapper) {
-        TeamsFragment fragment = new TeamsFragment();
-        fragment.teams = teamsWrapper.getTeams();
-
-        teamsWrapper.addObserver(fragment);
-
-        return fragment;
+    public static TeamsFragment newInstance() {
+        return new TeamsFragment();
     }
 
     @Override
@@ -50,6 +45,9 @@ public class TeamsFragment extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
+        scope = (TeamScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class TeamsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithTeams(teams);
+        bindTabWithTeams(scope.getTeams());
     }
 
     private void buildTabRunnings(View view) {
@@ -120,15 +118,17 @@ public class TeamsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        TeamsWrapper teamsWrapper = (TeamsWrapper) observable;
+        scope = (TeamScope) observable;
 
-        if (!teams.containsAll(teamsWrapper.getTeams())) {
+        bindTabWithTeams(scope.getTeams());
+
+        /*if (!teams.containsAll(teamsWrapper.getTeams())) {
             addNextTeams(teamsWrapper.getTeams());
-        }
+        }*/
     }
 
-    private void addNextTeams(List<Team> nextTeams) {
+    /*private void addNextTeams(List<Team> nextTeams) {
         teams.addAll(nextTeams);
         bindTabWithTeams(nextTeams);
-    }
+    }*/
 }

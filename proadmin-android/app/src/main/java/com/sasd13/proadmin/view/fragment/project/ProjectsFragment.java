@@ -49,6 +49,8 @@ public class ProjectsFragment extends Fragment implements Observer {
 
         controller = (IProjectController) ((MainActivity) getActivity()).lookup(IProjectController.class);
         scope = (ProjectScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override

@@ -21,11 +21,10 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.IStudentController;
-import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.scope.TeamWrapper;
+import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -34,18 +33,11 @@ import java.util.Observer;
 public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
     private IStudentController controller;
-    private Team team;
-    private List<StudentTeam> studentTeams;
+    private TeamScope scope;
     private Recycler recycler;
 
-    public static TeamDetailsFragmentStudents newInstance(TeamWrapper teamWrapper) {
-        TeamDetailsFragmentStudents fragment = new TeamDetailsFragmentStudents();
-        fragment.team = teamWrapper.getTeam();
-        fragment.studentTeams = teamWrapper.getStudentTeams();
-
-        teamWrapper.addObserver(fragment);
-
-        return fragment;
+    public static TeamDetailsFragmentStudents newInstance() {
+        return new TeamDetailsFragmentStudents();
     }
 
     @Override
@@ -53,6 +45,9 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
+        scope = (TeamScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -70,7 +65,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
-        bindTabWithStudentTeams(studentTeams);
+        bindTabWithStudentTeams(scope.getStudentTeams());
     }
 
     private void buildTabStudents(View view) {
@@ -83,7 +78,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newStudent(team);
+                controller.newStudent(scope.getTeam());
             }
         });
     }
@@ -115,15 +110,15 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        TeamWrapper teamWrapper = (TeamWrapper) observable;
+        scope = (TeamScope) observable;
 
-        if (!studentTeams.containsAll(teamWrapper.getStudentTeams())) {
-            addNextStudentTeams(teamWrapper.getStudentTeams());
-        }
+        /*if (!studentTeams.containsAll(teamScope.getStudentTeams())) {
+            addNextStudentTeams(teamScope.getStudentTeams());
+        }*/
     }
 
-    private void addNextStudentTeams(List<StudentTeam> nextStudentTeams) {
+    /*private void addNextStudentTeams(List<StudentTeam> nextStudentTeams) {
         studentTeams.addAll(nextStudentTeams);
         bindTabWithStudentTeams(nextStudentTeams);
-    }
+    }*/
 }

@@ -16,6 +16,7 @@ public class ProjectScope extends Observable {
     private List<Project> projects;
     private Project project;
     private List<Running> runnings;
+    private Running running;
 
     public ProjectScope() {
         projects = new ArrayList<>();
@@ -50,6 +51,17 @@ public class ProjectScope extends Observable {
 
     public void setRunnings(List<Running> runnings) {
         this.runnings = runnings;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public Running getRunning() {
+        return running;
+    }
+
+    public void setRunning(Running running) {
+        this.running = running;
 
         setChanged();
         notifyObservers();

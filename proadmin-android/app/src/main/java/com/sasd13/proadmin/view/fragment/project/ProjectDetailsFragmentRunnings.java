@@ -45,6 +45,8 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
         scope = (ProjectScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override

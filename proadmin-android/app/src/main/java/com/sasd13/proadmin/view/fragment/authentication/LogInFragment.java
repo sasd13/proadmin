@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.identity;
+package com.sasd13.proadmin.view.fragment.authentication;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.scope.TeamWrapper;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -15,12 +14,8 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private final String[] TITLES;
 
-    private TeamWrapper teamWrapper;
-
-    public TeamDetailsPagerFactory(Fragment fragment, TeamWrapper teamWrapper) {
+    public TeamDetailsPagerFactory(Fragment fragment) {
         super(fragment.getChildFragmentManager());
-
-        this.teamWrapper = teamWrapper;
 
         TITLES = new String[]{
                 fragment.getString(R.string.title_information),
@@ -32,9 +27,9 @@ public class TeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return TeamDetailsFragmentInfos.newInstance(teamWrapper);
+                return TeamDetailsFragmentInfos.newInstance();
             case 1:
-                return TeamDetailsFragmentStudents.newInstance(teamWrapper);
+                return TeamDetailsFragmentStudents.newInstance();
             default:
                 return null;
         }

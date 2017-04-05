@@ -8,26 +8,26 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.view.fragment.student.StudentDetailsFragment;
-import com.sasd13.proadmin.view.fragment.student.StudentNewFragment;
-import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
-import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
-import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
+import com.sasd13.proadmin.scope.StudentWrapper;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
-import com.sasd13.proadmin.scope.StudentWrapper;
-import com.sasd13.proadmin.scope.TeamWrapper;
-import com.sasd13.proadmin.scope.TeamsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.view.fragment.student.StudentDetailsFragment;
+import com.sasd13.proadmin.view.fragment.student.StudentNewFragment;
+import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
+import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
+import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 
 import java.util.List;
 
 public class TeamController extends MainController implements ITeamController, IStudentController {
 
+    private TeamScope scope;
     private ITeamService teamService;
     private IStudentService studentService;
     private TeamReadStrategy teamReadStrategy;
@@ -39,18 +39,19 @@ public class TeamController extends MainController implements ITeamController, I
     private StudentUpdateStrategy studentUpdateStrategy;
     private StudentDeleteStrategy studentDeleteStrategy;
     private TeamsWrapper teamsWrapper;
-    private TeamWrapper teamWrapper;
+    private TeamScope teamScope;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
         super(mainActivity);
 
+        scope = new TeamScope();
         this.teamService = teamService;
         this.studentService = studentService;
     }
 
     @Override
     public Object getScope() {
-        return null;
+        return scope;
     }
 
     @Override
@@ -61,9 +62,7 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void listTeams() {
-        teamsWrapper = new TeamsWrapper();
-
-        startProxyFragment();
+        startFragment(TeamsFragment.newInstance(teamsWrapper));
         readTeams();
     }
 
@@ -76,17 +75,14 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     void onReadTeams(List<Team> teams) {
-        if (isProxyFragmentNotDetached()) {
-            teamsWrapper.setTeams(teams);
-            startFragment(TeamsFragment.newInstance(teamsWrapper));
-        }
+        scope.setTeams(teams);
     }
 
     @Override
     public void newTeam() {
-        teamWrapper = new TeamWrapper(new DefaultTeamBuilder().build());
+        teamScope = new TeamScope(new DefaultTeamBuilder().build());
 
-        startFragment(TeamNewFragment.newInstance(teamWrapper));
+        startFragment(TeamNewFragment.newInstance(teamScope));
     }
 
     @Override
@@ -100,14 +96,14 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void showTeam(Team team) {
-        teamWrapper = new TeamWrapper(team);
+        teamScope = new TeamScope(team);
 
-        startFragment(TeamDetailsFragment.newInstance(teamWrapper));
+        startFragment(TeamDetailsFragment.newInstance(teamScope));
         listStudents(team);
     }
 
     void onReadStudenTeams(List<StudentTeam> studentTeams) {
-        teamWrapper.setStudentTeams(studentTeams);
+        teamScope.setStudentTeams(studentTeams);
     }
 
     @Override

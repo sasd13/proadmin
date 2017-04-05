@@ -19,23 +19,19 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
-import com.sasd13.proadmin.scope.TeamWrapper;
 
 public class TeamNewFragment extends Fragment {
 
     private ITeamController controller;
-    private Team team;
+    private TeamScope scope;
     private TeamForm teamForm;
     private Menu menu;
 
-    public static TeamNewFragment newInstance(TeamWrapper teamWrapper) {
-        TeamNewFragment fragment = new TeamNewFragment();
-        fragment.team = teamWrapper.getTeam();
-
-        return fragment;
+    public static TeamNewFragment newInstance() {
+        return new TeamNewFragment();
     }
 
     @Override
@@ -45,6 +41,7 @@ public class TeamNewFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
+        scope = (TeamScope) controller.getScope();
     }
 
     @Override
@@ -61,7 +58,6 @@ public class TeamNewFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
-        bindFormWithTeam();
     }
 
     private void buildFormTeam(View view) {
@@ -71,10 +67,6 @@ public class TeamNewFragment extends Fragment {
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, teamForm.getHolder());
-    }
-
-    private void bindFormWithTeam() {
-        teamForm.bindTeam(team);
     }
 
     @Override
@@ -109,14 +101,14 @@ public class TeamNewFragment extends Fragment {
     private void createTeam() {
         try {
             editTeamWithForm();
-            controller.createTeam(team);
+            controller.createTeam(scope.getTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
     private void editTeamWithForm() throws FormException {
-        team.setNumber(teamForm.getNumber());
+        scope.getTeam().setNumber(teamForm.getNumber());
     }
 
     @Override

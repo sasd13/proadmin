@@ -13,7 +13,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.IController;
 import com.sasd13.proadmin.view.fragment.ProxyFragment;
-import com.sasd13.proadmin.view.fragment.identity.LogInFragment;
+import com.sasd13.proadmin.view.fragment.authentication.LogInFragment;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;

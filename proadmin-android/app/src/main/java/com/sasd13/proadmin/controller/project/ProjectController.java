@@ -8,7 +8,6 @@ import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.ProjectScope;
-import com.sasd13.proadmin.scope.RunningWrapper;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
@@ -52,10 +51,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void listProjects() {
-        ProjectsFragment fragment = ProjectsFragment.newInstance();
-
-        scope.addObserver(fragment);
-        startFragment(fragment);
+        startFragment(ProjectsFragment.newInstance());
         readProjects();
     }
 
@@ -97,11 +93,9 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void newRunning(Project project) {
-        Running running = new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build();
-        RunningWrapper runningWrapper = new RunningWrapper(running);
-        runningWrapper.setProject(project);
+        scope.setRunning(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
 
-        startFragment(RunningNewFragment.newInstance(runningWrapper));
+        startFragment(RunningNewFragment.newInstance());
     }
 
     @Override
@@ -115,10 +109,9 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void showRunning(Running running) {
-        RunningWrapper runningWrapper = new RunningWrapper(running);
-        runningWrapper.setProject(running.getProject());
+        scope.setRunning(running);
 
-        startFragment(RunningDetailsFragment.newInstance(runningWrapper));
+        startFragment(RunningDetailsFragment.newInstance());
     }
 
     @Override

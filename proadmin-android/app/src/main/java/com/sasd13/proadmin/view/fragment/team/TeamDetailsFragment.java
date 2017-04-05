@@ -13,16 +13,16 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.scope.TeamWrapper;
+import com.sasd13.proadmin.scope.TeamScope;
 
 public class TeamDetailsFragment extends Fragment implements IPagerHandler {
 
-    private TeamWrapper teamWrapper;
+    private TeamScope teamScope;
     private Pager pager;
 
-    public static TeamDetailsFragment newInstance(TeamWrapper teamWrapper) {
+    public static TeamDetailsFragment newInstance(TeamScope teamScope) {
         TeamDetailsFragment fragment = new TeamDetailsFragment();
-        fragment.teamWrapper = teamWrapper;
+        fragment.teamScope = teamScope;
 
         return fragment;
     }
@@ -52,7 +52,7 @@ public class TeamDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new TeamDetailsPagerFactory(this, teamWrapper));
+        pager.setAdapter(new TeamDetailsPagerFactory(this, teamScope));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

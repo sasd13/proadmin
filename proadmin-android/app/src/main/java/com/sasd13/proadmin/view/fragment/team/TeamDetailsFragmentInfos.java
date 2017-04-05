@@ -23,21 +23,21 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
-import com.sasd13.proadmin.scope.TeamWrapper;
 
-public class TeamDetailsFragmentInfos extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class TeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private ITeamController controller;
-    private Team team;
+    private TeamScope scope;
     private TeamForm teamForm;
     private Menu menu;
 
-    public static TeamDetailsFragmentInfos newInstance(TeamWrapper teamWrapper) {
-        TeamDetailsFragmentInfos fragment = new TeamDetailsFragmentInfos();
-        fragment.team = teamWrapper.getTeam();
-
-        return fragment;
+    public static TeamDetailsFragmentInfos newInstance() {
+        return new TeamDetailsFragmentInfos();
     }
 
     @Override
@@ -47,6 +47,9 @@ public class TeamDetailsFragmentInfos extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
+        scope = (TeamScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
-        bindFormWithTeam();
+        bindFormWithTeam(scope.getTeam());
     }
 
     private void buildFormTeam(View view) {
@@ -75,7 +78,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
         RecyclerHelper.addAll(form, teamForm.getHolder());
     }
 
-    private void bindFormWithTeam() {
+    private void bindFormWithTeam(Team team) {
         teamForm.bindTeam(team);
     }
 
@@ -106,7 +109,7 @@ public class TeamDetailsFragmentInfos extends Fragment {
 
     private void updateTeam() {
         try {
-            controller.updateTeam(getTeamFromForm(), team);
+            controller.updateTeam(getTeamFromForm(), scope.getTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -128,9 +131,16 @@ public class TeamDetailsFragmentInfos extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteTeams(new Team[]{team});
+                        controller.deleteTeams(new Team[]{scope.getTeam()});
                     }
                 });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (TeamScope) observable;
+
+        bindFormWithTeam(scope.getTeam());
     }
 
     @Override

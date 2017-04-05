@@ -21,21 +21,21 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
-import com.sasd13.proadmin.scope.RunningWrapper;
 
-public class RunningNewFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class RunningNewFragment extends Fragment implements Observer {
 
     private IRunningController controller;
-    private Running running;
+    private ProjectScope scope;
     private RunningForm runningForm;
     private Menu menu;
 
-    public static RunningNewFragment newInstance(RunningWrapper runningWrapper) {
-        RunningNewFragment fragment = new RunningNewFragment();
-        fragment.running = runningWrapper.getRunning();
-
-        return fragment;
+    public static RunningNewFragment newInstance() {
+        return new RunningNewFragment();
     }
 
     @Override
@@ -45,6 +45,9 @@ public class RunningNewFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
+        scope = (ProjectScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class RunningNewFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
-        bindFormWithRunning();
+        bindFormWithRunning(scope.getRunning());
     }
 
     private void buildFormRunning(View view) {
@@ -73,7 +76,7 @@ public class RunningNewFragment extends Fragment {
         RecyclerHelper.addAll(form, runningForm.getHolder());
     }
 
-    private void bindFormWithRunning() {
+    private void bindFormWithRunning(Running running) {
         runningForm.bindRunning(running);
     }
 
@@ -109,14 +112,14 @@ public class RunningNewFragment extends Fragment {
     private void createRunning() {
         try {
             editRunningWithForm();
-            controller.createRunning(running);
+            controller.createRunning(scope.getRunning());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
     private void editRunningWithForm() throws FormException {
-        running.setYear(runningForm.getYear());
+        scope.getRunning().setYear(runningForm.getYear());
     }
 
     @Override
@@ -125,6 +128,13 @@ public class RunningNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindFormWithRunning(scope.getRunning());
     }
 
     @Override

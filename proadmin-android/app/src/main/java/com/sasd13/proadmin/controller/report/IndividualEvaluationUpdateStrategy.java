@@ -50,8 +50,6 @@ public class IndividualEvaluationUpdateStrategy extends RequestorStrategy {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        controller.display(R.string.message_updated);
-
         if (((ServiceResult) out).isSuccess()) {
             controller.display(R.string.message_updated);
         } else {

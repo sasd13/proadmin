@@ -15,11 +15,15 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.form.ProjectForm;
 
-public class ProjectDetailsFragmentInfos extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
     private ProjectScope scope;
     private ProjectForm projectForm;
@@ -33,6 +37,8 @@ public class ProjectDetailsFragmentInfos extends Fragment {
         super.onCreate(savedInstanceState);
 
         scope = (ProjectScope) ((MainActivity) getActivity()).lookup(IProjectController.class).getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -49,7 +55,7 @@ public class ProjectDetailsFragmentInfos extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormProject(view);
-        bindFormWithProject();
+        bindFormWithProject(scope.getProject());
     }
 
     private void buildFormProject(View view) {
@@ -61,7 +67,14 @@ public class ProjectDetailsFragmentInfos extends Fragment {
         RecyclerHelper.addAll(form, projectForm.getHolder());
     }
 
-    private void bindFormWithProject() {
-        projectForm.bind(scope.getProject());
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindFormWithProject(scope.getProject());
+    }
+
+    private void bindFormWithProject(Project project) {
+        projectForm.bind(project);
     }
 }
