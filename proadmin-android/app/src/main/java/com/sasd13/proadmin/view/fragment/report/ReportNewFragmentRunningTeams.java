@@ -24,10 +24,10 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.scope.ReportWrapper;
+import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,18 +70,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     }
 
     private IReportController controller;
-    private Report report;
-    private List<RunningTeam> runningTeams;
+    private ReportScope scope;
     private ReportNewFragment parentFragment;
     private Recycler recycler;
 
-    public static ReportNewFragmentRunningTeams newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
+    public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
-        fragment.report = reportWrapper.getReport();
-        fragment.runningTeams = reportWrapper.getRunningTeams();
         fragment.parentFragment = parentFragment;
-
-        reportWrapper.addObserver(fragment);
 
         return fragment;
     }
@@ -91,6 +86,9 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         super.onCreate(savedInstanceState);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -108,7 +106,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindRunningTeams(runningTeams);
+        bindRunningTeams(scope.getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -122,7 +120,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (report.getRunningTeam() != null) {
+                if (scope.getReport().getRunningTeam() != null) {
                     parentFragment.forward();
                 } else {
                     controller.display(getString(R.string.error_no_runningteam_selected));
@@ -146,12 +144,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (report.getRunningTeam() != null && Comparator.areTheSame(report.getRunningTeam(), runningTeam)) {
+            if (scope.getReport().getRunningTeam() != null && Comparator.areTheSame(scope.getReport().getRunningTeam(), runningTeam)) {
                 model.setSelected(true);
             }
 
             models.add(model);
-            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, models, runningTeam, report, parentFragment));
+            pair.addController(EnumActionEvent.CLICK, new ActionSelectRunningTeam(model, models, runningTeam, scope.getReport(), parentFragment));
             holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
@@ -160,15 +158,17 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportWrapper reportWrapper = (ReportWrapper) observable;
+        scope = (ReportScope) observable;
 
-        if (!runningTeams.containsAll(reportWrapper.getRunningTeams())) {
-            addNextRunningTeams(reportWrapper.getRunningTeams());
-        }
+        bindRunningTeams(scope.getRunningTeams());
+
+        /*if (!runningTeams.containsAll(reportScope.getRunningTeams())) {
+            addNextRunningTeams(reportScope.getRunningTeams());
+        }*/
     }
 
-    private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
+    /*private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
         runningTeams.addAll(nextRunningTeams);
         bindRunningTeams(nextRunningTeams);
-    }
+    }*/
 }

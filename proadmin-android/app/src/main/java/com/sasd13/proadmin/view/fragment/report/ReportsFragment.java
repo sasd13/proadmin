@@ -22,9 +22,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.scope.ReportsWrapper;
+import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -33,16 +33,11 @@ import java.util.Observer;
 public class ReportsFragment extends Fragment implements Observer {
 
     private IReportController controller;
-    private List<Report> reports;
+    private ReportScope scope;
     private Recycler recycler;
 
-    public static ReportsFragment newInstance(ReportsWrapper reportsWrapper) {
-        ReportsFragment fragment = new ReportsFragment();
-        fragment.reports = reportsWrapper.getReports();
-
-        reportsWrapper.addObserver(fragment);
-
-        return fragment;
+    public static ReportsFragment newInstance() {
+        return new ReportsFragment();
     }
 
     @Override
@@ -50,6 +45,9 @@ public class ReportsFragment extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class ReportsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports(reports);
+        bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -120,15 +118,17 @@ public class ReportsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportsWrapper reportsWrapper = (ReportsWrapper) observable;
+        scope = (ReportScope) observable;
 
-        if (!reports.containsAll(reportsWrapper.getReports())) {
-            addNextReports(reportsWrapper.getReports());
-        }
+        bindTabWithReports(scope.getReports());
+
+        /*if (!reports.containsAll(reportScope.getReports())) {
+            addNextReports(reportScope.getReports());
+        }*/
     }
 
-    private void addNextReports(List<Report> nextReports) {
+    /*private void addNextReports(List<Report> nextReports) {
         reports.addAll(nextReports);
         bindTabWithReports(nextReports);
-    }
+    }*/
 }

@@ -23,21 +23,21 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.view.gui.form.ReportForm;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
-public class ReportDetailsFragmentInfos extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private IReportController controller;
-    private Report report;
+    private ReportScope scope;
     private ReportForm reportForm;
     private Menu menu;
 
-    public static ReportDetailsFragmentInfos newInstance(ReportWrapper reportWrapper) {
-        ReportDetailsFragmentInfos fragment = new ReportDetailsFragmentInfos();
-        fragment.report = reportWrapper.getReport();
-
-        return fragment;
+    public static ReportDetailsFragmentInfos newInstance() {
+        return new ReportDetailsFragmentInfos();
     }
 
     @Override
@@ -47,6 +47,9 @@ public class ReportDetailsFragmentInfos extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
-        bindFormWithReport();
+        bindFormWithReport(scope.getReport());
     }
 
     private void buildFormTeam(View view) {
@@ -75,7 +78,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
         RecyclerHelper.addAll(form, reportForm.getHolder());
     }
 
-    private void bindFormWithReport() {
+    private void bindFormWithReport(Report report) {
         reportForm.bindReport(report);
     }
 
@@ -106,7 +109,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
 
     private void updateReport() {
         try {
-            controller.updateReport(getReportFromForm(), report);
+            controller.updateReport(getReportFromForm(), scope.getReport());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -119,7 +122,7 @@ public class ReportDetailsFragmentInfos extends Fragment {
         reportFromForm.setDateMeeting(reportForm.getDateMeeting());
         reportFromForm.setSession(reportForm.getSession());
         reportFromForm.setComment(reportForm.getComment());
-        reportFromForm.setRunningTeam(report.getRunningTeam());
+        reportFromForm.setRunningTeam(scope.getReport().getRunningTeam());
 
         return reportFromForm;
     }
@@ -132,9 +135,16 @@ public class ReportDetailsFragmentInfos extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteReports(new Report[]{report});
+                        controller.deleteReports(new Report[]{scope.getReport()});
                     }
                 });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ReportScope) observable;
+
+        bindFormWithReport(scope.getReport());
     }
 
     @Override

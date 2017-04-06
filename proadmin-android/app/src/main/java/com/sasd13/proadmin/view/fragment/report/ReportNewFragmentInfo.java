@@ -20,22 +20,20 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.view.gui.form.ReportForm;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
-public class ReportNewFragmentInfo extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class ReportNewFragmentInfo extends Fragment implements Observer {
 
     private IReportController controller;
-    private Report report;
-    private ReportNewFragment parentFragment;
+    private ReportScope scope;
     private ReportForm reportForm;
 
-    public static ReportNewFragmentInfo newInstance(ReportWrapper reportWrapper, ReportNewFragment parentFragment) {
-        ReportNewFragmentInfo fragment = new ReportNewFragmentInfo();
-        fragment.report = reportWrapper.getReport();
-        fragment.parentFragment = parentFragment;
-
-        return fragment;
+    public static ReportNewFragmentInfo newInstance() {
+        return new ReportNewFragmentInfo();
     }
 
     @Override
@@ -43,6 +41,9 @@ public class ReportNewFragmentInfo extends Fragment {
         super.onCreate(savedInstanceState);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class ReportNewFragmentInfo extends Fragment {
         GUIHelper.colorTitles(view);
         buildFormRunning(view);
         buildFloatingActionButton(view);
-        bindFormWithReport();
+        bindFormWithReport(scope.getReport());
     }
 
     private void buildFormRunning(View view) {
@@ -80,7 +81,7 @@ public class ReportNewFragmentInfo extends Fragment {
             public void onClick(View view) {
                 try {
                     editReportWithForm();
-                    parentFragment.createReport();
+                    controller.createReport(scope.getReport());
                 } catch (FormException e) {
                     controller.display(e.getMessage());
                 }
@@ -89,12 +90,19 @@ public class ReportNewFragmentInfo extends Fragment {
     }
 
     private void editReportWithForm() throws FormException {
-        report.setDateMeeting(reportForm.getDateMeeting());
-        report.setSession(reportForm.getSession());
-        report.setComment(reportForm.getComment());
+        scope.getReport().setDateMeeting(reportForm.getDateMeeting());
+        scope.getReport().setSession(reportForm.getSession());
+        scope.getReport().setComment(reportForm.getComment());
     }
 
-    private void bindFormWithReport() {
+    private void bindFormWithReport(Report report) {
         reportForm.bindReport(report);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ReportScope) observable;
+
+        bindFormWithReport(scope.getReport());
     }
 }

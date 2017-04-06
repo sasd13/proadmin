@@ -28,7 +28,7 @@ import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamScope;
 
 import java.util.List;
 import java.util.Observable;
@@ -44,14 +44,14 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     private RunningTeamForm runningTeamForm;
     private Menu menu;
 
-    public static RunningTeamNewFragment newInstance(RunningTeamWrapper runningTeamWrapper) {
+    public static RunningTeamNewFragment newInstance(RunningTeamScope runningTeamScope) {
         RunningTeamNewFragment fragment = new RunningTeamNewFragment();
-        fragment.runningTeam = runningTeamWrapper.getRunningTeam();
-        fragment.runnings = runningTeamWrapper.getRunnings();
-        fragment.teams = runningTeamWrapper.getTeams();
-        fragment.academicLevels = runningTeamWrapper.getAcademicLevels();
+        fragment.runningTeam = runningTeamScope.getRunningTeam();
+        fragment.runnings = runningTeamScope.getRunnings();
+        fragment.teams = runningTeamScope.getTeams();
+        fragment.academicLevels = runningTeamScope.getAcademicLevels();
 
-        runningTeamWrapper.addObserver(fragment);
+        runningTeamScope.addObserver(fragment);
 
         return fragment;
     }
@@ -167,11 +167,11 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
+        RunningTeamScope runningTeamScope = (RunningTeamScope) observable;
 
-        runnings = runningTeamWrapper.getRunnings();
-        teams = runningTeamWrapper.getTeams();
-        academicLevels = runningTeamWrapper.getAcademicLevels();
+        runnings = runningTeamScope.getRunnings();
+        teams = runningTeamScope.getTeams();
+        academicLevels = runningTeamScope.getAcademicLevels();
 
         bindFormWithRunnings();
         bindFormWithTeams();

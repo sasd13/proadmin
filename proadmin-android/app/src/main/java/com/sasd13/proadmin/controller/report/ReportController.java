@@ -7,11 +7,10 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
-import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
-import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.service.ILeadEvaluationService;
 import com.sasd13.proadmin.service.IReportService;
@@ -19,19 +18,21 @@ import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.scope.ReportWrapper;
-import com.sasd13.proadmin.scope.ReportsWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
+import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
+import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReportController extends MainController implements IReportController {
+public class ReportController extends MainController implements IReportController, IBrowsable {
 
+    private ReportScope scope;
     private IReportService reportService;
     private ILeadEvaluationService leadEvaluationService;
     private IIndividualEvaluationService individualEvaluationService;
@@ -44,12 +45,11 @@ public class ReportController extends MainController implements IReportControlle
     private LeadEvaluationUpdateStrategy leadEvaluationUpdateStrategy;
     private IndividualEvaluationUpdateStrategy individualEvaluationUpdateStrategy;
     private ReportDeleteStrategy reportDeleteStrategy;
-    private ReportsWrapper reportsWrapper;
-    private ReportWrapper reportWrapper;
 
     public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
 
+        scope = new ReportScope();
         this.reportService = reportService;
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
@@ -58,20 +58,18 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public Object getScope() {
-        return null;
+        return scope;
     }
 
     @Override
-    public void entry() {
+    public void browse() {
         mainActivity.clearHistory();
         listReports();
     }
 
     @Override
     public void listReports() {
-        reportsWrapper = new ReportsWrapper();
-
-        startProxyFragment();
+        startFragment(ReportsFragment.newInstance());
         readReports();
     }
 
@@ -86,17 +84,15 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onReadReports(List<Report> reports) {
-        if (isProxyFragmentNotDetached()) {
-            reportsWrapper.setReports(reports);
-            startFragment(ReportsFragment.newInstance(reportsWrapper));
-        }
+        scope.setReports(reports);
     }
 
     @Override
     public void newReport() {
-        reportWrapper = new ReportWrapper(new DefaultReportBuilder().build());
+        startFragment(ReportNewFragment.newInstance());
 
-        startProxyFragment();
+        scope.setReport(new DefaultReportBuilder().build());
+
         readRunningTeams();
     }
 
@@ -111,17 +107,15 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
-        if (isProxyFragmentNotDetached()) {
-            reportWrapper.setRunningTeams(runningTeams);
-            startFragment(ReportNewFragment.newInstance(reportWrapper));
-        }
+        scope.setRunningTeams(runningTeams);
     }
 
     @Override
     public void newReport(RunningTeam runningTeam) {
-        reportWrapper = new ReportWrapper(new DefaultReportBuilder(runningTeam).build());
+        startFragment(ReportNewFragment.newInstance());
 
-        startProxyFragment();
+        scope.setReport(new DefaultReportBuilder(runningTeam).build());
+
         readRunningTeams();
     }
 
@@ -132,9 +126,10 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void showReport(Report report) {
-        reportWrapper = new ReportWrapper(report);
+        startFragment(ReportDetailsFragment.newInstance());
 
-        startFragment(ReportDetailsFragment.newInstance(reportWrapper));
+        scope.setReport(report);
+
         readDependencies(report);
     }
 
@@ -151,14 +146,14 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onRetrieved(Map<String, List> results) {
-        reportWrapper.setStudentTeams((List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM));
+        scope.setStudentTeams((List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM));
 
         List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) results.get(IReportService.PARAMETERS_LEADEVALUATION);
         if (!leadEvaluations.isEmpty()) {
-            reportWrapper.setLeadEvaluation(leadEvaluations.get(0));
+            scope.setLeadEvaluation(leadEvaluations.get(0));
         }
 
-        reportWrapper.setIndividualEvaluations((List<IndividualEvaluation>) results.get(IReportService.PARAMETERS_INDIVIDUALEVALUATION));
+        scope.setIndividualEvaluations((List<IndividualEvaluation>) results.get(IReportService.PARAMETERS_INDIVIDUALEVALUATION));
     }
 
     @Override

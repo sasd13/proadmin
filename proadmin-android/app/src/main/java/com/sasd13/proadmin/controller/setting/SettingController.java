@@ -3,6 +3,7 @@ package com.sasd13.proadmin.controller.setting;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.ISettingController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.SettingScope;
@@ -12,7 +13,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.view.fragment.setting.SettingFragment;
 
-public class SettingController extends MainController implements ISettingController {
+public class SettingController extends MainController implements ISettingController, IBrowsable {
 
     private SettingScope scope;
     private ITeacherService teacherService;
@@ -32,7 +33,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     @Override
-    public void entry() {
+    public void browse() {
         mainActivity.clearHistory();
         showTeacher();
     }

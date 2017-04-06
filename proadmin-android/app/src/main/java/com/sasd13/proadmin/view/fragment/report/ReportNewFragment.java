@@ -12,32 +12,18 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
 public class ReportNewFragment extends Fragment implements IPagerHandler {
 
-    private IReportController controller;
-    private ReportWrapper reportWrapper;
     private Pager pager;
 
-    public static ReportNewFragment newInstance(ReportWrapper reportWrapper) {
-        ReportNewFragment fragment = new ReportNewFragment();
-        fragment.reportWrapper = reportWrapper;
-
-        return fragment;
+    public static ReportNewFragment newInstance() {
+        return new ReportNewFragment();
     }
 
     @Override
     public boolean handleBackPress() {
         return pager.handleBackPress(this);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
     }
 
     @Override
@@ -59,7 +45,7 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
 
-        pager.setAdapter(new ReportNewPagerFactory(this, reportWrapper));
+        pager.setAdapter(new ReportNewPagerFactory(this));
         pager.setScrollable(false);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
@@ -74,10 +60,6 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
 
     public void forward() {
         pager.forward();
-    }
-
-    public void createReport() {
-        controller.createReport(reportWrapper.getReport());
     }
 
     @Override

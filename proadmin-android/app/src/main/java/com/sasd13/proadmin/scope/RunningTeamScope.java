@@ -14,24 +14,43 @@ import java.util.Observable;
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public class RunningTeamWrapper extends Observable {
+public class RunningTeamScope extends Observable {
 
+    private List<RunningTeam> runningTeams;
     private RunningTeam runningTeam;
     private List<Running> runnings;
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
     private List<Report> reports;
 
-    public RunningTeamWrapper(RunningTeam runningTeam) {
-        this.runningTeam = runningTeam;
+    public RunningTeamScope() {
+        runningTeams = new ArrayList<>();
         runnings = new ArrayList<>();
         teams = new ArrayList<>();
         academicLevels = new ArrayList<>();
         reports = new ArrayList<>();
     }
 
+    public List<RunningTeam> getRunningTeams() {
+        return runningTeams;
+    }
+
+    public void setRunningTeams(List<RunningTeam> runningTeams) {
+        this.runningTeams = runningTeams;
+
+        setChanged();
+        notifyObservers();
+    }
+
     public RunningTeam getRunningTeam() {
         return runningTeam;
+    }
+
+    public void setRunningTeam(RunningTeam runningTeam) {
+        this.runningTeam = runningTeam;
+
+        setChanged();
+        notifyObservers();
     }
 
     public List<Running> getRunnings() {

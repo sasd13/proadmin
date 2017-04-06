@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.project;
+package com.sasd13.proadmin.controller.running;
 
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
@@ -6,26 +6,36 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.IProjectController;
+import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.controller.project.ProjectReadStrategy;
+import com.sasd13.proadmin.controller.project.RunningCreateStrategy;
+import com.sasd13.proadmin.controller.project.RunningDeleteStrategy;
+import com.sasd13.proadmin.controller.project.RunningReadStrategy;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
+import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 
 import java.util.List;
 
-public class ProjectController extends MainController implements IProjectController, IBrowsable {
+public class RunningController extends MainController implements IProjectController, IRunningController, IBrowsable {
 
     private ProjectScope scope;
     private IProjectService projectService;
     private IRunningService runningService;
     private ProjectReadStrategy projectReadStrategy;
     private RunningReadStrategy runningReadStrategy;
+    private RunningCreateStrategy runningCreateStrategy;
+    private RunningDeleteStrategy runningDeleteStrategy;
 
-    public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
+    public RunningController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
         super(mainActivity);
 
         scope = new ProjectScope();
@@ -84,5 +94,37 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadRunnings(List<Running> runnings) {
         scope.setRunnings(runnings);
+    }
+
+    @Override
+    public void newRunning(Project project) {
+        scope.setRunning(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
+
+        startFragment(RunningNewFragment.newInstance());
+    }
+
+    @Override
+    public void createRunning(Running running) {
+        if (runningCreateStrategy == null) {
+            runningCreateStrategy = new RunningCreateStrategy(this, runningService);
+        }
+
+        new Requestor(runningCreateStrategy).execute(running);
+    }
+
+    @Override
+    public void showRunning(Running running) {
+        scope.setRunning(running);
+
+        startFragment(RunningDetailsFragment.newInstance());
+    }
+
+    @Override
+    public void deleteRunnings(Running[] runnings) {
+        if (runningDeleteStrategy == null) {
+            runningDeleteStrategy = new RunningDeleteStrategy(this, runningService);
+        }
+
+        new Requestor(runningDeleteStrategy).execute(runnings);
     }
 }

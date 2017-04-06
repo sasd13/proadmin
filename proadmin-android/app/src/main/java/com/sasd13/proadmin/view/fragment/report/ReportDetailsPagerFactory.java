@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -15,12 +14,9 @@ public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private final String[] TITLES;
 
-    private ReportWrapper reportWrapper;
-
-    public ReportDetailsPagerFactory(Fragment fragment, ReportWrapper reportWrapper) {
+    public ReportDetailsPagerFactory(Fragment fragment) {
         super(fragment.getChildFragmentManager());
 
-        this.reportWrapper = reportWrapper;
         TITLES = new String[]{
                 fragment.getContext().getString(R.string.title_information),
                 fragment.getContext().getString(R.string.title_leadevaluation),
@@ -32,11 +28,11 @@ public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ReportDetailsFragmentInfos.newInstance(reportWrapper);
+                return ReportDetailsFragmentInfos.newInstance();
             case 1:
-                return ReportDetailsFragmentLeadEvaluation.newInstance(reportWrapper);
+                return ReportDetailsFragmentLeadEvaluation.newInstance();
             case 2:
-                return ReportDetailsFragmentIndividualEvaluations.newInstance(reportWrapper);
+                return ReportDetailsFragmentIndividualEvaluations.newInstance();
             default:
                 return null;
         }

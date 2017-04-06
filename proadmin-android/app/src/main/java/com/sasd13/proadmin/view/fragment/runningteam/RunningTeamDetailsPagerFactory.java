@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamScope;
 
 /**
  * Created by ssaidali2 on 05/11/2016.
@@ -15,12 +15,12 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
 
     private final String[] TITLES;
 
-    private RunningTeamWrapper runningTeamWrapper;
+    private RunningTeamScope runningTeamScope;
 
-    public RunningTeamDetailsPagerFactory(Fragment fragment, RunningTeamWrapper runningTeamWrapper) {
+    public RunningTeamDetailsPagerFactory(Fragment fragment, RunningTeamScope runningTeamScope) {
         super(fragment.getChildFragmentManager());
 
-        this.runningTeamWrapper = runningTeamWrapper;
+        this.runningTeamScope = runningTeamScope;
 
         TITLES = new String[]{
                 fragment.getString(R.string.title_information),
@@ -32,9 +32,9 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return RunningTeamDetailsFragmentInfos.newInstance(runningTeamWrapper);
+                return RunningTeamDetailsFragmentInfos.newInstance(runningTeamScope);
             case 1:
-                return RunningTeamDetailsFragmentReports.newInstance(runningTeamWrapper);
+                return RunningTeamDetailsFragmentReports.newInstance(runningTeamScope);
             default:
                 return null;
         }

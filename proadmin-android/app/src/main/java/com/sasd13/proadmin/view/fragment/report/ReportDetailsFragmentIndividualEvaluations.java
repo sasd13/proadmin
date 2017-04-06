@@ -20,12 +20,11 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
+import com.sasd13.proadmin.scope.ReportScope;
+import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsFormException;
-import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
 import java.util.List;
 import java.util.Observable;
@@ -34,22 +33,13 @@ import java.util.Observer;
 public class ReportDetailsFragmentIndividualEvaluations extends Fragment implements Observer {
 
     private IReportController controller;
-    private List<IndividualEvaluation> individualEvaluations;
-    private Report report;
-    private List<StudentTeam> studentTeams;
+    private ReportScope scope;
     private IndividualEvaluationsForm individualEvaluationsForm;
     private Recycler recycler;
     private Menu menu;
 
-    public static ReportDetailsFragmentIndividualEvaluations newInstance(ReportWrapper reportWrapper) {
-        ReportDetailsFragmentIndividualEvaluations fragment = new ReportDetailsFragmentIndividualEvaluations();
-        fragment.individualEvaluations = reportWrapper.getIndividualEvaluations();
-        fragment.report = reportWrapper.getReport();
-        fragment.studentTeams = reportWrapper.getStudentTeams();
-
-        reportWrapper.addObserver(fragment);
-
-        return fragment;
+    public static ReportDetailsFragmentIndividualEvaluations newInstance() {
+        return new ReportDetailsFragmentIndividualEvaluations();
     }
 
     @Override
@@ -59,6 +49,9 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         setHasOptionsMenu(true);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -75,7 +68,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
-        bindFormWithIndividualEvaluations();
+        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -85,7 +78,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         recycler.addDividerItemDecoration();
     }
 
-    private void bindFormWithIndividualEvaluations() {
+    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
         individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamBuilder(studentTeams).build());
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
@@ -121,9 +114,9 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void updateIndividualEvaluations() {
         try {
-            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations(report);
+            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations(scope.getReport());
 
-            controller.updateIndividualEvaluations(individualEvaluationsFromForm, individualEvaluations);
+            controller.updateIndividualEvaluations(individualEvaluationsFromForm, scope.getIndividualEvaluations());
         } catch (IndividualEvaluationsFormException e) {
             controller.display(e.getMessage());
         }
@@ -131,13 +124,10 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportWrapper reportWrapper = (ReportWrapper) observable;
-
-        individualEvaluations = reportWrapper.getIndividualEvaluations();
-        studentTeams = reportWrapper.getStudentTeams();
+        scope = (ReportScope) observable;
 
         recycler.clear();
-        bindFormWithIndividualEvaluations();
+        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
     }
 
     @Override

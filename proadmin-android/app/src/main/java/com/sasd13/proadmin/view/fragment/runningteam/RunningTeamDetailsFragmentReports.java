@@ -25,7 +25,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.scope.RunningTeamWrapper;
+import com.sasd13.proadmin.scope.RunningTeamScope;
 
 import java.util.List;
 import java.util.Observable;
@@ -38,12 +38,12 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
     private List<Report> reports;
     private Recycler recycler;
 
-    public static RunningTeamDetailsFragmentReports newInstance(RunningTeamWrapper runningTeamWrapper) {
+    public static RunningTeamDetailsFragmentReports newInstance(RunningTeamScope runningTeamScope) {
         RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
-        fragment.runningTeam = runningTeamWrapper.getRunningTeam();
-        fragment.reports = runningTeamWrapper.getReports();
+        fragment.runningTeam = runningTeamScope.getRunningTeam();
+        fragment.reports = runningTeamScope.getReports();
 
-        runningTeamWrapper.addObserver(fragment);
+        runningTeamScope.addObserver(fragment);
 
         return fragment;
     }
@@ -115,10 +115,10 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamWrapper runningTeamWrapper = (RunningTeamWrapper) observable;
+        RunningTeamScope runningTeamScope = (RunningTeamScope) observable;
 
-        if (!reports.containsAll(runningTeamWrapper.getReports())) {
-            addNextReports(runningTeamWrapper.getReports());
+        if (!reports.containsAll(runningTeamScope.getReports())) {
+            addNextReports(runningTeamScope.getReports());
         }
     }
 

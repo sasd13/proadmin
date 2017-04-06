@@ -14,23 +14,42 @@ import java.util.Observable;
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public class ReportWrapper extends Observable {
+public class ReportScope extends Observable {
 
+    private List<Report> reports;
     private Report report;
     private LeadEvaluation leadEvaluation;
     private List<IndividualEvaluation> individualEvaluations;
     private List<RunningTeam> runningTeams;
     private List<StudentTeam> studentTeams;
 
-    public ReportWrapper(Report report) {
-        this.report = report;
+    public ReportScope() {
+        reports = new ArrayList<>();
         individualEvaluations = new ArrayList<>();
         runningTeams = new ArrayList<>();
         studentTeams = new ArrayList<>();
     }
 
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
+
+        setChanged();
+        notifyObservers();
+    }
+
     public Report getReport() {
         return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+
+        setChanged();
+        notifyObservers();
     }
 
     public LeadEvaluation getLeadEvaluation() {

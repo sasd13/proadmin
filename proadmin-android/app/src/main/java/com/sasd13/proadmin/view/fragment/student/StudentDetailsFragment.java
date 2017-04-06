@@ -21,21 +21,18 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.controller.IStudentController;
+import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
-import com.sasd13.proadmin.scope.StudentWrapper;
 
 public class StudentDetailsFragment extends Fragment {
 
     private IStudentController controller;
-    private Student student;
+    private TeamScope scope;
     private StudentForm studentForm;
     private Menu menu;
 
-    public static StudentDetailsFragment newInstance(StudentWrapper studentWrapper) {
-        StudentDetailsFragment fragment = new StudentDetailsFragment();
-        fragment.student = studentWrapper.getStudent();
-
-        return fragment;
+    public static StudentDetailsFragment newInstance() {
+        return new StudentDetailsFragment();
     }
 
     @Override
@@ -45,6 +42,7 @@ public class StudentDetailsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
+        scope = (TeamScope) controller.getScope();
     }
 
     @Override

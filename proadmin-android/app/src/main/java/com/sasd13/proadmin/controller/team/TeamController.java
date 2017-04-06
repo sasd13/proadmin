@@ -5,10 +5,10 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.IStudentController;
 import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.controller.MainController;
-import com.sasd13.proadmin.scope.StudentWrapper;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ITeamService;
@@ -25,7 +25,7 @@ import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 
 import java.util.List;
 
-public class TeamController extends MainController implements ITeamController, IStudentController {
+public class TeamController extends MainController implements ITeamController, IStudentController, IBrowsable {
 
     private TeamScope scope;
     private ITeamService teamService;
@@ -53,7 +53,7 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     @Override
-    public void entry() {
+    public void browse() {
         mainActivity.clearHistory();
         listTeams();
     }
@@ -142,10 +142,10 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void newStudent(Team team) {
-        StudentWrapper studentWrapper = new StudentWrapper(new DefaultStudentBuilder().build());
-        studentWrapper.setTeam(team);
+        startFragment(StudentNewFragment.newInstance());
 
-        startFragment(StudentNewFragment.newInstance(studentWrapper));
+        scope.setTeam(team);
+        scope.setStudent(new DefaultStudentBuilder().build());
     }
 
     @Override
@@ -168,7 +168,9 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void showStudent(Student student) {
-        startFragment(StudentDetailsFragment.newInstance(new StudentWrapper(student)));
+        startFragment(StudentDetailsFragment.newInstance());
+
+        scope.setStudent(student);
     }
 
     @Override

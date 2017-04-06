@@ -31,7 +31,7 @@ import java.util.Observer;
 public class RunningDetailsFragment extends Fragment implements Observer {
 
     private IRunningController controller;
-    private ProjectScope scope;
+    private IRunningScope scope;
     private RunningForm runningForm;
     private Menu menu;
 
@@ -46,7 +46,7 @@ public class RunningDetailsFragment extends Fragment implements Observer {
         setHasOptionsMenu(true);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
-        scope = (ProjectScope) controller.getScope();
+        scope = (IRunningScope) controller.getScope();
 
         scope.addObserver(this);
     }

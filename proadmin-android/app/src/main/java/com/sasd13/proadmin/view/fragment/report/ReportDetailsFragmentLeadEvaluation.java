@@ -21,11 +21,10 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.view.gui.form.LeadEvaluationForm;
+import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
-import com.sasd13.proadmin.scope.ReportWrapper;
+import com.sasd13.proadmin.view.gui.form.LeadEvaluationForm;
 
 import java.util.List;
 import java.util.Observable;
@@ -34,21 +33,12 @@ import java.util.Observer;
 public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Observer {
 
     private IReportController controller;
-    private LeadEvaluation leadEvaluation;
-    private Report report;
-    private List<StudentTeam> studentTeams;
+    private ReportScope scope;
     private LeadEvaluationForm leadEvaluationForm;
     private Menu menu;
 
-    public static ReportDetailsFragmentLeadEvaluation newInstance(ReportWrapper reportWrapper) {
-        ReportDetailsFragmentLeadEvaluation fragment = new ReportDetailsFragmentLeadEvaluation();
-        fragment.leadEvaluation = reportWrapper.getLeadEvaluation();
-        fragment.report = reportWrapper.getReport();
-        fragment.studentTeams = reportWrapper.getStudentTeams();
-
-        reportWrapper.addObserver(fragment);
-
-        return fragment;
+    public static ReportDetailsFragmentLeadEvaluation newInstance() {
+        return new ReportDetailsFragmentLeadEvaluation();
     }
 
     @Override
@@ -58,6 +48,9 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         setHasOptionsMenu(true);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (ReportScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -74,7 +67,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
-        bindFormWithLeadEvaluation();
+        bindFormWithLeadEvaluation(scope.getLeadEvaluation(), scope.getStudentTeams());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -86,7 +79,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
     }
 
-    private void bindFormWithLeadEvaluation() {
+    private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation, List<StudentTeam> studentTeams) {
         leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamBuilder(studentTeams).build());
     }
 
@@ -121,8 +114,8 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     private void saveTeam() {
         try {
-            if (leadEvaluation != null) {
-                controller.updateLeadEvaluation(getLeadEvaluationFromForm(), leadEvaluation);
+            if (scope.getLeadEvaluation() != null) {
+                controller.updateLeadEvaluation(getLeadEvaluationFromForm(), scope.getLeadEvaluation());
             } else {
                 controller.createLeadEvaluation(getLeadEvaluationFromForm());
             }
@@ -138,7 +131,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         leadEvaluationFromForm.setPlanningComment(leadEvaluationForm.getPlanningComment());
         leadEvaluationFromForm.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
         leadEvaluationFromForm.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
-        leadEvaluationFromForm.setReport(report);
+        leadEvaluationFromForm.setReport(scope.getReport());
         leadEvaluationFromForm.setStudent(leadEvaluationForm.getLeader());
 
         return leadEvaluationFromForm;
@@ -146,12 +139,9 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     @Override
     public void update(Observable observable, Object o) {
-        ReportWrapper reportWrapper = (ReportWrapper) observable;
+        scope = (ReportScope) observable;
 
-        leadEvaluation = reportWrapper.getLeadEvaluation();
-        studentTeams = reportWrapper.getStudentTeams();
-
-        bindFormWithLeadEvaluation();
+        bindFormWithLeadEvaluation(scope.getLeadEvaluation(), scope.getStudentTeams());
     }
 
     @Override

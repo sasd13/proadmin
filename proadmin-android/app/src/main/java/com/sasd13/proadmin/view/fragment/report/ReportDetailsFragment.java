@@ -13,18 +13,13 @@ import com.sasd13.androidex.gui.widget.pager.Pager;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.scope.ReportWrapper;
 
 public class ReportDetailsFragment extends Fragment implements IPagerHandler {
 
-    private ReportWrapper reportWrapper;
     private Pager pager;
 
-    public static ReportDetailsFragment newInstance(ReportWrapper reportWrapper) {
-        ReportDetailsFragment fragment = new ReportDetailsFragment();
-        fragment.reportWrapper = reportWrapper;
-
-        return fragment;
+    public static ReportDetailsFragment newInstance() {
+        return new ReportDetailsFragment();
     }
 
     @Override
@@ -52,7 +47,7 @@ public class ReportDetailsFragment extends Fragment implements IPagerHandler {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ReportDetailsPagerFactory(this, reportWrapper));
+        pager.setAdapter(new ReportDetailsPagerFactory(this));
         tabsStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
