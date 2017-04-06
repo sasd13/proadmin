@@ -38,8 +38,6 @@ public class TeamController extends MainController implements ITeamController, I
     private StudentCreateStrategy studentCreateStrategy;
     private StudentUpdateStrategy studentUpdateStrategy;
     private StudentDeleteStrategy studentDeleteStrategy;
-    private TeamsWrapper teamsWrapper;
-    private TeamScope teamScope;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
         super(mainActivity);
@@ -62,7 +60,7 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void listTeams() {
-        startFragment(TeamsFragment.newInstance(teamsWrapper));
+        startFragment(TeamsFragment.newInstance());
         readTeams();
     }
 
@@ -80,9 +78,9 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void newTeam() {
-        teamScope = new TeamScope(new DefaultTeamBuilder().build());
+        startFragment(TeamNewFragment.newInstance());
 
-        startFragment(TeamNewFragment.newInstance(teamScope));
+        scope.setTeam(new DefaultTeamBuilder().build());
     }
 
     @Override
@@ -96,14 +94,12 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void showTeam(Team team) {
-        teamScope = new TeamScope(team);
-
-        startFragment(TeamDetailsFragment.newInstance(teamScope));
+        startFragment(TeamDetailsFragment.newInstance());
         listStudents(team);
     }
 
     void onReadStudenTeams(List<StudentTeam> studentTeams) {
-        teamScope.setStudentTeams(studentTeams);
+        scope.setStudentTeams(studentTeams);
     }
 
     @Override
