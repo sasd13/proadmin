@@ -41,8 +41,6 @@ public class ReportNewFragmentInfo extends Fragment implements Observer {
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override

@@ -50,12 +50,10 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
         scope = (RunningTeamScope) controller.getScope();
 
-        scope.addObserver(this);
+        setHasOptionsMenu(true);
     }
 
     @Override

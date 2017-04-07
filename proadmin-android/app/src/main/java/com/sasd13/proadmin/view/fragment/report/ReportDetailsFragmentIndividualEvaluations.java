@@ -45,12 +45,10 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
 
-        scope.addObserver(this);
+        setHasOptionsMenu(true);
     }
 
     @Override

@@ -43,8 +43,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         super.onCreate(savedInstanceState);
 
         scope = (ProjectScope) (((MainActivity) getActivity()).lookup(IProjectController.class)).getScope();
-
-        scope.addObserver(this);
     }
 
     @Override

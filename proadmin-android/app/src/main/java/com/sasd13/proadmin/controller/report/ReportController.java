@@ -24,7 +24,7 @@ import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

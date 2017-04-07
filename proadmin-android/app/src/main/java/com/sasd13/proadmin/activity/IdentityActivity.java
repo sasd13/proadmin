@@ -11,10 +11,10 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.view.fragment.IController;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.ProxyFragment;
 import com.sasd13.proadmin.view.fragment.authentication.LogInFragment;
 
@@ -39,10 +39,6 @@ public class IdentityActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public IController lookup(Class mClass) {
-        return ControllerProvider.provide(mClass, this);
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -54,6 +50,10 @@ public class IdentityActivity extends AppCompatActivity {
                 onBackPressed();
             }
         }
+    }
+
+    public IController lookup(Class mClass) {
+        return ControllerProvider.provide(mClass, this);
     }
 
     public void startFragment(Fragment fragment) {

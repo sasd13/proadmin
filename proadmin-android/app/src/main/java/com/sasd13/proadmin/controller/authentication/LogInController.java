@@ -4,11 +4,11 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.IdentityActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.view.fragment.authentication.ILogInController;
 import com.sasd13.proadmin.controller.IdentityController;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumErrorRes;
+import com.sasd13.proadmin.view.fragment.authentication.ILogInController;
 
 import java.util.HashMap;
 import java.util.Map;

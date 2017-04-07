@@ -4,7 +4,7 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.setting.ISettingController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.SettingScope;

@@ -43,12 +43,10 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
         scope = (TeamScope) controller.getScope();
 
-        scope.addObserver(this);
+        setHasOptionsMenu(true);
     }
 
     @Override

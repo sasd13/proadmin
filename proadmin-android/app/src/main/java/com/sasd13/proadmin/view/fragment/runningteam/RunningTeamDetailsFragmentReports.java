@@ -46,8 +46,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (RunningTeamScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override

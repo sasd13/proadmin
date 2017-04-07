@@ -4,7 +4,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.view.fragment.IController;
+import com.sasd13.proadmin.view.IController;
 
 import java.util.List;
 

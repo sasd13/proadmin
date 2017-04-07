@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.IdentityActivity;
 
@@ -19,18 +18,10 @@ public class LogInFragment extends Fragment {
         EditText editTextNumber, editTextPassword;
     }
 
-    private ILogInController controller;
     private LogInForm logInForm;
 
     public static LogInFragment newInstance() {
         return new LogInFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        controller = (ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class);
     }
 
     @Override
@@ -66,15 +57,11 @@ public class LogInFragment extends Fragment {
                 if (!logInForm.editTextNumber.getText().toString().trim().isEmpty()
                         && !logInForm.editTextPassword.getText().toString().trim().isEmpty()) {
                     String number = logInForm.editTextNumber.getText().toString().trim();
-                    String password = HexEncoder.md5(logInForm.editTextPassword.getText().toString().trim());
+                    String password = logInForm.editTextPassword.getText().toString().trim();
 
-                    logIn(number, password);
+                    ((ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class)).logIn(number, password);
                 }
             }
         });
-    }
-
-    private void logIn(String number, String password) {
-        controller.logIn(number, password);
     }
 }

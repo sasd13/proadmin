@@ -39,10 +39,10 @@ public class RunningDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
         scope = (RunningScope) controller.getScope();
+
+        setHasOptionsMenu(true);
     }
 
     @Override

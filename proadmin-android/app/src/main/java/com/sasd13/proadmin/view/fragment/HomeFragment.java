@@ -15,7 +15,7 @@ import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.fragment.setting.ISettingController;
 import com.sasd13.proadmin.view.fragment.team.ITeamController;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

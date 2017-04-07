@@ -44,8 +44,6 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         scope = (TeamScope) (((MainActivity) getActivity()).lookup(ITeamController.class)).getScope();
-
-        scope.addObserver(this);
     }
 
     @Override

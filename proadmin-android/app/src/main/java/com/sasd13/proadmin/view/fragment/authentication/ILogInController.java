@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.view.fragment.authentication;
 
-import com.sasd13.proadmin.view.fragment.IController;
+import com.sasd13.proadmin.view.IController;
 
 /**
  * Created by ssaidali2 on 02/04/2017.

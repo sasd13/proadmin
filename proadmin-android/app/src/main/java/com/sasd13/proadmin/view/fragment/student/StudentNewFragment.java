@@ -38,10 +38,10 @@ public class StudentNewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
         scope = (StudentScope) controller.getScope();
+
+        setHasOptionsMenu(true);
     }
 
     @Override

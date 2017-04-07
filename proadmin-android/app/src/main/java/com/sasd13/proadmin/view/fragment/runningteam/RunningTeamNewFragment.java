@@ -48,10 +48,10 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
         scope = (RunningTeamScope) controller.getScope();
+
+        setHasOptionsMenu(true);
     }
 
     @Override

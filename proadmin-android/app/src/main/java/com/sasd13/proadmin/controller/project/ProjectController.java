@@ -4,14 +4,14 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
 
@@ -40,12 +40,11 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
-        listProjects();
-    }
+        ProjectsFragment fragment = ProjectsFragment.newInstance();
 
-    private void listProjects() {
-        startFragment(ProjectsFragment.newInstance());
+        mainActivity.clearHistory();
+        startFragment(fragment);
+        scope.addObserver(fragment);
         readProjects();
     }
 
@@ -63,13 +62,12 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void actionShowProject(Project project) {
-        scope.setProject(project);
-
         startFragment(ProjectDetailsFragment.newInstance());
-        listRunnings(project);
+        scope.setProject(project);
+        readRunnings(project);
     }
 
-    private void listRunnings(Project project) {
+    private void readRunnings(Project project) {
         if (runningReadStrategy == null) {
             runningReadStrategy = new RunningReadStrategy(this, runningService);
         }

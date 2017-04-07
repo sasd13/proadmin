@@ -7,6 +7,7 @@ import com.sasd13.androidex.gui.widget.IIconifiable;
 import com.sasd13.androidex.gui.widget.ILabelizable;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
+import com.sasd13.proadmin.view.IBrowsable;
 
 import java.util.Observable;
 

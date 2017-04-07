@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.view.fragment.runningteam;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.view.fragment.IController;
+import com.sasd13.proadmin.view.IController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

@@ -5,7 +5,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.controller.MainController;

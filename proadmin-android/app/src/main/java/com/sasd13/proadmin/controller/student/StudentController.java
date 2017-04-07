@@ -6,7 +6,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.student.IStudentController;
 import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.controller.MainController;

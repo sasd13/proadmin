@@ -8,7 +8,7 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningTeamScope;

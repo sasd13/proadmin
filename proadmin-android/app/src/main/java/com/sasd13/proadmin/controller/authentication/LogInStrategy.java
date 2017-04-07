@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
-import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ITeacherService;

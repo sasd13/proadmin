@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.sasd13.proadmin.activity.IdentityActivity;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.view.fragment.IController;
+import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.authentication.ILogInController;
 import com.sasd13.proadmin.view.fragment.authentication.ILogOutController;
 import com.sasd13.proadmin.view.fragment.project.IProjectController;

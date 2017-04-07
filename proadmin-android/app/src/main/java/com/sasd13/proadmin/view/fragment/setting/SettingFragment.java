@@ -40,12 +40,10 @@ public class SettingFragment extends Fragment implements Observer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         controller = (ISettingController) ((MainActivity) getActivity()).lookup(ISettingController.class);
         scope = (SettingScope) controller.getScope();
 
-        scope.addObserver(this);
+        setHasOptionsMenu(true);
     }
 
     @Nullable

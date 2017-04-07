@@ -2,6 +2,7 @@ package com.sasd13.proadmin.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.ws.WSResources;
@@ -24,7 +25,7 @@ public class AuthenticationService implements IAuthenticationService {
             promiseLogin = new Promise("POST", WSResources.URL_AAA_LOGIN, Map.class);
         }
 
-        List<Map<String, String>> results = (List<Map<String, String>>) promiseLogin.execute(new Credential(credentials.get(PARAMETER_USERNAME), credentials.get(PARAMETER_PASSWORD)));
+        List<Map<String, String>> results = (List<Map<String, String>>) promiseLogin.execute(new Credential(credentials.get(PARAMETER_USERNAME), HexEncoder.sha256(credentials.get(PARAMETER_PASSWORD))));
 
         return new ServiceResult<>(
                 promiseLogin.isSuccess(),
