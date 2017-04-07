@@ -43,6 +43,7 @@ public class SettingFragment extends Fragment implements Observer {
         controller = (ISettingController) ((MainActivity) getActivity()).lookup(ISettingController.class);
         scope = (SettingScope) controller.getScope();
 
+        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 

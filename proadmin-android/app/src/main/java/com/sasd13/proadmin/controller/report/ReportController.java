@@ -20,11 +20,11 @@ import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
-import com.sasd13.proadmin.view.IBrowsable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,10 +66,6 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        listReports();
-    }
-
-    private void listReports() {
         startFragment(ReportsFragment.newInstance());
         readReports();
     }
@@ -90,10 +86,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport() {
-        startFragment(ReportNewFragment.newInstance());
-
         scope.setReport(new DefaultReportBuilder().build());
-
+        startFragment(ReportNewFragment.newInstance());
         readRunningTeams();
     }
 
@@ -113,10 +107,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport(RunningTeam runningTeam) {
-        startFragment(ReportNewFragment.newInstance());
-
         scope.setReport(new DefaultReportBuilder(runningTeam).build());
-
+        startFragment(ReportNewFragment.newInstance());
         readRunningTeams();
     }
 
@@ -136,10 +128,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionShowReport(Report report) {
-        startFragment(ReportDetailsFragment.newInstance());
-
         scope.setReport(report);
-
+        startFragment(ReportDetailsFragment.newInstance());
         readDependencies(report);
     }
 

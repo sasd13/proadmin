@@ -4,14 +4,14 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.setting.ISettingController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.SettingScope;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.fragment.setting.ISettingController;
 import com.sasd13.proadmin.view.fragment.setting.SettingFragment;
 
 public class SettingController extends MainController implements ISettingController, IBrowsable {
@@ -36,14 +36,7 @@ public class SettingController extends MainController implements ISettingControl
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        showTeacher();
-    }
-
-    private void showTeacher() {
-        SettingFragment fragment = SettingFragment.newInstance();
-
-        scope.addObserver(fragment);
-        startFragment(fragment);
+        startFragment(SettingFragment.newInstance());
         readTeacher();
     }
 

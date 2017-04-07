@@ -48,6 +48,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
 
+        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 

@@ -53,6 +53,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
         scope = (RunningTeamScope) controller.getScope();
 
+        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 

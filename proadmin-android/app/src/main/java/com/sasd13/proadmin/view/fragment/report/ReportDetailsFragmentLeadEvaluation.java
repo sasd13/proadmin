@@ -47,6 +47,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
 
+        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 

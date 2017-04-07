@@ -45,6 +45,8 @@ public class TeamsFragment extends Fragment implements Observer {
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
         scope = (TeamScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override

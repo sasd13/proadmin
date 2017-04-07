@@ -40,11 +40,8 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void browse() {
-        ProjectsFragment fragment = ProjectsFragment.newInstance();
-
         mainActivity.clearHistory();
-        startFragment(fragment);
-        scope.addObserver(fragment);
+        startFragment(ProjectsFragment.newInstance());
         readProjects();
     }
 
@@ -62,8 +59,8 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void actionShowProject(Project project) {
-        startFragment(ProjectDetailsFragment.newInstance());
         scope.setProject(project);
+        startFragment(ProjectDetailsFragment.newInstance());
         readRunnings(project);
     }
 

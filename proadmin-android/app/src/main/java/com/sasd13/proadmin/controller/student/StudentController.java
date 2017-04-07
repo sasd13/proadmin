@@ -6,16 +6,16 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.student.IStudentController;
-import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.fragment.student.IStudentController;
 import com.sasd13.proadmin.view.fragment.student.StudentDetailsFragment;
 import com.sasd13.proadmin.view.fragment.student.StudentNewFragment;
+import com.sasd13.proadmin.view.fragment.team.ITeamController;
 
 public class StudentController extends MainController implements IStudentController {
 
@@ -38,12 +38,17 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionNewStudent(Team team) {
+        scope.setStudentTeam(getStudentTeam(team));
+        startFragment(StudentNewFragment.newInstance());
+    }
+
+    private StudentTeam getStudentTeam(Team team) {
         StudentTeam studentTeam = new StudentTeam();
 
         studentTeam.setStudent(new DefaultStudentBuilder().build());
         studentTeam.setTeam(team);
 
-        startFragment(StudentNewFragment.newInstance());
+        return studentTeam;
     }
 
     @Override
@@ -63,7 +68,6 @@ public class StudentController extends MainController implements IStudentControl
     @Override
     public void actionShowStudent(StudentTeam studentTeam) {
         scope.setStudentTeam(studentTeam);
-
         startFragment(StudentDetailsFragment.newInstance());
     }
 

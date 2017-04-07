@@ -48,10 +48,6 @@ public class TeamController extends MainController implements ITeamController, I
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        listTeams();
-    }
-
-    private void listTeams() {
         startFragment(TeamsFragment.newInstance());
         readTeams();
     }
@@ -91,10 +87,10 @@ public class TeamController extends MainController implements ITeamController, I
     @Override
     public void actionShowTeam(Team team) {
         startFragment(TeamDetailsFragment.newInstance());
-        listStudents(team);
+        readStudents(team);
     }
 
-    private void listStudents(Team team) {
+    private void readStudents(Team team) {
         if (studentReadStrategy == null) {
             studentReadStrategy = new StudentReadStrategy(this, studentService);
         }

@@ -8,8 +8,6 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.service.IReportService;
@@ -17,6 +15,9 @@ import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
+import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;
 
@@ -51,12 +52,8 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        listRunningTeams();
-    }
-
-    private void listRunningTeams() {
-        readRunningTeams();
         startFragment(RunningTeamsFragment.newInstance());
+        readRunningTeams();
     }
 
     private void readRunningTeams() {
@@ -75,8 +72,8 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionNewRunningTeam() {
-        readDependencies();
         startFragment(RunningTeamNewFragment.newInstance());
+        readDependencies();
     }
 
     private void readDependencies() {
@@ -112,6 +109,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void actionShowRunningTeam(RunningTeam runningTeam) {
         scope.setRunningTeam(runningTeam);
+        startFragment(RunningTeamDetailsFragment.newInstance());
         readDependencies();
         readReports(runningTeam);
     }

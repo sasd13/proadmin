@@ -46,6 +46,7 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
         scope = (TeamScope) controller.getScope();
 
+        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 
