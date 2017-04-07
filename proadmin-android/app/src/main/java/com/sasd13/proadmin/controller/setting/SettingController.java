@@ -62,7 +62,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     @Override
-    public void updateTeacher(Teacher teacher, Teacher teacherToUpdate) {
+    public void actionUpdateTeacher(Teacher teacher, Teacher teacherToUpdate) {
         if (teacherUpdateStrategy == null) {
             teacherUpdateStrategy = new TeacherUpdateStrategy(this, teacherService);
         }

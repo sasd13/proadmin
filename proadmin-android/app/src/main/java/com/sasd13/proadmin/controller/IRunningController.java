@@ -9,7 +9,7 @@ import com.sasd13.proadmin.bean.running.Running;
 
 public interface IRunningController extends IController {
 
-    void newRunning(Project project);
+    void actionNewRunning(Project project);
 
     void actionCreateRunning(Running running);
 

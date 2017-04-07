@@ -111,7 +111,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void newReport(RunningTeam runningTeam) {
+    public void actionNewReport(RunningTeam runningTeam) {
         startFragment(ReportNewFragment.newInstance());
 
         scope.setReport(new DefaultReportBuilder(runningTeam).build());
@@ -175,7 +175,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void createLeadEvaluation(LeadEvaluation leadEvaluation) {
+    public void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation) {
         if (leadEvaluationCreateStrategy == null) {
             leadEvaluationCreateStrategy = new LeadEvaluationCreateStrategy(this, leadEvaluationService);
         }
@@ -184,7 +184,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void updateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
+    public void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
         if (leadEvaluationUpdateStrategy == null) {
             leadEvaluationUpdateStrategy = new LeadEvaluationUpdateStrategy(this, leadEvaluationService);
         }
@@ -202,7 +202,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void updateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
+    public void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
         if (individualEvaluationUpdateStrategy == null) {
             individualEvaluationUpdateStrategy = new IndividualEvaluationUpdateStrategy(this, individualEvaluationService);
         }
@@ -265,7 +265,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void deleteReports(Report[] reports) {
+    public void actionDeleteReport(Report[] reports) {
         if (reportDeleteStrategy == null) {
             reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
         }

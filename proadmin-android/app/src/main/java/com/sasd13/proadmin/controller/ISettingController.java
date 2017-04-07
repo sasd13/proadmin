@@ -8,5 +8,5 @@ import com.sasd13.proadmin.bean.member.Teacher;
 
 public interface ISettingController extends IController {
 
-    void updateTeacher(Teacher teacher, Teacher teacherToUpdate);
+    void actionUpdateTeacher(Teacher teacher, Teacher teacherToUpdate);
 }

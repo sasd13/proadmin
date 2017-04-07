@@ -115,9 +115,9 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private void saveTeam() {
         try {
             if (scope.getLeadEvaluation() != null) {
-                controller.updateLeadEvaluation(getLeadEvaluationFromForm(), scope.getLeadEvaluation());
+                controller.actionUpdateLeadEvaluation(getLeadEvaluationFromForm(), scope.getLeadEvaluation());
             } else {
-                controller.createLeadEvaluation(getLeadEvaluationFromForm());
+                controller.actionCreateLeadEvaluation(getLeadEvaluationFromForm());
             }
         } catch (FormException e) {
             controller.display(e.getMessage());

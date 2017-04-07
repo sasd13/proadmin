@@ -83,7 +83,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newReport(runningTeam);
+                controller.actionNewReport(runningTeam);
             }
         });
     }

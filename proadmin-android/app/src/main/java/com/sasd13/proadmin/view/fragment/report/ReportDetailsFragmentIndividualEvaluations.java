@@ -116,7 +116,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         try {
             List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations(scope.getReport());
 
-            controller.updateIndividualEvaluations(individualEvaluationsFromForm, scope.getIndividualEvaluations());
+            controller.actionUpdateIndividualEvaluations(individualEvaluationsFromForm, scope.getIndividualEvaluations());
         } catch (IndividualEvaluationsFormException e) {
             controller.display(e.getMessage());
         }

@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface IReportController extends IController {
 
-    void newReport(RunningTeam runningTeam);
-
     void actionNewReport();
+
+    void actionNewReport(RunningTeam runningTeam);
 
     void actionCreateReport(Report report);
 
@@ -23,11 +23,11 @@ public interface IReportController extends IController {
 
     void actionUpdateReport(Report report, Report reportToUpdate);
 
-    void createLeadEvaluation(LeadEvaluation leadEvaluation);
+    void actionDeleteReport(Report report);
 
-    void updateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate);
+    void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation);
 
-    void updateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate);
+    void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate);
 
-    void deleteReports(Report[] reports);
+    void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate);
 }

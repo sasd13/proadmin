@@ -161,11 +161,11 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionNewStudentTeam(Team team) {
-        ((IStudentController) mainActivity.lookup(IStudentController.class)).newStudent(team);
+        ((IStudentController) mainActivity.lookup(IStudentController.class)).actionNewStudent(team);
     }
 
     @Override
     public void actionShowStudentTeam(StudentTeam studentTeam) {
-        ((IStudentController) mainActivity.lookup(IStudentController.class)).showStudent(studentTeam);
+        ((IStudentController) mainActivity.lookup(IStudentController.class)).actionShowStudent(studentTeam);
     }
 }

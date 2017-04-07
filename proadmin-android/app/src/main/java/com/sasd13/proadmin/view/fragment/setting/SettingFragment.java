@@ -99,7 +99,7 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void updateTeacher() {
         try {
-            controller.updateTeacher(getTeacherFromForm(), scope.getTeacher());
+            controller.actionUpdateTeacher(getTeacherFromForm(), scope.getTeacher());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }

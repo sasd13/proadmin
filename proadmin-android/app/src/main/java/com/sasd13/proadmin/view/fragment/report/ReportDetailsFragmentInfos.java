@@ -135,7 +135,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteReports(new Report[]{scope.getReport()});
+                        controller.actionDeleteReport(new Report[]{scope.getReport()});
                     }
                 });
     }

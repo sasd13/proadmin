@@ -87,7 +87,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void actionNewRunning(Project project) {
-        ((IRunningController) mainActivity.lookup(IRunningController.class)).newRunning(project);
+        ((IRunningController) mainActivity.lookup(IRunningController.class)).actionNewRunning(project);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     @Override
-    public void newStudent(Team team) {
+    public void actionNewStudent(Team team) {
         StudentTeam studentTeam = new StudentTeam();
 
         studentTeam.setStudent(new DefaultStudentBuilder().build());
@@ -59,7 +59,7 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     @Override
-    public void showStudent(StudentTeam studentTeam) {
+    public void actionShowStudent(StudentTeam studentTeam) {
         scope.setStudentTeam(studentTeam);
 
         startFragment(StudentDetailsFragment.newInstance());
