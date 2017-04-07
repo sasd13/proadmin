@@ -70,20 +70,6 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     @Override
-    public void actionRemoveTeam(Team team) {
-        if (teamDeleteStrategy == null) {
-            teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
-        }
-
-        new Requestor(teamDeleteStrategy).execute(new Team[]{team});
-    }
-
-    void onDeleteTeam() {
-        display(R.string.message_deleted);
-        //TODO entry();
-    }
-
-    @Override
     public void actionNewTeam() {
         scope.setTeam(new DefaultTeamBuilder().build());
         startFragment(TeamNewFragment.newInstance());
@@ -143,6 +129,20 @@ public class TeamController extends MainController implements ITeamController, I
 
     void onUpdateTeam() {
         display(R.string.message_updated);
+    }
+
+    @Override
+    public void actionRemoveTeam(Team team) {
+        if (teamDeleteStrategy == null) {
+            teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
+        }
+
+        new Requestor(teamDeleteStrategy).execute(new Team[]{team});
+    }
+
+    void onDeleteTeam() {
+        display(R.string.message_deleted);
+        //TODO entry();
     }
 
     @Override

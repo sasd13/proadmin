@@ -78,7 +78,7 @@ public class ReportsFragment extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newReport();
+                controller.actionNewReport();
             }
         });
     }
@@ -98,7 +98,7 @@ public class ReportsFragment extends Fragment implements Observer {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showReport(report);
+                    controller.actionShowReport(report);
                 }
             });
 

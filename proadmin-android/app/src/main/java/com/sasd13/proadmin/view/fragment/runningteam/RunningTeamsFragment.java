@@ -79,7 +79,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newRunningTeam();
+                controller.actionNewRunningTeam();
             }
         });
     }
@@ -99,7 +99,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showRunningTeam(runningTeam);
+                    controller.actionShowRunningTeam(runningTeam);
                 }
             });
 

@@ -109,7 +109,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateReport() {
         try {
-            controller.updateReport(getReportFromForm(), scope.getReport());
+            controller.actionUpdateReport(getReportFromForm(), scope.getReport());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }

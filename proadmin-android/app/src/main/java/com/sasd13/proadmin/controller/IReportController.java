@@ -13,17 +13,15 @@ import java.util.List;
 
 public interface IReportController extends IController {
 
-    void listReports();
-
-    void newReport();
-
     void newReport(RunningTeam runningTeam);
 
-    void createReport(Report report);
+    void actionNewReport();
 
-    void showReport(Report report);
+    void actionCreateReport(Report report);
 
-    void updateReport(Report report, Report reportToUpdate);
+    void actionShowReport(Report report);
+
+    void actionUpdateReport(Report report, Report reportToUpdate);
 
     void createLeadEvaluation(LeadEvaluation leadEvaluation);
 

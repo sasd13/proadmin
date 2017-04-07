@@ -83,7 +83,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void newRunningTeam() {
+    public void actionNewRunningTeam() {
         mode = Extra.MODE_NEW;
         runningTeamScope = new RunningTeamScope(new DefaultRunningTeamBuilder().build());
 
@@ -135,7 +135,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void createRunningTeam(RunningTeam runningTeam) {
+    public void actionCreateRunningTeam(RunningTeam runningTeam) {
         if (runningTeamCreateStrategy == null) {
             runningTeamCreateStrategy = new RunningTeamCreateStrategy(this, runningTeamService);
         }
@@ -144,7 +144,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void showRunningTeam(RunningTeam runningTeam) {
+    public void actionShowRunningTeam(RunningTeam runningTeam) {
         mode = Extra.MODE_EDIT;
         runningTeamScope = new RunningTeamScope(runningTeam);
 
@@ -153,7 +153,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void updateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
+    public void actionUpdateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
         if (runningTeamUpdateStrategy == null) {
             runningTeamUpdateStrategy = new RunningTeamUpdateStrategy(this, runningTeamService);
         }
@@ -175,7 +175,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void deleteRunningTeams(RunningTeam[] runningTeams) {
+    public void actionRemoveRunningTeam(RunningTeam[] runningTeams) {
         if (runningTeamDeleteStrategy == null) {
             runningTeamDeleteStrategy = new RunningTeamDeleteStrategy(this, runningTeamService);
         }

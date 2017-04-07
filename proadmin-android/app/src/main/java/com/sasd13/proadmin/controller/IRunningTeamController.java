@@ -8,15 +8,13 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public interface IRunningTeamController extends IController {
 
-    void listRunningTeams();
+    void actionNewRunningTeam();
 
-    void newRunningTeam();
+    void actionCreateRunningTeam(RunningTeam runningTeam);
 
-    void createRunningTeam(RunningTeam runningTeam);
+    void actionShowRunningTeam(RunningTeam runningTeam);
 
-    void showRunningTeam(RunningTeam runningRunningTeam);
+    void actionUpdateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate);
 
-    void updateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate);
-
-    void deleteRunningTeams(RunningTeam[] runningTeams);
+    void actionRemoveRunningTeam(RunningTeam runningTeam);
 }

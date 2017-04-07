@@ -7,7 +7,7 @@ import com.sasd13.androidex.gui.widget.IIconifiable;
 import com.sasd13.androidex.gui.widget.ILabelizable;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
-import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.controller.IBrowsable;
 
 import java.util.Observable;
 
@@ -20,9 +20,9 @@ public class BrowserItemModel extends Observable implements IRecyclerItemModel, 
     private String label;
     private Drawable icon;
     private int color;
-    private Class<? extends MainController> target;
+    private Class<? extends IBrowsable> target;
 
-    public BrowserItemModel(EnumBrowserItemType browserItemType, String label, Drawable icon, int color, Class<? extends MainController> target) {
+    public BrowserItemModel(EnumBrowserItemType browserItemType, String label, Drawable icon, int color, Class<? extends IBrowsable> target) {
         this.browserItemType = browserItemType;
         this.label = label;
         this.icon = icon;
@@ -50,7 +50,7 @@ public class BrowserItemModel extends Observable implements IRecyclerItemModel, 
         return color;
     }
 
-    public Class<? extends MainController> getTarget() {
+    public Class<? extends IBrowsable> getTarget() {
         return target;
     }
 }

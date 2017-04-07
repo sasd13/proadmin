@@ -81,7 +81,7 @@ public class ReportNewFragmentInfo extends Fragment implements Observer {
             public void onClick(View view) {
                 try {
                     editReportWithForm();
-                    controller.createReport(scope.getReport());
+                    controller.actionCreateReport(scope.getReport());
                 } catch (FormException e) {
                     controller.display(e.getMessage());
                 }

@@ -9,8 +9,6 @@ import com.sasd13.proadmin.bean.member.Team;
 
 public interface ITeamController extends IController {
 
-    void actionRemoveTeam(Team team);
-
     void actionNewTeam();
 
     void actionCreateTeam(Team team);
@@ -18,6 +16,8 @@ public interface ITeamController extends IController {
     void actionShowTeam(Team team);
 
     void actionUpdateTeam(Team team, Team teamToUpdate);
+
+    void actionRemoveTeam(Team team);
 
     void actionRemoveStudentTeams(StudentTeam[] studentTeams);
 

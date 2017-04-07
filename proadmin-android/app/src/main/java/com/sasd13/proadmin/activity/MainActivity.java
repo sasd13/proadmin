@@ -18,8 +18,8 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.IController;
-import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
@@ -82,7 +82,7 @@ public class MainActivity extends DrawerActivity {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    ((MainController) lookup(browserItemModel.getTarget())).entry();
+                    ((IBrowsable) lookup(browserItemModel.getTarget())).browse();
                     setDrawerOpened(false);
                 }
             });
@@ -92,7 +92,7 @@ public class MainActivity extends DrawerActivity {
         return pairs;
     }
 
-    public IController lookup(Class<? extends IController> mClass) {
+    public IController lookup(Class mClass) {
         return ControllerProvider.provide(mClass, this);
     }
 

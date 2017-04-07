@@ -40,7 +40,7 @@ import com.sasd13.proadmin.service.ITeamService;
 
 public class ControllerProvider {
 
-    public static IController provide(Class<? extends IController> mClass, Activity activity) {
+    public static IController provide(Class mClass, Activity activity) {
         if (ILogInController.class.isAssignableFrom(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
@@ -58,7 +58,7 @@ public class ControllerProvider {
                     (IProjectService) ServiceProvider.provide(IProjectService.class),
                     (IRunningService) ServiceProvider.provide(IRunningService.class)
             );
-        } else if (ITeamController.class.isAssignableFrom(mClass) || IStudentController.class.isAssignableFrom(mClass)) {
+        } else if (ITeamController.class.isAssignableFrom(mClass)) {
             return new TeamController(
                     (MainActivity) activity,
                     (ITeamService) ServiceProvider.provide(ITeamService.class),

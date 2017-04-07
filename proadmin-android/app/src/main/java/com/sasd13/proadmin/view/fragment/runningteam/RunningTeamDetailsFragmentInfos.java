@@ -140,7 +140,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void updateTeam() {
         try {
-            controller.updateRunningTeam(getRunningTeamFromForm(), runningTeam);
+            controller.actionUpdateRunningTeam(getRunningTeamFromForm(), runningTeam);
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -164,7 +164,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteRunningTeams(new RunningTeam[]{runningTeam});
+                        controller.actionRemoveRunningTeam(new RunningTeam[]{runningTeam});
                     }
                 });
     }

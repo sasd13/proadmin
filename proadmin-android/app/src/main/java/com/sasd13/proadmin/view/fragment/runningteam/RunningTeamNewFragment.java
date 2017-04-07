@@ -145,7 +145,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     private void createTeam() {
         try {
             editRunningTeamWithForm();
-            controller.createRunningTeam(runningTeam);
+            controller.actionCreateRunningTeam(runningTeam);
         } catch (FormException e) {
             controller.display(e.getMessage());
         }

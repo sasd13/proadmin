@@ -103,7 +103,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showReport(report);
+                    controller.actionShowReport(report);
                 }
             });
 
