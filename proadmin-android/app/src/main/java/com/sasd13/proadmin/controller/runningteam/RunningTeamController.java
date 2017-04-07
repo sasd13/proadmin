@@ -57,8 +57,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         listRunningTeams();
     }
 
-    @Override
-    public void listRunningTeams() {
+    private void listRunningTeams() {
         runningTeamsWrapper = new RunningTeamsWrapper();
 
         startProxyFragment();

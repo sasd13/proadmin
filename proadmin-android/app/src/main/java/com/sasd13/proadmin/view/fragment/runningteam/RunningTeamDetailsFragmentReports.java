@@ -21,11 +21,10 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
-import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.scope.RunningTeamScope;
+import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -34,18 +33,11 @@ import java.util.Observer;
 public class RunningTeamDetailsFragmentReports extends Fragment implements Observer {
 
     private IReportController controller;
-    private RunningTeam runningTeam;
-    private List<Report> reports;
+    private RunningTeamScope scope;
     private Recycler recycler;
 
-    public static RunningTeamDetailsFragmentReports newInstance(RunningTeamScope runningTeamScope) {
-        RunningTeamDetailsFragmentReports fragment = new RunningTeamDetailsFragmentReports();
-        fragment.runningTeam = runningTeamScope.getRunningTeam();
-        fragment.reports = runningTeamScope.getReports();
-
-        runningTeamScope.addObserver(fragment);
-
-        return fragment;
+    public static RunningTeamDetailsFragmentReports newInstance() {
+        return new RunningTeamDetailsFragmentReports();
     }
 
     @Override
@@ -53,6 +45,9 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         super.onCreate(savedInstanceState);
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
+        scope = (RunningTeamScope) controller.getScope();
+
+        scope.addObserver(this);
     }
 
     @Override
@@ -70,7 +65,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports(reports);
+        bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -83,7 +78,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.actionNewReport(runningTeam);
+                controller.actionNewReport(scope.getRunningTeam());
             }
         });
     }
@@ -115,15 +110,17 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamScope runningTeamScope = (RunningTeamScope) observable;
+        scope = (RunningTeamScope) observable;
 
-        if (!reports.containsAll(runningTeamScope.getReports())) {
+        bindTabWithReports(scope.getReports());
+
+        /*if (!reports.containsAll(runningTeamScope.getReports())) {
             addNextReports(runningTeamScope.getReports());
-        }
+        }*/
     }
 
-    private void addNextReports(List<Report> nextReports) {
+    /*private void addNextReports(List<Report> nextReports) {
         reports.addAll(nextReports);
         bindTabWithReports(nextReports);
-    }
+    }*/
 }

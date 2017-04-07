@@ -22,8 +22,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.IRunningTeamController;
-import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
+import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -32,16 +33,11 @@ import java.util.Observer;
 public class RunningTeamsFragment extends Fragment implements Observer {
 
     private IRunningTeamController controller;
-    private List<RunningTeam> runningTeams;
+    private RunningTeamScope scope;
     private Recycler recycler;
 
-    public static RunningTeamsFragment newInstance(RunningTeamsWrapper runningTeamsWrapper) {
-        RunningTeamsFragment fragment = new RunningTeamsFragment();
-        fragment.runningTeams = runningTeamsWrapper.getRunningTeams();
-
-        runningTeamsWrapper.addObserver(fragment);
-
-        return fragment;
+    public static RunningTeamsFragment newInstance() {
+        return new RunningTeamsFragment();
     }
 
     @Override
@@ -49,6 +45,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
+        scope = (RunningTeamScope) controller.getScope();
     }
 
     @Override
@@ -66,7 +63,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindTabWithRunningTeams(runningTeams);
+        bindTabWithRunningTeams(scope.getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -119,15 +116,17 @@ public class RunningTeamsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamsWrapper runningTeamWrapper = (RunningTeamsWrapper) observable;
+        scope = (RunningTeamScope) observable;
 
-        if (!runningTeams.containsAll(runningTeamWrapper.getRunningTeams())) {
+        bindTabWithRunningTeams(scope.getRunningTeams());
+
+        /*if (!runningTeams.containsAll(runningTeamWrapper.getRunningTeams())) {
             addNextRunningTeams(runningTeamWrapper.getRunningTeams());
-        }
+        }*/
     }
 
-    private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
+    /*private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
         runningTeams.addAll(nextRunningTeams);
         bindTabWithRunningTeams(nextRunningTeams);
-    }
+    }*/
 }

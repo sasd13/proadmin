@@ -24,11 +24,11 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.controller.IRunningTeamController;
-import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
+import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.scope.RunningTeamScope;
+import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 
 import java.util.List;
 import java.util.Observable;
@@ -37,23 +37,12 @@ import java.util.Observer;
 public class RunningTeamNewFragment extends Fragment implements Observer {
 
     private IRunningTeamController controller;
-    private RunningTeam runningTeam;
-    private List<Running> runnings;
-    private List<Team> teams;
-    private List<AcademicLevel> academicLevels;
+    private RunningTeamScope scope;
     private RunningTeamForm runningTeamForm;
     private Menu menu;
 
-    public static RunningTeamNewFragment newInstance(RunningTeamScope runningTeamScope) {
-        RunningTeamNewFragment fragment = new RunningTeamNewFragment();
-        fragment.runningTeam = runningTeamScope.getRunningTeam();
-        fragment.runnings = runningTeamScope.getRunnings();
-        fragment.teams = runningTeamScope.getTeams();
-        fragment.academicLevels = runningTeamScope.getAcademicLevels();
-
-        runningTeamScope.addObserver(fragment);
-
-        return fragment;
+    public static RunningTeamNewFragment newInstance() {
+        return new RunningTeamNewFragment();
     }
 
     @Override
@@ -63,6 +52,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
         setHasOptionsMenu(true);
 
         controller = (IRunningTeamController) ((MainActivity) getActivity()).lookup(IRunningTeamController.class);
+        scope = (RunningTeamScope) controller.getScope();
     }
 
     @Override
@@ -79,10 +69,10 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormRunningTeam(view);
-        bindFormWithRunningTeam();
-        bindFormWithRunnings();
-        bindFormWithTeams();
-        bindFormWithAcademicLevels();
+        bindFormWithRunningTeam(scope.getRunningTeam());
+        bindFormWithRunnings(scope.getRunnings());
+        bindFormWithTeams(scope.getTeams());
+        bindFormWithAcademicLevels(scope.getAcademicLevels());
     }
 
     private void buildFormRunningTeam(View view) {
@@ -94,21 +84,21 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
         RecyclerHelper.addAll(form, runningTeamForm.getHolder());
     }
 
-    private void bindFormWithRunningTeam() {
+    private void bindFormWithRunningTeam(RunningTeam runningTeam) {
         runningTeamForm.bindRunningTeam(runningTeam);
     }
 
-    private void bindFormWithRunnings() {
+    private void bindFormWithRunnings(List<Running> runnings) {
         RunningsSorter.byProjectCode(runnings);
         runningTeamForm.bindRunnings(runnings);
     }
 
-    private void bindFormWithTeams() {
+    private void bindFormWithTeams(List<Team> teams) {
         TeamsSorter.byNumber(teams);
         runningTeamForm.bindTeams(teams);
     }
 
-    private void bindFormWithAcademicLevels() {
+    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
         AcademicLevelsSorter.byCode(academicLevels);
         runningTeamForm.bindAcademicLevels(academicLevels);
     }
@@ -145,13 +135,15 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     private void createTeam() {
         try {
             editRunningTeamWithForm();
-            controller.actionCreateRunningTeam(runningTeam);
+            controller.actionCreateRunningTeam(scope.getRunningTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
     private void editRunningTeamWithForm() throws FormException {
+        RunningTeam runningTeam = scope.getRunningTeam();
+
         runningTeam.setRunning(runningTeamForm.getRunning());
         runningTeam.setTeam(runningTeamForm.getTeam());
         runningTeam.setAcademicLevel(runningTeamForm.getAcademicLevel());
@@ -167,15 +159,11 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        RunningTeamScope runningTeamScope = (RunningTeamScope) observable;
+        scope = (RunningTeamScope) observable;
 
-        runnings = runningTeamScope.getRunnings();
-        teams = runningTeamScope.getTeams();
-        academicLevels = runningTeamScope.getAcademicLevels();
-
-        bindFormWithRunnings();
-        bindFormWithTeams();
-        bindFormWithAcademicLevels();
+        bindFormWithRunnings(scope.getRunnings());
+        bindFormWithTeams(scope.getTeams());
+        bindFormWithAcademicLevels(scope.getAcademicLevels());
     }
 
     @Override
