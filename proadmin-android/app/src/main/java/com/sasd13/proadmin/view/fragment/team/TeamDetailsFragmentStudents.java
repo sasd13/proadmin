@@ -22,6 +22,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.controller.IStudentController;
+import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
 import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
@@ -32,7 +33,7 @@ import java.util.Observer;
 
 public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
-    private IStudentController controller;
+    private ITeamController controller;
     private TeamScope scope;
     private Recycler recycler;
 
@@ -44,7 +45,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
+        controller = (ITeamController) ((MainActivity) getActivity()).lookup(IStudentController.class);
         scope = (TeamScope) controller.getScope();
 
         scope.addObserver(this);
@@ -78,7 +79,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newStudent(scope.getTeam());
+                controller.actionNewStudentTeam(scope.getTeam());
             }
         });
     }
@@ -98,7 +99,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showStudent(studentTeam.getStudent());
+                    controller.actionShowStudentTeam(studentTeam);
                 }
             });
 

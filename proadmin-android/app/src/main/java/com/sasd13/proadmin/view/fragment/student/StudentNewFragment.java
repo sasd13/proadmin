@@ -20,24 +20,19 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.IStudentController;
+import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
 
 public class StudentNewFragment extends Fragment {
 
     private IStudentController controller;
-    private Student student;
-    private Team team;
+    private StudentScope scope;
     private StudentForm studentForm;
     private Menu menu;
 
-    public static StudentNewFragment newInstance(StudentWrapper studentWrapper) {
-        StudentNewFragment fragment = new StudentNewFragment();
-        fragment.student = studentWrapper.getStudent();
-        fragment.team = studentWrapper.getTeam();
-
-        return fragment;
+    public static StudentNewFragment newInstance() {
+        return new StudentNewFragment();
     }
 
     @Override
@@ -47,6 +42,7 @@ public class StudentNewFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
+        scope = (StudentScope) controller.getScope();
     }
 
     @Override
@@ -63,7 +59,7 @@ public class StudentNewFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormStudent(view);
-        bindFormWithStudent();
+        bindFormWithStudent(scope.getStudentTeam().getStudent());
     }
 
     private void buildFormStudent(View view) {
@@ -75,7 +71,7 @@ public class StudentNewFragment extends Fragment {
         RecyclerHelper.addAll(form, studentForm.getHolder());
     }
 
-    private void bindFormWithStudent() {
+    private void bindFormWithStudent(Student student) {
         studentForm.bindStudent(student);
     }
 
@@ -111,13 +107,15 @@ public class StudentNewFragment extends Fragment {
     private void createStudent() {
         try {
             editStudentWithForm();
-            controller.createStudent(student, team);
+            controller.actionCreateStudent(scope.getStudentTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
     private void editStudentWithForm() throws FormException {
+        Student student = scope.getStudentTeam().getStudent();
+
         student.setNumber(studentForm.getNumber());
         student.setFirstName(studentForm.getFirstName());
         student.setLastName(studentForm.getLastName());

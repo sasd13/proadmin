@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.student;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
@@ -13,10 +13,10 @@ import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 
 public class StudentUpdateStrategy extends RequestorStrategy {
 
-    private TeamController controller;
+    private StudentController controller;
     private IStudentService service;
 
-    public StudentUpdateStrategy(TeamController controller, IStudentService service) {
+    public StudentUpdateStrategy(StudentController controller, IStudentService service) {
         super();
 
         this.controller = controller;
@@ -33,7 +33,7 @@ public class StudentUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_updated);
+            controller.onUpdateStudent();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

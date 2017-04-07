@@ -33,7 +33,7 @@ public class TeacherUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_updated);
+            controller.onUpdateTeacher();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

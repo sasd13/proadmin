@@ -113,7 +113,7 @@ public class RunningDetailsFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.actionDeleteRunnings(new Running[]{scope.getRunning()});
+                        controller.actionRemoveRunning(scope.getRunning());
                     }
                 });
     }

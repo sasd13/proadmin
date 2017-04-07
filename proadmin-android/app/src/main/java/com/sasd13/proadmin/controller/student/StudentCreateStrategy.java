@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.student;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
@@ -19,11 +19,11 @@ import java.util.Map;
 
 public class StudentCreateStrategy extends RequestorStrategy {
 
-    private TeamController controller;
+    private StudentController controller;
     private IStudentService service;
     private Map<String, String[]> parameters;
 
-    public StudentCreateStrategy(TeamController controller, IStudentService service) {
+    public StudentCreateStrategy(StudentController controller, IStudentService service) {
         super();
 
         this.controller = controller;
@@ -60,8 +60,7 @@ public class StudentCreateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_saved);
-            controller.entry();
+            controller.onCreateStudent();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

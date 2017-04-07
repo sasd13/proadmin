@@ -33,8 +33,7 @@ public class StudentDeleteStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_deleted);
-            controller.entry();
+            controller.onDeleteStudentTeams();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

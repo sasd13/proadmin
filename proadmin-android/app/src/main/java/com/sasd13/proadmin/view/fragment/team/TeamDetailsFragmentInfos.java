@@ -109,7 +109,7 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateTeam() {
         try {
-            controller.updateTeam(getTeamFromForm(), scope.getTeam());
+            controller.actionUpdateTeam(getTeamFromForm(), scope.getTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -131,7 +131,7 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteTeams(new Team[]{scope.getTeam()});
+                        controller.actionRemoveTeam(scope.getTeam());
                     }
                 });
     }

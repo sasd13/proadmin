@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.controller.team;
 
 import com.sasd13.androidex.util.requestor.Requestor;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.IBrowsable;
@@ -13,19 +13,15 @@ import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
-import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.student.StudentDetailsFragment;
-import com.sasd13.proadmin.view.fragment.student.StudentNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 
 import java.util.List;
 
-public class TeamController extends MainController implements ITeamController, IStudentController, IBrowsable {
+public class TeamController extends MainController implements ITeamController, IBrowsable {
 
     private TeamScope scope;
     private ITeamService teamService;
@@ -35,8 +31,6 @@ public class TeamController extends MainController implements ITeamController, I
     private TeamUpdateStrategy teamUpdateStrategy;
     private TeamDeleteStrategy teamDeleteStrategy;
     private StudentReadStrategy studentReadStrategy;
-    private StudentCreateStrategy studentCreateStrategy;
-    private StudentUpdateStrategy studentUpdateStrategy;
     private StudentDeleteStrategy studentDeleteStrategy;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
@@ -58,8 +52,7 @@ public class TeamController extends MainController implements ITeamController, I
         listTeams();
     }
 
-    @Override
-    public void listTeams() {
+    private void listTeams() {
         startFragment(TeamsFragment.newInstance());
         readTeams();
     }
@@ -77,14 +70,27 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     @Override
-    public void newTeam() {
-        startFragment(TeamNewFragment.newInstance());
+    public void actionRemoveTeam(Team team) {
+        if (teamDeleteStrategy == null) {
+            teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
+        }
 
-        scope.setTeam(new DefaultTeamBuilder().build());
+        new Requestor(teamDeleteStrategy).execute(new Team[]{team});
+    }
+
+    void onDeleteTeam() {
+        display(R.string.message_deleted);
+        //TODO entry();
     }
 
     @Override
-    public void createTeam(Team team) {
+    public void actionNewTeam() {
+        scope.setTeam(new DefaultTeamBuilder().build());
+        startFragment(TeamNewFragment.newInstance());
+    }
+
+    @Override
+    public void actionCreateTeam(Team team) {
         if (teamCreateStrategy == null) {
             teamCreateStrategy = new TeamCreateStrategy(this, teamService);
         }
@@ -92,18 +98,33 @@ public class TeamController extends MainController implements ITeamController, I
         new Requestor(teamCreateStrategy).execute(team);
     }
 
+    void onCreateTeam() {
+        display(R.string.message_saved);
+        //TODO entry();
+    }
+
     @Override
-    public void showTeam(Team team) {
+    public void actionShowTeam(Team team) {
         startFragment(TeamDetailsFragment.newInstance());
         listStudents(team);
     }
 
-    void onReadStudenTeams(List<StudentTeam> studentTeams) {
+    private void listStudents(Team team) {
+        if (studentReadStrategy == null) {
+            studentReadStrategy = new StudentReadStrategy(this, studentService);
+        }
+
+        studentReadStrategy.clearParameters();
+        studentReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
+        new Requestor(studentReadStrategy).execute();
+    }
+
+    void onReadStudentTeams(List<StudentTeam> studentTeams) {
         scope.setStudentTeams(studentTeams);
     }
 
     @Override
-    public void updateTeam(Team team, Team teamToUpdate) {
+    public void actionUpdateTeam(Team team, Team teamToUpdate) {
         if (teamUpdateStrategy == null) {
             teamUpdateStrategy = new TeamUpdateStrategy(this, teamService);
         }
@@ -120,83 +141,31 @@ public class TeamController extends MainController implements ITeamController, I
         return updateWrapper;
     }
 
-    @Override
-    public void deleteTeams(Team[] teams) {
-        if (teamDeleteStrategy == null) {
-            teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
-        }
-
-        new Requestor(teamDeleteStrategy).execute(teams);
+    void onUpdateTeam() {
+        display(R.string.message_updated);
     }
 
     @Override
-    public void listStudents(Team team) {
-        if (studentReadStrategy == null) {
-            studentReadStrategy = new StudentReadStrategy(this, studentService);
-        }
-
-        studentReadStrategy.clearParameters();
-        studentReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
-        new Requestor(studentReadStrategy).execute();
-    }
-
-    @Override
-    public void newStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance());
-
-        scope.setTeam(team);
-        scope.setStudent(new DefaultStudentBuilder().build());
-    }
-
-    @Override
-    public void createStudent(Student student, Team team) {
-        if (studentCreateStrategy == null) {
-            studentCreateStrategy = new StudentCreateStrategy(this, studentService);
-        }
-
-        new Requestor(studentCreateStrategy).execute(getStudentTeam(student, team));
-    }
-
-    private StudentTeam getStudentTeam(Student student, Team team) {
-        StudentTeam studentTeam = new StudentTeam();
-
-        studentTeam.setStudent(student);
-        studentTeam.setTeam(team);
-
-        return studentTeam;
-    }
-
-    @Override
-    public void showStudent(Student student) {
-        startFragment(StudentDetailsFragment.newInstance());
-
-        scope.setStudent(student);
-    }
-
-    @Override
-    public void updateStudent(Student student, Student studentToUpdate) {
-        if (studentUpdateStrategy == null) {
-            studentUpdateStrategy = new StudentUpdateStrategy(this, studentService);
-        }
-
-        new Requestor(studentUpdateStrategy).execute(getStudentUpdateWrapper(student, studentToUpdate));
-    }
-
-    private StudentUpdateWrapper getStudentUpdateWrapper(Student student, Student studentToUpdate) {
-        StudentUpdateWrapper updateWrapper = new StudentUpdateWrapper();
-
-        updateWrapper.setWrapped(student);
-        updateWrapper.setNumber(studentToUpdate.getNumber());
-
-        return updateWrapper;
-    }
-
-    @Override
-    public void deleteStudentTeams(StudentTeam[] studentTeams) {
+    public void actionRemoveStudentTeams(StudentTeam[] studentTeams) {
         if (studentDeleteStrategy == null) {
             studentDeleteStrategy = new StudentDeleteStrategy(this, studentService);
         }
 
         new Requestor(studentDeleteStrategy).execute(studentTeams);
+    }
+
+    void onDeleteStudentTeams() {
+        display(R.string.message_deleted);
+        //TODO entry();
+    }
+
+    @Override
+    public void actionNewStudentTeam(Team team) {
+        ((IStudentController) mainActivity.lookup(IStudentController.class)).newStudent(team);
+    }
+
+    @Override
+    public void actionShowStudentTeam(StudentTeam studentTeam) {
+        ((IStudentController) mainActivity.lookup(IStudentController.class)).showStudent(studentTeam);
     }
 }

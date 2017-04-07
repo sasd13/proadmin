@@ -101,7 +101,7 @@ public class TeamNewFragment extends Fragment {
     private void createTeam() {
         try {
             editTeamWithForm();
-            controller.createTeam(scope.getTeam());
+            controller.actionCreateTeam(scope.getTeam());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }

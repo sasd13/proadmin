@@ -35,7 +35,7 @@ public class StudentReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadStudenTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
+            controller.onReadStudentTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

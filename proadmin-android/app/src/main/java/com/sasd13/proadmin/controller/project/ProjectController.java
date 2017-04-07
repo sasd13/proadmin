@@ -70,7 +70,7 @@ public class ProjectController extends MainController implements IProjectControl
         listRunnings(project);
     }
 
-    public void listRunnings(Project project) {
+    private void listRunnings(Project project) {
         if (runningReadStrategy == null) {
             runningReadStrategy = new RunningReadStrategy(this, runningService);
         }
@@ -87,7 +87,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void actionNewRunning(Project project) {
-        ((IRunningController) mainActivity.lookup(IRunningController.class)).createRunning(project);
+        ((IRunningController) mainActivity.lookup(IRunningController.class)).newRunning(project);
     }
 
     @Override

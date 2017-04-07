@@ -34,7 +34,7 @@ public class RunningController extends MainController implements IRunningControl
     }
 
     @Override
-    public void createRunning(Project project) {
+    public void newRunning(Project project) {
         scope.setRunning(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
         startFragment(RunningNewFragment.newInstance());
     }
@@ -60,12 +60,12 @@ public class RunningController extends MainController implements IRunningControl
     }
 
     @Override
-    public void actionDeleteRunnings(Running[] runnings) {
+    public void actionRemoveRunning(Running running) {
         if (runningDeleteStrategy == null) {
             runningDeleteStrategy = new RunningDeleteStrategy(this, runningService);
         }
 
-        new Requestor(runningDeleteStrategy).execute(runnings);
+        new Requestor(runningDeleteStrategy).execute(new Running[]{running});
     }
 
     void onDeleteRunnings() {

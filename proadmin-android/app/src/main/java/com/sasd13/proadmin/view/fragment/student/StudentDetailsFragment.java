@@ -21,13 +21,13 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.controller.IStudentController;
-import com.sasd13.proadmin.scope.TeamScope;
+import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
 
 public class StudentDetailsFragment extends Fragment {
 
     private IStudentController controller;
-    private TeamScope scope;
+    private StudentScope scope;
     private StudentForm studentForm;
     private Menu menu;
 
@@ -42,7 +42,7 @@ public class StudentDetailsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         controller = (IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class);
-        scope = (TeamScope) controller.getScope();
+        scope = (StudentScope) controller.getScope();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class StudentDetailsFragment extends Fragment {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormStudent(view);
-        bindFormWithStudent();
+        bindFormWithStudent(scope.getStudentTeam().getStudent());
     }
 
     private void buildFormStudent(View view) {
@@ -71,7 +71,7 @@ public class StudentDetailsFragment extends Fragment {
         RecyclerHelper.addAll(form, studentForm.getHolder());
     }
 
-    private void bindFormWithStudent() {
+    private void bindFormWithStudent(Student student) {
         studentForm.bindStudent(student);
     }
 
@@ -99,7 +99,7 @@ public class StudentDetailsFragment extends Fragment {
 
     private void updateStudent() {
         try {
-            controller.updateStudent(getStudentFromForm(), student);
+            controller.actionUpdateStudent(getStudentFromForm(), scope.getStudentTeam().getStudent());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }

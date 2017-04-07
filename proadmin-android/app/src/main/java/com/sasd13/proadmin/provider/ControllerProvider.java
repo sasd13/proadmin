@@ -18,8 +18,10 @@ import com.sasd13.proadmin.controller.authentication.LogInController;
 import com.sasd13.proadmin.controller.authentication.LogOutController;
 import com.sasd13.proadmin.controller.project.ProjectController;
 import com.sasd13.proadmin.controller.report.ReportController;
+import com.sasd13.proadmin.controller.running.RunningController;
 import com.sasd13.proadmin.controller.runningteam.RunningTeamController;
 import com.sasd13.proadmin.controller.setting.SettingController;
+import com.sasd13.proadmin.controller.student.StudentController;
 import com.sasd13.proadmin.controller.team.TeamController;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
@@ -50,7 +52,7 @@ public class ControllerProvider {
                     (MainActivity) activity,
                     (ITeacherService) ServiceProvider.provide(ITeacherService.class)
             );
-        } else if (IProjectController.class.isAssignableFrom(mClass) || IRunningController.class.isAssignableFrom(mClass)) {
+        } else if (IProjectController.class.isAssignableFrom(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
                     (IProjectService) ServiceProvider.provide(IProjectService.class),
@@ -61,6 +63,16 @@ public class ControllerProvider {
                     (MainActivity) activity,
                     (ITeamService) ServiceProvider.provide(ITeamService.class),
                     (IStudentService) ServiceProvider.provide(IStudentService.class)
+            );
+        } else if (IStudentController.class.isAssignableFrom(mClass)) {
+            return new StudentController(
+                    (MainActivity) activity,
+                    (IStudentService) ServiceProvider.provide(IStudentService.class)
+            );
+        } else if (IRunningController.class.isAssignableFrom(mClass)) {
+            return new RunningController(
+                    (MainActivity) activity,
+                    (IRunningService) ServiceProvider.provide(IRunningService.class)
             );
         } else if (IRunningTeamController.class.isAssignableFrom(mClass)) {
             return new RunningTeamController(

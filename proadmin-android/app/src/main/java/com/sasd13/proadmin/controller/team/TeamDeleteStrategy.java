@@ -33,8 +33,7 @@ public class TeamDeleteStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_deleted);
-            controller.entry();
+            controller.onDeleteTeam();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

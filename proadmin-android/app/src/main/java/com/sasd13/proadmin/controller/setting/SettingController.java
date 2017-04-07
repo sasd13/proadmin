@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.setting;
 
 import com.sasd13.androidex.util.requestor.Requestor;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.IBrowsable;
@@ -76,5 +77,9 @@ public class SettingController extends MainController implements ISettingControl
         updateWrapper.setNumber(teacherToUpdate.getNumber());
 
         return updateWrapper;
+    }
+
+    void onUpdateTeacher() {
+        display(R.string.message_updated);
     }
 }

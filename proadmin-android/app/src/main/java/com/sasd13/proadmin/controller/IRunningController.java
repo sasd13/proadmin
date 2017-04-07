@@ -9,11 +9,11 @@ import com.sasd13.proadmin.bean.running.Running;
 
 public interface IRunningController extends IController {
 
-    void createRunning(Project project);
+    void newRunning(Project project);
 
     void actionCreateRunning(Running running);
 
     void showRunning(Running running);
 
-    void actionDeleteRunnings(Running[] runnings);
+    void actionRemoveRunning(Running running);
 }
