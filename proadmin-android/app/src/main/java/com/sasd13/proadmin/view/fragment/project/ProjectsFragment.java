@@ -99,10 +99,6 @@ public class ProjectsFragment extends Fragment implements Observer {
         scope = (ProjectScope) observable;
 
         bindTabWithProjects(scope.getProjects());
-
-        /*if (!projects.containsAll(projectScope.getProjects())) {
-            addNextProjects(projectScope.getProjects());
-        }*/
     }
 
     private void bindTabWithProjects(List<Project> projects) {
@@ -129,9 +125,4 @@ public class ProjectsFragment extends Fragment implements Observer {
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    /*private void addNextProjects(List<Project> nextProjects) {
-        projects.addAll(nextProjects);
-        bindTabWithProjects(nextProjects);
-    }*/
 }

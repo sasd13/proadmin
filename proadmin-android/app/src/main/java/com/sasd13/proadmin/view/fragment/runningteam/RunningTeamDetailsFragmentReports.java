@@ -21,9 +21,9 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
+import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 
 import java.util.List;
@@ -65,7 +65,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
-        bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -81,6 +80,13 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
                 controller.actionNewReport(scope.getRunningTeam());
             }
         });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (RunningTeamScope) observable;
+
+        bindTabWithReports(scope.getReports());
     }
 
     private void bindTabWithReports(List<Report> reports) {
@@ -107,20 +113,4 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
-        bindTabWithReports(scope.getReports());
-
-        /*if (!reports.containsAll(runningTeamScope.getReports())) {
-            addNextReports(runningTeamScope.getReports());
-        }*/
-    }
-
-    /*private void addNextReports(List<Report> nextReports) {
-        reports.addAll(nextReports);
-        bindTabWithReports(nextReports);
-    }*/
 }

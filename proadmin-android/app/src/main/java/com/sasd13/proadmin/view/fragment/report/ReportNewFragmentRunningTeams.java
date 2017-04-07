@@ -105,7 +105,6 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
-        bindRunningTeams(scope.getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -126,6 +125,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
                 }
             }
         });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ReportScope) observable;
+
+        bindRunningTeams(scope.getRunningTeams());
     }
 
     private void bindRunningTeams(List<RunningTeam> runningTeams) {
@@ -154,20 +160,4 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
-        bindRunningTeams(scope.getRunningTeams());
-
-        /*if (!runningTeams.containsAll(reportScope.getRunningTeams())) {
-            addNextRunningTeams(reportScope.getRunningTeams());
-        }*/
-    }
-
-    /*private void addNextRunningTeams(List<RunningTeam> nextRunningTeams) {
-        runningTeams.addAll(nextRunningTeams);
-        bindRunningTeams(nextRunningTeams);
-    }*/
 }

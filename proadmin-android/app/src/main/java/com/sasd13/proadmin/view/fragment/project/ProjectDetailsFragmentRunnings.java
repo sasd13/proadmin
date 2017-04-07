@@ -21,8 +21,8 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.scope.ProjectScope;
+import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.view.gui.tab.RunningItemModel;
 
 import java.util.List;
@@ -79,6 +79,17 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         });
     }
 
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindTabWithRunnings(scope.getRunnings());
+    }
+
+    private void bindTabWithRunnings(List<Running> runnings) {
+        addRunningsToTab(runnings);
+    }
+
     private void addRunningsToTab(List<Running> runnings) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
@@ -98,24 +109,4 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindTabWithRunnings(scope.getRunnings());
-
-        /*if (!runnings.containsAll(projectWrapper.getRunnings())) {
-            addNextRunnings(projectWrapper.getRunnings());
-        }*/
-    }
-
-    private void bindTabWithRunnings(List<Running> runnings) {
-        addRunningsToTab(runnings);
-    }
-
-    /*private void addNextRunnings(List<Running> nextRunnings) {
-        runnings.addAll(nextRunnings);
-        bindTabWithRunnings(nextRunnings);
-    }*/
 }

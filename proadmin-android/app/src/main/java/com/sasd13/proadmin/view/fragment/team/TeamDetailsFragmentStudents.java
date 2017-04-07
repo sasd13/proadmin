@@ -63,7 +63,6 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabStudents(view);
         buildFloatingActionButton(view);
-        bindTabWithStudentTeams(scope.getStudentTeams());
     }
 
     private void buildTabStudents(View view) {
@@ -79,6 +78,13 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
                 ((IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class)).actionNewStudent(scope.getTeam());
             }
         });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (TeamScope) observable;
+
+        bindTabWithStudentTeams(scope.getStudentTeams());
     }
 
     private void bindTabWithStudentTeams(List<StudentTeam> studentTeams) {
@@ -105,18 +111,4 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (TeamScope) observable;
-
-        /*if (!studentTeams.containsAll(teamScope.getStudentTeams())) {
-            addNextStudentTeams(teamScope.getStudentTeams());
-        }*/
-    }
-
-    /*private void addNextStudentTeams(List<StudentTeam> nextStudentTeams) {
-        studentTeams.addAll(nextStudentTeams);
-        bindTabWithStudentTeams(nextStudentTeams);
-    }*/
 }

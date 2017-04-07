@@ -64,7 +64,6 @@ public class TeamsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
-        bindTabWithTeams(scope.getTeams());
     }
 
     private void buildTabRunnings(View view) {
@@ -80,6 +79,21 @@ public class TeamsFragment extends Fragment implements Observer {
                 controller.actionNewTeam();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_teams));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (TeamScope) observable;
+
+        bindTabWithTeams(scope.getTeams());
     }
 
     private void bindTabWithTeams(List<Team> teams) {
@@ -106,28 +120,4 @@ public class TeamsFragment extends Fragment implements Observer {
 
         RecyclerHelper.addAll(recycler, holder);
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_teams));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (TeamScope) observable;
-
-        bindTabWithTeams(scope.getTeams());
-
-        /*if (!teams.containsAll(teamsWrapper.getTeams())) {
-            addNextTeams(teamsWrapper.getTeams());
-        }*/
-    }
-
-    /*private void addNextTeams(List<Team> nextTeams) {
-        teams.addAll(nextTeams);
-        bindTabWithTeams(nextTeams);
-    }*/
 }

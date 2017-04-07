@@ -61,7 +61,6 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void buildView(View view) {
         buildFormSettings(view);
-        bindFormWithTeacher(scope.getTeacher());
     }
 
     private void buildFormSettings(View view) {
