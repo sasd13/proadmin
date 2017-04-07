@@ -51,7 +51,7 @@ public class IndividualEvaluationUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_updated);
+            controller.onUpdateIndividualEvaluations();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

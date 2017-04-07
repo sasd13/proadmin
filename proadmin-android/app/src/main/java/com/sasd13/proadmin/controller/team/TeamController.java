@@ -5,9 +5,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.IBrowsable;
-import com.sasd13.proadmin.controller.IStudentController;
-import com.sasd13.proadmin.controller.ITeamController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
@@ -15,6 +13,7 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
@@ -86,7 +85,7 @@ public class TeamController extends MainController implements ITeamController, I
 
     void onCreateTeam() {
         display(R.string.message_saved);
-        //TODO entry();
+        browse();
     }
 
     @Override
@@ -142,7 +141,7 @@ public class TeamController extends MainController implements ITeamController, I
 
     void onDeleteTeam() {
         display(R.string.message_deleted);
-        //TODO entry();
+        browse();
     }
 
     @Override
@@ -156,16 +155,5 @@ public class TeamController extends MainController implements ITeamController, I
 
     void onDeleteStudentTeams() {
         display(R.string.message_deleted);
-        //TODO entry();
-    }
-
-    @Override
-    public void actionNewStudentTeam(Team team) {
-        ((IStudentController) mainActivity.lookup(IStudentController.class)).actionNewStudent(team);
-    }
-
-    @Override
-    public void actionShowStudentTeam(StudentTeam studentTeam) {
-        ((IStudentController) mainActivity.lookup(IStudentController.class)).actionShowStudent(studentTeam);
     }
 }

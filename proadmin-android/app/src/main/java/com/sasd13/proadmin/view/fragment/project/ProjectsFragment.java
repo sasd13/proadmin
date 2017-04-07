@@ -21,7 +21,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
 import com.sasd13.proadmin.view.gui.tab.ProjectItemModel;

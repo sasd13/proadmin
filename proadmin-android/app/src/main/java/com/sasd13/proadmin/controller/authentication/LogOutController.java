@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.controller.authentication;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.controller.IBrowsable;
-import com.sasd13.proadmin.controller.ILogOutController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.fragment.authentication.ILogOutController;
 import com.sasd13.proadmin.controller.MainController;
 
 /**

@@ -4,9 +4,8 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.IBrowsable;
-import com.sasd13.proadmin.controller.IProjectController;
-import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.service.IProjectService;
@@ -83,15 +82,5 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadRunnings(List<Running> runnings) {
         scope.setRunnings(runnings);
-    }
-
-    @Override
-    public void actionNewRunning(Project project) {
-        ((IRunningController) mainActivity.lookup(IRunningController.class)).actionNewRunning(project);
-    }
-
-    @Override
-    public void actionShowRunning(Running running) {
-        ((IRunningController) mainActivity.lookup(IRunningController.class)).showRunning(running);
     }
 }

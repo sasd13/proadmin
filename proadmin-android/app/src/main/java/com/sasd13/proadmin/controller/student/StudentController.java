@@ -6,7 +6,9 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.IStudentController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.fragment.student.IStudentController;
+import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.service.IStudentService;
@@ -55,7 +57,7 @@ public class StudentController extends MainController implements IStudentControl
 
     void onCreateStudent() {
         display(R.string.message_saved);
-        //TODO entry();
+        ((IBrowsable) mainActivity.lookup(ITeamController.class)).browse();
     }
 
     @Override

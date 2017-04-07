@@ -33,8 +33,7 @@ public class RunningTeamCreateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_saved);
-            controller.entry();
+            controller.onCreateRunningTeam();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

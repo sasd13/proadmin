@@ -12,7 +12,6 @@ import android.widget.EditText;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.IdentityActivity;
-import com.sasd13.proadmin.controller.ILogInController;
 
 public class LogInFragment extends Fragment {
 

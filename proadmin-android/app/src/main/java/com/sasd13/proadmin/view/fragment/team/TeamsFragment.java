@@ -21,7 +21,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.view.gui.tab.TeamItemModel;

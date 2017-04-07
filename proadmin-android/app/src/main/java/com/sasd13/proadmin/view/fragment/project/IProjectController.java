@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.controller;
+package com.sasd13.proadmin.view.fragment.project;
 
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.view.fragment.IController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -9,8 +9,4 @@ import com.sasd13.proadmin.bean.running.Running;
 public interface IProjectController extends IController {
 
     void actionShowProject(Project project);
-
-    void actionNewRunning(Project project);
-
-    void actionShowRunning(Running running);
 }

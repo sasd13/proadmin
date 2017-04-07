@@ -1,9 +1,10 @@
-package com.sasd13.proadmin.controller;
+package com.sasd13.proadmin.view.fragment.report;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.view.fragment.IController;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface IReportController extends IController {
 
     void actionUpdateReport(Report report, Report reportToUpdate);
 
-    void actionDeleteReport(Report report);
+    void actionRemoveReport(Report report);
 
     void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation);
 

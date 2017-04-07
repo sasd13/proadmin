@@ -19,7 +19,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.controller.ISettingController;
 import com.sasd13.proadmin.scope.SettingScope;
 import com.sasd13.proadmin.view.gui.form.TeacherForm;
 

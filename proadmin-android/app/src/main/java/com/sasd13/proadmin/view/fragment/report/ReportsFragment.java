@@ -21,7 +21,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;

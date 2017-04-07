@@ -5,7 +5,9 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.fragment.project.IProjectController;
+import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.service.IRunningService;
@@ -50,11 +52,11 @@ public class RunningController extends MainController implements IRunningControl
 
     void onCreateRunning() {
         display(R.string.message_saved);
-        //TODO entry();
+        ((IBrowsable) mainActivity.lookup(IProjectController.class)).browse();
     }
 
     @Override
-    public void showRunning(Running running) {
+    public void actionShowRunning(Running running) {
         scope.setRunning(running);
         startFragment(RunningDetailsFragment.newInstance());
     }
@@ -70,6 +72,6 @@ public class RunningController extends MainController implements IRunningControl
 
     void onDeleteRunnings() {
         display(R.string.message_deleted);
-        //TODO entry();
+        ((IBrowsable) mainActivity.lookup(IProjectController.class)).browse();
     }
 }

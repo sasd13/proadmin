@@ -21,10 +21,9 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.controller.IStudentController;
-import com.sasd13.proadmin.controller.ITeamController;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
+import com.sasd13.proadmin.view.fragment.student.IStudentController;
 import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
 
 import java.util.List;
@@ -33,7 +32,6 @@ import java.util.Observer;
 
 public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
-    private ITeamController controller;
     private TeamScope scope;
     private Recycler recycler;
 
@@ -45,8 +43,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = (ITeamController) ((MainActivity) getActivity()).lookup(IStudentController.class);
-        scope = (TeamScope) controller.getScope();
+        scope = (TeamScope) (((MainActivity) getActivity()).lookup(ITeamController.class)).getScope();
 
         scope.addObserver(this);
     }
@@ -79,7 +76,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.actionNewStudentTeam(scope.getTeam());
+                ((IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class)).actionNewStudent(scope.getTeam());
             }
         });
     }
@@ -99,7 +96,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.actionShowStudentTeam(studentTeam);
+                    ((IStudentController) ((MainActivity) getActivity()).lookup(IStudentController.class)).actionShowStudent(studentTeam);
                 }
             });
 

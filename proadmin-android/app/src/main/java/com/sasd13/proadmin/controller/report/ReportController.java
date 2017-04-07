@@ -1,14 +1,13 @@
 package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.androidex.util.requestor.Requestor;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.IBrowsable;
-import com.sasd13.proadmin.controller.IReportController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
@@ -21,9 +20,11 @@ import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class ReportController extends MainController implements IReportControlle
     private ReportReadStrategy reportReadStrategy;
     private RunningTeamReadStrategy runningTeamReadStrategy;
     private ReportDependenciesStrategy reportDependenciesStrategy;
+    private ReportCreateStrategy reportCreateStrategy;
     private ReportUpdateStrategy reportUpdateStrategy;
     private LeadEvaluationCreateStrategy leadEvaluationCreateStrategy;
     private LeadEvaluationUpdateStrategy leadEvaluationUpdateStrategy;
@@ -67,8 +69,7 @@ public class ReportController extends MainController implements IReportControlle
         listReports();
     }
 
-    @Override
-    public void listReports() {
+    private void listReports() {
         startFragment(ReportsFragment.newInstance());
         readReports();
     }
@@ -121,7 +122,16 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionCreateReport(Report report) {
-        reportService.create(report);
+        if (reportCreateStrategy == null) {
+            reportCreateStrategy = new ReportCreateStrategy(this, reportService);
+        }
+
+        new Requestor(reportCreateStrategy).execute(report);
+    }
+
+    void onCreateReport() {
+        display(R.string.message_saved);
+        browse();
     }
 
     @Override
@@ -174,6 +184,24 @@ public class ReportController extends MainController implements IReportControlle
         return updateWrapper;
     }
 
+    void onUpdateReport() {
+        display(R.string.message_updated);
+    }
+
+    @Override
+    public void actionRemoveReport(Report report) {
+        if (reportDeleteStrategy == null) {
+            reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
+        }
+
+        new Requestor(reportDeleteStrategy).execute(new Report[]{report});
+    }
+
+    void onDeleteReport() {
+        display(R.string.message_deleted);
+        browse();
+    }
+
     @Override
     public void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation) {
         if (leadEvaluationCreateStrategy == null) {
@@ -181,6 +209,10 @@ public class ReportController extends MainController implements IReportControlle
         }
 
         new Requestor(leadEvaluationCreateStrategy).execute(leadEvaluation);
+    }
+
+    void onCreateLeadEvaluation() {
+        display(R.string.message_saved);
     }
 
     @Override
@@ -208,6 +240,10 @@ public class ReportController extends MainController implements IReportControlle
         }
 
         new Requestor(individualEvaluationUpdateStrategy).execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
+    }
+
+    void onUpdateLeadEvaluation() {
+        display(R.string.message_updated);
     }
 
     private Map<Class, List> getAllIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
@@ -264,12 +300,7 @@ public class ReportController extends MainController implements IReportControlle
         return updateWrappers;
     }
 
-    @Override
-    public void actionDeleteReport(Report[] reports) {
-        if (reportDeleteStrategy == null) {
-            reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
-        }
-
-        new Requestor(reportDeleteStrategy).execute(reports);
+    void onUpdateIndividualEvaluations() {
+        display(R.string.message_updated);
     }
 }

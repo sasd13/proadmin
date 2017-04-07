@@ -11,11 +11,11 @@ import android.widget.ImageView;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.controller.IProjectController;
-import com.sasd13.proadmin.controller.IReportController;
-import com.sasd13.proadmin.controller.ISettingController;
-import com.sasd13.proadmin.controller.ITeamController;
-import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.view.fragment.project.IProjectController;
+import com.sasd13.proadmin.view.fragment.report.IReportController;
+import com.sasd13.proadmin.view.fragment.setting.ISettingController;
+import com.sasd13.proadmin.view.fragment.team.ITeamController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
                         break;
                 }
 
-                ((MainController) ((MainActivity) getActivity()).lookup(mClass)).entry();
+                ((IBrowsable) ((MainActivity) getActivity()).lookup(mClass)).browse();
             }
         };
 

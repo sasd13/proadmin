@@ -2,8 +2,8 @@ package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.service.ILeadEvaluationService;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
 
@@ -11,12 +11,12 @@ import com.sasd13.proadmin.util.EnumErrorRes;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class LeadEvaluationCreateStrategy extends RequestorStrategy {
+public class ReportCreateStrategy extends RequestorStrategy {
 
     private ReportController controller;
-    private ILeadEvaluationService service;
+    private IReportService service;
 
-    public LeadEvaluationCreateStrategy(ReportController controller, ILeadEvaluationService service) {
+    public ReportCreateStrategy(ReportController controller, IReportService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class LeadEvaluationCreateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.create((LeadEvaluation) in);
+        return service.create((Report) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LeadEvaluationCreateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onCreateLeadEvaluation();
+            controller.onCreateReport();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

@@ -1,24 +1,22 @@
 package com.sasd13.proadmin.controller.runningteam;
 
 import com.sasd13.androidex.util.requestor.Requestor;
+import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.controller.IBrowsable;
-import com.sasd13.proadmin.controller.IRunningTeamController;
+import com.sasd13.proadmin.view.gui.browser.IBrowsable;
+import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;
 
@@ -27,6 +25,7 @@ import java.util.Map;
 
 public class RunningTeamController extends MainController implements IRunningTeamController, IBrowsable {
 
+    private RunningTeamScope scope;
     private IRunningTeamService runningTeamService;
     private IReportService reportService;
     private RunningTeamReadStrategy runningTeamReadStrategy;
@@ -35,20 +34,18 @@ public class RunningTeamController extends MainController implements IRunningTea
     private RunningTeamCreateStrategy runningTeamCreateStrategy;
     private RunningTeamUpdateStrategy runningTeamUpdateStrategy;
     private RunningTeamDeleteStrategy runningTeamDeleteStrategy;
-    private RunningTeamsWrapper runningTeamsWrapper;
-    private RunningTeamScope runningTeamScope;
-    private int mode;
 
     public RunningTeamController(MainActivity mainActivity, IRunningTeamService runningTeamService, IReportService reportService) {
         super(mainActivity);
 
+        scope = new RunningTeamScope();
         this.runningTeamService = runningTeamService;
         this.reportService = reportService;
     }
 
     @Override
     public Object getScope() {
-        return null;
+        return scope;
     }
 
     @Override
@@ -58,10 +55,8 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     private void listRunningTeams() {
-        runningTeamsWrapper = new RunningTeamsWrapper();
-
-        startProxyFragment();
         readRunningTeams();
+        startFragment(RunningTeamsFragment.newInstance());
     }
 
     private void readRunningTeams() {
@@ -75,19 +70,13 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
-        if (isProxyFragmentNotDetached()) {
-            runningTeamsWrapper.setRunningTeams(runningTeams);
-            startFragment(RunningTeamsFragment.newInstance(runningTeamsWrapper));
-        }
+        scope.setRunningTeams(runningTeams);
     }
 
     @Override
     public void actionNewRunningTeam() {
-        mode = Extra.MODE_NEW;
-        runningTeamScope = new RunningTeamScope(new DefaultRunningTeamBuilder().build());
-
-        startProxyFragment();
         readDependencies();
+        startFragment(RunningTeamNewFragment.newInstance());
     }
 
     private void readDependencies() {
@@ -101,18 +90,30 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onRetrieved(Map<String, List> results) {
-        if (isProxyFragmentNotDetached()) {
-            runningTeamScope.setRunnings((List<Running>) results.get(IRunningTeamService.PARAMATERS_RUNNING));
-            runningTeamScope.setTeams((List<Team>) results.get(IRunningTeamService.PARAMETERS_TEAM));
-            runningTeamScope.setAcademicLevels((List<AcademicLevel>) results.get(IRunningTeamService.PARAMETERS_ACADEMICLEVEL));
+        scope.setRunnings((List<Running>) results.get(IRunningTeamService.PARAMATERS_RUNNING));
+        scope.setTeams((List<Team>) results.get(IRunningTeamService.PARAMETERS_TEAM));
+        scope.setAcademicLevels((List<AcademicLevel>) results.get(IRunningTeamService.PARAMETERS_ACADEMICLEVEL));
+    }
 
-            if (mode == Extra.MODE_NEW) {
-                startFragment(RunningTeamNewFragment.newInstance(runningTeamScope));
-            } else if (mode == Extra.MODE_EDIT) {
-                startFragment(RunningTeamDetailsFragment.newInstance(runningTeamScope));
-                readReports(runningTeamScope.getRunningTeam());
-            }
+    @Override
+    public void actionCreateRunningTeam(RunningTeam runningTeam) {
+        if (runningTeamCreateStrategy == null) {
+            runningTeamCreateStrategy = new RunningTeamCreateStrategy(this, runningTeamService);
         }
+
+        new Requestor(runningTeamCreateStrategy).execute(runningTeam);
+    }
+
+    void onCreateRunningTeam() {
+        display(R.string.message_saved);
+        browse();
+    }
+
+    @Override
+    public void actionShowRunningTeam(RunningTeam runningTeam) {
+        scope.setRunningTeam(runningTeam);
+        readDependencies();
+        readReports(runningTeam);
     }
 
     private void readReports(RunningTeam runningTeam) {
@@ -130,25 +131,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onReadReports(List<Report> reports) {
-        runningTeamScope.setReports(reports);
-    }
-
-    @Override
-    public void actionCreateRunningTeam(RunningTeam runningTeam) {
-        if (runningTeamCreateStrategy == null) {
-            runningTeamCreateStrategy = new RunningTeamCreateStrategy(this, runningTeamService);
-        }
-
-        new Requestor(runningTeamCreateStrategy).execute(runningTeam);
-    }
-
-    @Override
-    public void actionShowRunningTeam(RunningTeam runningTeam) {
-        mode = Extra.MODE_EDIT;
-        runningTeamScope = new RunningTeamScope(runningTeam);
-
-        startProxyFragment();
-        readDependencies();
+        scope.setReports(reports);
     }
 
     @Override
@@ -173,12 +156,21 @@ public class RunningTeamController extends MainController implements IRunningTea
         return updateWrapper;
     }
 
+    void onUpdateRunningTeam() {
+        display(R.string.message_updated);
+    }
+
     @Override
-    public void actionRemoveRunningTeam(RunningTeam[] runningTeams) {
+    public void actionRemoveRunningTeam(RunningTeam runningTeam) {
         if (runningTeamDeleteStrategy == null) {
             runningTeamDeleteStrategy = new RunningTeamDeleteStrategy(this, runningTeamService);
         }
 
-        new Requestor(runningTeamDeleteStrategy).execute(runningTeams);
+        new Requestor(runningTeamDeleteStrategy).execute(new RunningTeam[]{runningTeam});
+    }
+
+    void onDeleteRunningTeam() {
+        display(R.string.message_deleted);
+        browse();
     }
 }

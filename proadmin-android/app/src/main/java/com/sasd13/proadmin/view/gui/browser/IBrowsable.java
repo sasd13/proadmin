@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller;
+package com.sasd13.proadmin.view.gui.browser;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
