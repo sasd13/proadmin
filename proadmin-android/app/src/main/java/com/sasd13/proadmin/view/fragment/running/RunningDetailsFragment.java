@@ -22,16 +22,13 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
-import com.sasd13.proadmin.scope.ProjectScope;
+import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class RunningDetailsFragment extends Fragment implements Observer {
+public class RunningDetailsFragment extends Fragment {
 
     private IRunningController controller;
-    private IRunningScope scope;
+    private RunningScope scope;
     private RunningForm runningForm;
     private Menu menu;
 
@@ -46,9 +43,7 @@ public class RunningDetailsFragment extends Fragment implements Observer {
         setHasOptionsMenu(true);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
-        scope = (IRunningScope) controller.getScope();
-
-        scope.addObserver(this);
+        scope = (RunningScope) controller.getScope();
     }
 
     @Override
@@ -118,7 +113,7 @@ public class RunningDetailsFragment extends Fragment implements Observer {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.deleteRunnings(new Running[]{scope.getRunning()});
+                        controller.actionDeleteRunnings(new Running[]{scope.getRunning()});
                     }
                 });
     }
@@ -129,13 +124,6 @@ public class RunningDetailsFragment extends Fragment implements Observer {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindFormWithRunning(scope.getRunning());
     }
 
     @Override

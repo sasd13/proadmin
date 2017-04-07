@@ -1,13 +1,16 @@
 package com.sasd13.proadmin.controller;
 
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.running.Running;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
 public interface IProjectController extends IController {
 
-    void listProjects();
+    void actionShowProject(Project project);
 
-    void showProject(Project project);
+    void actionNewRunning(Project project);
+
+    void actionShowRunning(Running running);
 }

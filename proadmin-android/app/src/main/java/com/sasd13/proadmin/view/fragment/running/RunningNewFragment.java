@@ -22,15 +22,13 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.scope.ProjectScope;
+import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class RunningNewFragment extends Fragment implements Observer {
+public class RunningNewFragment extends Fragment {
 
     private IRunningController controller;
-    private IRunningScope scope;
+    private RunningScope scope;
     private RunningForm runningForm;
     private Menu menu;
 
@@ -45,9 +43,7 @@ public class RunningNewFragment extends Fragment implements Observer {
         setHasOptionsMenu(true);
 
         controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
-        scope = (IRunningScope) controller.getScope();
-
-        scope.addObserver(this);
+        scope = (RunningScope) controller.getScope();
     }
 
     @Override
@@ -112,7 +108,7 @@ public class RunningNewFragment extends Fragment implements Observer {
     private void createRunning() {
         try {
             editRunningWithForm();
-            controller.createRunning(scope.getRunning());
+            controller.actionCreateRunning(scope.getRunning());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
@@ -128,13 +124,6 @@ public class RunningNewFragment extends Fragment implements Observer {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindFormWithRunning(scope.getRunning());
     }
 
     @Override

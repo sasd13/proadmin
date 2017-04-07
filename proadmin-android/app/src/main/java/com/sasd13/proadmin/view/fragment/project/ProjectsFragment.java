@@ -121,7 +121,7 @@ public class ProjectsFragment extends Fragment implements Observer {
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showProject(project);
+                    controller.actionShowProject(project);
                 }
             });
 

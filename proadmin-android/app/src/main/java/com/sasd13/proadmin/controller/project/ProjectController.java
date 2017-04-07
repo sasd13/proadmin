@@ -6,6 +6,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.controller.IBrowsable;
 import com.sasd13.proadmin.controller.IProjectController;
+import com.sasd13.proadmin.controller.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.service.IProjectService;
@@ -44,8 +45,7 @@ public class ProjectController extends MainController implements IProjectControl
         listProjects();
     }
 
-    @Override
-    public void listProjects() {
+    private void listProjects() {
         startFragment(ProjectsFragment.newInstance());
         readProjects();
     }
@@ -63,14 +63,13 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     @Override
-    public void showProject(Project project) {
+    public void actionShowProject(Project project) {
         scope.setProject(project);
 
         startFragment(ProjectDetailsFragment.newInstance());
         listRunnings(project);
     }
 
-    @Override
     public void listRunnings(Project project) {
         if (runningReadStrategy == null) {
             runningReadStrategy = new RunningReadStrategy(this, runningService);
@@ -84,5 +83,15 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadRunnings(List<Running> runnings) {
         scope.setRunnings(runnings);
+    }
+
+    @Override
+    public void actionNewRunning(Project project) {
+        ((IRunningController) mainActivity.lookup(IRunningController.class)).createRunning(project);
+    }
+
+    @Override
+    public void actionShowRunning(Running running) {
+        ((IRunningController) mainActivity.lookup(IRunningController.class)).showRunning(running);
     }
 }

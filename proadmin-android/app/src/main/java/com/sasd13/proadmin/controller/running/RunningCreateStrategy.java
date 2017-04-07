@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.controller.project;
+package com.sasd13.proadmin.controller.running;
 
 import com.sasd13.androidex.util.requestor.RequestorStrategy;
 import com.sasd13.proadmin.R;
@@ -13,10 +13,10 @@ import com.sasd13.proadmin.util.EnumErrorRes;
 
 public class RunningCreateStrategy extends RequestorStrategy {
 
-    private ProjectController controller;
+    private RunningController controller;
     private IRunningService service;
 
-    public RunningCreateStrategy(ProjectController controller, IRunningService service) {
+    public RunningCreateStrategy(RunningController controller, IRunningService service) {
         super();
 
         this.controller = controller;
@@ -33,8 +33,7 @@ public class RunningCreateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.display(R.string.message_saved);
-            controller.entry();
+            controller.onCreateRunning();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

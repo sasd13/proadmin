@@ -21,7 +21,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.controller.IRunningController;
+import com.sasd13.proadmin.controller.IProjectController;
 import com.sasd13.proadmin.scope.ProjectScope;
 import com.sasd13.proadmin.view.gui.tab.RunningItemModel;
 
@@ -31,7 +31,7 @@ import java.util.Observer;
 
 public class ProjectDetailsFragmentRunnings extends Fragment implements Observer {
 
-    private IRunningController controller;
+    private IProjectController controller;
     private ProjectScope scope;
     private Recycler recycler;
 
@@ -43,7 +43,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = (IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class);
+        controller = (IProjectController) ((MainActivity) getActivity()).lookup(IProjectController.class);
         scope = (ProjectScope) controller.getScope();
 
         scope.addObserver(this);
@@ -76,7 +76,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.newRunning(scope.getProject());
+                controller.actionNewRunning(scope.getProject());
             }
         });
     }
@@ -91,7 +91,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.showRunning(running);
+                    controller.actionShowRunning(running);
                 }
             });
 
