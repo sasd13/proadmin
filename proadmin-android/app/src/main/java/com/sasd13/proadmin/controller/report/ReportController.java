@@ -281,6 +281,8 @@ public class ReportController extends MainController implements IReportControlle
                     updateWrapper.setWrapped(individualEvaluation);
                     updateWrapper.setReportNumber(individualEvaluationToUpdate.getReport().getNumber());
                     updateWrapper.setStudentNumber(individualEvaluationToUpdate.getStudent().getNumber());
+
+                    break;
                 }
             }
 

@@ -46,6 +46,8 @@ public class IndividualEvaluationsForm extends Form {
             for (IndividualEvaluation individualEvaluation : individualEvaluations) {
                 if (individualEvaluation.getStudent().getNumber().equals(student.getNumber())) {
                     modelMark.setValue(indexOf(individualEvaluation.getMark(), MARKS));
+
+                    break;
                 }
             }
 

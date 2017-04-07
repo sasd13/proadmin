@@ -32,7 +32,7 @@ public class IndividualEvaluationsBuilder implements IBuilder<List<IndividualEva
         List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
         if (report != null) {
-            builWithReport(individualEvaluations);
+            buildWithReport(individualEvaluations);
         } else {
             buildWithoutReport(individualEvaluations);
         }
@@ -40,7 +40,7 @@ public class IndividualEvaluationsBuilder implements IBuilder<List<IndividualEva
         return individualEvaluations;
     }
 
-    private void builWithReport(List<IndividualEvaluation> individualEvaluations) {
+    private void buildWithReport(List<IndividualEvaluation> individualEvaluations) {
         IndividualEvaluation individualEvaluation;
 
         for (StudentTeam studentTeam : studentTeams) {
