@@ -23,6 +23,7 @@ import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +180,7 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningTeamDeleteTask = new RunningTeamDeleteTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamDeleteTask).execute(new RunningTeam[]{runningTeam});
+        new Requestor(runningTeamDeleteTask).execute(Arrays.asList(new RunningTeam[]{runningTeam}));
     }
 
     void onDeleteRunningTeam() {

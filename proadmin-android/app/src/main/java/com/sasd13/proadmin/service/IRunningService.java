@@ -15,5 +15,5 @@ public interface IRunningService {
 
     ServiceResult<Void> create(Running running);
 
-    ServiceResult<Void> delete(Running[] runnings);
+    ServiceResult<Void> delete(List<Running> runnings);
 }

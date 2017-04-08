@@ -87,7 +87,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public ServiceResult<Void> delete(StudentTeam[] studentTeams) {
+    public ServiceResult<Void> delete(List<StudentTeam> studentTeams) {
         Promise promise = new Promise("DELETE", WSResources.URL_WS_STUDENTTEAMS);
 
         promise.execute(studentTeams);

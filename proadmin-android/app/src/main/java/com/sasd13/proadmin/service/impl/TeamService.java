@@ -58,7 +58,7 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public ServiceResult<Void> delete(Team[] teams) {
+    public ServiceResult<Void> delete(List<Team> teams) {
         Promise promise = new Promise("DELETE", WSResources.URL_WS_TEAMS);
 
         promise.execute(teams);

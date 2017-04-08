@@ -24,5 +24,5 @@ public interface IRunningTeamService {
 
     ServiceResult<Void> update(RunningTeamUpdateWrapper runningTeamUpdateWrapper);
 
-    ServiceResult<Void> delete(RunningTeam[] runningTeams);
+    ServiceResult<Void> delete(List<RunningTeam> runningTeams);
 }

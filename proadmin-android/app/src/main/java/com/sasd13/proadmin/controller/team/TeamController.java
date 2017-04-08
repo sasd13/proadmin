@@ -19,6 +19,7 @@ import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class TeamController extends MainController implements ITeamController, I
             teamDeleteTask = new TeamDeleteTask(this, teamService);
         }
 
-        new Requestor(teamDeleteTask).execute(new Team[]{team});
+        new Requestor(teamDeleteTask).execute(Arrays.asList(new Team[]{team}));
     }
 
     void onDeleteTeam() {
@@ -160,7 +161,7 @@ public class TeamController extends MainController implements ITeamController, I
             studentDeleteTask = new StudentDeleteTask(this, studentService);
         }
 
-        new Requestor(studentDeleteTask).execute(studentTeams);
+        new Requestor(studentDeleteTask).execute(Arrays.asList(studentTeams));
     }
 
     void onDeleteStudentTeams() {

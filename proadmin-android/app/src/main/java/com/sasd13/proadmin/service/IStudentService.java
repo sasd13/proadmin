@@ -23,5 +23,5 @@ public interface IStudentService {
 
     ServiceResult<Void> update(StudentUpdateWrapper studentUpdateWrapper);
 
-    ServiceResult<Void> delete(StudentTeam[] studentTeams);
+    ServiceResult<Void> delete(List<StudentTeam> studentTeams);
 }

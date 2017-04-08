@@ -18,5 +18,5 @@ public interface ITeamService {
 
     ServiceResult<Void> update(TeamUpdateWrapper teamUpdateWrapper);
 
-    ServiceResult<Void> delete(Team[] teams);
+    ServiceResult<Void> delete(List<Team> teams);
 }

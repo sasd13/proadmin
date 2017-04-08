@@ -16,6 +16,8 @@ import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 
+import java.util.Arrays;
+
 public class RunningController extends MainController implements IRunningController {
 
     private RunningScope scope;
@@ -67,7 +69,7 @@ public class RunningController extends MainController implements IRunningControl
             runningDeleteTask = new RunningDeleteTask(this, runningService);
         }
 
-        new Requestor(runningDeleteTask).execute(new Running[]{running});
+        new Requestor(runningDeleteTask).execute(Arrays.asList(new Running[]{running}));
     }
 
     void onDeleteRunnings() {

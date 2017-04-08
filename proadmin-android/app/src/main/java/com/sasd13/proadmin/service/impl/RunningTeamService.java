@@ -88,7 +88,7 @@ public class RunningTeamService implements IRunningTeamService {
     }
 
     @Override
-    public ServiceResult<Void> delete(RunningTeam[] runningTeams) {
+    public ServiceResult<Void> delete(List<RunningTeam> runningTeams) {
         Promise promise = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
 
         promise.execute(runningTeams);

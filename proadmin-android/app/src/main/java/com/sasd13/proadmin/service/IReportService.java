@@ -24,5 +24,5 @@ public interface IReportService {
 
     ServiceResult<Void> update(ReportUpdateWrapper reportUpdateWrapper);
 
-    ServiceResult<Void> delete(Report[] reports);
+    ServiceResult<Void> delete(List<Report> reports);
 }

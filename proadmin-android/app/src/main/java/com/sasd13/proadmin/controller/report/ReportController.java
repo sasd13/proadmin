@@ -27,6 +27,7 @@ import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -197,7 +198,7 @@ public class ReportController extends MainController implements IReportControlle
             reportDeleteTask = new ReportDeleteTask(this, reportService);
         }
 
-        new Requestor(reportDeleteTask).execute(new Report[]{report});
+        new Requestor(reportDeleteTask).execute(Arrays.asList(new Report[]{report}));
     }
 
     void onDeleteReport() {
