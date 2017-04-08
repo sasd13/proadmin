@@ -35,7 +35,7 @@ public class TeamService implements ITeamService {
     public ServiceResult<Void> create(Team team) {
         Promise promise = new Promise("POST", WSResources.URL_WS_TEAMS);
 
-        promise.execute(team);
+        promise.execute(new Team[]{team});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -48,7 +48,7 @@ public class TeamService implements ITeamService {
     public ServiceResult<Void> update(TeamUpdateWrapper teamUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_TEAMS);
 
-        promise.execute(teamUpdateWrapper);
+        promise.execute(new TeamUpdateWrapper[]{teamUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

@@ -27,12 +27,12 @@ public class TeamController extends MainController implements ITeamController, I
     private TeamScope scope;
     private ITeamService teamService;
     private IStudentService studentService;
-    private TeamReadStrategy teamReadStrategy;
-    private TeamCreateStrategy teamCreateStrategy;
-    private TeamUpdateStrategy teamUpdateStrategy;
-    private TeamDeleteStrategy teamDeleteStrategy;
-    private StudentReadStrategy studentReadStrategy;
-    private StudentDeleteStrategy studentDeleteStrategy;
+    private TeamReadTask teamReadTask;
+    private TeamCreateTask teamCreateTask;
+    private TeamUpdateTask teamUpdateTask;
+    private TeamDeleteTask teamDeleteTask;
+    private StudentReadTask studentReadTask;
+    private StudentDeleteTask studentDeleteTask;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
         super(mainActivity);
@@ -56,11 +56,11 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     private void readTeams() {
-        if (teamReadStrategy == null) {
-            teamReadStrategy = new TeamReadStrategy(this, teamService);
+        if (teamReadTask == null) {
+            teamReadTask = new TeamReadTask(this, teamService);
         }
 
-        new Requestor(teamReadStrategy).execute();
+        new Requestor(teamReadTask).execute();
     }
 
     void onReadTeams(List<Team> teams) {
@@ -84,11 +84,11 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionCreateTeam(Team team) {
-        if (teamCreateStrategy == null) {
-            teamCreateStrategy = new TeamCreateStrategy(this, teamService);
+        if (teamCreateTask == null) {
+            teamCreateTask = new TeamCreateTask(this, teamService);
         }
 
-        new Requestor(teamCreateStrategy).execute(team);
+        new Requestor(teamCreateTask).execute(team);
     }
 
     void onCreateTeam() {
@@ -105,13 +105,13 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     private void readStudents(Team team) {
-        if (studentReadStrategy == null) {
-            studentReadStrategy = new StudentReadStrategy(this, studentService);
+        if (studentReadTask == null) {
+            studentReadTask = new StudentReadTask(this, studentService);
         }
 
-        studentReadStrategy.clearParameters();
-        studentReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
-        new Requestor(studentReadStrategy).execute();
+        studentReadTask.clearParameters();
+        studentReadTask.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
+        new Requestor(studentReadTask).execute();
     }
 
     void onReadStudentTeams(List<StudentTeam> studentTeams) {
@@ -120,11 +120,11 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionUpdateTeam(Team team, Team teamToUpdate) {
-        if (teamUpdateStrategy == null) {
-            teamUpdateStrategy = new TeamUpdateStrategy(this, teamService);
+        if (teamUpdateTask == null) {
+            teamUpdateTask = new TeamUpdateTask(this, teamService);
         }
 
-        new Requestor(teamUpdateStrategy).execute(getTeamUpdateWrapper(team, teamToUpdate));
+        new Requestor(teamUpdateTask).execute(getTeamUpdateWrapper(team, teamToUpdate));
     }
 
     private TeamUpdateWrapper getTeamUpdateWrapper(Team team, Team teamToUpdate) {
@@ -142,11 +142,11 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionRemoveTeam(Team team) {
-        if (teamDeleteStrategy == null) {
-            teamDeleteStrategy = new TeamDeleteStrategy(this, teamService);
+        if (teamDeleteTask == null) {
+            teamDeleteTask = new TeamDeleteTask(this, teamService);
         }
 
-        new Requestor(teamDeleteStrategy).execute(new Team[]{team});
+        new Requestor(teamDeleteTask).execute(new Team[]{team});
     }
 
     void onDeleteTeam() {
@@ -156,11 +156,11 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionRemoveStudentTeams(StudentTeam[] studentTeams) {
-        if (studentDeleteStrategy == null) {
-            studentDeleteStrategy = new StudentDeleteStrategy(this, studentService);
+        if (studentDeleteTask == null) {
+            studentDeleteTask = new StudentDeleteTask(this, studentService);
         }
 
-        new Requestor(studentDeleteStrategy).execute(studentTeams);
+        new Requestor(studentDeleteTask).execute(studentTeams);
     }
 
     void onDeleteStudentTeams() {

@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.report;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.service.ILeadEvaluationService;
 import com.sasd13.proadmin.service.ServiceResult;
@@ -11,12 +11,12 @@ import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapp
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class LeadEvaluationUpdateStrategy extends RequestorStrategy {
+public class LeadEvaluationUpdateTask extends RequestorTask {
 
     private ReportController controller;
     private ILeadEvaluationService service;
 
-    public LeadEvaluationUpdateStrategy(ReportController controller, ILeadEvaluationService service) {
+    public LeadEvaluationUpdateTask(ReportController controller, ILeadEvaluationService service) {
         super();
 
         this.controller = controller;

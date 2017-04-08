@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.authentication;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ITeacherService;
@@ -15,13 +15,13 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class LogInStrategy extends ReadRequestorStrategy {
+public class LogInTask extends ReadRequestorTask {
 
     private LogInController controller;
     private IAuthenticationService authenticationService;
     private ITeacherService teacherService;
 
-    public LogInStrategy(LogInController controller, IAuthenticationService authenticationService, ITeacherService teacherService) {
+    public LogInTask(LogInController controller, IAuthenticationService authenticationService, ITeacherService teacherService) {
         this.controller = controller;
         this.authenticationService = authenticationService;
         this.teacherService = teacherService;

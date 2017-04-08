@@ -1,22 +1,22 @@
 package com.sasd13.proadmin.controller.team;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeamUpdateStrategy extends RequestorStrategy {
+public class TeamDeleteTask extends RequestorTask {
 
     private TeamController controller;
     private ITeamService service;
 
-    public TeamUpdateStrategy(TeamController controller, ITeamService service) {
+    public TeamDeleteTask(TeamController controller, ITeamService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class TeamUpdateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.update((TeamUpdateWrapper) in);
+        return service.delete((Team[]) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TeamUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onUpdateTeam();
+            controller.onDeleteTeam();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

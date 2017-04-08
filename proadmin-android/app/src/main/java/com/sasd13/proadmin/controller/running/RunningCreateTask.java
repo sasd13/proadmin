@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.running;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.service.IRunningService;
@@ -11,12 +11,12 @@ import com.sasd13.proadmin.util.EnumErrorRes;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningDeleteStrategy extends RequestorStrategy {
+public class RunningCreateTask extends RequestorTask {
 
     private RunningController controller;
     private IRunningService service;
 
-    public RunningDeleteStrategy(RunningController controller, IRunningService service) {
+    public RunningCreateTask(RunningController controller, IRunningService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class RunningDeleteStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.delete((Running[]) in);
+        return service.create((Running) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RunningDeleteStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onDeleteRunnings();
+            controller.onCreateRunning();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

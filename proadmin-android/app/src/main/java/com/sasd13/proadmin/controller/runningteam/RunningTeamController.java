@@ -32,12 +32,12 @@ public class RunningTeamController extends MainController implements IRunningTea
     private RunningTeamScope scope;
     private IRunningTeamService runningTeamService;
     private IReportService reportService;
-    private RunningTeamReadStrategy runningTeamReadStrategy;
-    private RunningTeamDependenciesStrategy runningTeamDependenciesStrategy;
-    private ReportReadStrategy reportReadStrategy;
-    private RunningTeamCreateStrategy runningTeamCreateStrategy;
-    private RunningTeamUpdateStrategy runningTeamUpdateStrategy;
-    private RunningTeamDeleteStrategy runningTeamDeleteStrategy;
+    private RunningTeamReadTask runningTeamReadTask;
+    private RunningTeamDependenciesTask runningTeamDependenciesTask;
+    private ReportReadTask reportReadTask;
+    private RunningTeamCreateTask runningTeamCreateTask;
+    private RunningTeamUpdateTask runningTeamUpdateTask;
+    private RunningTeamDeleteTask runningTeamDeleteTask;
 
     public RunningTeamController(MainActivity mainActivity, IRunningTeamService runningTeamService, IReportService reportService) {
         super(mainActivity);
@@ -61,13 +61,13 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     private void readRunningTeams() {
-        if (runningTeamReadStrategy == null) {
-            runningTeamReadStrategy = new RunningTeamReadStrategy(this, runningTeamService);
+        if (runningTeamReadTask == null) {
+            runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
         }
 
-        runningTeamReadStrategy.clearParameters();
-        runningTeamReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(runningTeamReadStrategy).execute();
+        runningTeamReadTask.clearParameters();
+        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(runningTeamReadTask).execute();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -91,13 +91,13 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     private void readDependencies() {
-        if (runningTeamDependenciesStrategy == null) {
-            runningTeamDependenciesStrategy = new RunningTeamDependenciesStrategy(this, runningTeamService);
+        if (runningTeamDependenciesTask == null) {
+            runningTeamDependenciesTask = new RunningTeamDependenciesTask(this, runningTeamService);
         }
 
-        runningTeamDependenciesStrategy.resetParameters();
-        runningTeamDependenciesStrategy.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(runningTeamDependenciesStrategy).execute();
+        runningTeamDependenciesTask.resetParameters();
+        runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(runningTeamDependenciesTask).execute();
     }
 
     void onRetrieved(Map<String, List> results) {
@@ -108,11 +108,11 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionCreateRunningTeam(RunningTeam runningTeam) {
-        if (runningTeamCreateStrategy == null) {
-            runningTeamCreateStrategy = new RunningTeamCreateStrategy(this, runningTeamService);
+        if (runningTeamCreateTask == null) {
+            runningTeamCreateTask = new RunningTeamCreateTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamCreateStrategy).execute(runningTeam);
+        new Requestor(runningTeamCreateTask).execute(runningTeam);
     }
 
     void onCreateRunningTeam() {
@@ -130,17 +130,17 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     private void readReports(RunningTeam runningTeam) {
-        if (reportReadStrategy == null) {
-            reportReadStrategy = new ReportReadStrategy(this, reportService);
+        if (reportReadTask == null) {
+            reportReadTask = new ReportReadTask(this, reportService);
         }
 
-        reportReadStrategy.clearParameters();
-        reportReadStrategy.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
-        reportReadStrategy.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
-        reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});
-        reportReadStrategy.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
-        reportReadStrategy.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
-        new Requestor(reportReadStrategy).execute();
+        reportReadTask.clearParameters();
+        reportReadTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
+        reportReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
+        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});
+        reportReadTask.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
+        reportReadTask.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
+        new Requestor(reportReadTask).execute();
     }
 
     void onReadReports(List<Report> reports) {
@@ -149,11 +149,11 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionUpdateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
-        if (runningTeamUpdateStrategy == null) {
-            runningTeamUpdateStrategy = new RunningTeamUpdateStrategy(this, runningTeamService);
+        if (runningTeamUpdateTask == null) {
+            runningTeamUpdateTask = new RunningTeamUpdateTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamUpdateStrategy).execute(getRunningTeamUpdateWrapper(runningTeam, runningTeamToUpdate));
+        new Requestor(runningTeamUpdateTask).execute(getRunningTeamUpdateWrapper(runningTeam, runningTeamToUpdate));
     }
 
     private RunningTeamUpdateWrapper getRunningTeamUpdateWrapper(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
@@ -175,11 +175,11 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionRemoveRunningTeam(RunningTeam runningTeam) {
-        if (runningTeamDeleteStrategy == null) {
-            runningTeamDeleteStrategy = new RunningTeamDeleteStrategy(this, runningTeamService);
+        if (runningTeamDeleteTask == null) {
+            runningTeamDeleteTask = new RunningTeamDeleteTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamDeleteStrategy).execute(new RunningTeam[]{runningTeam});
+        new Requestor(runningTeamDeleteTask).execute(new RunningTeam[]{runningTeam});
     }
 
     void onDeleteRunningTeam() {

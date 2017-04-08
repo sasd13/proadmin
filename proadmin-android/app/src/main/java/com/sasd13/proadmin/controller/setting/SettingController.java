@@ -18,8 +18,8 @@ public class SettingController extends MainController implements ISettingControl
 
     private SettingScope scope;
     private ITeacherService teacherService;
-    private TeacherReadStrategy teacherReadStrategy;
-    private TeacherUpdateStrategy teacherUpdateStrategy;
+    private TeacherReadTask teacherReadTask;
+    private TeacherUpdateTask teacherUpdateTask;
 
     public SettingController(MainActivity mainActivity, ITeacherService teacherService) {
         super(mainActivity);
@@ -41,13 +41,13 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     private void readTeacher() {
-        if (teacherReadStrategy == null) {
-            teacherReadStrategy = new TeacherReadStrategy(this, teacherService);
+        if (teacherReadTask == null) {
+            teacherReadTask = new TeacherReadTask(this, teacherService);
         }
 
-        teacherReadStrategy.clearParameters();
-        teacherReadStrategy.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(teacherReadStrategy).execute();
+        teacherReadTask.clearParameters();
+        teacherReadTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(teacherReadTask).execute();
     }
 
     void onReadTeacher(Teacher teacher) {
@@ -56,11 +56,11 @@ public class SettingController extends MainController implements ISettingControl
 
     @Override
     public void actionUpdateTeacher(Teacher teacher, Teacher teacherToUpdate) {
-        if (teacherUpdateStrategy == null) {
-            teacherUpdateStrategy = new TeacherUpdateStrategy(this, teacherService);
+        if (teacherUpdateTask == null) {
+            teacherUpdateTask = new TeacherUpdateTask(this, teacherService);
         }
 
-        new Requestor(teacherUpdateStrategy).execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
+        new Requestor(teacherUpdateTask).execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
     }
 
     private TeacherUpdateWrapper getTeacherUpdateWrapper(Teacher teacher, Teacher teacherToUpdate) {

@@ -24,8 +24,8 @@ public class ProjectController extends MainController implements IProjectControl
     private ProjectScope scope;
     private IProjectService projectService;
     private IRunningService runningService;
-    private ProjectReadStrategy projectReadStrategy;
-    private RunningReadStrategy runningReadStrategy;
+    private ProjectReadTask projectReadTask;
+    private RunningReadTask runningReadTask;
 
     public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
         super(mainActivity);
@@ -49,11 +49,11 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     private void readProjects() {
-        if (projectReadStrategy == null) {
-            projectReadStrategy = new ProjectReadStrategy(this, projectService);
+        if (projectReadTask == null) {
+            projectReadTask = new ProjectReadTask(this, projectService);
         }
 
-        new Requestor(projectReadStrategy).execute();
+        new Requestor(projectReadTask).execute();
     }
 
     void onReadProjects(List<Project> projects) {
@@ -78,14 +78,14 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     private void readRunnings(Project project) {
-        if (runningReadStrategy == null) {
-            runningReadStrategy = new RunningReadStrategy(this, runningService);
+        if (runningReadTask == null) {
+            runningReadTask = new RunningReadTask(this, runningService);
         }
 
-        runningReadStrategy.clearParameters();
-        runningReadStrategy.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
-        runningReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(runningReadStrategy).execute();
+        runningReadTask.clearParameters();
+        runningReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
+        runningReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(runningReadTask).execute();
     }
 
     void onReadRunnings(List<Running> runnings) {

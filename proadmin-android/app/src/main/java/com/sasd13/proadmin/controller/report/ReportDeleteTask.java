@@ -1,24 +1,22 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.report;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.service.ITeamService;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-
-import java.util.List;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeamReadStrategy extends ReadRequestorStrategy {
+public class ReportDeleteTask extends RequestorTask {
 
-    private TeamController controller;
-    private ITeamService service;
+    private ReportController controller;
+    private IReportService service;
 
-    public TeamReadStrategy(TeamController controller, ITeamService service) {
+    public ReportDeleteTask(ReportController controller, IReportService service) {
         super();
 
         this.controller = controller;
@@ -27,7 +25,7 @@ public class TeamReadStrategy extends ReadRequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.read(parameters);
+        return service.delete((Report[]) in);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class TeamReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadTeams(((ServiceResult<List<Team>>) out).getResult());
+            controller.onDeleteReport();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

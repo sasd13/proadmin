@@ -51,7 +51,7 @@ public class StudentService implements IStudentService {
     public ServiceResult<Void> create(Student student) {
         Promise promise = new Promise("POST", WSResources.URL_WS_STUDENTS);
 
-        promise.execute(student);
+        promise.execute(new Student[]{student});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -64,7 +64,7 @@ public class StudentService implements IStudentService {
     public ServiceResult<Void> create(StudentTeam studentTeam) {
         Promise promise = new Promise("POST", WSResources.URL_WS_STUDENTTEAMS);
 
-        promise.execute(studentTeam);
+        promise.execute(new StudentTeam[]{studentTeam});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -77,7 +77,7 @@ public class StudentService implements IStudentService {
     public ServiceResult<Void> update(StudentUpdateWrapper studentUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_STUDENTS);
 
-        promise.execute(studentUpdateWrapper);
+        promise.execute(new StudentUpdateWrapper[]{studentUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

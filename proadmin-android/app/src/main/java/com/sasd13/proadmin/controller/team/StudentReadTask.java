@@ -1,22 +1,24 @@
-package com.sasd13.proadmin.controller.runningteam;
+package com.sasd13.proadmin.controller.team;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.service.IRunningTeamService;
+import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
+
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamDeleteStrategy extends RequestorStrategy {
+public class StudentReadTask extends ReadRequestorTask {
 
-    private RunningTeamController controller;
-    private IRunningTeamService service;
+    private TeamController controller;
+    private IStudentService service;
 
-    public RunningTeamDeleteStrategy(RunningTeamController controller, IRunningTeamService service) {
+    public StudentReadTask(TeamController controller, IStudentService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +27,7 @@ public class RunningTeamDeleteStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.delete((RunningTeam[]) in);
+        return service.read(parameters);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class RunningTeamDeleteStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onDeleteRunningTeam();
+            controller.onReadStudentTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

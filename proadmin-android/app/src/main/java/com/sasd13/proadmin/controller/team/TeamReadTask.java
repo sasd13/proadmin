@@ -1,9 +1,9 @@
-package com.sasd13.proadmin.controller.report;
+package com.sasd13.proadmin.controller.team;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.service.IRunningTeamService;
+import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
 
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamReadStrategy extends ReadRequestorStrategy {
+public class TeamReadTask extends ReadRequestorTask {
 
-    private ReportController controller;
-    private IRunningTeamService service;
+    private TeamController controller;
+    private ITeamService service;
 
-    public RunningTeamReadStrategy(ReportController controller, IRunningTeamService service) {
+    public TeamReadTask(TeamController controller, ITeamService service) {
         super();
 
         this.controller = controller;
@@ -35,7 +35,7 @@ public class RunningTeamReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadRunningTeams(((ServiceResult<List<RunningTeam>>) out).getResult());
+            controller.onReadTeams(((ServiceResult<List<Team>>) out).getResult());
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

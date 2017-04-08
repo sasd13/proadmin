@@ -1,22 +1,22 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.student;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class StudentDeleteStrategy extends RequestorStrategy {
+public class StudentUpdateTask extends RequestorTask {
 
-    private TeamController controller;
+    private StudentController controller;
     private IStudentService service;
 
-    public StudentDeleteStrategy(TeamController controller, IStudentService service) {
+    public StudentUpdateTask(StudentController controller, IStudentService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class StudentDeleteStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.delete((StudentTeam[]) in);
+        return service.update((StudentUpdateWrapper) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class StudentDeleteStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onDeleteStudentTeams();
+            controller.onUpdateStudent();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

@@ -1,6 +1,6 @@
-package com.sasd13.proadmin.controller.runningteam;
+package com.sasd13.proadmin.controller.report;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.service.IRunningTeamService;
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamReadStrategy extends ReadRequestorStrategy {
+public class RunningTeamReadTask extends ReadRequestorTask {
 
-    private RunningTeamController controller;
+    private ReportController controller;
     private IRunningTeamService service;
 
-    public RunningTeamReadStrategy(RunningTeamController controller, IRunningTeamService service) {
+    public RunningTeamReadTask(ReportController controller, IRunningTeamService service) {
         super();
 
         this.controller = controller;

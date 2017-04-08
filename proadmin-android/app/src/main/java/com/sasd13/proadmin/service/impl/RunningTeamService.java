@@ -65,7 +65,7 @@ public class RunningTeamService implements IRunningTeamService {
     public ServiceResult<Void> create(RunningTeam runningTeam) {
         Promise promise = new Promise("POST", WSResources.URL_WS_RUNNINGTEAMS);
 
-        promise.execute(runningTeam);
+        promise.execute(new RunningTeam[]{runningTeam});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -78,7 +78,7 @@ public class RunningTeamService implements IRunningTeamService {
     public ServiceResult<Void> update(RunningTeamUpdateWrapper runningTeamUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_RUNNINGTEAMS);
 
-        promise.execute(runningTeamUpdateWrapper);
+        promise.execute(new RunningTeamUpdateWrapper[]{runningTeamUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

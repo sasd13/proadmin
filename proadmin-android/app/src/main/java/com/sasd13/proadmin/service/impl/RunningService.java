@@ -34,7 +34,7 @@ public class RunningService implements IRunningService {
     public ServiceResult<Void> create(Running running) {
         Promise promise = new Promise("POST", WSResources.URL_WS_RUNNINGS);
 
-        promise.execute(running);
+        promise.execute(new Running[]{running});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

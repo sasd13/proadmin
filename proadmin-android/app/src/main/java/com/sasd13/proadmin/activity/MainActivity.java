@@ -18,10 +18,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
 import com.sasd13.proadmin.view.gui.browser.Browser;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
@@ -108,10 +108,6 @@ public class MainActivity extends DrawerActivity {
 
             if (!stack.isEmpty()) {
                 stack.pop();
-
-                if (!stack.isEmpty() && ProxyFragment.class.isAssignableFrom(stack.peek().getClass())) {
-                    onBackPressed();
-                }
             }
         }
     }

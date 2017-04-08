@@ -39,15 +39,15 @@ public class ReportController extends MainController implements IReportControlle
     private ILeadEvaluationService leadEvaluationService;
     private IIndividualEvaluationService individualEvaluationService;
     private IRunningTeamService runningTeamService;
-    private ReportReadStrategy reportReadStrategy;
-    private RunningTeamReadStrategy runningTeamReadStrategy;
-    private ReportDependenciesStrategy reportDependenciesStrategy;
-    private ReportCreateStrategy reportCreateStrategy;
-    private ReportUpdateStrategy reportUpdateStrategy;
-    private LeadEvaluationCreateStrategy leadEvaluationCreateStrategy;
-    private LeadEvaluationUpdateStrategy leadEvaluationUpdateStrategy;
-    private IndividualEvaluationUpdateStrategy individualEvaluationUpdateStrategy;
-    private ReportDeleteStrategy reportDeleteStrategy;
+    private ReportReadTask reportReadTask;
+    private RunningTeamReadTask runningTeamReadTask;
+    private ReportDependenciesTask reportDependenciesTask;
+    private ReportCreateTask reportCreateTask;
+    private ReportUpdateTask reportUpdateTask;
+    private LeadEvaluationCreateTask leadEvaluationCreateTask;
+    private LeadEvaluationUpdateTask leadEvaluationUpdateTask;
+    private IndividualEvaluationUpdateTask individualEvaluationUpdateTask;
+    private ReportDeleteTask reportDeleteTask;
 
     public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
@@ -73,13 +73,13 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     private void readReports() {
-        if (reportReadStrategy == null) {
-            reportReadStrategy = new ReportReadStrategy(this, reportService);
+        if (reportReadTask == null) {
+            reportReadTask = new ReportReadTask(this, reportService);
         }
 
-        reportReadStrategy.clearParameters();
-        reportReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(reportReadStrategy).execute();
+        reportReadTask.clearParameters();
+        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(reportReadTask).execute();
     }
 
     void onReadReports(List<Report> reports) {
@@ -104,13 +104,13 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     private void readRunningTeams() {
-        if (runningTeamReadStrategy == null) {
-            runningTeamReadStrategy = new RunningTeamReadStrategy(this, runningTeamService);
+        if (runningTeamReadTask == null) {
+            runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
         }
 
-        runningTeamReadStrategy.clearParameters();
-        runningTeamReadStrategy.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(runningTeamReadStrategy).execute();
+        runningTeamReadTask.clearParameters();
+        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        new Requestor(runningTeamReadTask).execute();
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -127,11 +127,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionCreateReport(Report report) {
-        if (reportCreateStrategy == null) {
-            reportCreateStrategy = new ReportCreateStrategy(this, reportService);
+        if (reportCreateTask == null) {
+            reportCreateTask = new ReportCreateTask(this, reportService);
         }
 
-        new Requestor(reportCreateStrategy).execute(report);
+        new Requestor(reportCreateTask).execute(report);
     }
 
     void onCreateReport() {
@@ -147,15 +147,15 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     private void readDependencies(Report report) {
-        if (reportDependenciesStrategy == null) {
-            reportDependenciesStrategy = new ReportDependenciesStrategy(this, reportService);
+        if (reportDependenciesTask == null) {
+            reportDependenciesTask = new ReportDependenciesTask(this, reportService);
         }
 
-        reportDependenciesStrategy.resetParameters();
-        reportDependenciesStrategy.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
-        reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        reportDependenciesStrategy.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        new Requestor(reportDependenciesStrategy).execute();
+        reportDependenciesTask.resetParameters();
+        reportDependenciesTask.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
+        reportDependenciesTask.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        reportDependenciesTask.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
+        new Requestor(reportDependenciesTask).execute();
     }
 
     void onRetrieved(Map<String, List> results) {
@@ -171,11 +171,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionUpdateReport(Report report, Report reportToUpdate) {
-        if (reportUpdateStrategy == null) {
-            reportUpdateStrategy = new ReportUpdateStrategy(this, reportService);
+        if (reportUpdateTask == null) {
+            reportUpdateTask = new ReportUpdateTask(this, reportService);
         }
 
-        new Requestor(reportUpdateStrategy).execute(getReportUpdateWrapper(report, reportToUpdate));
+        new Requestor(reportUpdateTask).execute(getReportUpdateWrapper(report, reportToUpdate));
     }
 
     private ReportUpdateWrapper getReportUpdateWrapper(Report report, Report reportToUpdate) {
@@ -193,11 +193,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionRemoveReport(Report report) {
-        if (reportDeleteStrategy == null) {
-            reportDeleteStrategy = new ReportDeleteStrategy(this, reportService);
+        if (reportDeleteTask == null) {
+            reportDeleteTask = new ReportDeleteTask(this, reportService);
         }
 
-        new Requestor(reportDeleteStrategy).execute(new Report[]{report});
+        new Requestor(reportDeleteTask).execute(new Report[]{report});
     }
 
     void onDeleteReport() {
@@ -207,11 +207,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation) {
-        if (leadEvaluationCreateStrategy == null) {
-            leadEvaluationCreateStrategy = new LeadEvaluationCreateStrategy(this, leadEvaluationService);
+        if (leadEvaluationCreateTask == null) {
+            leadEvaluationCreateTask = new LeadEvaluationCreateTask(this, leadEvaluationService);
         }
 
-        new Requestor(leadEvaluationCreateStrategy).execute(leadEvaluation);
+        new Requestor(leadEvaluationCreateTask).execute(leadEvaluation);
     }
 
     void onCreateLeadEvaluation() {
@@ -220,11 +220,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
-        if (leadEvaluationUpdateStrategy == null) {
-            leadEvaluationUpdateStrategy = new LeadEvaluationUpdateStrategy(this, leadEvaluationService);
+        if (leadEvaluationUpdateTask == null) {
+            leadEvaluationUpdateTask = new LeadEvaluationUpdateTask(this, leadEvaluationService);
         }
 
-        new Requestor(leadEvaluationUpdateStrategy).execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
+        new Requestor(leadEvaluationUpdateTask).execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
     }
 
     private LeadEvaluationUpdateWrapper getLeadEvaluationUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
@@ -238,11 +238,11 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        if (individualEvaluationUpdateStrategy == null) {
-            individualEvaluationUpdateStrategy = new IndividualEvaluationUpdateStrategy(this, individualEvaluationService);
+        if (individualEvaluationUpdateTask == null) {
+            individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
         }
 
-        new Requestor(individualEvaluationUpdateStrategy).execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
+        new Requestor(individualEvaluationUpdateTask).execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
     }
 
     void onUpdateLeadEvaluation() {

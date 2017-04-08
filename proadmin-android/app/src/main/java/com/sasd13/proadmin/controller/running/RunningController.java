@@ -5,14 +5,14 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
-import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.view.IBrowsable;
+import com.sasd13.proadmin.view.fragment.project.IProjectController;
+import com.sasd13.proadmin.view.fragment.running.IRunningController;
 import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 
@@ -20,8 +20,8 @@ public class RunningController extends MainController implements IRunningControl
 
     private RunningScope scope;
     private IRunningService runningService;
-    private RunningCreateStrategy runningCreateStrategy;
-    private RunningDeleteStrategy runningDeleteStrategy;
+    private RunningCreateTask runningCreateTask;
+    private RunningDeleteTask runningDeleteTask;
 
     public RunningController(MainActivity mainActivity, IRunningService runningService) {
         super(mainActivity);
@@ -43,11 +43,11 @@ public class RunningController extends MainController implements IRunningControl
 
     @Override
     public void actionCreateRunning(Running running) {
-        if (runningCreateStrategy == null) {
-            runningCreateStrategy = new RunningCreateStrategy(this, runningService);
+        if (runningCreateTask == null) {
+            runningCreateTask = new RunningCreateTask(this, runningService);
         }
 
-        new Requestor(runningCreateStrategy).execute(running);
+        new Requestor(runningCreateTask).execute(running);
     }
 
     void onCreateRunning() {
@@ -63,11 +63,11 @@ public class RunningController extends MainController implements IRunningControl
 
     @Override
     public void actionRemoveRunning(Running running) {
-        if (runningDeleteStrategy == null) {
-            runningDeleteStrategy = new RunningDeleteStrategy(this, runningService);
+        if (runningDeleteTask == null) {
+            runningDeleteTask = new RunningDeleteTask(this, runningService);
         }
 
-        new Requestor(runningDeleteStrategy).execute(new Running[]{running});
+        new Requestor(runningDeleteTask).execute(new Running[]{running});
     }
 
     void onDeleteRunnings() {

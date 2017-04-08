@@ -1,22 +1,24 @@
-package com.sasd13.proadmin.controller.report;
+package com.sasd13.proadmin.controller.setting;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.service.IReportService;
+import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+
+import java.util.List;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ReportUpdateStrategy extends RequestorStrategy {
+public class TeacherReadTask extends ReadRequestorTask {
 
-    private ReportController controller;
-    private IReportService service;
+    private SettingController controller;
+    private ITeacherService service;
 
-    public ReportUpdateStrategy(ReportController controller, IReportService service) {
+    public TeacherReadTask(SettingController controller, ITeacherService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +27,7 @@ public class ReportUpdateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.update((ReportUpdateWrapper) in);
+        return service.read(parameters);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ReportUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onUpdateReport();
+            controller.onReadTeacher(((ServiceResult<List<Teacher>>) out).getResult().get(0));
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

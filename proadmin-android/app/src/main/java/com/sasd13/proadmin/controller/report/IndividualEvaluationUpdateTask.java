@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.report;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
@@ -15,12 +15,12 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class IndividualEvaluationUpdateStrategy extends RequestorStrategy {
+public class IndividualEvaluationUpdateTask extends RequestorTask {
 
     private ReportController controller;
     private IIndividualEvaluationService service;
 
-    public IndividualEvaluationUpdateStrategy(ReportController controller, IIndividualEvaluationService service) {
+    public IndividualEvaluationUpdateTask(ReportController controller, IIndividualEvaluationService service) {
         super();
 
         this.controller = controller;

@@ -44,10 +44,6 @@ public class IdentityActivity extends AppCompatActivity {
 
         if (!stack.isEmpty()) {
             stack.pop();
-
-            if (!stack.isEmpty() && ProxyFragment.class.isAssignableFrom(stack.peek().getClass())) {
-                onBackPressed();
-            }
         }
     }
 

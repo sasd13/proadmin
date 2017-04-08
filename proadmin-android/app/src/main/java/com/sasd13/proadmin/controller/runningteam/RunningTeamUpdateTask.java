@@ -1,22 +1,22 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.runningteam;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.service.ITeamService;
+import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeamCreateStrategy extends RequestorStrategy {
+public class RunningTeamUpdateTask extends RequestorTask {
 
-    private TeamController controller;
-    private ITeamService service;
+    private RunningTeamController controller;
+    private IRunningTeamService service;
 
-    public TeamCreateStrategy(TeamController controller, ITeamService service) {
+    public RunningTeamUpdateTask(RunningTeamController controller, IRunningTeamService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class TeamCreateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.create((Team) in);
+        return service.update((RunningTeamUpdateWrapper) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TeamCreateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onCreateTeam();
+            controller.onUpdateRunningTeam();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

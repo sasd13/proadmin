@@ -17,7 +17,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
     public ServiceResult<Void> create(LeadEvaluation leadEvaluation) {
         Promise promise = new Promise("POST", WSResources.URL_WS_LEADEVALUATIONS);
 
-        promise.execute(leadEvaluation);
+        promise.execute(new LeadEvaluation[]{leadEvaluation});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -30,7 +30,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
     public ServiceResult<Void> update(LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_LEADEVALUATIONS);
 
-        promise.execute(leadEvaluationUpdateWrapper);
+        promise.execute(new LeadEvaluationUpdateWrapper[]{leadEvaluationUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

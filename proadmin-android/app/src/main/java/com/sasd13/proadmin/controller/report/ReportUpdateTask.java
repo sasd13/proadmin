@@ -1,24 +1,22 @@
-package com.sasd13.proadmin.controller.team;
+package com.sasd13.proadmin.controller.report;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.service.IStudentService;
+import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-
-import java.util.List;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class StudentReadStrategy extends ReadRequestorStrategy {
+public class ReportUpdateTask extends RequestorTask {
 
-    private TeamController controller;
-    private IStudentService service;
+    private ReportController controller;
+    private IReportService service;
 
-    public StudentReadStrategy(TeamController controller, IStudentService service) {
+    public ReportUpdateTask(ReportController controller, IReportService service) {
         super();
 
         this.controller = controller;
@@ -27,7 +25,7 @@ public class StudentReadStrategy extends ReadRequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.read(parameters);
+        return service.update((ReportUpdateWrapper) in);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class StudentReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadStudentTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
+            controller.onUpdateReport();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

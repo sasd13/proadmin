@@ -1,8 +1,8 @@
-package com.sasd13.proadmin.controller.report;
+package com.sasd13.proadmin.controller.runningteam;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.service.IReportService;
+import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
 
@@ -14,13 +14,13 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ReportDependenciesStrategy extends RequestorStrategy {
+public class RunningTeamDependenciesTask extends RequestorTask {
 
-    private ReportController controller;
-    private IReportService service;
+    private RunningTeamController controller;
+    private IRunningTeamService service;
     private Map<String, Map<String, String[]>> allParameters;
 
-    public ReportDependenciesStrategy(ReportController controller, IReportService service) {
+    public RunningTeamDependenciesTask(RunningTeamController controller, IRunningTeamService service) {
         super();
 
         this.controller = controller;
@@ -32,9 +32,9 @@ public class ReportDependenciesStrategy extends RequestorStrategy {
 
     public void resetParameters() {
         allParameters.clear();
-        allParameters.put(IReportService.PARAMATERS_STUDENTTEAM, new HashMap<String, String[]>());
-        allParameters.put(IReportService.PARAMETERS_LEADEVALUATION, new HashMap<String, String[]>());
-        allParameters.put(IReportService.PARAMETERS_INDIVIDUALEVALUATION, new HashMap<String, String[]>());
+        allParameters.put(IRunningTeamService.PARAMATERS_RUNNING, new HashMap<String, String[]>());
+        allParameters.put(IRunningTeamService.PARAMETERS_TEAM, new HashMap<String, String[]>());
+        allParameters.put(IRunningTeamService.PARAMETERS_ACADEMICLEVEL, new HashMap<String, String[]>());
     }
 
     public void putParameter(String code, String key, String[] values) {

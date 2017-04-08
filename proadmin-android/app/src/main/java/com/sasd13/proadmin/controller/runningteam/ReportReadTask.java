@@ -1,11 +1,10 @@
-package com.sasd13.proadmin.controller.project;
+package com.sasd13.proadmin.controller.runningteam;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.service.IRunningService;
+import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -13,12 +12,12 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningReadStrategy extends ReadRequestorStrategy {
+public class ReportReadTask extends ReadRequestorTask {
 
-    private ProjectController controller;
-    private IRunningService service;
+    private RunningTeamController controller;
+    private IReportService service;
 
-    public RunningReadStrategy(ProjectController controller, IRunningService service) {
+    public ReportReadTask(RunningTeamController controller, IReportService service) {
         super();
 
         this.controller = controller;
@@ -35,9 +34,9 @@ public class RunningReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadRunnings(((ServiceResult<List<Running>>) out).getResult());
+            controller.onReadReports(((ServiceResult<List<Report>>) out).getResult());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(((ServiceResult) out).getHttpStatus());
         }
     }
 

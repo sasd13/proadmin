@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.project;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.service.IProjectService;
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ProjectReadStrategy extends ReadRequestorStrategy {
+public class ProjectReadTask extends ReadRequestorTask {
 
     private ProjectController controller;
     private IProjectService service;
 
-    public ProjectReadStrategy(ProjectController controller, IProjectService service) {
+    public ProjectReadTask(ProjectController controller, IProjectService service) {
         super();
 
         this.controller = controller;

@@ -65,7 +65,7 @@ public class ReportService implements IReportService {
     public ServiceResult<Void> create(Report report) {
         Promise promise = new Promise("POST", WSResources.URL_WS_REPORTS);
 
-        promise.execute(report);
+        promise.execute(new Report[]{report});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -78,7 +78,7 @@ public class ReportService implements IReportService {
     public ServiceResult<Void> update(ReportUpdateWrapper reportUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_REPORTS);
 
-        promise.execute(reportUpdateWrapper);
+        promise.execute(new ReportUpdateWrapper[]{reportUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

@@ -21,7 +21,7 @@ public class LogInController extends IdentityController implements ILogInControl
 
     private IAuthenticationService authenticationService;
     private ITeacherService teacherService;
-    private LogInStrategy logInStrategy;
+    private LogInTask logInTask;
     private WaitDialog waitDialog;
 
     public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService, ITeacherService teacherService) {
@@ -47,11 +47,11 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     private void connect(Map<String, String> credentials) {
-        if (logInStrategy == null) {
-            logInStrategy = new LogInStrategy(this, authenticationService, teacherService);
+        if (logInTask == null) {
+            logInTask = new LogInTask(this, authenticationService, teacherService);
         }
 
-        new Requestor(logInStrategy).execute(credentials);
+        new Requestor(logInTask).execute(credentials);
     }
 
     void onWaiting() {

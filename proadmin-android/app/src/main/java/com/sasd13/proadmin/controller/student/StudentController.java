@@ -21,8 +21,8 @@ public class StudentController extends MainController implements IStudentControl
 
     private StudentScope scope;
     private IStudentService studentService;
-    private StudentCreateStrategy studentCreateStrategy;
-    private StudentUpdateStrategy studentUpdateStrategy;
+    private StudentCreateTask studentCreateTask;
+    private StudentUpdateTask studentUpdateTask;
 
     public StudentController(MainActivity mainActivity, IStudentService studentService) {
         super(mainActivity);
@@ -53,11 +53,11 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionCreateStudent(StudentTeam studentTeam) {
-        if (studentCreateStrategy == null) {
-            studentCreateStrategy = new StudentCreateStrategy(this, studentService);
+        if (studentCreateTask == null) {
+            studentCreateTask = new StudentCreateTask(this, studentService);
         }
 
-        new Requestor(studentCreateStrategy).execute(studentTeam);
+        new Requestor(studentCreateTask).execute(studentTeam);
     }
 
     void onCreateStudent() {
@@ -73,11 +73,11 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionUpdateStudent(Student student, Student studentToUpdate) {
-        if (studentUpdateStrategy == null) {
-            studentUpdateStrategy = new StudentUpdateStrategy(this, studentService);
+        if (studentUpdateTask == null) {
+            studentUpdateTask = new StudentUpdateTask(this, studentService);
         }
 
-        new Requestor(studentUpdateStrategy).execute(getStudentUpdateWrapper(student, studentToUpdate));
+        new Requestor(studentUpdateTask).execute(getStudentUpdateWrapper(student, studentToUpdate));
     }
 
     private StudentUpdateWrapper getStudentUpdateWrapper(Student student, Student studentToUpdate) {

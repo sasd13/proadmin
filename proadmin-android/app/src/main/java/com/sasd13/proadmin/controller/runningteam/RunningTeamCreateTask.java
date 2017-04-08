@@ -1,22 +1,22 @@
-package com.sasd13.proadmin.controller.setting;
+package com.sasd13.proadmin.controller.runningteam;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.service.ITeacherService;
+import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeacherUpdateStrategy extends RequestorStrategy {
+public class RunningTeamCreateTask extends RequestorTask {
 
-    private SettingController controller;
-    private ITeacherService service;
+    private RunningTeamController controller;
+    private IRunningTeamService service;
 
-    public TeacherUpdateStrategy(SettingController controller, ITeacherService service) {
+    public RunningTeamCreateTask(RunningTeamController controller, IRunningTeamService service) {
         super();
 
         this.controller = controller;
@@ -25,7 +25,7 @@ public class TeacherUpdateStrategy extends RequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.update((TeacherUpdateWrapper) in);
+        return service.create((RunningTeam) in);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TeacherUpdateStrategy extends RequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onUpdateTeacher();
+            controller.onCreateRunningTeam();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }

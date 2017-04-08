@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.controller.student;
 
-import com.sasd13.androidex.util.requestor.RequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
@@ -17,13 +17,13 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class StudentCreateStrategy extends RequestorStrategy {
+public class StudentCreateTask extends RequestorTask {
 
     private StudentController controller;
     private IStudentService service;
     private Map<String, String[]> parameters;
 
-    public StudentCreateStrategy(StudentController controller, IStudentService service) {
+    public StudentCreateTask(StudentController controller, IStudentService service) {
         super();
 
         this.controller = controller;

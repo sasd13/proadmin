@@ -35,7 +35,7 @@ public class TeacherService implements ITeacherService {
     public ServiceResult<Void> update(TeacherUpdateWrapper teacherUpdateWrapper) {
         Promise promise = new Promise("PUT", WSResources.URL_WS_TEACHERS);
 
-        promise.execute(teacherUpdateWrapper);
+        promise.execute(new TeacherUpdateWrapper[]{teacherUpdateWrapper});
 
         return new ServiceResult<>(
                 promise.isSuccess(),

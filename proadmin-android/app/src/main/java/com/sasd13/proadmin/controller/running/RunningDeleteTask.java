@@ -1,24 +1,22 @@
-package com.sasd13.proadmin.controller.setting;
+package com.sasd13.proadmin.controller.running;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorStrategy;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.service.ITeacherService;
+import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
-
-import java.util.List;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeacherReadStrategy extends ReadRequestorStrategy {
+public class RunningDeleteTask extends RequestorTask {
 
-    private SettingController controller;
-    private ITeacherService service;
+    private RunningController controller;
+    private IRunningService service;
 
-    public TeacherReadStrategy(SettingController controller, ITeacherService service) {
+    public RunningDeleteTask(RunningController controller, IRunningService service) {
         super();
 
         this.controller = controller;
@@ -27,7 +25,7 @@ public class TeacherReadStrategy extends ReadRequestorStrategy {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.read(parameters);
+        return service.delete((Running[]) in);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class TeacherReadStrategy extends ReadRequestorStrategy {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadTeacher(((ServiceResult<List<Teacher>>) out).getResult().get(0));
+            controller.onDeleteRunnings();
         } else {
             controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }
