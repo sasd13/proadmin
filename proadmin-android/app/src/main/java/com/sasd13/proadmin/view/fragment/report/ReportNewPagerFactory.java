@@ -24,7 +24,7 @@ public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
             case 0:
                 return ReportNewFragmentRunningTeams.newInstance(parentFragment);
             case 1:
-                return ReportNewFragmentInfo.newInstance();
+                return ReportNewFragmentInfos.newInstance();
             default:
                 return null;
         }

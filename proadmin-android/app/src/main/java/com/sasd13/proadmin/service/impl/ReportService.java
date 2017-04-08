@@ -88,7 +88,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public ServiceResult<Void> delete(Report[] reports) {
+    public ServiceResult<Void> delete(List<Report> reports) {
         Promise promise = new Promise("DELETE", WSResources.URL_WS_REPORTS);
 
         promise.execute(reports);

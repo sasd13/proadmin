@@ -44,7 +44,7 @@ public class RunningService implements IRunningService {
     }
 
     @Override
-    public ServiceResult<Void> delete(Running[] runnings) {
+    public ServiceResult<Void> delete(List<Running> runnings) {
         Promise promise = new Promise("DELETE", WSResources.URL_WS_RUNNINGS);
 
         promise.execute(runnings);

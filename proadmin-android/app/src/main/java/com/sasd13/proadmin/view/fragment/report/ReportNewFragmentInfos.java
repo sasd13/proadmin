@@ -25,14 +25,14 @@ import com.sasd13.proadmin.view.gui.form.ReportForm;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ReportNewFragmentInfo extends Fragment implements Observer {
+public class ReportNewFragmentInfos extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
     private ReportForm reportForm;
 
-    public static ReportNewFragmentInfo newInstance() {
-        return new ReportNewFragmentInfo();
+    public static ReportNewFragmentInfos newInstance() {
+        return new ReportNewFragmentInfos();
     }
 
     @Override

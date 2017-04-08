@@ -7,6 +7,8 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
 
+import java.util.List;
+
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
@@ -25,7 +27,7 @@ public class TeamDeleteTask extends RequestorTask {
 
     @Override
     public Object doInBackgroung(Object in) {
-        return service.delete((Team[]) in);
+        return service.delete((List<Team>) in);
     }
 
     @Override
