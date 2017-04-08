@@ -15,34 +15,28 @@ import java.util.List;
 
 public class IndividualEvaluationService implements IIndividualEvaluationService {
 
-    private Promise promiseCreate, promiseUpdate;
-
     @Override
     public ServiceResult<Void> create(List<IndividualEvaluation> individualEvaluations) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
 
-        promiseCreate.execute(individualEvaluations);
+        promise.execute(individualEvaluations);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(List<IndividualEvaluationUpdateWrapper> individualEvaluationUpdateWrappers) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_INDIVIDUALEVALUATIONS);
 
-        promiseUpdate.execute(individualEvaluationUpdateWrappers);
+        promise.execute(individualEvaluationUpdateWrappers);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

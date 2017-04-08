@@ -16,66 +16,56 @@ import java.util.Map;
 
 public class TeamService implements ITeamService {
 
-    private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
-
     @Override
     public ServiceResult<List<Team>> read(Map<String, String[]> parameters) {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_TEAMS, Team.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_TEAMS, Team.class);
 
-        promiseRead.setParameters(parameters);
+        promise.setParameters(parameters);
 
-        List<Team> results = (List<Team>) promiseRead.execute();
+        List<Team> results = (List<Team>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Void> create(Team team) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_TEAMS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_TEAMS);
 
-        promiseCreate.execute(team);
+        promise.execute(team);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(TeamUpdateWrapper teamUpdateWrapper) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_TEAMS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_TEAMS);
 
-        promiseUpdate.execute(teamUpdateWrapper);
+        promise.execute(teamUpdateWrapper);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(Team[] teams) {
-        if (promiseDelete == null) {
-            promiseDelete = new Promise("DELETE", WSResources.URL_WS_TEAMS);
-        }
+        Promise promise = new Promise("DELETE", WSResources.URL_WS_TEAMS);
 
-        promiseDelete.execute(teams);
+        promise.execute(teams);
 
         return new ServiceResult<>(
-                promiseDelete.isSuccess(),
-                promiseDelete.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

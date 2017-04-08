@@ -15,51 +15,43 @@ import java.util.Map;
 
 public class RunningService implements IRunningService {
 
-    private Promise promiseRead, promiseCreate, promiseDelete;
-
     @Override
     public ServiceResult<List<Running>> read(Map<String, String[]> parameters) {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_RUNNINGS, Running.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_RUNNINGS, Running.class);
 
-        promiseRead.setParameters(parameters);
+        promise.setParameters(parameters);
 
-        List<Running> results = (List<Running>) promiseRead.execute();
+        List<Running> results = (List<Running>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Void> create(Running running) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_RUNNINGS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_RUNNINGS);
 
-        promiseCreate.execute(running);
+        promise.execute(running);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(Running[] runnings) {
-        if (promiseDelete == null) {
-            promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGS);
-        }
+        Promise promise = new Promise("DELETE", WSResources.URL_WS_RUNNINGS);
 
-        promiseDelete.execute(runnings);
+        promise.execute(runnings);
 
         return new ServiceResult<>(
-                promiseDelete.isSuccess(),
-                promiseDelete.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

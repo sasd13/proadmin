@@ -22,31 +22,24 @@ public class RunningTeamService implements IRunningTeamService {
 
     private static final int NBR_REQUESTS = 3;
 
-    private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
-    private MultiReadPromise multiPromiseRead;
-
     @Override
     public ServiceResult<List<RunningTeam>> read(Map<String, String[]> parameters) {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
 
-        promiseRead.setParameters(parameters);
+        promise.setParameters(parameters);
 
-        List<RunningTeam> results = (List<RunningTeam>) promiseRead.execute();
+        List<RunningTeam> results = (List<RunningTeam>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Map<String, Object>> retrieve(Map<String, Map<String, String[]>> allParameters) {
-        if (multiPromiseRead == null) {
-            multiPromiseRead = new MultiReadPromise(NBR_REQUESTS);
-        }
+        MultiReadPromise promise = new MultiReadPromise(NBR_REQUESTS);
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
@@ -59,10 +52,10 @@ public class RunningTeamService implements IRunningTeamService {
         requests[2] = new MultiReadPromise.Request(PARAMETERS_ACADEMICLEVEL, WSResources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_ACADEMICLEVEL));
 
-        Map<String, Object> results = multiPromiseRead.execute(requests);
+        Map<String, Object> results = promise.execute(requests);
 
         return new ServiceResult<>(
-                multiPromiseRead.isSuccess(),
+                promise.isSuccess(),
                 0,
                 results
         );
@@ -70,45 +63,39 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> create(RunningTeam runningTeam) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_RUNNINGTEAMS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_RUNNINGTEAMS);
 
-        promiseCreate.execute(runningTeam);
+        promise.execute(runningTeam);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(RunningTeamUpdateWrapper runningTeamUpdateWrapper) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_RUNNINGTEAMS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_RUNNINGTEAMS);
 
-        promiseUpdate.execute(runningTeamUpdateWrapper);
+        promise.execute(runningTeamUpdateWrapper);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(RunningTeam[] runningTeams) {
-        if (promiseDelete == null) {
-            promiseDelete = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
-        }
+        Promise promise = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
 
-        promiseDelete.execute(runningTeams);
+        promise.execute(runningTeams);
 
         return new ServiceResult<>(
-                promiseDelete.isSuccess(),
-                promiseDelete.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

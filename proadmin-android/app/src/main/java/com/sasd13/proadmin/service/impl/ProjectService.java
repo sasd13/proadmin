@@ -14,19 +14,15 @@ import java.util.List;
 
 public class ProjectService implements IProjectService {
 
-    private Promise promiseRead;
-
     @Override
     public ServiceResult<List<Project>> readAll() {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_PROJECTS, Project.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_PROJECTS, Project.class);
 
-        List<Project> results = (List<Project>) promiseRead.execute();
+        List<Project> results = (List<Project>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }

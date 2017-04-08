@@ -17,20 +17,16 @@ import java.util.Map;
 
 public class AuthenticationService implements IAuthenticationService {
 
-    private Promise promiseLogin;
-
     @Override
     public ServiceResult<Map<String, String>> logIn(Map<String, String> credentials) {
-        if (promiseLogin == null) {
-            promiseLogin = new Promise("POST", WSResources.URL_AAA_LOGIN, Map.class);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_AAA_LOGIN, Map.class);
 
-        List<Map<String, String>> results = (List<Map<String, String>>) promiseLogin.execute(new Credential(credentials.get(PARAMETER_USERNAME), HexEncoder.sha256(credentials.get(PARAMETER_PASSWORD))));
+        List<Map<String, String>> results = (List<Map<String, String>>) promise.execute(new Credential(credentials.get(PARAMETER_USERNAME), HexEncoder.sha256(credentials.get(PARAMETER_PASSWORD))));
 
         return new ServiceResult<>(
-                promiseLogin.isSuccess(),
-                promiseLogin.getResponseCode(),
-                promiseLogin.isSuccess() && !results.isEmpty() ? results.get(0) : Collections.<String, String>emptyMap()
+                promise.isSuccess(),
+                promise.getResponseCode(),
+                promise.isSuccess() && !results.isEmpty() ? results.get(0) : Collections.<String, String>emptyMap()
         );
     }
 }

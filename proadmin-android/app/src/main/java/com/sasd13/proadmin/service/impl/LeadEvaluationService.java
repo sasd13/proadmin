@@ -13,34 +13,28 @@ import com.sasd13.proadmin.util.ws.WSResources;
 
 public class LeadEvaluationService implements ILeadEvaluationService {
 
-    private Promise promiseCreate, promiseUpdate;
-
     @Override
     public ServiceResult<Void> create(LeadEvaluation leadEvaluation) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_LEADEVALUATIONS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_LEADEVALUATIONS);
 
-        promiseCreate.execute(leadEvaluation);
+        promise.execute(leadEvaluation);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_LEADEVALUATIONS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_LEADEVALUATIONS);
 
-        promiseUpdate.execute(leadEvaluationUpdateWrapper);
+        promise.execute(leadEvaluationUpdateWrapper);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

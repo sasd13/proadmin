@@ -16,36 +16,30 @@ import java.util.Map;
 
 public class TeacherService implements ITeacherService {
 
-    private Promise promiseRead, promiseUpdate;
-
     @Override
     public ServiceResult<List<Teacher>> read(Map<String, String[]> parameters) {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_TEACHERS, Teacher.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_TEACHERS, Teacher.class);
 
-        promiseRead.setParameters(parameters);
+        promise.setParameters(parameters);
 
-        List<Teacher> results = (List<Teacher>) promiseRead.execute();
+        List<Teacher> results = (List<Teacher>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Void> update(TeacherUpdateWrapper teacherUpdateWrapper) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_TEACHERS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_TEACHERS);
 
-        promiseUpdate.execute(teacherUpdateWrapper);
+        promise.execute(teacherUpdateWrapper);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }

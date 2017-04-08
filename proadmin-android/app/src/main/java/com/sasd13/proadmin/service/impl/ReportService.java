@@ -22,31 +22,24 @@ public class ReportService implements IReportService {
 
     private static final int NBR_REQUESTS = 3;
 
-    private Promise promiseRead, promiseCreate, promiseUpdate, promiseDelete;
-    private MultiReadPromise multiPromiseRead;
-
     @Override
     public ServiceResult<List<Report>> read(Map<String, String[]> parameters) {
-        if (promiseRead == null) {
-            promiseRead = new Promise("GET", WSResources.URL_WS_REPORTS, Report.class);
-        }
+        Promise promise = new Promise("GET", WSResources.URL_WS_REPORTS, Report.class);
 
-        promiseRead.setParameters(parameters);
+        promise.setParameters(parameters);
 
-        List<Report> results = (List<Report>) promiseRead.execute();
+        List<Report> results = (List<Report>) promise.execute();
 
         return new ServiceResult<>(
-                promiseRead.isSuccess(),
-                promiseRead.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Map<String, Object>> retrieve(Map<String, Map<String, String[]>> allParameters) {
-        if (multiPromiseRead == null) {
-            multiPromiseRead = new MultiReadPromise(NBR_REQUESTS);
-        }
+        MultiReadPromise promise = new MultiReadPromise(NBR_REQUESTS);
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
@@ -59,10 +52,10 @@ public class ReportService implements IReportService {
         requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_INDIVIDUALEVALUATION));
 
-        Map<String, Object> results = multiPromiseRead.execute(requests);
+        Map<String, Object> results = promise.execute(requests);
 
         return new ServiceResult<>(
-                multiPromiseRead.isSuccess(),
+                promise.isSuccess(),
                 0,
                 results
         );
@@ -70,45 +63,39 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<Void> create(Report report) {
-        if (promiseCreate == null) {
-            promiseCreate = new Promise("POST", WSResources.URL_WS_REPORTS);
-        }
+        Promise promise = new Promise("POST", WSResources.URL_WS_REPORTS);
 
-        promiseCreate.execute(report);
+        promise.execute(report);
 
         return new ServiceResult<>(
-                promiseCreate.isSuccess(),
-                promiseCreate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(ReportUpdateWrapper reportUpdateWrapper) {
-        if (promiseUpdate == null) {
-            promiseUpdate = new Promise("PUT", WSResources.URL_WS_REPORTS);
-        }
+        Promise promise = new Promise("PUT", WSResources.URL_WS_REPORTS);
 
-        promiseUpdate.execute(reportUpdateWrapper);
+        promise.execute(reportUpdateWrapper);
 
         return new ServiceResult<>(
-                promiseUpdate.isSuccess(),
-                promiseUpdate.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(Report[] reports) {
-        if (promiseDelete == null) {
-            promiseDelete = new Promise("DELETE", WSResources.URL_WS_REPORTS);
-        }
+        Promise promise = new Promise("DELETE", WSResources.URL_WS_REPORTS);
 
-        promiseDelete.execute(reports);
+        promise.execute(reports);
 
         return new ServiceResult<>(
-                promiseDelete.isSuccess(),
-                promiseDelete.getResponseCode(),
+                promise.isSuccess(),
+                promise.getResponseCode(),
                 null
         );
     }
