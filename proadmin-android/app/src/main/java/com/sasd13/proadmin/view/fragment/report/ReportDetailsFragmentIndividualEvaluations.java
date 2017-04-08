@@ -66,6 +66,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
+        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -73,6 +74,11 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
         recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
+    }
+
+    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamBuilder(studentTeams).build());
+        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
     @Override
@@ -119,11 +125,6 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         scope = (ReportScope) observable;
 
         bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
-    }
-
-    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
-        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamBuilder(studentTeams).build());
-        RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
     @Override

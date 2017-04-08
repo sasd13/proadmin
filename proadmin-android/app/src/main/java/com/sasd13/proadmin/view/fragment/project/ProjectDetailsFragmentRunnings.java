@@ -62,6 +62,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         GUIHelper.colorTitles(view);
         buildTabRunnings(view);
         buildFloatingActionButton(view);
+        bindTabWithRunnings(scope.getRunnings());
     }
 
     private void buildTabRunnings(View view) {
@@ -77,13 +78,6 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
                 ((IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class)).actionNewRunning(scope.getProject());
             }
         });
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindTabWithRunnings(scope.getRunnings());
     }
 
     private void bindTabWithRunnings(List<Running> runnings) {
@@ -108,5 +102,12 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindTabWithRunnings(scope.getRunnings());
     }
 }

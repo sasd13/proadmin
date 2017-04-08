@@ -13,17 +13,19 @@ public class ProjectsSorter {
 	}
 
 	public static void byCode(List<Project> projects, final boolean byAsc) {
-		Collections.sort(projects, new Comparator<Project>() {
+		if (!projects.isEmpty()) {
+			Collections.sort(projects, new Comparator<Project>() {
 
-			@Override
-			public int compare(Project project1, Project project2) {
-				if (byAsc) {
-					return project1.getCode().compareTo(project2.getCode());
-				} else {
-					return project2.getCode().compareTo(project1.getCode());
+				@Override
+				public int compare(Project project1, Project project2) {
+					if (byAsc) {
+						return project1.getCode().compareTo(project2.getCode());
+					} else {
+						return project2.getCode().compareTo(project1.getCode());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public static void byDateCreation(List<Project> projects) {
@@ -31,16 +33,18 @@ public class ProjectsSorter {
 	}
 
 	public static void byDateCreation(List<Project> projects, final boolean byDesc) {
-		Collections.sort(projects, new Comparator<Project>() {
+		if (!projects.isEmpty()) {
+			Collections.sort(projects, new Comparator<Project>() {
 
-			@Override
-			public int compare(Project project1, Project project2) {
-				if (!byDesc) {
-					return project1.getDateCreation().compareTo(project2.getDateCreation());
-				} else {
-					return project2.getDateCreation().compareTo(project1.getDateCreation());
+				@Override
+				public int compare(Project project1, Project project2) {
+					if (!byDesc) {
+						return project1.getDateCreation().compareTo(project2.getDateCreation());
+					} else {
+						return project2.getDateCreation().compareTo(project1.getDateCreation());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

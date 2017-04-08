@@ -13,17 +13,19 @@ public class ReportsSorter {
 	}
 
 	public static void byNumber(List<Report> reports, final boolean byAsc) {
-		Collections.sort(reports, new Comparator<Report>() {
+		if (!reports.isEmpty()) {
+			Collections.sort(reports, new Comparator<Report>() {
 
-			@Override
-			public int compare(Report report1, Report report2) {
-				if (byAsc) {
-					return report1.getNumber().compareTo(report2.getNumber());
-				} else {
-					return report2.getNumber().compareTo(report1.getNumber());
+				@Override
+				public int compare(Report report1, Report report2) {
+					if (byAsc) {
+						return report1.getNumber().compareTo(report2.getNumber());
+					} else {
+						return report2.getNumber().compareTo(report1.getNumber());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public static void bySession(List<Report> reports) {
@@ -31,17 +33,19 @@ public class ReportsSorter {
 	}
 
 	public static void bySession(List<Report> reports, final boolean byAsc) {
-		Collections.sort(reports, new Comparator<Report>() {
+		if (!reports.isEmpty()) {
+			Collections.sort(reports, new Comparator<Report>() {
 
-			@Override
-			public int compare(Report report1, Report report2) {
-				if (byAsc) {
-					return Integer.compare(report1.getSession(), report2.getSession());
-				} else {
-					return Integer.compare(report2.getSession(), report1.getSession());
+				@Override
+				public int compare(Report report1, Report report2) {
+					if (byAsc) {
+						return Integer.compare(report1.getSession(), report2.getSession());
+					} else {
+						return Integer.compare(report2.getSession(), report1.getSession());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public static void byDateMeeting(List<Report> reports) {
@@ -49,16 +53,18 @@ public class ReportsSorter {
 	}
 
 	public static void byDateMeeting(List<Report> reports, final boolean byDesc) {
-		Collections.sort(reports, new Comparator<Report>() {
+		if (!reports.isEmpty()) {
+			Collections.sort(reports, new Comparator<Report>() {
 
-			@Override
-			public int compare(Report report1, Report report2) {
-				if (!byDesc) {
-					return report1.getDateMeeting().compareTo(report2.getDateMeeting());
-				} else {
-					return report2.getDateMeeting().compareTo(report1.getDateMeeting());
+				@Override
+				public int compare(Report report1, Report report2) {
+					if (!byDesc) {
+						return report1.getDateMeeting().compareTo(report2.getDateMeeting());
+					} else {
+						return report2.getDateMeeting().compareTo(report1.getDateMeeting());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

@@ -21,13 +21,9 @@ public class RunningTeamsYearsBuilder implements IBuilder<List<Integer>> {
     public List<Integer> build() {
         List<Integer> list = new ArrayList<>();
 
-        int year;
-
         for (RunningTeam runningTeam : runningTeams) {
-            year = runningTeam.getRunning().getYear();
-
-            if (!list.contains(year)) {
-                list.add(year);
+            if (!list.contains(runningTeam.getRunning().getYear())) {
+                list.add(runningTeam.getRunning().getYear());
             }
         }
 

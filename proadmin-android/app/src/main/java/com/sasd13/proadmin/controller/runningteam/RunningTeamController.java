@@ -14,6 +14,7 @@ import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
@@ -73,6 +74,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void actionNewRunningTeam() {
         startFragment(RunningTeamNewFragment.newInstance());
+        scope.setRunningTeam(new DefaultRunningTeamBuilder().build());
         readDependencies();
     }
 
@@ -108,8 +110,8 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionShowRunningTeam(RunningTeam runningTeam) {
-        scope.setRunningTeam(runningTeam);
         startFragment(RunningTeamDetailsFragment.newInstance());
+        scope.setRunningTeam(runningTeam);
         readDependencies();
         readReports(runningTeam);
     }

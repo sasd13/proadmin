@@ -65,6 +65,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
+        bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -80,13 +81,6 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
                 controller.actionNewReport(scope.getRunningTeam());
             }
         });
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
-        bindTabWithReports(scope.getReports());
     }
 
     private void bindTabWithReports(List<Report> reports) {
@@ -112,5 +106,12 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (RunningTeamScope) observable;
+
+        bindTabWithReports(scope.getReports());
     }
 }

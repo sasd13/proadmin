@@ -24,7 +24,10 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
 
-public class RunningDetailsFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class RunningDetailsFragment extends Fragment implements Observer {
 
     private IRunningController controller;
     private RunningScope scope;
@@ -123,6 +126,13 @@ public class RunningDetailsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_running));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (RunningScope) observable;
+
+        bindFormWithRunning(scope.getRunning());
     }
 
     @Override

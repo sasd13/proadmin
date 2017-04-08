@@ -58,12 +58,12 @@ public class ReportNewFragmentInfo extends Fragment implements Observer {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildFormRunning(view);
+        buildFormReport(view);
         buildFloatingActionButton(view);
         bindFormWithReport(scope.getReport());
     }
 
-    private void buildFormRunning(View view) {
+    private void buildFormReport(View view) {
         reportForm = new ReportForm(getContext(), false);
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
@@ -78,14 +78,18 @@ public class ReportNewFragmentInfo extends Fragment implements Observer {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    editReportWithForm();
-                    controller.actionCreateReport(scope.getReport());
-                } catch (FormException e) {
-                    controller.display(e.getMessage());
-                }
+                createReport();
             }
         });
+    }
+
+    private void createReport() {
+        try {
+            editReportWithForm();
+            controller.actionCreateReport(scope.getReport());
+        } catch (FormException e) {
+            controller.display(e.getMessage());
+        }
     }
 
     private void editReportWithForm() throws FormException {

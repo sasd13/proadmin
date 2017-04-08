@@ -67,6 +67,7 @@ public class ProjectsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabProjects(view);
         buildProgressBar(view);
+        bindTabWithProjects(scope.getProjects());
     }
 
     private void buildTabProjects(View view) {
@@ -76,29 +77,6 @@ public class ProjectsFragment extends Fragment implements Observer {
 
     private void buildProgressBar(View view) {
         progressBar = (ProgressBar) view.findViewById(R.id.layout_rv_w_srl_progressbar);
-    }
-
-    private void setProgressBarVisible(boolean visible) {
-        if (visible) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_projects));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindTabWithProjects(scope.getProjects());
     }
 
     private void bindTabWithProjects(List<Project> projects) {
@@ -124,5 +102,28 @@ public class ProjectsFragment extends Fragment implements Observer {
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_projects));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    private void setProgressBarVisible(boolean visible) {
+        if (visible) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ProjectScope) observable;
+
+        bindTabWithProjects(scope.getProjects());
     }
 }

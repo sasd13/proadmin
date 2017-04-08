@@ -34,13 +34,30 @@ import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.service.ITeamService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
 public class ControllerProvider {
 
+    private static Map<Class, IController> provider = new HashMap<>();
+
     public static IController provide(Class mClass, Activity activity) {
+        IController controller = provider.get(mClass);
+
+        if (controller == null) {
+            controller = make(mClass, activity);
+
+            provider.put(mClass, controller);
+        }
+
+        return controller;
+    }
+
+    private static IController make(Class mClass, Activity activity) {
         if (ILogInController.class.isAssignableFrom(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,

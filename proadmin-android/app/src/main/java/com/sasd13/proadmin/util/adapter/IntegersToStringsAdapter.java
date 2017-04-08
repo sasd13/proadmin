@@ -15,8 +15,8 @@ public class IntegersToStringsAdapter implements IAdapter<List<Integer>, List<St
     public List<String> adapt(List<Integer> list) {
         List<String> results = new ArrayList<>();
 
-        for (Integer year : list) {
-            results.add(String.valueOf(year));
+        for (Integer mInt : list) {
+            results.add(String.valueOf(mInt));
         }
 
         return results;
@@ -24,5 +24,6 @@ public class IntegersToStringsAdapter implements IAdapter<List<Integer>, List<St
 
     @Override
     public void adapt(List<Integer> integers, List<String> strings) {
+        strings.addAll(adapt(integers));
     }
 }

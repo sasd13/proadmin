@@ -13,16 +13,18 @@ public class AcademicLevelsSorter {
 	}
 
 	public static void byCode(List<AcademicLevel> academicLevels, final boolean byAsc) {
-		Collections.sort(academicLevels, new Comparator<AcademicLevel>() {
+		if (!academicLevels.isEmpty()) {
+			Collections.sort(academicLevels, new Comparator<AcademicLevel>() {
 
-			@Override
-			public int compare(AcademicLevel academicLevel1, AcademicLevel academicLevel2) {
-				if (byAsc) {
-					return academicLevel1.getCode().compareTo(academicLevel2.getCode());
-				} else {
-					return academicLevel2.getCode().compareTo(academicLevel1.getCode());
+				@Override
+				public int compare(AcademicLevel academicLevel1, AcademicLevel academicLevel2) {
+					if (byAsc) {
+						return academicLevel1.getCode().compareTo(academicLevel2.getCode());
+					} else {
+						return academicLevel2.getCode().compareTo(academicLevel1.getCode());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

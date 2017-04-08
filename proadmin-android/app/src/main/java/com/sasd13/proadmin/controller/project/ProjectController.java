@@ -59,8 +59,8 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void actionShowProject(Project project) {
-        scope.setProject(project);
         startFragment(ProjectDetailsFragment.newInstance());
+        scope.setProject(project);
         readRunnings(project);
     }
 

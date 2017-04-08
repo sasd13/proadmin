@@ -60,16 +60,24 @@ public class SettingFragment extends Fragment implements Observer {
     }
 
     private void buildView(View view) {
-        buildFormSettings(view);
+        buildFormTeacher(view);
+
+        if (scope.getTeacher() != null) {
+            bindFormWithTeacher(scope.getTeacher());
+        }
     }
 
-    private void buildFormSettings(View view) {
+    private void buildFormTeacher(View view) {
         teacherForm = new TeacherForm(getContext());
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         form.addDividerItemDecoration();
 
         RecyclerHelper.addAll(form, teacherForm.getHolder());
+    }
+
+    private void bindFormWithTeacher(Teacher teacher) {
+        teacherForm.bindTeacher(teacher);
     }
 
     @Override
@@ -126,10 +134,6 @@ public class SettingFragment extends Fragment implements Observer {
         scope = (SettingScope) observable;
 
         bindFormWithTeacher(scope.getTeacher());
-    }
-
-    private void bindFormWithTeacher(Teacher teacher) {
-        teacherForm.bindTeacher(teacher);
     }
 
     @Override

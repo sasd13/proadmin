@@ -64,6 +64,7 @@ public class ReportsFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
         buildFloatingActionButton(view);
+        bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
@@ -79,21 +80,6 @@ public class ReportsFragment extends Fragment implements Observer {
                 controller.actionNewReport();
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_reports));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
-        bindTabWithReports(scope.getReports());
     }
 
     private void bindTabWithReports(List<Report> reports) {
@@ -119,5 +105,20 @@ public class ReportsFragment extends Fragment implements Observer {
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_reports));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ReportScope) observable;
+
+        bindTabWithReports(scope.getReports());
     }
 }

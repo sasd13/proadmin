@@ -21,13 +21,9 @@ public class RunningsProjectsCodesBuilder implements IBuilder<List<String>> {
     public List<String> build() {
         List<String> list = new ArrayList<>();
 
-        String code;
-
         for (Running running : runnings) {
-            code = running.getProject().getCode();
-
-            if (!list.contains(code)) {
-                list.add(code);
+            if (!list.contains(running.getProject().getCode())) {
+                list.add(running.getProject().getCode());
             }
         }
 

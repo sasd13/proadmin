@@ -5,7 +5,6 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
@@ -13,6 +12,7 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
@@ -66,8 +66,8 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionNewTeam() {
-        scope.setTeam(new DefaultTeamBuilder().build());
         startFragment(TeamNewFragment.newInstance());
+        scope.setTeam(new DefaultTeamBuilder().build());
     }
 
     @Override
@@ -87,6 +87,7 @@ public class TeamController extends MainController implements ITeamController, I
     @Override
     public void actionShowTeam(Team team) {
         startFragment(TeamDetailsFragment.newInstance());
+        scope.setTeam(team);
         readStudents(team);
     }
 

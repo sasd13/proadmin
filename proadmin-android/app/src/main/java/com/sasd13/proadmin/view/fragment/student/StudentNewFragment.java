@@ -23,7 +23,10 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
 
-public class StudentNewFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class StudentNewFragment extends Fragment implements Observer {
 
     private IStudentController controller;
     private StudentScope scope;
@@ -127,6 +130,13 @@ public class StudentNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_student));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (StudentScope) observable;
+
+        bindFormWithStudent(scope.getStudentTeam().getStudent());
     }
 
     @Override

@@ -13,17 +13,19 @@ public class StudentTeamsSorter {
 	}
 
 	public static void byTeamNumber(List<StudentTeam> studentTeams, final boolean byAsc) {
-		Collections.sort(studentTeams, new Comparator<StudentTeam>() {
+		if (!studentTeams.isEmpty()) {
+			Collections.sort(studentTeams, new Comparator<StudentTeam>() {
 
-			@Override
-			public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
-				if (byAsc) {
-					return studentTeam1.getTeam().getNumber().compareTo(studentTeam2.getTeam().getNumber());
-				} else {
-					return studentTeam2.getTeam().getNumber().compareTo(studentTeam1.getTeam().getNumber());
+				@Override
+				public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
+					if (byAsc) {
+						return studentTeam1.getTeam().getNumber().compareTo(studentTeam2.getTeam().getNumber());
+					} else {
+						return studentTeam2.getTeam().getNumber().compareTo(studentTeam1.getTeam().getNumber());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public static void byStudentNumber(List<StudentTeam> studentTeams) {
@@ -31,16 +33,18 @@ public class StudentTeamsSorter {
 	}
 
 	public static void byStudentNumber(List<StudentTeam> studentTeams, final boolean byAsc) {
-		Collections.sort(studentTeams, new Comparator<StudentTeam>() {
+		if (!studentTeams.isEmpty()) {
+			Collections.sort(studentTeams, new Comparator<StudentTeam>() {
 
-			@Override
-			public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
-				if (byAsc) {
-					return studentTeam1.getStudent().getNumber().compareTo(studentTeam2.getStudent().getNumber());
-				} else {
-					return studentTeam2.getStudent().getNumber().compareTo(studentTeam1.getStudent().getNumber());
+				@Override
+				public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
+					if (byAsc) {
+						return studentTeam1.getStudent().getNumber().compareTo(studentTeam2.getStudent().getNumber());
+					} else {
+						return studentTeam2.getStudent().getNumber().compareTo(studentTeam1.getStudent().getNumber());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

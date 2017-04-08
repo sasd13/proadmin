@@ -13,11 +13,16 @@ import java.util.Calendar;
 public class DefaultRunningBuilder implements IBuilder<Running> {
 
     private Project project;
-    private String teacherNumber;
+    private Teacher teacher;
+
+    public DefaultRunningBuilder() {
+    }
 
     public DefaultRunningBuilder(Project project, String teacherNumber) {
         this.project = project;
-        this.teacherNumber = teacherNumber;
+        teacher = new Teacher();
+
+        teacher.setNumber(teacherNumber);
     }
 
     @Override
@@ -26,10 +31,6 @@ public class DefaultRunningBuilder implements IBuilder<Running> {
 
         running.setYear(Calendar.getInstance().get(Calendar.YEAR));
         running.setProject(project);
-
-        Teacher teacher = new Teacher();
-        teacher.setNumber(teacherNumber);
-
         running.setTeacher(teacher);
 
         return running;

@@ -63,11 +63,11 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildFormTeam(view);
+        buildFormReport(view);
         bindFormWithReport(scope.getReport());
     }
 
-    private void buildFormTeam(View view) {
+    private void buildFormReport(View view) {
         reportForm = new ReportForm(getContext(), true);
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));

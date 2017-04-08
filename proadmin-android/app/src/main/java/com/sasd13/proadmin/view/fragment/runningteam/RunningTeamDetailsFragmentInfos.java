@@ -70,11 +70,12 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildFormTeam(view);
+        buildFormRunningTeam(view);
         bindFormWithRunningTeam(scope.getRunningTeam());
+        bindFormWithDependencies();
     }
 
-    private void buildFormTeam(View view) {
+    private void buildFormRunningTeam(View view) {
         runningTeamForm = new RunningTeamForm(getContext());
 
         Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
@@ -87,66 +88,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
         runningTeamForm.bindRunningTeam(runningTeam);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        this.menu = menu;
-
-        inflater.inflate(R.menu.menu_edit, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_edit_action_save:
-                updateTeam();
-                break;
-            case R.id.menu_edit_action_delete:
-                deleteTeam();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
-
-    private void updateTeam() {
-        try {
-            controller.actionUpdateRunningTeam(getRunningTeamFromForm(), scope.getRunningTeam());
-        } catch (FormException e) {
-            controller.display(e.getMessage());
-        }
-    }
-
-    private RunningTeam getRunningTeamFromForm() throws FormException {
-        RunningTeam runningTeamFromForm = new RunningTeam();
-
-        runningTeamFromForm.setRunning(runningTeamForm.getRunning());
-        runningTeamFromForm.setTeam(runningTeamForm.getTeam());
-        runningTeamFromForm.setAcademicLevel(runningTeamForm.getAcademicLevel());
-
-        return runningTeamFromForm;
-    }
-
-    private void deleteTeam() {
-        OptionDialog.showOkCancelDialog(
-                getContext(),
-                getString(R.string.message_delete),
-                getString(R.string.message_confirm),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        controller.actionRemoveRunningTeam(scope.getRunningTeam());
-                    }
-                });
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
+    private void bindFormWithDependencies() {
         bindFormWithRunnings(scope.getRunnings(), scope.getRunningTeam());
         bindFormWithTeams(scope.getTeams(), scope.getRunningTeam());
         bindFormWithAcademicLevels(scope.getAcademicLevels(), scope.getRunningTeam());
@@ -165,6 +107,70 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels, RunningTeam runningTeam) {
         AcademicLevelsSorter.byCode(academicLevels);
         runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        this.menu = menu;
+
+        inflater.inflate(R.menu.menu_edit, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit_action_save:
+                updateRunningTeam();
+                break;
+            case R.id.menu_edit_action_delete:
+                deleteRunningTeam();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    private void updateRunningTeam() {
+        try {
+            controller.actionUpdateRunningTeam(getRunningTeamFromForm(), scope.getRunningTeam());
+        } catch (FormException e) {
+            controller.display(e.getMessage());
+        }
+    }
+
+    private RunningTeam getRunningTeamFromForm() throws FormException {
+        RunningTeam runningTeamFromForm = new RunningTeam();
+
+        runningTeamFromForm.setRunning(runningTeamForm.getRunning());
+        runningTeamFromForm.setTeam(runningTeamForm.getTeam());
+        runningTeamFromForm.setAcademicLevel(runningTeamForm.getAcademicLevel());
+
+        return runningTeamFromForm;
+    }
+
+    private void deleteRunningTeam() {
+        OptionDialog.showOkCancelDialog(
+                getContext(),
+                getString(R.string.message_delete),
+                getString(R.string.message_confirm),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        controller.actionRemoveRunningTeam(scope.getRunningTeam());
+                    }
+                });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (RunningTeamScope) observable;
+
+        bindFormWithRunningTeam(scope.getRunningTeam());
+        bindFormWithDependencies();
     }
 
     @Override

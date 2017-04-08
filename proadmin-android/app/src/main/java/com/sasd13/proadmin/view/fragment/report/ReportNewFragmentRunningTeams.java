@@ -105,6 +105,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         GUIHelper.colorTitles(view);
         buildTabRunningTeams(view);
         buildFloatingActionButton(view);
+        bindTabWithRunningTeams(scope.getRunningTeams());
     }
 
     private void buildTabRunningTeams(View view) {
@@ -118,23 +119,20 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (scope.getReport().getRunningTeam() != null) {
-                    parentFragment.forward();
-                } else {
-                    controller.display(getString(R.string.error_no_runningteam_selected));
-                }
+                forward();
             }
         });
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
-        bindRunningTeams(scope.getRunningTeams());
+    private void forward() {
+        if (scope.getReport().getRunningTeam() != null) {
+            parentFragment.forward();
+        } else {
+            controller.display(getString(R.string.error_no_runningteam_selected));
+        }
     }
 
-    private void bindRunningTeams(List<RunningTeam> runningTeams) {
+    private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
         RunningTeamsSorter.byRunningYear(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
@@ -159,5 +157,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (ReportScope) observable;
+
+        bindTabWithRunningTeams(scope.getRunningTeams());
     }
 }

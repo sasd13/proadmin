@@ -70,6 +70,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
         GUIHelper.colorTitles(view);
         buildFormRunningTeam(view);
         bindFormWithRunningTeam(scope.getRunningTeam());
+        bindFormWithDependencies();
     }
 
     private void buildFormRunningTeam(View view) {
@@ -83,6 +84,27 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
 
     private void bindFormWithRunningTeam(RunningTeam runningTeam) {
         runningTeamForm.bindRunningTeam(runningTeam);
+    }
+
+    private void bindFormWithDependencies() {
+        bindFormWithRunnings(scope.getRunnings());
+        bindFormWithTeams(scope.getTeams());
+        bindFormWithAcademicLevels(scope.getAcademicLevels());
+    }
+
+    private void bindFormWithRunnings(List<Running> runnings) {
+        RunningsSorter.byProjectCode(runnings);
+        runningTeamForm.bindRunnings(runnings);
+    }
+
+    private void bindFormWithTeams(List<Team> teams) {
+        TeamsSorter.byNumber(teams);
+        runningTeamForm.bindTeams(teams);
+    }
+
+    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
+        AcademicLevelsSorter.byCode(academicLevels);
+        runningTeamForm.bindAcademicLevels(academicLevels);
     }
 
     @Override
@@ -143,24 +165,8 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         scope = (RunningTeamScope) observable;
 
-        bindFormWithRunnings(scope.getRunnings());
-        bindFormWithTeams(scope.getTeams());
-        bindFormWithAcademicLevels(scope.getAcademicLevels());
-    }
-
-    private void bindFormWithRunnings(List<Running> runnings) {
-        RunningsSorter.byProjectCode(runnings);
-        runningTeamForm.bindRunnings(runnings);
-    }
-
-    private void bindFormWithTeams(List<Team> teams) {
-        TeamsSorter.byNumber(teams);
-        runningTeamForm.bindTeams(teams);
-    }
-
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels) {
-        AcademicLevelsSorter.byCode(academicLevels);
-        runningTeamForm.bindAcademicLevels(academicLevels);
+        bindFormWithRunningTeam(scope.getRunningTeam());
+        bindFormWithDependencies();
     }
 
     @Override

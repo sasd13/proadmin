@@ -22,7 +22,10 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
 
-public class TeamNewFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class TeamNewFragment extends Fragment implements Observer {
 
     private ITeamController controller;
     private TeamScope scope;
@@ -116,6 +119,11 @@ public class TeamNewFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_team));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.title_new));
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (TeamScope) observable;
     }
 
     @Override

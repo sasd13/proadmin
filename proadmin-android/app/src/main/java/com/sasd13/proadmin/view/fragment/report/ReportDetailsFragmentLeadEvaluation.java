@@ -65,6 +65,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormLeadEvaluation(view);
+        bindFormWithLeadEvaluation(scope.getLeadEvaluation(), scope.getStudentTeams());
     }
 
     private void buildFormLeadEvaluation(View view) {
@@ -74,6 +75,10 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
+    }
+
+    private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation, List<StudentTeam> studentTeams) {
+        leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamBuilder(studentTeams).build());
     }
 
     @Override
@@ -96,7 +101,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                saveTeam();
+                saveLeadEvaluation();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -105,7 +110,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         return true;
     }
 
-    private void saveTeam() {
+    private void saveLeadEvaluation() {
         try {
             if (scope.getLeadEvaluation() != null) {
                 controller.actionUpdateLeadEvaluation(getLeadEvaluationFromForm(), scope.getLeadEvaluation());
@@ -135,10 +140,6 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         scope = (ReportScope) observable;
 
         bindFormWithLeadEvaluation(scope.getLeadEvaluation(), scope.getStudentTeams());
-    }
-
-    private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation, List<StudentTeam> studentTeams) {
-        leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamBuilder(studentTeams).build());
     }
 
     @Override

@@ -62,11 +62,12 @@ public class TeamsFragment extends Fragment implements Observer {
 
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
-        buildTabRunnings(view);
+        buildTabTeams(view);
         buildFloatingActionButton(view);
+        bindTabWithTeams(scope.getTeams());
     }
 
-    private void buildTabRunnings(View view) {
+    private void buildTabTeams(View view) {
         recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
     }
@@ -79,21 +80,6 @@ public class TeamsFragment extends Fragment implements Observer {
                 controller.actionNewTeam();
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_teams));
-        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (TeamScope) observable;
-
-        bindTabWithTeams(scope.getTeams());
     }
 
     private void bindTabWithTeams(List<Team> teams) {
@@ -119,5 +105,20 @@ public class TeamsFragment extends Fragment implements Observer {
         }
 
         RecyclerHelper.addAll(recycler, holder);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_teams));
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        scope = (TeamScope) observable;
+
+        bindTabWithTeams(scope.getTeams());
     }
 }

@@ -86,8 +86,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport() {
-        scope.setReport(new DefaultReportBuilder().build());
         startFragment(ReportNewFragment.newInstance());
+        scope.setReport(new DefaultReportBuilder().build());
         readRunningTeams();
     }
 
@@ -107,8 +107,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport(RunningTeam runningTeam) {
-        scope.setReport(new DefaultReportBuilder(runningTeam).build());
         startFragment(ReportNewFragment.newInstance());
+        scope.setReport(new DefaultReportBuilder(runningTeam).build());
         readRunningTeams();
     }
 
@@ -128,8 +128,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionShowReport(Report report) {
-        scope.setReport(report);
         startFragment(ReportDetailsFragment.newInstance());
+        scope.setReport(report);
         readDependencies(report);
     }
 

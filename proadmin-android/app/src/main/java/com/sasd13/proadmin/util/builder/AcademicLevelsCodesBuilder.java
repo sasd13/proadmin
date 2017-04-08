@@ -21,13 +21,9 @@ public class AcademicLevelsCodesBuilder implements IBuilder<List<String>> {
     public List<String> build() {
         List<String> list = new ArrayList<>();
 
-        String code;
-
         for (AcademicLevel academicLevel : academicLevels) {
-            code = academicLevel.getCode();
-
-            if (!list.contains(code)) {
-                list.add(code);
+            if (!list.contains(academicLevel.getCode())) {
+                list.add(academicLevel.getCode());
             }
         }
 

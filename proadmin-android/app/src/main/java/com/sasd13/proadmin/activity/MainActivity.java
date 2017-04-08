@@ -33,8 +33,8 @@ import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private IPagerHandler pagerHandler;
     private Stack<Fragment> stack = new Stack<>();
+    private IPagerHandler pagerHandler;
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
         this.pagerHandler = pagerHandler;
