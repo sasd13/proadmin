@@ -18,6 +18,8 @@ import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TeamController extends MainController implements ITeamController, IBrowsable {
@@ -48,6 +50,7 @@ public class TeamController extends MainController implements ITeamController, I
     @Override
     public void browse() {
         mainActivity.clearHistory();
+        scope.setTeams(new ArrayList<Team>());
         startFragment(TeamsFragment.newInstance());
         readTeams();
     }
@@ -61,13 +64,22 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     void onReadTeams(List<Team> teams) {
-        scope.setTeams(teams);
+        for (Team team : teams) {
+            if (scope.getTeams().contains(team)) {
+                teams.remove(team);
+            } else {
+                scope.getTeams().add(team);
+            }
+        }
+
+        scope.setTeamsToAdd(teams);
+        scope.setTeamsToAdd(Collections.<Team>emptyList());
     }
 
     @Override
     public void actionNewTeam() {
-        startFragment(TeamNewFragment.newInstance());
         scope.setTeam(new DefaultTeamBuilder().build());
+        startFragment(TeamNewFragment.newInstance());
     }
 
     @Override
@@ -86,8 +98,9 @@ public class TeamController extends MainController implements ITeamController, I
 
     @Override
     public void actionShowTeam(Team team) {
-        startFragment(TeamDetailsFragment.newInstance());
         scope.setTeam(team);
+        scope.setStudentTeams(new ArrayList<StudentTeam>());
+        startFragment(TeamDetailsFragment.newInstance());
         readStudents(team);
     }
 

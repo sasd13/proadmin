@@ -46,13 +46,13 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (RunningTeamScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
@@ -84,6 +84,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
     }
 
     private void bindTabWithReports(List<Report> reports) {
+        recycler.clear();
         ReportsSorter.byNumber(reports);
         addReportsToTab(reports);
     }
@@ -113,5 +114,12 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         scope = (RunningTeamScope) observable;
 
         bindTabWithReports(scope.getReports());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

@@ -38,8 +38,8 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionNewStudent(Team team) {
-        startFragment(StudentNewFragment.newInstance());
         scope.setStudentTeam(getStudentTeam(team));
+        startFragment(StudentNewFragment.newInstance());
     }
 
     private StudentTeam getStudentTeam(Team team) {
@@ -67,8 +67,8 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionShowStudent(StudentTeam studentTeam) {
-        startFragment(StudentDetailsFragment.newInstance());
         scope.setStudentTeam(studentTeam);
+        startFragment(StudentDetailsFragment.newInstance());
     }
 
     @Override

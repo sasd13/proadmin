@@ -43,13 +43,13 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         super.onCreate(savedInstanceState);
 
         scope = (ProjectScope) (((MainActivity) getActivity()).lookup(IProjectController.class)).getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
@@ -81,6 +81,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
     }
 
     private void bindTabWithRunnings(List<Running> runnings) {
+        recycler.clear();
         addRunningsToTab(runnings);
     }
 
@@ -109,5 +110,12 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         scope = (ProjectScope) observable;
 
         bindTabWithRunnings(scope.getRunnings());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

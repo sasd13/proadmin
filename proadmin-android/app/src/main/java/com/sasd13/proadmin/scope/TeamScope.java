@@ -3,7 +3,6 @@ package com.sasd13.proadmin.scope;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -13,14 +12,9 @@ import java.util.Observable;
 
 public class TeamScope extends Observable {
 
-    private List<Team> teams;
+    private List<Team> teams, teamsToAdd;
     private Team team;
     private List<StudentTeam> studentTeams;
-
-    public TeamScope() {
-        teams = new ArrayList<>();
-        studentTeams = new ArrayList<>();
-    }
 
     public List<Team> getTeams() {
         return teams;
@@ -28,6 +22,17 @@ public class TeamScope extends Observable {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public List<Team> getTeamsToAdd() {
+        return teamsToAdd;
+    }
+
+    public void setTeamsToAdd(List<Team> teamsToAdd) {
+        this.teamsToAdd = teamsToAdd;
 
         setChanged();
         notifyObservers();

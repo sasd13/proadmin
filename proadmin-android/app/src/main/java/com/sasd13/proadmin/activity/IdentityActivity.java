@@ -15,7 +15,6 @@ import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.IController;
-import com.sasd13.proadmin.view.fragment.ProxyFragment;
 import com.sasd13.proadmin.view.fragment.authentication.LogInFragment;
 
 import java.util.Stack;

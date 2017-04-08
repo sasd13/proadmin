@@ -16,10 +16,6 @@ public class ReportValidator implements IValidator<Report> {
 			throw new ValidatorException("Report is not valid");
 		}
 
-		if (StringUtils.isBlank(report.getNumber())) {
-			throw new ValidatorException("Report : number is not valid");
-		}
-
 		if (report.getDateMeeting() == null) {
 			throw new ValidatorException("Report : dateMeeting is not valid");
 		}
@@ -43,7 +39,7 @@ public class ReportValidator implements IValidator<Report> {
 		if (running == null) {
 			throw new ValidatorException("Report : runningTeam -> running is not valid");
 		}
-		
+
 		if (running.getYear() < 0) {
 			throw new ValidatorException("Report : runningTeam -> running -> year is not valid");
 		}

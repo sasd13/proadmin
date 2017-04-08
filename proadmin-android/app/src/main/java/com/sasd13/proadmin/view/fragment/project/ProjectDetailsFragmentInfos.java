@@ -36,13 +36,13 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         scope = (ProjectScope) ((MainActivity) getActivity()).lookup(IProjectController.class).getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
@@ -75,5 +75,12 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
     private void bindFormWithProject(Project project) {
         projectForm.bind(project);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

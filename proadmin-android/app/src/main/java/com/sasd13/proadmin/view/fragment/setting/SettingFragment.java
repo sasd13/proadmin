@@ -43,7 +43,6 @@ public class SettingFragment extends Fragment implements Observer {
         controller = (ISettingController) ((MainActivity) getActivity()).lookup(ISettingController.class);
         scope = (SettingScope) controller.getScope();
 
-        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 
@@ -51,6 +50,8 @@ public class SettingFragment extends Fragment implements Observer {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
@@ -139,6 +140,8 @@ public class SettingFragment extends Fragment implements Observer {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        scope.deleteObserver(this);
 
         if (menu != null) {
             menu.setGroupVisible(R.id.menu_edit_group, false);

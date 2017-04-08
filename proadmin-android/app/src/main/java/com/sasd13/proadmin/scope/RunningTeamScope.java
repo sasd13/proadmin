@@ -6,7 +6,6 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -16,20 +15,12 @@ import java.util.Observable;
 
 public class RunningTeamScope extends Observable {
 
-    private List<RunningTeam> runningTeams;
+    private List<RunningTeam> runningTeams, runningTeamsToAdd;
     private RunningTeam runningTeam;
     private List<Running> runnings;
     private List<Team> teams;
     private List<AcademicLevel> academicLevels;
     private List<Report> reports;
-
-    public RunningTeamScope() {
-        runningTeams = new ArrayList<>();
-        runnings = new ArrayList<>();
-        teams = new ArrayList<>();
-        academicLevels = new ArrayList<>();
-        reports = new ArrayList<>();
-    }
 
     public List<RunningTeam> getRunningTeams() {
         return runningTeams;
@@ -37,6 +28,17 @@ public class RunningTeamScope extends Observable {
 
     public void setRunningTeams(List<RunningTeam> runningTeams) {
         this.runningTeams = runningTeams;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public List<RunningTeam> getRunningTeamsToAdd() {
+        return runningTeamsToAdd;
+    }
+
+    public void setRunningTeamsToAdd(List<RunningTeam> runningTeamsToAdd) {
+        this.runningTeamsToAdd = runningTeamsToAdd;
 
         setChanged();
         notifyObservers();

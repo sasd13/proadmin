@@ -34,6 +34,33 @@ public class Running {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		Running other = (Running) obj;
+
+		if (year != other.year)
+			return false;
+
+		if (project == null && other.project != null)
+			return false;
+		else if (!project.equals(other.project))
+			return false;
+
+		if (teacher == null && other.teacher != null)
+			return false;
+		else if (!teacher.equals(other.teacher))
+			return false;
+
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 

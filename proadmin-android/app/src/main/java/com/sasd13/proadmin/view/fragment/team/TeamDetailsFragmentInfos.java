@@ -46,13 +46,14 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
         scope = (TeamScope) controller.getScope();
 
-        scope.addObserver(this);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
@@ -144,6 +145,8 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        scope.deleteObserver(this);
 
         if (menu != null) {
             menu.setGroupVisible(R.id.menu_edit_group, false);

@@ -44,13 +44,13 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         scope = (TeamScope) (((MainActivity) getActivity()).lookup(ITeamController.class)).getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
@@ -82,6 +82,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
     }
 
     private void bindTabWithStudents(List<StudentTeam> studentTeams) {
+        recycler.clear();
         StudentTeamsSorter.byStudentNumber(studentTeams);
         addTeamsToTab(studentTeams);
     }
@@ -111,5 +112,12 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
         scope = (TeamScope) observable;
 
         bindTabWithStudents(scope.getStudentTeams());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

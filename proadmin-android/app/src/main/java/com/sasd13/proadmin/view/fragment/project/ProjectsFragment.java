@@ -48,13 +48,13 @@ public class ProjectsFragment extends Fragment implements Observer {
 
         controller = (IProjectController) ((MainActivity) getActivity()).lookup(IProjectController.class);
         scope = (ProjectScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_srl, container, false);
 
@@ -124,6 +124,13 @@ public class ProjectsFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         scope = (ProjectScope) observable;
 
-        bindTabWithProjects(scope.getProjects());
+        bindTabWithProjects(scope.getProjectsToAdd());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

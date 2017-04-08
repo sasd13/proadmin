@@ -3,7 +3,6 @@ package com.sasd13.proadmin.scope;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -13,15 +12,10 @@ import java.util.Observable;
 
 public class ProjectScope extends Observable {
 
-    private List<Project> projects;
+    private List<Project> projects, projectsToAdd;
     private Project project;
     private List<Running> runnings;
     private Running running;
-
-    public ProjectScope() {
-        projects = new ArrayList<>();
-        runnings = new ArrayList<>();
-    }
 
     public List<Project> getProjects() {
         return projects;
@@ -29,6 +23,17 @@ public class ProjectScope extends Observable {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public List<Project> getProjectsToAdd() {
+        return projectsToAdd;
+    }
+
+    public void setProjectsToAdd(List<Project> projectsToAdd) {
+        this.projectsToAdd = projectsToAdd;
 
         setChanged();
         notifyObservers();

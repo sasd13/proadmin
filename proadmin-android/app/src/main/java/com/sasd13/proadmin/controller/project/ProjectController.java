@@ -15,6 +15,8 @@ import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectController extends MainController implements IProjectController, IBrowsable {
@@ -41,6 +43,7 @@ public class ProjectController extends MainController implements IProjectControl
     @Override
     public void browse() {
         mainActivity.clearHistory();
+        scope.setProjects(new ArrayList<Project>());
         startFragment(ProjectsFragment.newInstance());
         readProjects();
     }
@@ -54,13 +57,23 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     void onReadProjects(List<Project> projects) {
-        scope.setProjects(projects);
+        for (Project project : projects) {
+            if (scope.getProjects().contains(project)) {
+                projects.remove(project);
+            } else {
+                scope.getProjects().add(project);
+            }
+        }
+
+        scope.setProjectsToAdd(projects);
+        scope.setProjectsToAdd(Collections.<Project>emptyList());
     }
 
     @Override
     public void actionShowProject(Project project) {
-        startFragment(ProjectDetailsFragment.newInstance());
         scope.setProject(project);
+        scope.setRunnings(new ArrayList<Running>());
+        startFragment(ProjectDetailsFragment.newInstance());
         readRunnings(project);
     }
 

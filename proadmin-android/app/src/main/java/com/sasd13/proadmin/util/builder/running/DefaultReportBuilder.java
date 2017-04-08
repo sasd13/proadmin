@@ -3,7 +3,6 @@ package com.sasd13.proadmin.util.builder.running;
 import com.sasd13.javaex.pattern.builder.IBuilder;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Constants;
 
 import java.util.Date;
 
@@ -25,7 +24,6 @@ public class DefaultReportBuilder implements IBuilder<Report> {
     public Report build() {
         Report report = new Report();
 
-        report.setNumber(Constants.DEFAULT_REPORT_NUMBER);
         report.setDateMeeting(new Date());
         report.setRunningTeam(runningTeam);
 

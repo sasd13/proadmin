@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment;
+package com.sasd13.proadmin.view;
 
 import android.support.annotation.StringRes;
 

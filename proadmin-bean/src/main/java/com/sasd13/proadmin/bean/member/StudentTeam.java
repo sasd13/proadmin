@@ -22,6 +22,30 @@ public class StudentTeam {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		StudentTeam other = (StudentTeam) obj;
+
+		if (student == null && other.student != null)
+			return false;
+		else if (!student.equals(other.student))
+			return false;
+
+		if (team == null && other.team != null)
+			return false;
+		else if (!team.equals(other.team))
+			return false;
+
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 

@@ -45,13 +45,13 @@ public class TeamsFragment extends Fragment implements Observer {
 
         controller = (ITeamController) ((MainActivity) getActivity()).lookup(ITeamController.class);
         scope = (TeamScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
@@ -119,6 +119,13 @@ public class TeamsFragment extends Fragment implements Observer {
     public void update(Observable observable, Object o) {
         scope = (TeamScope) observable;
 
-        bindTabWithTeams(scope.getTeams());
+        bindTabWithTeams(scope.getTeamsToAdd());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

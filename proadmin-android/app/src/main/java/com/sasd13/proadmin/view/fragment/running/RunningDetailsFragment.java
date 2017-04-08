@@ -52,6 +52,8 @@ public class RunningDetailsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        scope.addObserver(this);
+
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
@@ -138,6 +140,8 @@ public class RunningDetailsFragment extends Fragment implements Observer {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        scope.deleteObserver(this);
 
         if (menu != null) {
             menu.setGroupVisible(R.id.menu_edit_group, false);

@@ -24,7 +24,6 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.scope.ReportScope;
-import com.sasd13.proadmin.util.Comparator;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
 import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 
@@ -86,13 +85,13 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
-
-        scope.addObserver(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
 
@@ -133,6 +132,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
     }
 
     private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
+        recycler.clear();
         RunningTeamsSorter.byRunningYear(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
@@ -147,7 +147,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (scope.getReport().getRunningTeam() != null && Comparator.areTheSame(scope.getReport().getRunningTeam(), runningTeam)) {
+            if (scope.getReport().getRunningTeam() != null && scope.getReport().getRunningTeam().equals(runningTeam)) {
                 model.setSelected(true);
             }
 
@@ -164,5 +164,12 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
         scope = (ReportScope) observable;
 
         bindTabWithRunningTeams(scope.getRunningTeams());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }

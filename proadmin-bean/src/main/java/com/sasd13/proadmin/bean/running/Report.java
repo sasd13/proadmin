@@ -50,6 +50,25 @@ public class Report {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		Report other = (Report) obj;
+
+		if (number == null && other.number != null)
+			return false;
+		else if (!number.equals(other.number))
+			return false;
+
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 

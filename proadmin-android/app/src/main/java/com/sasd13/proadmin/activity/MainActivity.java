@@ -23,7 +23,6 @@ import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
-import com.sasd13.proadmin.view.fragment.ProxyFragment;
 import com.sasd13.proadmin.view.gui.browser.Browser;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
 

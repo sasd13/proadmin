@@ -22,6 +22,8 @@ import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +55,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void browse() {
         mainActivity.clearHistory();
+        scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(RunningTeamsFragment.newInstance());
         readRunningTeams();
     }
@@ -68,13 +71,22 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
-        scope.setRunningTeams(runningTeams);
+        for (RunningTeam runningTeam : runningTeams) {
+            if (scope.getRunningTeams().contains(runningTeam)) {
+                runningTeams.remove(runningTeam);
+            } else {
+                scope.getRunningTeams().add(runningTeam);
+            }
+        }
+
+        scope.setRunningTeamsToAdd(runningTeams);
+        scope.setRunningTeamsToAdd(Collections.<RunningTeam>emptyList());
     }
 
     @Override
     public void actionNewRunningTeam() {
-        startFragment(RunningTeamNewFragment.newInstance());
         scope.setRunningTeam(new DefaultRunningTeamBuilder().build());
+        startFragment(RunningTeamNewFragment.newInstance());
         readDependencies();
     }
 
@@ -110,8 +122,9 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void actionShowRunningTeam(RunningTeam runningTeam) {
-        startFragment(RunningTeamDetailsFragment.newInstance());
         scope.setRunningTeam(runningTeam);
+        scope.setReports(new ArrayList<Report>());
+        startFragment(RunningTeamDetailsFragment.newInstance());
         readDependencies();
         readReports(runningTeam);
     }
