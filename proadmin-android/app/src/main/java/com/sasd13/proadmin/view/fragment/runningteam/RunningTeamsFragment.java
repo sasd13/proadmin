@@ -117,8 +117,6 @@ public class RunningTeamsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
         bindTabWithRunningTeams(scope.getRunningTeamsToAdd());
     }
 

@@ -117,8 +117,6 @@ public class ReportsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
         bindTabWithReports(scope.getReportsToAdd());
     }
 

@@ -81,9 +81,12 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onReadReports(List<Report> reports) {
+        int index;
+
         for (Report report : reports) {
-            if (scope.getReports().contains(report)) {
+            if ((index = scope.getReports().indexOf(report)) >= 0) {
                 reports.remove(report);
+                scope.getReports().set(index, report);
             } else {
                 scope.getReports().add(report);
             }

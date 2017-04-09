@@ -132,8 +132,6 @@ public class RunningDetailsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (RunningScope) observable;
-
         bindFormWithRunning(scope.getRunning());
     }
 

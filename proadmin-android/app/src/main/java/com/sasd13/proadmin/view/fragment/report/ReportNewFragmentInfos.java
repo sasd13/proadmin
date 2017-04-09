@@ -93,9 +93,11 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
     }
 
     private void editReportWithForm() throws FormException {
-        scope.getReport().setDateMeeting(reportForm.getDateMeeting());
-        scope.getReport().setSession(reportForm.getSession());
-        scope.getReport().setComment(reportForm.getComment());
+        Report report = scope.getReport();
+
+        report.setDateMeeting(reportForm.getDateMeeting());
+        report.setSession(reportForm.getSession());
+        report.setComment(reportForm.getComment());
     }
 
     private void bindFormWithReport(Report report) {
@@ -104,8 +106,6 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
         bindFormWithReport(scope.getReport());
     }
 

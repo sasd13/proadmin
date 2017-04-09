@@ -56,9 +56,12 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     void onReadProjects(List<Project> projects) {
+        int index;
+
         for (Project project : projects) {
-            if (scope.getProjects().contains(project)) {
+            if ((index = scope.getProjects().indexOf(project)) >= 0) {
                 projects.remove(project);
+                scope.getProjects().set(index, project);
             } else {
                 scope.getProjects().add(project);
             }

@@ -133,8 +133,6 @@ public class SettingFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (SettingScope) observable;
-
         bindFormWithTeacher(scope.getTeacher());
     }
 

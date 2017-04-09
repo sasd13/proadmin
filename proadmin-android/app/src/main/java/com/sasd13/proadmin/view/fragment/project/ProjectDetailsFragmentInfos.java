@@ -66,15 +66,13 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
         RecyclerHelper.addAll(form, projectForm.getHolder());
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
-        bindFormWithProject(scope.getProject());
-    }
-
     private void bindFormWithProject(Project project) {
         projectForm.bind(project);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        bindFormWithProject(scope.getProject());
     }
 
     @Override

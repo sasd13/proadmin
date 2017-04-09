@@ -64,9 +64,12 @@ public class TeamController extends MainController implements ITeamController {
     }
 
     void onReadTeams(List<Team> teams) {
+        int index;
+
         for (Team team : teams) {
-            if (scope.getTeams().contains(team)) {
+            if ((index = scope.getTeams().indexOf(team)) >= 0) {
                 teams.remove(team);
+                scope.getTeams().set(index, team);
             } else {
                 scope.getTeams().add(team);
             }

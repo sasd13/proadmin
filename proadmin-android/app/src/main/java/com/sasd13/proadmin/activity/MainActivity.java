@@ -23,7 +23,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
-import com.sasd13.proadmin.view.gui.browser.Browser;
+import com.sasd13.proadmin.view.Browser;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
 
 import java.util.ArrayList;

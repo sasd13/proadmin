@@ -179,8 +179,6 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
         bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
     }
 

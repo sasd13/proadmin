@@ -143,8 +143,6 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
         bindFormWithReport(scope.getReport());
     }
 

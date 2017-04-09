@@ -118,7 +118,9 @@ public class RunningNewFragment extends Fragment implements Observer {
     }
 
     private void editRunningWithForm() throws FormException {
-        scope.getRunning().setYear(runningForm.getYear());
+        Running running = scope.getRunning();
+
+        running.setYear(runningForm.getYear());
     }
 
     @Override
@@ -131,8 +133,6 @@ public class RunningNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (RunningScope) observable;
-
         bindFormWithRunning(scope.getRunning());
     }
 

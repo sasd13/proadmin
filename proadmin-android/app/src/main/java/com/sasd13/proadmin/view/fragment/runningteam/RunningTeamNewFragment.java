@@ -128,7 +128,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                createTeam();
+                createRunningTeam();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -137,7 +137,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
         return true;
     }
 
-    private void createTeam() {
+    private void createRunningTeam() {
         try {
             editRunningTeamWithForm();
             controller.actionCreateRunningTeam(scope.getRunningTeam());
@@ -164,8 +164,6 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
         bindFormWithRunningTeam(scope.getRunningTeam());
         bindFormWithDependencies();
     }

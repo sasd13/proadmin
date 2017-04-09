@@ -122,8 +122,6 @@ public class ProjectsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ProjectScope) observable;
-
         bindTabWithProjects(scope.getProjectsToAdd());
     }
 

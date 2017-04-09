@@ -71,9 +71,12 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
+        int index;
+
         for (RunningTeam runningTeam : runningTeams) {
-            if (scope.getRunningTeams().contains(runningTeam)) {
+            if ((index = scope.getRunningTeams().indexOf(runningTeam)) >= 0) {
                 runningTeams.remove(runningTeam);
+                scope.getRunningTeams().set(index, runningTeam);
             } else {
                 scope.getRunningTeams().add(runningTeam);
             }

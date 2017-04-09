@@ -154,8 +154,6 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (ReportScope) observable;
-
         bindFormWithLeadEvaluation(scope.getLeadEvaluation(), scope.getStudentTeams());
     }
 

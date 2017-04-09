@@ -19,6 +19,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
 
@@ -112,7 +113,9 @@ public class TeamNewFragment extends Fragment implements Observer {
     }
 
     private void editTeamWithForm() throws FormException {
-        scope.getTeam().setNumber(teamForm.getNumber());
+        Team team = scope.getTeam();
+
+        team.setNumber(teamForm.getNumber());
     }
 
     @Override
@@ -125,7 +128,7 @@ public class TeamNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (TeamScope) observable;
+        //Do nothing
     }
 
     @Override

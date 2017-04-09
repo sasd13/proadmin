@@ -136,8 +136,6 @@ public class StudentNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (StudentScope) observable;
-
         bindFormWithStudent(scope.getStudentTeam().getStudent());
     }
 

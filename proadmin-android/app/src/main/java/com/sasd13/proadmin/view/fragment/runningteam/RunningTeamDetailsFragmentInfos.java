@@ -176,8 +176,6 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     @Override
     public void update(Observable observable, Object o) {
-        scope = (RunningTeamScope) observable;
-
         bindFormWithRunningTeam(scope.getRunningTeam());
         bindFormWithDependencies();
     }
