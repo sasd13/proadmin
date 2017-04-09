@@ -17,10 +17,8 @@ import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.report.IReportController;
 import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
@@ -29,11 +27,10 @@ import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReportController extends MainController implements IReportController, IBrowsable {
+public class ReportController extends MainController implements IReportController {
 
     private ReportScope scope;
     private IReportService reportService;
@@ -98,8 +95,8 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport() {
-        scope.setRunningTeams(new ArrayList<RunningTeam>());
         scope.setReport(new DefaultReportBuilder().build());
+        scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams();
     }
@@ -143,6 +140,8 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void actionShowReport(Report report) {
         scope.setReport(report);
+        scope.setStudentTeams(new ArrayList<StudentTeam>());
+        scope.setIndividualEvaluations(new ArrayList<IndividualEvaluation>());
         startFragment(ReportDetailsFragment.newInstance());
         readDependencies(report);
     }
@@ -156,10 +155,10 @@ public class ReportController extends MainController implements IReportControlle
         reportDependenciesTask.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
         reportDependenciesTask.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
         reportDependenciesTask.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        new Requestor(reportDependenciesTask).execute();
+        reportDependenciesTask.execute();
     }
 
-    void onRetrieved(Map<String, List> results) {
+    void onRetrieved(Map<String, Object> results) {
         scope.setStudentTeams((List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM));
 
         List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) results.get(IReportService.PARAMETERS_LEADEVALUATION);
@@ -171,21 +170,12 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateReport(Report report, Report reportToUpdate) {
+    public void actionUpdateReport(ReportUpdateWrapper reportUpdateWrapper) {
         if (reportUpdateTask == null) {
             reportUpdateTask = new ReportUpdateTask(this, reportService);
         }
 
-        new Requestor(reportUpdateTask).execute(getReportUpdateWrapper(report, reportToUpdate));
-    }
-
-    private ReportUpdateWrapper getReportUpdateWrapper(Report report, Report reportToUpdate) {
-        ReportUpdateWrapper updateWrapper = new ReportUpdateWrapper();
-
-        updateWrapper.setWrapped(report);
-        updateWrapper.setNumber(reportToUpdate.getNumber());
-
-        return updateWrapper;
+        new Requestor(reportUpdateTask).execute(reportUpdateWrapper);
     }
 
     void onUpdateReport() {
@@ -220,90 +210,25 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
+    public void actionUpdateLeadEvaluation(LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper) {
         if (leadEvaluationUpdateTask == null) {
             leadEvaluationUpdateTask = new LeadEvaluationUpdateTask(this, leadEvaluationService);
         }
 
-        new Requestor(leadEvaluationUpdateTask).execute(getLeadEvaluationUpdateWrapper(leadEvaluation, leadEvaluationToUpdate));
-    }
-
-    private LeadEvaluationUpdateWrapper getLeadEvaluationUpdateWrapper(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate) {
-        LeadEvaluationUpdateWrapper updateWrapper = new LeadEvaluationUpdateWrapper();
-
-        updateWrapper.setWrapped(leadEvaluation);
-        updateWrapper.setReportNumber(leadEvaluationToUpdate.getReport().getNumber());
-
-        return updateWrapper;
-    }
-
-    @Override
-    public void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        if (individualEvaluationUpdateTask == null) {
-            individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
-        }
-
-        new Requestor(individualEvaluationUpdateTask).execute(getAllIndividualEvaluations(individualEvaluations, individualEvaluationsToUpdate));
+        new Requestor(leadEvaluationUpdateTask).execute(leadEvaluationUpdateWrapper);
     }
 
     void onUpdateLeadEvaluation() {
         display(R.string.message_updated);
     }
 
-    private Map<Class, List> getAllIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        Map<Class, List> map = new HashMap<>();
-        List<IndividualEvaluation> individualEvaluationsToPost = new ArrayList<>();
-        List<IndividualEvaluation> individualEvaluationsToPut = new ArrayList<>();
-
-        boolean toPost;
-
-        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-            toPost = true;
-
-            for (IndividualEvaluation individualEvaluationToUpdate : individualEvaluationsToUpdate) {
-                if (individualEvaluationToUpdate.getStudent().getNumber().equals(individualEvaluation.getStudent().getNumber())) {
-                    toPost = false;
-
-                    break;
-                }
-            }
-
-            if (toPost) {
-                individualEvaluationsToPost.add(individualEvaluation);
-            } else {
-                individualEvaluationsToPut.add(individualEvaluation);
-            }
+    @Override
+    public void actionUpdateIndividualEvaluations(Map<Class, List> allIndividualEvaluations) {
+        if (individualEvaluationUpdateTask == null) {
+            individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
         }
 
-        map.put(IndividualEvaluation.class, individualEvaluationsToPost);
-        map.put(IndividualEvaluationUpdateWrapper.class, getIndividualEvaluationUpdateWrapper(individualEvaluationsToPut, individualEvaluationsToUpdate));
-
-        return map;
-    }
-
-    private List<IndividualEvaluationUpdateWrapper> getIndividualEvaluationUpdateWrapper(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate) {
-        List<IndividualEvaluationUpdateWrapper> updateWrappers = new ArrayList<>();
-
-        IndividualEvaluationUpdateWrapper updateWrapper;
-
-        for (IndividualEvaluation individualEvaluationToUpdate : individualEvaluationsToUpdate) {
-            updateWrapper = new IndividualEvaluationUpdateWrapper();
-
-            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-                if (individualEvaluation.getStudent().getNumber().equals(individualEvaluationToUpdate.getStudent().getNumber())) {
-                    individualEvaluation.setReport(individualEvaluationToUpdate.getReport());
-                    updateWrapper.setWrapped(individualEvaluation);
-                    updateWrapper.setReportNumber(individualEvaluationToUpdate.getReport().getNumber());
-                    updateWrapper.setStudentNumber(individualEvaluationToUpdate.getStudent().getNumber());
-
-                    break;
-                }
-            }
-
-            updateWrappers.add(updateWrapper);
-        }
-
-        return updateWrappers;
+        new Requestor(individualEvaluationUpdateTask).execute(allIndividualEvaluations);
     }
 
     void onUpdateIndividualEvaluations() {

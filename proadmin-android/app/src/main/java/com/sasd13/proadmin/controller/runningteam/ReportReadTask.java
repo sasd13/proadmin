@@ -5,6 +5,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ReportReadTask extends ReadRequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onReadReports(((ServiceResult<List<Report>>) out).getResult());
         } else {
-            controller.display(((ServiceResult) out).getHttpStatus());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }
     }
 

@@ -1,18 +1,21 @@
 package com.sasd13.proadmin.view.fragment.report;
 
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.IController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public interface IReportController extends IController {
+public interface IReportController extends IController, IBrowsable {
 
     void actionNewReport();
 
@@ -22,13 +25,13 @@ public interface IReportController extends IController {
 
     void actionShowReport(Report report);
 
-    void actionUpdateReport(Report report, Report reportToUpdate);
+    void actionUpdateReport(ReportUpdateWrapper reportUpdateWrapper);
 
     void actionRemoveReport(Report report);
 
     void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation);
 
-    void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation, LeadEvaluation leadEvaluationToUpdate);
+    void actionUpdateLeadEvaluation(LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper);
 
-    void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<IndividualEvaluation> individualEvaluationsToUpdate);
+    void actionUpdateIndividualEvaluations(Map<Class, List> allIndividualEvaluations);
 }

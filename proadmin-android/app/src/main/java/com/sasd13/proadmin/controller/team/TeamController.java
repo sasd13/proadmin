@@ -12,7 +12,6 @@ import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
@@ -23,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TeamController extends MainController implements ITeamController, IBrowsable {
+public class TeamController extends MainController implements ITeamController {
 
     private TeamScope scope;
     private ITeamService teamService;
@@ -120,21 +119,12 @@ public class TeamController extends MainController implements ITeamController, I
     }
 
     @Override
-    public void actionUpdateTeam(Team team, Team teamToUpdate) {
+    public void actionUpdateTeam(TeamUpdateWrapper teamUpdateWrapper) {
         if (teamUpdateTask == null) {
             teamUpdateTask = new TeamUpdateTask(this, teamService);
         }
 
-        new Requestor(teamUpdateTask).execute(getTeamUpdateWrapper(team, teamToUpdate));
-    }
-
-    private TeamUpdateWrapper getTeamUpdateWrapper(Team team, Team teamToUpdate) {
-        TeamUpdateWrapper updateWrapper = new TeamUpdateWrapper();
-
-        updateWrapper.setWrapped(team);
-        updateWrapper.setNumber(teamToUpdate.getNumber());
-
-        return updateWrapper;
+        new Requestor(teamUpdateTask).execute(teamUpdateWrapper);
     }
 
     void onUpdateTeam() {

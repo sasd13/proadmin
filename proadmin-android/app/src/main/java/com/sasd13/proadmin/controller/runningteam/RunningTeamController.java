@@ -16,7 +16,6 @@ import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
@@ -28,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class RunningTeamController extends MainController implements IRunningTeamController, IBrowsable {
+public class RunningTeamController extends MainController implements IRunningTeamController {
 
     private RunningTeamScope scope;
     private IRunningTeamService runningTeamService;
@@ -87,8 +86,15 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void actionNewRunningTeam() {
         scope.setRunningTeam(new DefaultRunningTeamBuilder().build());
+        resetDependencies();
         startFragment(RunningTeamNewFragment.newInstance());
         readDependencies();
+    }
+
+    private void resetDependencies() {
+        scope.setRunnings(new ArrayList<Running>());
+        scope.setTeams(new ArrayList<Team>());
+        scope.setAcademicLevels(new ArrayList<AcademicLevel>());
     }
 
     private void readDependencies() {
@@ -98,10 +104,10 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         runningTeamDependenciesTask.resetParameters();
         runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        new Requestor(runningTeamDependenciesTask).execute();
+        runningTeamDependenciesTask.execute();
     }
 
-    void onRetrieved(Map<String, List> results) {
+    void onRetrieved(Map<String, Object> results) {
         scope.setRunnings((List<Running>) results.get(IRunningTeamService.PARAMATERS_RUNNING));
         scope.setTeams((List<Team>) results.get(IRunningTeamService.PARAMETERS_TEAM));
         scope.setAcademicLevels((List<AcademicLevel>) results.get(IRunningTeamService.PARAMETERS_ACADEMICLEVEL));
@@ -124,6 +130,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void actionShowRunningTeam(RunningTeam runningTeam) {
         scope.setRunningTeam(runningTeam);
+        resetDependencies();
         scope.setReports(new ArrayList<Report>());
         startFragment(RunningTeamDetailsFragment.newInstance());
         readDependencies();
@@ -149,25 +156,12 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void actionUpdateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
+    public void actionUpdateRunningTeam(RunningTeamUpdateWrapper runningTeamUpdateWrapper) {
         if (runningTeamUpdateTask == null) {
             runningTeamUpdateTask = new RunningTeamUpdateTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamUpdateTask).execute(getRunningTeamUpdateWrapper(runningTeam, runningTeamToUpdate));
-    }
-
-    private RunningTeamUpdateWrapper getRunningTeamUpdateWrapper(RunningTeam runningTeam, RunningTeam runningTeamToUpdate) {
-        RunningTeamUpdateWrapper updateWrapper = new RunningTeamUpdateWrapper();
-
-        updateWrapper.setWrapped(runningTeam);
-        updateWrapper.setRunningYear(runningTeamToUpdate.getRunning().getYear());
-        updateWrapper.setProjectCode(runningTeamToUpdate.getRunning().getProject().getCode());
-        updateWrapper.setTeamNumber(runningTeamToUpdate.getRunning().getTeacher().getNumber());
-        updateWrapper.setTeamNumber(runningTeamToUpdate.getTeam().getNumber());
-        updateWrapper.setAcademicLevelCode(runningTeamToUpdate.getAcademicLevel().getCode());
-
-        return updateWrapper;
+        new Requestor(runningTeamUpdateTask).execute(runningTeamUpdateWrapper);
     }
 
     void onUpdateRunningTeam() {

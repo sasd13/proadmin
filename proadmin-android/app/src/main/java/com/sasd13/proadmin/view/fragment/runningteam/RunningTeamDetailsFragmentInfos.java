@@ -29,6 +29,7 @@ import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 
 import java.util.List;
@@ -137,20 +138,27 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void updateRunningTeam() {
         try {
-            controller.actionUpdateRunningTeam(getRunningTeamFromForm(), scope.getRunningTeam());
+            controller.actionUpdateRunningTeam(getRunningTeamUpdateWrapperFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private RunningTeam getRunningTeamFromForm() throws FormException {
-        RunningTeam runningTeamFromForm = new RunningTeam();
+    private RunningTeamUpdateWrapper getRunningTeamUpdateWrapperFromForm() throws FormException {
+        RunningTeamUpdateWrapper runningTeamUpdateWrapper = new RunningTeamUpdateWrapper();
+        RunningTeam runningTeam = scope.getRunningTeam();
 
-        runningTeamFromForm.setRunning(runningTeamForm.getRunning());
-        runningTeamFromForm.setTeam(runningTeamForm.getTeam());
-        runningTeamFromForm.setAcademicLevel(runningTeamForm.getAcademicLevel());
+        runningTeamUpdateWrapper.setRunningYear(runningTeam.getRunning().getYear());
+        runningTeamUpdateWrapper.setProjectCode(runningTeam.getRunning().getProject().getCode());
+        runningTeamUpdateWrapper.setTeacherNumber(runningTeam.getRunning().getTeacher().getNumber());
+        runningTeamUpdateWrapper.setTeamNumber(runningTeam.getTeam().getNumber());
+        runningTeamUpdateWrapper.setAcademicLevelCode(runningTeam.getAcademicLevel().getCode());
+        runningTeamUpdateWrapper.setWrapped(runningTeam);
+        runningTeam.setRunning(runningTeamForm.getRunning());
+        runningTeam.setTeam(runningTeamForm.getTeam());
+        runningTeam.setAcademicLevel(runningTeamForm.getAcademicLevel());
 
-        return runningTeamFromForm;
+        return runningTeamUpdateWrapper;
     }
 
     private void deleteRunningTeam() {

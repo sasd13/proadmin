@@ -1,13 +1,15 @@
 package com.sasd13.proadmin.view.fragment.runningteam;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.IController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public interface IRunningTeamController extends IController {
+public interface IRunningTeamController extends IController, IBrowsable {
 
     void actionNewRunningTeam();
 
@@ -15,7 +17,7 @@ public interface IRunningTeamController extends IController {
 
     void actionShowRunningTeam(RunningTeam runningTeam);
 
-    void actionUpdateRunningTeam(RunningTeam runningTeam, RunningTeam runningTeamToUpdate);
+    void actionUpdateRunningTeam(RunningTeamUpdateWrapper runningTeamUpdateWrapper);
 
     void actionRemoveRunningTeam(RunningTeam runningTeam);
 }

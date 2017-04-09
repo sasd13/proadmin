@@ -52,7 +52,7 @@ public class ReportService implements IReportService {
         requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_INDIVIDUALEVALUATION));
 
-        Map<String, Object> results = promise.execute(requests);
+        Map<String, Object> results = promise.execute(requests, 7000);
 
         return new ServiceResult<>(
                 promise.isSuccess(),

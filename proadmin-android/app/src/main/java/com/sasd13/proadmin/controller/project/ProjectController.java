@@ -10,7 +10,6 @@ import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.project.IProjectController;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProjectController extends MainController implements IProjectController, IBrowsable {
+public class ProjectController extends MainController implements IProjectController {
 
     private ProjectScope scope;
     private IProjectService projectService;

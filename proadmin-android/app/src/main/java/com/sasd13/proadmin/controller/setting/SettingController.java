@@ -10,11 +10,10 @@ import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.fragment.setting.ISettingController;
 import com.sasd13.proadmin.view.fragment.setting.SettingFragment;
 
-public class SettingController extends MainController implements ISettingController, IBrowsable {
+public class SettingController extends MainController implements ISettingController {
 
     private SettingScope scope;
     private ITeacherService teacherService;
@@ -55,21 +54,12 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     @Override
-    public void actionUpdateTeacher(Teacher teacher, Teacher teacherToUpdate) {
+    public void actionUpdateTeacher(TeacherUpdateWrapper teacherUpdateWrapper) {
         if (teacherUpdateTask == null) {
             teacherUpdateTask = new TeacherUpdateTask(this, teacherService);
         }
 
-        new Requestor(teacherUpdateTask).execute(getTeacherUpdateWrapper(teacher, teacherToUpdate));
-    }
-
-    private TeacherUpdateWrapper getTeacherUpdateWrapper(Teacher teacher, Teacher teacherToUpdate) {
-        TeacherUpdateWrapper updateWrapper = new TeacherUpdateWrapper();
-
-        updateWrapper.setWrapped(teacher);
-        updateWrapper.setNumber(teacherToUpdate.getNumber());
-
-        return updateWrapper;
+        new Requestor(teacherUpdateTask).execute(teacherUpdateWrapper);
     }
 
     void onUpdateTeacher() {

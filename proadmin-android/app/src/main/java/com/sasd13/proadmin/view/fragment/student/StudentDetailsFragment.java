@@ -21,6 +21,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.scope.StudentScope;
+import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
 
 import java.util.Observable;
@@ -103,21 +104,24 @@ public class StudentDetailsFragment extends Fragment implements Observer {
 
     private void updateStudent() {
         try {
-            controller.actionUpdateStudent(getStudentFromForm(), scope.getStudentTeam().getStudent());
+            controller.actionUpdateStudent(getStudentUpdateWrapperFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Student getStudentFromForm() throws FormException {
-        Student studentFromForm = new Student();
+    private StudentUpdateWrapper getStudentUpdateWrapperFromForm() throws FormException {
+        StudentUpdateWrapper studentUpdateWrapper = new StudentUpdateWrapper();
+        Student student = scope.getStudentTeam().getStudent();
 
-        studentFromForm.setNumber(studentForm.getNumber());
-        studentFromForm.setFirstName(studentForm.getFirstName());
-        studentFromForm.setLastName(studentForm.getLastName());
-        studentFromForm.setEmail(studentForm.getEmail());
+        studentUpdateWrapper.setNumber(student.getNumber());
+        studentUpdateWrapper.setWrapped(student);
+        student.setNumber(studentForm.getNumber());
+        student.setFirstName(studentForm.getFirstName());
+        student.setLastName(studentForm.getLastName());
+        student.setEmail(studentForm.getEmail());
 
-        return studentFromForm;
+        return studentUpdateWrapper;
     }
 
     @Override

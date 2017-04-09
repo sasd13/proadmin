@@ -3,7 +3,6 @@ package com.sasd13.proadmin.controller.student;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.MainController;
@@ -72,21 +71,12 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     @Override
-    public void actionUpdateStudent(Student student, Student studentToUpdate) {
+    public void actionUpdateStudent(StudentUpdateWrapper studentUpdateWrapper) {
         if (studentUpdateTask == null) {
             studentUpdateTask = new StudentUpdateTask(this, studentService);
         }
 
-        new Requestor(studentUpdateTask).execute(getStudentUpdateWrapper(student, studentToUpdate));
-    }
-
-    private StudentUpdateWrapper getStudentUpdateWrapper(Student student, Student studentToUpdate) {
-        StudentUpdateWrapper updateWrapper = new StudentUpdateWrapper();
-
-        updateWrapper.setWrapped(student);
-        updateWrapper.setNumber(studentToUpdate.getNumber());
-
-        return updateWrapper;
+        new Requestor(studentUpdateTask).execute(studentUpdateWrapper);
     }
 
     void onUpdateStudent() {

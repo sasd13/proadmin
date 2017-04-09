@@ -32,7 +32,6 @@ import java.util.Observer;
 
 public class RunningTeamDetailsFragmentReports extends Fragment implements Observer {
 
-    private IReportController controller;
     private RunningTeamScope scope;
     private Recycler recycler;
 
@@ -44,8 +43,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
-        scope = (RunningTeamScope) controller.getScope();
+        scope = (RunningTeamScope) (((MainActivity) getActivity()).lookup(IRunningTeamController.class)).getScope();
     }
 
     @Override
@@ -78,7 +76,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.actionNewReport(scope.getRunningTeam());
+                ((IReportController) ((MainActivity) getActivity()).lookup(IReportController.class)).actionNewReport(scope.getRunningTeam());
             }
         });
     }
@@ -99,7 +97,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
             pair.addController(EnumActionEvent.CLICK, new IAction() {
                 @Override
                 public void execute() {
-                    controller.actionShowReport(report);
+                    ((IReportController) ((MainActivity) getActivity()).lookup(IReportController.class)).actionShowReport(report);
                 }
             });
 

@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.LeadEvaluationForm;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private void saveLeadEvaluation() {
         try {
             if (scope.getLeadEvaluation() != null) {
-                controller.actionUpdateLeadEvaluation(getLeadEvaluationFromForm(), scope.getLeadEvaluation());
+                controller.actionUpdateLeadEvaluation(getLeadEvaluationUpdateWrapperFromForm());
             } else {
                 controller.actionCreateLeadEvaluation(getLeadEvaluationFromForm());
             }
@@ -123,17 +124,32 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         }
     }
 
+    private LeadEvaluationUpdateWrapper getLeadEvaluationUpdateWrapperFromForm() throws FormException {
+        LeadEvaluationUpdateWrapper leadEvaluationUpdateWrapper = new LeadEvaluationUpdateWrapper();
+        LeadEvaluation leadEvaluation = scope.getLeadEvaluation();
+
+        leadEvaluationUpdateWrapper.setReportNumber(scope.getReport().getNumber());
+        leadEvaluationUpdateWrapper.setWrapped(leadEvaluation);
+        editLeadEvaluationWithForm(leadEvaluation);
+
+        return leadEvaluationUpdateWrapper;
+    }
+
     private LeadEvaluation getLeadEvaluationFromForm() throws FormException {
-        LeadEvaluation leadEvaluationFromForm = new LeadEvaluation();
+        LeadEvaluation leadEvaluation = new LeadEvaluation();
 
-        leadEvaluationFromForm.setPlanningMark(leadEvaluationForm.getPlanningMark());
-        leadEvaluationFromForm.setPlanningComment(leadEvaluationForm.getPlanningComment());
-        leadEvaluationFromForm.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
-        leadEvaluationFromForm.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
-        leadEvaluationFromForm.setReport(scope.getReport());
-        leadEvaluationFromForm.setStudent(leadEvaluationForm.getLeader());
+        editLeadEvaluationWithForm(leadEvaluation);
 
-        return leadEvaluationFromForm;
+        return leadEvaluation;
+    }
+
+    private void editLeadEvaluationWithForm(LeadEvaluation leadEvaluation) throws FormException {
+        leadEvaluation.setPlanningMark(leadEvaluationForm.getPlanningMark());
+        leadEvaluation.setPlanningComment(leadEvaluationForm.getPlanningComment());
+        leadEvaluation.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
+        leadEvaluation.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
+        leadEvaluation.setReport(scope.getReport());
+        leadEvaluation.setStudent(leadEvaluationForm.getLeader());
     }
 
     @Override

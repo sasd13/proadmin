@@ -18,14 +18,19 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
+import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
+import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsFormException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -113,12 +118,63 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void updateIndividualEvaluations() {
         try {
-            List<IndividualEvaluation> individualEvaluationsFromForm = individualEvaluationsForm.getIndividualEvaluations(scope.getReport());
-
-            controller.actionUpdateIndividualEvaluations(individualEvaluationsFromForm, scope.getIndividualEvaluations());
+            controller.actionUpdateIndividualEvaluations(getAllIndividualEvaluations());
         } catch (IndividualEvaluationsFormException e) {
             controller.display(e.getMessage());
         }
+    }
+
+    public Map<Class, List> getAllIndividualEvaluations() throws IndividualEvaluationsFormException {
+        Map<Class, List> map = new HashMap<>();
+        List<IndividualEvaluationUpdateWrapper> individualEvaluationsToUpdate = new ArrayList<>();
+        List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
+
+        Map<Student, Float> marks = individualEvaluationsForm.getMarks();
+        boolean toCreate;
+
+        for (Map.Entry<Student, Float> entry : marks.entrySet()) {
+            toCreate = true;
+
+            for (IndividualEvaluation individualEvaluation : scope.getIndividualEvaluations()) {
+                if (individualEvaluation.getStudent().equals(entry.getKey())) {
+                    toCreate = false;
+
+                    individualEvaluationsToUpdate.add(getIndividualEvaluationUpdateWrapper(individualEvaluation, entry.getValue()));
+
+                    break;
+                }
+            }
+
+            if (toCreate) {
+                individualEvaluationsToCreate.add(getIndividualEvaluation(entry.getKey(), entry.getValue()));
+            }
+        }
+
+        map.put(IndividualEvaluationUpdateWrapper.class, individualEvaluationsToUpdate);
+        map.put(IndividualEvaluation.class, individualEvaluationsToCreate);
+
+        return map;
+    }
+
+    private IndividualEvaluationUpdateWrapper getIndividualEvaluationUpdateWrapper(IndividualEvaluation individualEvaluation, Float mark) {
+        IndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper = new IndividualEvaluationUpdateWrapper();
+
+        individualEvaluationUpdateWrapper.setReportNumber(individualEvaluation.getReport().getNumber());
+        individualEvaluationUpdateWrapper.setStudentNumber(individualEvaluation.getStudent().getNumber());
+        individualEvaluationUpdateWrapper.setWrapped(individualEvaluation);
+        individualEvaluation.setMark(mark);
+
+        return individualEvaluationUpdateWrapper;
+    }
+
+    private IndividualEvaluation getIndividualEvaluation(Student student, Float mark) {
+        IndividualEvaluation individualEvaluation = new IndividualEvaluation();
+
+        individualEvaluation.setReport(scope.getReport());
+        individualEvaluation.setStudent(student);
+        individualEvaluation.setMark(mark);
+
+        return individualEvaluation;
     }
 
     @Override

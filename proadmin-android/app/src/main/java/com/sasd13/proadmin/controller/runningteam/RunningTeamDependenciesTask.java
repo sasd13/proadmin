@@ -1,20 +1,17 @@
 package com.sasd13.proadmin.controller.runningteam;
 
-import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class RunningTeamDependenciesTask extends RequestorTask {
+public class RunningTeamDependenciesTask {
 
     private RunningTeamController controller;
     private IRunningTeamService service;
@@ -41,26 +38,21 @@ public class RunningTeamDependenciesTask extends RequestorTask {
         allParameters.get(code).put(key, values);
     }
 
-    @Override
-    public Object doInBackgroung(Object in) {
+    public void execute() {
+        ServiceResult<Map<String, Object>> out = doInBackgroung();
+
+        onPostExecute(out);
+    }
+
+    private ServiceResult<Map<String, Object>> doInBackgroung() {
         return service.retrieve(allParameters);
     }
 
-    @Override
-    public void onPostExecute(Object out) {
-        super.onPostExecute(out);
-
-        if (((ServiceResult) out).isSuccess()) {
-            controller.onRetrieved(((ServiceResult<Map<String, List>>) out).getResult());
+    private void onPostExecute(ServiceResult<Map<String, Object>> out) {
+        if (out.isSuccess()) {
+            controller.onRetrieved(out.getResult());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(out.getHttpStatus()).getStringRes());
         }
-    }
-
-    @Override
-    public void onCancelled(Object out) {
-        super.onCancelled(out);
-
-        controller.display(R.string.message_cancelled);
     }
 }

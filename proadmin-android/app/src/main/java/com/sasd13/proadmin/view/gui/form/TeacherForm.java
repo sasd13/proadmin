@@ -48,10 +48,12 @@ public class TeacherForm extends Form {
     }
 
     public void bindTeacher(Teacher teacher) {
-        modelNumber.setValue(teacher.getNumber());
-        modelFirstName.setValue(teacher.getFirstName());
-        modelLastName.setValue(teacher.getLastName());
-        modelEmail.setValue(teacher.getEmail());
+        if (teacher != null) {
+            modelNumber.setValue(teacher.getNumber());
+            modelFirstName.setValue(teacher.getFirstName());
+            modelLastName.setValue(teacher.getLastName());
+            modelEmail.setValue(teacher.getEmail());
+        }
     }
 
     public String getNumber() throws FormException {

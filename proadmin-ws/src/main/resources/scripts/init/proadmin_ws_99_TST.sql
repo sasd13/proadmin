@@ -62,15 +62,15 @@ INSERT INTO runningteams(_year,_project,_teacher,_team,_academiclevel) VALUES (2
 
 -- REPORTS
 
-INSERT INTO reports(_code,_datemeeting,_session,_comment,_year,_project,_teacher,_team,_academiclevel) VALUES ('RE-',TIMESTAMP '2015-01-01 00:00:00',1,'comment',2015,'2015PR01','21010013','2015TE01','L1');
+INSERT INTO reports(_datemeeting,_session,_comment,_year,_project,_teacher,_team,_academiclevel) VALUES (TIMESTAMP '2015-01-01 00:00:00',1,'comment',2015,'2015PR01','21010013','2015TE01','L1');
 
 -- LEADEVALUATIONS
 
-INSERT INTO leadevaluations(_planningmark,_planningcomment,_communicationmark,_communicationcomment,_report,_student) VALUES (9,null,10,null,'RE-','2130876');
+INSERT INTO leadevaluations(_planningmark,_planningcomment,_communicationmark,_communicationcomment,_report,_student) VALUES (9,null,10,null,'RE-1','2130876');
 
 -- INDIVIDUALEVALUATIONS
 
-INSERT INTO individualevaluations(_mark,_report,_student) VALUES (7,'RE-','2130876');
-INSERT INTO individualevaluations(_mark,_report,_student) VALUES (8,'RE-','2130877');
+INSERT INTO individualevaluations(_mark,_report,_student) VALUES (7,'RE-1','2130876');
+INSERT INTO individualevaluations(_mark,_report,_student) VALUES (8,'RE-1','2130877');
 
 --COMMIT;

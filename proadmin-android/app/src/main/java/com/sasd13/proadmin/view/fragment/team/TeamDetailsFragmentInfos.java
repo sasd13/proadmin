@@ -23,6 +23,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.scope.TeamScope;
+import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
 
 import java.util.Observable;
@@ -108,18 +109,21 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateTeam() {
         try {
-            controller.actionUpdateTeam(getTeamFromForm(), scope.getTeam());
+            controller.actionUpdateTeam(getTeamUpdateWrapperFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Team getTeamFromForm() throws FormException {
-        Team teamFromForm = new Team();
+    private TeamUpdateWrapper getTeamUpdateWrapperFromForm() throws FormException {
+        TeamUpdateWrapper teamUpdateWrapper = new TeamUpdateWrapper();
+        Team team = scope.getTeam();
 
-        teamFromForm.setNumber(teamForm.getNumber());
+        teamUpdateWrapper.setNumber(team.getNumber());
+        teamUpdateWrapper.setWrapped(team);
+        team.setNumber(teamForm.getNumber());
 
-        return teamFromForm;
+        return teamUpdateWrapper;
     }
 
     private void deleteTeam() {

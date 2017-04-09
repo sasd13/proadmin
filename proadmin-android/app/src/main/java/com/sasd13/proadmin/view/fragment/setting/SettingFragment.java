@@ -20,6 +20,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.scope.SettingScope;
+import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.TeacherForm;
 
 import java.util.Observable;
@@ -62,10 +63,7 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void buildView(View view) {
         buildFormTeacher(view);
-
-        if (scope.getTeacher() != null) {
-            bindFormWithTeacher(scope.getTeacher());
-        }
+        bindFormWithTeacher(scope.getTeacher());
     }
 
     private void buildFormTeacher(View view) {
@@ -105,21 +103,24 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void updateTeacher() {
         try {
-            controller.actionUpdateTeacher(getTeacherFromForm(), scope.getTeacher());
+            controller.actionUpdateTeacher(getTeacherUpdateWrapperFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Teacher getTeacherFromForm() throws FormException {
-        Teacher teacherFromForm = new Teacher();
+    private TeacherUpdateWrapper getTeacherUpdateWrapperFromForm() throws FormException {
+        TeacherUpdateWrapper teacherUpdateWrapper = new TeacherUpdateWrapper();
+        Teacher teacher = scope.getTeacher();
 
-        teacherFromForm.setNumber(teacherForm.getNumber());
-        teacherFromForm.setFirstName(teacherForm.getFirstName());
-        teacherFromForm.setLastName(teacherForm.getLastName());
-        teacherFromForm.setEmail(teacherForm.getEmail());
+        teacherUpdateWrapper.setNumber(teacher.getNumber());
+        teacherUpdateWrapper.setWrapped(teacher);
+        teacher.setNumber(teacherForm.getNumber());
+        teacher.setFirstName(teacherForm.getFirstName());
+        teacher.setLastName(teacherForm.getLastName());
+        teacher.setEmail(teacherForm.getEmail());
 
-        return teacherFromForm;
+        return teacherUpdateWrapper;
     }
 
     @Override

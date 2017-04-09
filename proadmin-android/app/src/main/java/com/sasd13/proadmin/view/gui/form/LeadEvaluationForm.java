@@ -57,16 +57,15 @@ public class LeadEvaluationForm extends Form {
 
     public void bindLeadEvaluation(LeadEvaluation leadEvaluation, List<Student> students) {
         if (leadEvaluation != null) {
+            bindLeader(students, leadEvaluation.getStudent());
             bindPlanningMark(MARKS, leadEvaluation.getPlanningMark());
             modelPlanningComment.setValue(leadEvaluation.getPlanningComment());
             bindCommunicationMark(MARKS, leadEvaluation.getCommunicationMark());
             modelCommunicationComment.setValue(leadEvaluation.getCommunicationComment());
-        }
-
-        if (leadEvaluation != null) {
-            bindLeader(students, leadEvaluation.getStudent());
         } else {
             bindLeader(students);
+            bindPlanningMark(MARKS);
+            bindCommunicationMark(MARKS);
         }
     }
 

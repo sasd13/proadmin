@@ -52,7 +52,7 @@ public class RunningTeamService implements IRunningTeamService {
         requests[2] = new MultiReadPromise.Request(PARAMETERS_ACADEMICLEVEL, WSResources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_ACADEMICLEVEL));
 
-        Map<String, Object> results = promise.execute(requests);
+        Map<String, Object> results = promise.execute(requests, 7000);
 
         return new ServiceResult<>(
                 promise.isSuccess(),

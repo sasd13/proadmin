@@ -1,14 +1,13 @@
 package com.sasd13.proadmin.controller.authentication;
 
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.authentication.ILogOutController;
 import com.sasd13.proadmin.controller.MainController;
+import com.sasd13.proadmin.view.fragment.authentication.ILogOutController;
 
 /**
  * Created by ssaidali2 on 05/12/2016.
  */
-public class LogOutController extends MainController implements ILogOutController, IBrowsable {
+public class LogOutController extends MainController implements ILogOutController {
 
     public LogOutController(MainActivity mainActivity) {
         super(mainActivity);

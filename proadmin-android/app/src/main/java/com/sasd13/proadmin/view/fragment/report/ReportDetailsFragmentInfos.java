@@ -23,6 +23,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.scope.ReportScope;
+import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.view.gui.form.ReportForm;
 
 import java.util.Observable;
@@ -108,22 +109,23 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateReport() {
         try {
-            controller.actionUpdateReport(getReportFromForm(), scope.getReport());
+            controller.actionUpdateReport(getReportUpdateWrapperFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Report getReportFromForm() throws FormException {
-        Report reportFromForm = new Report();
+    private ReportUpdateWrapper getReportUpdateWrapperFromForm() throws FormException {
+        ReportUpdateWrapper reportUpdateWrapper = new ReportUpdateWrapper();
+        Report report = scope.getReport();
 
-        reportFromForm.setNumber(reportForm.getNumber());
-        reportFromForm.setDateMeeting(reportForm.getDateMeeting());
-        reportFromForm.setSession(reportForm.getSession());
-        reportFromForm.setComment(reportForm.getComment());
-        reportFromForm.setRunningTeam(scope.getReport().getRunningTeam());
+        reportUpdateWrapper.setNumber(report.getNumber());
+        reportUpdateWrapper.setWrapped(report);
+        report.setDateMeeting(reportForm.getDateMeeting());
+        report.setSession(reportForm.getSession());
+        report.setComment(reportForm.getComment());
 
-        return reportFromForm;
+        return reportUpdateWrapper;
     }
 
     private void deleteReport() {
