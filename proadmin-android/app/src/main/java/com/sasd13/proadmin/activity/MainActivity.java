@@ -20,19 +20,17 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.SessionHelper;
+import com.sasd13.proadmin.view.Browser;
 import com.sasd13.proadmin.view.IBrowsable;
 import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.HomeFragment;
-import com.sasd13.proadmin.view.Browser;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class MainActivity extends DrawerActivity {
 
-    private Stack<Fragment> stack = new Stack<>();
     private IPagerHandler pagerHandler;
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
@@ -105,15 +103,10 @@ public class MainActivity extends DrawerActivity {
     public void onBackPressed() {
         if (pagerHandler == null || !pagerHandler.handleBackPress()) {
             super.onBackPressed();
-
-            if (!stack.isEmpty()) {
-                stack.pop();
-            }
         }
     }
 
     public void startFragment(Fragment fragment) {
-        stack.push(fragment);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_container_fragment, fragment)
@@ -153,9 +146,6 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void clearHistory() {
-        if (!stack.isEmpty()) {
-            stack.clear();
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 }

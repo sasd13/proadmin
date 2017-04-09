@@ -3,7 +3,6 @@ package com.sasd13.proadmin.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sasd13.androidex.gui.GUIConstants;
@@ -17,11 +16,7 @@ import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.view.IController;
 import com.sasd13.proadmin.view.fragment.authentication.LogInFragment;
 
-import java.util.Stack;
-
 public class IdentityActivity extends AppCompatActivity {
-
-    private Stack<Fragment> stack = new Stack<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,21 +33,11 @@ public class IdentityActivity extends AppCompatActivity {
                 .commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        if (!stack.isEmpty()) {
-            stack.pop();
-        }
-    }
-
     public IController lookup(Class mClass) {
         return ControllerProvider.provide(mClass, this);
     }
 
     public void startFragment(Fragment fragment) {
-        stack.push(fragment);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_container_fragment, fragment)
@@ -78,12 +63,5 @@ public class IdentityActivity extends AppCompatActivity {
         }).start(GUIConstants.TIMEOUT_ACTIVITY);
 
         waitDialog.show();
-    }
-
-    public void clearHistory() {
-        if (!stack.isEmpty()) {
-            stack.clear();
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
     }
 }

@@ -54,14 +54,17 @@ public class LogInFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (!logInForm.editTextNumber.getText().toString().trim().isEmpty()
-                        && !logInForm.editTextPassword.getText().toString().trim().isEmpty()) {
-                    String number = logInForm.editTextNumber.getText().toString().trim();
-                    String password = logInForm.editTextPassword.getText().toString().trim();
-
-                    ((ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class)).logIn(number, password);
-                }
+                logIn();
             }
         });
+    }
+
+    private void logIn() {
+        String number = logInForm.editTextNumber.getText().toString().trim();
+        String password = logInForm.editTextPassword.getText().toString().trim();
+
+        if (!number.isEmpty() && !password.isEmpty()) {
+            ((ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class)).logIn(number, password);
+        }
     }
 }
