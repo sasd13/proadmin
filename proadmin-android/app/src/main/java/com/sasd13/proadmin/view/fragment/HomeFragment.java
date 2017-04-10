@@ -11,10 +11,10 @@ import android.widget.ImageView;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
-import com.sasd13.proadmin.view.fragment.report.IReportController;
-import com.sasd13.proadmin.view.fragment.setting.ISettingController;
-import com.sasd13.proadmin.view.fragment.team.ITeamController;
+import com.sasd13.proadmin.view.IProjectController;
+import com.sasd13.proadmin.view.IReportController;
+import com.sasd13.proadmin.view.ISettingController;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.IBrowsable;
 
 /**

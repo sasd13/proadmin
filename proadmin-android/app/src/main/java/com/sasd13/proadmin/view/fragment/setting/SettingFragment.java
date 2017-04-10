@@ -21,6 +21,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.scope.SettingScope;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.view.ISettingController;
 import com.sasd13.proadmin.view.gui.form.TeacherForm;
 
 import java.util.Observable;

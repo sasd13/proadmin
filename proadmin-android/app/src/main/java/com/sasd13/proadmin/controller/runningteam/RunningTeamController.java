@@ -16,7 +16,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.builder.running.DefaultRunningTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
+import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;

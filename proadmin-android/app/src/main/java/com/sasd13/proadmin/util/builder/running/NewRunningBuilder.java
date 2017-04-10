@@ -10,15 +10,15 @@ import java.util.Calendar;
 /**
  * Created by ssaidali2 on 23/07/2016.
  */
-public class DefaultRunningBuilder implements IBuilder<Running> {
+public class NewRunningBuilder implements IBuilder<Running> {
 
     private Project project;
     private Teacher teacher;
 
-    public DefaultRunningBuilder() {
+    public NewRunningBuilder() {
     }
 
-    public DefaultRunningBuilder(Project project, String teacherNumber) {
+    public NewRunningBuilder(Project project, String teacherNumber) {
         this.project = project;
         teacher = new Teacher();
 

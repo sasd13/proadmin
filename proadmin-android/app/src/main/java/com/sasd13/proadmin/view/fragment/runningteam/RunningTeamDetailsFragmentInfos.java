@@ -30,6 +30,7 @@ import com.sasd13.proadmin.util.sorter.AcademicLevelsSorter;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
 import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
 
 import java.util.List;

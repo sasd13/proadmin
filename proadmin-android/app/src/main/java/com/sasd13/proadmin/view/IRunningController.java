@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.running;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;

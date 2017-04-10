@@ -10,7 +10,7 @@ import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.setting.ISettingController;
+import com.sasd13.proadmin.view.ISettingController;
 import com.sasd13.proadmin.view.fragment.setting.SettingFragment;
 
 public class SettingController extends MainController implements ISettingController {

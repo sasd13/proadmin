@@ -21,6 +21,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.scope.StudentScope;
+import com.sasd13.proadmin.view.IStudentController;
 import com.sasd13.proadmin.view.gui.form.StudentForm;
 
 import java.util.Observable;

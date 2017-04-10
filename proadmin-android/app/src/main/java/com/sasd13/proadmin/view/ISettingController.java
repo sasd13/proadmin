@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.setting;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.view.IBrowsable;

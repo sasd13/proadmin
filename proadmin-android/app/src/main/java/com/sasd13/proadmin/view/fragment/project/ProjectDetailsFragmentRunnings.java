@@ -22,7 +22,8 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.scope.ProjectScope;
-import com.sasd13.proadmin.view.fragment.running.IRunningController;
+import com.sasd13.proadmin.view.IProjectController;
+import com.sasd13.proadmin.view.IRunningController;
 import com.sasd13.proadmin.view.gui.tab.RunningItemModel;
 
 import java.util.List;

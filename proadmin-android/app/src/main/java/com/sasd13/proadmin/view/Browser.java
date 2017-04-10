@@ -4,12 +4,6 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.view.fragment.authentication.ILogOutController;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
-import com.sasd13.proadmin.view.fragment.report.IReportController;
-import com.sasd13.proadmin.view.fragment.runningteam.IRunningTeamController;
-import com.sasd13.proadmin.view.fragment.setting.ISettingController;
-import com.sasd13.proadmin.view.fragment.team.ITeamController;
 import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
 import com.sasd13.proadmin.view.gui.browser.EnumBrowserItemType;
 

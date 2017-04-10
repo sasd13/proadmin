@@ -6,7 +6,7 @@ import com.sasd13.proadmin.bean.member.Team;
 /**
  * Created by ssaidali2 on 23/07/2016.
  */
-public class DefaultTeamBuilder implements IBuilder<Team> {
+public class NewTeamBuilder implements IBuilder<Team> {
 
     @Override
     public Team build() {

@@ -21,6 +21,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.scope.TeamScope;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.gui.form.TeamForm;
 
 import java.util.Observable;

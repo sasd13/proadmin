@@ -25,6 +25,7 @@ import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
+import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
 
 import java.util.ArrayList;

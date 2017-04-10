@@ -8,13 +8,13 @@ import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.StudentScope;
 import com.sasd13.proadmin.service.IStudentService;
-import com.sasd13.proadmin.util.builder.member.DefaultStudentBuilder;
+import com.sasd13.proadmin.util.builder.member.NewStudentBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.student.IStudentController;
+import com.sasd13.proadmin.view.IStudentController;
 import com.sasd13.proadmin.view.fragment.student.StudentDetailsFragment;
 import com.sasd13.proadmin.view.fragment.student.StudentNewFragment;
-import com.sasd13.proadmin.view.fragment.team.ITeamController;
+import com.sasd13.proadmin.view.ITeamController;
 
 public class StudentController extends MainController implements IStudentController {
 
@@ -44,7 +44,7 @@ public class StudentController extends MainController implements IStudentControl
     private StudentTeam getStudentTeam(Team team) {
         StudentTeam studentTeam = new StudentTeam();
 
-        studentTeam.setStudent(new DefaultStudentBuilder().build());
+        studentTeam.setStudent(new NewStudentBuilder().build());
         studentTeam.setTeam(team);
 
         return studentTeam;

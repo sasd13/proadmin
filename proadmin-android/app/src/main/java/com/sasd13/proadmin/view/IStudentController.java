@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.student;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;

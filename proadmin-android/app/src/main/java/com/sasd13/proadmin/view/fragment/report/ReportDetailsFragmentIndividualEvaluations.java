@@ -24,6 +24,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.scope.ReportScope;
 import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsFormException;
 

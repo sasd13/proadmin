@@ -23,6 +23,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.gui.tab.TeamItemModel;
 
 import java.util.List;

@@ -23,7 +23,8 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.view.fragment.student.IStudentController;
+import com.sasd13.proadmin.view.IStudentController;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
 
 import java.util.List;

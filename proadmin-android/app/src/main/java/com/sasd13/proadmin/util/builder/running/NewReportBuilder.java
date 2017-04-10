@@ -9,14 +9,14 @@ import java.util.Date;
 /**
  * Created by ssaidali2 on 02/12/2016.
  */
-public class DefaultReportBuilder implements IBuilder<Report> {
+public class NewReportBuilder implements IBuilder<Report> {
 
     private RunningTeam runningTeam;
 
-    public DefaultReportBuilder() {
+    public NewReportBuilder() {
     }
 
-    public DefaultReportBuilder(RunningTeam runningTeam) {
+    public NewReportBuilder(RunningTeam runningTeam) {
         this.runningTeam = runningTeam;
     }
 

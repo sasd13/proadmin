@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.authentication;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.view.IController;
 

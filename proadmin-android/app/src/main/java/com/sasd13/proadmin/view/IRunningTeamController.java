@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.view.fragment.runningteam;
+package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;

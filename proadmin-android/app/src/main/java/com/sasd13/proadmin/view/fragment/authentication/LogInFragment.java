@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.IdentityActivity;
+import com.sasd13.proadmin.view.ILogInController;
 
 public class LogInFragment extends Fragment {
 
@@ -18,10 +19,18 @@ public class LogInFragment extends Fragment {
         EditText editTextNumber, editTextPassword;
     }
 
+    private ILogInController controller;
     private LogInForm logInForm;
 
     public static LogInFragment newInstance() {
         return new LogInFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        controller = (ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class);
     }
 
     @Override
@@ -64,7 +73,7 @@ public class LogInFragment extends Fragment {
         String password = logInForm.editTextPassword.getText().toString().trim();
 
         if (!number.isEmpty() && !password.isEmpty()) {
-            ((ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class)).logIn(number, password);
+            controller.logIn(number, password);
         }
     }
 }

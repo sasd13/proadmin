@@ -10,9 +10,9 @@ import com.sasd13.proadmin.scope.TeamScope;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.builder.member.DefaultTeamBuilder;
+import com.sasd13.proadmin.util.builder.member.NewTeamBuilder;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.team.ITeamController;
+import com.sasd13.proadmin.view.ITeamController;
 import com.sasd13.proadmin.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
@@ -81,7 +81,7 @@ public class TeamController extends MainController implements ITeamController {
 
     @Override
     public void actionNewTeam() {
-        scope.setTeam(new DefaultTeamBuilder().build());
+        scope.setTeam(new NewTeamBuilder().build());
         startFragment(TeamNewFragment.newInstance());
     }
 

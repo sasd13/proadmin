@@ -10,7 +10,7 @@ import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
+import com.sasd13.proadmin.view.IProjectController;
 import com.sasd13.proadmin.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
 

@@ -23,7 +23,8 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.scope.RunningTeamScope;
 import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.view.fragment.report.IReportController;
+import com.sasd13.proadmin.view.IReportController;
+import com.sasd13.proadmin.view.IRunningTeamController;
 import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
 
 import java.util.List;

@@ -16,7 +16,7 @@ public class DefaultRunningTeamBuilder implements IBuilder<RunningTeam> {
     private AcademicLevel academicLevel;
 
     public DefaultRunningTeamBuilder() {
-        running = new DefaultRunningBuilder().build();
+        running = new NewRunningBuilder().build();
     }
 
     public DefaultRunningTeamBuilder(Running running, Team team, AcademicLevel academicLevel) {

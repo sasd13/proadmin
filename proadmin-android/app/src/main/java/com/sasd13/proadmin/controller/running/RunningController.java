@@ -9,10 +9,10 @@ import com.sasd13.proadmin.controller.MainController;
 import com.sasd13.proadmin.scope.RunningScope;
 import com.sasd13.proadmin.service.IRunningService;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.DefaultRunningBuilder;
+import com.sasd13.proadmin.util.builder.running.NewRunningBuilder;
 import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.fragment.project.IProjectController;
-import com.sasd13.proadmin.view.fragment.running.IRunningController;
+import com.sasd13.proadmin.view.IProjectController;
+import com.sasd13.proadmin.view.IRunningController;
 import com.sasd13.proadmin.view.fragment.running.RunningDetailsFragment;
 import com.sasd13.proadmin.view.fragment.running.RunningNewFragment;
 
@@ -39,7 +39,7 @@ public class RunningController extends MainController implements IRunningControl
 
     @Override
     public void actionNewRunning(Project project) {
-        scope.setRunning(new DefaultRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
+        scope.setRunning(new NewRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
         startFragment(RunningNewFragment.newInstance());
     }
 

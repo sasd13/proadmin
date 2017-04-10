@@ -16,10 +16,10 @@ import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.SessionHelper;
-import com.sasd13.proadmin.util.builder.running.DefaultReportBuilder;
+import com.sasd13.proadmin.util.builder.running.NewReportBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
-import com.sasd13.proadmin.view.fragment.report.IReportController;
+import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
@@ -98,7 +98,7 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport() {
-        scope.setReport(new DefaultReportBuilder().build());
+        scope.setReport(new NewReportBuilder().build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams();
@@ -120,7 +120,7 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void actionNewReport(RunningTeam runningTeam) {
-        scope.setReport(new DefaultReportBuilder(runningTeam).build());
+        scope.setReport(new NewReportBuilder(runningTeam).build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams();

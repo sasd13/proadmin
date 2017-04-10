@@ -22,6 +22,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.scope.RunningScope;
+import com.sasd13.proadmin.view.IRunningController;
 import com.sasd13.proadmin.view.gui.form.RunningForm;
 
 import java.util.Observable;
