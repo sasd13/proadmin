@@ -67,10 +67,10 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
     private void buildFormReport(View view) {
         reportForm = new ReportForm(getContext(), false);
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
-        form.addDividerItemDecoration();
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, reportForm.getHolder());
+        RecyclerHelper.addAll(recycler, reportForm.getHolder());
     }
 
     private void buildFloatingActionButton(View view) {

@@ -73,10 +73,10 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
     private void buildFormTeam(View view) {
         teamForm = new TeamForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        form.addDividerItemDecoration();
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, teamForm.getHolder());
+        RecyclerHelper.addAll(recycler, teamForm.getHolder());
     }
 
     private void bindFormWithTeam(Team team) {

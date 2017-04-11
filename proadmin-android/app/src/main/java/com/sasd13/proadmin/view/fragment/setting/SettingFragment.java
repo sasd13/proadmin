@@ -70,10 +70,10 @@ public class SettingFragment extends Fragment implements Observer {
     private void buildFormTeacher(View view) {
         teacherForm = new TeacherForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        form.addDividerItemDecoration();
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, teacherForm.getHolder());
+        RecyclerHelper.addAll(recycler, teacherForm.getHolder());
     }
 
     private void bindFormWithTeacher(Teacher teacher) {

@@ -148,7 +148,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
             model = new RunningTeamItemModel(runningTeam);
             pair = new RecyclerHolderPair(model);
 
-            if (scope.getReport().getRunningTeam() != null && scope.getReport().getRunningTeam().equals(runningTeam)) {
+            if (runningTeam.equals(scope.getReport().getRunningTeam())) {
                 model.setSelected(true);
             }
 

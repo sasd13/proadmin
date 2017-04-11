@@ -81,10 +81,10 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     private void buildFormRunningTeam(View view) {
         runningTeamForm = new RunningTeamForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        form.addDividerItemDecoration();
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, runningTeamForm.getHolder());
+        RecyclerHelper.addAll(recycler, runningTeamForm.getHolder());
     }
 
     private void bindFormWithRunningTeam(RunningTeam runningTeam) {

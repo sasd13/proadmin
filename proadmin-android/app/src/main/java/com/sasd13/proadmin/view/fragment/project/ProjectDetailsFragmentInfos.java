@@ -61,10 +61,10 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
     private void buildFormProject(View view) {
         projectForm = new ProjectForm(getContext());
 
-        Recycler form = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        form.addDividerItemDecoration();
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(form, projectForm.getHolder());
+        RecyclerHelper.addAll(recycler, projectForm.getHolder());
     }
 
     private void bindFormWithProject(Project project) {
