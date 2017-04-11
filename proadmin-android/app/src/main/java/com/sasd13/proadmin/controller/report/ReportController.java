@@ -158,7 +158,7 @@ public class ReportController extends MainController implements IReportControlle
         reportDependenciesTask.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
         reportDependenciesTask.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
         reportDependenciesTask.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        reportDependenciesTask.execute();
+        new Requestor(reportDependenciesTask).execute();
     }
 
     void onRetrieved(Map<String, Object> results) {

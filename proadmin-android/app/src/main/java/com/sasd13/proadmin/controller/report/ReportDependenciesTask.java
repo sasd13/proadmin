@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.controller.report;
 
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumErrorRes;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ReportDependenciesTask {
+public class ReportDependenciesTask extends RequestorTask {
 
     private ReportController controller;
     private IReportService service;
@@ -38,21 +39,21 @@ public class ReportDependenciesTask {
         allParameters.get(code).put(key, values);
     }
 
-    public void execute() {
-        ServiceResult<Map<String, Object>> out = doInBackgroung();
+    @Override
+    public Object doInBackgroung(Object o) {
+        ServiceResult<Map<String, Object>> out = service.retrieve(allParameters);
 
-        onPostExecute(out);
+        return out;
     }
 
-    private ServiceResult<Map<String, Object>> doInBackgroung() {
-        return service.retrieve(allParameters);
-    }
+    @Override
+    public void onPostExecute(Object out) {
+        super.onPostExecute(out);
 
-    private void onPostExecute(ServiceResult<Map<String, Object>> out) {
-        if (out.isSuccess()) {
-            controller.onRetrieved(out.getResult());
+        if (((ServiceResult) out).isSuccess()) {
+            controller.onRetrieved(((ServiceResult<Map<String, Object>>) out).getResult());
         } else {
-            controller.display(EnumErrorRes.find(out.getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
         }
     }
 }

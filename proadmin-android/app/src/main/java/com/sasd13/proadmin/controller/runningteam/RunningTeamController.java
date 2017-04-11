@@ -107,7 +107,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         runningTeamDependenciesTask.resetParameters();
         runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
-        runningTeamDependenciesTask.execute();
+        new Requestor(runningTeamDependenciesTask).execute();
     }
 
     void onRetrieved(Map<String, Object> results) {
