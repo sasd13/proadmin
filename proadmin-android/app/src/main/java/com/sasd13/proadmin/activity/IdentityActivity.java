@@ -23,10 +23,10 @@ public class IdentityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.layout_container);
-        showAuthentication();
+        startLogInFragment();
     }
 
-    private void showAuthentication() {
+    private void startLogInFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_container_fragment, LogInFragment.newInstance())

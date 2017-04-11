@@ -42,10 +42,10 @@ public class MainActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.layout_container);
-        showHome();
+        startHomeFragment();
     }
 
-    private void showHome() {
+    private void startHomeFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_container_fragment, HomeFragment.newInstance())
