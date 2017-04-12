@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.widget.recycler.EnumRecyclerType;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
@@ -79,7 +79,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
 
-        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
     }
 

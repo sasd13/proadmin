@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sasd13.androidex.gui.form.FormException;
+import com.sasd13.androidex.gui.widget.recycler.EnumRecyclerType;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
@@ -67,7 +67,7 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
     private void buildFormReport(View view) {
         reportForm = new ReportForm(getContext(), false);
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, reportForm.getHolder());

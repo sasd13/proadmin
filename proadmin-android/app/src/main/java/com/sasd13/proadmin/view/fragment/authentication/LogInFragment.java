@@ -58,7 +58,6 @@ public class LogInFragment extends Fragment {
 
     private void buildButtonConnect(View view) {
         Button button = (Button) view.findViewById(R.id.login_button_connect);
-        assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -74,6 +73,8 @@ public class LogInFragment extends Fragment {
 
         if (!username.isEmpty() && !password.isEmpty()) {
             controller.logIn(username, password);
+        } else {
+            controller.display(R.string.error_no_logins);
         }
     }
 }

@@ -11,11 +11,11 @@ import android.widget.ProgressBar;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
+import com.sasd13.androidex.gui.widget.recycler.EnumRecyclerType;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.gui.widget.recycler.tab.EnumTabType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
@@ -72,7 +72,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     }
 
     private void buildTabProjects(View view) {
-        recycler = RecyclerFactory.makeBuilder(EnumTabType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         recycler.addDividerItemDecoration();
     }
 

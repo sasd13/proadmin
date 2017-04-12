@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sasd13.androidex.gui.widget.recycler.EnumRecyclerType;
 import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
-import com.sasd13.androidex.gui.widget.recycler.form.EnumFormType;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.R;
@@ -61,7 +61,7 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
     private void buildFormProject(View view) {
         projectForm = new ProjectForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumFormType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, projectForm.getHolder());
