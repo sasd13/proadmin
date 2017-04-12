@@ -22,7 +22,7 @@ import com.sasd13.proadmin.activity.MainActivity;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.scope.ReportScope;
-import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
+import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.gui.form.LeadEvaluationForm;
@@ -81,7 +81,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     }
 
     private void bindFormWithLeadEvaluation(LeadEvaluation leadEvaluation, List<StudentTeam> studentTeams) {
-        leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamBuilder(studentTeams).build());
+        leadEvaluationForm.bindLeadEvaluation(leadEvaluation, new StudentsFromStudentTeamsBuilder(studentTeams).build());
     }
 
     @Override

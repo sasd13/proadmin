@@ -37,7 +37,7 @@ public class TeacherReadTask extends ReadRequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onReadTeacher(((ServiceResult<List<Teacher>>) out).getResult().get(0));
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

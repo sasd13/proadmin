@@ -19,8 +19,8 @@ public abstract class Controller implements IController {
     }
 
     @Override
-    public void display(@StringRes int messageId) {
-        Snackbar.make(contentView, messageId, Snackbar.LENGTH_SHORT).show();
+    public void display(@StringRes int resID) {
+        Snackbar.make(contentView, resID, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

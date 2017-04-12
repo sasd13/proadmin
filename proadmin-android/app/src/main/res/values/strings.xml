@@ -6,7 +6,7 @@
     <string name="activity_login">Log in</string>
 
     <!-- Activity Log In -->
-    <string name="login_hint_number">number</string>
+    <string name="login_hint_username">username</string>
     <string name="login_button_connect">Connect</string>
 
     <!-- Application -->

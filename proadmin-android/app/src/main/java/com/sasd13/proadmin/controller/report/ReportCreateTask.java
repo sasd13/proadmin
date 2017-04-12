@@ -35,7 +35,7 @@ public class ReportCreateTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onCreateReport();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

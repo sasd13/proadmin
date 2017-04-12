@@ -35,7 +35,7 @@ public class TeamUpdateTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onUpdateTeam();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

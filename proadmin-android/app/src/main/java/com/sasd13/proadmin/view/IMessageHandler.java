@@ -8,7 +8,7 @@ import android.support.annotation.StringRes;
 
 public interface IMessageHandler {
 
-    void display(@StringRes int messageId);
+    void display(@StringRes int resID);
 
     void display(String message);
 }

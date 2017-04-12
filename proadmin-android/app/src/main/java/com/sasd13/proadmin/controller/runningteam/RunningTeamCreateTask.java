@@ -35,7 +35,7 @@ public class RunningTeamCreateTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onCreateRunningTeam();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

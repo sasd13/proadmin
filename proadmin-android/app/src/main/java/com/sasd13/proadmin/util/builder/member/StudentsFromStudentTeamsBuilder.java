@@ -11,11 +11,11 @@ import java.util.List;
  * Created by ssaidali2 on 22/11/2016.
  */
 
-public class StudentsFromStudentTeamBuilder implements IBuilder<List<Student>> {
+public class StudentsFromStudentTeamsBuilder implements IBuilder<List<Student>> {
 
     private List<StudentTeam> studentTeams;
 
-    public StudentsFromStudentTeamBuilder(List<StudentTeam> studentTeams) {
+    public StudentsFromStudentTeamsBuilder(List<StudentTeam> studentTeams) {
         this.studentTeams = studentTeams;
     }
 

@@ -132,6 +132,8 @@ public class MainActivity extends DrawerActivity {
         final WaitDialog waitDialog = new WaitDialog(this);
         final Intent intent = new Intent(this, IdentityActivity.class);
 
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {

@@ -15,7 +15,7 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Finder;
 import com.sasd13.proadmin.util.builder.AcademicLevelsCodesBuilder;
 import com.sasd13.proadmin.util.builder.member.TeamsNumbersBuilder;
-import com.sasd13.proadmin.util.builder.running.RunningsProjectsCodesBuilder;
+import com.sasd13.proadmin.util.builder.running.ProjectsCodesFromRunningsBuilder;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class RunningTeamForm extends Form {
 
     public void bindRunnings(List<Running> runningsToBind) {
         runnings = runningsToBind;
-        List<String> projectsCodes = new RunningsProjectsCodesBuilder(runnings).build();
+        List<String> projectsCodes = new ProjectsCodesFromRunningsBuilder(runnings).build();
 
         modelRunning.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
     }

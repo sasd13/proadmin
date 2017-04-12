@@ -22,7 +22,7 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.scope.ReportScope;
-import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamBuilder;
+import com.sasd13.proadmin.util.builder.member.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.view.IReportController;
 import com.sasd13.proadmin.view.gui.form.IndividualEvaluationsForm;
@@ -84,7 +84,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     }
 
     private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
-        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamBuilder(studentTeams).build());
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamsBuilder(studentTeams).build());
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 

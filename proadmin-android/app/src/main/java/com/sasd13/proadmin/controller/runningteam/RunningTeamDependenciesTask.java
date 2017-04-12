@@ -53,7 +53,7 @@ public class RunningTeamDependenciesTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onRetrieved(((ServiceResult<Map<String, Object>>) out).getResult());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 }

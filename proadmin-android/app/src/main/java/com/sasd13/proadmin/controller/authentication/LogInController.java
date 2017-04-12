@@ -66,6 +66,6 @@ public class LogInController extends IdentityController implements ILogInControl
 
     void onFail(int code) {
         waitDialog.dismiss();
-        display(EnumErrorRes.find(code).getStringRes());
+        display(EnumErrorRes.find(code).getResID());
     }
 }

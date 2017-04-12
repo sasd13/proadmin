@@ -51,10 +51,10 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/login_edittext_number"
+                android:id="@+id/login_edittext_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_hint_number"
+                android:hint="@string/login_hint_username"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"

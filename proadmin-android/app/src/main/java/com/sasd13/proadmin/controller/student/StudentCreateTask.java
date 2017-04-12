@@ -62,7 +62,7 @@ public class StudentCreateTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onCreateStudent();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

@@ -37,7 +37,7 @@ public class StudentReadTask extends ReadRequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onReadStudentTeams(((ServiceResult<List<StudentTeam>>) out).getResult());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

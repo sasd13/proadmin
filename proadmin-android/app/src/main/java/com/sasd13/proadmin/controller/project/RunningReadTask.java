@@ -37,7 +37,7 @@ public class RunningReadTask extends ReadRequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onReadRunnings(((ServiceResult<List<Running>>) out).getResult());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

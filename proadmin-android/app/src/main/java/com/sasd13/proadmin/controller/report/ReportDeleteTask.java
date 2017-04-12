@@ -37,7 +37,7 @@ public class ReportDeleteTask extends RequestorTask {
         if (((ServiceResult) out).isSuccess()) {
             controller.onDeleteReport();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getStringRes());
+            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
         }
     }
 

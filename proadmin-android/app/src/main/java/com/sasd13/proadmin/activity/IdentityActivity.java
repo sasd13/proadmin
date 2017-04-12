@@ -46,8 +46,6 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     public void goToMainActivity(final Teacher teacher) {
-        SessionHelper.setExtraId(this, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
-
         final WaitDialog waitDialog = new WaitDialog(this);
         final Intent intent = new Intent(this, MainActivity.class);
 
@@ -56,6 +54,7 @@ public class IdentityActivity extends AppCompatActivity {
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
+                SessionHelper.setExtraId(IdentityActivity.this, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();

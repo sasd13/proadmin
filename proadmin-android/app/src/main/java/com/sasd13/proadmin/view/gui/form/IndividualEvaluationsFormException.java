@@ -13,12 +13,12 @@ public class IndividualEvaluationsFormException extends FormException {
 
     private String additionalInfo;
 
-    public IndividualEvaluationsFormException(Context context, @StringRes int resMessage) {
-        super(context, resMessage);
+    public IndividualEvaluationsFormException(Context context, @StringRes int resID) {
+        super(context, resID);
     }
 
-    public IndividualEvaluationsFormException(Context context, @StringRes int resMessage, String additionalInfo) {
-        super(context, resMessage);
+    public IndividualEvaluationsFormException(Context context, @StringRes int resID, String additionalInfo) {
+        super(context, resID);
 
         this.additionalInfo = additionalInfo;
     }

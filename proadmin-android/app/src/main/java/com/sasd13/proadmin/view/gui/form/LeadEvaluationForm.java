@@ -13,7 +13,7 @@ import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.Finder;
-import com.sasd13.proadmin.util.builder.member.StudentsNumberBuilder;
+import com.sasd13.proadmin.util.builder.member.StudentsNumbersBuilder;
 
 import java.util.List;
 
@@ -101,7 +101,7 @@ public class LeadEvaluationForm extends Form {
 
     private void bindLeader(List<Student> studentsToBind) {
         students = studentsToBind;
-        List<String> studentsNumbersWithName = new StudentsNumberBuilder(students).buildWithName();
+        List<String> studentsNumbersWithName = new StudentsNumbersBuilder(students).buildWithName();
 
         modelLeader.setItems(studentsNumbersWithName.toArray(new String[studentsNumbersWithName.size()]));
     }

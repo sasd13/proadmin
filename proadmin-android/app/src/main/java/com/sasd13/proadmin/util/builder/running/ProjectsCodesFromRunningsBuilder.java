@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 15/08/2016.
  */
-public class RunningsProjectsCodesBuilder implements IBuilder<List<String>> {
+public class ProjectsCodesFromRunningsBuilder implements IBuilder<List<String>> {
 
     private List<Running> runnings;
 
-    public RunningsProjectsCodesBuilder(List<Running> runnings) {
+    public ProjectsCodesFromRunningsBuilder(List<Running> runnings) {
         this.runnings = runnings;
     }
 

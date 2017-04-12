@@ -10,11 +10,11 @@ import java.util.List;
  * Created by ssaidali2 on 13/11/2016.
  */
 
-public class StudentsNumberBuilder implements IBuilder<List<String>> {
+public class StudentsNumbersBuilder implements IBuilder<List<String>> {
 
     private List<Student> students;
 
-    public StudentsNumberBuilder(List<Student> students) {
+    public StudentsNumbersBuilder(List<Student> students) {
         this.students = students;
     }
 

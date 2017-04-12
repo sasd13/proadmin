@@ -16,7 +16,7 @@ import com.sasd13.proadmin.view.ILogInController;
 public class LogInFragment extends Fragment {
 
     private static class LogInForm {
-        EditText editTextNumber, editTextPassword;
+        EditText editTextUsername, editTextPassword;
     }
 
     private ILogInController controller;
@@ -50,7 +50,7 @@ public class LogInFragment extends Fragment {
 
     private void buildFormLogIn(View view) {
         logInForm = new LogInForm();
-        logInForm.editTextNumber = (EditText) view.findViewById(R.id.login_edittext_number);
+        logInForm.editTextUsername = (EditText) view.findViewById(R.id.login_edittext_username);
         logInForm.editTextPassword = (EditText) view.findViewById(R.id.login_edittext_password);
 
         buildButtonConnect(view);
@@ -69,11 +69,11 @@ public class LogInFragment extends Fragment {
     }
 
     private void logIn() {
-        String number = logInForm.editTextNumber.getText().toString().trim();
+        String username = logInForm.editTextUsername.getText().toString().trim();
         String password = logInForm.editTextPassword.getText().toString().trim();
 
-        if (!number.isEmpty() && !password.isEmpty()) {
-            controller.logIn(number, password);
+        if (!username.isEmpty() && !password.isEmpty()) {
+            controller.logIn(username, password);
         }
     }
 }

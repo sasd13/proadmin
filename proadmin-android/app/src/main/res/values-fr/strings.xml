@@ -6,7 +6,7 @@
     <string name="activity_login">Connexion</string>
 
     <!-- Activity Log In -->
-    <string name="login_hint_number">matricule</string>
+    <string name="login_hint_username">identifiant</string>
     <string name="login_button_connect">Connexion</string>
 
     <!-- Application -->

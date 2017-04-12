@@ -24,19 +24,19 @@ public enum EnumErrorRes {
     private EnumError error;
 
     @StringRes
-    private int stringRes;
+    private int resID;
 
-    private EnumErrorRes(EnumError error, @StringRes int stringRes) {
+    private EnumErrorRes(EnumError error, @StringRes int resID) {
         this.error = error;
-        this.stringRes = stringRes;
+        this.resID = resID;
     }
 
     public EnumError getError() {
         return error;
     }
 
-    public int getStringRes() {
-        return stringRes;
+    public int getResID() {
+        return resID;
     }
 
     public static EnumErrorRes find(EnumError error) {
