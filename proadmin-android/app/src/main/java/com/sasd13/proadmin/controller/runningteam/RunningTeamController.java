@@ -83,7 +83,10 @@ public class RunningTeamController extends MainController implements IRunningTea
         }
 
         scope.setRunningTeamsToAdd(runningTeams);
-        scope.setRunningTeamsToAdd(Collections.<RunningTeam>emptyList());
+
+        if (!runningTeams.isEmpty()) {
+            scope.setRunningTeamsToAdd(Collections.<RunningTeam>emptyList());
+        }
     }
 
     @Override

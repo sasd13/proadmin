@@ -76,7 +76,10 @@ public class TeamController extends MainController implements ITeamController {
         }
 
         scope.setTeamsToAdd(teams);
-        scope.setTeamsToAdd(Collections.<Team>emptyList());
+
+        if (!teams.isEmpty()) {
+            scope.setTeamsToAdd(Collections.<Team>emptyList());
+        }
     }
 
     @Override

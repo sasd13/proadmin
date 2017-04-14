@@ -68,7 +68,10 @@ public class ProjectController extends MainController implements IProjectControl
         }
 
         scope.setProjectsToAdd(projects);
-        scope.setProjectsToAdd(Collections.<Project>emptyList());
+
+        if (!projects.isEmpty()) {
+            scope.setProjectsToAdd(Collections.<Project>emptyList());
+        }
     }
 
     @Override

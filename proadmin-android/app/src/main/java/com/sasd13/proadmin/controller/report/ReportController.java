@@ -93,7 +93,10 @@ public class ReportController extends MainController implements IReportControlle
         }
 
         scope.setReportsToAdd(reports);
-        scope.setReportsToAdd(Collections.<Report>emptyList());
+
+        if (!reports.isEmpty()) {
+            scope.setReportsToAdd(Collections.<Report>emptyList());
+        }
     }
 
     @Override
