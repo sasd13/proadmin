@@ -2,8 +2,6 @@ package com.sasd13.proadmin.view;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.IController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

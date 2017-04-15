@@ -86,7 +86,7 @@ public class SettingFragment extends Fragment implements Observer {
 
         this.menu = menu;
 
-        inflater.inflate(R.menu.menu_settings, menu);
+        inflater.inflate(R.menu.menu_setting, menu);
     }
 
     @Override
