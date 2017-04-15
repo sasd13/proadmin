@@ -20,6 +20,7 @@ import com.sasd13.proadmin.view.fragment.team.TeamsFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class TeamController extends MainController implements ITeamController {
@@ -50,12 +51,18 @@ public class TeamController extends MainController implements ITeamController {
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        scope.setTeams(new ArrayList<Team>());
         startFragment(TeamsFragment.newInstance());
+        actionLoadTeams();
+    }
+
+    @Override
+    public void actionLoadTeams() {
         readTeams();
     }
 
     private void readTeams() {
+        scope.setLoading(true);
+
         if (teamReadTask == null) {
             teamReadTask = new TeamReadTask(this, teamService);
         }
@@ -65,10 +72,13 @@ public class TeamController extends MainController implements ITeamController {
 
     void onReadTeams(List<Team> teams) {
         int index;
+        Team team;
 
-        for (Team team : teams) {
+        for (Iterator<Team> it = teams.iterator(); it.hasNext(); ) {
+            team = it.next();
+
             if ((index = scope.getTeams().indexOf(team)) >= 0) {
-                teams.remove(team);
+                it.remove();
                 scope.getTeams().set(index, team);
             } else {
                 scope.getTeams().add(team);
@@ -80,6 +90,8 @@ public class TeamController extends MainController implements ITeamController {
         if (!teams.isEmpty()) {
             scope.setTeamsToAdd(Collections.<Team>emptyList());
         }
+
+        scope.setLoading(false);
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.sasd13.proadmin.view.fragment.report.ReportsFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -65,12 +66,18 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        scope.setReports(new ArrayList<Report>());
         startFragment(ReportsFragment.newInstance());
+        actionLoadReports();
+    }
+
+    @Override
+    public void actionLoadReports() {
         readReports();
     }
 
     private void readReports() {
+        scope.setLoading(true);
+
         if (reportReadTask == null) {
             reportReadTask = new ReportReadTask(this, reportService);
         }
@@ -82,10 +89,13 @@ public class ReportController extends MainController implements IReportControlle
 
     void onReadReports(List<Report> reports) {
         int index;
+        Report report;
 
-        for (Report report : reports) {
+        for (Iterator<Report> it = reports.iterator(); it.hasNext(); ) {
+            report = it.next();
+
             if ((index = scope.getReports().indexOf(report)) >= 0) {
-                reports.remove(report);
+                it.remove();
                 scope.getReports().set(index, report);
             } else {
                 scope.getReports().add(report);
@@ -97,6 +107,8 @@ public class ReportController extends MainController implements IReportControlle
         if (!reports.isEmpty()) {
             scope.setReportsToAdd(Collections.<Report>emptyList());
         }
+
+        scope.setLoading(false);
     }
 
     @Override

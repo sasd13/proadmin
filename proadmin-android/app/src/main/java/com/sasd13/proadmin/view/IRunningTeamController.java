@@ -9,6 +9,8 @@ import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 public interface IRunningTeamController extends IController, IBrowsable {
 
+    void actionLoadRunningTeams();
+
     void actionNewRunningTeam();
 
     void actionCreateRunningTeam(RunningTeam runningTeam);

@@ -3,6 +3,8 @@ package com.sasd13.proadmin.scope;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
@@ -12,10 +14,27 @@ import java.util.Observable;
 
 public class ProjectScope extends Observable {
 
+    private boolean loading;
     private List<Project> projects, projectsToAdd;
     private Project project;
     private List<Running> runnings;
     private Running running;
+
+    public ProjectScope() {
+        this.projects = new ArrayList<>();
+        this.projectsToAdd = Collections.emptyList();
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+
+        setChanged();
+        notifyObservers();
+    }
 
     public List<Project> getProjects() {
         return projects;

@@ -169,15 +169,15 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return "rt.running.year";
+			return "rt.running.year" + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return "rt.running.project.code";
+			return "rt.running.project.code" + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return "rt.running.teacher.number";
+			return "rt.running.teacher.number" + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return "rt.team.number";
+			return "rt.team.number" + " = ?";
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return "rt.academicLevel.code";
+			return "rt.academicLevel.code" + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

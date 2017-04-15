@@ -24,7 +24,7 @@ public class StudentUpdateTask extends RequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object in) {
+    public Object execute(Object in) {
         return service.update((StudentUpdateWrapper) in);
     }
 

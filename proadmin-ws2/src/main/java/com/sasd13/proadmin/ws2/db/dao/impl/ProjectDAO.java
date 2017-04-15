@@ -114,7 +114,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
-			return "p.code";
+			return "p.code" + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -26,7 +26,7 @@ public class TeamDeleteTask extends RequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object in) {
+    public Object execute(Object in) {
         return service.delete((List<Team>) in);
     }
 

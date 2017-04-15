@@ -35,7 +35,7 @@ public class LogInTask extends ReadRequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object in) {
+    public Object execute(Object in) {
         ServiceResult result = authenticationService.logIn((Map<String, String>) in);
 
         if (result.isSuccess()) {

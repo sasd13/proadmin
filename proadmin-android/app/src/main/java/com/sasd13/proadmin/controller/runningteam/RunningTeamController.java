@@ -24,6 +24,7 @@ import com.sasd13.proadmin.view.fragment.runningteam.RunningTeamsFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,12 +56,18 @@ public class RunningTeamController extends MainController implements IRunningTea
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(RunningTeamsFragment.newInstance());
+        actionLoadRunningTeams();
+    }
+
+    @Override
+    public void actionLoadRunningTeams() {
         readRunningTeams();
     }
 
     private void readRunningTeams() {
+        scope.setLoading(true);
+
         if (runningTeamReadTask == null) {
             runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
         }
@@ -72,10 +79,13 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
         int index;
+        RunningTeam runningTeam;
 
-        for (RunningTeam runningTeam : runningTeams) {
+        for (Iterator<RunningTeam> it = runningTeams.iterator(); it.hasNext(); ) {
+            runningTeam = it.next();
+
             if ((index = scope.getRunningTeams().indexOf(runningTeam)) >= 0) {
-                runningTeams.remove(runningTeam);
+                it.remove();
                 scope.getRunningTeams().set(index, runningTeam);
             } else {
                 scope.getRunningTeams().add(runningTeam);
@@ -87,6 +97,8 @@ public class RunningTeamController extends MainController implements IRunningTea
         if (!runningTeams.isEmpty()) {
             scope.setRunningTeamsToAdd(Collections.<RunningTeam>emptyList());
         }
+
+        scope.setLoading(false);
     }
 
     @Override

@@ -10,6 +10,8 @@ import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 
 public interface ITeamController extends IController, IBrowsable {
 
+    void actionLoadTeams();
+
     void actionNewTeam();
 
     void actionCreateTeam(Team team);

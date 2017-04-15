@@ -15,6 +15,8 @@ import java.util.Map;
 
 public interface IReportController extends IController, IBrowsable {
 
+    void actionLoadReports();
+
     void actionNewReport();
 
     void actionNewReport(RunningTeam runningTeam);

@@ -121,9 +121,9 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return "st.student.number";
+			return "st.student.number" + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return "st.team.number";
+			return "st.team.number" + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

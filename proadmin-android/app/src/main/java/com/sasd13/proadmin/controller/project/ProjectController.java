@@ -16,6 +16,7 @@ import com.sasd13.proadmin.view.fragment.project.ProjectsFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProjectController extends MainController implements IProjectController {
@@ -42,12 +43,18 @@ public class ProjectController extends MainController implements IProjectControl
     @Override
     public void browse() {
         mainActivity.clearHistory();
-        scope.setProjects(new ArrayList<Project>());
         startFragment(ProjectsFragment.newInstance());
+        actionLoadProjects();
+    }
+
+    @Override
+    public void actionLoadProjects() {
         readProjects();
     }
 
     private void readProjects() {
+        scope.setLoading(true);
+
         if (projectReadTask == null) {
             projectReadTask = new ProjectReadTask(this, projectService);
         }
@@ -57,10 +64,13 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadProjects(List<Project> projects) {
         int index;
+        Project project;
 
-        for (Project project : projects) {
+        for (Iterator<Project> it = projects.iterator(); it.hasNext(); ) {
+            project = it.next();
+
             if ((index = scope.getProjects().indexOf(project)) >= 0) {
-                projects.remove(project);
+                it.remove();
                 scope.getProjects().set(index, project);
             } else {
                 scope.getProjects().add(project);
@@ -72,6 +82,8 @@ public class ProjectController extends MainController implements IProjectControl
         if (!projects.isEmpty()) {
             scope.setProjectsToAdd(Collections.<Project>emptyList());
         }
+
+        scope.setLoading(false);
     }
 
     @Override

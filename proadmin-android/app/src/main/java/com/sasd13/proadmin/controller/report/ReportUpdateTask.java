@@ -24,7 +24,7 @@ public class ReportUpdateTask extends RequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object in) {
+    public Object execute(Object in) {
         return service.update((ReportUpdateWrapper) in);
     }
 

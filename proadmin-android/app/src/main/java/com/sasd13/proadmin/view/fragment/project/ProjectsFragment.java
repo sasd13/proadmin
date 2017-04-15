@@ -3,11 +3,11 @@ package com.sasd13.proadmin.view.fragment.project;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
@@ -37,7 +37,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     private IProjectController controller;
     private ProjectScope scope;
     private Recycler recycler;
-    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -67,7 +67,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabProjects(view);
-        buildProgressBar(view);
+        buildSwipeRefreshLayout(view);
         bindTabWithProjects(scope.getProjects());
     }
 
@@ -76,8 +76,15 @@ public class ProjectsFragment extends Fragment implements Observer {
         recycler.addDividerItemDecoration();
     }
 
-    private void buildProgressBar(View view) {
-        progressBar = (ProgressBar) view.findViewById(R.id.layout_rv_w_srl_progressbar);
+    private void buildSwipeRefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                controller.actionLoadProjects();
+            }
+        });
     }
 
     private void bindTabWithProjects(List<Project> projects) {
@@ -113,17 +120,19 @@ public class ProjectsFragment extends Fragment implements Observer {
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(null);
     }
 
-    private void setProgressBarVisible(boolean visible) {
-        if (visible) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
+    @Override
+    public void update(Observable observable, Object o) {
+        swipeRefreshLayout.setRefreshing(scope.isLoading());
+        bindTabWithProjects(scope.getProjectsToAdd());
     }
 
     @Override
-    public void update(Observable observable, Object o) {
-        bindTabWithProjects(scope.getProjectsToAdd());
+    public void onPause() {
+        super.onPause();
+
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.destroyDrawingCache();
+        swipeRefreshLayout.clearAnimation();
     }
 
     @Override

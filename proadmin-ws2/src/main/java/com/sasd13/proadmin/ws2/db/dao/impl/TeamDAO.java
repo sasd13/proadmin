@@ -111,7 +111,7 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return "t.number";
+			return "t.number" + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

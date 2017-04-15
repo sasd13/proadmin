@@ -40,7 +40,7 @@ public class ReportDependenciesTask extends RequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object o) {
+    public Object execute(Object o) {
         ServiceResult<Map<String, Object>> out = service.retrieve(allParameters);
 
         return out;

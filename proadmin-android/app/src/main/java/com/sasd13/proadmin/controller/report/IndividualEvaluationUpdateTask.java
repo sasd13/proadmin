@@ -28,7 +28,7 @@ public class IndividualEvaluationUpdateTask extends RequestorTask {
     }
 
     @Override
-    public Object doInBackgroung(Object in) {
+    public Object execute(Object in) {
         ServiceResult result = ServiceResult.NULL;
 
         Map<Class, List> allIndividualEvaluations = ((Map<Class, List>) in);

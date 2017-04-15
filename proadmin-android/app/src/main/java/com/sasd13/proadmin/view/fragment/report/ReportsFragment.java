@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class ReportsFragment extends Fragment implements Observer {
     private IReportController controller;
     private ReportScope scope;
     private Recycler recycler;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
@@ -54,7 +56,7 @@ public class ReportsFragment extends Fragment implements Observer {
 
         scope.addObserver(this);
 
-        View view = inflater.inflate(R.layout.layout_rv_w_fab, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
 
@@ -64,17 +66,29 @@ public class ReportsFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildTabReports(view);
+        buildSwipeRefreshLayout(view);
         buildFloatingActionButton(view);
         bindTabWithReports(scope.getReports());
     }
 
     private void buildTabReports(View view) {
-        recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
+        recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.TAB).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_fab_recyclerview));
         recycler.addDividerItemDecoration();
     }
 
+    private void buildSwipeRefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_fab_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                controller.actionLoadReports();
+            }
+        });
+    }
+
     private void buildFloatingActionButton(View view) {
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_fab_floatingactionbutton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.layout_rv_w_srl_fab_floatingactionbutton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +132,17 @@ public class ReportsFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
+        swipeRefreshLayout.setRefreshing(scope.isLoading());
         bindTabWithReports(scope.getReportsToAdd());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.destroyDrawingCache();
+        swipeRefreshLayout.clearAnimation();
     }
 
     @Override
