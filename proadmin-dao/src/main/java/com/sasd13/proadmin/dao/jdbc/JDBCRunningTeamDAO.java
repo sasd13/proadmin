@@ -135,15 +135,15 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_YEAR;
+			return IRunningTeamDAO.COLUMN_YEAR + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_PROJECT;
+			return IRunningTeamDAO.COLUMN_PROJECT + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_TEACHER;
+			return IRunningTeamDAO.COLUMN_TEACHER + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_TEAM;
+			return IRunningTeamDAO.COLUMN_TEAM + " = ?";
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IRunningTeamDAO.COLUMN_ACADEMICLEVEL;
+			return IRunningTeamDAO.COLUMN_ACADEMICLEVEL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -111,13 +111,13 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_CODE;
+			return IStudentDAO.COLUMN_CODE + " = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_FIRSTNAME;
+			return IStudentDAO.COLUMN_FIRSTNAME + " = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_LASTNAME;
+			return IStudentDAO.COLUMN_LASTNAME + " = ?";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return IStudentDAO.COLUMN_EMAIL;
+			return IStudentDAO.COLUMN_EMAIL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

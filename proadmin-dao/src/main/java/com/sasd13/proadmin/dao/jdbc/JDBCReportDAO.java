@@ -141,19 +141,19 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_CODE;
+			return IReportDAO.COLUMN_CODE + " = ?";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_SESSION;
+			return IReportDAO.COLUMN_SESSION + " = ?";
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_YEAR;
+			return IReportDAO.COLUMN_YEAR + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_PROJECT;
+			return IReportDAO.COLUMN_PROJECT + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEACHER;
+			return IReportDAO.COLUMN_TEACHER + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEAM;
+			return IReportDAO.COLUMN_TEAM + " = ?";
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_ACADEMICLEVEL;
+			return IReportDAO.COLUMN_ACADEMICLEVEL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

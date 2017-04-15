@@ -115,9 +115,9 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT;
+			return IIndividualEvaluationDAO.COLUMN_REPORT + " = ?";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT;
+			return IIndividualEvaluationDAO.COLUMN_STUDENT + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

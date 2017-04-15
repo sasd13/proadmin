@@ -139,9 +139,9 @@ public class JDBCCredentialDAO extends JDBCSession<Credential> implements ICrede
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (USERNAME.equalsIgnoreCase(key)) {
-			return ICredentialDAO.COLUMN_USERNAME;
+			return ICredentialDAO.COLUMN_USERNAME + " = ?";
 		} else if (PASSWORD.equalsIgnoreCase(key)) {
-			return ICredentialDAO.COLUMN_PASSWORD;
+			return ICredentialDAO.COLUMN_PASSWORD + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

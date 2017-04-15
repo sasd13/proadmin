@@ -118,11 +118,11 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_YEAR;
+			return IRunningDAO.COLUMN_YEAR + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT;
+			return IRunningDAO.COLUMN_PROJECT + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER;
+			return IRunningDAO.COLUMN_TEACHER + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

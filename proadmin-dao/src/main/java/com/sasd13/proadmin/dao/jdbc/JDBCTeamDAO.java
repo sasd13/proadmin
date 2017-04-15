@@ -102,7 +102,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return ITeamDAO.COLUMN_CODE;
+			return ITeamDAO.COLUMN_CODE + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

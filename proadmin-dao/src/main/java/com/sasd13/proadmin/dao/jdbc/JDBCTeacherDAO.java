@@ -111,13 +111,13 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_CODE;
+			return ITeacherDAO.COLUMN_CODE + " = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_FIRSTNAME;
+			return ITeacherDAO.COLUMN_FIRSTNAME + " = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_LASTNAME;
+			return ITeacherDAO.COLUMN_LASTNAME + " = ?";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_EMAIL;
+			return ITeacherDAO.COLUMN_EMAIL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

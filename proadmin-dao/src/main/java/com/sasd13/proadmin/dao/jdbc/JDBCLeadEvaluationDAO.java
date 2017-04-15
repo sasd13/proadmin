@@ -125,9 +125,9 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT;
+			return ILeadEvaluationDAO.COLUMN_REPORT + " = ?";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT;
+			return ILeadEvaluationDAO.COLUMN_STUDENT + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
