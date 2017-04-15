@@ -31,6 +31,7 @@ import java.util.List;
 
 public class MainActivity extends DrawerActivity {
 
+    private ControllerProvider controllerProvider;
     private IPagerHandler pagerHandler;
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
@@ -40,6 +41,8 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        controllerProvider = new ControllerProvider();
 
         setContentView(R.layout.layout_container);
         startHomeFragment();
@@ -90,7 +93,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class mClass) {
-        return ControllerProvider.provide(mClass, this);
+        return controllerProvider.provide(mClass, this);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {

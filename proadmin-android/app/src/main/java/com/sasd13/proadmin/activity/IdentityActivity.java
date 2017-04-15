@@ -18,9 +18,13 @@ import com.sasd13.proadmin.view.fragment.authentication.LogInFragment;
 
 public class IdentityActivity extends AppCompatActivity {
 
+    private ControllerProvider controllerProvider;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        controllerProvider = new ControllerProvider();
 
         setContentView(R.layout.layout_container);
         startLogInFragment();
@@ -34,7 +38,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     public IController lookup(Class mClass) {
-        return ControllerProvider.provide(mClass, this);
+        return controllerProvider.provide(mClass, this);
     }
 
     public void startFragment(Fragment fragment) {

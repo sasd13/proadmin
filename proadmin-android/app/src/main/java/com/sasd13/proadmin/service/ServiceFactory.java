@@ -1,15 +1,5 @@
-package com.sasd13.proadmin.provider;
+package com.sasd13.proadmin.service;
 
-import com.sasd13.proadmin.service.IAuthenticationService;
-import com.sasd13.proadmin.service.IIndividualEvaluationService;
-import com.sasd13.proadmin.service.ILeadEvaluationService;
-import com.sasd13.proadmin.service.IProjectService;
-import com.sasd13.proadmin.service.IReportService;
-import com.sasd13.proadmin.service.IRunningService;
-import com.sasd13.proadmin.service.IRunningTeamService;
-import com.sasd13.proadmin.service.IStudentService;
-import com.sasd13.proadmin.service.ITeacherService;
-import com.sasd13.proadmin.service.ITeamService;
 import com.sasd13.proadmin.service.impl.AuthenticationService;
 import com.sasd13.proadmin.service.impl.IndividualEvaluationService;
 import com.sasd13.proadmin.service.impl.LeadEvaluationService;
@@ -25,7 +15,7 @@ import com.sasd13.proadmin.service.impl.TeamService;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ServiceProvider {
+public class ServiceFactory {
 
     public static Object provide(Class mClass) {
         if (IAuthenticationService.class.isAssignableFrom(mClass)) {
