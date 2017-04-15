@@ -40,8 +40,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_DATEMEETING);
+		builder.append(COLUMN_DATEMEETING);
 		builder.append(", " + COLUMN_SESSION);
 		builder.append(", " + COLUMN_COMMENT);
 		builder.append(", " + COLUMN_YEAR);
@@ -49,7 +48,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(", " + COLUMN_TEACHER);
 		builder.append(", " + COLUMN_TEAM);
 		builder.append(", " + COLUMN_ACADEMICLEVEL);
-		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), report);
 	}
@@ -86,11 +85,6 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public Report select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Report> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -101,28 +95,22 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public boolean contains(Report report) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, report.getNumber());
-		preparedStatement.setTimestamp(2, new Timestamp(report.getDateMeeting().getTime()));
-		preparedStatement.setInt(3, report.getSession());
-		preparedStatement.setString(4, report.getComment());
-		preparedStatement.setInt(5, report.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(7, report.getRunningTeam().getRunning().getTeacher().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(9, report.getRunningTeam().getAcademicLevel().getCode());
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()));
+		preparedStatement.setInt(2, report.getSession());
+		preparedStatement.setString(3, report.getComment());
+		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getNumber());
+		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
 		Report report = updateWrapper.getWrapped();
 
-		preparedStatement.setString(1, String.valueOf(report.getDateMeeting()));
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()));
 		preparedStatement.setInt(2, report.getSession());
 		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());

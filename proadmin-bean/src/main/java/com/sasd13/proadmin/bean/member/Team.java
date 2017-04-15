@@ -2,7 +2,7 @@ package com.sasd13.proadmin.bean.member;
 
 public class Team {
 
-	private String number;
+	private String number, name;
 
 	public String getNumber() {
 		return number;
@@ -10,6 +10,14 @@ public class Team {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -37,6 +45,7 @@ public class Team {
 
 		builder.append("Team [");
 		builder.append("number=" + getNumber());
+		builder.append(", name=" + getName());
 		builder.append("]");
 
 		return builder.toString();

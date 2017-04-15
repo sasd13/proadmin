@@ -34,8 +34,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_DATECREATION);
+		builder.append(COLUMN_DATECREATION);
 		builder.append(", " + COLUMN_TITLE);
 		builder.append(", " + COLUMN_DESCRIPTION);
 		builder.append(") VALUES (?, ?, ?)");
@@ -49,8 +48,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_DATECREATION + " = ?");
+		builder.append(COLUMN_DATECREATION + " = ?");
 		builder.append(", " + COLUMN_TITLE + " = ?");
 		builder.append(", " + COLUMN_DESCRIPTION + " = ?");
 		builder.append(" WHERE ");
@@ -71,11 +69,6 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public Project select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Project> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -86,23 +79,20 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public boolean contains(Project project) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getCode());
-		preparedStatement.setTimestamp(2, new Timestamp(project.getDateCreation().getTime()));
-		preparedStatement.setString(3, project.getTitle());
-		preparedStatement.setString(4, project.getDescription());
+		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()));
+		preparedStatement.setString(2, project.getTitle());
+		preparedStatement.setString(3, project.getDescription());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Project> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		Project project = updateWrapper.getWrapped();
 
-		preparedStatement.setString(5, ((ProjectUpdateWrapper) updateWrapper).getCode());
+		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()));
+		preparedStatement.setString(2, project.getTitle());
+		preparedStatement.setString(3, project.getDescription());
+		preparedStatement.setString(4, ((ProjectUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override

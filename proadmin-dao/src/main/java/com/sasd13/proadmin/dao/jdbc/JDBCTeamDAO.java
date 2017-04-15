@@ -32,7 +32,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_CODE);
+		builder.append(COLUMN_NAME);
 		builder.append(") VALUES (?)");
 
 		return JDBCUtils.insert(this, builder.toString(), team);
@@ -44,7 +44,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
+		builder.append(COLUMN_NAME);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 
@@ -63,11 +63,6 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public Team select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Team> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -78,19 +73,15 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public boolean contains(Team team) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getNumber());
+		preparedStatement.setString(1, team.getName());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Team> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		Team team = updateWrapper.getWrapped();
 
+		preparedStatement.setString(1, team.getName());
 		preparedStatement.setString(2, ((TeamUpdateWrapper) updateWrapper).getNumber());
 	}
 
@@ -103,6 +94,8 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return ITeamDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.NAME.getName().equalsIgnoreCase(key)) {
+			return ITeamDAO.COLUMN_NAME + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -111,6 +104,8 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.NAME.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
@@ -122,6 +117,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		Team team = new Team();
 
 		team.setNumber(resultSet.getString(COLUMN_CODE));
+		team.setName(resultSet.getString(COLUMN_NAME));
 
 		return team;
 	}

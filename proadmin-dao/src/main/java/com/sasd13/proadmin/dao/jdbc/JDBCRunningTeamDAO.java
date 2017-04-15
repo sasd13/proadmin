@@ -23,7 +23,6 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 /**
  *
@@ -49,23 +48,18 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public void update(IUpdateWrapper<RunningTeam> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT + " = ?");
-		builder.append(", " + COLUMN_TEACHER + " = ?");
-		builder.append(", " + COLUMN_TEAM + " = ?");
-		builder.append(", " + COLUMN_ACADEMICLEVEL + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER + " = ?");
-		builder.append(" AND " + COLUMN_TEAM + " = ?");
-		builder.append(" AND " + COLUMN_ACADEMICLEVEL + " = ?");
-
-		JDBCUtils.update(this, builder.toString(), updateWrapper);
+		// StringBuilder builder = new StringBuilder();
+		// builder.append("UPDATE ");
+		// builder.append(TABLE);
+		// builder.append(" SET ");
+		// builder.append(" WHERE ");
+		// builder.append(COLUMN_YEAR + " = ?");
+		// builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		// builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		// builder.append(" AND " + COLUMN_TEAM + " = ?");
+		// builder.append(" AND " + COLUMN_ACADEMICLEVEL + " = ?");
+		//
+		// JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -84,11 +78,6 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public RunningTeam select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<RunningTeam> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -96,11 +85,6 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	@Override
 	public List<RunningTeam> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(RunningTeam runningTeam) {
-		return false;
 	}
 
 	@Override
@@ -114,13 +98,13 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<RunningTeam> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
-
-		preparedStatement.setInt(6, ((RunningTeamUpdateWrapper) updateWrapper).getRunningYear());
-		preparedStatement.setString(7, ((RunningTeamUpdateWrapper) updateWrapper).getProjectCode());
-		preparedStatement.setString(8, ((RunningTeamUpdateWrapper) updateWrapper).getTeacherNumber());
-		preparedStatement.setString(9, ((RunningTeamUpdateWrapper) updateWrapper).getTeamNumber());
-		preparedStatement.setString(10, ((RunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
+		// RunningTeam runningTeam = updateWrapper.getWrapped();
+		//
+		// preparedStatement.setInt(6, ((RunningTeamUpdateWrapper) updateWrapper).getRunningYear());
+		// preparedStatement.setString(7, ((RunningTeamUpdateWrapper) updateWrapper).getProjectCode());
+		// preparedStatement.setString(8, ((RunningTeamUpdateWrapper) updateWrapper).getTeacherNumber());
+		// preparedStatement.setString(9, ((RunningTeamUpdateWrapper) updateWrapper).getTeamNumber());
+		// preparedStatement.setString(10, ((RunningTeamUpdateWrapper) updateWrapper).getAcademicLevelCode());
 	}
 
 	@Override

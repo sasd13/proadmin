@@ -75,11 +75,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public LeadEvaluation select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -87,11 +82,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	@Override
 	public List<LeadEvaluation> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(LeadEvaluation leadEvaluation) {
-		return false;
 	}
 
 	@Override

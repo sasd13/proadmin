@@ -49,7 +49,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(TABLE);
 		builder.append(" SET ");
 		builder.append(COLUMN_MARK + " = ?");
-		builder.append(", " + COLUMN_STUDENT + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_REPORT + " = ?");
 		builder.append(" AND " + COLUMN_STUDENT + " = ?");
@@ -70,11 +69,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public IndividualEvaluation select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -82,11 +76,6 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	@Override
 	public List<IndividualEvaluation> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(IndividualEvaluation individualEvaluation) {
-		return false;
 	}
 
 	@Override
@@ -101,9 +90,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		IndividualEvaluation individualEvaluation = updateWrapper.getWrapped();
 
 		preparedStatement.setFloat(1, individualEvaluation.getMark());
-		preparedStatement.setString(2, individualEvaluation.getStudent().getNumber());
-		preparedStatement.setString(3, ((IndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(4, ((IndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
+		preparedStatement.setString(2, ((IndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(3, ((IndividualEvaluationUpdateWrapper) updateWrapper).getStudentNumber());
 	}
 
 	@Override

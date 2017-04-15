@@ -6,6 +6,7 @@ public enum EnumParameter {
 	EMAIL("email"), 
 	FIRSTNAME("firstname"), 
 	LASTNAME("lastname"), 
+	NAME("name"), 
 	NUMBER("number"), 
 	PROJECT("project"), 
 	REPORT("report"), 

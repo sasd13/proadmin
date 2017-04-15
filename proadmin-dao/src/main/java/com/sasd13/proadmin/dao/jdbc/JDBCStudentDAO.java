@@ -32,8 +32,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_FIRSTNAME);
+		builder.append(COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
 		builder.append(") VALUES (?, ?, ?, ?)");
@@ -47,8 +46,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
+		builder.append(COLUMN_FIRSTNAME + " = ?");
 		builder.append(", " + COLUMN_LASTNAME + " = ?");
 		builder.append(", " + COLUMN_EMAIL + " = ?");
 		builder.append(" WHERE ");
@@ -69,11 +67,6 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public Student select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Student> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -84,23 +77,20 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public boolean contains(Student student) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Student student) throws SQLException {
-		preparedStatement.setString(1, student.getNumber());
-		preparedStatement.setString(2, student.getFirstName());
-		preparedStatement.setString(3, student.getLastName());
-		preparedStatement.setString(4, student.getEmail());
+		preparedStatement.setString(1, student.getFirstName());
+		preparedStatement.setString(2, student.getLastName());
+		preparedStatement.setString(3, student.getEmail());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Student> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		Student student = updateWrapper.getWrapped();
 
-		preparedStatement.setString(5, ((StudentUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(1, student.getFirstName());
+		preparedStatement.setString(2, student.getLastName());
+		preparedStatement.setString(3, student.getEmail());
+		preparedStatement.setString(4, ((StudentUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

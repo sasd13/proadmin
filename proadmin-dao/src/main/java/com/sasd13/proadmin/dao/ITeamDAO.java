@@ -7,4 +7,5 @@ public interface ITeamDAO extends ISession<Team> {
 
 	String TABLE = "teams";
 	String COLUMN_CODE = "_code";
+	String COLUMN_NAME = "_name";
 }

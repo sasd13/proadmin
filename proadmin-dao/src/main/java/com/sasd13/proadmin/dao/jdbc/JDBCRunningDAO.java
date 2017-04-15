@@ -20,7 +20,6 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 
 /**
  *
@@ -44,19 +43,16 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public void update(IUpdateWrapper<Running> updateWrapper) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE ");
-		builder.append(TABLE);
-		builder.append(" SET ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(", " + COLUMN_PROJECT + " = ?");
-		builder.append(", " + COLUMN_TEACHER + " = ?");
-		builder.append(" WHERE ");
-		builder.append(COLUMN_YEAR + " = ?");
-		builder.append(" AND " + COLUMN_PROJECT + " = ?");
-		builder.append(" AND " + COLUMN_TEACHER + " = ?");
-
-		JDBCUtils.update(this, builder.toString(), updateWrapper);
+		// StringBuilder builder = new StringBuilder();
+		// builder.append("UPDATE ");
+		// builder.append(TABLE);
+		// builder.append(" SET ");
+		// builder.append(" WHERE ");
+		// builder.append(COLUMN_YEAR + " = ?");
+		// builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		// builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		//
+		// JDBCUtils.update(this, builder.toString(), updateWrapper);
 	}
 
 	@Override
@@ -73,11 +69,6 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public Running select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Running> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -85,11 +76,6 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	@Override
 	public List<Running> selectAll() {
 		return JDBCUtils.selectAll(this, TABLE);
-	}
-
-	@Override
-	public boolean contains(Running running) {
-		return false;
 	}
 
 	@Override
@@ -101,11 +87,11 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Running> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
-
-		preparedStatement.setInt(4, ((RunningUpdateWrapper) updateWrapper).getYear());
-		preparedStatement.setString(5, ((RunningUpdateWrapper) updateWrapper).getProjectCode());
-		preparedStatement.setString(6, ((RunningUpdateWrapper) updateWrapper).getTeacherNumber());
+		// Running running = updateWrapper.getWrapped();
+		//
+		// preparedStatement.setInt(4, ((RunningUpdateWrapper) updateWrapper).getYear());
+		// preparedStatement.setString(5, ((RunningUpdateWrapper) updateWrapper).getProjectCode());
+		// preparedStatement.setString(6, ((RunningUpdateWrapper) updateWrapper).getTeacherNumber());
 	}
 
 	@Override

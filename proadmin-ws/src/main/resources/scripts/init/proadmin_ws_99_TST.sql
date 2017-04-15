@@ -14,33 +14,33 @@ DELETE FROM projects;
 
 -- PROJECTS
 
-INSERT INTO projects(_code,_datecreation,_title,_description) VALUES ('2015PR01',TIMESTAMP '2015-01-01 00:00:00','Projet A','Description du projet A');
-INSERT INTO projects(_code,_datecreation,_title,_description) VALUES ('2016PR02',TIMESTAMP '2016-01-01 00:00:00','Projet B','Description du projet B');
-INSERT INTO projects(_code,_datecreation,_title,_description) VALUES ('2016PR03',TIMESTAMP '2016-01-01 00:00:00','Projet C','Description du projet C');
+INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2015-01-01 00:00:00','Projet A','Description du projet A');
+INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2016-01-01 00:00:00','Projet B','Description du projet B');
+INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2016-01-01 00:00:00','Projet C','Description du projet C');
 
 -- TEACHERS
 
-INSERT INTO teachers(_code,_firstname,_lastname,_email) VALUES ('21010013','Samir','Said Ali','samir@email.com');
-INSERT INTO teachers(_code,_firstname,_lastname,_email) VALUES ('21010014','Nasri','Samir','nasri@email.com');
+INSERT INTO teachers(_firstname,_lastname,_email) VALUES ('Samir','Said Ali','samir@email.com');
+INSERT INTO teachers(_firstname,_lastname,_email) VALUES ('Nasri','Samir','nasri@email.com');
 
 -- STUDENTS
 
-INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130876','Karim','Benzema','benzema@email.com');
-INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130877','Cristiano','Ronaldo','ronaldo@email.com');
-INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130878','Gareth','Bale','bale@email.com');
-INSERT INTO students(_code,_firstname,_lastname,_email) VALUES ('2130879','Luka','Modric','modric@email.com');
+INSERT INTO students(_firstname,_lastname,_email) VALUES ('Karim','Benzema','benzema@email.com');
+INSERT INTO students(_firstname,_lastname,_email) VALUES ('Cristiano','Ronaldo','ronaldo@email.com');
+INSERT INTO students(_firstname,_lastname,_email) VALUES ('Gareth','Bale','bale@email.com');
+INSERT INTO students(_firstname,_lastname,_email) VALUES ('Luka','Modric','modric@email.com');
 
 -- TEAMS
 
-INSERT INTO teams(_code) VALUES ('2015TE01');
-INSERT INTO teams(_code) VALUES ('2016TE02');
+INSERT INTO teams(_name) VALUES ('Team 1');
+INSERT INTO teams(_name) VALUES ('Team 2');
 
 -- STUDENTTEAMS
 
-INSERT INTO studentteams(_student,_team) VALUES ('2130876','2015TE01');
-INSERT INTO studentteams(_student,_team) VALUES ('2130877','2015TE01');
-INSERT INTO studentteams(_student,_team) VALUES ('2130878','2016TE02');
-INSERT INTO studentteams(_student,_team) VALUES ('2130879','2016TE02');
+INSERT INTO studentteams(_student,_team) VALUES ('ST-1','TM-1');
+INSERT INTO studentteams(_student,_team) VALUES ('ST-2','TM-1');
+INSERT INTO studentteams(_student,_team) VALUES ('ST-3','TM-2');
+INSERT INTO studentteams(_student,_team) VALUES ('ST-4','TM-2');
 
 -- RUNNINGS
 
@@ -70,7 +70,7 @@ INSERT INTO leadevaluations(_planningmark,_planningcomment,_communicationmark,_c
 
 -- INDIVIDUALEVALUATIONS
 
-INSERT INTO individualevaluations(_mark,_report,_student) VALUES (7,'RE-1','2130876');
-INSERT INTO individualevaluations(_mark,_report,_student) VALUES (8,'RE-1','2130877');
+INSERT INTO individualevaluations(_mark,_report,_student) VALUES (7,'RP-1','2130876');
+INSERT INTO individualevaluations(_mark,_report,_student) VALUES (8,'RP-1','2130877');
 
 --COMMIT;

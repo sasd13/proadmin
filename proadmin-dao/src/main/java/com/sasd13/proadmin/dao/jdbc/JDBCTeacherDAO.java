@@ -32,11 +32,10 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_CODE);
-		builder.append(", " + COLUMN_FIRSTNAME);
+		builder.append(COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), teacher);
 	}
@@ -47,8 +46,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_CODE + " = ?");
-		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
+		builder.append(COLUMN_FIRSTNAME + " = ?");
 		builder.append(", " + COLUMN_LASTNAME + " = ?");
 		builder.append(", " + COLUMN_EMAIL + " = ?");
 		builder.append(" WHERE ");
@@ -69,11 +67,6 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public Teacher select(long id) {
-		return null;
-	}
-
-	@Override
 	public List<Teacher> select(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
@@ -84,23 +77,20 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public boolean contains(Teacher teacher) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
-		preparedStatement.setString(1, teacher.getNumber());
-		preparedStatement.setString(2, teacher.getFirstName());
-		preparedStatement.setString(3, teacher.getLastName());
-		preparedStatement.setString(4, teacher.getEmail());
+		preparedStatement.setString(1, teacher.getFirstName());
+		preparedStatement.setString(2, teacher.getLastName());
+		preparedStatement.setString(3, teacher.getEmail());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Teacher> updateWrapper) throws SQLException {
-		editPreparedStatementForInsert(preparedStatement, updateWrapper.getWrapped());
+		Teacher teacher = updateWrapper.getWrapped();
 
-		preparedStatement.setString(5, ((TeacherUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(1, teacher.getFirstName());
+		preparedStatement.setString(2, teacher.getLastName());
+		preparedStatement.setString(3, teacher.getEmail());
+		preparedStatement.setString(4, ((TeacherUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override

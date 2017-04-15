@@ -14,7 +14,6 @@ import java.util.Map;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Team;
@@ -41,11 +40,6 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
-		// Do nothing
-	}
-
-	@Override
 	public void delete(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
@@ -55,11 +49,6 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		builder.append(" AND " + COLUMN_TEAM + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), studentTeam);
-	}
-
-	@Override
-	public StudentTeam select(long id) {
-		return null;
 	}
 
 	@Override
@@ -73,19 +62,9 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public boolean contains(StudentTeam studentTeam) {
-		return false;
-	}
-
-	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
 		preparedStatement.setString(1, studentTeam.getStudent().getNumber());
 		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
-	}
-
-	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<StudentTeam> updateWrapper) throws SQLException {
-		// Do nothing
 	}
 
 	@Override
