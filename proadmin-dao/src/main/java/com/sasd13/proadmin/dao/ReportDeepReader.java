@@ -21,7 +21,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 	}
 
 	@Override
-	protected void retrieveData(Report report) {
+	protected void retrieve(Report report) {
 		retrieveDataRunningTeam(report);
 	}
 
@@ -33,7 +33,7 @@ public class ReportDeepReader extends DeepReader<Report> {
 		parameters.put(EnumParameter.TEAM.getName(), new String[] { report.getRunningTeam().getTeam().getNumber() });
 		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { report.getRunningTeam().getAcademicLevel().getCode() });
 
-		RunningTeam runningTeam = runningTeamDeepReader.select(parameters).get(0);
+		RunningTeam runningTeam = runningTeamDeepReader.read(parameters).get(0);
 		report.setRunningTeam(runningTeam);
 	}
 }

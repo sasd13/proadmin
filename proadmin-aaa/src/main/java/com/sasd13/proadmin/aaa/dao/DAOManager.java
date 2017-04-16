@@ -3,6 +3,7 @@ package com.sasd13.proadmin.aaa.dao;
 import java.util.Properties;
 
 import com.sasd13.javaex.conf.AppProperties;
+import com.sasd13.proadmin.aaa.dao.jdbc.JDBCProfileDAO;
 import com.sasd13.proadmin.aaa.util.Names;
 
 public class DAOManager {

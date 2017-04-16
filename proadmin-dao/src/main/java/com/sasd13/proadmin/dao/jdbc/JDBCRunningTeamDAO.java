@@ -23,6 +23,7 @@ import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
 /**
  *
@@ -31,7 +32,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
 
 	@Override
-	public long insert(RunningTeam runningTeam) {
+	public long create(RunningTeam runningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -47,7 +48,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void update(IUpdateWrapper<RunningTeam> updateWrapper) {
+	public void update(RunningTeamUpdateWrapper updateWrapper) {
 		// StringBuilder builder = new StringBuilder();
 		// builder.append("UPDATE ");
 		// builder.append(TABLE);
@@ -78,12 +79,12 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public List<RunningTeam> select(Map<String, String[]> parameters) {
+	public List<RunningTeam> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<RunningTeam> selectAll() {
+	public List<RunningTeam> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

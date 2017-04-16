@@ -27,21 +27,22 @@ import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO {
 
 	@Override
-	public long insert(Student student) {
+	public long create(Student student) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_FIRSTNAME);
+		builder.append(COLUMN_USERID);
+		builder.append(", " + COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
-		builder.append(") VALUES (?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), student);
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Student> updateWrapper) {
+	public void update(StudentUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -67,20 +68,21 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public List<Student> select(Map<String, String[]> parameters) {
+	public List<Student> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Student> selectAll() {
+	public List<Student> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Student student) throws SQLException {
-		preparedStatement.setString(1, student.getFirstName());
-		preparedStatement.setString(2, student.getLastName());
-		preparedStatement.setString(3, student.getEmail());
+		preparedStatement.setString(1, student.getUserID());
+		preparedStatement.setString(2, student.getFirstName());
+		preparedStatement.setString(3, student.getLastName());
+		preparedStatement.setString(4, student.getEmail());
 	}
 
 	@Override
@@ -133,6 +135,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		Student student = new Student();
 
 		student.setNumber(resultSet.getString(COLUMN_CODE));
+		student.setUserID(resultSet.getString(COLUMN_USERID));
 		student.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		student.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		student.setEmail(resultSet.getString(COLUMN_EMAIL));

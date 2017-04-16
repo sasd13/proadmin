@@ -1,47 +1,45 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.dao.DAO;
+import com.sasd13.proadmin.service.impl.AcademicLevelService;
+import com.sasd13.proadmin.service.impl.IndividualEvaluationService;
+import com.sasd13.proadmin.service.impl.LeadEvaluationService;
+import com.sasd13.proadmin.service.impl.ProjectService;
+import com.sasd13.proadmin.service.impl.ReportService;
+import com.sasd13.proadmin.service.impl.RunningService;
+import com.sasd13.proadmin.service.impl.RunningTeamService;
+import com.sasd13.proadmin.service.impl.StudentService;
+import com.sasd13.proadmin.service.impl.StudentTeamService;
+import com.sasd13.proadmin.service.impl.TeacherService;
+import com.sasd13.proadmin.service.impl.TeamService;
 
 public class ServiceFactory {
 
-	@SuppressWarnings("unchecked")
-	public static <T> Service<T> make(Class<T> mClass, DAO dao) {
-		if (Project.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new ProjectService(dao);
-		} else if (Teacher.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new TeacherService(dao);
-		} else if (Student.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new StudentService(dao);
-		} else if (Team.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new TeamService(dao);
-		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new StudentTeamService(dao);
-		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new RunningService(dao);
-		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new AcademicLevelService(dao);
-		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new RunningTeamService(dao);
-		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new ReportService(dao);
-		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new LeadEvaluationService(dao);
-		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (Service<T>) new IndividualEvaluationService(dao);
+	public static Object make(Class<?> mClass, DAO dao) {
+		if (IProjectService.class.isAssignableFrom(mClass)) {
+			return new ProjectService(dao);
+		} else if (ITeacherService.class.isAssignableFrom(mClass)) {
+			return new TeacherService(dao);
+		} else if (IStudentService.class.isAssignableFrom(mClass)) {
+			return new StudentService(dao);
+		} else if (ITeamService.class.isAssignableFrom(mClass)) {
+			return new TeamService(dao);
+		} else if (IStudentTeamService.class.isAssignableFrom(mClass)) {
+			return new StudentTeamService(dao);
+		} else if (IRunningService.class.isAssignableFrom(mClass)) {
+			return new RunningService(dao);
+		} else if (IAcademicLevelService.class.isAssignableFrom(mClass)) {
+			return new AcademicLevelService(dao);
+		} else if (IRunningTeamService.class.isAssignableFrom(mClass)) {
+			return new RunningTeamService(dao);
+		} else if (IReportService.class.isAssignableFrom(mClass)) {
+			return new ReportService(dao);
+		} else if (ILeadEvaluationService.class.isAssignableFrom(mClass)) {
+			return new LeadEvaluationService(dao);
+		} else if (IIndividualEvaluationService.class.isAssignableFrom(mClass)) {
+			return new IndividualEvaluationService(dao);
 		} else {
-			throw new ServiceException("Entity " + mClass.getSimpleName() + " has no service");
+			return null;
 		}
 	}
 }

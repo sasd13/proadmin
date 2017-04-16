@@ -19,14 +19,14 @@ INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2016-
 
 -- TEACHERS
 
-INSERT INTO teachers(_firstname,_lastname,_email) VALUES ('Samir','Said Ali','samir@email.com');
+INSERT INTO teachers(_userid,_firstname,_lastname,_email) VALUES ('e448e9244bd8b260e11cade26a7276371adfb50a43276fdb1294cf4c4cada40e','Samir','Said Ali','samir@email.com');
 
 -- STUDENTS
 
-INSERT INTO students(_firstname,_lastname,_email) VALUES ('Karim','Benzema','benzema@email.com');
-INSERT INTO students(_firstname,_lastname,_email) VALUES ('Cristiano','Ronaldo','ronaldo@email.com');
-INSERT INTO students(_firstname,_lastname,_email) VALUES ('Gareth','Bale','bale@email.com');
-INSERT INTO students(_firstname,_lastname,_email) VALUES ('Luka','Modric','modric@email.com');
+INSERT INTO students(_userid,_firstname,_lastname,_email) VALUES ('Karim','Benzema','benzema@email.com');
+INSERT INTO students(_userid,_firstname,_lastname,_email) VALUES ('Cristiano','Ronaldo','ronaldo@email.com');
+INSERT INTO students(_userid,_firstname,_lastname,_email) VALUES ('Gareth','Bale','bale@email.com');
+INSERT INTO students(_userid,_firstname,_lastname,_email) VALUES ('Luka','Modric','modric@email.com');
 
 -- TEAMS
 

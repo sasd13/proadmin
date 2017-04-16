@@ -28,6 +28,7 @@ import com.sasd13.proadmin.aaa.dao.IProfileDAO;
 import com.sasd13.proadmin.aaa.service.ProfileService;
 import com.sasd13.proadmin.aaa.util.validator.CredentialUpdateWrapperValidator;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
+import com.sasd13.proadmin.bean.profile.Profile;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.credential.CredentialUpdateWrapper;
 
@@ -60,11 +61,11 @@ public class SignServlet extends AAAServlet {
 		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req);
-			IManageService<Credential> manageService = new ProfileService(dao);
+			Profile profile = readFromRequest(req);
+			IManageService<Profile> manageService = new ProfileService(dao);
 
 			validator.validate(credential);
-			manageService.create(credential);
+			manageService.create(new Profile(credential));
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -78,7 +79,7 @@ public class SignServlet extends AAAServlet {
 
 		try {
 			IUpdateWrapper<Credential> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
-			IManageService<Credential> manageService = new ProfileService(dao);
+			IManageService<Profile> manageService = new ProfileService(dao);
 
 			updateWrapperValidator.validate(updateWrapper);
 			manageService.update(updateWrapper);

@@ -24,7 +24,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 	}
 
 	@Override
-	protected void retrieveData(Running running) {
+	protected void retrieve(Running running) {
 		retrieveDataProject(running);
 		retrieveDataTeacher(running);
 	}
@@ -33,7 +33,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { running.getProject().getCode() });
 
-		Project project = projectDAO.select(parameters).get(0);
+		Project project = projectDAO.read(parameters).get(0);
 		running.setProject(project);
 	}
 
@@ -41,7 +41,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { running.getTeacher().getNumber() });
 
-		Teacher teacher = teacherDAO.select(parameters).get(0);
+		Teacher teacher = teacherDAO.read(parameters).get(0);
 		running.setTeacher(teacher);
 	}
 }

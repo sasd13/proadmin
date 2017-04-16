@@ -27,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
-	public long insert(Team team) {
+	public long create(Team team) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -39,7 +39,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Team> updateWrapper) {
+	public void update(TeamUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -63,12 +63,12 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public List<Team> select(Map<String, String[]> parameters) {
+	public List<Team> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Team> selectAll() {
+	public List<Team> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

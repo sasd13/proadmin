@@ -26,21 +26,13 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.service.ServiceException;
 import com.sasd13.javaex.util.EnumHttpHeader;
-import com.sasd13.javaex.util.validator.IValidator;
-import com.sasd13.javaex.util.validator.ValidatorException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.business.BusinessFactory;
-import com.sasd13.proadmin.business.IBusiness;
 import com.sasd13.proadmin.dao.DAO;
 import com.sasd13.proadmin.service.Service;
 import com.sasd13.proadmin.service.ServiceFactory;
-import com.sasd13.proadmin.util.exception.BusinessException;
 import com.sasd13.proadmin.util.exception.EnumError;
 import com.sasd13.proadmin.util.exception.ErrorFactory;
-import com.sasd13.proadmin.util.validator.UpdateWrapperValidatorFactory;
-import com.sasd13.proadmin.util.validator.ValidatorFactory;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.ws.Names;
@@ -58,26 +50,14 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
-	private IValidator<T> validator;
-	private IValidator<IUpdateWrapper<T>> updateWrapperValidator;
-	private IBusiness<T> business;
 
 	protected abstract Class<T> getBeanClass();
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void init() throws ServletException {
 		super.init();
 
 		bundle = new TranslationBundle(Locale.ENGLISH);
-
-		try {
-			validator = ValidatorFactory.make(getBeanClass());
-			updateWrapperValidator = (IValidator<IUpdateWrapper<T>>) UpdateWrapperValidatorFactory.make(getBeanClass());
-			business = (IBusiness<T>) BusinessFactory.make(getBeanClass());
-		} catch (ValidatorException | ServiceException | BusinessException e) {
-			LOGGER.error(e);
-		}
 	}
 
 	private List<?> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
@@ -151,8 +131,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
 			for (T t : ts) {
-				validator.validate(t);
-				business.verify(dao, t);
 				service.create(t);
 			}
 		} catch (Exception e) {
@@ -171,8 +149,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
 			for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
-				updateWrapperValidator.validate(updateWrapper);
-				business.verify(dao, updateWrapper);
 				service.update(updateWrapper);
 			}
 		} catch (Exception e) {
@@ -192,7 +168,6 @@ public abstract class BeansServlet<T> extends HttpServlet {
 			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
 
 			for (T t : ts) {
-				validator.validate(t);
 				service.delete(t);
 			}
 		} catch (Exception e) {

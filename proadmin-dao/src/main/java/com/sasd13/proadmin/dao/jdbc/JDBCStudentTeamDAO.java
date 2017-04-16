@@ -27,7 +27,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
 
 	@Override
-	public long insert(StudentTeam studentTeam) {
+	public long create(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -52,12 +52,12 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public List<StudentTeam> select(Map<String, String[]> parameters) {
+	public List<StudentTeam> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<StudentTeam> selectAll() {
+	public List<StudentTeam> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

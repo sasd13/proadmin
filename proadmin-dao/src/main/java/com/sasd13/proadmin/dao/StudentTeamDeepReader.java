@@ -24,7 +24,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	}
 
 	@Override
-	protected void retrieveData(StudentTeam studentTeam) {
+	protected void retrieve(StudentTeam studentTeam) {
 		retrieveDataStudent(studentTeam);
 		retrieveDataTeam(studentTeam);
 	}
@@ -33,7 +33,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getStudent().getNumber() });
 
-		Student student = studentDAO.select(parameters).get(0);
+		Student student = studentDAO.read(parameters).get(0);
 		studentTeam.setStudent(student);
 	}
 
@@ -41,7 +41,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getTeam().getNumber() });
 
-		Team team = teamDAO.select(parameters).get(0);
+		Team team = teamDAO.read(parameters).get(0);
 		studentTeam.setTeam(team);
 	}
 }

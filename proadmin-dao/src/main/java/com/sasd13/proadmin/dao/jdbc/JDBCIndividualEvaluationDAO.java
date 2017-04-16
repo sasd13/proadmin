@@ -29,7 +29,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdat
 public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
 
 	@Override
-	public long insert(IndividualEvaluation individualEvaluation) {
+	public long create(IndividualEvaluation individualEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -43,7 +43,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void update(IUpdateWrapper<IndividualEvaluation> updateWrapper) {
+	public void update(IndividualEvaluationUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -69,12 +69,12 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public List<IndividualEvaluation> select(Map<String, String[]> parameters) {
+	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<IndividualEvaluation> selectAll() {
+	public List<IndividualEvaluation> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

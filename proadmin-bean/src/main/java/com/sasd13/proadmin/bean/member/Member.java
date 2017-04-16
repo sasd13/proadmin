@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Member {
 
-	private String number, firstName, lastName, email;
+	private String number, userID, firstName, lastName, email;
 
 	public String getNumber() {
 		return number;
@@ -12,6 +12,14 @@ public abstract class Member {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 	public String getFirstName() {
@@ -54,9 +62,9 @@ public abstract class Member {
 
 		Member other = (Member) obj;
 
-		if (number == null && other.number != null)
+		if (userID == null && other.userID != null)
 			return false;
-		else if (!number.equals(other.number))
+		else if (!userID.equals(other.userID))
 			return false;
 
 		return true;

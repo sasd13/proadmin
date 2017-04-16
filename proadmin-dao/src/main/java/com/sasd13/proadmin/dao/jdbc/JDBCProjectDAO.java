@@ -29,7 +29,7 @@ import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
 
 	@Override
-	public long insert(Project project) {
+	public long create(Project project) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -43,7 +43,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Project> updateWrapper) {
+	public void update(ProjectUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -69,12 +69,12 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public List<Project> select(Map<String, String[]> parameters) {
+	public List<Project> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Project> selectAll() {
+	public List<Project> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

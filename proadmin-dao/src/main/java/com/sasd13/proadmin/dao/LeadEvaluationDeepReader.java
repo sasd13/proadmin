@@ -24,7 +24,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 	}
 
 	@Override
-	protected void retrieveData(LeadEvaluation leadEvaluation) {
+	protected void retrieve(LeadEvaluation leadEvaluation) {
 		retrieveDataReport(leadEvaluation);
 		retrieveDataStudent(leadEvaluation);
 	}
@@ -33,7 +33,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { leadEvaluation.getReport().getNumber() });
 
-		Report report = reportDeepReader.select(parameters).get(0);
+		Report report = reportDeepReader.read(parameters).get(0);
 		leadEvaluation.setReport(report);
 	}
 
@@ -41,7 +41,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { leadEvaluation.getStudent().getNumber() });
 
-		Student student = studentDAO.select(parameters).get(0);
+		Student student = studentDAO.read(parameters).get(0);
 		leadEvaluation.setStudent(student);
 	}
 }

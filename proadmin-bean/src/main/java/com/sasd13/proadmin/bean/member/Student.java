@@ -8,6 +8,7 @@ public class Student extends Member {
 
 		builder.append("Student [");
 		builder.append("number=" + getNumber());
+		builder.append(", userID=" + getUserID());
 		builder.append(", firstName=" + getFirstName());
 		builder.append(", lastName=" + getLastName());
 		builder.append(", email=" + getEmail());

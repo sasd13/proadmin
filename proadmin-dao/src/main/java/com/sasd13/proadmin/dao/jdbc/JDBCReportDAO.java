@@ -35,7 +35,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
-	public long insert(Report report) {
+	public long create(Report report) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -54,7 +54,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Report> updateWrapper) {
+	public void update(ReportUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -85,12 +85,12 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public List<Report> select(Map<String, String[]> parameters) {
+	public List<Report> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Report> selectAll() {
+	public List<Report> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

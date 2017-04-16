@@ -6,6 +6,8 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,13 +19,15 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.service.ICheckService;
+import com.sasd13.javaex.service.IReadService;
 import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.proadmin.aaa.AAAConstants;
+import com.sasd13.proadmin.aaa.EnumParameter;
 import com.sasd13.proadmin.aaa.dao.IProfileDAO;
 import com.sasd13.proadmin.aaa.service.ProfileService;
 import com.sasd13.proadmin.aaa.session.SessionBuilder;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
+import com.sasd13.proadmin.bean.profile.Profile;
 import com.sasd13.proadmin.util.exception.EnumError;
 
 /**
@@ -55,17 +59,28 @@ public class LogInServlet extends AAAServlet {
 
 		try {
 			Credential credential = readFromRequest(req);
-			ICheckService<Credential> checkService = new ProfileService(dao);
+			IReadService<Profile> readService = new ProfileService(dao);
 
 			validator.validate(credential);
 
-			if (checkService.contains(credential)) {
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(credential) }));
+			List<Profile> profiles = readService.read(getParameters(credential));
+
+			if (!profiles.isEmpty()) {
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(profiles.get(0)) }));
 			} else {
 				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA_LOGIN);
 			}
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
+	}
+
+	private Map<String, String[]> getParameters(Credential credential) {
+		Map<String, String[]> parameters = new HashMap<>();
+
+		parameters.put(EnumParameter.USERNAME.getName(), new String[] { credential.getUsername() });
+		parameters.put(EnumParameter.PASSWORD.getName(), new String[] { credential.getPassword() });
+
+		return parameters;
 	}
 }

@@ -6,7 +6,7 @@ import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 public class CredentialUpdateWrapper implements IUpdateWrapper<Credential> {
 
 	private Credential credential;
-	private String username;
+	private String username, oldPassword;
 
 	@Override
 	public Credential getWrapped() {
@@ -24,5 +24,13 @@ public class CredentialUpdateWrapper implements IUpdateWrapper<Credential> {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 }

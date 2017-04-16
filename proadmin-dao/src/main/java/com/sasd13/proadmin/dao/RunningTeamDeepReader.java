@@ -27,7 +27,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	}
 
 	@Override
-	protected void retrieveData(RunningTeam runningTeam) {
+	protected void retrieve(RunningTeam runningTeam) {
 		retrieveDataRunning(runningTeam);
 		retrieveDataTeam(runningTeam);
 		retrieveDataAcademicLevel(runningTeam);
@@ -39,7 +39,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.put(EnumParameter.PROJECT.getName(), new String[] { runningTeam.getRunning().getProject().getCode() });
 		parameters.put(EnumParameter.TEACHER.getName(), new String[] { runningTeam.getRunning().getTeacher().getNumber() });
 
-		Running running = runningDeepReader.select(parameters).get(0);
+		Running running = runningDeepReader.read(parameters).get(0);
 		runningTeam.setRunning(running);
 	}
 
@@ -47,7 +47,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { runningTeam.getTeam().getNumber() });
 
-		Team team = teamDAO.select(parameters).get(0);
+		Team team = teamDAO.read(parameters).get(0);
 		runningTeam.setTeam(team);
 	}
 
@@ -55,7 +55,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		parameters.clear();
 		parameters.put(EnumParameter.CODE.getName(), new String[] { runningTeam.getAcademicLevel().getCode() });
 
-		AcademicLevel academicLevel = academicLevelDAO.select(parameters).get(0);
+		AcademicLevel academicLevel = academicLevelDAO.read(parameters).get(0);
 		runningTeam.setAcademicLevel(academicLevel);
 	}
 }

@@ -20,6 +20,7 @@ import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.dao.IRunningDAO;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 
 /**
  *
@@ -28,7 +29,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO {
 
 	@Override
-	public long insert(Running running) {
+	public long create(Running running) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -42,7 +43,7 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public void update(IUpdateWrapper<Running> updateWrapper) {
+	public void update(RunningUpdateWrapper updateWrapper) {
 		// StringBuilder builder = new StringBuilder();
 		// builder.append("UPDATE ");
 		// builder.append(TABLE);
@@ -69,12 +70,12 @@ public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO 
 	}
 
 	@Override
-	public List<Running> select(Map<String, String[]> parameters) {
+	public List<Running> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<Running> selectAll() {
+	public List<Running> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

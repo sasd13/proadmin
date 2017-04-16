@@ -48,7 +48,7 @@ public abstract class AAAServlet extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	protected Credential readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	protected Object readFromRequest(HttpServletRequest req) throws IOException, ParserException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 

@@ -1,23 +1,9 @@
 package com.sasd13.proadmin.dao;
 
-import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.javaex.dao.ILayeredDAO;
-import com.sasd13.javaex.dao.ISession;
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.javaex.dao.IDAO;
 
-@SuppressWarnings("unchecked")
-public abstract class DAO implements ILayeredDAO {
+public abstract class DAO implements IDAO {
 
 	protected ITeacherDAO teacherDAO;
 	protected IProjectDAO projectDAO;
@@ -71,51 +57,49 @@ public abstract class DAO implements ILayeredDAO {
 		individualEvaluationDeepReader = new IndividualEvaluationDeepReader(individualEvaluationDAO, reportDeepReader, studentDAO);
 	}
 
-	@Override
-	public <T> ISession<T> getSession(Class<T> mClass) {
-		if (Teacher.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) teacherDAO;
-		} else if (Project.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) projectDAO;
-		} else if (Student.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) studentDAO;
-		} else if (Team.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) teamDAO;
-		} else if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) studentTeamDAO;
-		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) runningDAO;
-		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) academicLevelDAO;
-		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) runningTeamDAO;
-		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) reportDAO;
-		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) leadEvaluationDAO;
-		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (ISession<T>) individualEvaluationDAO;
+	public Object getSession(Class<?> mClass) {
+		if (ITeacherDAO.class.isAssignableFrom(mClass)) {
+			return teacherDAO;
+		} else if (IProjectDAO.class.isAssignableFrom(mClass)) {
+			return projectDAO;
+		} else if (IStudentDAO.class.isAssignableFrom(mClass)) {
+			return studentDAO;
+		} else if (ITeamDAO.class.isAssignableFrom(mClass)) {
+			return teamDAO;
+		} else if (IStudentTeamDAO.class.isAssignableFrom(mClass)) {
+			return studentTeamDAO;
+		} else if (IRunningDAO.class.isAssignableFrom(mClass)) {
+			return runningDAO;
+		} else if (IAcademicLevelDAO.class.isAssignableFrom(mClass)) {
+			return academicLevelDAO;
+		} else if (IRunningTeamDAO.class.isAssignableFrom(mClass)) {
+			return runningTeamDAO;
+		} else if (IReportDAO.class.isAssignableFrom(mClass)) {
+			return reportDAO;
+		} else if (ILeadEvaluationDAO.class.isAssignableFrom(mClass)) {
+			return leadEvaluationDAO;
+		} else if (IIndividualEvaluationDAO.class.isAssignableFrom(mClass)) {
+			return individualEvaluationDAO;
 		} else {
-			throw new DAOException("Entity " + mClass.getSimpleName() + " is unknown");
+			return null;
 		}
 	}
 
-	@Override
-	public <T> DeepReader<T> getDeepReader(Class<T> mClass) {
-		if (StudentTeam.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) studentTeamDeepReader;
-		} else if (Running.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) runningDeepReader;
-		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) runningTeamDeepReader;
-		} else if (Report.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) reportDeepReader;
-		} else if (LeadEvaluation.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) leadEvaluationDeepReader;
-		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
-			return (DeepReader<T>) individualEvaluationDeepReader;
+	public DeepReader<?> getDeepReader(Class<?> mClass) {
+		if (StudentTeamDeepReader.class.isAssignableFrom(mClass)) {
+			return studentTeamDeepReader;
+		} else if (RunningDeepReader.class.isAssignableFrom(mClass)) {
+			return runningDeepReader;
+		} else if (RunningTeamDeepReader.class.isAssignableFrom(mClass)) {
+			return runningTeamDeepReader;
+		} else if (ReportDeepReader.class.isAssignableFrom(mClass)) {
+			return reportDeepReader;
+		} else if (LeadEvaluationDeepReader.class.isAssignableFrom(mClass)) {
+			return leadEvaluationDeepReader;
+		} else if (IndividualEvaluationDeepReader.class.isAssignableFrom(mClass)) {
+			return individualEvaluationDeepReader;
 		} else {
-			throw new DAOException("DeepReader " + mClass.getSimpleName() + " is unknown");
+			return null;
 		}
 	}
 }

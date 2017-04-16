@@ -24,7 +24,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 	}
 
 	@Override
-	protected void retrieveData(IndividualEvaluation individualEvaluation) {
+	protected void retrieve(IndividualEvaluation individualEvaluation) {
 		retrieveDataReport(individualEvaluation);
 		retrieveDataStudent(individualEvaluation);
 	}
@@ -33,7 +33,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getReport().getNumber() });
 
-		Report report = reportDeepReader.select(parameters).get(0);
+		Report report = reportDeepReader.read(parameters).get(0);
 		individualEvaluation.setReport(report);
 	}
 
@@ -41,7 +41,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 		parameters.clear();
 		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getStudent().getNumber() });
 
-		Student student = studentDAO.select(parameters).get(0);
+		Student student = studentDAO.read(parameters).get(0);
 		individualEvaluation.setStudent(student);
 	}
 }

@@ -29,7 +29,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapp
 public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implements ILeadEvaluationDAO {
 
 	@Override
-	public long insert(LeadEvaluation leadEvaluation) {
+	public long create(LeadEvaluation leadEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -46,7 +46,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public void update(IUpdateWrapper<LeadEvaluation> updateWrapper) {
+	public void update(LeadEvaluationUpdateWrapper updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -74,12 +74,12 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	}
 
 	@Override
-	public List<LeadEvaluation> select(Map<String, String[]> parameters) {
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
 		return JDBCUtils.select(this, TABLE, parameters);
 	}
 
 	@Override
-	public List<LeadEvaluation> selectAll() {
+	public List<LeadEvaluation> readAll() {
 		return JDBCUtils.selectAll(this, TABLE);
 	}
 

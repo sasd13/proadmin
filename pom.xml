@@ -14,7 +14,6 @@
 	<modules>
 		<module>proadmin-aaa</module>
 		<module>proadmin-bean</module>
-		<module>proadmin-business</module>
 		<module>proadmin-dao</module>
 		<module>proadmin-service</module>
 		<module>proadmin-util</module>
