@@ -29,6 +29,7 @@
     <string name="form_runningteam_message_error_academiclevel">Invalid academic level</string>
     <string name="form_runningteam_message_error_team">Invalid team</string>
     <string name="form_team_message_error_number">Invalid number</string>
+    <string name="form_team_message_error_name">Invalid name</string>
     <string name="form_student_message_error_number">Invalid number</string>
     <string name="form_student_message_error_firstname">Invalid first name</string>
     <string name="form_student_message_error_lastname">Invalid last name</string>
@@ -54,6 +55,7 @@
     <string name="label_project">Project</string>
     <string name="label_running">Running</string>
     <string name="label_team">Team</string>
+    <string name="label_name">Name</string>
     <string name="label_year">Year</string>
     <string name="label_session">Session</string>
     <string name="label_datemeeting">Meeting date</string>

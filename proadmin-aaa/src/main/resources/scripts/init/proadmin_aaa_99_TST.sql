@@ -1,7 +1,7 @@
 USE proadmin_aaa;
 
-DELETE FROM credentials;
+DELETE FROM profiles;
 
-INSERT INTO credentials (_username,_password) VALUES ('21010013','2d48a13e67518ded1eb199cf67f8c3c2');
+INSERT INTO profiles (_username,_password,_code) VALUES ('21010013','2d48a13e67518ded1eb199cf67f8c3c2','TC-1');
 
 COMMIT;

@@ -44,7 +44,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_NAME);
+		builder.append(COLUMN_NAME + " = ?");
 		builder.append(" WHERE ");
 		builder.append(COLUMN_CODE + " = ?");
 

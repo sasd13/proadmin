@@ -53,10 +53,6 @@ public class ReportForm extends Form {
         holder.add(new RecyclerHolderPair(modelComment));
     }
 
-    public boolean isInModeEdit() {
-        return inModeEdit;
-    }
-
     public void bindReport(Report report) {
         if (inModeEdit) {
             modelNumber.setValue(String.valueOf(report.getNumber()));

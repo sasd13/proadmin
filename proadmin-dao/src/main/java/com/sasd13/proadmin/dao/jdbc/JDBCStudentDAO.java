@@ -35,7 +35,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		builder.append(COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
-		builder.append(") VALUES (?, ?, ?, ?)");
+		builder.append(") VALUES (?, ?, ?)");
 
 		return JDBCUtils.insert(this, builder.toString(), student);
 	}

@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/AndroidEX.Recycler.Item"
     android:minHeight="@dimen/recycleritem_height_medium"
-    android:paddingTop="@dimen/recycleritem_padding_vertical"
-    android:paddingBottom="@dimen/recycleritem_padding_vertical">
+    android:paddingLeft="@dimen/recycleritem_padding_horizontal"
+    android:paddingRight="@dimen/recycleritem_padding_horizontal"
+    android:weightSum="2">
 
     <TextView
         android:id="@+id/tabitem_textview_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/recycleritem_padding_horizontal"
-        android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
-        android:gravity="left|center_vertical"
-        android:text="code"
+        android:layout_weight="1"
+        android:gravity="left|bottom"
+        android:paddingBottom="@dimen/recycleritem_padding_vertical"
+        android:text="@string/tabitem_textview_label"
+        android:textColor="?textColorPrimary"
         android:textSize="@dimen/text_size_xlarge"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tabitem_team_textview_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left|top"
+        android:paddingTop="@dimen/recycleritem_padding_vertical"
+        android:text="name"
+        android:textSize="@dimen/text_size_medium"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</LinearLayout>
 

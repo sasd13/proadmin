@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.proadmin.aaa.AAAConstants;
 import com.sasd13.proadmin.aaa.dao.DAOManager;
-import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
+import com.sasd13.proadmin.aaa.dao.IProfileDAO;
 
 public class DAOFilter implements Filter {
 
@@ -34,7 +34,7 @@ public class DAOFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		ICredentialDAO dao = DAOManager.create();
+		IProfileDAO dao = DAOManager.create();
 
 		req.setAttribute(AAAConstants.REQ_ATTR_DAO, dao);
 

@@ -24,4 +24,8 @@ public class TeamItemModel extends Observable implements IRecyclerItemModel, ILa
     public String getLabel() {
         return team.getNumber();
     }
+
+    public String getName() {
+        return team.getName();
+    }
 }

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class TeamForm extends Form {
 
-    private TextItemModel modelNumber;
+    private TextItemModel modelNumber, modelName;
 
     public TeamForm(Context context) {
         super(context);
@@ -24,10 +24,15 @@ public class TeamForm extends Form {
         modelNumber = new TextItemModel();
         modelNumber.setLabel(context.getString(R.string.label_number));
         holder.add(new RecyclerHolderPair(modelNumber));
+
+        modelName = new TextItemModel();
+        modelName.setLabel(context.getString(R.string.label_name));
+        holder.add(new RecyclerHolderPair(modelName));
     }
 
     public void bindTeam(Team team) {
         modelNumber.setValue(team.getNumber());
+        modelName.setValue(team.getName());
     }
 
     public String getNumber() throws FormException {
@@ -36,5 +41,13 @@ public class TeamForm extends Form {
         }
 
         return modelNumber.getValue().trim();
+    }
+
+    public String getName() throws FormException {
+        if (StringUtils.isBlank(modelName.getValue())) {
+            throw new FormException(context, R.string.form_team_message_error_name);
+        }
+
+        return modelName.getValue().trim();
     }
 }

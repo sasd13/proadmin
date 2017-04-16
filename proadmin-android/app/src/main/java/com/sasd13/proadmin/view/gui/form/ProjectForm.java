@@ -18,15 +18,15 @@ public class ProjectForm extends Form {
     public ProjectForm(Context context) {
         super(context);
 
-        modelTitle = new TextItemModel();
-        modelTitle.setReadOnly(true);
-        modelTitle.setLabel(context.getString(R.string.label_title));
-        holder.add(new RecyclerHolderPair(modelTitle));
-
         modelCode = new TextItemModel();
         modelCode.setReadOnly(true);
         modelCode.setLabel(context.getString(R.string.label_code));
         holder.add(new RecyclerHolderPair(modelCode));
+
+        modelTitle = new TextItemModel();
+        modelTitle.setReadOnly(true);
+        modelTitle.setLabel(context.getString(R.string.label_title));
+        holder.add(new RecyclerHolderPair(modelTitle));
 
         modelDescription = new TextItemModel();
         modelDescription.setReadOnly(true);
@@ -35,8 +35,8 @@ public class ProjectForm extends Form {
     }
 
     public void bind(Project project) {
-        modelTitle.setValue(project.getTitle());
         modelCode.setValue(project.getCode());
+        modelTitle.setValue(project.getTitle());
         modelDescription.setValue(project.getDescription());
     }
 }

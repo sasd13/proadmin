@@ -30,7 +30,7 @@ public class RunningTeamForm extends Form {
     private List<AcademicLevel> academicLevels;
     private List<Team> teams;
 
-    public RunningTeamForm(Context context) {
+    public RunningTeamForm(Context context, boolean inModeEdit) {
         super(context);
 
         modelYear = new TextItemModel();
@@ -49,6 +49,12 @@ public class RunningTeamForm extends Form {
         modelTeam = new SpinRadioItemModel();
         modelTeam.setLabel(context.getString(R.string.label_team));
         holder.add(new RecyclerHolderPair(modelTeam));
+
+        if (inModeEdit) {
+            modelRunning.setReadOnly(true);
+            modelAcademicLevel.setReadOnly(true);
+            modelTeam.setReadOnly(true);
+        }
     }
 
     public void bindRunningTeam(RunningTeam runningTeam) {

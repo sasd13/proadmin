@@ -24,8 +24,8 @@ import com.sasd13.javaex.service.IManageService;
 import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.aaa.AAAConstants;
-import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.service.CredentialService;
+import com.sasd13.proadmin.aaa.dao.IProfileDAO;
+import com.sasd13.proadmin.aaa.service.ProfileService;
 import com.sasd13.proadmin.aaa.util.validator.CredentialUpdateWrapperValidator;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
 import com.sasd13.proadmin.util.wrapper.WrapperException;
@@ -57,11 +57,11 @@ public class SignServlet extends AAAServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
 
-		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
 			Credential credential = readFromRequest(req);
-			IManageService<Credential> manageService = new CredentialService(dao);
+			IManageService<Credential> manageService = new ProfileService(dao);
 
 			validator.validate(credential);
 			manageService.create(credential);
@@ -74,11 +74,11 @@ public class SignServlet extends AAAServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPut");
 
-		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
 			IUpdateWrapper<Credential> updateWrapper = readUpdateWrappersFromRequest(req).get(0);
-			IManageService<Credential> manageService = new CredentialService(dao);
+			IManageService<Credential> manageService = new ProfileService(dao);
 
 			updateWrapperValidator.validate(updateWrapper);
 			manageService.update(updateWrapper);
@@ -100,11 +100,11 @@ public class SignServlet extends AAAServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doDelete");
 
-		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
 			Credential credential = readFromRequest(req);
-			IManageService<Credential> manageService = new CredentialService(dao);
+			IManageService<Credential> manageService = new ProfileService(dao);
 
 			validator.validate(credential);
 			manageService.delete(credential);

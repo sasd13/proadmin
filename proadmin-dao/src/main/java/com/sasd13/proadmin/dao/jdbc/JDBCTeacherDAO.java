@@ -32,7 +32,8 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
 		builder.append("(");
-		builder.append(COLUMN_FIRSTNAME);
+		builder.append(COLUMN_USERNAME);
+		builder.append(", " + COLUMN_FIRSTNAME);
 		builder.append(", " + COLUMN_LASTNAME);
 		builder.append(", " + COLUMN_EMAIL);
 		builder.append(") VALUES (?, ?, ?)");
@@ -46,7 +47,8 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 		builder.append("UPDATE ");
 		builder.append(TABLE);
 		builder.append(" SET ");
-		builder.append(COLUMN_FIRSTNAME + " = ?");
+		builder.append(COLUMN_USERNAME + " = ?");
+		builder.append(", " + COLUMN_FIRSTNAME + " = ?");
 		builder.append(", " + COLUMN_LASTNAME + " = ?");
 		builder.append(", " + COLUMN_EMAIL + " = ?");
 		builder.append(" WHERE ");
@@ -78,19 +80,21 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
-		preparedStatement.setString(1, teacher.getFirstName());
-		preparedStatement.setString(2, teacher.getLastName());
-		preparedStatement.setString(3, teacher.getEmail());
+		preparedStatement.setString(1, teacher.getUsername());
+		preparedStatement.setString(2, teacher.getFirstName());
+		preparedStatement.setString(3, teacher.getLastName());
+		preparedStatement.setString(4, teacher.getEmail());
 	}
 
 	@Override
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Teacher> updateWrapper) throws SQLException {
 		Teacher teacher = updateWrapper.getWrapped();
 
-		preparedStatement.setString(1, teacher.getFirstName());
-		preparedStatement.setString(2, teacher.getLastName());
-		preparedStatement.setString(3, teacher.getEmail());
-		preparedStatement.setString(4, ((TeacherUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(1, teacher.getUsername());
+		preparedStatement.setString(2, teacher.getFirstName());
+		preparedStatement.setString(3, teacher.getLastName());
+		preparedStatement.setString(4, teacher.getEmail());
+		preparedStatement.setString(5, ((TeacherUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
@@ -102,6 +106,8 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return ITeacherDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
+			return ITeacherDAO.COLUMN_USERNAME + " = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
 			return ITeacherDAO.COLUMN_FIRSTNAME + " = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
@@ -116,6 +122,8 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException, ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setString(index, value);
+		} else if (EnumParameter.USERNAME.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
@@ -133,6 +141,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 		Teacher teacher = new Teacher();
 
 		teacher.setNumber(resultSet.getString(COLUMN_CODE));
+		teacher.setUsername(resultSet.getString(COLUMN_USERNAME));
 		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
 		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
 		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));

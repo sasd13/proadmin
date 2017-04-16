@@ -69,7 +69,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 		builder.append(TABLE);
 		builder.append(" WHERE ");
 		builder.append(COLUMN_REPORT + " = ?");
-		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		JDBCUtils.delete(this, builder.toString(), leadEvaluation);
 	}
@@ -109,7 +108,6 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implement
 	@Override
 	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
 		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
-		preparedStatement.setString(2, leadEvaluation.getStudent().getNumber());
 	}
 
 	@Override

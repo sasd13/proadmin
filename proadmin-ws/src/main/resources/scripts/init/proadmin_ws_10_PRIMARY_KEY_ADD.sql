@@ -1,6 +1,6 @@
 SET search_path TO proadmin_ws;
 
-ALTER TABLE projects ADD CONSTRAINT pk_pj PRIMARY KEY (_code);
+ALTER TABLE projects ADD CONSTRAINT pk_pr PRIMARY KEY (_code);
 
 ALTER TABLE teachers ADD CONSTRAINT pk_tc PRIMARY KEY (_code);
 
@@ -18,7 +18,7 @@ ALTER TABLE runningteams ADD CONSTRAINT pk_rntm PRIMARY KEY (_year,_project,_tea
 
 ALTER TABLE reports ADD CONSTRAINT pk_rp PRIMARY KEY (_code);
 
-ALTER TABLE leadevaluations ADD CONSTRAINT pk_le PRIMARY KEY (_report,_student);
+ALTER TABLE leadevaluations ADD CONSTRAINT pk_le PRIMARY KEY (_report);
 
 ALTER TABLE individualevaluations ADD CONSTRAINT pk_ie PRIMARY KEY (_report,_student);
 

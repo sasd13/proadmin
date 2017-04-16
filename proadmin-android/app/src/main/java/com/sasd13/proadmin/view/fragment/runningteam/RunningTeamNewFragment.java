@@ -76,7 +76,7 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
     }
 
     private void buildFormRunningTeam(View view) {
-        runningTeamForm = new RunningTeamForm(getContext());
+        runningTeamForm = new RunningTeamForm(getContext(), false);
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
 import com.sasd13.javaex.service.ServiceException;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.dao.DAO;
 
@@ -28,11 +27,6 @@ public class StudentTeamService extends Service<StudentTeam> {
 			LOGGER.error(e);
 			throw new ServiceException(e.getMessage());
 		}
-	}
-
-	@Override
-	public void update(IUpdateWrapper<StudentTeam> updateWrapper) {
-		throw new ServiceException("Service unavailable");
 	}
 
 	@Override

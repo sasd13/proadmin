@@ -1,5 +1,5 @@
 USE proadmin_aaa;
 
-ALTER TABLE credentials DROP PRIMARY KEY;
+ALTER TABLE profiles DROP PRIMARY KEY;
 
 COMMIT;

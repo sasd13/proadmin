@@ -29,6 +29,7 @@
     <string name="form_runningteam_message_error_academiclevel">Niveau académique invalide</string>
     <string name="form_runningteam_message_error_team">Groupe invalide</string>
     <string name="form_team_message_error_number">Numéro invalide</string>
+    <string name="form_team_message_error_name">Nom invalid</string>
     <string name="form_student_message_error_number">Numéro invalide</string>
     <string name="form_student_message_error_firstname">Prénom invalide</string>
     <string name="form_student_message_error_lastname">Nom invalide</string>
@@ -54,6 +55,7 @@
     <string name="label_project">Projet</string>
     <string name="label_running">Gestion de projet</string>
     <string name="label_team">Groupe</string>
+    <string name="label_name">Nom</string>
     <string name="label_year">Année</string>
     <string name="label_session">Session</string>
     <string name="label_datemeeting">Date de réunion</string>

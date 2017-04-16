@@ -10,12 +10,12 @@ public class DAOManager {
 	private static final String URL = AppProperties.getProperty(Names.AAA_DB_URL);
 	private static final Properties prop = new Properties();
 
-	public static ICredentialDAO create() {
+	public static IProfileDAO create() {
 		if (prop.isEmpty()) {
 			prop.setProperty("user", AppProperties.getProperty(Names.AAA_DB_USER));
 			prop.setProperty("password", AppProperties.getProperty(Names.AAA_DB_PASSWORD));
 		}
 
-		return new JDBCCredentialDAO(URL, prop);
+		return new JDBCProfileDAO(URL, prop);
 	}
 }

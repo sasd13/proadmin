@@ -17,16 +17,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class StudentForm extends Form {
 
+    private boolean inModeEdit;
     private TextItemModel modelNumber, modelFirstName, modelLastName, modelEmail;
 
-    public StudentForm(Context context) {
+    public StudentForm(Context context, boolean inModeEdit) {
         super(context);
 
+        this.inModeEdit = inModeEdit;
         String title = context.getString(R.string.title_identity);
 
-        modelNumber = new TextItemModel();
-        modelNumber.setLabel(context.getString(R.string.label_number));
-        holder.add(title, new RecyclerHolderPair(modelNumber));
+        if (inModeEdit) {
+            modelNumber = new TextItemModel();
+            modelNumber.setLabel(context.getString(R.string.label_number));
+            holder.add(title, new RecyclerHolderPair(modelNumber));
+        }
 
         modelFirstName = new TextItemModel(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         modelFirstName.setLabel(context.getString(R.string.label_firstname));
@@ -45,13 +49,20 @@ public class StudentForm extends Form {
     }
 
     public void bindStudent(Student student) {
-        modelNumber.setValue(student.getNumber());
+        if (inModeEdit) {
+            modelNumber.setValue(student.getNumber());
+        }
+
         modelFirstName.setValue(student.getFirstName());
         modelLastName.setValue(student.getLastName());
         modelEmail.setValue(student.getEmail());
     }
 
     public String getNumber() throws FormException {
+        if (!inModeEdit) {
+            throw new FormException(context, R.string.form_message_error);
+        }
+
         if (StringUtils.isBlank(modelNumber.getValue())) {
             throw new FormException(context, R.string.form_student_message_error_number);
         }

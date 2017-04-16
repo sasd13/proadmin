@@ -69,7 +69,7 @@ public class StudentDetailsFragment extends Fragment implements Observer {
     }
 
     private void buildFormStudent(View view) {
-        studentForm = new StudentForm(getContext());
+        studentForm = new StudentForm(getContext(), true);
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

@@ -22,8 +22,8 @@ CREATE TABLE students (
 );
 
 CREATE TABLE teams (
-	_code VARCHAR(50) NOT NULL
-	_name VARCHAR(50)
+	_code VARCHAR(50) NOT NULL,
+	_name VARCHAR(255)
 );
 
 CREATE TABLE studentteams (

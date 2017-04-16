@@ -20,8 +20,8 @@ import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.service.ICheckService;
 import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.proadmin.aaa.AAAConstants;
-import com.sasd13.proadmin.aaa.dao.ICredentialDAO;
-import com.sasd13.proadmin.aaa.service.CredentialService;
+import com.sasd13.proadmin.aaa.dao.IProfileDAO;
+import com.sasd13.proadmin.aaa.service.ProfileService;
 import com.sasd13.proadmin.aaa.session.SessionBuilder;
 import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
 import com.sasd13.proadmin.util.exception.EnumError;
@@ -51,11 +51,11 @@ public class LogInServlet extends AAAServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("doPost");
 
-		ICredentialDAO dao = (ICredentialDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
 			Credential credential = readFromRequest(req);
-			ICheckService<Credential> checkService = new CredentialService(dao);
+			ICheckService<Credential> checkService = new ProfileService(dao);
 
 			validator.validate(credential);
 
