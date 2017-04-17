@@ -1,12 +1,11 @@
 package com.sasd13.proadmin.controller.student;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.R;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.HashMap;
@@ -38,12 +37,12 @@ public class StudentCreateTask extends RequestorTask {
         StudentTeam studentTeam = (StudentTeam) in;
 
         parameters.clear();
-        parameters.put(EnumParameter.NUMBER.getName(), new String[]{studentTeam.getStudent().getIntermediary()});
+        parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[]{studentTeam.getStudent().getIntermediary()});
 
         result = service.readStudents(parameters);
 
         if (result.isSuccess()) {
-            if (((ServiceResult<List<Student>>) result).getResult().isEmpty()) {
+            if (((ServiceResult<List<Student>>) result).getData().isEmpty()) {
                 result = service.create(studentTeam.getStudent());
             }
 
@@ -59,10 +58,12 @@ public class StudentCreateTask extends RequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
+        ServiceResult<?> result = (ServiceResult<?>) out;
+
+        if (result.isSuccess()) {
             controller.onCreateStudent();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 
@@ -70,6 +71,6 @@ public class StudentCreateTask extends RequestorTask {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.display(R.string.message_cancelled);
+        controller.onCancelled();
     }
 }

@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumSession;
@@ -37,12 +38,15 @@ public class LogInTask extends ReadRequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
-            Map<String, String> session = (Map<String, String>) ((ServiceResult) out).getResult();
+        ServiceResult<Map<String, String>> result = (ServiceResult<Map<String, String>>) out;
 
-            controller.onReadTeacher(session.get(EnumSession.USERID.getName()), session.get(EnumSession.INTERMEDIARY.getName()));
+        if (result.isSuccess()) {
+            String userID = result.getData().get(EnumSession.USERID.getName());
+            String intermediary = result.getData().get(EnumSession.INTERMEDIARY.getName());
+
+            controller.onReadTeacher(userID, intermediary);
         } else {
-            controller.onFail(((ServiceResult) out).getHttpStatus());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 
@@ -50,6 +54,6 @@ public class LogInTask extends ReadRequestorTask {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.onFail(((ServiceResult) out).getHttpStatus());
+        controller.onCancelled();
     }
 }

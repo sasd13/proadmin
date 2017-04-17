@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.ws.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.ws.dao.DAO;
@@ -13,6 +14,11 @@ public class AcademicLevelService implements IAcademicLevelService {
 
 	public AcademicLevelService(DAO dao) {
 		academicLevelDAO = (IAcademicLevelDAO) dao.getSession(IAcademicLevelDAO.class);
+	}
+
+	@Override
+	public List<AcademicLevel> read(Map<String, String[]> parameters) {
+		return academicLevelDAO.read(parameters);
 	}
 
 	@Override

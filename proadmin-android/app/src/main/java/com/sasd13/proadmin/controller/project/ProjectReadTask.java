@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.controller.project;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.R;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -34,10 +33,12 @@ public class ProjectReadTask extends ReadRequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
-            controller.onReadProjects(((ServiceResult<List<Project>>) out).getResult());
+        ServiceResult<List<Project>> result = (ServiceResult<List<Project>>) out;
+
+        if (result.isSuccess()) {
+            controller.onReadProjects(result.getData());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 
@@ -45,6 +46,6 @@ public class ProjectReadTask extends ReadRequestorTask {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.display(R.string.message_cancelled);
+        controller.onCancelled();
     }
 }

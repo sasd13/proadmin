@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,10 +50,12 @@ public class ReportDependenciesTask extends RequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
-            controller.onRetrieved(((ServiceResult<Map<String, Object>>) out).getResult());
+        ServiceResult<Map<String, Object>> result = (ServiceResult<Map<String, Object>>) out;
+
+        if (result.isSuccess()) {
+            controller.onRetrieved(result.getData());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 }

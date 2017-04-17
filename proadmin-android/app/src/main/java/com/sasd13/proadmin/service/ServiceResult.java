@@ -17,13 +17,13 @@ public class ServiceResult<T> {
     private boolean success;
     private int httpStatus;
     private Map<String, List<String>> headers;
-    private T result;
+    private T data;
 
-    public ServiceResult(boolean success, int httpStatus, Map<String, List<String>> headers, T result) {
+    public ServiceResult(boolean success, int httpStatus, Map<String, List<String>> headers, T data) {
         this.success = success;
         this.httpStatus = httpStatus;
         this.headers = headers;
-        this.result = result;
+        this.data = data;
     }
 
     public boolean isSuccess() {
@@ -38,7 +38,7 @@ public class ServiceResult<T> {
         return headers;
     }
 
-    public T getResult() {
-        return result;
+    public T getData() {
+        return data;
     }
 }

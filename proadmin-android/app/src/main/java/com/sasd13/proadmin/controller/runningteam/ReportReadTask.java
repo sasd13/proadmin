@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.controller.runningteam;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.R;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 
 import java.util.List;
 
@@ -34,10 +33,12 @@ public class ReportReadTask extends ReadRequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
-            controller.onReadReports(((ServiceResult<List<Report>>) out).getResult());
+        ServiceResult<List<Report>> result = (ServiceResult<List<Report>>) out;
+
+        if (result.isSuccess()) {
+            controller.onReadReports(result.getData());
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 
@@ -45,6 +46,6 @@ public class ReportReadTask extends ReadRequestorTask {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.display(R.string.message_cancelled);
+        controller.onCancelled();
     }
 }

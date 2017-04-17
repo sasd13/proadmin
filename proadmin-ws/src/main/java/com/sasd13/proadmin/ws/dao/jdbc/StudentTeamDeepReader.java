@@ -34,7 +34,7 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 
 	private void retrieveDataStudent(StudentTeam studentTeam) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { studentTeam.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
 		studentTeam.setStudent(student);

@@ -41,7 +41,7 @@ public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluat
 
 	private void retrieveDataStudent(IndividualEvaluation individualEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { individualEvaluation.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
 		individualEvaluation.setStudent(student);

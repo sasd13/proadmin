@@ -42,7 +42,7 @@ public class RunningDeepReader extends DeepReader<Running> {
 
 	private void retrieveDataTeacher(Running running) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { running.getTeacher().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { running.getTeacher().getIntermediary() });
 
 		Teacher teacher = teacherDAO.read(parameters).get(0);
 		running.setTeacher(teacher);

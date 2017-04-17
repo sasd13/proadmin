@@ -7,10 +7,7 @@ package com.sasd13.proadmin.ws.servlet.rest;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,28 +22,23 @@ import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
+import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.util.EnumError;
 import com.sasd13.proadmin.util.ErrorFactory;
-import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.ws.Names;
-import com.sasd13.proadmin.ws.WSConstants;
-import com.sasd13.proadmin.ws.dao.DAO;
+import com.sasd13.proadmin.ws.util.adapter.AdapterFactory;
 
 /**
  *
  * @author Samir
  */
-public abstract class BeansServlet<T> extends HttpServlet {
+public abstract class BeansServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	private static final Logger LOGGER = Logger.getLogger(BeansServlet.class);
-	private static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
+	protected static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.WS_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
-
-	protected abstract Class<T> getBeanClass();
 
 	@Override
 	public void init() throws ServletException {
@@ -55,118 +47,36 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	private List<?> readFromRequest(HttpServletRequest req) throws IOException {
-		IParser parser = ParserFactory.make(req.getContentType());
-		String message = Stream.read(req.getReader());
-
-		return parser.fromStringArray(message, getBeanClass());
-	}
-
 	@SuppressWarnings("unchecked")
-	private List<IUpdateWrapper<T>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException {
+	protected <S, T> Object readFromRequest(HttpServletRequest req, Class<S> mSource, Class<T> mTarget) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
-		Class<?> mClass = UpdateWrapperFactory.make(getBeanClass()).getClass();
+		Object data = parser.fromStringArray(message, mSource);
 
-		return (List<IUpdateWrapper<T>>) parser.fromStringArray(message, mClass);
+		if (mTarget == null) {
+			return data;
+		} else {
+			IAdapter<S, T> adapter = AdapterFactory.make(mSource, mTarget);
+
+			return adapter.adapt((S) data);
+		}
 	}
 
-	private void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		LOGGER.info("Message sent by WS : " + message);
+	protected void writeToResponse(HttpServletResponse resp, Logger logger, String message) throws IOException {
+		logger.info("Message sent by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
-	private void handleError(Exception e, HttpServletResponse resp) throws IOException {
-		LOGGER.error(e);
-		writeError(resp, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
+	protected void handleError(HttpServletResponse resp, Logger logger, Exception e) throws IOException {
+		logger.error(e);
+		writeError(resp, logger, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
 	}
 
-	private void writeError(HttpServletResponse resp, int httpStatus, EnumError error) throws IOException {
-		LOGGER.info("Error sent by WS : code=" + error.getCode());
+	protected void writeError(HttpServletResponse resp, Logger logger, int httpStatus, EnumError error) throws IOException {
+		logger.info("Error sent by WS : code=" + error.getCode());
 		resp.setStatus(httpStatus);
 		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
-		writeToResponse(resp, bundle.getString(error.getBundleKey()));
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("doGet");
-
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
-		Map<String, String[]> parameters = req.getParameterMap();
-		List<T> results = new ArrayList<>();
-
-		try {
-			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-			//
-			// if (parameters.isEmpty()) {
-			// results = service.deepReadAll();
-			// } else {
-			// URLQueryUtils.decode(parameters);
-			//
-			// results = service.deepRead(parameters);
-			// }
-
-			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
-		} catch (Exception e) {
-			handleError(e, resp);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("doPost");
-
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
-
-		try {
-			List<T> ts = (List<T>) readFromRequest(req);
-			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-			//
-			// for (T t : ts) {
-			// service.create(t);
-			// }
-		} catch (Exception e) {
-			handleError(e, resp);
-		}
-	}
-
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("doPut");
-
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
-
-		try {
-			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
-			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-			//
-			// for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
-			// service.update(updateWrapper);
-			// }
-		} catch (Exception e) {
-			handleError(e, resp);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("doDelete");
-
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
-
-		try {
-			List<T> ts = (List<T>) readFromRequest(req);
-			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-			//
-			// for (T t : ts) {
-			// service.delete(t);
-			// }
-		} catch (Exception e) {
-			handleError(e, resp);
-		}
+		writeToResponse(resp, logger, bundle.getString(error.getBundleKey()));
 	}
 }

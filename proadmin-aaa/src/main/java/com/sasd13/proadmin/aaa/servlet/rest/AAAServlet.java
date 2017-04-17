@@ -36,7 +36,6 @@ public abstract class AAAServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5449641076971430518L;
 
-	private static final Logger LOGGER = Logger.getLogger(AAAServlet.class);
 	protected static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_HEADER_CONTENT_TYPE);
 
 	private TranslationBundle bundle;
@@ -53,26 +52,31 @@ public abstract class AAAServlet extends HttpServlet {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 		Object data = parser.fromString(message, mSource);
-		IAdapter<S, T> adapter = AdapterFactory.make(mSource, mTarget);
 
-		return adapter != null ? adapter.adapt((S) data) : data;
+		if (mTarget == null) {
+			return data;
+		} else {
+			IAdapter<S, T> adapter = AdapterFactory.make(mSource, mTarget);
+
+			return adapter.adapt((S) data);
+		}
 	}
 
-	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		LOGGER.info("Message sent by AAA : " + message);
+	protected void writeToResponse(HttpServletResponse resp, Logger logger, String message) throws IOException {
+		logger.info("Message sent by AAA : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 
-	protected void handleError(Exception e, HttpServletResponse resp) throws IOException {
-		LOGGER.error(e);
-		writeError(resp, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
+	protected void handleError(HttpServletResponse resp, Logger logger, Exception e) throws IOException {
+		logger.error(e);
+		writeError(resp, logger, HttpURLConnection.HTTP_INTERNAL_ERROR, ErrorFactory.make(e));
 	}
 
-	protected void writeError(HttpServletResponse resp, int httpStatus, EnumError error) throws IOException {
-		LOGGER.info("Error sent by AAA : code=" + error.getCode());
+	protected void writeError(HttpServletResponse resp, Logger logger, int httpStatus, EnumError error) throws IOException {
+		logger.info("Error sent by AAA : code=" + error.getCode());
 		resp.setStatus(httpStatus);
 		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
-		writeToResponse(resp, bundle.getString(error.getBundleKey()));
+		writeToResponse(resp, logger, bundle.getString(error.getBundleKey()));
 	}
 }

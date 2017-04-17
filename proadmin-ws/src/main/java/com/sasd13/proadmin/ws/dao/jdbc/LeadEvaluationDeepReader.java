@@ -41,7 +41,7 @@ public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 
 	private void retrieveDataStudent(LeadEvaluation leadEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { leadEvaluation.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { leadEvaluation.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
 		leadEvaluation.setStudent(student);

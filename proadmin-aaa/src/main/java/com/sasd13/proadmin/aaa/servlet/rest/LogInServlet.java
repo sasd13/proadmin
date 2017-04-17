@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
@@ -35,7 +36,6 @@ public class LogInServlet extends AAAServlet {
 	private static final long serialVersionUID = 4147483186176202467L;
 
 	private static final Logger LOGGER = Logger.getLogger(LogInServlet.class);
-	private static final int HTTP_EXPECTATION_FAILED = 417;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,12 +49,12 @@ public class LogInServlet extends AAAServlet {
 			User user = userService.find(credential);
 
 			if (user != null) {
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
+				writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
 			} else {
-				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA);
+				writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
 			}
 		} catch (Exception e) {
-			handleError(e, resp);
+			handleError(resp, LOGGER, e);
 		}
 	}
 }

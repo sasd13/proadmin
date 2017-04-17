@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
@@ -38,7 +39,6 @@ public class UserServlet extends AAAServlet {
 	private static final long serialVersionUID = 1073440009453108500L;
 
 	private static final Logger LOGGER = Logger.getLogger(UserServlet.class);
-	private static final int HTTP_EXPECTATION_FAILED = 417;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,12 +53,12 @@ public class UserServlet extends AAAServlet {
 			if (parameters != null) {
 				List<User> users = userService.read(parameters);
 
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(users));
+				writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(users));
 			} else {
-				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA);
+				writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
 			}
 		} catch (Exception e) {
-			handleError(e, resp);
+			handleError(resp, LOGGER, e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class UserServlet extends AAAServlet {
 
 			userService.create(userCreate.getUser(), userCreate.getCredential());
 		} catch (Exception e) {
-			handleError(e, resp);
+			handleError(resp, LOGGER, e);
 		}
 	}
 
@@ -96,11 +96,11 @@ public class UserServlet extends AAAServlet {
 				if (user != null) {
 					userService.update(userUpdate.getUser(), userUpdate.getCredentials().getNewCredential());
 				} else {
-					writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA);
+					writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
 				}
 			}
 		} catch (Exception e) {
-			handleError(e, resp);
+			handleError(resp, LOGGER, e);
 		}
 	}
 }

@@ -5,10 +5,10 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.IdentityActivity;
 import com.sasd13.proadmin.controller.IdentityController;
 import com.sasd13.proadmin.service.IAuthenticationService;
-import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.view.ILogInController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,8 +60,9 @@ public class LogInController extends IdentityController implements ILogInControl
         identityActivity.goToMainActivity(userID, intermediary);
     }
 
-    void onFail(int code) {
+    @Override
+    public void onFail(int httpStatus, List<String> responseErrors) {
         waitDialog.dismiss();
-        display(EnumErrorRes.find(code).getResID());
+        super.onFail(httpStatus, responseErrors);
     }
 }

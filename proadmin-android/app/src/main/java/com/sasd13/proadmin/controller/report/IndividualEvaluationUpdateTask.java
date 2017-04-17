@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.R;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 import java.util.List;
@@ -50,10 +49,12 @@ public class IndividualEvaluationUpdateTask extends RequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        if (((ServiceResult) out).isSuccess()) {
+        ServiceResult<?> result = (ServiceResult<?>) out;
+
+        if (result.isSuccess()) {
             controller.onUpdateIndividualEvaluations();
         } else {
-            controller.display(EnumErrorRes.find(((ServiceResult) out).getHttpStatus()).getResID());
+            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
         }
     }
 
@@ -61,6 +62,6 @@ public class IndividualEvaluationUpdateTask extends RequestorTask {
     public void onCancelled(Object out) {
         super.onCancelled(out);
 
-        controller.display(R.string.message_cancelled);
+        controller.onCancelled();
     }
 }
