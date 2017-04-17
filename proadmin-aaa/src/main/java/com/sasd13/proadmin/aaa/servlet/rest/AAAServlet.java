@@ -21,8 +21,10 @@ import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
+import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.aaa.util.Names;
+import com.sasd13.proadmin.aaa.util.adapter.AdapterFactory;
 import com.sasd13.proadmin.util.error.EnumError;
 import com.sasd13.proadmin.util.error.ErrorFactory;
 
@@ -46,11 +48,14 @@ public abstract class AAAServlet extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	protected Object readFromRequest(HttpServletRequest req, Class<?> mClass) throws IOException {
+	@SuppressWarnings("unchecked")
+	protected <S, T> Object readFromRequest(HttpServletRequest req, Class<S> mSource, Class<T> mTarget) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
+		Object data = parser.fromString(message, mSource);
+		IAdapter<S, T> adapter = AdapterFactory.make(mSource, mTarget);
 
-		return parser.fromString(message, mClass);
+		return adapter != null ? adapter.adapt((S) data) : data;
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {

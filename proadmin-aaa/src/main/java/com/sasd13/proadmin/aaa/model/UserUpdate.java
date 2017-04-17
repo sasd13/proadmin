@@ -1,10 +1,11 @@
 package com.sasd13.proadmin.aaa.model;
 
+import com.sasd13.proadmin.bean.user.User;
+
 public class UserUpdate {
 
 	private User user;
 	private CredentialUpdate credentials;
-	private String userID;
 
 	public User getUser() {
 		return user;
@@ -20,13 +21,5 @@ public class UserUpdate {
 
 	public void setCredentials(CredentialUpdate credentials) {
 		this.credentials = credentials;
-	}
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
 	}
 }

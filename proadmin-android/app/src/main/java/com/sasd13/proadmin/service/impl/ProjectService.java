@@ -23,6 +23,7 @@ public class ProjectService implements IProjectService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }

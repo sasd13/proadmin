@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;

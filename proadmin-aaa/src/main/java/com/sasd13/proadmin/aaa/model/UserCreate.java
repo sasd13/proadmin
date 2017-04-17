@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.aaa.model;
 
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.proadmin.bean.user.User;
 
 public class UserCreate {
 

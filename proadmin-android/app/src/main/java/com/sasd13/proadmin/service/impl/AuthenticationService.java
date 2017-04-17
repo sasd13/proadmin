@@ -26,6 +26,7 @@ public class AuthenticationService implements IAuthenticationService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 promise.isSuccess() && !results.isEmpty() ? results.get(0) : Collections.<String, String>emptyMap()
         );
     }

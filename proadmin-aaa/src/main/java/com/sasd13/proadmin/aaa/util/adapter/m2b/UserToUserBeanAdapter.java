@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.aaa.util.adapter.m2b;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
 
 public class UserToUserBeanAdapter implements IAdapter<User, UserBean> {

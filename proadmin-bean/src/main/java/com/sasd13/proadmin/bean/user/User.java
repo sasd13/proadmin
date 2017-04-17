@@ -1,6 +1,4 @@
-package com.sasd13.proadmin.aaa.model;
-
-import com.sasd13.proadmin.aaa.EnumStatus;
+package com.sasd13.proadmin.bean.user;
 
 public class User {
 

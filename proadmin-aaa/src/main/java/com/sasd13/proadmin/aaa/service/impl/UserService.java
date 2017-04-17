@@ -6,8 +6,8 @@ import java.util.Map;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.aaa.dao.DAO;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
-import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.service.IUserService;
+import com.sasd13.proadmin.bean.user.User;
 
 public class UserService implements IUserService {
 
@@ -23,8 +23,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public void update(String userID, User user, Credential credential) {
-		userDAO.update(userID, user, credential);
+	public void update(User user, Credential credential) {
+		userDAO.update(user, credential);
 	}
 
 	@Override

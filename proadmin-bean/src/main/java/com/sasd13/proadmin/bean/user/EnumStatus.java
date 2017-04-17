@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa;
+package com.sasd13.proadmin.bean.user;
 
 public enum EnumStatus {
 	UNKNOWN(-2),

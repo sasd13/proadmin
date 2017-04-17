@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.bean.running;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 
 public class RunningTeam {

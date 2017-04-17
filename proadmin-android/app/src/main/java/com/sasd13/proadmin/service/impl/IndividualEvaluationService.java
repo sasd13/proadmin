@@ -24,6 +24,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -37,6 +38,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

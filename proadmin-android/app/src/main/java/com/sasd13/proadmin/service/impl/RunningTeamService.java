@@ -11,6 +11,7 @@ import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.util.ws.WSResources;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }
@@ -56,7 +58,8 @@ public class RunningTeamService implements IRunningTeamService {
 
         return new ServiceResult<>(
                 promise.isSuccess(),
-                0,
+                promise.isSuccess() ? 200 : 417,
+                Collections.<String, List<String>>emptyMap(),
                 results
         );
     }
@@ -70,6 +73,7 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -83,6 +87,7 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -96,6 +101,7 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

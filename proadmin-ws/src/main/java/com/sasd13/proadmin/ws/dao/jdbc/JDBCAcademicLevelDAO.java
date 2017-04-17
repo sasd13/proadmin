@@ -14,7 +14,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.ws.dao.IAcademicLevelDAO;
 
 /**

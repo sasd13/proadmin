@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.util.wrapper.update;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.bean.member.Teacher;
@@ -40,8 +39,6 @@ public class UpdateWrapperFactory {
 			return (IUpdateWrapper<T>) new StudentTeamUpdateWrapper();
 		} else if (Running.class.isAssignableFrom(mClass)) {
 			return (IUpdateWrapper<T>) new RunningUpdateWrapper();
-		} else if (AcademicLevel.class.isAssignableFrom(mClass)) {
-			return (IUpdateWrapper<T>) new AcademicLevelUpdateWrapper();
 		} else if (RunningTeam.class.isAssignableFrom(mClass)) {
 			return (IUpdateWrapper<T>) new RunningTeamUpdateWrapper();
 		} else if (Report.class.isAssignableFrom(mClass)) {

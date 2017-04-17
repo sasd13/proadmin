@@ -7,7 +7,7 @@ package com.sasd13.proadmin.ws.servlet.rest;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 
 /**
  *

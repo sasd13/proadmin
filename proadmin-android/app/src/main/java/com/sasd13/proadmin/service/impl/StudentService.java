@@ -28,6 +28,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }
@@ -43,6 +44,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }
@@ -56,6 +58,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -69,6 +72,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -82,6 +86,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -95,6 +100,7 @@ public class StudentService implements IStudentService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

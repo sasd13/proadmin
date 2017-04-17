@@ -26,6 +26,7 @@ public class RunningService implements IRunningService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }
@@ -39,6 +40,7 @@ public class RunningService implements IRunningService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -52,6 +54,7 @@ public class RunningService implements IRunningService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

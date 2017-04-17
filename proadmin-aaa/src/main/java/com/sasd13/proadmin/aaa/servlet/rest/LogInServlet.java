@@ -19,10 +19,10 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.aaa.AAAConstants;
 import com.sasd13.proadmin.aaa.dao.DAO;
-import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
+import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.util.error.EnumError;
 
 /**
@@ -44,7 +44,7 @@ public class LogInServlet extends AAAServlet {
 		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = (Credential) readFromRequest(req, Credential.class);
+			Credential credential = (Credential) readFromRequest(req, Credential.class, null);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			User user = userService.find(credential);
 

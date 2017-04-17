@@ -22,6 +22,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }
@@ -35,6 +36,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

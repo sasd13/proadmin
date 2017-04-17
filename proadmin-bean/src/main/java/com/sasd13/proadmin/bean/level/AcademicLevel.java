@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.bean;
+package com.sasd13.proadmin.bean.level;
 
 public class AcademicLevel {
 

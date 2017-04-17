@@ -15,7 +15,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.project.Project;

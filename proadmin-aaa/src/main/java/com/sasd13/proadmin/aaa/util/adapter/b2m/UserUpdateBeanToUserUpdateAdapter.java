@@ -19,6 +19,5 @@ public class UserUpdateBeanToUserUpdateAdapter implements IAdapter<UserUpdateBea
 	public void adapt(UserUpdateBean source, UserUpdate target) {
 		target.setUser(new UserBeanToUserAdapter().adapt(source.getUser()));
 		target.setCredentials(new CredentialUpdateBeanToCredentialUpdateAdapter().adapt(source.getCredentials()));
-		target.setUserID(source.getUserID());
 	}
 }

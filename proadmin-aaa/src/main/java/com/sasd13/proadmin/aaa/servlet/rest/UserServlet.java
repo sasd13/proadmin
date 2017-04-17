@@ -19,13 +19,11 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.aaa.AAAConstants;
 import com.sasd13.proadmin.aaa.dao.DAO;
-import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.model.UserCreate;
 import com.sasd13.proadmin.aaa.model.UserUpdate;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
-import com.sasd13.proadmin.aaa.util.adapter.b2m.UserCreateBeanToUserCreateAdapter;
-import com.sasd13.proadmin.aaa.util.adapter.b2m.UserUpdateBeanToUserUpdateAdapter;
+import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.itf.bean.user.UserCreateBean;
 import com.sasd13.proadmin.itf.bean.user.UserUpdateBean;
 import com.sasd13.proadmin.util.error.EnumError;
@@ -71,8 +69,7 @@ public class UserServlet extends AAAServlet {
 		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			UserCreateBean userCreateBean = (UserCreateBean) readFromRequest(req, UserCreateBean.class);
-			UserCreate userCreate = new UserCreateBeanToUserCreateAdapter().adapt(userCreateBean);
+			UserCreate userCreate = (UserCreate) readFromRequest(req, UserCreateBean.class, UserCreate.class);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
 			userService.create(userCreate.getUser(), userCreate.getCredential());
@@ -88,17 +85,16 @@ public class UserServlet extends AAAServlet {
 		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			UserUpdateBean userUpdateBean = (UserUpdateBean) readFromRequest(req, UserUpdateBean.class);
-			UserUpdate userUpdate = new UserUpdateBeanToUserUpdateAdapter().adapt(userUpdateBean);
+			UserUpdate userUpdate = (UserUpdate) readFromRequest(req, UserUpdateBean.class, UserUpdate.class);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
 			if (userUpdate.getCredentials() == null) {
-				userService.update(userUpdate.getUserID(), userUpdate.getUser(), null);
+				userService.update(userUpdate.getUser(), null);
 			} else {
 				User user = userService.find(userUpdate.getCredentials().getOldCredential());
 
 				if (user != null) {
-					userService.update(userUpdate.getUserID(), userUpdate.getUser(), userUpdate.getCredentials().getNewCredential());
+					userService.update(userUpdate.getUser(), userUpdate.getCredentials().getNewCredential());
 				} else {
 					writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA);
 				}

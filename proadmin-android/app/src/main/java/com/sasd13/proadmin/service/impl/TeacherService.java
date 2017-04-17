@@ -27,6 +27,7 @@ public class TeacherService implements ITeacherService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 results
         );
     }
@@ -40,6 +41,7 @@ public class TeacherService implements ITeacherService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
+                promise.getResponseHeaders(),
                 null
         );
     }

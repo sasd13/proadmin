@@ -7,7 +7,7 @@ public interface WSResources {
 
 	String URL_AAA = "http://192.168.1.23:8082/proadmin-aaa";
 	String URL_AAA_LOGIN = URL_AAA + "/login";
-	String URL_AAA_SIGN = URL_AAA + "/sign";
+	String URL_AAA_USER = URL_AAA + "/user";
 
 	String URL_WS = "http://192.168.1.23:8082/proadmin-ws";
 	String URL_WS_ACADEMICLEVELS = URL_WS + "/academiclevels";

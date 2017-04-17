@@ -15,8 +15,8 @@ import com.sasd13.javaex.util.condition.ConditionBuilder;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
-import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.util.Names;
+import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal {
@@ -76,7 +76,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 	}
 
 	@Override
-	public void update(String userID, User user, Credential credential) {
+	public void update(User user, Credential credential) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);

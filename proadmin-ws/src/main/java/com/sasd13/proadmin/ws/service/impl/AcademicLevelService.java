@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.service.impl;
 
 import java.util.List;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.ws.service.IAcademicLevelService;
