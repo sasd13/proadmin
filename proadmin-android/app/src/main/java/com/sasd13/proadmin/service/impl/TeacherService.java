@@ -4,8 +4,8 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 import java.util.Map;

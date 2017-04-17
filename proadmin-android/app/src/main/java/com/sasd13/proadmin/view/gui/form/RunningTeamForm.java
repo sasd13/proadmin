@@ -8,12 +8,12 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.Finder;
-import com.sasd13.proadmin.util.builder.AcademicLevelsCodesBuilder;
+import com.sasd13.proadmin.util.builder.level.AcademicLevelsCodesBuilder;
 import com.sasd13.proadmin.util.builder.member.TeamsNumbersBuilder;
 import com.sasd13.proadmin.util.builder.running.ProjectsCodesFromRunningsBuilder;
 

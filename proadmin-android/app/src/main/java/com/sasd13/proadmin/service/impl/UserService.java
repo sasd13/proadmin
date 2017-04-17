@@ -5,7 +5,7 @@ import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.service.IUserService;
 import com.sasd13.proadmin.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.util.WSResources;
 
 import java.util.List;
 import java.util.Map;

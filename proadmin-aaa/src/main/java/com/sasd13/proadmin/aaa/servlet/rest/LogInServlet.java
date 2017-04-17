@@ -23,7 +23,7 @@ import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.bean.user.User;
-import com.sasd13.proadmin.util.error.EnumError;
+import com.sasd13.proadmin.util.EnumError;
 
 /**
  *

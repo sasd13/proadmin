@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.sorter;
+package com.sasd13.proadmin.util.sorter.level;
 
 import java.util.Collections;
 import java.util.Comparator;

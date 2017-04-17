@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.error;
+package com.sasd13.proadmin.util;
 
 public enum EnumError {
 	UNKNOWN(1, "exception.unknown"), 

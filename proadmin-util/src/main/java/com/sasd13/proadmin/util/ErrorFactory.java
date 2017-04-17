@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.error;
+package com.sasd13.proadmin.util;
 
 import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.util.condition.ConditionException;

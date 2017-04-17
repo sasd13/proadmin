@@ -1,6 +1,6 @@
-package com.sasd13.proadmin.util.aaa;
+package com.sasd13.proadmin.util;
 
-public enum EnumAAASession {
+public enum EnumSession {
 	UNKNOWN("unknown"), 
 	INTERMEDIARY("intermediary"), 
 	START("start"), 
@@ -10,7 +10,7 @@ public enum EnumAAASession {
 
 	private String name;
 
-	private EnumAAASession(String name) {
+	private EnumSession(String name) {
 		this.name = name;
 	}
 
@@ -18,8 +18,8 @@ public enum EnumAAASession {
 		return name;
 	}
 
-	public static EnumAAASession find(String name) {
-		for (EnumAAASession aaaSession : values()) {
+	public static EnumSession find(String name) {
+		for (EnumSession aaaSession : values()) {
 			if (aaaSession.name.equalsIgnoreCase(name)) {
 				return aaaSession;
 			}

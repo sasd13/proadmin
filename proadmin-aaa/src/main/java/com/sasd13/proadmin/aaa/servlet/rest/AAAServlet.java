@@ -19,14 +19,14 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.aaa.util.Names;
 import com.sasd13.proadmin.aaa.util.adapter.AdapterFactory;
-import com.sasd13.proadmin.util.error.EnumError;
-import com.sasd13.proadmin.util.error.ErrorFactory;
+import com.sasd13.proadmin.util.EnumError;
+import com.sasd13.proadmin.util.ErrorFactory;
 
 /**
  *

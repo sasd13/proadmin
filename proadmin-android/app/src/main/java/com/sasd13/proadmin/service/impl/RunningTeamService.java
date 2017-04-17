@@ -2,14 +2,14 @@ package com.sasd13.proadmin.service.impl;
 
 import com.sasd13.androidex.net.promise.MultiReadPromise;
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.service.IRunningTeamService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.Collections;
 import java.util.List;

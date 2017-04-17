@@ -4,8 +4,8 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 

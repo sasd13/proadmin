@@ -3,7 +3,7 @@ package com.sasd13.proadmin.controller.runningteam;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.R;
 import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.AcademicLevel;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;

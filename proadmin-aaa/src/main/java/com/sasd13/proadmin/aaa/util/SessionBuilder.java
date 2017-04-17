@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.catalina.util.SessionIdGenerator;
 
 import com.sasd13.proadmin.bean.user.User;
-import com.sasd13.proadmin.util.aaa.EnumAAASession;
+import com.sasd13.proadmin.util.EnumSession;
 
 public class SessionBuilder {
 
@@ -16,10 +16,10 @@ public class SessionBuilder {
 	public static Map<String, String> build(User user) {
 		Map<String, String> map = new HashMap<>();
 
-		map.put(EnumAAASession.USERID.getName(), user.getUserID());
-		map.put(EnumAAASession.INTERMEDIARY.getName(), user.getIntermediary());
-		map.put(EnumAAASession.TOKEN.getName(), generator.generateSessionId());
-		map.put(EnumAAASession.START.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
+		map.put(EnumSession.USERID.getName(), user.getUserID());
+		map.put(EnumSession.INTERMEDIARY.getName(), user.getIntermediary());
+		map.put(EnumSession.TOKEN.getName(), generator.generateSessionId());
+		map.put(EnumSession.START.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
 
 		return map;
 	}

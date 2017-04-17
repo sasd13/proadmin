@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.util.ws;
+package com.sasd13.proadmin.util;
 
 /**
  * Created by Samir on 30/10/2016.

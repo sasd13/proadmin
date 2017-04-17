@@ -21,4 +21,8 @@ public abstract class MainController extends Controller {
     protected void startFragment(Fragment fragment) {
         mainActivity.startFragment(fragment);
     }
+
+    public void onFail(int httpStatus, int responseError) {
+
+    }
 }

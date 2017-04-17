@@ -5,8 +5,8 @@ import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.bean.member.StudentTeam;
 import com.sasd13.proadmin.service.IStudentService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.List;
 import java.util.Map;

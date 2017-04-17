@@ -8,8 +8,8 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.service.IReportService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.proadmin.util.error.EnumError;
+import com.sasd13.proadmin.util.EnumError;
 
 import java.util.Collections;
 import java.util.List;

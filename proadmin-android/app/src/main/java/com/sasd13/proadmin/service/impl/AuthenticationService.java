@@ -5,7 +5,7 @@ import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.service.IAuthenticationService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.util.WSResources;
 
 import java.util.Collections;
 import java.util.List;

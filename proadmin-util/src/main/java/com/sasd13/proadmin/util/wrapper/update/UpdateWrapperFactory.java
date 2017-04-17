@@ -11,7 +11,6 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.WrapperException;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentTeamUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.StudentUpdateWrapper;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
@@ -48,7 +47,7 @@ public class UpdateWrapperFactory {
 		} else if (IndividualEvaluation.class.isAssignableFrom(mClass)) {
 			return (IUpdateWrapper<T>) new IndividualEvaluationUpdateWrapper();
 		} else {
-			throw new WrapperException("No wrapper found for '" + mClass.getName() + "'");
+			return null;
 		}
 	}
 }

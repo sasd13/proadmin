@@ -4,8 +4,8 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.service.ILeadEvaluationService;
 import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.util.WSResources;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
-import com.sasd13.proadmin.util.ws.WSResources;
 
 /**
  * Created by ssaidali2 on 27/11/2016.

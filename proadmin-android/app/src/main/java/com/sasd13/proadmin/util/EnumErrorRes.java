@@ -3,7 +3,6 @@ package com.sasd13.proadmin.util;
 import android.support.annotation.StringRes;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.util.error.EnumError;
 
 /**
  * Created by ssaidali2 on 30/10/2016.

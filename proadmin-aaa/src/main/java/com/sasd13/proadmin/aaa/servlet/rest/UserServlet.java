@@ -26,7 +26,7 @@ import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.itf.bean.user.UserCreateBean;
 import com.sasd13.proadmin.itf.bean.user.UserUpdateBean;
-import com.sasd13.proadmin.util.error.EnumError;
+import com.sasd13.proadmin.util.EnumError;
 
 /**
  *

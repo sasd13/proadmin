@@ -4,7 +4,7 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.service.IProjectService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.ws.WSResources;
+import com.sasd13.proadmin.util.WSResources;
 
 import java.util.List;
 
