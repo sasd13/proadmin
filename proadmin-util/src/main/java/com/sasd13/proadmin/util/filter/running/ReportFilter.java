@@ -10,12 +10,12 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class ReportFilter extends AndFilter<Report> {
 
-	public ReportFilter(Map<String, String[]> parameters) throws FilterException {
+	public ReportFilter(Map<String, String[]> parameters) {
 		super(parameters);
 	}
 
 	@Override
-	protected void setCriterias(MultiAndCriteria<Report> multiAndCriteria, Map<String, String[]> parameters) throws FilterException {
+	protected void setCriterias(MultiAndCriteria<Report> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {

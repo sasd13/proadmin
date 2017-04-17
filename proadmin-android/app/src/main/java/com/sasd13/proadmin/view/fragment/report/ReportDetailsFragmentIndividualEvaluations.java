@@ -161,7 +161,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         IndividualEvaluationUpdateWrapper individualEvaluationUpdateWrapper = new IndividualEvaluationUpdateWrapper();
 
         individualEvaluationUpdateWrapper.setReportNumber(individualEvaluation.getReport().getNumber());
-        individualEvaluationUpdateWrapper.setStudentNumber(individualEvaluation.getStudent().getNumber());
+        individualEvaluationUpdateWrapper.setStudentIntermediary(individualEvaluation.getStudent().getIntermediary());
         individualEvaluationUpdateWrapper.setWrapped(individualEvaluation);
         individualEvaluation.setMark(mark);
 

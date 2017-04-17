@@ -53,9 +53,9 @@ public class Finder {
         return -1;
     }
 
-    public static int indexOfStudent(String studentNumber, List<Student> students) {
+    public static int indexOfStudent(String studentIntermediary, List<Student> students) {
         for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getNumber().equalsIgnoreCase(studentNumber)) {
+            if (students.get(i).getIntermediary().equalsIgnoreCase(studentIntermediary)) {
                 return i;
             }
         }

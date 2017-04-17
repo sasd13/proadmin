@@ -91,16 +91,13 @@
 
     <!-- Web service -->
     <string name="exception_unknown">Erreur inconnue</string>
-    <string name="exception_aaa">Erreur d\'authentification</string>
-    <string name="exception_aaa_login">Erreur de correspondance identifiant/mot de passe</string>
-    <string name="exception_parser">Erreur de parsing des données</string>
-    <string name="exception_validator">Erreur de validation des données</string>
-    <string name="exception_business">Erreur métier</string>
+    <string name="exception_aaa">Identifiant et/ou mot de passe invalide</string>
+    <string name="exception_ws">Erreur du web service</string>
+    <string name="exception_parameters">Erreur des paramètres</string>
+    <string name="exception_parser">Erreur de parsing</string>
     <string name="exception_service">Erreur de service</string>
-    <string name="exception_webservice">Erreur du web service</string>
-    <string name="exception_connection">Erreur de connection</string>
     <string name="message_cancelled">Annulé</string>
-    <string name="error_no_logins">Identifiant/mot de passe vide</string>
+    <string name="error_no_logins">Veuillez entrer vos identifiant/mot de passe</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>
 
 </resources>

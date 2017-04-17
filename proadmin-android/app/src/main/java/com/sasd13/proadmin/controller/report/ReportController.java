@@ -83,7 +83,7 @@ public class ReportController extends MainController implements IReportControlle
         }
 
         reportReadTask.clearParameters();
-        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(reportReadTask).execute();
     }
 
@@ -125,7 +125,7 @@ public class ReportController extends MainController implements IReportControlle
         }
 
         runningTeamReadTask.clearParameters();
-        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(runningTeamReadTask).execute();
     }
 

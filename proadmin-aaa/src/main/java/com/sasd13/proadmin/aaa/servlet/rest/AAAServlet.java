@@ -20,13 +20,11 @@ import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.IParser;
-import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.proadmin.aaa.util.Names;
-import com.sasd13.proadmin.util.exception.EnumError;
-import com.sasd13.proadmin.util.exception.ErrorFactory;
+import com.sasd13.proadmin.util.error.EnumError;
+import com.sasd13.proadmin.util.error.ErrorFactory;
 
 /**
  *
@@ -48,11 +46,11 @@ public abstract class AAAServlet extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	protected Object readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	protected Object readFromRequest(HttpServletRequest req, Class<?> mClass) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
-		return (Credential) parser.fromString(message, Credential.class);
+		return parser.fromString(message, mClass);
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {

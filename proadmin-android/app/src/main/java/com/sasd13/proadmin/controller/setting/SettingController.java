@@ -45,7 +45,7 @@ public class SettingController extends MainController implements ISettingControl
         }
 
         teacherReadTask.clearParameters();
-        teacherReadTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        teacherReadTask.putParameter(EnumParameter.NUMBER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(teacherReadTask).execute();
     }
 

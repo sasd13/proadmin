@@ -4,22 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Member {
 
-	private String number, userID, firstName, lastName, email;
+	private String intermediary, firstName, lastName, email;
 
-	public String getNumber() {
-		return number;
+	public String getIntermediary() {
+		return intermediary;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setIntermediary(String intermediary) {
+		this.intermediary = intermediary;
 	}
 
 	public String getFirstName() {
@@ -62,9 +54,9 @@ public abstract class Member {
 
 		Member other = (Member) obj;
 
-		if (userID == null && other.userID != null)
+		if (intermediary == null && other.intermediary != null)
 			return false;
-		else if (!userID.equals(other.userID))
+		else if (!intermediary.equals(other.intermediary))
 			return false;
 
 		return true;

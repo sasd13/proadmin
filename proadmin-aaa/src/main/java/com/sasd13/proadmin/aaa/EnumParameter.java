@@ -1,6 +1,8 @@
 package com.sasd13.proadmin.aaa;
 
 public enum EnumParameter {
+	ID("id"), 
+	INTERMEDIARY("intermediary"), 
 	PASSWORD("password"), 
 	USERID("userid"), 
 	USERNAME("username"), 

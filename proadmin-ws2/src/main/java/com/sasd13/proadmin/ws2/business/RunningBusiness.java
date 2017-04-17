@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.exception.BusinessException;
+import com.sasd13.proadmin.util.error.BusinessException;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 import com.sasd13.proadmin.ws2.db.dao.IRunningDAO;
 

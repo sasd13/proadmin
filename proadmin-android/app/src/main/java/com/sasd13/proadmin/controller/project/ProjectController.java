@@ -101,7 +101,7 @@ public class ProjectController extends MainController implements IProjectControl
 
         runningReadTask.clearParameters();
         runningReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
-        runningReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        runningReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(runningReadTask).execute();
     }
 

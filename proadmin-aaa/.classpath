@@ -30,5 +30,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/proadmin-util"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/proadmin-bean"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/proadmin-itf"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

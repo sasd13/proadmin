@@ -39,7 +39,7 @@ public class RunningController extends MainController implements IRunningControl
 
     @Override
     public void actionNewRunning(Project project) {
-        scope.setRunning(new NewRunningBuilder(project, SessionHelper.getExtraIdTeacherNumber(mainActivity)).build());
+        scope.setRunning(new NewRunningBuilder(project, SessionHelper.getExtraIntermediary(mainActivity)).build());
         startFragment(RunningNewFragment.newInstance());
     }
 

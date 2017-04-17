@@ -4,19 +4,17 @@ import com.sasd13.javaex.dao.IDAO;
 
 public abstract class DAO implements IDAO {
 
-	protected ICredentialDAO credentialDAO;
-	protected IProfileDAO profileDAO;
+	protected IUserDAO userDAO;
 
-	protected DAO(ICredentialDAO credentialDAO, IProfileDAO profileDAO) {
-		this.credentialDAO = credentialDAO;
-		this.profileDAO = profileDAO;
+	protected DAO(IUserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 
-	public ICredentialDAO getCredentialDAO() {
-		return credentialDAO;
-	}
-
-	public IProfileDAO getProfileDAO() {
-		return profileDAO;
+	public Object getSession(Class<?> mClass) {
+		if (IUserDAO.class.isAssignableFrom(mClass)) {
+			return userDAO;
+		} else {
+			return null;
+		}
 	}
 }

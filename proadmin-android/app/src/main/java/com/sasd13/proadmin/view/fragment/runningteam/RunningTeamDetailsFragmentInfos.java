@@ -151,7 +151,7 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
         runningTeamUpdateWrapper.setRunningYear(runningTeam.getRunning().getYear());
         runningTeamUpdateWrapper.setProjectCode(runningTeam.getRunning().getProject().getCode());
-        runningTeamUpdateWrapper.setTeacherNumber(runningTeam.getRunning().getTeacher().getNumber());
+        runningTeamUpdateWrapper.setTeacherIntermediary(runningTeam.getRunning().getTeacher().getIntermediary());
         runningTeamUpdateWrapper.setTeamNumber(runningTeam.getTeam().getNumber());
         runningTeamUpdateWrapper.setAcademicLevelCode(runningTeam.getAcademicLevel().getCode());
         runningTeamUpdateWrapper.setWrapped(runningTeam);

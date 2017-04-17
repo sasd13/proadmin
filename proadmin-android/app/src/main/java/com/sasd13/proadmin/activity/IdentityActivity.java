@@ -9,7 +9,6 @@ import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.provider.ControllerProvider;
 import com.sasd13.proadmin.util.Extra;
 import com.sasd13.proadmin.util.SessionHelper;
@@ -49,7 +48,7 @@ public class IdentityActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void goToMainActivity(final Teacher teacher) {
+    public void goToMainActivity(final String userID, final String intermediary) {
         final WaitDialog waitDialog = new WaitDialog(this);
         final Intent intent = new Intent(this, MainActivity.class);
 
@@ -58,7 +57,8 @@ public class IdentityActivity extends AppCompatActivity {
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                SessionHelper.setExtraId(IdentityActivity.this, Extra.ID_TEACHER_NUMBER, teacher.getNumber());
+                SessionHelper.setExtra(IdentityActivity.this, Extra.USERID, userID);
+                SessionHelper.setExtra(IdentityActivity.this, Extra.INTERMEDIARY, intermediary);
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();

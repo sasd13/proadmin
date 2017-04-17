@@ -27,7 +27,7 @@ import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 public class UpdateWrapperFactory {
 
 	@SuppressWarnings("unchecked")
-	public static <T> IUpdateWrapper<T> make(Class<T> mClass) throws WrapperException {
+	public static <T> IUpdateWrapper<T> make(Class<T> mClass) {
 		if (Project.class.isAssignableFrom(mClass)) {
 			return (IUpdateWrapper<T>) new ProjectUpdateWrapper();
 		} else if (Teacher.class.isAssignableFrom(mClass)) {

@@ -23,7 +23,7 @@ public class StudentsNumbersBuilder implements IBuilder<List<String>> {
         List<String> list = new ArrayList<>();
 
         for (Student student : students) {
-            list.add(student.getNumber());
+            list.add(student.getIntermediary());
         }
 
         return list;
@@ -37,7 +37,7 @@ public class StudentsNumbersBuilder implements IBuilder<List<String>> {
         for (Student student : students) {
             builder = new StringBuilder();
 
-            builder.append(student.getNumber());
+            builder.append(student.getIntermediary());
             builder.append(" - ");
             builder.append(student.getFirstName());
             builder.append(" ");

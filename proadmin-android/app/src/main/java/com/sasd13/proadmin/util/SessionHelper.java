@@ -10,19 +10,19 @@ import com.sasd13.androidex.util.Session;
 public class SessionHelper {
 
     public static boolean isLogged(Context context) {
-        return Session.containsAttribute(context, Extra.ID_TEACHER_NUMBER);
+        return Session.containsAttribute(context, Extra.INTERMEDIARY);
     }
 
-    public static String getExtraId(Context context, String extraKey) {
-        return Session.getAttribute(context, extraKey);
+    public static String getExtra(Context context, String key) {
+        return Session.getAttribute(context, key);
     }
 
-    public static void setExtraId(Context context, String extraKey, String id) {
-        Session.setAttribute(context, extraKey, String.valueOf(id));
+    public static void setExtra(Context context, String key, String value) {
+        Session.setAttribute(context, key, String.valueOf(value));
     }
 
-    public static String getExtraIdTeacherNumber(Context context) {
-        return Session.getAttribute(context, Extra.ID_TEACHER_NUMBER);
+    public static String getExtraIntermediary(Context context) {
+        return Session.getAttribute(context, Extra.INTERMEDIARY);
     }
 
     public static void clear(Context context) {

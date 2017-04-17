@@ -115,9 +115,9 @@ public class StudentDetailsFragment extends Fragment implements Observer {
         StudentUpdateWrapper studentUpdateWrapper = new StudentUpdateWrapper();
         Student student = scope.getStudentTeam().getStudent();
 
-        studentUpdateWrapper.setNumber(student.getNumber());
+        studentUpdateWrapper.setIntermediary(student.getIntermediary());
         studentUpdateWrapper.setWrapped(student);
-        student.setNumber(studentForm.getNumber());
+        student.setIntermediary(studentForm.getNumber());
         student.setFirstName(studentForm.getFirstName());
         student.setLastName(studentForm.getLastName());
         student.setEmail(studentForm.getEmail());

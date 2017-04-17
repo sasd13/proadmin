@@ -3,10 +3,8 @@ package com.sasd13.proadmin.controller.authentication;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.activity.IdentityActivity;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.controller.IdentityController;
 import com.sasd13.proadmin.service.IAuthenticationService;
-import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.util.EnumErrorRes;
 import com.sasd13.proadmin.view.ILogInController;
 
@@ -20,15 +18,13 @@ import java.util.Map;
 public class LogInController extends IdentityController implements ILogInController {
 
     private IAuthenticationService authenticationService;
-    private ITeacherService teacherService;
     private LogInTask logInTask;
     private WaitDialog waitDialog;
 
-    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService, ITeacherService teacherService) {
+    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
         super(identityActivity);
 
         this.authenticationService = authenticationService;
-        this.teacherService = teacherService;
     }
 
     @Override
@@ -48,7 +44,7 @@ public class LogInController extends IdentityController implements ILogInControl
 
     private void connect(Map<String, String> credentials) {
         if (logInTask == null) {
-            logInTask = new LogInTask(this, authenticationService, teacherService);
+            logInTask = new LogInTask(this, authenticationService);
         }
 
         new Requestor(logInTask).execute(credentials);
@@ -59,9 +55,9 @@ public class LogInController extends IdentityController implements ILogInControl
         waitDialog.show();
     }
 
-    void onReadTeacher(Teacher teacher) {
+    void onReadTeacher(String userID, String intermediary) {
         waitDialog.dismiss();
-        identityActivity.goToMainActivity(teacher);
+        identityActivity.goToMainActivity(userID, intermediary);
     }
 
     void onFail(int code) {

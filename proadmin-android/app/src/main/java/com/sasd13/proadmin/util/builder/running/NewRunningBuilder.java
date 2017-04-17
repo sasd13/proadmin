@@ -15,14 +15,11 @@ public class NewRunningBuilder implements IBuilder<Running> {
     private Project project;
     private Teacher teacher;
 
-    public NewRunningBuilder() {
-    }
-
-    public NewRunningBuilder(Project project, String teacherNumber) {
+    public NewRunningBuilder(Project project, String teacherIntermediary) {
         this.project = project;
         teacher = new Teacher();
 
-        teacher.setNumber(teacherNumber);
+        teacher.setIntermediary(teacherIntermediary);
     }
 
     @Override

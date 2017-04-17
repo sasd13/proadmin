@@ -8,22 +8,6 @@ CREATE FUNCTION set_pr_code_next()
     END;
 $set_pr_code_next$ LANGUAGE plpgsql;
 
-CREATE FUNCTION set_tc_code_next()
-	RETURNS TRIGGER AS $set_tc_code_next$
-    BEGIN
-        NEW._code = 'TC-' || nextval('sq_tc');
-        RETURN NEW;
-    END;
-$set_tc_code_next$ LANGUAGE plpgsql;
-
-CREATE FUNCTION set_st_code_next()
-	RETURNS TRIGGER AS $set_st_code_next$
-    BEGIN
-        NEW._code = 'ST-' || nextval('sq_st');
-        RETURN NEW;
-    END;
-$set_st_code_next$ LANGUAGE plpgsql;
-
 CREATE FUNCTION set_tm_code_next()
 	RETURNS TRIGGER AS $set_tm_code_next$
     BEGIN

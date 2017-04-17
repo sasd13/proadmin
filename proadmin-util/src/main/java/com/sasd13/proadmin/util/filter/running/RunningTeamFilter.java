@@ -10,12 +10,12 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 public class RunningTeamFilter extends AndFilter<RunningTeam> {
 
-	public RunningTeamFilter(Map<String, String[]> parameters) throws FilterException {
+	public RunningTeamFilter(Map<String, String[]> parameters) {
 		super(parameters);
 	}
 
 	@Override
-	protected void setCriterias(MultiAndCriteria<RunningTeam> multiAndCriteria, Map<String, String[]> parameters) throws FilterException {
+	protected void setCriterias(MultiAndCriteria<RunningTeam> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.YEAR.getName().equalsIgnoreCase(entry.getKey())) {

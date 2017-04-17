@@ -8,6 +8,9 @@
         <dependent-module archiveName="proadmin-bean-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/proadmin-bean/proadmin-bean">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="proadmin-itf-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/proadmin-itf/proadmin-itf">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="proadmin-util-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/proadmin-util/proadmin-util">
             <dependency-type>uses</dependency-type>
         </dependent-module>

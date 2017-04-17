@@ -73,7 +73,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         }
 
         runningTeamReadTask.clearParameters();
-        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(runningTeamReadTask).execute();
     }
 
@@ -121,7 +121,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         }
 
         runningTeamDependenciesTask.resetParameters();
-        runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIdTeacherNumber(mainActivity)});
+        runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         new Requestor(runningTeamDependenciesTask).execute();
     }
 
@@ -163,7 +163,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         reportReadTask.clearParameters();
         reportReadTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
         reportReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
-        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getNumber()});
+        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getIntermediary()});
         reportReadTask.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
         reportReadTask.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
         new Requestor(reportReadTask).execute();

@@ -50,7 +50,7 @@ public class StudentForm extends Form {
 
     public void bindStudent(Student student) {
         if (inModeEdit) {
-            modelNumber.setValue(student.getNumber());
+            modelNumber.setValue(student.getIntermediary());
         }
 
         modelFirstName.setValue(student.getFirstName());

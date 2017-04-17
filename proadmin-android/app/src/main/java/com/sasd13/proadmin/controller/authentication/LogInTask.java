@@ -1,14 +1,10 @@
 package com.sasd13.proadmin.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.service.IAuthenticationService;
-import com.sasd13.proadmin.service.ITeacherService;
 import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.aaa.EnumAAASession;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,12 +15,10 @@ public class LogInTask extends ReadRequestorTask {
 
     private LogInController controller;
     private IAuthenticationService authenticationService;
-    private ITeacherService teacherService;
 
-    public LogInTask(LogInController controller, IAuthenticationService authenticationService, ITeacherService teacherService) {
+    public LogInTask(LogInController controller, IAuthenticationService authenticationService) {
         this.controller = controller;
         this.authenticationService = authenticationService;
-        this.teacherService = teacherService;
     }
 
     @Override
@@ -36,18 +30,7 @@ public class LogInTask extends ReadRequestorTask {
 
     @Override
     public Object execute(Object in) {
-        ServiceResult result = authenticationService.logIn((Map<String, String>) in);
-
-        if (result.isSuccess()) {
-            Map<String, String> session = (Map<String, String>) result.getResult();
-
-            parameters.clear();
-            parameters.put(EnumParameter.NUMBER.getName(), new String[]{session.get(EnumAAASession.USERNAME.getName())});
-
-            result = teacherService.read(parameters);
-        }
-
-        return result;
+        return authenticationService.logIn((Map<String, String>) in);
     }
 
     @Override
@@ -55,7 +38,9 @@ public class LogInTask extends ReadRequestorTask {
         super.onPostExecute(out);
 
         if (((ServiceResult) out).isSuccess()) {
-            controller.onReadTeacher(((ServiceResult<List<Teacher>>) out).getResult().get(0));
+            Map<String, String> session = (Map<String, String>) ((ServiceResult) out).getResult();
+
+            controller.onReadTeacher(session.get(EnumAAASession.USERID.getName()), session.get(EnumAAASession.INTERMEDIARY.getName()));
         } else {
             controller.onFail(((ServiceResult) out).getHttpStatus());
         }

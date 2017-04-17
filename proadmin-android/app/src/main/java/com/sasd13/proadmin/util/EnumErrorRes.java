@@ -3,7 +3,7 @@ package com.sasd13.proadmin.util;
 import android.support.annotation.StringRes;
 
 import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.util.error.EnumError;
 
 /**
  * Created by ssaidali2 on 30/10/2016.
@@ -11,15 +11,12 @@ import com.sasd13.proadmin.util.exception.EnumError;
 
 public enum EnumErrorRes {
     UNKNOWN(EnumError.UNKNOWN, R.string.exception_unknown),
-    CONNECTION(EnumError.CONNECTION, R.string.exception_connection),
-    CANCELLED(EnumError.CANCELLED, R.string.message_cancelled),
     AAA(EnumError.AAA, R.string.exception_aaa),
-    AAA_LOGIN(EnumError.AAA_LOGIN, R.string.exception_aaa_login),
+    WS(EnumError.WS, R.string.exception_ws),
+    PARAMETERS(EnumError.PARAMETERS, R.string.exception_parameters),
     PARSER(EnumError.PARSER, R.string.exception_parser),
-    VALIDATOR(EnumError.VALIDATOR, R.string.exception_validator),
-    BUSINESS(EnumError.BUSINESS, R.string.exception_business),
-    SERVICE(EnumError.SERVICE, R.string.exception_service),
-    WEB_SERVICE(EnumError.WEB_SERVICE, R.string.exception_webservice),;
+    SERVICE(EnumError.SERVICE, R.string.exception_service),;
+
 
     private EnumError error;
 

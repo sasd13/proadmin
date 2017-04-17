@@ -45,49 +45,48 @@ public class ControllerFactory {
         if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
-                    (IAuthenticationService) ServiceFactory.provide(IAuthenticationService.class),
-                    (ITeacherService) ServiceFactory.provide(ITeacherService.class)
+                    (IAuthenticationService) ServiceFactory.make(IAuthenticationService.class)
             );
         } else if (ISettingController.class.equals(mClass)) {
             return new SettingController(
                     (MainActivity) activity,
-                    (ITeacherService) ServiceFactory.provide(ITeacherService.class)
+                    (ITeacherService) ServiceFactory.make(ITeacherService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
-                    (IProjectService) ServiceFactory.provide(IProjectService.class),
-                    (IRunningService) ServiceFactory.provide(IRunningService.class)
+                    (IProjectService) ServiceFactory.make(IProjectService.class),
+                    (IRunningService) ServiceFactory.make(IRunningService.class)
             );
         } else if (ITeamController.class.equals(mClass)) {
             return new TeamController(
                     (MainActivity) activity,
-                    (ITeamService) ServiceFactory.provide(ITeamService.class),
-                    (IStudentService) ServiceFactory.provide(IStudentService.class)
+                    (ITeamService) ServiceFactory.make(ITeamService.class),
+                    (IStudentService) ServiceFactory.make(IStudentService.class)
             );
         } else if (IStudentController.class.equals(mClass)) {
             return new StudentController(
                     (MainActivity) activity,
-                    (IStudentService) ServiceFactory.provide(IStudentService.class)
+                    (IStudentService) ServiceFactory.make(IStudentService.class)
             );
         } else if (IRunningController.class.equals(mClass)) {
             return new RunningController(
                     (MainActivity) activity,
-                    (IRunningService) ServiceFactory.provide(IRunningService.class)
+                    (IRunningService) ServiceFactory.make(IRunningService.class)
             );
         } else if (IRunningTeamController.class.equals(mClass)) {
             return new RunningTeamController(
                     (MainActivity) activity,
-                    (IRunningTeamService) ServiceFactory.provide(IRunningTeamService.class),
-                    (IReportService) ServiceFactory.provide(IReportService.class)
+                    (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class),
+                    (IReportService) ServiceFactory.make(IReportService.class)
             );
         } else if (IReportController.class.equals(mClass)) {
             return new ReportController(
                     (MainActivity) activity,
-                    (IReportService) ServiceFactory.provide(IReportService.class),
-                    (ILeadEvaluationService) ServiceFactory.provide(ILeadEvaluationService.class),
-                    (IIndividualEvaluationService) ServiceFactory.provide(IIndividualEvaluationService.class),
-                    (IRunningTeamService) ServiceFactory.provide(IRunningTeamService.class)
+                    (IReportService) ServiceFactory.make(IReportService.class),
+                    (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class),
+                    (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class),
+                    (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class)
             );
         } else if (ILogOutController.class.equals(mClass)) {
             return new LogOutController((MainActivity) activity);

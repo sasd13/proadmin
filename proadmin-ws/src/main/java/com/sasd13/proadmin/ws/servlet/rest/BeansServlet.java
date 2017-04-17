@@ -22,21 +22,16 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.IParser;
-import com.sasd13.javaex.parser.ParserException;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.util.EnumHttpHeader;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.dao.DAO;
-import com.sasd13.proadmin.service.Service;
-import com.sasd13.proadmin.service.ServiceFactory;
-import com.sasd13.proadmin.util.exception.EnumError;
-import com.sasd13.proadmin.util.exception.ErrorFactory;
-import com.sasd13.proadmin.util.wrapper.WrapperException;
+import com.sasd13.proadmin.util.error.EnumError;
+import com.sasd13.proadmin.util.error.ErrorFactory;
 import com.sasd13.proadmin.util.wrapper.update.UpdateWrapperFactory;
 import com.sasd13.proadmin.ws.Names;
 import com.sasd13.proadmin.ws.WSConstants;
+import com.sasd13.proadmin.ws.dao.DAO;
 
 /**
  *
@@ -60,7 +55,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		bundle = new TranslationBundle(Locale.ENGLISH);
 	}
 
-	private List<?> readFromRequest(HttpServletRequest req) throws IOException, ParserException {
+	private List<?> readFromRequest(HttpServletRequest req) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
@@ -68,7 +63,7 @@ public abstract class BeansServlet<T> extends HttpServlet {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<IUpdateWrapper<T>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException, ParserException, WrapperException {
+	private List<IUpdateWrapper<T>> readUpdateWrappersFromRequest(HttpServletRequest req) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 		Class<?> mClass = UpdateWrapperFactory.make(getBeanClass()).getClass();
@@ -103,15 +98,15 @@ public abstract class BeansServlet<T> extends HttpServlet {
 		List<T> results = new ArrayList<>();
 
 		try {
-			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-
-			if (parameters.isEmpty()) {
-				results = service.deepReadAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = service.deepRead(parameters);
-			}
+			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
+			//
+			// if (parameters.isEmpty()) {
+			// results = service.deepReadAll();
+			// } else {
+			// URLQueryUtils.decode(parameters);
+			//
+			// results = service.deepRead(parameters);
+			// }
 
 			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
 		} catch (Exception e) {
@@ -128,11 +123,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			List<T> ts = (List<T>) readFromRequest(req);
-			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-
-			for (T t : ts) {
-				service.create(t);
-			}
+			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
+			//
+			// for (T t : ts) {
+			// service.create(t);
+			// }
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -146,11 +141,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			List<IUpdateWrapper<T>> updateWrappers = readUpdateWrappersFromRequest(req);
-			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-
-			for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
-				service.update(updateWrapper);
-			}
+			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
+			//
+			// for (IUpdateWrapper<T> updateWrapper : updateWrappers) {
+			// service.update(updateWrapper);
+			// }
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
@@ -165,11 +160,11 @@ public abstract class BeansServlet<T> extends HttpServlet {
 
 		try {
 			List<T> ts = (List<T>) readFromRequest(req);
-			Service<T> service = ServiceFactory.make(getBeanClass(), dao);
-
-			for (T t : ts) {
-				service.delete(t);
-			}
+			// Service<T> service = ServiceFactory.make(getBeanClass(), dao);
+			//
+			// for (T t : ts) {
+			// service.delete(t);
+			// }
 		} catch (Exception e) {
 			handleError(e, resp);
 		}

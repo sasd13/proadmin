@@ -22,7 +22,7 @@ public class StudentTeamItemModel extends Observable implements IRecyclerItemMod
 
     @Override
     public String getLabel() {
-        return studentTeam.getStudent().getNumber();
+        return studentTeam.getStudent().getIntermediary();
     }
 
     public String getFullName() {

@@ -7,7 +7,7 @@ public class RunningTeamUpdateWrapper implements IUpdateWrapper<RunningTeam> {
 
 	private RunningTeam runningTeam;
 	private int runningYear;
-	private String projectCode, teacherNumber, teamNumber, academicLevelCode;
+	private String projectCode, teacherIntermediary, teamNumber, academicLevelCode;
 
 	@Override
 	public RunningTeam getWrapped() {
@@ -35,12 +35,12 @@ public class RunningTeamUpdateWrapper implements IUpdateWrapper<RunningTeam> {
 		this.projectCode = projectCode;
 	}
 
-	public String getTeacherNumber() {
-		return teacherNumber;
+	public String getTeacherIntermediary() {
+		return teacherIntermediary;
 	}
 
-	public void setTeacherNumber(String teacherNumber) {
-		this.teacherNumber = teacherNumber;
+	public void setTeacherIntermediary(String teacherIntermediary) {
+		this.teacherIntermediary = teacherIntermediary;
 	}
 
 	public String getTeamNumber() {

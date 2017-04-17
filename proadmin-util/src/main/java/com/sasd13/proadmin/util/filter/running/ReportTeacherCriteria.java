@@ -8,10 +8,10 @@ import com.sasd13.proadmin.bean.running.Report;
 
 public class ReportTeacherCriteria implements Criteria<Report> {
 
-	private String number;
+	private String intermediary;
 
-	public ReportTeacherCriteria(String number) {
-		this.number = number;
+	public ReportTeacherCriteria(String intermediary) {
+		this.intermediary = intermediary;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class ReportTeacherCriteria implements Criteria<Report> {
 		List<Report> results = new ArrayList<Report>();
 
 		for (Report report : list) {
-			if (report.getRunningTeam().getRunning().getTeacher().getNumber().equalsIgnoreCase(number)) {
+			if (report.getRunningTeam().getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
 				results.add(report);
 			}
 		}

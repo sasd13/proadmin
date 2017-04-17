@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.service;
 
-import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.util.error.EnumError;
 
 /**
  * Created by ssaidali2 on 02/04/2017.

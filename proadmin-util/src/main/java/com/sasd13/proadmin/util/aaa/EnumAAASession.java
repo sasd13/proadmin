@@ -2,10 +2,10 @@ package com.sasd13.proadmin.util.aaa;
 
 public enum EnumAAASession {
 	UNKNOWN("unknown"), 
-	USERNAME("username"),
-	NUMBER("number"),
-	TOKEN("token"),
-	START("start"),
+	INTERMEDIARY("intermediary"), 
+	START("start"), 
+	TOKEN("token"), 
+	USERID("uid"), 
 	;
 
 	private String name;

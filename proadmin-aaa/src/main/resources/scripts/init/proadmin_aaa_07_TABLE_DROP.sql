@@ -1,5 +1,5 @@
 USE proadmin_aaa;
 
-DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS users;
 
 COMMIT;

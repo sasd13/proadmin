@@ -39,9 +39,9 @@ public class MembersSorter {
 				@Override
 				public int compare(Member member1, Member member2) {
 					if (byAsc) {
-						return member1.getNumber().compareTo(member2.getNumber());
+						return member1.getIntermediary().compareTo(member2.getIntermediary());
 					} else {
-						return member2.getNumber().compareTo(member1.getNumber());
+						return member2.getIntermediary().compareTo(member1.getIntermediary());
 					}
 				}
 			});

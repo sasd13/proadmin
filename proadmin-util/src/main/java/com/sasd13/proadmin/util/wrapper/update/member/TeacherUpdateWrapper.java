@@ -6,7 +6,7 @@ import com.sasd13.proadmin.bean.member.Teacher;
 public class TeacherUpdateWrapper implements IUpdateWrapper<Teacher> {
 
 	private Teacher teacher;
-	private String number;
+	private String intermediary;
 
 	@Override
 	public Teacher getWrapped() {
@@ -18,11 +18,11 @@ public class TeacherUpdateWrapper implements IUpdateWrapper<Teacher> {
 		this.teacher = teacher;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getIntermediary() {
+		return intermediary;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setIntermediary(String intermediary) {
+		this.intermediary = intermediary;
 	}
 }

@@ -7,7 +7,7 @@ public class RunningUpdateWrapper implements IUpdateWrapper<Running> {
 
 	private Running running;
 	private int year;
-	private String projectCode, teacherNumber;
+	private String projectCode, teacherIntermediary;
 
 	@Override
 	public Running getWrapped() {
@@ -35,11 +35,11 @@ public class RunningUpdateWrapper implements IUpdateWrapper<Running> {
 		this.projectCode = projectCode;
 	}
 
-	public String getTeacherNumber() {
-		return teacherNumber;
+	public String getTeacherIntermediary() {
+		return teacherIntermediary;
 	}
 
-	public void setTeacherNumber(String teacherNumber) {
-		this.teacherNumber = teacherNumber;
+	public void setTeacherIntermediary(String teacherIntermediary) {
+		this.teacherIntermediary = teacherIntermediary;
 	}
 }

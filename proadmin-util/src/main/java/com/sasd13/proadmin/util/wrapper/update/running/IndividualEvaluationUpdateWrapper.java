@@ -6,7 +6,7 @@ import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 public class IndividualEvaluationUpdateWrapper implements IUpdateWrapper<IndividualEvaluation> {
 
 	private IndividualEvaluation individualEvaluation;
-	private String reportNumber, studentNumber;
+	private String reportNumber, studentIntermediary;
 
 	@Override
 	public IndividualEvaluation getWrapped() {
@@ -26,11 +26,11 @@ public class IndividualEvaluationUpdateWrapper implements IUpdateWrapper<Individ
 		this.reportNumber = reportNumber;
 	}
 
-	public String getStudentNumber() {
-		return studentNumber;
+	public String getStudentIntermediary() {
+		return studentIntermediary;
 	}
 
-	public void setStudentNumber(String studentNumber) {
-		this.studentNumber = studentNumber;
+	public void setStudentIntermediary(String studentIntermediary) {
+		this.studentIntermediary = studentIntermediary;
 	}
 }

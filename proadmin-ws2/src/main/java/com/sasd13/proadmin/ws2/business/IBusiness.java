@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.ws2.business;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.exception.BusinessException;
+import com.sasd13.proadmin.util.error.BusinessException;
 
 public interface IBusiness<T> {
 

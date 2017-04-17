@@ -109,7 +109,7 @@ public class LeadEvaluationForm extends Form {
     private void bindLeader(List<Student> studentsToBind, Student student) {
         bindLeader(studentsToBind);
 
-        modelLeader.setValue(Finder.indexOfStudent(student.getNumber(), studentsToBind));
+        modelLeader.setValue(Finder.indexOfStudent(student.getIntermediary(), studentsToBind));
     }
 
     public Student getLeader() throws FormException {

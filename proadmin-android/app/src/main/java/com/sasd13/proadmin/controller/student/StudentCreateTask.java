@@ -38,7 +38,7 @@ public class StudentCreateTask extends RequestorTask {
         StudentTeam studentTeam = (StudentTeam) in;
 
         parameters.clear();
-        parameters.put(EnumParameter.NUMBER.getName(), new String[]{studentTeam.getStudent().getNumber()});
+        parameters.put(EnumParameter.NUMBER.getName(), new String[]{studentTeam.getStudent().getIntermediary()});
 
         result = service.readStudents(parameters);
 

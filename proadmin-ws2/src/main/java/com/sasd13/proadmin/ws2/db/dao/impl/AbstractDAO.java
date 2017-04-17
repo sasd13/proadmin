@@ -5,12 +5,10 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.sasd13.javaex.util.condition.ConditionBuilder;
-import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 
 public abstract class AbstractDAO {
@@ -29,13 +27,7 @@ public abstract class AbstractDAO {
 
 	protected String appendWhere(Map<String, String[]> parameters, StringBuilder builder, IConditionnal conditionnal) {
 		builder.append(" where ");
-
-		try {
-			builder.append(ConditionBuilder.build(parameters, conditionnal));
-		} catch (ConditionException e) {
-			LOGGER.error(e);
-			throw new HibernateException(e);
-		}
+		builder.append(ConditionBuilder.build(parameters, conditionnal));
 
 		return builder.toString();
 	}
@@ -45,17 +37,12 @@ public abstract class AbstractDAO {
 
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				try {
-					editQueryForSelect(query, i++, entry.getKey(), value);
-				} catch (ConditionException e) {
-					LOGGER.error(e);
-					throw new HibernateException(e);
-				}
+				editQueryForSelect(query, i++, entry.getKey(), value);
 			}
 		}
 	}
 
-	protected void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
+	protected void editQueryForSelect(Query query, int index, String key, String value) {
 		// Do nothing
 	}
 }

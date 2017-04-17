@@ -9,7 +9,6 @@ CREATE TABLE projects (
 
 CREATE TABLE teachers (
 	_code VARCHAR(50) NOT NULL,
-	_userid VARCHAR(255) NOT NULL,
 	_firstname VARCHAR(255) NOT NULL,
 	_lastname VARCHAR(255) NOT NULL,
 	_email VARCHAR(255) NOT NULL
@@ -17,7 +16,6 @@ CREATE TABLE teachers (
 
 CREATE TABLE students (
 	_code VARCHAR(50) NOT NULL,
-	_userid VARCHAR(255) NOT NULL,
 	_firstname VARCHAR(255) NOT NULL,
 	_lastname VARCHAR(255) NOT NULL,
 	_email VARCHAR(255) NOT NULL

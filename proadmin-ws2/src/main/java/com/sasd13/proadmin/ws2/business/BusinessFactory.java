@@ -11,7 +11,7 @@ import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.bean.running.Running;
 import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.exception.BusinessException;
+import com.sasd13.proadmin.util.error.BusinessException;
 
 public class BusinessFactory {
 

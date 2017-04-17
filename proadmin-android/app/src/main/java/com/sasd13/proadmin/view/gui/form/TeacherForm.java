@@ -49,7 +49,7 @@ public class TeacherForm extends Form {
 
     public void bindTeacher(Teacher teacher) {
         if (teacher != null) {
-            modelNumber.setValue(teacher.getNumber());
+            modelNumber.setValue(teacher.getIntermediary());
             modelFirstName.setValue(teacher.getFirstName());
             modelLastName.setValue(teacher.getLastName());
             modelEmail.setValue(teacher.getEmail());

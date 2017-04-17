@@ -39,9 +39,9 @@ public class StudentTeamsSorter {
 				@Override
 				public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
 					if (byAsc) {
-						return studentTeam1.getStudent().getNumber().compareTo(studentTeam2.getStudent().getNumber());
+						return studentTeam1.getStudent().getIntermediary().compareTo(studentTeam2.getStudent().getIntermediary());
 					} else {
-						return studentTeam2.getStudent().getNumber().compareTo(studentTeam1.getStudent().getNumber());
+						return studentTeam2.getStudent().getIntermediary().compareTo(studentTeam1.getStudent().getIntermediary());
 					}
 				}
 			});

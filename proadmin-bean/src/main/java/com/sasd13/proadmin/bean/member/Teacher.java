@@ -7,8 +7,7 @@ public class Teacher extends Member {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Teacher [");
-		builder.append("number=" + getNumber());
-		builder.append(", userID=" + getUserID());
+		builder.append("intermediary=" + getIntermediary());
 		builder.append(", firstName=" + getFirstName());
 		builder.append(", lastName=" + getLastName());
 		builder.append(", email=" + getEmail());

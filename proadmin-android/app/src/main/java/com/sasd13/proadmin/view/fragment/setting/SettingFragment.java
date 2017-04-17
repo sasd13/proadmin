@@ -114,9 +114,9 @@ public class SettingFragment extends Fragment implements Observer {
         TeacherUpdateWrapper teacherUpdateWrapper = new TeacherUpdateWrapper();
         Teacher teacher = scope.getTeacher();
 
-        teacherUpdateWrapper.setNumber(teacher.getNumber());
+        teacherUpdateWrapper.setIntermediary(teacher.getIntermediary());
         teacherUpdateWrapper.setWrapped(teacher);
-        teacher.setNumber(teacherForm.getNumber());
+        teacher.setIntermediary(teacherForm.getNumber());
         teacher.setFirstName(teacherForm.getFirstName());
         teacher.setLastName(teacherForm.getLastName());
         teacher.setEmail(teacherForm.getEmail());

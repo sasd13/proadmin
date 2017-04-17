@@ -5,16 +5,6 @@ CREATE TRIGGER tr_pr_in
 	FOR EACH ROW 
 	EXECUTE PROCEDURE set_pr_code_next();
 	
-CREATE TRIGGER tr_tc_in
-	BEFORE INSERT ON teachers 
-	FOR EACH ROW 
-	EXECUTE PROCEDURE set_tc_code_next();
-	
-CREATE TRIGGER tr_st_in
-	BEFORE INSERT ON students 
-	FOR EACH ROW 
-	EXECUTE PROCEDURE set_st_code_next();
-	
 CREATE TRIGGER tr_tm_in
 	BEFORE INSERT ON teams 
 	FOR EACH ROW 

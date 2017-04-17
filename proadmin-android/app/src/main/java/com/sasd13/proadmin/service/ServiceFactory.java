@@ -17,7 +17,7 @@ import com.sasd13.proadmin.service.impl.TeamService;
 
 public class ServiceFactory {
 
-    public static Object provide(Class mClass) {
+    public static Object make(Class mClass) {
         if (IAuthenticationService.class.isAssignableFrom(mClass)) {
             return new AuthenticationService();
         } else if (ITeacherService.class.isAssignableFrom(mClass)) {

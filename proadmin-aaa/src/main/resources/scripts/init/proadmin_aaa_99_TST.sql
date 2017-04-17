@@ -1,18 +1,10 @@
 USE proadmin_aaa;
 
-DELETE FROM profiles;
-DELETE FROM credentials;
+DELETE FROM users;
 
--- CREDENTIALS
+-- USERS
 
-INSERT INTO credentials (_username,_password) VALUES ('21010013','2d48a13e67518ded1eb199cf67f8c3c2');
-
--- PROFILES
-
-INSERT INTO profiles (_userid,_roles,_intermediary,_email,_username) VALUES ('525fd8b503c3a5154e635aca63fdeca3056d7f10cceef49497a995219e39f8bf','PA_TC','10000001','samir@email.com','21010013');
-INSERT INTO profiles (_userid,_roles,_intermediary,_email,_username) VALUES ('44a4ed36d9be6468fdbf8cf3f1f8e71dd4d0c50ed01af62cf5e1da33788f4a92','PA_ST','20000001','ronaldo@email.com','21010013');
-INSERT INTO profiles (_userid,_roles,_intermediary,_email,_username) VALUES ('44a4ed36d9be6468fdbf8cf3f1f8e71dd4d0c50ed01af62cf5e1da33788f4a92','PA_ST','20000002','benzema@email.com','21010013');
-INSERT INTO profiles (_userid,_roles,_intermediary,_email,_username) VALUES ('44a4ed36d9be6468fdbf8cf3f1f8e71dd4d0c50ed01af62cf5e1da33788f4a92','PA_ST','20000003','bale@email.com','21010013');
-INSERT INTO profiles (_userid,_roles,_intermediary,_email,_username) VALUES ('44a4ed36d9be6468fdbf8cf3f1f8e71dd4d0c50ed01af62cf5e1da33788f4a92','PA_ST','20000004','modric@email.com','21010013');
+INSERT INTO users (_uid,_username,_password,_roles,_intermediary,_email) VALUES ('6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b','samir@email.com','35093df99d14e975650638b50f7c7402074dd070ea71828a8acb5a2868c1c194','PA_TC;','1','samir@email.com');
+INSERT INTO users (_uid,_username,_password,_roles,_intermediary,_email) VALUES ('8f4252a81803b4a7a8eeac961735a3e270ba092d28aac4ef9aa1f376684c33b1','ronaldo@email.com','35093df99d14e975650638b50f7c7402074dd070ea71828a8acb5a2868c1c194','PA_ST;','21010014','ronaldo@email.com');
 
 COMMIT;

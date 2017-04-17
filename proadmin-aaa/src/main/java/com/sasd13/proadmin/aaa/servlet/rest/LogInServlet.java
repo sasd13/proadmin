@@ -6,8 +6,6 @@
 package com.sasd13.proadmin.aaa.servlet.rest;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -19,16 +17,13 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.service.IReadService;
-import com.sasd13.javaex.util.validator.IValidator;
 import com.sasd13.proadmin.aaa.AAAConstants;
-import com.sasd13.proadmin.aaa.EnumParameter;
-import com.sasd13.proadmin.aaa.dao.IProfileDAO;
-import com.sasd13.proadmin.aaa.service.ProfileService;
-import com.sasd13.proadmin.aaa.session.SessionBuilder;
-import com.sasd13.proadmin.aaa.util.validator.CredentialValidator;
-import com.sasd13.proadmin.bean.profile.Profile;
-import com.sasd13.proadmin.util.exception.EnumError;
+import com.sasd13.proadmin.aaa.dao.DAO;
+import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.aaa.service.IUserService;
+import com.sasd13.proadmin.aaa.service.ServiceFactory;
+import com.sasd13.proadmin.aaa.util.SessionBuilder;
+import com.sasd13.proadmin.util.error.EnumError;
 
 /**
  *
@@ -42,45 +37,24 @@ public class LogInServlet extends AAAServlet {
 	private static final Logger LOGGER = Logger.getLogger(LogInServlet.class);
 	private static final int HTTP_EXPECTATION_FAILED = 417;
 
-	private IValidator<Credential> validator;
-
-	@Override
-	public void init() throws ServletException {
-		super.init();
-
-		validator = new CredentialValidator();
-	}
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("doPost");
+		LOGGER.info("[Proadmin-AAA] Login");
 
-		IProfileDAO dao = (IProfileDAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req);
-			IReadService<Profile> readService = new ProfileService(dao);
+			Credential credential = (Credential) readFromRequest(req, Credential.class);
+			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
+			User user = userService.find(credential);
 
-			validator.validate(credential);
-
-			List<Profile> profiles = readService.read(getParameters(credential));
-
-			if (!profiles.isEmpty()) {
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(profiles.get(0)) }));
+			if (user != null) {
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
 			} else {
-				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA_LOGIN);
+				writeError(resp, HTTP_EXPECTATION_FAILED, EnumError.AAA);
 			}
 		} catch (Exception e) {
 			handleError(e, resp);
 		}
-	}
-
-	private Map<String, String[]> getParameters(Credential credential) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.USERNAME.getName(), new String[] { credential.getUsername() });
-		parameters.put(EnumParameter.PASSWORD.getName(), new String[] { credential.getPassword() });
-
-		return parameters;
 	}
 }

@@ -8,10 +8,10 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 
 public class StudentTeamStudentCriteria implements Criteria<StudentTeam> {
 
-	private String number;
+	private String intermediary;
 
-	public StudentTeamStudentCriteria(String number) {
-		this.number = number;
+	public StudentTeamStudentCriteria(String intermediary) {
+		this.intermediary = intermediary;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class StudentTeamStudentCriteria implements Criteria<StudentTeam> {
 		List<StudentTeam> results = new ArrayList<>();
 
 		for (StudentTeam studentTeam : list) {
-			if (studentTeam.getStudent().getNumber().equalsIgnoreCase(number)) {
+			if (studentTeam.getStudent().getIntermediary().equalsIgnoreCase(intermediary)) {
 				results.add(studentTeam);
 			}
 		}

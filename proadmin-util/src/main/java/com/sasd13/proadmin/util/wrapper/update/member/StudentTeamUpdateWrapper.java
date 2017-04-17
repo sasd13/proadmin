@@ -6,7 +6,7 @@ import com.sasd13.proadmin.bean.member.StudentTeam;
 public class StudentTeamUpdateWrapper implements IUpdateWrapper<StudentTeam> {
 
 	private StudentTeam studentTeam;
-	private String studentNumber, teamNumber;
+	private String studentIntermediary, teamNumber;
 
 	@Override
 	public StudentTeam getWrapped() {
@@ -18,12 +18,12 @@ public class StudentTeamUpdateWrapper implements IUpdateWrapper<StudentTeam> {
 		this.studentTeam = studentTeam;
 	}
 
-	public String getStudentNumber() {
-		return studentNumber;
+	public String getStudentIntermediary() {
+		return studentIntermediary;
 	}
 
-	public void setStudentNumber(String studentNumber) {
-		this.studentNumber = studentNumber;
+	public void setStudentIntermediary(String studentIntermediary) {
+		this.studentIntermediary = studentIntermediary;
 	}
 
 	public String getTeamNumber() {

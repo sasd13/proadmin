@@ -5,6 +5,7 @@ public enum EnumParameter {
 	CODE("code"), 
 	EMAIL("email"), 
 	FIRSTNAME("firstname"), 
+	INTERMEDIARY("intermediary"), 
 	LASTNAME("lastname"), 
 	NAME("name"), 
 	NUMBER("number"), 
@@ -14,6 +15,7 @@ public enum EnumParameter {
 	SESSION("session"), 
 	STUDENT("student"), 
 	TEACHER("teacher"), 
+	USERID("uid"), 
 	TEAM("team"), 
 	YEAR("year"),
 	;

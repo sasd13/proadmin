@@ -8,10 +8,10 @@ import com.sasd13.proadmin.bean.running.RunningTeam;
 
 public class RunningTeamTeacherCriteria implements Criteria<RunningTeam> {
 
-	private String number;
+	private String intermediary;
 
-	public RunningTeamTeacherCriteria(String number) {
-		this.number = number;
+	public RunningTeamTeacherCriteria(String intermediary) {
+		this.intermediary = intermediary;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class RunningTeamTeacherCriteria implements Criteria<RunningTeam> {
 		List<RunningTeam> results = new ArrayList<RunningTeam>();
 
 		for (RunningTeam runningTeam : list) {
-			if (runningTeam.getRunning().getTeacher().getNumber().equalsIgnoreCase(number)) {
+			if (runningTeam.getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
 				results.add(runningTeam);
 			}
 		}

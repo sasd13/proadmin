@@ -121,7 +121,7 @@ public class StudentNewFragment extends Fragment implements Observer {
     private void editStudentWithForm() throws FormException {
         Student student = scope.getStudentTeam().getStudent();
 
-        student.setNumber(studentForm.getNumber());
+        student.setIntermediary(studentForm.getNumber());
         student.setFirstName(studentForm.getFirstName());
         student.setLastName(studentForm.getLastName());
         student.setEmail(studentForm.getEmail());
