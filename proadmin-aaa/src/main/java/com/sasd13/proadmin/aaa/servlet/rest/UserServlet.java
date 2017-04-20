@@ -18,12 +18,12 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.aaa.AAAConstants;
 import com.sasd13.proadmin.aaa.dao.DAO;
 import com.sasd13.proadmin.aaa.model.UserCreate;
 import com.sasd13.proadmin.aaa.model.UserUpdate;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
+import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.itf.bean.user.UserCreateBean;
 import com.sasd13.proadmin.itf.bean.user.UserUpdateBean;
@@ -44,7 +44,7 @@ public class UserServlet extends AAAServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-AAA] User : GET");
 
-		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -66,7 +66,7 @@ public class UserServlet extends AAAServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-AAA] User : POST");
 
-		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			UserCreate userCreate = (UserCreate) readFromRequest(req, UserCreateBean.class, UserCreate.class);
@@ -82,7 +82,7 @@ public class UserServlet extends AAAServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-AAA] User : PUT");
 
-		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			UserUpdate userUpdate = (UserUpdate) readFromRequest(req, UserUpdateBean.class, UserUpdate.class);

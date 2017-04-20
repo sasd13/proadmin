@@ -20,10 +20,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
+import com.sasd13.proadmin.ws.util.Constants;
 
 /**
  *
@@ -40,7 +40,7 @@ public class TeamsServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Team : GET");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -66,7 +66,7 @@ public class TeamsServlet extends BeansServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Team : POST");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Team> teams = (List<Team>) readFromRequest(req, Team.class, null);
@@ -85,7 +85,7 @@ public class TeamsServlet extends BeansServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Team : PUT");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<TeamUpdateWrapper> updateWrappers = (List<TeamUpdateWrapper>) readFromRequest(req, TeamUpdateWrapper.class, null);
@@ -104,7 +104,7 @@ public class TeamsServlet extends BeansServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Team : DELETE");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Team> teams = (List<Team>) readFromRequest(req, Team.class, null);

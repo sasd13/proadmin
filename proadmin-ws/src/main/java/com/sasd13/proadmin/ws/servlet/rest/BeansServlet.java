@@ -25,7 +25,7 @@ import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.util.EnumError;
 import com.sasd13.proadmin.util.ErrorFactory;
-import com.sasd13.proadmin.ws.Names;
+import com.sasd13.proadmin.ws.util.Names;
 import com.sasd13.proadmin.ws.util.adapter.AdapterFactory;
 
 /**
@@ -62,7 +62,9 @@ public abstract class BeansServlet extends HttpServlet {
 		}
 	}
 
-	protected void writeToResponse(HttpServletResponse resp, Logger logger, String message) throws IOException {
+	protected void writeToResponse(HttpServletResponse resp, Logger logger, Object object) throws IOException {
+		String message = String.class.isAssignableFrom(object.getClass()) ? (String) object : ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(object);
+
 		logger.info("Message sent by WS : " + message);
 		resp.setContentType(RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
@@ -77,6 +79,6 @@ public abstract class BeansServlet extends HttpServlet {
 		logger.info("Error sent by WS : code=" + error.getCode());
 		resp.setStatus(httpStatus);
 		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
-		writeToResponse(resp, logger, bundle.getString(error.getBundleKey()));
+		Stream.write(resp.getWriter(), bundle.getString(error.getBundleKey()));
 	}
 }

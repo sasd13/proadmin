@@ -20,10 +20,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
+import com.sasd13.proadmin.ws.util.Constants;
 
 /**
  *
@@ -40,7 +40,7 @@ public class TeachersServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Teacher : GET");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -66,7 +66,7 @@ public class TeachersServlet extends BeansServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Teacher : POST");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Teacher> teachers = (List<Teacher>) readFromRequest(req, Teacher.class, null);
@@ -85,7 +85,7 @@ public class TeachersServlet extends BeansServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Teacher : PUT");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<TeacherUpdateWrapper> updateWrappers = (List<TeacherUpdateWrapper>) readFromRequest(req, TeacherUpdateWrapper.class, null);
@@ -104,7 +104,7 @@ public class TeachersServlet extends BeansServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Teacher : DELETE");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Teacher> teachers = (List<Teacher>) readFromRequest(req, Teacher.class, null);

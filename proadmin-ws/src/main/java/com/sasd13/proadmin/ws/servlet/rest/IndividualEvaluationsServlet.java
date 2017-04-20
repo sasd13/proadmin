@@ -20,10 +20,10 @@ import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
+import com.sasd13.proadmin.ws.util.Constants;
 
 /**
  *
@@ -40,7 +40,7 @@ public class IndividualEvaluationsServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : GET");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -66,7 +66,7 @@ public class IndividualEvaluationsServlet extends BeansServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : POST");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<IndividualEvaluation> individualEvaluations = (List<IndividualEvaluation>) readFromRequest(req, IndividualEvaluation.class, null);
@@ -85,7 +85,7 @@ public class IndividualEvaluationsServlet extends BeansServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : PUT");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<IndividualEvaluationUpdateWrapper> updateWrappers = (List<IndividualEvaluationUpdateWrapper>) readFromRequest(req, IndividualEvaluationUpdateWrapper.class, null);
@@ -104,7 +104,7 @@ public class IndividualEvaluationsServlet extends BeansServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : DELETE");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<IndividualEvaluation> individualEvaluations = (List<IndividualEvaluation>) readFromRequest(req, IndividualEvaluation.class, null);

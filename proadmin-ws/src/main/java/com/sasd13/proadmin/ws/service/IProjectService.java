@@ -16,5 +16,7 @@ public interface IProjectService {
 
 	List<Project> read(Map<String, String[]> parameters);
 
+	List<Project> read(Map<String, String[]> parameters, int wantedItems);
+
 	List<Project> readAll();
 }

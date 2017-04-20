@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.dao.DAOException;
-import com.sasd13.proadmin.ws.DAOManager;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
+import com.sasd13.proadmin.ws.dao.DAOManager;
+import com.sasd13.proadmin.ws.util.Constants;
 
 public class DAOFilter implements Filter {
 
@@ -36,7 +36,7 @@ public class DAOFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
 		DAO dao = DAOManager.create();
 
-		req.setAttribute(WSConstants.REQ_ATTR_DAO, dao);
+		req.setAttribute(Constants.REQ_ATTR_DAO, dao);
 
 		try {
 			dao.open();

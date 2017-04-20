@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa;
+package com.sasd13.proadmin.aaa.util;
 
 public enum EnumParameter {
 	ID("id"), 

@@ -1,5 +1,8 @@
 package com.sasd13.proadmin.ws.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.sasd13.javaex.dao.IReader;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
@@ -17,4 +20,6 @@ public interface IProjectDAO extends IReader<Project> {
 	void update(ProjectUpdateWrapper updateWrapper);
 
 	void delete(Project project);
+
+	List<Project> read(Map<String, String[]> parameters, int wantedItems);
 }

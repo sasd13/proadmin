@@ -15,7 +15,7 @@ DELETE FROM projects;
 
 INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2015-01-01 00:00:00','Projet A','Description du projet A');
 INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2016-01-01 00:00:00','Projet B','Description du projet B');
-INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2016-01-01 00:00:00','Projet C','Description du projet C');
+INSERT INTO projects(_datecreation,_title,_description) VALUES (TIMESTAMP '2017-01-01 00:00:00','Projet C','Description du projet C');
 
 -- TEACHERS
 

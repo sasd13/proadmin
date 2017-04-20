@@ -18,10 +18,10 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.aaa.AAAConstants;
 import com.sasd13.proadmin.aaa.dao.DAO;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
+import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
 import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.util.EnumError;
@@ -41,7 +41,7 @@ public class LogInServlet extends AAAServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-AAA] Login");
 
-		DAO dao = (DAO) req.getAttribute(AAAConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			Credential credential = (Credential) readFromRequest(req, Credential.class, null);

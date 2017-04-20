@@ -19,10 +19,10 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IStudentTeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
+import com.sasd13.proadmin.ws.util.Constants;
 
 /**
  *
@@ -39,7 +39,7 @@ public class StudentTeamsServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] StudentTeam : GET");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -65,7 +65,7 @@ public class StudentTeamsServlet extends BeansServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] StudentTeam : POST");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<StudentTeam> studentTeams = (List<StudentTeam>) readFromRequest(req, StudentTeam.class, null);
@@ -84,7 +84,7 @@ public class StudentTeamsServlet extends BeansServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] StudentTeam : DELETE");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<StudentTeam> studentTeams = (List<StudentTeam>) readFromRequest(req, StudentTeam.class, null);

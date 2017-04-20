@@ -16,14 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.itf.bean.project.ProjectReadResponseBean;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
-import com.sasd13.proadmin.ws.WSConstants;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
+import com.sasd13.proadmin.ws.util.Constants;
 
 /**
  *
@@ -40,7 +41,8 @@ public class ProjectsServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Project : GET");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		ProjectReadResponseBean responseBean = new ProjectReadResponseBean();
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
 		try {
@@ -52,10 +54,21 @@ public class ProjectsServlet extends BeansServlet {
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				results = projectService.read(parameters);
+				String wantedItems;
+				if ((wantedItems = req.getHeader(EnumHttpHeader.WANTED_ITEMS.getName())) != null) {
+					responseBean.getContext().setPaginationWantedItems(wantedItems);
+
+					results = projectService.read(parameters, Integer.valueOf(wantedItems));
+				} else {
+					results = projectService.read(parameters);
+				}
 			}
 
-			writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
+			responseBean.setData(results);
+			responseBean.getContext().setAdditionalProperties(parameters);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+
+			writeToResponse(resp, LOGGER, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -66,7 +79,7 @@ public class ProjectsServlet extends BeansServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Project : POST");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Project> projects = (List<Project>) readFromRequest(req, Project.class, null);
@@ -85,7 +98,7 @@ public class ProjectsServlet extends BeansServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Project : PUT");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<ProjectUpdateWrapper> updateWrappers = (List<ProjectUpdateWrapper>) readFromRequest(req, ProjectUpdateWrapper.class, null);
@@ -104,7 +117,7 @@ public class ProjectsServlet extends BeansServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Project : DELETE");
 
-		DAO dao = (DAO) req.getAttribute(WSConstants.REQ_ATTR_DAO);
+		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			List<Project> projects = (List<Project>) readFromRequest(req, Project.class, null);

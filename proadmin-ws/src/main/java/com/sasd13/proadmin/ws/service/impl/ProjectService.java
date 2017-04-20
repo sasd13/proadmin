@@ -38,6 +38,11 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
+	public List<Project> read(Map<String, String[]> parameters, int wantedItems) {
+		return projectDAO.read(parameters, wantedItems);
+	}
+
+	@Override
 	public List<Project> readAll() {
 		return projectDAO.readAll();
 	}

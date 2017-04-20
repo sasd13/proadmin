@@ -2,7 +2,7 @@ SET search_path TO proadmin_ws;
 
 CREATE TABLE projects (
 	_code VARCHAR(50) NOT NULL,
-	_datecreation TIMESTAMP NOT NULL,
+	_datecreation TIMESTAMP WITH TIME ZONE NOT NULL,
 	_title VARCHAR(255) NOT NULL,
 	_description TEXT NOT NULL
 );
@@ -51,7 +51,7 @@ CREATE TABLE runningteams (
 
 CREATE TABLE reports (
 	_code VARCHAR(50) NOT NULL,
-	_datemeeting TIMESTAMP NOT NULL,
+	_datemeeting TIMESTAMP WITH TIME ZONE NOT NULL,
 	_session INT NOT NULL,
 	_comment TEXT,
 	_year INT NOT NULL,

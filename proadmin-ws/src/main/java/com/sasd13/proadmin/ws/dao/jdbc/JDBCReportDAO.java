@@ -9,9 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -116,7 +118,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()));
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		preparedStatement.setInt(2, report.getSession());
 		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
@@ -130,7 +132,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
 		Report report = updateWrapper.getWrapped();
 
-		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()));
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		preparedStatement.setInt(2, report.getSession());
 		preparedStatement.setString(3, report.getComment());
 		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());

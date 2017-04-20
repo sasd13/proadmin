@@ -5,13 +5,17 @@
  */
 package com.sasd13.proadmin.ws.dao.jdbc;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
+import org.joda.time.DateTime;
 
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
@@ -90,6 +94,15 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
+	public List<Project> read(Map<String, String[]> parameters, int wantedItems) {
+		try {
+			return JDBCUtils.select(this, TABLE, parameters, wantedItems);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public List<Project> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
@@ -100,7 +113,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()));
+		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		preparedStatement.setString(2, project.getTitle());
 		preparedStatement.setString(3, project.getDescription());
 	}
@@ -109,7 +122,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Project> updateWrapper) throws SQLException {
 		Project project = updateWrapper.getWrapped();
 
-		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()));
+		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		preparedStatement.setString(2, project.getTitle());
 		preparedStatement.setString(3, project.getDescription());
 		preparedStatement.setString(4, ((ProjectUpdateWrapper) updateWrapper).getCode());
@@ -124,6 +137,10 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	public String getCondition(String key) {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
 			return IProjectDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
+			return IProjectDAO.COLUMN_DATECREATION + " >= ?";
+		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
+			return IProjectDAO.COLUMN_DATECREATION + " <= ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -133,6 +150,10 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
 		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
+		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
