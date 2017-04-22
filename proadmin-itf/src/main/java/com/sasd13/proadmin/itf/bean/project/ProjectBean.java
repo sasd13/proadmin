@@ -1,5 +1,7 @@
 package com.sasd13.proadmin.itf.bean.project;
 
+import com.sasd13.proadmin.itf.bean.Id;
+
 public class ProjectBean {
 
 	private Id id;

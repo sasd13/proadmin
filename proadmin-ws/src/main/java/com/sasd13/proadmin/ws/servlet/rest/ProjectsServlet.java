@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.itf.bean.project.ProjectReadResponseBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectSearchResponseBean;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
@@ -40,7 +40,7 @@ public class ProjectsServlet extends BeansServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] Project : GET");
 
-		ProjectReadResponseBean responseBean = new ProjectReadResponseBean();
+		ProjectSearchResponseBean responseBean = new ProjectSearchResponseBean();
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
 
@@ -61,7 +61,7 @@ public class ProjectsServlet extends BeansServlet {
 				 */
 			}
 
-			responseBean.setData(results);
+			// responseBean.setData(results);
 			responseBean.getContext().setAdditionalProperties(parameters);
 			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
 

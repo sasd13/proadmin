@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class RequestContext {
 
-	private String languageISOCode, paginationWantedItems;
+	private String languageISOCode, paginationStartItem, paginationWantedItems;
 	private Map<String, Object> additionalProperties;
 
 	public RequestContext() {
@@ -18,6 +18,14 @@ public class RequestContext {
 
 	public void setLanguageISOCode(String languageISOCode) {
 		this.languageISOCode = languageISOCode;
+	}
+
+	public String getPaginationStartItem() {
+		return paginationStartItem;
+	}
+
+	public void setPaginationStartItem(String paginationStartItem) {
+		this.paginationStartItem = paginationStartItem;
 	}
 
 	public String getPaginationWantedItems() {

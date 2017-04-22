@@ -50,7 +50,7 @@ public abstract class BeansServlet extends HttpServlet {
 	protected <S, T> Object readFromRequest(HttpServletRequest req, Class<S> mSource, Class<T> mTarget) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
-		Object data = parser.fromStringArray(message, mSource);
+		Object data = parser.fromString(message, mSource);
 
 		if (mTarget == null) {
 			return data;

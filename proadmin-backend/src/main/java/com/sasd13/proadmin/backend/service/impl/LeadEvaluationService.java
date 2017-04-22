@@ -1,0 +1,50 @@
+package com.sasd13.proadmin.backend.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sasd13.proadmin.backend.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.backend.dao.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
+import com.sasd13.proadmin.backend.util.adapter.dto2bean.LeadEvaluationDTOAdapter;
+import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+
+@Service
+public class LeadEvaluationService implements ILeadEvaluationService {
+
+	@Autowired
+	private ILeadEvaluationDAO leadEvaluationDAO;
+
+	@Override
+	public void create(LeadEvaluation leadEvaluation) {
+		leadEvaluationDAO.create(leadEvaluation);
+	}
+
+	@Override
+	public void update(List<LeadEvaluationUpdateWrapper> updateWrappers) {
+		leadEvaluationDAO.update(updateWrappers);
+	}
+
+	public void delete(List<LeadEvaluation> leadEvaluations) {
+		leadEvaluationDAO.delete(leadEvaluations);
+	};
+
+	@Override
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
+		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+
+		List<LeadEvaluationDTO> dtos = leadEvaluationDAO.read(parameters);
+		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
+
+		for (LeadEvaluationDTO dto : dtos) {
+			leadEvaluations.add(adapter.adapt(dto));
+		}
+
+		return leadEvaluations;
+	}
+}
