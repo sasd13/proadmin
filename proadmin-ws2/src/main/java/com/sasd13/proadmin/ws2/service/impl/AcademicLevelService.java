@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sasd13.proadmin.bean.AcademicLevel;
-import com.sasd13.proadmin.ws2.db.dao.IAcademicLevelDAO;
-import com.sasd13.proadmin.ws2.db.dto.AcademicLevelDTO;
+import com.sasd13.proadmin.bean.level.AcademicLevel;
+import com.sasd13.proadmin.ws2.dao.IAcademicLevelDAO;
+import com.sasd13.proadmin.ws2.dao.dto.AcademicLevelDTO;
 import com.sasd13.proadmin.ws2.service.IAcademicLevelService;
-import com.sasd13.proadmin.ws2.util.adapter.AcademicLevelDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.AcademicLevelDTOAdapter;
 
 @Service
 public class AcademicLevelService implements IAcademicLevelService {

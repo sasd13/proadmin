@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.RunningTeam;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.IRunningTeamDAO;
-import com.sasd13.proadmin.ws2.db.dto.RunningTeamDTO;
+import com.sasd13.proadmin.ws2.dao.IRunningTeamDAO;
+import com.sasd13.proadmin.ws2.dao.dto.RunningTeamDTO;
 import com.sasd13.proadmin.ws2.service.IRunningTeamService;
-import com.sasd13.proadmin.ws2.util.adapter.RunningTeamDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.RunningTeamDTOAdapter;
 
 @Service
 public class RunningTeamService implements IRunningTeamService {

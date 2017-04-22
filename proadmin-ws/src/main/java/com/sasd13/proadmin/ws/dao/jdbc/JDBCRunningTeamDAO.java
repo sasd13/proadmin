@@ -153,11 +153,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
-			} catch (NumberFormatException e) {
-				throw new ConditionException("Parameter " + key + " parsing error");
-			}
+			preparedStatement.setInt(index, Integer.parseInt(value));
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {

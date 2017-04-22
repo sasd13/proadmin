@@ -94,15 +94,6 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public List<Project> read(Map<String, String[]> parameters, int wantedItems) {
-		try {
-			return JDBCUtils.select(this, TABLE, parameters, wantedItems);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
 	public List<Project> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);

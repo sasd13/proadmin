@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.LeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.ILeadEvaluationDAO;
-import com.sasd13.proadmin.ws2.db.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.ws2.dao.ILeadEvaluationDAO;
+import com.sasd13.proadmin.ws2.dao.dto.LeadEvaluationDTO;
 import com.sasd13.proadmin.ws2.service.ILeadEvaluationService;
-import com.sasd13.proadmin.ws2.util.adapter.LeadEvaluationDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.LeadEvaluationDTOAdapter;
 
 @Service
 public class LeadEvaluationService implements ILeadEvaluationService {

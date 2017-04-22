@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.member.Team;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.ITeamDAO;
-import com.sasd13.proadmin.ws2.db.dto.TeamDTO;
+import com.sasd13.proadmin.ws2.dao.ITeamDAO;
+import com.sasd13.proadmin.ws2.dao.dto.TeamDTO;
 import com.sasd13.proadmin.ws2.service.ITeamService;
-import com.sasd13.proadmin.ws2.util.adapter.TeamDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.TeamDTOAdapter;
 
 @Service
 public class TeamService implements ITeamService {

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.project.Project;
 import com.sasd13.proadmin.itf.bean.project.ProjectReadResponseBean;
@@ -55,13 +54,11 @@ public class ProjectsServlet extends BeansServlet {
 				URLQueryUtils.decode(parameters);
 
 				String wantedItems;
-				if ((wantedItems = req.getHeader(EnumHttpHeader.WANTED_ITEMS.getName())) != null) {
-					responseBean.getContext().setPaginationWantedItems(wantedItems);
-
-					results = projectService.read(parameters, Integer.valueOf(wantedItems));
-				} else {
-					results = projectService.read(parameters);
-				}
+				/*
+				 * if ((wantedItems = req.getHeader(EnumHttpHeader.WANTED_ITEMS.getName())) != null) { responseBean.getContext().setPaginationWantedItems(wantedItems);
+				 * 
+				 * results = projectService.read(parameters, Integer.valueOf(wantedItems)); } else { results = projectService.read(parameters); }
+				 */
 			}
 
 			responseBean.setData(results);

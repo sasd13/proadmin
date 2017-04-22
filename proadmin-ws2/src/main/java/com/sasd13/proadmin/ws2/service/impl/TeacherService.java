@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.member.Teacher;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.ITeacherDAO;
-import com.sasd13.proadmin.ws2.db.dto.TeacherDTO;
+import com.sasd13.proadmin.ws2.dao.ITeacherDAO;
+import com.sasd13.proadmin.ws2.dao.dto.TeacherDTO;
 import com.sasd13.proadmin.ws2.service.ITeacherService;
-import com.sasd13.proadmin.ws2.util.adapter.TeacherDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.TeacherDTOAdapter;
 
 @Service
 public class TeacherService implements ITeacherService {

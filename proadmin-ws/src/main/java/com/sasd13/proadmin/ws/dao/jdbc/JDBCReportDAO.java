@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.joda.time.DateTime;
+
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
@@ -152,6 +154,10 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	public String getCondition(String key) {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_CODE + " = ?";
+		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_DATEMEETING + " >= ?";
+		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
+			return IReportDAO.COLUMN_DATEMEETING + " <= ?";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
 			return IReportDAO.COLUMN_SESSION + " = ?";
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
@@ -173,18 +179,14 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
+		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
+			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
-			} catch (NumberFormatException e) {
-				throw new ConditionException("Parameter " + key + " parsing error");
-			}
+			preparedStatement.setInt(index, Integer.parseInt(value));
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			try {
-				preparedStatement.setInt(index, Integer.parseInt(value));
-			} catch (NumberFormatException e) {
-				throw new ConditionException("Parameter " + key + " parsing error");
-			}
+			preparedStatement.setInt(index, Integer.parseInt(value));
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {

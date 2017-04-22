@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.ws2.db.dao.IStudentTeamDAO;
-import com.sasd13.proadmin.ws2.db.dto.StudentTeamDTO;
+import com.sasd13.proadmin.ws2.dao.IStudentTeamDAO;
+import com.sasd13.proadmin.ws2.dao.dto.StudentTeamDTO;
 import com.sasd13.proadmin.ws2.service.IStudentTeamService;
-import com.sasd13.proadmin.ws2.util.adapter.StudentTeamDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.StudentTeamDTOAdapter;
 
 @Service
 public class StudentTeamService implements IStudentTeamService {

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.IndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.ws2.db.dto.IndividualEvaluationDTO;
+import com.sasd13.proadmin.ws2.dao.IIndividualEvaluationDAO;
+import com.sasd13.proadmin.ws2.dao.dto.IndividualEvaluationDTO;
 import com.sasd13.proadmin.ws2.service.IIndividualEvaluationService;
-import com.sasd13.proadmin.ws2.util.adapter.IndividualEvaluationDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.IndividualEvaluationDTOAdapter;
 
 @Service
 public class IndividualEvaluationService implements IIndividualEvaluationService {

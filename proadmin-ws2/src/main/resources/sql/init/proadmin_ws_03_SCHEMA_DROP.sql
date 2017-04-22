@@ -1,0 +1,3 @@
+DROP SCHEMA IF EXISTS proadmin_ws2;
+
+--COMMIT;

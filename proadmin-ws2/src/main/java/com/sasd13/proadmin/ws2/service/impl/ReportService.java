@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.sasd13.proadmin.bean.running.Report;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
-import com.sasd13.proadmin.ws2.db.dao.IReportDAO;
-import com.sasd13.proadmin.ws2.db.dto.ReportDTO;
+import com.sasd13.proadmin.ws2.dao.IReportDAO;
+import com.sasd13.proadmin.ws2.dao.dto.ReportDTO;
 import com.sasd13.proadmin.ws2.service.IReportService;
-import com.sasd13.proadmin.ws2.util.adapter.ReportDTOAdapter;
+import com.sasd13.proadmin.ws2.util.adapter.dto2bean.ReportDTOAdapter;
 
 @Service
 public class ReportService implements IReportService {

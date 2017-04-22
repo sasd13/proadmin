@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.javaex.net.EnumHttpHeader;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.javaex.pattern.adapter.IAdapter;
@@ -78,7 +77,7 @@ public abstract class BeansServlet extends HttpServlet {
 	protected void writeError(HttpServletResponse resp, Logger logger, int httpStatus, EnumError error) throws IOException {
 		logger.info("Error sent by WS : code=" + error.getCode());
 		resp.setStatus(httpStatus);
-		resp.addHeader(EnumHttpHeader.RESPONSE_ERROR.getName(), String.valueOf(error.getCode()));
+		resp.addHeader("Response-Errors", String.valueOf(error.getCode()));
 		Stream.write(resp.getWriter(), bundle.getString(error.getBundleKey()));
 	}
 }
