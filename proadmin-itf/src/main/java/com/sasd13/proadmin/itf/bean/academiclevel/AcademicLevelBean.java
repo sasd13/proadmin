@@ -1,8 +1,8 @@
-package com.sasd13.proadmin.itf.bean.runningteam;
+package com.sasd13.proadmin.itf.bean.academiclevel;
 
 import com.sasd13.proadmin.itf.bean.Id;
 
-public class RunningBean {
+public class AcademicLevelBean {
 
 	private Id id;
 	private CoreInfo coreInfo;

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.itf.bean.evaluation;
+package com.sasd13.proadmin.itf.bean.individualevaluation;
 
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;

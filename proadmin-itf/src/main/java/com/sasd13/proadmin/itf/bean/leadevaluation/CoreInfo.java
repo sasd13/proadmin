@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.itf.bean.runningteam;
+package com.sasd13.proadmin.itf.bean.leadevaluation;
 
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.itf.bean.level;
+package com.sasd13.proadmin.itf.bean.academiclevel;
 
 public class CoreInfo {
 

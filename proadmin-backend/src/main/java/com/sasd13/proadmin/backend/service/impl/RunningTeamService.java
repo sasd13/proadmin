@@ -7,12 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sasd13.proadmin.backend.bean.RunningTeam;
 import com.sasd13.proadmin.backend.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.backend.dao.dto.RunningTeamDTO;
 import com.sasd13.proadmin.backend.service.IRunningTeamService;
-import com.sasd13.proadmin.backend.util.adapter.dto2bean.RunningTeamDTOAdapter;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.dto2bean.RunningTeamAdapterD2B;
 
 @Service
 public class RunningTeamService implements IRunningTeamService {
@@ -26,26 +25,26 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public void update(List<RunningTeamUpdateWrapper> updateWrappers) {
-		runningTeamDAO.update(updateWrappers);
+	public void update(RunningTeam runningTeam) {
+		runningTeamDAO.update(runningTeam);
 	}
 
 	@Override
-	public void delete(List<RunningTeam> runningTeams) {
-		runningTeamDAO.delete(runningTeams);
+	public void delete(RunningTeam runningTeam) {
+		runningTeamDAO.delete(runningTeam);
 	}
 
 	@Override
 	public List<RunningTeam> read(Map<String, String[]> parameters) {
-		List<RunningTeam> runningTeams = new ArrayList<>();
+		List<RunningTeam> list = new ArrayList<>();
 
 		List<RunningTeamDTO> dtos = runningTeamDAO.read(parameters);
-		RunningTeamDTOAdapter adapter = new RunningTeamDTOAdapter();
+		RunningTeamAdapterD2B adapter = new RunningTeamAdapterD2B();
 
 		for (RunningTeamDTO dto : dtos) {
-			runningTeams.add(adapter.adapt(dto));
+			list.add(adapter.adapt(dto));
 		}
 
-		return runningTeams;
+		return list;
 	}
 }

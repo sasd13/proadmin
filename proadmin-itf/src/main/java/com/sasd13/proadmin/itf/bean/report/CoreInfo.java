@@ -1,35 +1,38 @@
 package com.sasd13.proadmin.itf.bean.report;
 
-import com.sasd13.proadmin.itf.bean.project.ProjectBean;
-import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
-
 public class CoreInfo {
 
-	private String yearStarted;
-	private ProjectBean linkedProject;
-	private TeacherBean linkedTeacher;
+	private String number, dateMeeting, session, comment;
 
-	public String getYearStarted() {
-		return yearStarted;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setYearStarted(String yearStarted) {
-		this.yearStarted = yearStarted;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
-	public ProjectBean getLinkedProject() {
-		return linkedProject;
+	public String getDateMeeting() {
+		return dateMeeting;
 	}
 
-	public void setLinkedProject(ProjectBean linkedProject) {
-		this.linkedProject = linkedProject;
+	public void setDateMeeting(String dateMeeting) {
+		this.dateMeeting = dateMeeting;
 	}
 
-	public TeacherBean getLinkedTeacher() {
-		return linkedTeacher;
+	public String getSession() {
+		return session;
 	}
 
-	public void setLinkedTeacher(TeacherBean linkedTeacher) {
-		this.linkedTeacher = linkedTeacher;
+	public void setSession(String session) {
+		this.session = session;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

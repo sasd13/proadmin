@@ -14,7 +14,7 @@ import com.sasd13.proadmin.backend.bean.AcademicLevel;
 import com.sasd13.proadmin.backend.service.IAcademicLevelService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.AcademicLevelAdapterB2I;
 import com.sasd13.proadmin.itf.ResponseBean;
-import com.sasd13.proadmin.itf.bean.level.AcademicLevelBean;
+import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 
 @RestController
 @RequestMapping("/academicLevel")

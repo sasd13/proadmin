@@ -23,8 +23,8 @@ public class RunningAdapterI2B implements IAdapter<RunningBean, Running> {
 		}
 
 		t.setYear(Integer.valueOf(s.getCoreInfo().getYearStarted()));
-		t.setProject(projectAdapter.adapt(s.getCoreInfo().getLinkedProject()));
-		t.setTeacher(teacherAdapter.adapt(s.getCoreInfo().getLinkedTeacher()));
+		t.setProject(projectAdapter.adapt(s.getLinkedProject()));
+		t.setTeacher(teacherAdapter.adapt(s.getLinkedTeacher()));
 
 		return t;
 	}

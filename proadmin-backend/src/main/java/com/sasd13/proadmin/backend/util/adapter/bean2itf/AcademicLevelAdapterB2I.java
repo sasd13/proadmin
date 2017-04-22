@@ -3,8 +3,8 @@ package com.sasd13.proadmin.backend.util.adapter.bean2itf;
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.AcademicLevel;
 import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.level.AcademicLevelBean;
-import com.sasd13.proadmin.itf.bean.level.CoreInfo;
+import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
+import com.sasd13.proadmin.itf.bean.academiclevel.CoreInfo;
 
 public class AcademicLevelAdapterB2I implements IAdapter<AcademicLevel, AcademicLevelBean> {
 

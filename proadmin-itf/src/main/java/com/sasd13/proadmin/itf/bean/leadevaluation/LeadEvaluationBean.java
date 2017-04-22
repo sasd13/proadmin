@@ -1,8 +1,8 @@
-package com.sasd13.proadmin.itf.bean.evaluation;
+package com.sasd13.proadmin.itf.bean.leadevaluation;
 
 import com.sasd13.proadmin.itf.bean.Id;
 
-public class RunningBean {
+public class LeadEvaluationBean {
 
 	private Id id;
 	private CoreInfo coreInfo;

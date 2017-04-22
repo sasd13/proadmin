@@ -1,8 +1,8 @@
-package com.sasd13.proadmin.itf.bean.level;
+package com.sasd13.proadmin.itf.bean.individualevaluation;
 
 import com.sasd13.proadmin.itf.bean.Id;
 
-public class AcademicLevelBean {
+public class IndividualEvaluationBean {
 
 	private Id id;
 	private CoreInfo coreInfo;

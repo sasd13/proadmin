@@ -1,8 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sasd13.proadmin.backend.bean.RunningTeam;
 import com.sasd13.proadmin.backend.service.IRunningTeamService;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.bean2itf.RunningTeamAdapterB2I;
+import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningTeamAdapterI2B;
+import com.sasd13.proadmin.itf.RequestBean;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
 
 @RestController
 @RequestMapping("/runningTeam")
@@ -26,37 +28,12 @@ public class RunningTeamController {
 	@Autowired
 	private IRunningTeamService runningTeamService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<RunningTeam>> get() {
-		LOGGER.info("Get");
+	@RequestMapping(path = "/create", method = RequestMethod.POST)
+	public ResponseEntity<Integer> create(@RequestBody RunningTeamBean runningTeamBean) {
+		LOGGER.info("[Proadmin-Backend] RunningTeam : create");
 
 		try {
-			List<RunningTeam> runningTeams = runningTeamService.read(getParameters(null));
-
-			return new ResponseEntity<List<RunningTeam>>(runningTeams, HttpStatus.OK);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-
-		return new ResponseEntity<List<RunningTeam>>(HttpStatus.EXPECTATION_FAILED);
-	}
-
-	private Map<String, String[]> getParameters(List<String> numbers) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		if (numbers != null) {
-			// TODO
-		}
-
-		return parameters;
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody RunningTeam runningTeam) {
-		LOGGER.info("Post");
-
-		try {
-			runningTeamService.create(runningTeam);
+			runningTeamService.create(new RunningTeamAdapterI2B().adapt(runningTeamBean));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,12 +43,12 @@ public class RunningTeamController {
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<RunningTeamUpdateWrapper> updateWrappers) {
-		LOGGER.info("Put");
+	@RequestMapping(path = "/update", method = RequestMethod.POST)
+	public ResponseEntity<Integer> update(@RequestBody RunningTeamBean runningTeamBean) {
+		LOGGER.info("[Proadmin-Backend] RunningTeam : update");
 
 		try {
-			runningTeamService.update(updateWrappers);
+			runningTeamService.update(new RunningTeamAdapterI2B().adapt(runningTeamBean));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -81,12 +58,12 @@ public class RunningTeamController {
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<RunningTeam> runningTeams) {
-		LOGGER.info("Delete");
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
+	public ResponseEntity<Integer> delete(@RequestBody RunningTeamBean runningTeamBean) {
+		LOGGER.info("[Proadmin-Backend] RunningTeam : delete");
 
 		try {
-			runningTeamService.delete(runningTeams);
+			runningTeamService.delete(new RunningTeamAdapterI2B().adapt(runningTeamBean));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -94,5 +71,26 @@ public class RunningTeamController {
 		}
 
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
+	}
+
+	@RequestMapping(path = "/search", method = RequestMethod.POST)
+	public ResponseEntity<ResponseBean<RunningTeamBean>> search(@RequestBody RequestBean request) {
+		LOGGER.info("[Proadmin-Backend] RunningTeam : search");
+
+		try {
+			List<RunningTeam> results = runningTeamService.read(request.getCriteria());
+			ResponseBean<RunningTeamBean> response = new ResponseBean<RunningTeamBean>();
+			RunningTeamAdapterB2I adapter = new RunningTeamAdapterB2I();
+
+			for (RunningTeam result : results) {
+				response.getData().add(adapter.adapt(result));
+			}
+
+			return new ResponseEntity<ResponseBean<RunningTeamBean>>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+
+		return new ResponseEntity<ResponseBean<RunningTeamBean>>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

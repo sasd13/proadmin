@@ -5,14 +5,12 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,25 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.dao.IProjectDAO;
+import com.sasd13.proadmin.backend.bean.Running;
 import com.sasd13.proadmin.backend.dao.IRunningDAO;
-import com.sasd13.proadmin.backend.dao.ITeacherDAO;
-import com.sasd13.proadmin.backend.dao.dto.ProjectDTO;
 import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
-import com.sasd13.proadmin.backend.dao.dto.TeacherDTO;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.backend.util.adapter.bean2dto.RunningAdapterB2D;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionnal {
-
-	@Autowired
-	private IProjectDAO projectDAO;
-
-	@Autowired
-	private ITeacherDAO teacherDAO;
 
 	public RunningDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -46,80 +34,23 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 
 	@Override
 	public RunningDTO create(Running running) {
-		RunningDTO dto = new RunningDTO(running);
+		RunningDTO dto = new RunningAdapterB2D().adapt(running);
 
-		dto.setProject(readProject(running.getProject().getCode()));
-		dto.setTeacher(readTeacher(running.getTeacher().getIntermediary()));
 		currentSession().save(dto);
 		currentSession().flush();
 
 		return dto;
 	}
 
-	private ProjectDTO readProject(String projectCode) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.CODE.getName(), new String[] { projectCode });
-
-		return projectDAO.read(parameters).get(0);
-	}
-
-	private TeacherDTO readTeacher(String teacherNumber) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { teacherNumber });
-
-		return teacherDAO.read(parameters).get(0);
-	}
-
 	@Override
-	public void update(List<RunningUpdateWrapper> updateWrappers) {
-		RunningUpdateWrapper updateWrapper;
-		RunningDTO dto;
-
-		for (int i = 0; i < updateWrappers.size(); i++) {
-			updateWrapper = updateWrappers.get(i);
-			dto = read(updateWrapper.getYear(), updateWrapper.getProjectCode(), updateWrapper.getTeacherIntermediary());
-
-			dto.setYear(updateWrapper.getWrapped().getYear());
-			dto.setProject(readProject(updateWrapper.getWrapped().getProject().getCode()));
-			dto.setTeacher(readTeacher(updateWrapper.getWrapped().getTeacher().getIntermediary()));
-			currentSession().update(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
-		}
-
+	public void update(Running running) {
+		currentSession().update(new RunningAdapterB2D().adapt(running));
 		currentSession().flush();
 	}
 
-	private RunningDTO read(int year, String projectCode, String teacherNumber) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(year) });
-		parameters.put(EnumParameter.PROJECT.getName(), new String[] { projectCode });
-		parameters.put(EnumParameter.TEACHER.getName(), new String[] { teacherNumber });
-
-		return read(parameters).get(0);
-	}
-
 	@Override
-	public void delete(List<Running> runnings) {
-		Running running;
-		RunningDTO dto;
-
-		for (int i = 0; i < runnings.size(); i++) {
-			running = runnings.get(i);
-			dto = read(running.getYear(), running.getProject().getCode(), running.getTeacher().getIntermediary());
-
-			currentSession().remove(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
-		}
-
+	public void delete(Running running) {
+		currentSession().remove(new RunningAdapterB2D().adapt(running));
 		currentSession().flush();
 	}
 
@@ -127,7 +58,7 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	@Override
 	public List<RunningDTO> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from runnings r");
+		builder.append("from runnings rn");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);
@@ -145,11 +76,11 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return "r.year" + " = ?";
+			return "rn.year" + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return "r.project.code" + " = ?";
+			return "rn.project.code" + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return "r.teacher.number" + " = ?";
+			return "rn.teacher.intermediary" + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

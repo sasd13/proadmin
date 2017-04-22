@@ -26,9 +26,10 @@ public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
 
 		CoreInfo coreInfo = new CoreInfo();
 		coreInfo.setYearStarted(String.valueOf(s.getYear()));
-		coreInfo.setLinkedProject(projectAdapter.adapt(s.getProject()));
-		coreInfo.setLinkedTeacher(teacherAdapter.adapt(s.getTeacher()));
 		t.setCoreInfo(coreInfo);
+
+		t.setLinkedProject(projectAdapter.adapt(s.getProject()));
+		t.setLinkedTeacher(teacherAdapter.adapt(s.getTeacher()));
 
 		return t;
 	}
