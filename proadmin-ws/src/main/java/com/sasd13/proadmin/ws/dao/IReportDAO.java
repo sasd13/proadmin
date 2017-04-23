@@ -19,7 +19,7 @@ public interface IReportDAO extends IReader<IReport> {
 
 	long create(IReport iReport);
 
-	void update(ReportUpdateWrapper updateWrapper);
+	void update(ReportUpdate updateWrapper);
 
 	void delete(IReport iReport);
 }

@@ -88,10 +88,10 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IndividualEvaluationUpdateWrapper> updateWrappers = (List<IndividualEvaluationUpdateWrapper>) readFromRequest(req, IndividualEvaluationUpdateWrapper.class, null);
+			List<IndividualEvaluationUpdate> updateWrappers = (List<IndividualEvaluationUpdate>) readFromRequest(req, IndividualEvaluationUpdate.class, null);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
-			for (IndividualEvaluationUpdateWrapper updateWrapper : updateWrappers) {
+			for (IndividualEvaluationUpdate updateWrapper : updateWrappers) {
 				individualEvaluationService.update(updateWrapper);
 			}
 		} catch (Exception e) {

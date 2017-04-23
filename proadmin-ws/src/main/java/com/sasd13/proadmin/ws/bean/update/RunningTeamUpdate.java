@@ -1,22 +1,22 @@
-package com.sasd13.proadmin.util.wrapper.update.running;
+package com.sasd13.proadmin.ws.bean.update;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.running.IRunningTeam;
+import com.sasd13.proadmin.ws.bean.RunningTeam;
 
-public class RunningTeamUpdateWrapper implements IUpdateWrapper<IRunningTeam> {
+public class RunningTeamUpdate implements IUpdateWrapper<RunningTeam> {
 
-	private IRunningTeam iRunningTeam;
+	private RunningTeam runningTeam;
 	private int runningYear;
 	private String projectCode, teacherIntermediary, teamNumber, academicLevelCode;
 
 	@Override
-	public IRunningTeam getWrapped() {
-		return iRunningTeam;
+	public RunningTeam getWrapped() {
+		return runningTeam;
 	}
 
 	@Override
-	public void setWrapped(IRunningTeam iRunningTeam) {
-		this.iRunningTeam = iRunningTeam;
+	public void setWrapped(RunningTeam runningTeam) {
+		this.runningTeam = runningTeam;
 	}
 
 	public int getRunningYear() {

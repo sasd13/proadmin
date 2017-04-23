@@ -26,7 +26,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	}
 
 	@Override
-	public void update(IndividualEvaluationUpdateWrapper updateWrapper) {
+	public void update(IndividualEvaluationUpdate updateWrapper) {
 		individualEvaluationDAO.update(updateWrapper);
 	}
 

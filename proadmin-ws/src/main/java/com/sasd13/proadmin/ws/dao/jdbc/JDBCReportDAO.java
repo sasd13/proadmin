@@ -62,7 +62,7 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public void update(ReportUpdateWrapper updateWrapper) {
+	public void update(ReportUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -142,7 +142,7 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 		preparedStatement.setString(6, iReport.getRunningTeam().getRunning().getTeacher().getIntermediary());
 		preparedStatement.setString(7, iReport.getRunningTeam().getTeam().getNumber());
 		preparedStatement.setString(8, iReport.getRunningTeam().getAcademicLevel().getCode());
-		preparedStatement.setString(9, ((ReportUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(9, ((ReportUpdate) updateWrapper).getNumber());
 	}
 
 	@Override

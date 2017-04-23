@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.ITeam;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -88,10 +88,10 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<TeamUpdateWrapper> updateWrappers = (List<TeamUpdateWrapper>) readFromRequest(req, TeamUpdateWrapper.class, null);
+			List<TeamUpdate> updateWrappers = (List<TeamUpdate>) readFromRequest(req, TeamUpdate.class, null);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
 
-			for (TeamUpdateWrapper updateWrapper : updateWrappers) {
+			for (TeamUpdate updateWrapper : updateWrappers) {
 				teamService.update(updateWrapper);
 			}
 		} catch (Exception e) {

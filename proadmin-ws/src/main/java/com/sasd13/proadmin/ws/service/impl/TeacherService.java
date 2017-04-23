@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.ITeacherDAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
@@ -23,7 +23,7 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public void update(TeacherUpdateWrapper updateWrapper) {
+	public void update(TeacherUpdate updateWrapper) {
 		teacherDAO.update(updateWrapper);
 	}
 

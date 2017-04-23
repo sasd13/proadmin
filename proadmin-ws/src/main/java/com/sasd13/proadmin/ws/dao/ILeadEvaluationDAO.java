@@ -16,7 +16,7 @@ public interface ILeadEvaluationDAO extends IReader<ILeadEvaluation> {
 
 	long create(ILeadEvaluation iLeadEvaluation);
 
-	void update(LeadEvaluationUpdateWrapper updateWrapper);
+	void update(LeadEvaluationUpdate updateWrapper);
 
 	void delete(ILeadEvaluation iLeadEvaluation);
 }

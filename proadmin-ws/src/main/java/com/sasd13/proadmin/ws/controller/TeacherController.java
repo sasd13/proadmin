@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -88,10 +88,10 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<TeacherUpdateWrapper> updateWrappers = (List<TeacherUpdateWrapper>) readFromRequest(req, TeacherUpdateWrapper.class, null);
+			List<TeacherUpdate> updateWrappers = (List<TeacherUpdate>) readFromRequest(req, TeacherUpdate.class, null);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 
-			for (TeacherUpdateWrapper updateWrapper : updateWrappers) {
+			for (TeacherUpdate updateWrapper : updateWrappers) {
 				teacherService.update(updateWrapper);
 			}
 		} catch (Exception e) {

@@ -10,7 +10,7 @@ public interface IRunningTeamService {
 
 	long create(IRunningTeam iRunningTeam);
 
-	void update(RunningTeamUpdateWrapper updateWrapper);
+	void update(RunningTeamUpdate updateWrapper);
 
 	void delete(IRunningTeam iRunningTeam);
 

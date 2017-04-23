@@ -88,10 +88,10 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<RunningTeamUpdateWrapper> updateWrappers = (List<RunningTeamUpdateWrapper>) readFromRequest(req, RunningTeamUpdateWrapper.class, null);
+			List<RunningTeamUpdate> updateWrappers = (List<RunningTeamUpdate>) readFromRequest(req, RunningTeamUpdate.class, null);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
 
-			for (RunningTeamUpdateWrapper updateWrapper : updateWrappers) {
+			for (RunningTeamUpdate updateWrapper : updateWrappers) {
 				runningTeamService.update(updateWrapper);
 			}
 		} catch (Exception e) {

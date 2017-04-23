@@ -26,7 +26,7 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public void update(RunningTeamUpdateWrapper updateWrapper) {
+	public void update(RunningTeamUpdate updateWrapper) {
 		runningTeamDAO.update(updateWrapper);
 	}
 

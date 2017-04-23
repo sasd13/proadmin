@@ -88,10 +88,10 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ReportUpdateWrapper> updateWrappers = (List<ReportUpdateWrapper>) readFromRequest(req, ReportUpdateWrapper.class, null);
+			List<ReportUpdate> updateWrappers = (List<ReportUpdate>) readFromRequest(req, ReportUpdate.class, null);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 
-			for (ReportUpdateWrapper updateWrapper : updateWrappers) {
+			for (ReportUpdate updateWrapper : updateWrappers) {
 				reportService.update(updateWrapper);
 			}
 		} catch (Exception e) {

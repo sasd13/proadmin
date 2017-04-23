@@ -10,7 +10,7 @@ public interface IRunningService {
 
 	long create(IRunning iRunning);
 
-	void update(RunningUpdateWrapper updateWrapper);
+	void update(RunningUpdate updateWrapper);
 
 	void delete(IRunning iRunning);
 

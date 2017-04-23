@@ -17,7 +17,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.ITeacher;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.ITeacherDAO;
 
 /**
@@ -46,7 +46,7 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 	}
 
 	@Override
-	public void update(TeacherUpdateWrapper updateWrapper) {
+	public void update(TeacherUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -112,7 +112,7 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 		preparedStatement.setString(1, iTeacher.getFirstName());
 		preparedStatement.setString(2, iTeacher.getLastName());
 		preparedStatement.setString(3, iTeacher.getEmail());
-		preparedStatement.setString(4, ((TeacherUpdateWrapper) updateWrapper).getIntermediary());
+		preparedStatement.setString(4, ((TeacherUpdate) updateWrapper).getIntermediary());
 	}
 
 	@Override

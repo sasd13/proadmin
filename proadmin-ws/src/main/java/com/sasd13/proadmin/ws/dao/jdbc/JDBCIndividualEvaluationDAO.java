@@ -47,7 +47,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 	}
 
 	@Override
-	public void update(IndividualEvaluationUpdateWrapper updateWrapper) {
+	public void update(IndividualEvaluationUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -110,8 +110,8 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 		IIndividualEvaluation iIndividualEvaluation = updateWrapper.getWrapped();
 
 		preparedStatement.setFloat(1, iIndividualEvaluation.getMark());
-		preparedStatement.setString(2, ((IndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
-		preparedStatement.setString(3, ((IndividualEvaluationUpdateWrapper) updateWrapper).getStudentIntermediary());
+		preparedStatement.setString(2, ((IndividualEvaluationUpdate) updateWrapper).getReportNumber());
+		preparedStatement.setString(3, ((IndividualEvaluationUpdate) updateWrapper).getStudentIntermediary());
 	}
 
 	@Override

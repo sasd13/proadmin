@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
 import com.sasd13.proadmin.bean.project.IProject;
-import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 
 public interface IProjectDAO extends IReader<IProject> {
 
@@ -14,7 +14,7 @@ public interface IProjectDAO extends IReader<IProject> {
 
 	long create(IProject iProject);
 
-	void update(ProjectUpdateWrapper updateWrapper);
+	void update(ProjectUpdate updateWrapper);
 
 	void delete(IProject iProject);
 }

@@ -1,21 +1,21 @@
-package com.sasd13.proadmin.util.wrapper.update.member;
+package com.sasd13.proadmin.ws.bean.update;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.IStudentTeam;
+import com.sasd13.proadmin.ws.bean.StudentTeam;
 
-public class StudentTeamUpdateWrapper implements IUpdateWrapper<IStudentTeam> {
+public class StudentTeamUpdate implements IUpdateWrapper<StudentTeam> {
 
-	private IStudentTeam iStudentTeam;
+	private StudentTeam studentTeam;
 	private String studentIntermediary, teamNumber;
 
 	@Override
-	public IStudentTeam getWrapped() {
-		return iStudentTeam;
+	public StudentTeam getWrapped() {
+		return studentTeam;
 	}
 
 	@Override
-	public void setWrapped(IStudentTeam iStudentTeam) {
-		this.iStudentTeam = iStudentTeam;
+	public void setWrapped(StudentTeam studentTeam) {
+		this.studentTeam = studentTeam;
 	}
 
 	public String getStudentIntermediary() {

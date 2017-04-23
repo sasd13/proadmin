@@ -13,7 +13,7 @@ public interface IRunningDAO extends IReader<IRunning> {
 
 	long create(IRunning iRunning);
 
-	void update(RunningUpdateWrapper updateWrapper);
+	void update(RunningUpdate updateWrapper);
 
 	void delete(IRunning iRunning);
 }

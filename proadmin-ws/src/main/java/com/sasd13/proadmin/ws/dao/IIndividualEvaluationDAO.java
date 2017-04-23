@@ -13,7 +13,7 @@ public interface IIndividualEvaluationDAO extends IReader<IIndividualEvaluation>
 
 	long create(IIndividualEvaluation iIndividualEvaluation);
 
-	void update(IndividualEvaluationUpdateWrapper updateWrapper);
+	void update(IndividualEvaluationUpdate updateWrapper);
 
 	void delete(IIndividualEvaluation iIndividualEvaluation);
 }

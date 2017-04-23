@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.proadmin.bean.project.IProject;
 import com.sasd13.proadmin.itf.bean.project.ProjectSearchResponseBean;
-import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -98,10 +98,10 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ProjectUpdateWrapper> updateWrappers = (List<ProjectUpdateWrapper>) readFromRequest(req, ProjectUpdateWrapper.class, null);
+			List<ProjectUpdate> updateWrappers = (List<ProjectUpdate>) readFromRequest(req, ProjectUpdate.class, null);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 
-			for (ProjectUpdateWrapper updateWrapper : updateWrappers) {
+			for (ProjectUpdate updateWrapper : updateWrappers) {
 				projectService.update(updateWrapper);
 			}
 		} catch (Exception e) {

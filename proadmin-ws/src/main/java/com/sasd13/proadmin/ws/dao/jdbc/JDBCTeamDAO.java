@@ -17,7 +17,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.ITeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 import com.sasd13.proadmin.ws.dao.ITeamDAO;
 
 /**
@@ -43,7 +43,7 @@ public class JDBCTeamDAO extends JDBCSession<ITeam> implements ITeamDAO {
 	}
 
 	@Override
-	public void update(TeamUpdateWrapper updateWrapper) {
+	public void update(TeamUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -102,7 +102,7 @@ public class JDBCTeamDAO extends JDBCSession<ITeam> implements ITeamDAO {
 		ITeam iTeam = updateWrapper.getWrapped();
 
 		preparedStatement.setString(1, iTeam.getName());
-		preparedStatement.setString(2, ((TeamUpdateWrapper) updateWrapper).getNumber());
+		preparedStatement.setString(2, ((TeamUpdate) updateWrapper).getNumber());
 	}
 
 	@Override

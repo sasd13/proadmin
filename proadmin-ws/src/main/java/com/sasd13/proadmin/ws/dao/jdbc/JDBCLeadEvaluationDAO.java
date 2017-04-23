@@ -50,7 +50,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 	}
 
 	@Override
-	public void update(LeadEvaluationUpdateWrapper updateWrapper) {
+	public void update(LeadEvaluationUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -122,7 +122,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 		preparedStatement.setFloat(3, iLeadEvaluation.getCommunicationMark());
 		preparedStatement.setString(4, iLeadEvaluation.getCommunicationComment());
 		preparedStatement.setString(5, iLeadEvaluation.getStudent().getIntermediary());
-		preparedStatement.setString(6, ((LeadEvaluationUpdateWrapper) updateWrapper).getReportNumber());
+		preparedStatement.setString(6, ((LeadEvaluationUpdate) updateWrapper).getReportNumber());
 	}
 
 	@Override

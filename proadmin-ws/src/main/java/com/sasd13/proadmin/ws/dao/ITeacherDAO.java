@@ -2,7 +2,7 @@ package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
 import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 
 public interface ITeacherDAO extends IReader<ITeacher> {
 
@@ -14,7 +14,7 @@ public interface ITeacherDAO extends IReader<ITeacher> {
 
 	long create(ITeacher iTeacher);
 
-	void update(TeacherUpdateWrapper updateWrapper);
+	void update(TeacherUpdate updateWrapper);
 
 	void delete(ITeacher iTeacher);
 }

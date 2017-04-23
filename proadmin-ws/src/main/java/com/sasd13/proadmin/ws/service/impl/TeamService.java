@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.ITeam;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.ITeamDAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
@@ -23,7 +23,7 @@ public class TeamService implements ITeamService {
 	}
 
 	@Override
-	public void update(TeamUpdateWrapper updateWrapper) {
+	public void update(TeamUpdate updateWrapper) {
 		teamDAO.update(updateWrapper);
 	}
 

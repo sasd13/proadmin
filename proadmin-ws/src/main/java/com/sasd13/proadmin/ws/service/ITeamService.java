@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.member.ITeam;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 
 public interface ITeamService {
 
 	long create(ITeam iTeam);
 
-	void update(TeamUpdateWrapper updateWrapper);
+	void update(TeamUpdate updateWrapper);
 
 	void delete(ITeam iTeam);
 

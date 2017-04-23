@@ -23,7 +23,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.project.IProject;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
 
 /**
@@ -51,7 +51,7 @@ public class JDBCProjectDAO extends JDBCSession<IProject> implements IProjectDAO
 	}
 
 	@Override
-	public void update(ProjectUpdateWrapper updateWrapper) {
+	public void update(ProjectUpdate updateWrapper) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -116,7 +116,7 @@ public class JDBCProjectDAO extends JDBCSession<IProject> implements IProjectDAO
 		preparedStatement.setTimestamp(1, new Timestamp(iProject.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		preparedStatement.setString(2, iProject.getTitle());
 		preparedStatement.setString(3, iProject.getDescription());
-		preparedStatement.setString(4, ((ProjectUpdateWrapper) updateWrapper).getCode());
+		preparedStatement.setString(4, ((ProjectUpdate) updateWrapper).getCode());
 	}
 
 	@Override

@@ -88,10 +88,10 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<LeadEvaluationUpdateWrapper> updateWrappers = (List<LeadEvaluationUpdateWrapper>) readFromRequest(req, LeadEvaluationUpdateWrapper.class, null);
+			List<LeadEvaluationUpdate> updateWrappers = (List<LeadEvaluationUpdate>) readFromRequest(req, LeadEvaluationUpdate.class, null);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
 
-			for (LeadEvaluationUpdateWrapper updateWrapper : updateWrappers) {
+			for (LeadEvaluationUpdate updateWrapper : updateWrappers) {
 				leadEvaluationService.update(updateWrapper);
 			}
 		} catch (Exception e) {

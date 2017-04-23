@@ -15,7 +15,7 @@ public interface IRunningTeamDAO extends IReader<IRunningTeam> {
 
 	long create(IRunningTeam iRunningTeam);
 
-	void update(RunningTeamUpdateWrapper updateWrapper);
+	void update(RunningTeamUpdate updateWrapper);
 
 	void delete(IRunningTeam iRunningTeam);
 }

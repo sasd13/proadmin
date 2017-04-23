@@ -26,7 +26,7 @@ public class RunningService implements IRunningService {
 	}
 
 	@Override
-	public void update(RunningUpdateWrapper updateWrapper) {
+	public void update(RunningUpdate updateWrapper) {
 		runningDAO.update(updateWrapper);
 	}
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.proadmin.bean.project.IProject;
-import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
@@ -23,7 +23,7 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
-	public void update(ProjectUpdateWrapper updateWrapper) {
+	public void update(ProjectUpdate updateWrapper) {
 		projectDAO.update(updateWrapper);
 	}
 

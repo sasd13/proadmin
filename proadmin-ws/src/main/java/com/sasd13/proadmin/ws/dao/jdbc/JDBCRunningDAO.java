@@ -47,7 +47,7 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 	}
 
 	@Override
-	public void update(RunningUpdateWrapper updateWrapper) {
+	public void update(RunningUpdate updateWrapper) {
 		// StringBuilder builder = new StringBuilder();
 		// builder.append("UPDATE ");
 		// builder.append(TABLE);

@@ -1,9 +1,9 @@
-package com.sasd13.proadmin.util.wrapper.update.member;
+package com.sasd13.proadmin.ws.bean.update;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.ws.bean.Student;
 
-public class StudentUpdateWrapper implements IUpdateWrapper<Student> {
+public class StudentUpdate implements IUpdateWrapper<Student> {
 
 	private Student student;
 	private String intermediary;

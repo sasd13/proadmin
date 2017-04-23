@@ -26,7 +26,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void update(ReportUpdateWrapper updateWrapper) {
+	public void update(ReportUpdate updateWrapper) {
 		reportDAO.update(updateWrapper);
 	}
 

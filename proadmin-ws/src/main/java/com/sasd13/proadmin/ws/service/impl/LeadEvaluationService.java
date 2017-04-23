@@ -26,7 +26,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public void update(LeadEvaluationUpdateWrapper updateWrapper) {
+	public void update(LeadEvaluationUpdate updateWrapper) {
 		leadEvaluationDAO.update(updateWrapper);
 	}
 

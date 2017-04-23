@@ -52,7 +52,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<IRunningTeam> implements IRu
 	}
 
 	@Override
-	public void update(RunningTeamUpdateWrapper updateWrapper) {
+	public void update(RunningTeamUpdate updateWrapper) {
 		// StringBuilder builder = new StringBuilder();
 		// builder.append("UPDATE ");
 		// builder.append(TABLE);

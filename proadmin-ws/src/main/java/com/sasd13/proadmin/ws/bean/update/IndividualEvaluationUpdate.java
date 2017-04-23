@@ -1,21 +1,21 @@
-package com.sasd13.proadmin.util.wrapper.update.running;
+package com.sasd13.proadmin.ws.bean.update;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
+import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
 
-public class IndividualEvaluationUpdateWrapper implements IUpdateWrapper<IIndividualEvaluation> {
+public class IndividualEvaluationUpdate implements IUpdateWrapper<IndividualEvaluation> {
 
-	private IIndividualEvaluation iIndividualEvaluation;
+	private IndividualEvaluation individualEvaluation;
 	private String reportNumber, studentIntermediary;
 
 	@Override
-	public IIndividualEvaluation getWrapped() {
-		return iIndividualEvaluation;
+	public IndividualEvaluation getWrapped() {
+		return individualEvaluation;
 	}
 
 	@Override
-	public void setWrapped(IIndividualEvaluation iIndividualEvaluation) {
-		this.iIndividualEvaluation = iIndividualEvaluation;
+	public void setWrapped(IndividualEvaluation individualEvaluation) {
+		this.individualEvaluation = individualEvaluation;
 	}
 
 	public String getReportNumber() {
