@@ -7,11 +7,11 @@ import com.sasd13.proadmin.backend.bean.Team;
 
 public interface ITeamService {
 
-	void create(Team teacher);
+	void create(Team team);
 
-	void update(Team teacher);
+	void update(Team team);
 
-	void delete(Team teacher);
+	void delete(Team team);
 
 	List<Team> read(Map<String, String[]> parameters);
 }

@@ -7,12 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sasd13.proadmin.backend.bean.LeadEvaluation;
 import com.sasd13.proadmin.backend.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.backend.dao.dto.LeadEvaluationDTO;
 import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
-import com.sasd13.proadmin.backend.util.adapter.dto2bean.LeadEvaluationDTOAdapter;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.dto2bean.LeadEvaluationAdapterD2B;
 
 @Service
 public class LeadEvaluationService implements ILeadEvaluationService {
@@ -26,25 +25,26 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public void update(List<LeadEvaluationUpdateWrapper> updateWrappers) {
-		leadEvaluationDAO.update(updateWrappers);
+	public void update(LeadEvaluation leadEvaluation) {
+		leadEvaluationDAO.update(leadEvaluation);
 	}
 
-	public void delete(List<LeadEvaluation> leadEvaluations) {
-		leadEvaluationDAO.delete(leadEvaluations);
-	};
+	@Override
+	public void delete(LeadEvaluation leadEvaluation) {
+		leadEvaluationDAO.delete(leadEvaluation);
+	}
 
 	@Override
 	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
-		List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+		List<LeadEvaluation> list = new ArrayList<>();
 
 		List<LeadEvaluationDTO> dtos = leadEvaluationDAO.read(parameters);
-		LeadEvaluationDTOAdapter adapter = new LeadEvaluationDTOAdapter();
+		LeadEvaluationAdapterD2B adapter = new LeadEvaluationAdapterD2B();
 
 		for (LeadEvaluationDTO dto : dtos) {
-			leadEvaluations.add(adapter.adapt(dto));
+			list.add(adapter.adapt(dto));
 		}
 
-		return leadEvaluations;
+		return list;
 	}
 }

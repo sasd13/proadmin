@@ -1,15 +1,13 @@
 package com.sasd13.proadmin.itf.bean.running;
 
 import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.project.ProjectBean;
-import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
+import com.sasd13.proadmin.itf.bean.LinkedInfo;
 
 public class RunningBean {
 
 	private Id id;
 	private CoreInfo coreInfo;
-	private ProjectBean linkedProject;
-	private TeacherBean linkedTeacher;
+	private LinkedInfo linkedProject, linkedTeacher;
 
 	public Id getId() {
 		return id;
@@ -27,19 +25,19 @@ public class RunningBean {
 		this.coreInfo = coreInfo;
 	}
 
-	public ProjectBean getLinkedProject() {
+	public LinkedInfo getLinkedProject() {
 		return linkedProject;
 	}
 
-	public void setLinkedProject(ProjectBean linkedProject) {
+	public void setLinkedProject(LinkedInfo linkedProject) {
 		this.linkedProject = linkedProject;
 	}
 
-	public TeacherBean getLinkedTeacher() {
+	public LinkedInfo getLinkedTeacher() {
 		return linkedTeacher;
 	}
 
-	public void setLinkedTeacher(TeacherBean linkedTeacher) {
+	public void setLinkedTeacher(LinkedInfo linkedTeacher) {
 		this.linkedTeacher = linkedTeacher;
 	}
 }

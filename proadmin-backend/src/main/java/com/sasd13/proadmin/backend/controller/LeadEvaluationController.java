@@ -1,8 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sasd13.proadmin.backend.bean.LeadEvaluation;
 import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.bean2itf.LeadEvaluationAdapterB2I;
+import com.sasd13.proadmin.backend.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
+import com.sasd13.proadmin.itf.RequestBean;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 @RestController
 @RequestMapping("/leadEvaluation")
@@ -28,75 +28,69 @@ public class LeadEvaluationController {
 	@Autowired
 	private ILeadEvaluationService leadEvaluationService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<LeadEvaluation>> get(@RequestParam(value = "reports", required = false) List<String> reports) {
-		LOGGER.info("Get");
+	@RequestMapping(path = "/create", method = RequestMethod.POST)
+	public ResponseEntity<Integer> create(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+		LOGGER.info("[Proadmin-Backend] LeadEvaluation : create");
 
 		try {
-			List<LeadEvaluation> leadEvaluations = leadEvaluationService.read(getParameters(reports));
+			leadEvaluationService.create(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
 
-			return new ResponseEntity<List<LeadEvaluation>>(leadEvaluations, HttpStatus.OK);
+			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<List<LeadEvaluation>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	private Map<String, String[]> getParameters(List<String> reports) {
-		Map<String, String[]> parameters = new HashMap<>();
+	@RequestMapping(path = "/update", method = RequestMethod.POST)
+	public ResponseEntity<Integer> update(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+		LOGGER.info("[Proadmin-Backend] LeadEvaluation : update");
 
-		if (reports != null) {
-			for (String report : reports) {
-				parameters.put(EnumParameter.NUMBER.getName(), new String[] { report });
+		try {
+			leadEvaluationService.update(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
+
+			return new ResponseEntity<Integer>(HttpStatus.OK);
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+
+		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
+	}
+
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
+	public ResponseEntity<Integer> delete(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+		LOGGER.info("[Proadmin-Backend] LeadEvaluation : delete");
+
+		try {
+			leadEvaluationService.delete(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
+
+			return new ResponseEntity<Integer>(HttpStatus.OK);
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+
+		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
+	}
+
+	@RequestMapping(path = "/search", method = RequestMethod.POST)
+	public ResponseEntity<ResponseBean<LeadEvaluationBean>> search(@RequestBody RequestBean request) {
+		LOGGER.info("[Proadmin-Backend] LeadEvaluation : search");
+
+		try {
+			List<LeadEvaluation> results = leadEvaluationService.read(request.getCriteria());
+			ResponseBean<LeadEvaluationBean> response = new ResponseBean<>();
+			LeadEvaluationAdapterB2I adapter = new LeadEvaluationAdapterB2I();
+
+			for (LeadEvaluation result : results) {
+				response.getData().add(adapter.adapt(result));
 			}
-		}
 
-		return parameters;
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody LeadEvaluation leadEvaluation) {
-		LOGGER.info("Post");
-
-		try {
-			leadEvaluationService.create(leadEvaluation);
-
-			return new ResponseEntity<Integer>(HttpStatus.OK);
+			return new ResponseEntity<ResponseBean<LeadEvaluationBean>>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
-	}
-
-	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<LeadEvaluationUpdateWrapper> updateWrappers) {
-		LOGGER.info("Put");
-
-		try {
-			leadEvaluationService.update(updateWrappers);
-
-			return new ResponseEntity<Integer>(HttpStatus.OK);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-
-		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<LeadEvaluation> leadEvaluations) {
-		LOGGER.info("Delete");
-
-		try {
-			leadEvaluationService.delete(leadEvaluations);
-
-			return new ResponseEntity<Integer>(HttpStatus.OK);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-
-		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean<LeadEvaluationBean>>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

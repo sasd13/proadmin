@@ -1,35 +1,38 @@
 package com.sasd13.proadmin.itf.bean.leadevaluation;
 
-import com.sasd13.proadmin.itf.bean.project.ProjectBean;
-import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
-
 public class CoreInfo {
 
-	private String yearStarted;
-	private ProjectBean linkedProject;
-	private TeacherBean linkedTeacher;
+	private String planningMark, planningComment, communicationMark, communicationComment;
 
-	public String getYearStarted() {
-		return yearStarted;
+	public String getPlanningMark() {
+		return planningMark;
 	}
 
-	public void setYearStarted(String yearStarted) {
-		this.yearStarted = yearStarted;
+	public void setPlanningMark(String planningMark) {
+		this.planningMark = planningMark;
 	}
 
-	public ProjectBean getLinkedProject() {
-		return linkedProject;
+	public String getPlanningComment() {
+		return planningComment;
 	}
 
-	public void setLinkedProject(ProjectBean linkedProject) {
-		this.linkedProject = linkedProject;
+	public void setPlanningComment(String planningComment) {
+		this.planningComment = planningComment;
 	}
 
-	public TeacherBean getLinkedTeacher() {
-		return linkedTeacher;
+	public String getCommunicationMark() {
+		return communicationMark;
 	}
 
-	public void setLinkedTeacher(TeacherBean linkedTeacher) {
-		this.linkedTeacher = linkedTeacher;
+	public void setCommunicationMark(String communicationMark) {
+		this.communicationMark = communicationMark;
+	}
+
+	public String getCommunicationComment() {
+		return communicationComment;
+	}
+
+	public void setCommunicationComment(String communicationComment) {
+		this.communicationComment = communicationComment;
 	}
 }

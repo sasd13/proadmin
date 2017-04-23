@@ -1,8 +1,7 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sasd13.proadmin.backend.bean.IndividualEvaluation;
 import com.sasd13.proadmin.backend.service.IIndividualEvaluationService;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
+import com.sasd13.proadmin.backend.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
+import com.sasd13.proadmin.itf.RequestBean;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 
 @RestController
 @RequestMapping("/individualEvaluation")
@@ -28,39 +29,19 @@ public class IndividualEvaluationController {
 	@Autowired
 	private IIndividualEvaluationService individualEvaluationService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<IndividualEvaluation>> get(@RequestParam(value = "reports", required = false) List<String> reports) {
-		LOGGER.info("Get");
+	@RequestMapping(path = "/create", method = RequestMethod.POST)
+	public ResponseEntity<Integer> create(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : create");
 
 		try {
-			List<IndividualEvaluation> individualEvaluations = individualEvaluationService.read(getParameters(reports));
+			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			return new ResponseEntity<List<IndividualEvaluation>>(individualEvaluations, HttpStatus.OK);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-
-		return new ResponseEntity<List<IndividualEvaluation>>(HttpStatus.EXPECTATION_FAILED);
-	}
-
-	private Map<String, String[]> getParameters(List<String> reports) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		if (reports != null) {
-			for (String report : reports) {
-				parameters.put(EnumParameter.REPORT.getName(), new String[] { report });
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
-		}
 
-		return parameters;
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Integer> post(@RequestBody IndividualEvaluation individualEvaluation) {
-		LOGGER.info("Post");
-
-		try {
-			individualEvaluationService.create(individualEvaluation);
+			individualEvaluationService.create(individualEvaluations);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -70,12 +51,19 @@ public class IndividualEvaluationController {
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Integer> put(@RequestBody List<IndividualEvaluationUpdateWrapper> updateWrappers) {
-		LOGGER.info("Put");
+	@RequestMapping(path = "/update", method = RequestMethod.POST)
+	public ResponseEntity<Integer> update(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : update");
 
 		try {
-			individualEvaluationService.update((List<IndividualEvaluationUpdateWrapper>) updateWrappers);
+			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
+
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
+			}
+
+			individualEvaluationService.update(individualEvaluations);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -85,11 +73,18 @@ public class IndividualEvaluationController {
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<Integer> delete(@RequestBody List<IndividualEvaluation> individualEvaluations) {
-		LOGGER.info("Delete");
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
+	public ResponseEntity<Integer> delete(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : delete");
 
 		try {
+			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
+
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
+			}
+
 			individualEvaluationService.delete(individualEvaluations);
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
@@ -98,5 +93,26 @@ public class IndividualEvaluationController {
 		}
 
 		return new ResponseEntity<Integer>(HttpStatus.EXPECTATION_FAILED);
+	}
+
+	@RequestMapping(path = "/search", method = RequestMethod.POST)
+	public ResponseEntity<ResponseBean<IndividualEvaluationBean>> search(@RequestBody RequestBean request) {
+		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : search");
+
+		try {
+			List<IndividualEvaluation> results = individualEvaluationService.read(request.getCriteria());
+			ResponseBean<IndividualEvaluationBean> response = new ResponseBean<>();
+			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
+
+			for (IndividualEvaluation result : results) {
+				response.getData().add(adapter.adapt(result));
+			}
+
+			return new ResponseEntity<ResponseBean<IndividualEvaluationBean>>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+
+		return new ResponseEntity<ResponseBean<IndividualEvaluationBean>>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

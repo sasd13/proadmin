@@ -5,14 +5,13 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,87 +19,58 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.proadmin.backend.bean.IndividualEvaluation;
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.backend.dao.IStudentDAO;
 import com.sasd13.proadmin.backend.dao.dto.IndividualEvaluationDTO;
-import com.sasd13.proadmin.backend.dao.dto.StudentDTO;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.backend.util.adapter.bean2dto.IndividualEvaluationAdapterB2D;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO, IConditionnal {
-
-	@Autowired
-	private IStudentDAO studentDAO;
 
 	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public IndividualEvaluationDTO create(IndividualEvaluation individualEvaluation) {
-		IndividualEvaluationDTO dto = new IndividualEvaluationDTO(individualEvaluation);
+	public List<IndividualEvaluationDTO> create(List<IndividualEvaluation> individualEvaluations) {
+		List<IndividualEvaluationDTO> dtos = new ArrayList<>();
 
-		dto.setStudent(readStudent(individualEvaluation.getStudent().getIntermediary()));
-		currentSession().save(dto);
+		IndividualEvaluationDTO dto = null;
+
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
+
+			currentSession().save(dto);
+		}
+
 		currentSession().flush();
 
-		return dto;
-	}
-
-	private StudentDTO readStudent(String intermediary) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { intermediary });
-
-		return studentDAO.read(parameters).get(0);
+		return dtos;
 	}
 
 	@Override
-	public void update(List<IndividualEvaluationUpdateWrapper> updateWrappers) {
-		IndividualEvaluationUpdateWrapper updateWrapper;
-		IndividualEvaluationDTO dto;
+	public void update(List<IndividualEvaluation> individualEvaluations) {
+		IndividualEvaluationDTO dto = null;
 
-		for (int i = 0; i < updateWrappers.size(); i++) {
-			updateWrapper = updateWrappers.get(i);
-			dto = read(updateWrapper.getReportNumber(), updateWrapper.getStudentIntermediary());
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
 
-			dto.setMark(updateWrapper.getWrapped().getMark());
 			currentSession().update(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
 		}
 
 		currentSession().flush();
 	}
 
-	private IndividualEvaluationDTO read(String number, String intermediary) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.REPORT.getName(), new String[] { number });
-		parameters.put(EnumParameter.STUDENT.getName(), new String[] { intermediary });
-
-		return read(parameters).get(0);
-	}
-
 	@Override
 	public void delete(List<IndividualEvaluation> individualEvaluations) {
-		IndividualEvaluation individualEvaluation;
-		IndividualEvaluationDTO dto;
+		IndividualEvaluationDTO dto = null;
 
-		for (int i = 0; i < individualEvaluations.size(); i++) {
-			individualEvaluation = individualEvaluations.get(i);
-			dto = read(individualEvaluation.getReport().getNumber(), individualEvaluation.getStudent().getIntermediary());
+		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
 
 			currentSession().remove(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
 		}
 
 		currentSession().flush();

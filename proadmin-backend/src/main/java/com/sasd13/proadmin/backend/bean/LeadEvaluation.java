@@ -1,7 +1,5 @@
 package com.sasd13.proadmin.backend.bean;
 
-import com.sasd13.proadmin.bean.member.Student;
-
 public class LeadEvaluation {
 
 	private long id;

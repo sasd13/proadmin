@@ -2,17 +2,11 @@ package com.sasd13.proadmin.backend.util.adapter.bean2dto;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.Running;
+import com.sasd13.proadmin.backend.dao.dto.ProjectDTO;
 import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
+import com.sasd13.proadmin.backend.dao.dto.TeacherDTO;
 
 public class RunningAdapterB2D implements IAdapter<Running, RunningDTO> {
-
-	private ProjectAdapterB2D projectAdapter;
-	private TeacherAdapterB2D teacherAdapter;
-
-	public RunningAdapterB2D() {
-		projectAdapter = new ProjectAdapterB2D();
-		teacherAdapter = new TeacherAdapterB2D();
-	}
 
 	@Override
 	public RunningDTO adapt(Running s) {
@@ -20,8 +14,14 @@ public class RunningAdapterB2D implements IAdapter<Running, RunningDTO> {
 
 		t.setId(s.getId());
 		t.setYear(s.getYear());
-		t.setProject(projectAdapter.adapt(s.getProject()));
-		t.setTeacher(teacherAdapter.adapt(s.getTeacher()));
+
+		ProjectDTO projectDTO = new ProjectDTO();
+		projectDTO.setId(s.getProject().getId());
+		t.setProject(projectDTO);
+
+		TeacherDTO teacherDTO = new TeacherDTO();
+		teacherDTO.setId(s.getTeacher().getId());
+		t.setTeacher(teacherDTO);
 
 		return t;
 	}

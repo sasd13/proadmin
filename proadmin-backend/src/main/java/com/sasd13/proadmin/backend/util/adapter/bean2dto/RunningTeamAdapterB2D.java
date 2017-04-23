@@ -2,28 +2,30 @@ package com.sasd13.proadmin.backend.util.adapter.bean2dto;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.RunningTeam;
+import com.sasd13.proadmin.backend.dao.dto.AcademicLevelDTO;
+import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
 import com.sasd13.proadmin.backend.dao.dto.RunningTeamDTO;
+import com.sasd13.proadmin.backend.dao.dto.TeamDTO;
 
 public class RunningTeamAdapterB2D implements IAdapter<RunningTeam, RunningTeamDTO> {
-
-	private RunningAdapterB2D runningAdapter;
-	private TeamAdapterB2D teamAdapter;
-	private AcademicLevelAdapterB2D academicLevelAdapter;
-
-	public RunningTeamAdapterB2D() {
-		runningAdapter = new RunningAdapterB2D();
-		teamAdapter = new TeamAdapterB2D();
-		academicLevelAdapter = new AcademicLevelAdapterB2D();
-	}
 
 	@Override
 	public RunningTeamDTO adapt(RunningTeam s) {
 		RunningTeamDTO t = new RunningTeamDTO();
 
 		t.setId(s.getId());
-		t.setRunning(runningAdapter.adapt(s.getRunning()));
-		t.setTeam(teamAdapter.adapt(s.getTeam()));
-		t.setAcademicLevel(academicLevelAdapter.adapt(s.getAcademicLevel()));
+
+		RunningDTO runningDTO = new RunningDTO();
+		runningDTO.setId(s.getRunning().getId());
+		t.setRunning(runningDTO);
+
+		TeamDTO teamDTO = new TeamDTO();
+		teamDTO.setId(s.getTeam().getId());
+		t.setTeam(teamDTO);
+
+		AcademicLevelDTO academicLevelDTO = new AcademicLevelDTO();
+		academicLevelDTO.setId(s.getAcademicLevel().getId());
+		t.setAcademicLevel(academicLevelDTO);
 
 		return t;
 	}

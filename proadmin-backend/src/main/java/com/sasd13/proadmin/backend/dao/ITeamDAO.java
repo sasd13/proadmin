@@ -8,11 +8,11 @@ import com.sasd13.proadmin.backend.dao.dto.TeamDTO;
 
 public interface ITeamDAO {
 
-	TeamDTO create(Team teacher);
+	TeamDTO create(Team team);
 
-	void update(Team teacher);
+	void update(Team team);
 
-	void delete(Team teacher);
+	void delete(Team team);
 
 	List<TeamDTO> read(Map<String, String[]> parameters);
 }

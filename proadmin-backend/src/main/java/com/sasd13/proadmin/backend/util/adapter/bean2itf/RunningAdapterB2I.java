@@ -3,18 +3,11 @@ package com.sasd13.proadmin.backend.util.adapter.bean2itf;
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.Running;
 import com.sasd13.proadmin.itf.bean.Id;
+import com.sasd13.proadmin.itf.bean.LinkedInfo;
 import com.sasd13.proadmin.itf.bean.running.CoreInfo;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
-
-	private ProjectAdapterB2I projectAdapter;
-	private TeacherAdapterB2I teacherAdapter;
-
-	public RunningAdapterB2I() {
-		projectAdapter = new ProjectAdapterB2I();
-		teacherAdapter = new TeacherAdapterB2I();
-	}
 
 	@Override
 	public RunningBean adapt(Running s) {
@@ -28,8 +21,13 @@ public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
 		coreInfo.setYearStarted(String.valueOf(s.getYear()));
 		t.setCoreInfo(coreInfo);
 
-		t.setLinkedProject(projectAdapter.adapt(s.getProject()));
-		t.setLinkedTeacher(teacherAdapter.adapt(s.getTeacher()));
+		LinkedInfo linkedProject = new LinkedInfo();
+		linkedProject.setId(String.valueOf(s.getProject().getId()));
+		t.setLinkedProject(linkedProject);
+
+		LinkedInfo linkedTeacher = new LinkedInfo();
+		linkedTeacher.setId(String.valueOf(s.getTeacher().getId()));
+		t.setLinkedTeacher(linkedTeacher);
 
 		return t;
 	}

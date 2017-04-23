@@ -5,14 +5,12 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,20 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.proadmin.backend.bean.LeadEvaluation;
 import com.sasd13.proadmin.backend.dao.ILeadEvaluationDAO;
-import com.sasd13.proadmin.backend.dao.IStudentDAO;
 import com.sasd13.proadmin.backend.dao.dto.LeadEvaluationDTO;
-import com.sasd13.proadmin.backend.dao.dto.StudentDTO;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.backend.util.adapter.bean2dto.LeadEvaluationAdapterB2D;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO, IConditionnal {
-
-	@Autowired
-	private IStudentDAO studentDAO;
 
 	public LeadEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -41,71 +34,23 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 
 	@Override
 	public LeadEvaluationDTO create(LeadEvaluation leadEvaluation) {
-		LeadEvaluationDTO dto = new LeadEvaluationDTO(leadEvaluation);
+		LeadEvaluationDTO dto = new LeadEvaluationAdapterB2D().adapt(leadEvaluation);
 
-		dto.setStudent(readStudent(leadEvaluation.getStudent().getIntermediary()));
 		currentSession().save(dto);
 		currentSession().flush();
 
 		return dto;
 	}
 
-	private StudentDTO readStudent(String intermediary) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { intermediary });
-
-		return studentDAO.read(parameters).get(0);
-	}
-
 	@Override
-	public void update(List<LeadEvaluationUpdateWrapper> updateWrappers) {
-		LeadEvaluationUpdateWrapper updateWrapper;
-		LeadEvaluationDTO dto;
-
-		for (int i = 0; i < updateWrappers.size(); i++) {
-			updateWrapper = updateWrappers.get(i);
-			dto = read(updateWrapper.getReportNumber());
-
-			dto.setPlanningMark(updateWrapper.getWrapped().getPlanningMark());
-			dto.setPlanningComment(updateWrapper.getWrapped().getPlanningComment());
-			dto.setCommunicationMark(updateWrapper.getWrapped().getCommunicationMark());
-			dto.setCommunicationComment(updateWrapper.getWrapped().getCommunicationComment());
-			dto.setStudent(readStudent(updateWrapper.getWrapped().getStudent().getIntermediary()));
-			currentSession().update(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
-		}
-
+	public void update(LeadEvaluation leadEvaluation) {
+		currentSession().update(new LeadEvaluationAdapterB2D().adapt(leadEvaluation));
 		currentSession().flush();
 	}
 
-	private LeadEvaluationDTO read(String number) {
-		Map<String, String[]> parameters = new HashMap<>();
-
-		parameters.put(EnumParameter.REPORT.getName(), new String[] { number });
-
-		return read(parameters).get(0);
-	}
-
 	@Override
-	public void delete(List<LeadEvaluation> leadEvaluations) {
-		LeadEvaluation leadEvaluation;
-		LeadEvaluationDTO dto;
-
-		for (int i = 0; i < leadEvaluations.size(); i++) {
-			leadEvaluation = leadEvaluations.get(i);
-			dto = read(leadEvaluation.getReport().getNumber());
-
-			currentSession().remove(dto);
-
-			if (i % 100 == 0) {
-				currentSession().flush();
-			}
-		}
-
+	public void delete(LeadEvaluation leadEvaluation) {
+		currentSession().remove(new LeadEvaluationAdapterB2D().adapt(leadEvaluation));
 		currentSession().flush();
 	}
 

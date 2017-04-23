@@ -10,6 +10,7 @@ public class ProjectAdapterD2B implements IAdapter<ProjectDTO, Project> {
 	public Project adapt(ProjectDTO s) {
 		Project t = new Project();
 
+		t.setId(s.getId());
 		t.setCode(s.getCode());
 		t.setDateCreation(s.getDateCreation());
 		t.setTitle(s.getTitle());

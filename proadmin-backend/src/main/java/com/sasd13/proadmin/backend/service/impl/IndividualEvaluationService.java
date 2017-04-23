@@ -7,12 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sasd13.proadmin.backend.bean.IndividualEvaluation;
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.backend.dao.dto.IndividualEvaluationDTO;
 import com.sasd13.proadmin.backend.service.IIndividualEvaluationService;
-import com.sasd13.proadmin.backend.util.adapter.dto2bean.IndividualEvaluationD2B;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.dto2bean.IndividualEvaluationAdapterD2B;
 
 @Service
 public class IndividualEvaluationService implements IIndividualEvaluationService {
@@ -21,13 +20,13 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	private IIndividualEvaluationDAO individualEvaluationDAO;
 
 	@Override
-	public void create(IndividualEvaluation individualEvaluation) {
-		individualEvaluationDAO.create(individualEvaluation);
+	public void create(List<IndividualEvaluation> individualEvaluations) {
+		individualEvaluationDAO.create(individualEvaluations);
 	}
 
 	@Override
-	public void update(List<IndividualEvaluationUpdateWrapper> updateWrappers) {
-		individualEvaluationDAO.update(updateWrappers);
+	public void update(List<IndividualEvaluation> individualEvaluations) {
+		individualEvaluationDAO.update(individualEvaluations);
 	}
 
 	@Override
@@ -37,15 +36,15 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 
 	@Override
 	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
-		List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+		List<IndividualEvaluation> list = new ArrayList<>();
 
 		List<IndividualEvaluationDTO> dtos = individualEvaluationDAO.read(parameters);
-		IndividualEvaluationD2B adapter = new IndividualEvaluationD2B();
+		IndividualEvaluationAdapterD2B adapter = new IndividualEvaluationAdapterD2B();
 
 		for (IndividualEvaluationDTO dto : dtos) {
-			individualEvaluations.add(adapter.adapt(dto));
+			list.add(adapter.adapt(dto));
 		}
 
-		return individualEvaluations;
+		return list;
 	}
 }

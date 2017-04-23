@@ -7,12 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sasd13.proadmin.backend.bean.Report;
 import com.sasd13.proadmin.backend.dao.IReportDAO;
 import com.sasd13.proadmin.backend.dao.dto.ReportDTO;
 import com.sasd13.proadmin.backend.service.IReportService;
-import com.sasd13.proadmin.backend.util.adapter.dto2bean.ReportDTOAdapter;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.backend.util.adapter.dto2bean.ReportAdapterD2B;
 
 @Service
 public class ReportService implements IReportService {
@@ -26,26 +25,26 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void update(List<ReportUpdateWrapper> updateWrappers) {
-		reportDAO.update(updateWrappers);
+	public void update(Report report) {
+		reportDAO.update(report);
 	}
 
 	@Override
-	public void delete(List<Report> reports) {
-		reportDAO.delete(reports);
+	public void delete(Report report) {
+		reportDAO.delete(report);
 	}
 
 	@Override
 	public List<Report> read(Map<String, String[]> parameters) {
-		List<Report> reports = new ArrayList<>();
+		List<Report> list = new ArrayList<>();
 
 		List<ReportDTO> dtos = reportDAO.read(parameters);
-		ReportDTOAdapter adapter = new ReportDTOAdapter();
+		ReportAdapterD2B adapter = new ReportAdapterD2B();
 
 		for (ReportDTO dto : dtos) {
-			reports.add(adapter.adapt(dto));
+			list.add(adapter.adapt(dto));
 		}
 
-		return reports;
+		return list;
 	}
 }

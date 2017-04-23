@@ -8,11 +8,11 @@ import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
 
 public interface IRunningDAO {
 
-	RunningDTO create(Running teacher);
+	RunningDTO create(Running running);
 
-	void update(Running teacher);
+	void update(Running running);
 
-	void delete(Running teacher);
+	void delete(Running running);
 
 	List<RunningDTO> read(Map<String, String[]> parameters);
 }

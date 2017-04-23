@@ -1,20 +1,13 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2bean;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
+import com.sasd13.proadmin.backend.bean.AcademicLevel;
+import com.sasd13.proadmin.backend.bean.Running;
 import com.sasd13.proadmin.backend.bean.RunningTeam;
+import com.sasd13.proadmin.backend.bean.Team;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
 
 public class RunningTeamAdapterI2B implements IAdapter<RunningTeamBean, RunningTeam> {
-
-	private RunningAdapterI2B runningAdapter;
-	private TeamAdapterI2B teamAdapter;
-	private AcademicLevelAdapterI2B academicLevelAdapter;
-
-	public RunningTeamAdapterI2B() {
-		runningAdapter = new RunningAdapterI2B();
-		teamAdapter = new TeamAdapterI2B();
-		academicLevelAdapter = new AcademicLevelAdapterI2B();
-	}
 
 	@Override
 	public RunningTeam adapt(RunningTeamBean s) {
@@ -24,9 +17,17 @@ public class RunningTeamAdapterI2B implements IAdapter<RunningTeamBean, RunningT
 			t.setId(Long.valueOf(s.getId().getId()));
 		}
 
-		t.setRunning(runningAdapter.adapt(s.getLinkedRunning()));
-		t.setTeam(teamAdapter.adapt(s.getLinkedTeam()));
-		t.setAcademicLevel(academicLevelAdapter.adapt(s.getLinkedAcademicLevel()));
+		Running running = new Running();
+		running.setId(Long.valueOf(s.getLinkedRunning().getId()));
+		t.setRunning(running);
+
+		Team team = new Team();
+		team.setId(Long.valueOf(s.getLinkedTeam().getId()));
+		t.setTeam(team);
+
+		AcademicLevel academicLevel = new AcademicLevel();
+		academicLevel.setId(Long.valueOf(s.getLinkedAcademicLevel().getId()));
+		t.setAcademicLevel(academicLevel);
 
 		return t;
 	}
