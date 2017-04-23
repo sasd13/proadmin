@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 
-public class ProjectCodeCriteria implements Criteria<Project> {
+public class ProjectCodeCriteria implements Criteria<IProject> {
 
 	private String code;
 
@@ -15,12 +15,12 @@ public class ProjectCodeCriteria implements Criteria<Project> {
 	}
 
 	@Override
-	public List<Project> meetCriteria(List<Project> list) {
-		List<Project> results = new ArrayList<Project>();
+	public List<IProject> meetCriteria(List<IProject> list) {
+		List<IProject> results = new ArrayList<IProject>();
 
-		for (Project project : list) {
-			if (project.getCode().equalsIgnoreCase(code)) {
-				results.add(project);
+		for (IProject iProject : list) {
+			if (iProject.getCode().equalsIgnoreCase(code)) {
+				results.add(iProject);
 			}
 		}
 

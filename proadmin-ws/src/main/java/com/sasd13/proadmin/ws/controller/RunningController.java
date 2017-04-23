@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.IRunning;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningService;
@@ -45,7 +45,7 @@ public class RunningController extends Controller {
 
 		try {
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
-			List<Running> results = null;
+			List<IRunning> results = null;
 
 			if (parameters.isEmpty()) {
 				results = runningService.readAll();
@@ -69,11 +69,11 @@ public class RunningController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Running> runnings = (List<Running>) readFromRequest(req, Running.class, null);
+			List<IRunning> iRunnings = (List<IRunning>) readFromRequest(req, IRunning.class, null);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
 
-			for (Running running : runnings) {
-				runningService.create(running);
+			for (IRunning iRunning : iRunnings) {
+				runningService.create(iRunning);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class RunningController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Running> runnings = (List<Running>) readFromRequest(req, Running.class, null);
+			List<IRunning> iRunnings = (List<IRunning>) readFromRequest(req, IRunning.class, null);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
 
-			for (Running running : runnings) {
-				runningService.delete(running);
+			for (IRunning iRunning : iRunnings) {
+				runningService.delete(iRunning);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

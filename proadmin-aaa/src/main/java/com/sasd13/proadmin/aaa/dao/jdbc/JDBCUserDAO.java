@@ -92,7 +92,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 
 		try {
 			statement = getConnection().prepareStatement(builder.toString());
-			statement.setInt(1, user.getStatus().getCode());
+			statement.setInt(1, user.getStatus());
 			statement.setString(2, String.join(SEPARATOR, user.getRoles()));
 			statement.setString(3, user.getIntermediary());
 			statement.setString(4, user.getEmail());
@@ -194,6 +194,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 
 		user.setUserID(resultSet.getString(COLUMN_USERID));
 		user.setRoles(resultSet.getString(COLUMN_ROLES).split(SEPARATOR));
+		user.setStatus(resultSet.getInt(COLUMN_STATUS));
 		user.setIntermediary(resultSet.getString(COLUMN_INTERMEDIARY));
 		user.setEmail(resultSet.getString(COLUMN_EMAIL));
 

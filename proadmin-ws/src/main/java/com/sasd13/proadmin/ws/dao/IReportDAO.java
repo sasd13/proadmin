@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 
-public interface IReportDAO extends IReader<Report> {
+public interface IReportDAO extends IReader<IReport> {
 
 	String TABLE = "reports";
 	String COLUMN_CODE = "_code";
@@ -17,9 +17,9 @@ public interface IReportDAO extends IReader<Report> {
 	String COLUMN_TEAM = "_team";
 	String COLUMN_ACADEMICLEVEL = "_academiclevel";
 
-	long create(Report report);
+	long create(IReport iReport);
 
 	void update(ReportUpdateWrapper updateWrapper);
 
-	void delete(Report report);
+	void delete(IReport iReport);
 }

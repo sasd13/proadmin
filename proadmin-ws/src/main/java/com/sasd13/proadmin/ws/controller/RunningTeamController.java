@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningTeamService;
@@ -45,7 +45,7 @@ public class RunningTeamController extends Controller {
 
 		try {
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
-			List<RunningTeam> results = null;
+			List<IRunningTeam> results = null;
 
 			if (parameters.isEmpty()) {
 				results = runningTeamService.readAll();
@@ -69,11 +69,11 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<RunningTeam> runningTeams = (List<RunningTeam>) readFromRequest(req, RunningTeam.class, null);
+			List<IRunningTeam> iRunningTeams = (List<IRunningTeam>) readFromRequest(req, IRunningTeam.class, null);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
 
-			for (RunningTeam runningTeam : runningTeams) {
-				runningTeamService.create(runningTeam);
+			for (IRunningTeam iRunningTeam : iRunningTeams) {
+				runningTeamService.create(iRunningTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<RunningTeam> runningTeams = (List<RunningTeam>) readFromRequest(req, RunningTeam.class, null);
+			List<IRunningTeam> iRunningTeams = (List<IRunningTeam>) readFromRequest(req, IRunningTeam.class, null);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
 
-			for (RunningTeam runningTeam : runningTeams) {
-				runningTeamService.delete(runningTeam);
+			for (IRunningTeam iRunningTeam : iRunningTeams) {
+				runningTeamService.delete(iRunningTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
+import com.sasd13.proadmin.bean.level.IAcademicLevel;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IAcademicLevelService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -44,7 +44,7 @@ public class AcademicLevelController extends Controller {
 
 		try {
 			IAcademicLevelService academicLevelService = (IAcademicLevelService) ServiceFactory.make(IAcademicLevelService.class, dao);
-			List<AcademicLevel> results = null;
+			List<IAcademicLevel> results = null;
 
 			if (parameters.isEmpty()) {
 				results = academicLevelService.readAll();

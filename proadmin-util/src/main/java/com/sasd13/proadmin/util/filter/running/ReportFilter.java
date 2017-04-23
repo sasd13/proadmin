@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.filter.AndFilter;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
 
-public class ReportFilter extends AndFilter<Report> {
+public class ReportFilter extends AndFilter<IReport> {
 
 	public ReportFilter(Map<String, String[]> parameters) {
 		super(parameters);
 	}
 
 	@Override
-	protected void setCriterias(MultiAndCriteria<Report> multiAndCriteria, Map<String, String[]> parameters) {
+	protected void setCriterias(MultiAndCriteria<IReport> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {

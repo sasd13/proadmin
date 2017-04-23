@@ -3,7 +3,7 @@ package com.sasd13.proadmin.aaa.bean;
 public class User {
 
 	private String userID, intermediary, email;
-	private EnumStatus status;
+	private int status;
 	private String[] roles;
 
 	public String getUserID() {
@@ -14,11 +14,11 @@ public class User {
 		this.userID = userID;
 	}
 
-	public EnumStatus getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(EnumStatus status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

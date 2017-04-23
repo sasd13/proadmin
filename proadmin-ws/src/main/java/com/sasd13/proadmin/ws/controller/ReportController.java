@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IReportService;
@@ -45,7 +45,7 @@ public class ReportController extends Controller {
 
 		try {
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
-			List<Report> results = null;
+			List<IReport> results = null;
 
 			if (parameters.isEmpty()) {
 				results = reportService.readAll();
@@ -69,11 +69,11 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Report> reports = (List<Report>) readFromRequest(req, Report.class, null);
+			List<IReport> iReports = (List<IReport>) readFromRequest(req, IReport.class, null);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 
-			for (Report report : reports) {
-				reportService.create(report);
+			for (IReport iReport : iReports) {
+				reportService.create(iReport);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Report> reports = (List<Report>) readFromRequest(req, Report.class, null);
+			List<IReport> iReports = (List<IReport>) readFromRequest(req, IReport.class, null);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 
-			for (Report report : reports) {
-				reportService.delete(report);
+			for (IReport iReport : iReports) {
+				reportService.delete(iReport);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

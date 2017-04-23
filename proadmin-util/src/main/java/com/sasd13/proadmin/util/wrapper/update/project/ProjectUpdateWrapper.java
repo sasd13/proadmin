@@ -1,21 +1,21 @@
 package com.sasd13.proadmin.util.wrapper.update.project;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 
-public class ProjectUpdateWrapper implements IUpdateWrapper<Project> {
+public class ProjectUpdateWrapper implements IUpdateWrapper<IProject> {
 
-	private Project project;
+	private IProject iProject;
 	private String code;
 
 	@Override
-	public Project getWrapped() {
-		return project;
+	public IProject getWrapped() {
+		return iProject;
 	}
 
 	@Override
-	public void setWrapped(Project project) {
-		this.project = project;
+	public void setWrapped(IProject iProject) {
+		this.iProject = iProject;
 	}
 
 	public String getCode() {

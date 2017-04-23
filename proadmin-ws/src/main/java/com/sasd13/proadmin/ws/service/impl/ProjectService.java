@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
@@ -18,8 +18,8 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
-	public long create(Project project) {
-		return projectDAO.create(project);
+	public long create(IProject iProject) {
+		return projectDAO.create(iProject);
 	}
 
 	@Override
@@ -28,17 +28,17 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
-	public void delete(Project project) {
-		projectDAO.delete(project);
+	public void delete(IProject iProject) {
+		projectDAO.delete(iProject);
 	}
 
 	@Override
-	public List<Project> read(Map<String, String[]> parameters) {
+	public List<IProject> read(Map<String, String[]> parameters) {
 		return projectDAO.read(parameters);
 	}
 
 	@Override
-	public List<Project> readAll() {
+	public List<IProject> readAll() {
 		return projectDAO.readAll();
 	}
 }

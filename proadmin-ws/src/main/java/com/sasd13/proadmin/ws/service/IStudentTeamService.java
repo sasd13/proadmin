@@ -3,15 +3,15 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 
 public interface IStudentTeamService {
 
-	long create(StudentTeam studentTeam);
+	long create(IStudentTeam iStudentTeam);
 
-	void delete(StudentTeam studentTeam);
+	void delete(IStudentTeam iStudentTeam);
 
-	List<StudentTeam> read(Map<String, String[]> parameters);
+	List<IStudentTeam> read(Map<String, String[]> parameters);
 
-	List<StudentTeam> readAll();
+	List<IStudentTeam> readAll();
 }

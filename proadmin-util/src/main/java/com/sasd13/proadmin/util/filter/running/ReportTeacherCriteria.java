@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 
-public class ReportTeacherCriteria implements Criteria<Report> {
+public class ReportTeacherCriteria implements Criteria<IReport> {
 
 	private String intermediary;
 
@@ -15,12 +15,12 @@ public class ReportTeacherCriteria implements Criteria<Report> {
 	}
 
 	@Override
-	public List<Report> meetCriteria(List<Report> list) {
-		List<Report> results = new ArrayList<Report>();
+	public List<IReport> meetCriteria(List<IReport> list) {
+		List<IReport> results = new ArrayList<IReport>();
 
-		for (Report report : list) {
-			if (report.getRunningTeam().getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(report);
+		for (IReport iReport : list) {
+			if (iReport.getRunningTeam().getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(iReport);
 			}
 		}
 

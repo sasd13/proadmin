@@ -1,13 +1,13 @@
 package com.sasd13.proadmin.util;
 
 public enum EnumError {
-	UNKNOWN(1, "exception.unknown"), 
-	AAA(2, "exception.aaa"), 
-	WS(3, "exception.ws"), 
-	PARAMETERS(4, "exception.parameters"), 
-	PARSER(5, "exception.parser"), 
-	SERVICE(6, "exception.service"), 
-	;
+	UNKNOWN(1, "exception.unknown"),
+	AAA(2, "exception.aaa"),
+	WS(3, "exception.ws"),
+	PARAMETERS(4, "exception.parameters"),
+	PARSER(5, "exception.parser"),
+	SERVICE(6, "exception.service"),
+	STATUS(7, "exception.status"),;
 
 	private int code;
 	private String bundleKey;

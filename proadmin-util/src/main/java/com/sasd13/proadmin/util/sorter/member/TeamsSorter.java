@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.member.ITeam;
 
 public class TeamsSorter {
 
-	public static void byNumber(List<Team> teams) {
-		byNumber(teams, true);
+	public static void byNumber(List<ITeam> iTeams) {
+		byNumber(iTeams, true);
 	}
 
-	public static void byNumber(List<Team> teams, final boolean byAsc) {
-		if (!teams.isEmpty()) {
-			Collections.sort(teams, new Comparator<Team>() {
+	public static void byNumber(List<ITeam> iTeams, final boolean byAsc) {
+		if (!iTeams.isEmpty()) {
+			Collections.sort(iTeams, new Comparator<ITeam>() {
 
 				@Override
-				public int compare(Team team1, Team team2) {
+				public int compare(ITeam team1, ITeam team2) {
 					if (byAsc) {
 						return team1.getNumber().compareTo(team2.getNumber());
 					} else {

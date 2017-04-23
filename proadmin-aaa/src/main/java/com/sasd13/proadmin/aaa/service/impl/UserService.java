@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.proadmin.aaa.bean.EnumStatus;
 import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.dao.DAO;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.service.IUserService;
+import com.sasd13.proadmin.util.StatusException;
 
 public class UserService implements IUserService {
 
@@ -24,6 +26,10 @@ public class UserService implements IUserService {
 
 	@Override
 	public void update(User user) {
+		if (EnumStatus.find(user.getStatus()) == EnumStatus.UNKNOWN) {
+			throw new StatusException("Status unknown : " + user.getStatus());
+		}
+
 		userDAO.update(user);
 	}
 

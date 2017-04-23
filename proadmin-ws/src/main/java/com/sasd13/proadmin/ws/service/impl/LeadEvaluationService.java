@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.ILeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.ILeadEvaluationDAO;
@@ -21,8 +21,8 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public long create(LeadEvaluation leadEvaluation) {
-		return leadEvaluationDAO.create(leadEvaluation);
+	public long create(ILeadEvaluation iLeadEvaluation) {
+		return leadEvaluationDAO.create(iLeadEvaluation);
 	}
 
 	@Override
@@ -31,17 +31,17 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public void delete(LeadEvaluation leadEvaluation) {
-		leadEvaluationDAO.delete(leadEvaluation);
+	public void delete(ILeadEvaluation iLeadEvaluation) {
+		leadEvaluationDAO.delete(iLeadEvaluation);
 	}
 
 	@Override
-	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
+	public List<ILeadEvaluation> read(Map<String, String[]> parameters) {
 		return leadEvaluationDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<LeadEvaluation> readAll() {
+	public List<ILeadEvaluation> readAll() {
 		return leadEvaluationDeepReader.readAll();
 	}
 }

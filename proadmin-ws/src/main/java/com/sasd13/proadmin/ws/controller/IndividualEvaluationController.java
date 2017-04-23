@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IIndividualEvaluationService;
@@ -45,7 +45,7 @@ public class IndividualEvaluationController extends Controller {
 
 		try {
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IndividualEvaluation> results = null;
+			List<IIndividualEvaluation> results = null;
 
 			if (parameters.isEmpty()) {
 				results = individualEvaluationService.readAll();
@@ -69,11 +69,11 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IndividualEvaluation> individualEvaluations = (List<IndividualEvaluation>) readFromRequest(req, IndividualEvaluation.class, null);
+			List<IIndividualEvaluation> iIndividualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
-			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-				individualEvaluationService.create(individualEvaluation);
+			for (IIndividualEvaluation iIndividualEvaluation : iIndividualEvaluations) {
+				individualEvaluationService.create(iIndividualEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IndividualEvaluation> individualEvaluations = (List<IndividualEvaluation>) readFromRequest(req, IndividualEvaluation.class, null);
+			List<IIndividualEvaluation> iIndividualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
-			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-				individualEvaluationService.delete(individualEvaluation);
+			for (IIndividualEvaluation iIndividualEvaluation : iIndividualEvaluations) {
+				individualEvaluationService.delete(iIndividualEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

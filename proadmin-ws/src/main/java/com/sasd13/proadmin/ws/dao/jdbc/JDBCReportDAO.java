@@ -21,13 +21,13 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.level.IAcademicLevel;
+import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.bean.member.ITeam;
+import com.sasd13.proadmin.bean.project.IProject;
+import com.sasd13.proadmin.bean.running.IReport;
+import com.sasd13.proadmin.bean.running.IRunning;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.IReportDAO;
@@ -36,10 +36,10 @@ import com.sasd13.proadmin.ws.dao.IReportDAO;
  *
  * @author Samir
  */
-public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
+public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 
 	@Override
-	public long create(Report report) {
+	public long create(IReport iReport) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -55,7 +55,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), report);
+			return JDBCUtils.insert(this, builder.toString(), iReport);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -86,7 +86,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void delete(Report report) {
+	public void delete(IReport iReport) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -94,14 +94,14 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), report);
+			JDBCUtils.delete(this, builder.toString(), iReport);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<Report> read(Map<String, String[]> parameters) {
+	public List<IReport> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -110,7 +110,7 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public List<Report> readAll() {
+	public List<IReport> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -119,35 +119,35 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setInt(2, report.getSession());
-		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IReport iReport) throws SQLException {
+		preparedStatement.setTimestamp(1, new Timestamp(iReport.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setInt(2, iReport.getSession());
+		preparedStatement.setString(3, iReport.getComment());
+		preparedStatement.setInt(4, iReport.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, iReport.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, iReport.getRunningTeam().getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(7, iReport.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, iReport.getRunningTeam().getAcademicLevel().getCode());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
-		Report report = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IReport> updateWrapper) throws SQLException {
+		IReport iReport = updateWrapper.getWrapped();
 
-		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setInt(2, report.getSession());
-		preparedStatement.setString(3, report.getComment());
-		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
+		preparedStatement.setTimestamp(1, new Timestamp(iReport.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setInt(2, iReport.getSession());
+		preparedStatement.setString(3, iReport.getComment());
+		preparedStatement.setInt(4, iReport.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, iReport.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, iReport.getRunningTeam().getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(7, iReport.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, iReport.getRunningTeam().getAcademicLevel().getCode());
 		preparedStatement.setString(9, ((ReportUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
-		preparedStatement.setString(1, report.getNumber());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IReport iReport) throws SQLException {
+		preparedStatement.setString(1, iReport.getNumber());
 	}
 
 	@Override
@@ -201,38 +201,38 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
-		Report report = new Report();
+	public IReport getResultSetValues(ResultSet resultSet) throws SQLException {
+		IReport iReport = new IReport();
 
-		report.setNumber(resultSet.getString(COLUMN_CODE));
-		report.setDateMeeting(new Date(resultSet.getTimestamp(COLUMN_DATEMEETING).getTime()));
-		report.setSession(resultSet.getInt(COLUMN_SESSION));
-		report.setComment(resultSet.getString(COLUMN_COMMENT));
+		iReport.setNumber(resultSet.getString(COLUMN_CODE));
+		iReport.setDateMeeting(new Date(resultSet.getTimestamp(COLUMN_DATEMEETING).getTime()));
+		iReport.setSession(resultSet.getInt(COLUMN_SESSION));
+		iReport.setComment(resultSet.getString(COLUMN_COMMENT));
 
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_PROJECT));
+		IProject iProject = new IProject();
+		iProject.setCode(resultSet.getString(COLUMN_PROJECT));
 
-		Teacher teacher = new Teacher();
-		teacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
+		ITeacher iTeacher = new ITeacher();
+		iTeacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
 
-		Running running = new Running();
-		running.setYear(resultSet.getInt(COLUMN_YEAR));
-		running.setProject(project);
-		running.setTeacher(teacher);
+		IRunning iRunning = new IRunning();
+		iRunning.setYear(resultSet.getInt(COLUMN_YEAR));
+		iRunning.setProject(iProject);
+		iRunning.setTeacher(iTeacher);
 
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM));
+		ITeam iTeam = new ITeam();
+		iTeam.setNumber(resultSet.getString(COLUMN_TEAM));
 
-		AcademicLevel academicLevel = new AcademicLevel();
-		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
+		IAcademicLevel iAcademicLevel = new IAcademicLevel();
+		iAcademicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
 
-		RunningTeam runningTeam = new RunningTeam();
-		runningTeam.setRunning(running);
-		runningTeam.setTeam(team);
-		runningTeam.setAcademicLevel(academicLevel);
+		IRunningTeam iRunningTeam = new IRunningTeam();
+		iRunningTeam.setRunning(iRunning);
+		iRunningTeam.setTeam(iTeam);
+		iRunningTeam.setAcademicLevel(iAcademicLevel);
 
-		report.setRunningTeam(runningTeam);
+		iReport.setRunningTeam(iRunningTeam);
 
-		return report;
+		return iReport;
 	}
 }

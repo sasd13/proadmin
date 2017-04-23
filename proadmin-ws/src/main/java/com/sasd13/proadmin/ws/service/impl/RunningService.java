@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.IRunning;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IRunningDAO;
@@ -21,8 +21,8 @@ public class RunningService implements IRunningService {
 	}
 
 	@Override
-	public long create(Running running) {
-		return runningDAO.create(running);
+	public long create(IRunning iRunning) {
+		return runningDAO.create(iRunning);
 	}
 
 	@Override
@@ -31,17 +31,17 @@ public class RunningService implements IRunningService {
 	}
 
 	@Override
-	public void delete(Running running) {
-		runningDAO.delete(running);
+	public void delete(IRunning iRunning) {
+		runningDAO.delete(iRunning);
 	}
 
 	@Override
-	public List<Running> read(Map<String, String[]> parameters) {
+	public List<IRunning> read(Map<String, String[]> parameters) {
 		return runningDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<Running> readAll() {
+	public List<IRunning> readAll() {
 		return runningDeepReader.readAll();
 	}
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
+import com.sasd13.proadmin.bean.level.IAcademicLevel;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws.dao.IAcademicLevelDAO;
 
@@ -22,10 +22,10 @@ import com.sasd13.proadmin.ws.dao.IAcademicLevelDAO;
  *
  * @author Samir
  */
-public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements IAcademicLevelDAO {
+public class JDBCAcademicLevelDAO extends JDBCSession<IAcademicLevel> implements IAcademicLevelDAO {
 
 	@Override
-	public List<AcademicLevel> read(Map<String, String[]> parameters) {
+	public List<IAcademicLevel> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -52,16 +52,16 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public AcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
-		AcademicLevel academicLevel = new AcademicLevel();
+	public IAcademicLevel getResultSetValues(ResultSet resultSet) throws SQLException {
+		IAcademicLevel iAcademicLevel = new IAcademicLevel();
 
-		academicLevel.setCode(resultSet.getString(COLUMN_CODE));
+		iAcademicLevel.setCode(resultSet.getString(COLUMN_CODE));
 
-		return academicLevel;
+		return iAcademicLevel;
 	}
 
 	@Override
-	public List<AcademicLevel> readAll() {
+	public List<IAcademicLevel> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {

@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 
-public interface IRunningTeamDAO extends IReader<RunningTeam> {
+public interface IRunningTeamDAO extends IReader<IRunningTeam> {
 
 	String TABLE = "runningteams";
 	String COLUMN_YEAR = "_year";
@@ -13,9 +13,9 @@ public interface IRunningTeamDAO extends IReader<RunningTeam> {
 	String COLUMN_TEAM = "_team";
 	String COLUMN_ACADEMICLEVEL = "_academiclevel";
 
-	long create(RunningTeam runningTeam);
+	long create(IRunningTeam iRunningTeam);
 
 	void update(RunningTeamUpdateWrapper updateWrapper);
 
-	void delete(RunningTeam runningTeam);
+	void delete(IRunningTeam iRunningTeam);
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.member.Member;
+import com.sasd13.proadmin.bean.member.IMember;
 
-public class MemberLastNameCriteria<T extends Member> implements Criteria<T> {
+public class MemberLastNameCriteria<T extends IMember> implements Criteria<T> {
 
 	private String lastName;
 

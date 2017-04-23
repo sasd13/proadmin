@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.sasd13.javaex.pattern.filter.AndFilter;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 
-public class RunningTeamFilter extends AndFilter<RunningTeam> {
+public class RunningTeamFilter extends AndFilter<IRunningTeam> {
 
 	public RunningTeamFilter(Map<String, String[]> parameters) {
 		super(parameters);
 	}
 
 	@Override
-	protected void setCriterias(MultiAndCriteria<RunningTeam> multiAndCriteria, Map<String, String[]> parameters) {
+	protected void setCriterias(MultiAndCriteria<IRunningTeam> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
 				if (EnumParameter.YEAR.getName().equalsIgnoreCase(entry.getKey())) {

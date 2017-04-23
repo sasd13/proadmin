@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 
-public class RunningTeamYearCriteria implements Criteria<RunningTeam> {
+public class RunningTeamYearCriteria implements Criteria<IRunningTeam> {
 
 	private int year;
 
@@ -15,12 +15,12 @@ public class RunningTeamYearCriteria implements Criteria<RunningTeam> {
 	}
 
 	@Override
-	public List<RunningTeam> meetCriteria(List<RunningTeam> list) {
-		List<RunningTeam> results = new ArrayList<RunningTeam>();
+	public List<IRunningTeam> meetCriteria(List<IRunningTeam> list) {
+		List<IRunningTeam> results = new ArrayList<IRunningTeam>();
 
-		for (RunningTeam runningTeam : list) {
-			if (year == runningTeam.getRunning().getYear()) {
-				results.add(runningTeam);
+		for (IRunningTeam iRunningTeam : list) {
+			if (year == iRunningTeam.getRunning().getYear()) {
+				results.add(iRunningTeam);
 			}
 		}
 

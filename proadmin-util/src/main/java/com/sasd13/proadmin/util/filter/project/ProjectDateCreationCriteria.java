@@ -6,9 +6,9 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 
-public class ProjectDateCreationCriteria implements Criteria<Project> {
+public class ProjectDateCreationCriteria implements Criteria<IProject> {
 
 	public static final int YEAR_MIN = 1;
 	public static final int MONTH_MIN = 1;
@@ -26,8 +26,8 @@ public class ProjectDateCreationCriteria implements Criteria<Project> {
 	}
 
 	@Override
-	public List<Project> meetCriteria(List<Project> list) {
-		List<Project> results = new ArrayList<Project>();
+	public List<IProject> meetCriteria(List<IProject> list) {
+		List<IProject> results = new ArrayList<IProject>();
 
 		if (year >= YEAR_MIN) {
 			results = filterByYear(list);
@@ -40,24 +40,24 @@ public class ProjectDateCreationCriteria implements Criteria<Project> {
 		return results;
 	}
 
-	private List<Project> filterByYear(List<Project> list) {
-		List<Project> results = new ArrayList<Project>();
+	private List<IProject> filterByYear(List<IProject> list) {
+		List<IProject> results = new ArrayList<IProject>();
 
-		for (Project project : list) {
-			if (year == new DateTime(project.getDateCreation()).getYear()) {
-				results.add(project);
+		for (IProject iProject : list) {
+			if (year == new DateTime(iProject.getDateCreation()).getYear()) {
+				results.add(iProject);
 			}
 		}
 
 		return results;
 	}
 
-	private List<Project> filterByMonth(List<Project> list) {
-		List<Project> results = new ArrayList<Project>();
+	private List<IProject> filterByMonth(List<IProject> list) {
+		List<IProject> results = new ArrayList<IProject>();
 
-		for (Project project : list) {
-			if (month == new DateTime(project.getDateCreation()).getMonthOfYear()) {
-				results.add(project);
+		for (IProject iProject : list) {
+			if (month == new DateTime(iProject.getDateCreation()).getMonthOfYear()) {
+				results.add(iProject);
 			}
 		}
 

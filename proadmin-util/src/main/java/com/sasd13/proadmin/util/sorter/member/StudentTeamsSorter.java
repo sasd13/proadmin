@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 
 public class StudentTeamsSorter {
 
-	public static void byTeamNumber(List<StudentTeam> studentTeams) {
-		byTeamNumber(studentTeams, true);
+	public static void byTeamNumber(List<IStudentTeam> iStudentTeams) {
+		byTeamNumber(iStudentTeams, true);
 	}
 
-	public static void byTeamNumber(List<StudentTeam> studentTeams, final boolean byAsc) {
-		if (!studentTeams.isEmpty()) {
-			Collections.sort(studentTeams, new Comparator<StudentTeam>() {
+	public static void byTeamNumber(List<IStudentTeam> iStudentTeams, final boolean byAsc) {
+		if (!iStudentTeams.isEmpty()) {
+			Collections.sort(iStudentTeams, new Comparator<IStudentTeam>() {
 
 				@Override
-				public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
+				public int compare(IStudentTeam studentTeam1, IStudentTeam studentTeam2) {
 					if (byAsc) {
 						return studentTeam1.getTeam().getNumber().compareTo(studentTeam2.getTeam().getNumber());
 					} else {
@@ -28,16 +28,16 @@ public class StudentTeamsSorter {
 		}
 	}
 
-	public static void byStudentNumber(List<StudentTeam> studentTeams) {
-		byStudentNumber(studentTeams, true);
+	public static void byStudentNumber(List<IStudentTeam> iStudentTeams) {
+		byStudentNumber(iStudentTeams, true);
 	}
 
-	public static void byStudentNumber(List<StudentTeam> studentTeams, final boolean byAsc) {
-		if (!studentTeams.isEmpty()) {
-			Collections.sort(studentTeams, new Comparator<StudentTeam>() {
+	public static void byStudentNumber(List<IStudentTeam> iStudentTeams, final boolean byAsc) {
+		if (!iStudentTeams.isEmpty()) {
+			Collections.sort(iStudentTeams, new Comparator<IStudentTeam>() {
 
 				@Override
-				public int compare(StudentTeam studentTeam1, StudentTeam studentTeam2) {
+				public int compare(IStudentTeam studentTeam1, IStudentTeam studentTeam2) {
 					if (byAsc) {
 						return studentTeam1.getStudent().getIntermediary().compareTo(studentTeam2.getStudent().getIntermediary());
 					} else {

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IStudentTeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -44,7 +44,7 @@ public class StudentTeamController extends Controller {
 
 		try {
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
-			List<StudentTeam> results = null;
+			List<IStudentTeam> results = null;
 
 			if (parameters.isEmpty()) {
 				results = studentTeamService.readAll();
@@ -68,11 +68,11 @@ public class StudentTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<StudentTeam> studentTeams = (List<StudentTeam>) readFromRequest(req, StudentTeam.class, null);
+			List<IStudentTeam> iStudentTeams = (List<IStudentTeam>) readFromRequest(req, IStudentTeam.class, null);
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
 
-			for (StudentTeam studentTeam : studentTeams) {
-				studentTeamService.create(studentTeam);
+			for (IStudentTeam iStudentTeam : iStudentTeams) {
+				studentTeamService.create(iStudentTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -87,11 +87,11 @@ public class StudentTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<StudentTeam> studentTeams = (List<StudentTeam>) readFromRequest(req, StudentTeam.class, null);
+			List<IStudentTeam> iStudentTeams = (List<IStudentTeam>) readFromRequest(req, IStudentTeam.class, null);
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
 
-			for (StudentTeam studentTeam : studentTeams) {
-				studentTeamService.delete(studentTeam);
+			for (IStudentTeam iStudentTeam : iStudentTeams) {
+				studentTeamService.delete(iStudentTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 import com.sasd13.proadmin.itf.bean.project.ProjectSearchResponseBean;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
@@ -46,7 +46,7 @@ public class ProjectController extends Controller {
 
 		try {
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
-			List<Project> results = null;
+			List<IProject> results = null;
 
 			if (parameters.isEmpty()) {
 				results = projectService.readAll();
@@ -79,11 +79,11 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Project> projects = (List<Project>) readFromRequest(req, Project.class, null);
+			List<IProject> iProjects = (List<IProject>) readFromRequest(req, IProject.class, null);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 
-			for (Project project : projects) {
-				projectService.create(project);
+			for (IProject iProject : iProjects) {
+				projectService.create(iProject);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -117,11 +117,11 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Project> projects = (List<Project>) readFromRequest(req, Project.class, null);
+			List<IProject> iProjects = (List<IProject>) readFromRequest(req, IProject.class, null);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 
-			for (Project project : projects) {
-				projectService.delete(project);
+			for (IProject iProject : iProjects) {
+				projectService.delete(iProject);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

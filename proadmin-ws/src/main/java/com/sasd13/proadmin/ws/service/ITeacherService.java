@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.ITeacher;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
 public interface ITeacherService {
 
-	long create(Teacher teacher);
+	long create(ITeacher iTeacher);
 
 	void update(TeacherUpdateWrapper updateWrapper);
 
-	void delete(Teacher teacher);
+	void delete(ITeacher iTeacher);
 
-	List<Teacher> read(Map<String, String[]> parameters);
+	List<ITeacher> read(Map<String, String[]> parameters);
 
-	List<Teacher> readAll();
+	List<ITeacher> readAll();
 }

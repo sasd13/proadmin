@@ -5,14 +5,14 @@ import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
+import com.sasd13.proadmin.bean.member.ITeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
 import com.sasd13.proadmin.ws.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.ws.dao.ITeamDAO;
 
-public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
+public class StudentTeamDeepReader extends DeepReader<IStudentTeam> {
 
 	private IStudentDAO studentDAO;
 	private ITeamDAO teamDAO;
@@ -27,24 +27,24 @@ public class StudentTeamDeepReader extends DeepReader<StudentTeam> {
 	}
 
 	@Override
-	protected void retrieve(StudentTeam studentTeam) {
-		retrieveDataStudent(studentTeam);
-		retrieveDataTeam(studentTeam);
+	protected void retrieve(IStudentTeam iStudentTeam) {
+		retrieveDataStudent(iStudentTeam);
+		retrieveDataTeam(iStudentTeam);
 	}
 
-	private void retrieveDataStudent(StudentTeam studentTeam) {
+	private void retrieveDataStudent(IStudentTeam iStudentTeam) {
 		parameters.clear();
-		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { studentTeam.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { iStudentTeam.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
-		studentTeam.setStudent(student);
+		iStudentTeam.setStudent(student);
 	}
 
-	private void retrieveDataTeam(StudentTeam studentTeam) {
+	private void retrieveDataTeam(IStudentTeam iStudentTeam) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { studentTeam.getTeam().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { iStudentTeam.getTeam().getNumber() });
 
-		Team team = teamDAO.read(parameters).get(0);
-		studentTeam.setTeam(team);
+		ITeam iTeam = teamDAO.read(parameters).get(0);
+		iStudentTeam.setTeam(iTeam);
 	}
 }

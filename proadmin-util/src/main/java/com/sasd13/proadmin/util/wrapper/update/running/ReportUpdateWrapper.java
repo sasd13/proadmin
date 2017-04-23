@@ -1,21 +1,21 @@
 package com.sasd13.proadmin.util.wrapper.update.running;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 
-public class ReportUpdateWrapper implements IUpdateWrapper<Report> {
+public class ReportUpdateWrapper implements IUpdateWrapper<IReport> {
 
-	private Report report;
+	private IReport iReport;
 	private String number;
 
 	@Override
-	public Report getWrapped() {
-		return report;
+	public IReport getWrapped() {
+		return iReport;
 	}
 
 	@Override
-	public void setWrapped(Report report) {
-		this.report = report;
+	public void setWrapped(IReport iReport) {
+		this.iReport = iReport;
 	}
 
 	public String getNumber() {

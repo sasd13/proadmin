@@ -21,7 +21,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.project.ProjectUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
@@ -30,10 +30,10 @@ import com.sasd13.proadmin.ws.dao.IProjectDAO;
  *
  * @author Samir
  */
-public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO {
+public class JDBCProjectDAO extends JDBCSession<IProject> implements IProjectDAO {
 
 	@Override
-	public long create(Project project) {
+	public long create(IProject iProject) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -44,7 +44,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		builder.append(") VALUES (?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), project);
+			return JDBCUtils.insert(this, builder.toString(), iProject);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -70,7 +70,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void delete(Project project) {
+	public void delete(IProject iProject) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -78,14 +78,14 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), project);
+			JDBCUtils.delete(this, builder.toString(), iProject);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<Project> read(Map<String, String[]> parameters) {
+	public List<IProject> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -94,7 +94,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public List<Project> readAll() {
+	public List<IProject> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -103,25 +103,25 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setString(2, project.getTitle());
-		preparedStatement.setString(3, project.getDescription());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IProject iProject) throws SQLException {
+		preparedStatement.setTimestamp(1, new Timestamp(iProject.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setString(2, iProject.getTitle());
+		preparedStatement.setString(3, iProject.getDescription());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Project> updateWrapper) throws SQLException {
-		Project project = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IProject> updateWrapper) throws SQLException {
+		IProject iProject = updateWrapper.getWrapped();
 
-		preparedStatement.setTimestamp(1, new Timestamp(project.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setString(2, project.getTitle());
-		preparedStatement.setString(3, project.getDescription());
+		preparedStatement.setTimestamp(1, new Timestamp(iProject.getDateCreation().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setString(2, iProject.getTitle());
+		preparedStatement.setString(3, iProject.getDescription());
 		preparedStatement.setString(4, ((ProjectUpdateWrapper) updateWrapper).getCode());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Project project) throws SQLException {
-		preparedStatement.setString(1, project.getCode());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IProject iProject) throws SQLException {
+		preparedStatement.setString(1, iProject.getCode());
 	}
 
 	@Override
@@ -151,14 +151,14 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public Project getResultSetValues(ResultSet resultSet) throws SQLException {
-		Project project = new Project();
+	public IProject getResultSetValues(ResultSet resultSet) throws SQLException {
+		IProject iProject = new IProject();
 
-		project.setCode(resultSet.getString(COLUMN_CODE));
-		project.setDateCreation(new Date(resultSet.getTimestamp(COLUMN_DATECREATION).getTime()));
-		project.setTitle(resultSet.getString(COLUMN_TITLE));
-		project.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
+		iProject.setCode(resultSet.getString(COLUMN_CODE));
+		iProject.setDateCreation(new Date(resultSet.getTimestamp(COLUMN_DATECREATION).getTime()));
+		iProject.setTitle(resultSet.getString(COLUMN_TITLE));
+		iProject.setDescription(resultSet.getString(COLUMN_DESCRIPTION));
 
-		return project;
+		return iProject;
 	}
 }

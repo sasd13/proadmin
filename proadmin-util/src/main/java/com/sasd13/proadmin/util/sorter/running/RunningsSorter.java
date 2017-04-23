@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.IRunning;
 
 public class RunningsSorter {
 
-	public static void byYear(List<Running> runnings) {
-		byYear(runnings, true);
+	public static void byYear(List<IRunning> iRunnings) {
+		byYear(iRunnings, true);
 	}
 
-	public static void byYear(List<Running> runnings, final boolean byDesc) {
-		if (!runnings.isEmpty()) {
-			Collections.sort(runnings, new Comparator<Running>() {
+	public static void byYear(List<IRunning> iRunnings, final boolean byDesc) {
+		if (!iRunnings.isEmpty()) {
+			Collections.sort(iRunnings, new Comparator<IRunning>() {
 
 				@Override
-				public int compare(Running running1, Running running2) {
+				public int compare(IRunning running1, IRunning running2) {
 					if (!byDesc) {
 						return Integer.compare(running1.getYear(), running2.getYear());
 					} else {
@@ -28,16 +28,16 @@ public class RunningsSorter {
 		}
 	}
 
-	public static void byProjectCode(List<Running> runnings) {
-		byProjectCode(runnings, true);
+	public static void byProjectCode(List<IRunning> iRunnings) {
+		byProjectCode(iRunnings, true);
 	}
 
-	public static void byProjectCode(List<Running> runnings, final boolean byAsc) {
-		if (!runnings.isEmpty()) {
-			Collections.sort(runnings, new Comparator<Running>() {
+	public static void byProjectCode(List<IRunning> iRunnings, final boolean byAsc) {
+		if (!iRunnings.isEmpty()) {
+			Collections.sort(iRunnings, new Comparator<IRunning>() {
 
 				@Override
-				public int compare(Running running1, Running running2) {
+				public int compare(IRunning running1, IRunning running2) {
 					if (byAsc) {
 						return running1.getProject().getCode().compareTo(running2.getProject().getCode());
 					} else {

@@ -15,7 +15,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.member.ITeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.ITeamDAO;
@@ -24,10 +24,10 @@ import com.sasd13.proadmin.ws.dao.ITeamDAO;
  *
  * @author Samir
  */
-public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
+public class JDBCTeamDAO extends JDBCSession<ITeam> implements ITeamDAO {
 
 	@Override
-	public long create(Team team) {
+	public long create(ITeam iTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -36,7 +36,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append(") VALUES (?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), team);
+			return JDBCUtils.insert(this, builder.toString(), iTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -60,7 +60,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void delete(Team team) {
+	public void delete(ITeam iTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -68,14 +68,14 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), team);
+			JDBCUtils.delete(this, builder.toString(), iTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<Team> read(Map<String, String[]> parameters) {
+	public List<ITeam> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -84,7 +84,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public List<Team> readAll() {
+	public List<ITeam> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -93,21 +93,21 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getName());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, ITeam iTeam) throws SQLException {
+		preparedStatement.setString(1, iTeam.getName());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Team> updateWrapper) throws SQLException {
-		Team team = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<ITeam> updateWrapper) throws SQLException {
+		ITeam iTeam = updateWrapper.getWrapped();
 
-		preparedStatement.setString(1, team.getName());
+		preparedStatement.setString(1, iTeam.getName());
 		preparedStatement.setString(2, ((TeamUpdateWrapper) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Team team) throws SQLException {
-		preparedStatement.setString(1, team.getNumber());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, ITeam iTeam) throws SQLException {
+		preparedStatement.setString(1, iTeam.getNumber());
 	}
 
 	@Override
@@ -133,12 +133,12 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public Team getResultSetValues(ResultSet resultSet) throws SQLException {
-		Team team = new Team();
+	public ITeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		ITeam iTeam = new ITeam();
 
-		team.setNumber(resultSet.getString(COLUMN_CODE));
-		team.setName(resultSet.getString(COLUMN_NAME));
+		iTeam.setNumber(resultSet.getString(COLUMN_CODE));
+		iTeam.setName(resultSet.getString(COLUMN_NAME));
 
-		return team;
+		return iTeam;
 	}
 }

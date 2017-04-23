@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.ILeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ILeadEvaluationService;
@@ -45,7 +45,7 @@ public class LeadEvaluationController extends Controller {
 
 		try {
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
-			List<LeadEvaluation> results = null;
+			List<ILeadEvaluation> results = null;
 
 			if (parameters.isEmpty()) {
 				results = leadEvaluationService.readAll();
@@ -69,11 +69,11 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) readFromRequest(req, LeadEvaluation.class, null);
+			List<ILeadEvaluation> iLeadEvaluations = (List<ILeadEvaluation>) readFromRequest(req, ILeadEvaluation.class, null);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
 
-			for (LeadEvaluation leadEvaluation : leadEvaluations) {
-				leadEvaluationService.create(leadEvaluation);
+			for (ILeadEvaluation iLeadEvaluation : iLeadEvaluations) {
+				leadEvaluationService.create(iLeadEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) readFromRequest(req, LeadEvaluation.class, null);
+			List<ILeadEvaluation> iLeadEvaluations = (List<ILeadEvaluation>) readFromRequest(req, ILeadEvaluation.class, null);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
 
-			for (LeadEvaluation leadEvaluation : leadEvaluations) {
-				leadEvaluationService.delete(leadEvaluation);
+			for (ILeadEvaluation iLeadEvaluation : iLeadEvaluations) {
+				leadEvaluationService.delete(iLeadEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

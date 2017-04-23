@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.running.IReport;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws.dao.IReportDAO;
 
-public class ReportDeepReader extends DeepReader<Report> {
+public class ReportDeepReader extends DeepReader<IReport> {
 
 	private RunningTeamDeepReader runningTeamDeepReader;
 	private Map<String, String[]> parameters;
@@ -22,19 +22,19 @@ public class ReportDeepReader extends DeepReader<Report> {
 	}
 
 	@Override
-	protected void retrieve(Report report) {
-		retrieveDataRunningTeam(report);
+	protected void retrieve(IReport iReport) {
+		retrieveDataRunningTeam(iReport);
 	}
 
-	private void retrieveDataRunningTeam(Report report) {
+	private void retrieveDataRunningTeam(IReport iReport) {
 		parameters.clear();
-		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(report.getRunningTeam().getRunning().getYear()) });
-		parameters.put(EnumParameter.PROJECT.getName(), new String[] { report.getRunningTeam().getRunning().getProject().getCode() });
-		parameters.put(EnumParameter.TEACHER.getName(), new String[] { report.getRunningTeam().getRunning().getTeacher().getIntermediary() });
-		parameters.put(EnumParameter.TEAM.getName(), new String[] { report.getRunningTeam().getTeam().getNumber() });
-		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { report.getRunningTeam().getAcademicLevel().getCode() });
+		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(iReport.getRunningTeam().getRunning().getYear()) });
+		parameters.put(EnumParameter.PROJECT.getName(), new String[] { iReport.getRunningTeam().getRunning().getProject().getCode() });
+		parameters.put(EnumParameter.TEACHER.getName(), new String[] { iReport.getRunningTeam().getRunning().getTeacher().getIntermediary() });
+		parameters.put(EnumParameter.TEAM.getName(), new String[] { iReport.getRunningTeam().getTeam().getNumber() });
+		parameters.put(EnumParameter.ACADEMICLEVEL.getName(), new String[] { iReport.getRunningTeam().getAcademicLevel().getCode() });
 
-		RunningTeam runningTeam = runningTeamDeepReader.read(parameters).get(0);
-		report.setRunningTeam(runningTeam);
+		IRunningTeam iRunningTeam = runningTeamDeepReader.read(parameters).get(0);
+		iReport.setRunningTeam(iRunningTeam);
 	}
 }

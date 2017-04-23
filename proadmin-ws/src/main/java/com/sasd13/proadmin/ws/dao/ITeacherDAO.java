@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.ITeacher;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 
-public interface ITeacherDAO extends IReader<Teacher> {
+public interface ITeacherDAO extends IReader<ITeacher> {
 
 	String TABLE = "teachers";
 	String COLUMN_CODE = "_code";
@@ -12,9 +12,9 @@ public interface ITeacherDAO extends IReader<Teacher> {
 	String COLUMN_LASTNAME = "_lastname";
 	String COLUMN_EMAIL = "_email";
 
-	long create(Teacher teacher);
+	long create(ITeacher iTeacher);
 
 	void update(TeacherUpdateWrapper updateWrapper);
 
-	void delete(Teacher teacher);
+	void delete(ITeacher iTeacher);
 }

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.bean.member.ITeam;
 import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
@@ -45,7 +45,7 @@ public class TeamController extends Controller {
 
 		try {
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
-			List<Team> results = null;
+			List<ITeam> results = null;
 
 			if (parameters.isEmpty()) {
 				results = teamService.readAll();
@@ -69,11 +69,11 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Team> teams = (List<Team>) readFromRequest(req, Team.class, null);
+			List<ITeam> iTeams = (List<ITeam>) readFromRequest(req, ITeam.class, null);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
 
-			for (Team team : teams) {
-				teamService.create(team);
+			for (ITeam iTeam : iTeams) {
+				teamService.create(iTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Team> teams = (List<Team>) readFromRequest(req, Team.class, null);
+			List<ITeam> iTeams = (List<ITeam>) readFromRequest(req, ITeam.class, null);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
 
-			for (Team team : teams) {
-				teamService.delete(team);
+			for (ITeam iTeam : iTeams) {
+				teamService.delete(iTeam);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.running.IRunning;
 
-public class RunningTeacherCriteria implements Criteria<Running> {
+public class RunningTeacherCriteria implements Criteria<IRunning> {
 
 	private String intermediary;
 
@@ -15,12 +15,12 @@ public class RunningTeacherCriteria implements Criteria<Running> {
 	}
 
 	@Override
-	public List<Running> meetCriteria(List<Running> list) {
-		List<Running> results = new ArrayList<Running>();
+	public List<IRunning> meetCriteria(List<IRunning> list) {
+		List<IRunning> results = new ArrayList<IRunning>();
 
-		for (Running running : list) {
-			if (running.getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(running);
+		for (IRunning iRunning : list) {
+			if (iRunning.getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(iRunning);
 			}
 		}
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 
-public class ReportSessionCriteria implements Criteria<Report> {
+public class ReportSessionCriteria implements Criteria<IReport> {
 
 	private int session;
 
@@ -15,12 +15,12 @@ public class ReportSessionCriteria implements Criteria<Report> {
 	}
 
 	@Override
-	public List<Report> meetCriteria(List<Report> list) {
-		List<Report> results = new ArrayList<Report>();
+	public List<IReport> meetCriteria(List<IReport> list) {
+		List<IReport> results = new ArrayList<IReport>();
 
-		for (Report report : list) {
-			if (session == report.getSession()) {
-				results.add(report);
+		for (IReport iReport : list) {
+			if (session == iReport.getSession()) {
+				results.add(iReport);
 			}
 		}
 

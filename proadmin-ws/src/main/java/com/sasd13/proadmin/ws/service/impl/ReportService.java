@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IReportDAO;
@@ -21,8 +21,8 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public long create(Report report) {
-		return reportDAO.create(report);
+	public long create(IReport iReport) {
+		return reportDAO.create(iReport);
 	}
 
 	@Override
@@ -31,17 +31,17 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void delete(Report report) {
-		reportDAO.delete(report);
+	public void delete(IReport iReport) {
+		reportDAO.delete(iReport);
 	}
 
 	@Override
-	public List<Report> read(Map<String, String[]> parameters) {
+	public List<IReport> read(Map<String, String[]> parameters) {
 		return reportDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<Report> readAll() {
+	public List<IReport> readAll() {
 		return reportDeepReader.readAll();
 	}
 }

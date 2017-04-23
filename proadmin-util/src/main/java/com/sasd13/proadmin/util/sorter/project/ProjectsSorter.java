@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.sasd13.proadmin.bean.project.Project;
+import com.sasd13.proadmin.bean.project.IProject;
 
 public class ProjectsSorter {
 
-	public static void byCode(List<Project> projects) {
-		byCode(projects, true);
+	public static void byCode(List<IProject> iProjects) {
+		byCode(iProjects, true);
 	}
 
-	public static void byCode(List<Project> projects, final boolean byAsc) {
-		if (!projects.isEmpty()) {
-			Collections.sort(projects, new Comparator<Project>() {
+	public static void byCode(List<IProject> iProjects, final boolean byAsc) {
+		if (!iProjects.isEmpty()) {
+			Collections.sort(iProjects, new Comparator<IProject>() {
 
 				@Override
-				public int compare(Project project1, Project project2) {
+				public int compare(IProject project1, IProject project2) {
 					if (byAsc) {
 						return project1.getCode().compareTo(project2.getCode());
 					} else {
@@ -28,16 +28,16 @@ public class ProjectsSorter {
 		}
 	}
 
-	public static void byDateCreation(List<Project> projects) {
-		byCode(projects, true);
+	public static void byDateCreation(List<IProject> iProjects) {
+		byCode(iProjects, true);
 	}
 
-	public static void byDateCreation(List<Project> projects, final boolean byDesc) {
-		if (!projects.isEmpty()) {
-			Collections.sort(projects, new Comparator<Project>() {
+	public static void byDateCreation(List<IProject> iProjects, final boolean byDesc) {
+		if (!iProjects.isEmpty()) {
+			Collections.sort(iProjects, new Comparator<IProject>() {
 
 				@Override
-				public int compare(Project project1, Project project2) {
+				public int compare(IProject project1, IProject project2) {
 					if (!byDesc) {
 						return project1.getDateCreation().compareTo(project2.getDateCreation());
 					} else {

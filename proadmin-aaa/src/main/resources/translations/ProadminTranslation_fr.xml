@@ -7,4 +7,5 @@
 	<entry key="exception.parameters">Exception des parametres</entry>
 	<entry key="exception.parser">Exception de parsing</entry>
 	<entry key="exception.service">Exception de service</entry>
+	<entry key="exception.status">Exception de status</entry>
 </properties>

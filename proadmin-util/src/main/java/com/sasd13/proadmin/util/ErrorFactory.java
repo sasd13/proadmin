@@ -10,6 +10,8 @@ public class ErrorFactory {
 			return EnumError.PARSER;
 		} else if (ConditionException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.PARAMETERS;
+		} else if (StatusException.class.isAssignableFrom(e.getClass())) {
+			return EnumError.STATUS;
 		} else if (RuntimeException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.SERVICE;
 		} else {

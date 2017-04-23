@@ -1,21 +1,21 @@
 package com.sasd13.proadmin.util.wrapper.update.running;
 
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.ILeadEvaluation;
 
-public class LeadEvaluationUpdateWrapper implements IUpdateWrapper<LeadEvaluation> {
+public class LeadEvaluationUpdateWrapper implements IUpdateWrapper<ILeadEvaluation> {
 
-	private LeadEvaluation leadEvaluation;
+	private ILeadEvaluation iLeadEvaluation;
 	private String reportNumber;
 
 	@Override
-	public LeadEvaluation getWrapped() {
-		return leadEvaluation;
+	public ILeadEvaluation getWrapped() {
+		return iLeadEvaluation;
 	}
 
 	@Override
-	public void setWrapped(LeadEvaluation leadEvaluation) {
-		this.leadEvaluation = leadEvaluation;
+	public void setWrapped(ILeadEvaluation iLeadEvaluation) {
+		this.iLeadEvaluation = iLeadEvaluation;
 	}
 
 	public String getReportNumber() {

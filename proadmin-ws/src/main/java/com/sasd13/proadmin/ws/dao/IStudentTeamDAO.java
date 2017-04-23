@@ -1,15 +1,15 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 
-public interface IStudentTeamDAO extends IReader<StudentTeam> {
+public interface IStudentTeamDAO extends IReader<IStudentTeam> {
 
 	String TABLE = "studentteams";
 	String COLUMN_STUDENT = "_student";
 	String COLUMN_TEAM = "_team";
 
-	long create(StudentTeam studentTeam);
+	long create(IStudentTeam iStudentTeam);
 
-	void delete(StudentTeam studentTeam);
+	void delete(IStudentTeam iStudentTeam);
 }

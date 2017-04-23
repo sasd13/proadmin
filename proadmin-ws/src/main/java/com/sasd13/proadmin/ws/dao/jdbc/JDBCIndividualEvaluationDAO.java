@@ -16,8 +16,8 @@ import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
 import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
+import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.IIndividualEvaluationDAO;
@@ -26,10 +26,10 @@ import com.sasd13.proadmin.ws.dao.IIndividualEvaluationDAO;
  *
  * @author Samir
  */
-public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
+public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluation> implements IIndividualEvaluationDAO {
 
 	@Override
-	public long create(IndividualEvaluation individualEvaluation) {
+	public long create(IIndividualEvaluation iIndividualEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -40,7 +40,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(") VALUES (?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), individualEvaluation);
+			return JDBCUtils.insert(this, builder.toString(), iIndividualEvaluation);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -65,7 +65,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void delete(IndividualEvaluation individualEvaluation) {
+	public void delete(IIndividualEvaluation iIndividualEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -74,14 +74,14 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), individualEvaluation);
+			JDBCUtils.delete(this, builder.toString(), iIndividualEvaluation);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
+	public List<IIndividualEvaluation> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -90,7 +90,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public List<IndividualEvaluation> readAll() {
+	public List<IIndividualEvaluation> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -99,25 +99,25 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		preparedStatement.setFloat(1, individualEvaluation.getMark());
-		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
-		preparedStatement.setString(3, individualEvaluation.getStudent().getIntermediary());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IIndividualEvaluation iIndividualEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, iIndividualEvaluation.getMark());
+		preparedStatement.setString(2, iIndividualEvaluation.getReport().getNumber());
+		preparedStatement.setString(3, iIndividualEvaluation.getStudent().getIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IndividualEvaluation> updateWrapper) throws SQLException {
-		IndividualEvaluation individualEvaluation = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IIndividualEvaluation> updateWrapper) throws SQLException {
+		IIndividualEvaluation iIndividualEvaluation = updateWrapper.getWrapped();
 
-		preparedStatement.setFloat(1, individualEvaluation.getMark());
+		preparedStatement.setFloat(1, iIndividualEvaluation.getMark());
 		preparedStatement.setString(2, ((IndividualEvaluationUpdateWrapper) updateWrapper).getReportNumber());
 		preparedStatement.setString(3, ((IndividualEvaluationUpdateWrapper) updateWrapper).getStudentIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
-		preparedStatement.setString(1, individualEvaluation.getReport().getNumber());
-		preparedStatement.setString(2, individualEvaluation.getStudent().getIntermediary());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IIndividualEvaluation iIndividualEvaluation) throws SQLException {
+		preparedStatement.setString(1, iIndividualEvaluation.getReport().getNumber());
+		preparedStatement.setString(2, iIndividualEvaluation.getStudent().getIntermediary());
 	}
 
 	@Override
@@ -143,21 +143,21 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
+	public IIndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		IIndividualEvaluation iIndividualEvaluation = new IIndividualEvaluation();
 
-		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		iIndividualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 
-		Report report = new Report();
-		report.setNumber(resultSet.getString(COLUMN_REPORT));
+		IReport iReport = new IReport();
+		iReport.setNumber(resultSet.getString(COLUMN_REPORT));
 
-		individualEvaluation.setReport(report);
+		iIndividualEvaluation.setReport(iReport);
 
 		Student student = new Student();
 		student.setIntermediary(resultSet.getString(COLUMN_STUDENT));
 
-		individualEvaluation.setStudent(student);
+		iIndividualEvaluation.setStudent(student);
 
-		return individualEvaluation;
+		return iIndividualEvaluation;
 	}
 }

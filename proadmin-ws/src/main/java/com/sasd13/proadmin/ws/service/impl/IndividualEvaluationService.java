@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IIndividualEvaluationDAO;
@@ -21,8 +21,8 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	}
 
 	@Override
-	public long create(IndividualEvaluation individualEvaluation) {
-		return individualEvaluationDAO.create(individualEvaluation);
+	public long create(IIndividualEvaluation iIndividualEvaluation) {
+		return individualEvaluationDAO.create(iIndividualEvaluation);
 	}
 
 	@Override
@@ -31,17 +31,17 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	}
 
 	@Override
-	public void delete(IndividualEvaluation individualEvaluation) {
-		individualEvaluationDAO.delete(individualEvaluation);
+	public void delete(IIndividualEvaluation iIndividualEvaluation) {
+		individualEvaluationDAO.delete(iIndividualEvaluation);
 	}
 
 	@Override
-	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
+	public List<IIndividualEvaluation> read(Map<String, String[]> parameters) {
 		return individualEvaluationDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<IndividualEvaluation> readAll() {
+	public List<IIndividualEvaluation> readAll() {
 		return individualEvaluationDeepReader.readAll();
 	}
 }

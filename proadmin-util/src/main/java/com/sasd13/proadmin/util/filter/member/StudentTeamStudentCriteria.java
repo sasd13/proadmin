@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sasd13.javaex.pattern.filter.Criteria;
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 
-public class StudentTeamStudentCriteria implements Criteria<StudentTeam> {
+public class StudentTeamStudentCriteria implements Criteria<IStudentTeam> {
 
 	private String intermediary;
 
@@ -15,12 +15,12 @@ public class StudentTeamStudentCriteria implements Criteria<StudentTeam> {
 	}
 
 	@Override
-	public List<StudentTeam> meetCriteria(List<StudentTeam> list) {
-		List<StudentTeam> results = new ArrayList<>();
+	public List<IStudentTeam> meetCriteria(List<IStudentTeam> list) {
+		List<IStudentTeam> results = new ArrayList<>();
 
-		for (StudentTeam studentTeam : list) {
-			if (studentTeam.getStudent().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(studentTeam);
+		for (IStudentTeam iStudentTeam : list) {
+			if (iStudentTeam.getStudent().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(iStudentTeam);
 			}
 		}
 

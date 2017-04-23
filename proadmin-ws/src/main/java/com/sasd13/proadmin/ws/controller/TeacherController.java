@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.member.Teacher;
+import com.sasd13.proadmin.bean.member.ITeacher;
 import com.sasd13.proadmin.util.wrapper.update.member.TeacherUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
@@ -45,7 +45,7 @@ public class TeacherController extends Controller {
 
 		try {
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
-			List<Teacher> results = null;
+			List<ITeacher> results = null;
 
 			if (parameters.isEmpty()) {
 				results = teacherService.readAll();
@@ -69,11 +69,11 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Teacher> teachers = (List<Teacher>) readFromRequest(req, Teacher.class, null);
+			List<ITeacher> iTeachers = (List<ITeacher>) readFromRequest(req, ITeacher.class, null);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 
-			for (Teacher teacher : teachers) {
-				teacherService.create(teacher);
+			for (ITeacher iTeacher : iTeachers) {
+				teacherService.create(iTeacher);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +107,11 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Teacher> teachers = (List<Teacher>) readFromRequest(req, Teacher.class, null);
+			List<ITeacher> iTeachers = (List<ITeacher>) readFromRequest(req, ITeacher.class, null);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 
-			for (Teacher teacher : teachers) {
-				teacherService.delete(teacher);
+			for (ITeacher iTeacher : iTeachers) {
+				teacherService.delete(iTeacher);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

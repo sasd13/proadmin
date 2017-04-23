@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
 
 public interface IIndividualEvaluationService {
 
-	long create(IndividualEvaluation individualEvaluation);
+	long create(IIndividualEvaluation iIndividualEvaluation);
 
 	void update(IndividualEvaluationUpdateWrapper updateWrapper);
 
-	void delete(IndividualEvaluation individualEvaluation);
+	void delete(IIndividualEvaluation iIndividualEvaluation);
 
-	List<IndividualEvaluation> read(Map<String, String[]> parameters);
+	List<IIndividualEvaluation> read(Map<String, String[]> parameters);
 
-	List<IndividualEvaluation> readAll();
+	List<IIndividualEvaluation> readAll();
 }

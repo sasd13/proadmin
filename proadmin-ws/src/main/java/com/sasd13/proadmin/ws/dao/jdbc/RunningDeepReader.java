@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.bean.project.IProject;
+import com.sasd13.proadmin.bean.running.IRunning;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
 import com.sasd13.proadmin.ws.dao.IRunningDAO;
 import com.sasd13.proadmin.ws.dao.ITeacherDAO;
 
-public class RunningDeepReader extends DeepReader<Running> {
+public class RunningDeepReader extends DeepReader<IRunning> {
 
 	private IProjectDAO projectDAO;
 	private ITeacherDAO teacherDAO;
@@ -27,24 +27,24 @@ public class RunningDeepReader extends DeepReader<Running> {
 	}
 
 	@Override
-	protected void retrieve(Running running) {
-		retrieveDataProject(running);
-		retrieveDataTeacher(running);
+	protected void retrieve(IRunning iRunning) {
+		retrieveDataProject(iRunning);
+		retrieveDataTeacher(iRunning);
 	}
 
-	private void retrieveDataProject(Running running) {
+	private void retrieveDataProject(IRunning iRunning) {
 		parameters.clear();
-		parameters.put(EnumParameter.CODE.getName(), new String[] { running.getProject().getCode() });
+		parameters.put(EnumParameter.CODE.getName(), new String[] { iRunning.getProject().getCode() });
 
-		Project project = projectDAO.read(parameters).get(0);
-		running.setProject(project);
+		IProject iProject = projectDAO.read(parameters).get(0);
+		iRunning.setProject(iProject);
 	}
 
-	private void retrieveDataTeacher(Running running) {
+	private void retrieveDataTeacher(IRunning iRunning) {
 		parameters.clear();
-		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { running.getTeacher().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { iRunning.getTeacher().getIntermediary() });
 
-		Teacher teacher = teacherDAO.read(parameters).get(0);
-		running.setTeacher(teacher);
+		ITeacher iTeacher = teacherDAO.read(parameters).get(0);
+		iRunning.setTeacher(iTeacher);
 	}
 }

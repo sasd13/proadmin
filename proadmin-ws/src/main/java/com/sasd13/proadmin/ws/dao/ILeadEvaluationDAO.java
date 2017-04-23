@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
+import com.sasd13.proadmin.bean.running.ILeadEvaluation;
 import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
 
-public interface ILeadEvaluationDAO extends IReader<LeadEvaluation> {
+public interface ILeadEvaluationDAO extends IReader<ILeadEvaluation> {
 
 	String TABLE = "leadevaluations";
 	String COLUMN_PLANNINGMARK = "_planningmark";
@@ -14,9 +14,9 @@ public interface ILeadEvaluationDAO extends IReader<LeadEvaluation> {
 	String COLUMN_REPORT = "_report";
 	String COLUMN_STUDENT = "_student";
 
-	long create(LeadEvaluation leadEvaluation);
+	long create(ILeadEvaluation iLeadEvaluation);
 
 	void update(LeadEvaluationUpdateWrapper updateWrapper);
 
-	void delete(LeadEvaluation leadEvaluation);
+	void delete(ILeadEvaluation iLeadEvaluation);
 }

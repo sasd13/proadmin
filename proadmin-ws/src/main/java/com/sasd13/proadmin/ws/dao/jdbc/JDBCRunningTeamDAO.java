@@ -15,12 +15,12 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.bean.level.IAcademicLevel;
+import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.bean.member.ITeam;
+import com.sasd13.proadmin.bean.project.IProject;
+import com.sasd13.proadmin.bean.running.IRunning;
+import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
 import com.sasd13.proadmin.ws.dao.IRunningTeamDAO;
@@ -29,10 +29,10 @@ import com.sasd13.proadmin.ws.dao.IRunningTeamDAO;
  *
  * @author Samir
  */
-public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRunningTeamDAO {
+public class JDBCRunningTeamDAO extends JDBCSession<IRunningTeam> implements IRunningTeamDAO {
 
 	@Override
-	public long create(RunningTeam runningTeam) {
+	public long create(IRunningTeam iRunningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -45,7 +45,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 		builder.append(") VALUES (?, ?, ?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), runningTeam);
+			return JDBCUtils.insert(this, builder.toString(), iRunningTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -68,7 +68,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void delete(RunningTeam runningTeam) {
+	public void delete(IRunningTeam iRunningTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -80,14 +80,14 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 		builder.append(" AND " + COLUMN_ACADEMICLEVEL + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), runningTeam);
+			JDBCUtils.delete(this, builder.toString(), iRunningTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<RunningTeam> read(Map<String, String[]> parameters) {
+	public List<IRunningTeam> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -96,7 +96,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public List<RunningTeam> readAll() {
+	public List<IRunningTeam> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -105,16 +105,16 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
-		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
-		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(4, runningTeam.getTeam().getNumber());
-		preparedStatement.setString(5, runningTeam.getAcademicLevel().getCode());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IRunningTeam iRunningTeam) throws SQLException {
+		preparedStatement.setInt(1, iRunningTeam.getRunning().getYear());
+		preparedStatement.setString(2, iRunningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(3, iRunningTeam.getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(4, iRunningTeam.getTeam().getNumber());
+		preparedStatement.setString(5, iRunningTeam.getAcademicLevel().getCode());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<RunningTeam> updateWrapper) throws SQLException {
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IRunningTeam> updateWrapper) throws SQLException {
 		// RunningTeam runningTeam = updateWrapper.getWrapped();
 		//
 		// preparedStatement.setInt(6, ((RunningTeamUpdateWrapper) updateWrapper).getRunningYear());
@@ -125,12 +125,12 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, RunningTeam runningTeam) throws SQLException {
-		preparedStatement.setInt(1, runningTeam.getRunning().getYear());
-		preparedStatement.setString(2, runningTeam.getRunning().getProject().getCode());
-		preparedStatement.setString(3, runningTeam.getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(4, runningTeam.getTeam().getNumber());
-		preparedStatement.setString(5, runningTeam.getAcademicLevel().getCode());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IRunningTeam iRunningTeam) throws SQLException {
+		preparedStatement.setInt(1, iRunningTeam.getRunning().getYear());
+		preparedStatement.setString(2, iRunningTeam.getRunning().getProject().getCode());
+		preparedStatement.setString(3, iRunningTeam.getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(4, iRunningTeam.getTeam().getNumber());
+		preparedStatement.setString(5, iRunningTeam.getAcademicLevel().getCode());
 	}
 
 	@Override
@@ -168,32 +168,32 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public RunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		RunningTeam runningTeam = new RunningTeam();
+	public IRunningTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		IRunningTeam iRunningTeam = new IRunningTeam();
 
-		Project project = new Project();
-		project.setCode(resultSet.getString(COLUMN_PROJECT));
+		IProject iProject = new IProject();
+		iProject.setCode(resultSet.getString(COLUMN_PROJECT));
 
-		Teacher teacher = new Teacher();
-		teacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
+		ITeacher iTeacher = new ITeacher();
+		iTeacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
 
-		Running running = new Running();
-		running.setYear(resultSet.getInt(COLUMN_YEAR));
-		running.setProject(project);
-		running.setTeacher(teacher);
+		IRunning iRunning = new IRunning();
+		iRunning.setYear(resultSet.getInt(COLUMN_YEAR));
+		iRunning.setProject(iProject);
+		iRunning.setTeacher(iTeacher);
 
-		runningTeam.setRunning(running);
+		iRunningTeam.setRunning(iRunning);
 
-		Team team = new Team();
-		team.setNumber(resultSet.getString(COLUMN_TEAM));
+		ITeam iTeam = new ITeam();
+		iTeam.setNumber(resultSet.getString(COLUMN_TEAM));
 
-		runningTeam.setTeam(team);
+		iRunningTeam.setTeam(iTeam);
 
-		AcademicLevel academicLevel = new AcademicLevel();
-		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
+		IAcademicLevel iAcademicLevel = new IAcademicLevel();
+		iAcademicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
 
-		runningTeam.setAcademicLevel(academicLevel);
+		iRunningTeam.setAcademicLevel(iAcademicLevel);
 
-		return runningTeam;
+		return iRunningTeam;
 	}
 }

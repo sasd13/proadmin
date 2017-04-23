@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.StudentTeam;
+import com.sasd13.proadmin.bean.member.IStudentTeam;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.ws.dao.jdbc.StudentTeamDeepReader;
@@ -20,22 +20,22 @@ public class StudentTeamService implements IStudentTeamService {
 	}
 
 	@Override
-	public long create(StudentTeam studentTeam) {
-		return studentTeamDAO.create(studentTeam);
+	public long create(IStudentTeam iStudentTeam) {
+		return studentTeamDAO.create(iStudentTeam);
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
-		studentTeamDAO.delete(studentTeam);
+	public void delete(IStudentTeam iStudentTeam) {
+		studentTeamDAO.delete(iStudentTeam);
 	}
 
 	@Override
-	public List<StudentTeam> read(Map<String, String[]> parameters) {
+	public List<IStudentTeam> read(Map<String, String[]> parameters) {
 		return studentTeamDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<StudentTeam> readAll() {
+	public List<IStudentTeam> readAll() {
 		return studentTeamDeepReader.readAll();
 	}
 }
