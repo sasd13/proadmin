@@ -24,14 +24,14 @@ public class ReportAdapterI2B implements IAdapter<ReportBean, Report> {
 		}
 
 		try {
-			t.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATE).parse(s.getCoreInfo().getDateMeeting()));
+			t.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATE_FORMAT).parse(s.getCoreInfo().getDateMeeting()));
 		} catch (ParseException e) {
 			LOGGER.error(e);
-			throw new RuntimeException("ProjectAdapterI2B : error parsing date " + s.getCoreInfo().getDateMeeting());
+			throw new RuntimeException("ReportAdapterI2B : error parsing date " + s.getCoreInfo().getDateMeeting());
 		}
 
 		t.setNumber(s.getCoreInfo().getNumber());
-		t.setSession(Integer.valueOf(s.getCoreInfo().getSession()));
+		t.setSession(s.getCoreInfo().getSession());
 		t.setComment(s.getCoreInfo().getComment());
 
 		RunningTeam runningTeam = new RunningTeam();

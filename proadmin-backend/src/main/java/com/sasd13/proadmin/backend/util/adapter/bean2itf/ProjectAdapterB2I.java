@@ -21,7 +21,7 @@ public class ProjectAdapterB2I implements IAdapter<Project, ProjectBean> {
 
 		CoreInfo coreInfo = new CoreInfo();
 		coreInfo.setCode(s.getCode());
-		coreInfo.setDateCreation(new SimpleDateFormat(Constants.PATTERN_DATE).format(s.getDateCreation()));
+		coreInfo.setDateCreation(new SimpleDateFormat(Constants.PATTERN_DATE_FORMAT).format(s.getDateCreation()));
 		coreInfo.setTitle(s.getTitle());
 		coreInfo.setDescription(s.getDescription());
 		t.setCoreInfo(coreInfo);

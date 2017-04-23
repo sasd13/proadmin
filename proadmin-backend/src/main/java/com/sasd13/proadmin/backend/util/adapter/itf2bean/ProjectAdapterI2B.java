@@ -23,7 +23,7 @@ public class ProjectAdapterI2B implements IAdapter<ProjectBean, Project> {
 		}
 
 		try {
-			t.setDateCreation(new SimpleDateFormat(Constants.PATTERN_DATE).parse(s.getCoreInfo().getDateCreation()));
+			t.setDateCreation(new SimpleDateFormat(Constants.PATTERN_DATE_FORMAT).parse(s.getCoreInfo().getDateCreation()));
 		} catch (ParseException e) {
 			LOGGER.error(e);
 			throw new RuntimeException("ProjectAdapterI2B : error parsing date " + s.getCoreInfo().getDateCreation());

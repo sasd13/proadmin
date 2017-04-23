@@ -19,7 +19,7 @@ public class IndividualEvaluationAdapterI2B implements IAdapter<IndividualEvalua
 		t.setMark(Float.valueOf(s.getCoreInfo().getMark()));
 
 		Report report = new Report();
-		report.setId(Long.valueOf(s.getId().getId()));
+		report.setId(Long.valueOf(s.getLinkedReport().getId()));
 		t.setReport(report);
 
 		Student student = new Student();

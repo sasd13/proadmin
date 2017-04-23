@@ -22,7 +22,7 @@ public class LeadEvaluationAdapterI2B implements IAdapter<LeadEvaluationBean, Le
 		t.setCommunicationComment(s.getCoreInfo().getCommunicationComment());
 
 		Report report = new Report();
-		report.setId(Long.valueOf(s.getId().getId()));
+		report.setId(Long.valueOf(s.getLinkedReport().getId()));
 		t.setReport(report);
 
 		Student student = new Student();

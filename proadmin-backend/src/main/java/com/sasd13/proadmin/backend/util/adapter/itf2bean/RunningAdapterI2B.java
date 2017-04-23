@@ -16,7 +16,7 @@ public class RunningAdapterI2B implements IAdapter<RunningBean, Running> {
 			t.setId(Long.valueOf(s.getId().getId()));
 		}
 
-		t.setYear(Integer.valueOf(s.getCoreInfo().getYearStarted()));
+		t.setYear(s.getCoreInfo().getYearStarted());
 
 		Project project = new Project();
 		project.setId(Long.valueOf(s.getLinkedProject().getId()));
