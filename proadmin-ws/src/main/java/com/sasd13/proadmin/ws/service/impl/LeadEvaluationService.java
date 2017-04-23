@@ -3,8 +3,8 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.ILeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.LeadEvaluation;
+import com.sasd13.proadmin.ws.bean.update.LeadEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws.dao.jdbc.LeadEvaluationDeepReader;
@@ -21,27 +21,27 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public long create(ILeadEvaluation iLeadEvaluation) {
-		return leadEvaluationDAO.create(iLeadEvaluation);
+	public long create(LeadEvaluation leadEvaluation) {
+		return leadEvaluationDAO.create(leadEvaluation);
 	}
 
 	@Override
-	public void update(LeadEvaluationUpdate updateWrapper) {
-		leadEvaluationDAO.update(updateWrapper);
+	public void update(LeadEvaluationUpdate leadEvaluationUpdate) {
+		leadEvaluationDAO.update(leadEvaluationUpdate);
 	}
 
 	@Override
-	public void delete(ILeadEvaluation iLeadEvaluation) {
-		leadEvaluationDAO.delete(iLeadEvaluation);
+	public void delete(LeadEvaluation leadEvaluation) {
+		leadEvaluationDAO.delete(leadEvaluation);
 	}
 
 	@Override
-	public List<ILeadEvaluation> read(Map<String, String[]> parameters) {
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
 		return leadEvaluationDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<ILeadEvaluation> readAll() {
+	public List<LeadEvaluation> readAll() {
 		return leadEvaluationDeepReader.readAll();
 	}
 }

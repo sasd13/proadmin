@@ -1,3 +1,0 @@
-DROP DATABASE IF EXISTS proadmin_ws2;
-
---COMMIT;

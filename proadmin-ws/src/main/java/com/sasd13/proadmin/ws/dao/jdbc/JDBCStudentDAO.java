@@ -15,8 +15,8 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Student;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.bean.update.StudentUpdate;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
 
@@ -46,7 +46,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public void update(StudentUpdate updateWrapper) {
+	public void update(StudentUpdate studentUpdate) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -58,7 +58,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.update(this, builder.toString(), updateWrapper);
+			JDBCUtils.update(this, builder.toString(), studentUpdate);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

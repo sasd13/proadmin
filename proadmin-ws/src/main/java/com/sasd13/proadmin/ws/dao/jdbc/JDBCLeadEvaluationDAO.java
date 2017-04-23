@@ -15,21 +15,21 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.ILeadEvaluation;
-import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.LeadEvaluation;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.Student;
+import com.sasd13.proadmin.ws.bean.update.LeadEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.ILeadEvaluationDAO;
 
 /**
  *
  * @author Samir
  */
-public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implements ILeadEvaluationDAO {
+public class JDBCLeadEvaluationDAO extends JDBCSession<LeadEvaluation> implements ILeadEvaluationDAO {
 
 	@Override
-	public long create(ILeadEvaluation iLeadEvaluation) {
+	public long create(LeadEvaluation leadEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -43,14 +43,14 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iLeadEvaluation);
+			return JDBCUtils.insert(this, builder.toString(), leadEvaluation);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void update(LeadEvaluationUpdate updateWrapper) {
+	public void update(LeadEvaluationUpdate leadEvaluationUpdate) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -64,14 +64,14 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 		builder.append(COLUMN_REPORT + " = ?");
 
 		try {
-			JDBCUtils.update(this, builder.toString(), updateWrapper);
+			JDBCUtils.update(this, builder.toString(), leadEvaluationUpdate);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void delete(ILeadEvaluation iLeadEvaluation) {
+	public void delete(LeadEvaluation leadEvaluation) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -79,14 +79,14 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 		builder.append(COLUMN_REPORT + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iLeadEvaluation);
+			JDBCUtils.delete(this, builder.toString(), leadEvaluation);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<ILeadEvaluation> read(Map<String, String[]> parameters) {
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -95,7 +95,7 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 	}
 
 	@Override
-	public List<ILeadEvaluation> readAll() {
+	public List<LeadEvaluation> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -104,38 +104,38 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, ILeadEvaluation iLeadEvaluation) throws SQLException {
-		preparedStatement.setFloat(1, iLeadEvaluation.getPlanningMark());
-		preparedStatement.setString(2, iLeadEvaluation.getPlanningComment());
-		preparedStatement.setFloat(3, iLeadEvaluation.getCommunicationMark());
-		preparedStatement.setString(4, iLeadEvaluation.getCommunicationComment());
-		preparedStatement.setString(5, iLeadEvaluation.getReport().getNumber());
-		preparedStatement.setString(6, iLeadEvaluation.getStudent().getIntermediary());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
+		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
+		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
+		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
+		preparedStatement.setString(5, leadEvaluation.getReport().getNumber());
+		preparedStatement.setString(6, leadEvaluation.getStudent().getIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<ILeadEvaluation> updateWrapper) throws SQLException {
-		ILeadEvaluation iLeadEvaluation = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<LeadEvaluation> updateWrapper) throws SQLException {
+		LeadEvaluation leadEvaluation = updateWrapper.getWrapped();
 
-		preparedStatement.setFloat(1, iLeadEvaluation.getPlanningMark());
-		preparedStatement.setString(2, iLeadEvaluation.getPlanningComment());
-		preparedStatement.setFloat(3, iLeadEvaluation.getCommunicationMark());
-		preparedStatement.setString(4, iLeadEvaluation.getCommunicationComment());
-		preparedStatement.setString(5, iLeadEvaluation.getStudent().getIntermediary());
+		preparedStatement.setFloat(1, leadEvaluation.getPlanningMark());
+		preparedStatement.setString(2, leadEvaluation.getPlanningComment());
+		preparedStatement.setFloat(3, leadEvaluation.getCommunicationMark());
+		preparedStatement.setString(4, leadEvaluation.getCommunicationComment());
+		preparedStatement.setString(5, leadEvaluation.getStudent().getIntermediary());
 		preparedStatement.setString(6, ((LeadEvaluationUpdate) updateWrapper).getReportNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, ILeadEvaluation iLeadEvaluation) throws SQLException {
-		preparedStatement.setString(1, iLeadEvaluation.getReport().getNumber());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, LeadEvaluation leadEvaluation) throws SQLException {
+		preparedStatement.setString(1, leadEvaluation.getReport().getNumber());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_REPORT + " = ?";
+			return COLUMN_REPORT + " = ?";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return ILeadEvaluationDAO.COLUMN_STUDENT + " = ?";
+			return COLUMN_STUDENT + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -153,24 +153,22 @@ public class JDBCLeadEvaluationDAO extends JDBCSession<ILeadEvaluation> implemen
 	}
 
 	@Override
-	public ILeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		ILeadEvaluation iLeadEvaluation = new ILeadEvaluation();
+	public LeadEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		LeadEvaluation leadEvaluation = new LeadEvaluation();
 
-		iLeadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
-		iLeadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
-		iLeadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
-		iLeadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
+		leadEvaluation.setPlanningMark(resultSet.getFloat(COLUMN_PLANNINGMARK));
+		leadEvaluation.setPlanningComment(resultSet.getString(COLUMN_PLANNINGCOMMENT));
+		leadEvaluation.setCommunicationMark(resultSet.getFloat(COLUMN_COMMUNICATIONMARK));
+		leadEvaluation.setCommunicationComment(resultSet.getString(COLUMN_COMMUNICATIONCOMMENT));
 
-		IReport iReport = new IReport();
-		iReport.setNumber(resultSet.getString(COLUMN_REPORT));
-
-		iLeadEvaluation.setReport(iReport);
+		Report report = new Report();
+		report.setNumber(resultSet.getString(COLUMN_REPORT));
+		leadEvaluation.setReport(report);
 
 		Student student = new Student();
 		student.setIntermediary(resultSet.getString(COLUMN_STUDENT));
+		leadEvaluation.setStudent(student);
 
-		iLeadEvaluation.setStudent(student);
-
-		return iLeadEvaluation;
+		return leadEvaluation;
 	}
 }

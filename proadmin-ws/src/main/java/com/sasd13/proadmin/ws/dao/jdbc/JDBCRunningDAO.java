@@ -15,21 +15,21 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.bean.project.IProject;
-import com.sasd13.proadmin.bean.running.IRunning;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.Project;
+import com.sasd13.proadmin.ws.bean.Running;
+import com.sasd13.proadmin.ws.bean.Teacher;
+import com.sasd13.proadmin.ws.bean.update.RunningUpdate;
 import com.sasd13.proadmin.ws.dao.IRunningDAO;
 
 /**
  *
  * @author Samir
  */
-public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO {
+public class JDBCRunningDAO extends JDBCSession<Running> implements IRunningDAO {
 
 	@Override
-	public long create(IRunning iRunning) {
+	public long create(Running running) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -40,28 +40,35 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 		builder.append(") VALUES (?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iRunning);
+			return JDBCUtils.insert(this, builder.toString(), running);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void update(RunningUpdate updateWrapper) {
-		// StringBuilder builder = new StringBuilder();
-		// builder.append("UPDATE ");
-		// builder.append(TABLE);
-		// builder.append(" SET ");
-		// builder.append(" WHERE ");
-		// builder.append(COLUMN_YEAR + " = ?");
-		// builder.append(" AND " + COLUMN_PROJECT + " = ?");
-		// builder.append(" AND " + COLUMN_TEACHER + " = ?");
-		//
-		// JDBCUtils.update(this, builder.toString(), updateWrapper);
+	public void update(RunningUpdate runningUpdate) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_YEAR + " = ?");
+		builder.append(" AND " + COLUMN_PROJECT + " = ?");
+		builder.append(" AND " + COLUMN_TEACHER + " = ?");
+
+		try {
+			JDBCUtils.update(this, builder.toString(), runningUpdate);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public void delete(IRunning iRunning) {
+	public void delete(Running running) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -71,14 +78,14 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 		builder.append(" AND " + COLUMN_TEACHER + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iRunning);
+			JDBCUtils.delete(this, builder.toString(), running);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<IRunning> read(Map<String, String[]> parameters) {
+	public List<Running> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -87,7 +94,7 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 	}
 
 	@Override
-	public List<IRunning> readAll() {
+	public List<Running> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -96,36 +103,39 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IRunning iRunning) throws SQLException {
-		preparedStatement.setInt(1, iRunning.getYear());
-		preparedStatement.setString(2, iRunning.getProject().getCode());
-		preparedStatement.setString(3, iRunning.getTeacher().getIntermediary());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Running running) throws SQLException {
+		preparedStatement.setInt(1, running.getYear());
+		preparedStatement.setString(2, running.getProject().getCode());
+		preparedStatement.setString(3, running.getTeacher().getIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IRunning> updateWrapper) throws SQLException {
-		// Running running = updateWrapper.getWrapped();
-		//
-		// preparedStatement.setInt(4, ((RunningUpdateWrapper) updateWrapper).getYear());
-		// preparedStatement.setString(5, ((RunningUpdateWrapper) updateWrapper).getProjectCode());
-		// preparedStatement.setString(6, ((RunningUpdateWrapper) updateWrapper).getTeacherNumber());
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Running> updateWrapper) throws SQLException {
+		Running running = updateWrapper.getWrapped();
+
+		preparedStatement.setInt(1, running.getYear());
+		preparedStatement.setString(2, running.getProject().getCode());
+		preparedStatement.setString(3, running.getTeacher().getIntermediary());
+		preparedStatement.setInt(4, ((RunningUpdate) updateWrapper).getYear());
+		preparedStatement.setString(5, ((RunningUpdate) updateWrapper).getProjectCode());
+		preparedStatement.setString(6, ((RunningUpdate) updateWrapper).getTeacherIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IRunning iRunning) throws SQLException {
-		preparedStatement.setInt(1, iRunning.getYear());
-		preparedStatement.setString(2, iRunning.getProject().getCode());
-		preparedStatement.setString(3, iRunning.getTeacher().getIntermediary());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Running running) throws SQLException {
+		preparedStatement.setInt(1, running.getYear());
+		preparedStatement.setString(2, running.getProject().getCode());
+		preparedStatement.setString(3, running.getTeacher().getIntermediary());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_YEAR + " = ?";
+			return COLUMN_YEAR + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_PROJECT + " = ?";
+			return COLUMN_PROJECT + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IRunningDAO.COLUMN_TEACHER + " = ?";
+			return COLUMN_TEACHER + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -145,21 +155,19 @@ public class JDBCRunningDAO extends JDBCSession<IRunning> implements IRunningDAO
 	}
 
 	@Override
-	public IRunning getResultSetValues(ResultSet resultSet) throws SQLException {
-		IRunning iRunning = new IRunning();
+	public Running getResultSetValues(ResultSet resultSet) throws SQLException {
+		Running running = new Running();
 
-		iRunning.setYear(resultSet.getInt(COLUMN_YEAR));
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
 
-		IProject iProject = new IProject();
-		iProject.setCode(resultSet.getString(COLUMN_PROJECT));
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_PROJECT));
+		running.setProject(project);
 
-		iRunning.setProject(iProject);
+		Teacher teacher = new Teacher();
+		teacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
+		running.setTeacher(teacher);
 
-		ITeacher iTeacher = new ITeacher();
-		iTeacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
-
-		iRunning.setTeacher(iTeacher);
-
-		return iRunning;
+		return running;
 	}
 }

@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 CREATE TRIGGER tr_pr_in
 	BEFORE INSERT ON projects 

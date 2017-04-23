@@ -21,25 +21,25 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.level.IAcademicLevel;
-import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.bean.member.ITeam;
-import com.sasd13.proadmin.bean.project.IProject;
-import com.sasd13.proadmin.bean.running.IReport;
-import com.sasd13.proadmin.bean.running.IRunning;
-import com.sasd13.proadmin.bean.running.IRunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.AcademicLevel;
+import com.sasd13.proadmin.ws.bean.Project;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.Running;
+import com.sasd13.proadmin.ws.bean.RunningTeam;
+import com.sasd13.proadmin.ws.bean.Teacher;
+import com.sasd13.proadmin.ws.bean.Team;
+import com.sasd13.proadmin.ws.bean.update.ReportUpdate;
 import com.sasd13.proadmin.ws.dao.IReportDAO;
 
 /**
  *
  * @author Samir
  */
-public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
+public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
-	public long create(IReport iReport) {
+	public long create(Report report) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -55,7 +55,7 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 		builder.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iReport);
+			return JDBCUtils.insert(this, builder.toString(), report);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -86,7 +86,7 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public void delete(IReport iReport) {
+	public void delete(Report report) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -94,14 +94,14 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iReport);
+			JDBCUtils.delete(this, builder.toString(), report);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<IReport> read(Map<String, String[]> parameters) {
+	public List<Report> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -110,7 +110,7 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public List<IReport> readAll() {
+	public List<Report> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -119,57 +119,57 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IReport iReport) throws SQLException {
-		preparedStatement.setTimestamp(1, new Timestamp(iReport.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setInt(2, iReport.getSession());
-		preparedStatement.setString(3, iReport.getComment());
-		preparedStatement.setInt(4, iReport.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(5, iReport.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, iReport.getRunningTeam().getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(7, iReport.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, iReport.getRunningTeam().getAcademicLevel().getCode());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Report report) throws SQLException {
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setInt(2, report.getSession());
+		preparedStatement.setString(3, report.getComment());
+		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IReport> updateWrapper) throws SQLException {
-		IReport iReport = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Report> updateWrapper) throws SQLException {
+		Report report = updateWrapper.getWrapped();
 
-		preparedStatement.setTimestamp(1, new Timestamp(iReport.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		preparedStatement.setInt(2, iReport.getSession());
-		preparedStatement.setString(3, iReport.getComment());
-		preparedStatement.setInt(4, iReport.getRunningTeam().getRunning().getYear());
-		preparedStatement.setString(5, iReport.getRunningTeam().getRunning().getProject().getCode());
-		preparedStatement.setString(6, iReport.getRunningTeam().getRunning().getTeacher().getIntermediary());
-		preparedStatement.setString(7, iReport.getRunningTeam().getTeam().getNumber());
-		preparedStatement.setString(8, iReport.getRunningTeam().getAcademicLevel().getCode());
+		preparedStatement.setTimestamp(1, new Timestamp(report.getDateMeeting().getTime()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+		preparedStatement.setInt(2, report.getSession());
+		preparedStatement.setString(3, report.getComment());
+		preparedStatement.setInt(4, report.getRunningTeam().getRunning().getYear());
+		preparedStatement.setString(5, report.getRunningTeam().getRunning().getProject().getCode());
+		preparedStatement.setString(6, report.getRunningTeam().getRunning().getTeacher().getIntermediary());
+		preparedStatement.setString(7, report.getRunningTeam().getTeam().getNumber());
+		preparedStatement.setString(8, report.getRunningTeam().getAcademicLevel().getCode());
 		preparedStatement.setString(9, ((ReportUpdate) updateWrapper).getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IReport iReport) throws SQLException {
-		preparedStatement.setString(1, iReport.getNumber());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Report report) throws SQLException {
+		preparedStatement.setString(1, report.getNumber());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_CODE + " = ?";
+			return COLUMN_CODE + " = ?";
 		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_DATEMEETING + " >= ?";
+			return COLUMN_DATEMEETING + " >= ?";
 		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_DATEMEETING + " <= ?";
+			return COLUMN_DATEMEETING + " <= ?";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_SESSION + " = ?";
+			return COLUMN_SESSION + " = ?";
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_YEAR + " = ?";
+			return COLUMN_YEAR + " = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_PROJECT + " = ?";
+			return COLUMN_PROJECT + " = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEACHER + " = ?";
+			return COLUMN_TEACHER + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_TEAM + " = ?";
+			return COLUMN_TEAM + " = ?";
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return IReportDAO.COLUMN_ACADEMICLEVEL + " = ?";
+			return COLUMN_ACADEMICLEVEL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -201,38 +201,37 @@ public class JDBCReportDAO extends JDBCSession<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public IReport getResultSetValues(ResultSet resultSet) throws SQLException {
-		IReport iReport = new IReport();
+	public Report getResultSetValues(ResultSet resultSet) throws SQLException {
+		Report report = new Report();
 
-		iReport.setNumber(resultSet.getString(COLUMN_CODE));
-		iReport.setDateMeeting(new Date(resultSet.getTimestamp(COLUMN_DATEMEETING).getTime()));
-		iReport.setSession(resultSet.getInt(COLUMN_SESSION));
-		iReport.setComment(resultSet.getString(COLUMN_COMMENT));
+		report.setNumber(resultSet.getString(COLUMN_CODE));
+		report.setDateMeeting(new Date(resultSet.getTimestamp(COLUMN_DATEMEETING).getTime()));
+		report.setSession(resultSet.getInt(COLUMN_SESSION));
+		report.setComment(resultSet.getString(COLUMN_COMMENT));
 
-		IProject iProject = new IProject();
-		iProject.setCode(resultSet.getString(COLUMN_PROJECT));
+		RunningTeam runningTeam = new RunningTeam();
+		report.setRunningTeam(runningTeam);
 
-		ITeacher iTeacher = new ITeacher();
-		iTeacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
+		Running running = new Running();
+		running.setYear(resultSet.getInt(COLUMN_YEAR));
+		runningTeam.setRunning(running);
 
-		IRunning iRunning = new IRunning();
-		iRunning.setYear(resultSet.getInt(COLUMN_YEAR));
-		iRunning.setProject(iProject);
-		iRunning.setTeacher(iTeacher);
+		Project project = new Project();
+		project.setCode(resultSet.getString(COLUMN_PROJECT));
+		running.setProject(project);
 
-		ITeam iTeam = new ITeam();
-		iTeam.setNumber(resultSet.getString(COLUMN_TEAM));
+		Teacher teacher = new Teacher();
+		teacher.setIntermediary(resultSet.getString(COLUMN_TEACHER));
+		running.setTeacher(teacher);
 
-		IAcademicLevel iAcademicLevel = new IAcademicLevel();
-		iAcademicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_TEAM));
+		runningTeam.setTeam(team);
 
-		IRunningTeam iRunningTeam = new IRunningTeam();
-		iRunningTeam.setRunning(iRunning);
-		iRunningTeam.setTeam(iTeam);
-		iRunningTeam.setAcademicLevel(iAcademicLevel);
+		AcademicLevel academicLevel = new AcademicLevel();
+		academicLevel.setCode(resultSet.getString(COLUMN_ACADEMICLEVEL));
+		runningTeam.setAcademicLevel(academicLevel);
 
-		iReport.setRunningTeam(iRunningTeam);
-
-		return iReport;
+		return report;
 	}
 }

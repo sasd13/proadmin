@@ -14,20 +14,20 @@ import java.util.Map;
 import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.member.IStudentTeam;
-import com.sasd13.proadmin.bean.member.ITeam;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws.bean.Student;
+import com.sasd13.proadmin.ws.bean.StudentTeam;
+import com.sasd13.proadmin.ws.bean.Team;
 import com.sasd13.proadmin.ws.dao.IStudentTeamDAO;
 
 /**
  *
  * @author Samir
  */
-public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements IStudentTeamDAO {
+public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
 
 	@Override
-	public long create(IStudentTeam iStudentTeam) {
+	public long create(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -37,14 +37,14 @@ public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements ISt
 		builder.append(") VALUES (?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iStudentTeam);
+			return JDBCUtils.insert(this, builder.toString(), studentTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void delete(IStudentTeam iStudentTeam) {
+	public void delete(StudentTeam studentTeam) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -53,14 +53,14 @@ public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements ISt
 		builder.append(" AND " + COLUMN_TEAM + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iStudentTeam);
+			JDBCUtils.delete(this, builder.toString(), studentTeam);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<IStudentTeam> read(Map<String, String[]> parameters) {
+	public List<StudentTeam> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -69,7 +69,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements ISt
 	}
 
 	@Override
-	public List<IStudentTeam> readAll() {
+	public List<StudentTeam> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -78,23 +78,23 @@ public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements ISt
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IStudentTeam iStudentTeam) throws SQLException {
-		preparedStatement.setString(1, iStudentTeam.getStudent().getIntermediary());
-		preparedStatement.setString(2, iStudentTeam.getTeam().getNumber());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+		preparedStatement.setString(1, studentTeam.getStudent().getIntermediary());
+		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IStudentTeam iStudentTeam) throws SQLException {
-		preparedStatement.setString(1, iStudentTeam.getStudent().getIntermediary());
-		preparedStatement.setString(2, iStudentTeam.getTeam().getNumber());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, StudentTeam studentTeam) throws SQLException {
+		preparedStatement.setString(1, studentTeam.getStudent().getIntermediary());
+		preparedStatement.setString(2, studentTeam.getTeam().getNumber());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_STUDENT + " = ?";
+			return COLUMN_STUDENT + " = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return IStudentTeamDAO.COLUMN_TEAM + " = ?";
+			return COLUMN_TEAM + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -112,19 +112,17 @@ public class JDBCStudentTeamDAO extends JDBCSession<IStudentTeam> implements ISt
 	}
 
 	@Override
-	public IStudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
-		IStudentTeam iStudentTeam = new IStudentTeam();
+	public StudentTeam getResultSetValues(ResultSet resultSet) throws SQLException {
+		StudentTeam studentTeam = new StudentTeam();
 
 		Student student = new Student();
 		student.setIntermediary(resultSet.getString(COLUMN_STUDENT));
+		studentTeam.setStudent(student);
 
-		iStudentTeam.setStudent(student);
+		Team team = new Team();
+		team.setNumber(resultSet.getString(COLUMN_TEAM));
+		studentTeam.setTeam(team);
 
-		ITeam iTeam = new ITeam();
-		iTeam.setNumber(resultSet.getString(COLUMN_TEAM));
-
-		iStudentTeam.setTeam(iTeam);
-
-		return iStudentTeam;
+		return studentTeam;
 	}
 }

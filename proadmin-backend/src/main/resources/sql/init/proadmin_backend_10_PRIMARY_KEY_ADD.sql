@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 ALTER TABLE projects ADD CONSTRAINT pk_pr PRIMARY KEY (_id);
 

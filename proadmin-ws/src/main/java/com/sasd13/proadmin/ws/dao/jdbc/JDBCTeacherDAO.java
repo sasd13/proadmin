@@ -15,8 +15,8 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.ITeacher;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws.bean.Teacher;
 import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.ITeacherDAO;
 
@@ -24,10 +24,10 @@ import com.sasd13.proadmin.ws.dao.ITeacherDAO;
  *
  * @author Samir
  */
-public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO {
+public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO {
 
 	@Override
-	public long create(ITeacher iTeacher) {
+	public long create(Teacher teacher) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -39,14 +39,14 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 		builder.append(") VALUES (?, ?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iTeacher);
+			return JDBCUtils.insert(this, builder.toString(), teacher);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void update(TeacherUpdate updateWrapper) {
+	public void update(TeacherUpdate teacherUpdate) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -58,14 +58,14 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.update(this, builder.toString(), updateWrapper);
+			JDBCUtils.update(this, builder.toString(), teacherUpdate);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void delete(ITeacher iTeacher) {
+	public void delete(Teacher teacher) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -73,14 +73,14 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 		builder.append(COLUMN_CODE + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iTeacher);
+			JDBCUtils.delete(this, builder.toString(), teacher);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<ITeacher> read(Map<String, String[]> parameters) {
+	public List<Teacher> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -89,7 +89,7 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 	}
 
 	@Override
-	public List<ITeacher> readAll() {
+	public List<Teacher> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -98,38 +98,38 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, ITeacher iTeacher) throws SQLException {
-		preparedStatement.setString(1, iTeacher.getIntermediary());
-		preparedStatement.setString(2, iTeacher.getFirstName());
-		preparedStatement.setString(3, iTeacher.getLastName());
-		preparedStatement.setString(4, iTeacher.getEmail());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
+		preparedStatement.setString(1, teacher.getIntermediary());
+		preparedStatement.setString(2, teacher.getFirstName());
+		preparedStatement.setString(3, teacher.getLastName());
+		preparedStatement.setString(4, teacher.getEmail());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<ITeacher> updateWrapper) throws SQLException {
-		ITeacher iTeacher = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<Teacher> updateWrapper) throws SQLException {
+		Teacher teacher = updateWrapper.getWrapped();
 
-		preparedStatement.setString(1, iTeacher.getFirstName());
-		preparedStatement.setString(2, iTeacher.getLastName());
-		preparedStatement.setString(3, iTeacher.getEmail());
+		preparedStatement.setString(1, teacher.getFirstName());
+		preparedStatement.setString(2, teacher.getLastName());
+		preparedStatement.setString(3, teacher.getEmail());
 		preparedStatement.setString(4, ((TeacherUpdate) updateWrapper).getIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, ITeacher iTeacher) throws SQLException {
-		preparedStatement.setString(1, iTeacher.getIntermediary());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, Teacher teacher) throws SQLException {
+		preparedStatement.setString(1, teacher.getIntermediary());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_CODE + " = ?";
+			return COLUMN_CODE + " = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_FIRSTNAME + " = ?";
+			return COLUMN_FIRSTNAME + " = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_LASTNAME + " = ?";
+			return COLUMN_LASTNAME + " = ?";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return ITeacherDAO.COLUMN_EMAIL + " = ?";
+			return COLUMN_EMAIL + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -151,14 +151,14 @@ public class JDBCTeacherDAO extends JDBCSession<ITeacher> implements ITeacherDAO
 	}
 
 	@Override
-	public ITeacher getResultSetValues(ResultSet resultSet) throws SQLException {
-		ITeacher iTeacher = new ITeacher();
+	public Teacher getResultSetValues(ResultSet resultSet) throws SQLException {
+		Teacher teacher = new Teacher();
 
-		iTeacher.setIntermediary(resultSet.getString(COLUMN_CODE));
-		iTeacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
-		iTeacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
-		iTeacher.setEmail(resultSet.getString(COLUMN_EMAIL));
+		teacher.setIntermediary(resultSet.getString(COLUMN_CODE));
+		teacher.setFirstName(resultSet.getString(COLUMN_FIRSTNAME));
+		teacher.setLastName(resultSet.getString(COLUMN_LASTNAME));
+		teacher.setEmail(resultSet.getString(COLUMN_EMAIL));
 
-		return iTeacher;
+		return teacher;
 	}
 }

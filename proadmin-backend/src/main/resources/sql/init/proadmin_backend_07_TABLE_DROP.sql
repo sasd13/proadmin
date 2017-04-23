@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 DROP TABLE IF EXISTS individualevaluations;
 DROP TABLE IF EXISTS leadevaluations;

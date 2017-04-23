@@ -3,8 +3,8 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.IRunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.RunningTeam;
+import com.sasd13.proadmin.ws.bean.update.RunningTeamUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IRunningTeamDAO;
 import com.sasd13.proadmin.ws.dao.jdbc.RunningTeamDeepReader;
@@ -21,27 +21,27 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public long create(IRunningTeam iRunningTeam) {
-		return runningTeamDAO.create(iRunningTeam);
+	public long create(RunningTeam runningTeam) {
+		return runningTeamDAO.create(runningTeam);
 	}
 
 	@Override
-	public void update(RunningTeamUpdate updateWrapper) {
-		runningTeamDAO.update(updateWrapper);
+	public void update(RunningTeamUpdate runningTeamUpdate) {
+		runningTeamDAO.update(runningTeamUpdate);
 	}
 
 	@Override
-	public void delete(IRunningTeam iRunningTeam) {
-		runningTeamDAO.delete(iRunningTeam);
+	public void delete(RunningTeam runningTeam) {
+		runningTeamDAO.delete(runningTeam);
 	}
 
 	@Override
-	public List<IRunningTeam> read(Map<String, String[]> parameters) {
+	public List<RunningTeam> read(Map<String, String[]> parameters) {
 		return runningTeamDeepReader.read(parameters);
 	}
 
 	@Override
-	public List<IRunningTeam> readAll() {
+	public List<RunningTeam> readAll() {
 		return runningTeamDeepReader.readAll();
 	}
 }

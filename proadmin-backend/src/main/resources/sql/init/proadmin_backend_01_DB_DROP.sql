@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS proadmin_db2;
+
+--COMMIT;

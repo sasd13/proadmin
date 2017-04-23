@@ -15,21 +15,21 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
-import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.Student;
+import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.IIndividualEvaluationDAO;
 
 /**
  *
  * @author Samir
  */
-public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluation> implements IIndividualEvaluationDAO {
+public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluation> implements IIndividualEvaluationDAO {
 
 	@Override
-	public long create(IIndividualEvaluation iIndividualEvaluation) {
+	public void create(List<IndividualEvaluation> individualEvaluations) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -40,14 +40,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 		builder.append(") VALUES (?, ?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), iIndividualEvaluation);
+			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+				JDBCUtils.insert(this, new String(builder.toString()), individualEvaluation);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void update(IndividualEvaluationUpdate updateWrapper) {
+	public void update(List<IndividualEvaluationUpdate> individualEvaluationUpdates) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -58,14 +60,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		try {
-			JDBCUtils.update(this, builder.toString(), updateWrapper);
+			for (IndividualEvaluationUpdate individualEvaluationUpdate : individualEvaluationUpdates) {
+				JDBCUtils.update(this, new String(builder.toString()), individualEvaluationUpdate);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void delete(IIndividualEvaluation iIndividualEvaluation) {
+	public void delete(List<IndividualEvaluation> individualEvaluations) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -74,14 +78,16 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 		builder.append(" AND " + COLUMN_STUDENT + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), iIndividualEvaluation);
+			for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+				JDBCUtils.delete(this, builder.toString(), individualEvaluation);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public List<IIndividualEvaluation> read(Map<String, String[]> parameters) {
+	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
 		try {
 			return JDBCUtils.select(this, TABLE, parameters);
 		} catch (SQLException e) {
@@ -90,7 +96,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 	}
 
 	@Override
-	public List<IIndividualEvaluation> readAll() {
+	public List<IndividualEvaluation> readAll() {
 		try {
 			return JDBCUtils.selectAll(this, TABLE);
 		} catch (SQLException e) {
@@ -99,33 +105,33 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 	}
 
 	@Override
-	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IIndividualEvaluation iIndividualEvaluation) throws SQLException {
-		preparedStatement.setFloat(1, iIndividualEvaluation.getMark());
-		preparedStatement.setString(2, iIndividualEvaluation.getReport().getNumber());
-		preparedStatement.setString(3, iIndividualEvaluation.getStudent().getIntermediary());
+	public void editPreparedStatementForInsert(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		preparedStatement.setFloat(1, individualEvaluation.getMark());
+		preparedStatement.setString(2, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(3, individualEvaluation.getStudent().getIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IIndividualEvaluation> updateWrapper) throws SQLException {
-		IIndividualEvaluation iIndividualEvaluation = updateWrapper.getWrapped();
+	public void editPreparedStatementForUpdate(PreparedStatement preparedStatement, IUpdateWrapper<IndividualEvaluation> updateWrapper) throws SQLException {
+		IndividualEvaluation individualEvaluation = updateWrapper.getWrapped();
 
-		preparedStatement.setFloat(1, iIndividualEvaluation.getMark());
+		preparedStatement.setFloat(1, individualEvaluation.getMark());
 		preparedStatement.setString(2, ((IndividualEvaluationUpdate) updateWrapper).getReportNumber());
 		preparedStatement.setString(3, ((IndividualEvaluationUpdate) updateWrapper).getStudentIntermediary());
 	}
 
 	@Override
-	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IIndividualEvaluation iIndividualEvaluation) throws SQLException {
-		preparedStatement.setString(1, iIndividualEvaluation.getReport().getNumber());
-		preparedStatement.setString(2, iIndividualEvaluation.getStudent().getIntermediary());
+	public void editPreparedStatementForDelete(PreparedStatement preparedStatement, IndividualEvaluation individualEvaluation) throws SQLException {
+		preparedStatement.setString(1, individualEvaluation.getReport().getNumber());
+		preparedStatement.setString(2, individualEvaluation.getStudent().getIntermediary());
 	}
 
 	@Override
 	public String getCondition(String key) {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_REPORT + " = ?";
+			return COLUMN_REPORT + " = ?";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return IIndividualEvaluationDAO.COLUMN_STUDENT + " = ?";
+			return COLUMN_STUDENT + " = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}
@@ -143,21 +149,19 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IIndividualEvaluati
 	}
 
 	@Override
-	public IIndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
-		IIndividualEvaluation iIndividualEvaluation = new IIndividualEvaluation();
+	public IndividualEvaluation getResultSetValues(ResultSet resultSet) throws SQLException {
+		IndividualEvaluation individualEvaluation = new IndividualEvaluation();
 
-		iIndividualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
+		individualEvaluation.setMark(resultSet.getFloat(COLUMN_MARK));
 
-		IReport iReport = new IReport();
-		iReport.setNumber(resultSet.getString(COLUMN_REPORT));
-
-		iIndividualEvaluation.setReport(iReport);
+		Report report = new Report();
+		report.setNumber(resultSet.getString(COLUMN_REPORT));
+		individualEvaluation.setReport(report);
 
 		Student student = new Student();
 		student.setIntermediary(resultSet.getString(COLUMN_STUDENT));
+		individualEvaluation.setStudent(student);
 
-		iIndividualEvaluation.setStudent(student);
-
-		return iIndividualEvaluation;
+		return individualEvaluation;
 	}
 }

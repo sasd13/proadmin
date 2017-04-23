@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.ILeadEvaluation;
-import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws.bean.LeadEvaluation;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
 
-public class LeadEvaluationDeepReader extends DeepReader<ILeadEvaluation> {
+public class LeadEvaluationDeepReader extends DeepReader<LeadEvaluation> {
 
 	private ReportDeepReader reportDeepReader;
 	private IStudentDAO studentDAO;
@@ -26,24 +26,24 @@ public class LeadEvaluationDeepReader extends DeepReader<ILeadEvaluation> {
 	}
 
 	@Override
-	protected void retrieve(ILeadEvaluation iLeadEvaluation) {
-		retrieveDataReport(iLeadEvaluation);
-		retrieveDataStudent(iLeadEvaluation);
+	protected void retrieve(LeadEvaluation leadEvaluation) {
+		retrieveDataReport(leadEvaluation);
+		retrieveDataStudent(leadEvaluation);
 	}
 
-	private void retrieveDataReport(ILeadEvaluation iLeadEvaluation) {
+	private void retrieveDataReport(LeadEvaluation leadEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { iLeadEvaluation.getReport().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { leadEvaluation.getReport().getNumber() });
 
-		IReport iReport = reportDeepReader.read(parameters).get(0);
-		iLeadEvaluation.setReport(iReport);
+		Report report = reportDeepReader.read(parameters).get(0);
+		leadEvaluation.setReport(report);
 	}
 
-	private void retrieveDataStudent(ILeadEvaluation iLeadEvaluation) {
+	private void retrieveDataStudent(LeadEvaluation leadEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { iLeadEvaluation.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { leadEvaluation.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
-		iLeadEvaluation.setStudent(student);
+		leadEvaluation.setStudent(student);
 	}
 }

@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.bean.update.StudentUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
@@ -23,8 +23,8 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public void update(StudentUpdate updateWrapper) {
-		studentDAO.update(updateWrapper);
+	public void update(StudentUpdate studentUpdate) {
+		studentDAO.update(studentUpdate);
 	}
 
 	@Override

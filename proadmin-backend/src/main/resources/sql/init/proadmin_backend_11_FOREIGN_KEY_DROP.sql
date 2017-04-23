@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 ALTER TABLE individualevaluations DROP CONSTRAINT IF EXISTS fk_ie_rp;
 ALTER TABLE individualevaluations DROP CONSTRAINT IF EXISTS fk_ie_st;

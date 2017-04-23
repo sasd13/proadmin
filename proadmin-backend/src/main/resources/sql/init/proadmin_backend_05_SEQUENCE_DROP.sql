@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 DROP SEQUENCE IF EXISTS sq_pr;
 DROP SEQUENCE IF EXISTS sq_tm;

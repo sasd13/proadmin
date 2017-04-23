@@ -13,7 +13,7 @@ public interface IIndividualEvaluationDAO extends IReader<IndividualEvaluation> 
 	String COLUMN_REPORT = "_report";
 	String COLUMN_STUDENT = "_student";
 
-	long create(List<IndividualEvaluation> individualEvaluations);
+	void create(List<IndividualEvaluation> individualEvaluations);
 
 	void update(List<IndividualEvaluationUpdate> individualEvaluationUpdates);
 

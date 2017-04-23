@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 CREATE SEQUENCE sq_pr START 1;
 CREATE SEQUENCE sq_tm START 1;

@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 CREATE TABLE projects (
 	_id SERIAL NOT NULL,

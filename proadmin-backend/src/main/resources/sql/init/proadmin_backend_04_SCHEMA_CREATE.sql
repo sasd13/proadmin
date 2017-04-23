@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS proadmin_db2;
+
+--COMMIT;

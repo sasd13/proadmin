@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
-import com.sasd13.proadmin.bean.running.IReport;
 import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
 
-public class IndividualEvaluationDeepReader extends DeepReader<IIndividualEvaluation> {
+public class IndividualEvaluationDeepReader extends DeepReader<IndividualEvaluation> {
 
 	private ReportDeepReader reportDeepReader;
 	private IStudentDAO studentDAO;
@@ -26,24 +26,24 @@ public class IndividualEvaluationDeepReader extends DeepReader<IIndividualEvalua
 	}
 
 	@Override
-	protected void retrieve(IIndividualEvaluation iIndividualEvaluation) {
-		retrieveDataReport(iIndividualEvaluation);
-		retrieveDataStudent(iIndividualEvaluation);
+	protected void retrieve(IndividualEvaluation individualEvaluation) {
+		retrieveDataReport(individualEvaluation);
+		retrieveDataStudent(individualEvaluation);
 	}
 
-	private void retrieveDataReport(IIndividualEvaluation iIndividualEvaluation) {
+	private void retrieveDataReport(IndividualEvaluation individualEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { iIndividualEvaluation.getReport().getNumber() });
+		parameters.put(EnumParameter.NUMBER.getName(), new String[] { individualEvaluation.getReport().getNumber() });
 
-		IReport iReport = reportDeepReader.read(parameters).get(0);
-		iIndividualEvaluation.setReport(iReport);
+		Report report = reportDeepReader.read(parameters).get(0);
+		individualEvaluation.setReport(report);
 	}
 
-	private void retrieveDataStudent(IIndividualEvaluation iIndividualEvaluation) {
+	private void retrieveDataStudent(IndividualEvaluation individualEvaluation) {
 		parameters.clear();
-		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { iIndividualEvaluation.getStudent().getIntermediary() });
+		parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[] { individualEvaluation.getStudent().getIntermediary() });
 
 		Student student = studentDAO.read(parameters).get(0);
-		iIndividualEvaluation.setStudent(student);
+		individualEvaluation.setStudent(student);
 	}
 }

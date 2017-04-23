@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws2;
+SET search_path TO proadmin_db2;
 
 CREATE FUNCTION set_pr_code_next() RETURNS TRIGGER AS $set_pr_code_next$
     BEGIN

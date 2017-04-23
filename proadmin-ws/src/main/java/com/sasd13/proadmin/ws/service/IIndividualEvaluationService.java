@@ -8,7 +8,7 @@ import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
 
 public interface IIndividualEvaluationService {
 
-	long create(List<IndividualEvaluation> individualEvaluations);
+	void create(List<IndividualEvaluation> individualEvaluations);
 
 	void update(List<IndividualEvaluationUpdate> individualEvaluationUpdates);
 

@@ -3,7 +3,7 @@ package com.sasd13.proadmin.ws.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.ws.bean.Teacher;
 import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.dao.ITeacherDAO;
@@ -18,27 +18,27 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public long create(ITeacher iTeacher) {
-		return teacherDAO.create(iTeacher);
+	public long create(Teacher teacher) {
+		return teacherDAO.create(teacher);
 	}
 
 	@Override
-	public void update(TeacherUpdate updateWrapper) {
-		teacherDAO.update(updateWrapper);
+	public void update(TeacherUpdate teacherUpdate) {
+		teacherDAO.update(teacherUpdate);
 	}
 
 	@Override
-	public void delete(ITeacher iTeacher) {
-		teacherDAO.delete(iTeacher);
+	public void delete(Teacher teacher) {
+		teacherDAO.delete(teacher);
 	}
 
 	@Override
-	public List<ITeacher> read(Map<String, String[]> parameters) {
+	public List<Teacher> read(Map<String, String[]> parameters) {
 		return teacherDAO.read(parameters);
 	}
 
 	@Override
-	public List<ITeacher> readAll() {
+	public List<Teacher> readAll() {
 		return teacherDAO.readAll();
 	}
 }
