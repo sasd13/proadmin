@@ -2,14 +2,13 @@ package com.sasd13.proadmin.itf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class ResponseBean<T> {
+public class ResponseBean {
 
 	private ResponseContext context;
 	private Map<String, String> errors;
-	private List<T> data;
+	private Object data;
 
 	public ResponseBean() {
 		context = new ResponseContext();
@@ -33,11 +32,11 @@ public class ResponseBean<T> {
 		this.errors = errors;
 	}
 
-	public List<T> getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(List<T> data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 }

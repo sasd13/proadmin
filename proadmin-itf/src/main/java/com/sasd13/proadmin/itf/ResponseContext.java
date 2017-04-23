@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class ResponseContext {
 
-	private String languageISOCode, paginationStartItem, paginationWantedItems, paginationCurrentItems, paginationTotalItems;
-	private Map<String, String[]> additionalProperties;
+	private String languageISOCode, paginationCurrentItems, paginationTotalItems;
+	private Map<String, Object> additionalProperties;
 
 	public ResponseContext() {
 		additionalProperties = new HashMap<>();
@@ -18,22 +18,6 @@ public class ResponseContext {
 
 	public void setLanguageISOCode(String languageISOCode) {
 		this.languageISOCode = languageISOCode;
-	}
-
-	public String getPaginationStartItem() {
-		return paginationStartItem;
-	}
-
-	public void setPaginationStartItem(String paginationStartItem) {
-		this.paginationStartItem = paginationStartItem;
-	}
-
-	public String getPaginationWantedItems() {
-		return paginationWantedItems;
-	}
-
-	public void setPaginationWantedItems(String paginationWantedItems) {
-		this.paginationWantedItems = paginationWantedItems;
 	}
 
 	public String getPaginationCurrentItems() {
@@ -52,11 +36,11 @@ public class ResponseContext {
 		this.paginationTotalItems = paginationTotalItems;
 	}
 
-	public Map<String, String[]> getAdditionalProperties() {
+	public Map<String, Object> getAdditionalProperties() {
 		return additionalProperties;
 	}
 
-	public void setAdditionalProperties(Map<String, String[]> additionalProperties) {
+	public void setAdditionalProperties(Map<String, Object> additionalProperties) {
 		this.additionalProperties = additionalProperties;
 	}
 }

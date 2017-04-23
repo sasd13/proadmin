@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws;
+SET search_path TO proadmin_db;
 
 DROP FUNCTION IF EXISTS set_pr_code_next();
 DROP FUNCTION IF EXISTS set_tm_code_next();

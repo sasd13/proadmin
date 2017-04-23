@@ -16,13 +16,13 @@ import com.sasd13.proadmin.backend.bean.IndividualEvaluation;
 import com.sasd13.proadmin.backend.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
 import com.sasd13.proadmin.backend.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 
 @RestController
 @RequestMapping("/individualEvaluations")
-public class IndividualEvaluationController {
+public class IndividualEvaluationController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationController.class);
 
@@ -96,23 +96,28 @@ public class IndividualEvaluationController {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	public ResponseEntity<ResponseBean<IndividualEvaluationBean>> search(@RequestBody RequestBean request) {
+	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : search");
 
 		try {
-			List<IndividualEvaluation> results = individualEvaluationService.read(request.getCriteria());
-			ResponseBean<IndividualEvaluationBean> response = new ResponseBean<>();
+			List<IndividualEvaluation> results = individualEvaluationService.read(searchBean.getCriterias());
+			ResponseBean responseBean = new ResponseBean();
+			List<IndividualEvaluationBean> list = new ArrayList<>();
 			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
 
 			for (IndividualEvaluation result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<IndividualEvaluationBean>>(response, HttpStatus.OK);
+			addHeaders(searchBean, responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<IndividualEvaluationBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

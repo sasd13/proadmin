@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws;
+SET search_path TO proadmin_db;
 
 DELETE FROM academiclevels;
 

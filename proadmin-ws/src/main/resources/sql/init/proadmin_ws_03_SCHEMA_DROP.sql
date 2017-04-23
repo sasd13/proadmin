@@ -1,3 +1,3 @@
-DROP SCHEMA IF EXISTS proadmin_ws;
+DROP SCHEMA IF EXISTS proadmin_db;
 
 --COMMIT;

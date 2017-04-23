@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,13 +16,13 @@ import com.sasd13.proadmin.backend.bean.Team;
 import com.sasd13.proadmin.backend.service.ITeamService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.TeamAdapterB2I;
 import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeamAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
 
 @RestController
 @RequestMapping("/teams")
-public class TeamController {
+public class TeamController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(TeamController.class);
 
@@ -74,23 +75,28 @@ public class TeamController {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	public ResponseEntity<ResponseBean<TeamBean>> search(@RequestBody RequestBean request) {
+	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Team : search");
 
 		try {
-			List<Team> results = teamService.read(request.getCriteria());
-			ResponseBean<TeamBean> response = new ResponseBean<TeamBean>();
+			List<Team> results = teamService.read(searchBean.getCriterias());
+			ResponseBean responseBean = new ResponseBean();
+			List<TeamBean> list = new ArrayList<>();
 			TeamAdapterB2I adapter = new TeamAdapterB2I();
 
 			for (Team result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<TeamBean>>(response, HttpStatus.OK);
+			addHeaders(searchBean, responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<TeamBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

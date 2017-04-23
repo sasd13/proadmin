@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,13 +16,13 @@ import com.sasd13.proadmin.backend.bean.Running;
 import com.sasd13.proadmin.backend.service.IRunningService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.RunningAdapterB2I;
 import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 @RestController
 @RequestMapping("/runnings")
-public class RunningController {
+public class RunningController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(RunningController.class);
 
@@ -74,23 +75,28 @@ public class RunningController {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	public ResponseEntity<ResponseBean<RunningBean>> search(@RequestBody RequestBean request) {
+	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Running : search");
 
 		try {
-			List<Running> results = runningService.read(request.getCriteria());
-			ResponseBean<RunningBean> response = new ResponseBean<RunningBean>();
+			List<Running> results = runningService.read(searchBean.getCriterias());
+			ResponseBean responseBean = new ResponseBean();
+			List<RunningBean> list = new ArrayList<>();
 			RunningAdapterB2I adapter = new RunningAdapterB2I();
 
 			for (Running result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<RunningBean>>(response, HttpStatus.OK);
+			addHeaders(searchBean, responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<RunningBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

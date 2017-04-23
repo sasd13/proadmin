@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws;
+SET search_path TO proadmin_db;
 
 ALTER TABLE studentteams 
 	ADD CONSTRAINT fk_sttm_st 

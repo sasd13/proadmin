@@ -1,4 +1,4 @@
-SET search_path TO proadmin_ws;
+SET search_path TO proadmin_db;
 
 CREATE TABLE projects (
 	_code VARCHAR(50) NOT NULL,

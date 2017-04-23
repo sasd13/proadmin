@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -18,7 +19,7 @@ import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 
 @RestController
 @RequestMapping("/academicLevels")
-public class AcademicLevelController {
+public class AcademicLevelController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(AcademicLevelController.class);
 
@@ -26,23 +27,28 @@ public class AcademicLevelController {
 	private IAcademicLevelService academicLevelService;
 
 	@RequestMapping(path = "/read", method = RequestMethod.GET)
-	public ResponseEntity<ResponseBean<AcademicLevelBean>> read() {
+	public ResponseEntity<ResponseBean> read() {
 		LOGGER.info("[Proadmin-Backend] AcademicLevel : read");
 
 		try {
 			List<AcademicLevel> results = academicLevelService.readAll();
-			ResponseBean<AcademicLevelBean> response = new ResponseBean<>();
+			ResponseBean responseBean = new ResponseBean();
+			List<AcademicLevelBean> list = new ArrayList<>();
 			AcademicLevelAdapterB2I adapter = new AcademicLevelAdapterB2I();
 
 			for (AcademicLevel result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<AcademicLevelBean>>(response, HttpStatus.OK);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<AcademicLevelBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

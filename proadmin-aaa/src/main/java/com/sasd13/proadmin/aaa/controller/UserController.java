@@ -27,9 +27,9 @@ import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserUpdateAdapterI2B;
+import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.user.create.UserCreateBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateBean;
-import com.sasd13.proadmin.util.EnumError;
 
 /**
  *
@@ -48,16 +48,19 @@ public class UserController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
 		try {
-			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
+			if (!parameters.isEmpty()) {
+				List<User> results = userService.read(parameters);
+				ResponseBean responseBean = new ResponseBean();
 
-			if (parameters != null) {
-				List<User> users = userService.read(parameters);
+				responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+				responseBean.setData(results);
 
-				writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(users));
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
 			} else {
-				writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
+				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -86,12 +89,12 @@ public class UserController extends Controller {
 		LOGGER.info("[Proadmin-AAA] User : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
-		boolean updated = false;
 
 		try {
 			UserUpdateBean userUpdateBean = readFromRequest(req, UserUpdateBean.class);
 			UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
+			boolean updated = false;
 
 			if (userUpdate.getUser() == null) {
 				userService.update(userUpdate.getUser());
@@ -103,7 +106,7 @@ public class UserController extends Controller {
 			}
 
 			if (!updated) {
-				writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
+				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

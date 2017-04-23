@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,13 +16,13 @@ import com.sasd13.proadmin.backend.bean.LeadEvaluation;
 import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.LeadEvaluationAdapterB2I;
 import com.sasd13.proadmin.backend.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 @RestController
 @RequestMapping("/leadEvaluations")
-public class LeadEvaluationController {
+public class LeadEvaluationController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationController.class);
 
@@ -74,23 +75,28 @@ public class LeadEvaluationController {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	public ResponseEntity<ResponseBean<LeadEvaluationBean>> search(@RequestBody RequestBean request) {
+	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : search");
 
 		try {
-			List<LeadEvaluation> results = leadEvaluationService.read(request.getCriteria());
-			ResponseBean<LeadEvaluationBean> response = new ResponseBean<>();
+			List<LeadEvaluation> results = leadEvaluationService.read(searchBean.getCriterias());
+			ResponseBean responseBean = new ResponseBean();
+			List<LeadEvaluationBean> list = new ArrayList<>();
 			LeadEvaluationAdapterB2I adapter = new LeadEvaluationAdapterB2I();
 
 			for (LeadEvaluation result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<LeadEvaluationBean>>(response, HttpStatus.OK);
+			addHeaders(searchBean, responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<LeadEvaluationBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

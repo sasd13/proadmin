@@ -24,7 +24,6 @@ import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
-import com.sasd13.proadmin.util.EnumError;
 
 /**
  *
@@ -49,9 +48,9 @@ public class AuthenticationController extends Controller {
 			User user = userService.find(credential);
 
 			if (user != null) {
-				writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
 			} else {
-				writeError(resp, LOGGER, HttpStatus.SC_EXPECTATION_FAILED, EnumError.AAA);
+				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

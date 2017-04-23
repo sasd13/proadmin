@@ -1,3 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS proadmin_ws;
+CREATE SCHEMA IF NOT EXISTS proadmin_db;
 
 --COMMIT;

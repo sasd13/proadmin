@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS proadmin_ws;
+DROP DATABASE IF EXISTS proadmin_db;
 
 --COMMIT;

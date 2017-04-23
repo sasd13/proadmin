@@ -14,11 +14,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.level.IAcademicLevel;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.ws.bean.AcademicLevel;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IAcademicLevelService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -41,20 +42,20 @@ public class AcademicLevelController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		IAcademicLevelService academicLevelService = (IAcademicLevelService) ServiceFactory.make(IAcademicLevelService.class, dao);
 
 		try {
-			IAcademicLevelService academicLevelService = (IAcademicLevelService) ServiceFactory.make(IAcademicLevelService.class, dao);
-			List<IAcademicLevel> results = null;
-
 			if (parameters.isEmpty()) {
-				results = academicLevelService.readAll();
+				List<AcademicLevel> results = academicLevelService.readAll();
+				ResponseBean<AcademicLevel> responseBean = new ResponseBean<>();
+
+				responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+				responseBean.setData(results);
+
+				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
 			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = academicLevelService.read(parameters);
+				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}
-
-			writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

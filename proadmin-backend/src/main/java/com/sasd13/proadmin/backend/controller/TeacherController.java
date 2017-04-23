@@ -1,5 +1,6 @@
 package com.sasd13.proadmin.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,13 +17,13 @@ import com.sasd13.proadmin.backend.bean.Teacher;
 import com.sasd13.proadmin.backend.service.ITeacherService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.TeacherAdapterB2I;
 import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeacherAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 
 @RestController
 @RequestMapping("/teachers")
-public class TeacherController {
+public class TeacherController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);
 
@@ -75,39 +76,46 @@ public class TeacherController {
 	}
 
 	@RequestMapping(path = "/read", method = RequestMethod.GET)
-	public ResponseEntity<TeacherBean> search(@RequestParam(value = "intermediary", required = true) String intermediary) {
+	public ResponseEntity<ResponseBean> search(@RequestParam(value = "intermediary", required = true) String intermediary) {
 		LOGGER.info("[Proadmin-Backend] Teacher : read");
 
 		try {
 			Teacher result = teacherService.read(intermediary);
-			TeacherBean response = new TeacherAdapterB2I().adapt(result);
+			ResponseBean responseBean = new ResponseBean();
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(1));
+			responseBean.setData(new TeacherAdapterB2I().adapt(result));
 
-			return new ResponseEntity<TeacherBean>(response, HttpStatus.OK);
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<TeacherBean>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	public ResponseEntity<ResponseBean<TeacherBean>> search(@RequestBody RequestBean request) {
+	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Teacher : search");
 
 		try {
-			List<Teacher> results = teacherService.read(request.getCriteria());
-			ResponseBean<TeacherBean> response = new ResponseBean<TeacherBean>();
+			List<Teacher> results = teacherService.read(searchBean.getCriterias());
+			ResponseBean responseBean = new ResponseBean();
+			List<TeacherBean> list = new ArrayList<>();
 			TeacherAdapterB2I adapter = new TeacherAdapterB2I();
 
 			for (Teacher result : results) {
-				response.getData().add(adapter.adapt(result));
+				list.add(adapter.adapt(result));
 			}
 
-			return new ResponseEntity<ResponseBean<TeacherBean>>(response, HttpStatus.OK);
+			addHeaders(searchBean, responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 
-		return new ResponseEntity<ResponseBean<TeacherBean>>(HttpStatus.EXPECTATION_FAILED);
+		return new ResponseEntity<ResponseBean>(HttpStatus.EXPECTATION_FAILED);
 	}
 }

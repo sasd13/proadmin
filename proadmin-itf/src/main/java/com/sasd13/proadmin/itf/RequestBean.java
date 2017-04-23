@@ -1,31 +1,14 @@
 package com.sasd13.proadmin.itf;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RequestBean {
 
-	private RequestContext context;
-	private Map<String, String[]> criteria;
+	private Object data;
 
-	public RequestBean() {
-		context = new RequestContext();
-		criteria = new HashMap<>();
+	public Object getData() {
+		return data;
 	}
 
-	public RequestContext getContext() {
-		return context;
-	}
-
-	public void setContext(RequestContext context) {
-		this.context = context;
-	}
-
-	public Map<String, String[]> getCriteria() {
-		return criteria;
-	}
-
-	public void setCriteria(Map<String, String[]> criteria) {
-		this.criteria = criteria;
+	public void setData(Object data) {
+		this.data = data;
 	}
 }

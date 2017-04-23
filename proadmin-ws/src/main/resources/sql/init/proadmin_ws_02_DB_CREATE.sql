@@ -1,4 +1,4 @@
-CREATE DATABASE proadmin_ws
+CREATE DATABASE proadmin_db
 	WITH 
 		ENCODING = 'UTF8'
 		CONNECTION LIMIT = -1;

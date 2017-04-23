@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
+import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
@@ -38,14 +40,15 @@ public class IndividualEvaluationController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] IndividualEvaluation : GET");
+		LOGGER.info("[Proadmin-WS] IndividualEvaluation : read");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
 		try {
-			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IIndividualEvaluation> results = null;
+			List<IndividualEvaluation> results = null;
+			ResponseBean<IndividualEvaluation> responseBean = new ResponseBean<>();
 
 			if (parameters.isEmpty()) {
 				results = individualEvaluationService.readAll();
@@ -55,7 +58,11 @@ public class IndividualEvaluationController extends Controller {
 				results = individualEvaluationService.read(parameters);
 			}
 
-			writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+			responseBean.getContext().setAdditionalProperties(parameters);
+			responseBean.setData(results);
+
+			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -69,11 +76,11 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IIndividualEvaluation> iIndividualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
+			List<IndividualEvaluation> individualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
-			for (IIndividualEvaluation iIndividualEvaluation : iIndividualEvaluations) {
-				individualEvaluationService.create(iIndividualEvaluation);
+			for (IIndividualEvaluation individualEvaluation : individualEvaluations) {
+				individualEvaluationService.create(individualEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
@@ -107,11 +114,11 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IIndividualEvaluation> iIndividualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
+			List<IIndividualEvaluation> individualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
-			for (IIndividualEvaluation iIndividualEvaluation : iIndividualEvaluations) {
-				individualEvaluationService.delete(iIndividualEvaluation);
+			for (IIndividualEvaluation individualEvaluation : individualEvaluations) {
+				individualEvaluationService.delete(individualEvaluation);
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

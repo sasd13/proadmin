@@ -3,12 +3,12 @@ package com.sasd13.proadmin.itf;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestContext {
+public class SearchContext {
 
 	private String languageISOCode, paginationStartItem, paginationWantedItems;
 	private Map<String, Object> additionalProperties;
 
-	public RequestContext() {
+	public SearchContext() {
 		additionalProperties = new HashMap<>();
 	}
 
