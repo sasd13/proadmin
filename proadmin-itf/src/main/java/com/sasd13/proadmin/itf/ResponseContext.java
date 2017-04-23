@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ResponseContext {
 
-	private String languageISOCode, paginationWantedItems, paginationCurrentItems, paginationTotalItems;
+	private String languageISOCode, paginationStartItem, paginationWantedItems, paginationCurrentItems, paginationTotalItems;
 	private Map<String, String[]> additionalProperties;
 
 	public ResponseContext() {
@@ -18,6 +18,14 @@ public class ResponseContext {
 
 	public void setLanguageISOCode(String languageISOCode) {
 		this.languageISOCode = languageISOCode;
+	}
+
+	public String getPaginationStartItem() {
+		return paginationStartItem;
+	}
+
+	public void setPaginationStartItem(String paginationStartItem) {
+		this.paginationStartItem = paginationStartItem;
 	}
 
 	public String getPaginationWantedItems() {

@@ -1,48 +1,25 @@
 package com.sasd13.proadmin.itf.bean.user;
 
+import com.sasd13.proadmin.itf.bean.Id;
+
 public class UserBean {
 
-	private String userID, intermediary, email;
-	private int status;
-	private String[] roles;
+	private Id id;
+	private CoreInfo coreInfo;
 
-	public String getUserID() {
-		return userID;
+	public Id getId() {
+		return id;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setId(Id id) {
+		this.id = id;
 	}
 
-	public int getStatus() {
-		return status;
+	public CoreInfo getCoreInfo() {
+		return coreInfo;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public String[] getRoles() {
-		return roles;
-	}
-
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
-
-	public String getIntermediary() {
-		return intermediary;
-	}
-
-	public void setIntermediary(String intermediary) {
-		this.intermediary = intermediary;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCoreInfo(CoreInfo coreInfo) {
+		this.coreInfo = coreInfo;
 	}
 }

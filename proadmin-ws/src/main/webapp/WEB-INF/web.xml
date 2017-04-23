@@ -16,8 +16,8 @@
     </filter-mapping>
     
 	<servlet>
-		<servlet-name>InitializerServlet</servlet-name>
-		<servlet-class>com.sasd13.proadmin.ws.servlet.InitializerServlet</servlet-class>
+		<servlet-name>Configuration</servlet-name>
+		<servlet-class>com.sasd13.proadmin.ws.config.Configuration</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 </web-app>

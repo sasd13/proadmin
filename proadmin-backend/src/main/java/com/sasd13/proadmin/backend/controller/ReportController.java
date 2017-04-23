@@ -20,7 +20,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/reports")
 public class ReportController {
 
 	private static final Logger LOGGER = Logger.getLogger(ReportController.class);

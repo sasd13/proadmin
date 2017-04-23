@@ -21,7 +21,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 
 @RestController
-@RequestMapping("/individualEvaluation")
+@RequestMapping("/individualEvaluations")
 public class IndividualEvaluationController {
 
 	private static final Logger LOGGER = Logger.getLogger(IndividualEvaluationController.class);

@@ -14,9 +14,9 @@ import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.util.condition.ConditionBuilder;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.util.Names;
-import com.sasd13.proadmin.bean.user.User;
 import com.sasd13.proadmin.util.EnumParameter;
 
 public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal {
@@ -76,7 +76,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 	}
 
 	@Override
-	public void update(User user, Credential credential) {
+	public void update(User user) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE ");
 		builder.append(TABLE);
@@ -85,12 +85,6 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 		builder.append(" AND " + COLUMN_ROLES + " = ?");
 		builder.append(" AND " + COLUMN_INTERMEDIARY + " = ?");
 		builder.append(" AND " + COLUMN_EMAIL + " = ?");
-
-		if (credential != null) {
-			builder.append(" AND " + COLUMN_USERNAME + " = ?");
-			builder.append(" AND " + COLUMN_PASSWORD + " = ?");
-		}
-
 		builder.append(" WHERE ");
 		builder.append(COLUMN_USERID + " = ?");
 
@@ -102,14 +96,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 			statement.setString(2, String.join(SEPARATOR, user.getRoles()));
 			statement.setString(3, user.getIntermediary());
 			statement.setString(4, user.getEmail());
-
-			if (credential != null) {
-				statement.setString(5, credential.getUsername());
-				statement.setString(6, credential.getPassword());
-				statement.setString(7, user.getUserID());
-			} else {
-				statement.setString(5, user.getUserID());
-			}
+			statement.setString(5, user.getUserID());
 
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -123,6 +110,46 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean update(Credential previous, Credential current) {
+		boolean updated = false;
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE ");
+		builder.append(TABLE);
+		builder.append(" SET ");
+		builder.append(COLUMN_USERNAME + " = ?");
+		builder.append(" AND " + COLUMN_PASSWORD + " = ?");
+		builder.append(" WHERE ");
+		builder.append(COLUMN_USERID + " = ?");
+		builder.append(" AND " + COLUMN_PASSWORD + " = ?");
+
+		PreparedStatement statement = null;
+
+		try {
+			statement = getConnection().prepareStatement(builder.toString());
+			statement.setString(1, current.getUsername());
+			statement.setString(2, current.getPassword());
+			statement.setString(3, previous.getUsername());
+			statement.setString(4, previous.getPassword());
+
+			int rowCount = statement.executeUpdate();
+			updated = rowCount == 1;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					LOGGER.warn(e);
+				}
+			}
+		}
+
+		return updated;
 	}
 
 	@Override

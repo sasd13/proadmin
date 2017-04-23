@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.catalina.util.SessionIdGenerator;
 
-import com.sasd13.proadmin.bean.user.User;
+import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.util.EnumSession;
 
 public class SessionBuilder {

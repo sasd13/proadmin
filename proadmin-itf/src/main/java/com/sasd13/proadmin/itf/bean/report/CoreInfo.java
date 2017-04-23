@@ -2,7 +2,8 @@ package com.sasd13.proadmin.itf.bean.report;
 
 public class CoreInfo {
 
-	private String number, dateMeeting, session, comment;
+	private String number, dateMeeting, comment;
+	private int session;
 
 	public String getNumber() {
 		return number;
@@ -20,11 +21,11 @@ public class CoreInfo {
 		this.dateMeeting = dateMeeting;
 	}
 
-	public String getSession() {
+	public int getSession() {
 		return session;
 	}
 
-	public void setSession(String session) {
+	public void setSession(int session) {
 		this.session = session;
 	}
 

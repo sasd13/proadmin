@@ -20,7 +20,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 @RestController
-@RequestMapping("/leadEvaluation")
+@RequestMapping("/leadEvaluations")
 public class LeadEvaluationController {
 
 	private static final Logger LOGGER = Logger.getLogger(LeadEvaluationController.class);

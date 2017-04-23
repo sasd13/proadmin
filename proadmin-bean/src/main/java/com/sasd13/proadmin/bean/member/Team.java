@@ -44,8 +44,8 @@ public class Team {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Team [");
-		builder.append("number=" + getNumber());
-		builder.append(", name=" + getName());
+		builder.append("number=" + number);
+		builder.append(", name=" + name);
 		builder.append("]");
 
 		return builder.toString();

@@ -50,6 +50,8 @@ public class StudentTeam {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("StudentTeam [");
+		builder.append("student=" + student);
+		builder.append(", team=" + team);
 		builder.append("]");
 
 		return builder.toString();

@@ -73,9 +73,11 @@ public class Report {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Report [");
-		builder.append("number=" + getNumber());
-		builder.append(", session=" + getSession());
-		builder.append(", comment=" + getComment());
+		builder.append("number=" + number);
+		builder.append(", dateMeeting=" + dateMeeting);
+		builder.append(", session=" + session);
+		builder.append(", comment=" + comment);
+		builder.append(", runningTeam=" + runningTeam);
 		builder.append("]");
 
 		return builder.toString();

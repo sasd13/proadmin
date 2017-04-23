@@ -21,7 +21,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping("/teachers")
 public class TeacherController {
 
 	private static final Logger LOGGER = Logger.getLogger(TeacherController.class);

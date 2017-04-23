@@ -63,9 +63,10 @@ public class Project {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Project [");
-		builder.append("code=" + getCode());
-		builder.append(", title=" + getTitle());
-		builder.append(", description=" + getDescription());
+		builder.append("code=" + code);
+		builder.append(", dateCreation=" + dateCreation);
+		builder.append(", title=" + title);
+		builder.append(", description=" + description);
 		builder.append("]");
 
 		return builder.toString();

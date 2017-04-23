@@ -67,6 +67,9 @@ public class RunningTeam {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("RunningTeam [");
+		builder.append("running=" + running);
+		builder.append(", team=" + team);
+		builder.append(", academicLevel=" + academicLevel);
 		builder.append("]");
 
 		return builder.toString();

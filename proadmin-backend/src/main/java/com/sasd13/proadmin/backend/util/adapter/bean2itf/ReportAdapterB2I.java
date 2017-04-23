@@ -23,7 +23,7 @@ public class ReportAdapterB2I implements IAdapter<Report, ReportBean> {
 		CoreInfo coreInfo = new CoreInfo();
 		coreInfo.setNumber(s.getNumber());
 		coreInfo.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATE).format(s.getDateMeeting()));
-		coreInfo.setSession(String.valueOf(s.getSession()));
+		coreInfo.setSession(s.getSession());
 		coreInfo.setComment(s.getComment());
 		t.setCoreInfo(coreInfo);
 

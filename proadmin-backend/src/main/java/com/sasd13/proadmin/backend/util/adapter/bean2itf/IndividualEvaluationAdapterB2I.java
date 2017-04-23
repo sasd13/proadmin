@@ -18,7 +18,7 @@ public class IndividualEvaluationAdapterB2I implements IAdapter<IndividualEvalua
 		t.setId(id);
 
 		CoreInfo coreInfo = new CoreInfo();
-		coreInfo.setMark(String.valueOf(s.getMark()));
+		coreInfo.setMark(s.getMark());
 		t.setCoreInfo(coreInfo);
 
 		LinkedInfo linkedReport = new LinkedInfo();

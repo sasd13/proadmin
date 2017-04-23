@@ -18,7 +18,7 @@ public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
 		t.setId(id);
 
 		CoreInfo coreInfo = new CoreInfo();
-		coreInfo.setYearStarted(String.valueOf(s.getYear()));
+		coreInfo.setYearStarted(s.getYear());
 		t.setCoreInfo(coreInfo);
 
 		LinkedInfo linkedProject = new LinkedInfo();

@@ -1,7 +1,5 @@
 package com.sasd13.proadmin.bean.member;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public abstract class Member {
 
 	private String intermediary, firstName, lastName, email;
@@ -36,11 +34,6 @@ public abstract class Member {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@JsonIgnore
-	public String getFullName() {
-		return firstName + " " + lastName;
 	}
 
 	@Override

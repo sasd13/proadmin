@@ -18,9 +18,9 @@ public class LeadEvaluationAdapterB2I implements IAdapter<LeadEvaluation, LeadEv
 		t.setId(id);
 
 		CoreInfo coreInfo = new CoreInfo();
-		coreInfo.setPlanningMark(String.valueOf(s.getPlanningMark()));
+		coreInfo.setPlanningMark(s.getPlanningMark());
 		coreInfo.setPlanningComment(s.getPlanningComment());
-		coreInfo.setCommunicationMark(String.valueOf(s.getCommunicationMark()));
+		coreInfo.setCommunicationMark(s.getCommunicationMark());
 		coreInfo.setCommunicationComment(s.getCommunicationComment());
 		t.setCoreInfo(coreInfo);
 

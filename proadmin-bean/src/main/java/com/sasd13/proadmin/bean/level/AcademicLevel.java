@@ -36,7 +36,7 @@ public class AcademicLevel {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("AcademicLevel [");
-		builder.append("code=" + getCode());
+		builder.append("code=" + code);
 		builder.append("]");
 
 		return builder.toString();

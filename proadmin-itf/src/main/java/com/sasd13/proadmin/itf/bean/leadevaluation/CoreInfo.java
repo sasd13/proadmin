@@ -2,13 +2,14 @@ package com.sasd13.proadmin.itf.bean.leadevaluation;
 
 public class CoreInfo {
 
-	private String planningMark, planningComment, communicationMark, communicationComment;
+	private float planningMark, communicationMark;
+	private String planningComment, communicationComment;
 
-	public String getPlanningMark() {
+	public float getPlanningMark() {
 		return planningMark;
 	}
 
-	public void setPlanningMark(String planningMark) {
+	public void setPlanningMark(float planningMark) {
 		this.planningMark = planningMark;
 	}
 
@@ -20,11 +21,11 @@ public class CoreInfo {
 		this.planningComment = planningComment;
 	}
 
-	public String getCommunicationMark() {
+	public float getCommunicationMark() {
 		return communicationMark;
 	}
 
-	public void setCommunicationMark(String communicationMark) {
+	public void setCommunicationMark(float communicationMark) {
 		this.communicationMark = communicationMark;
 	}
 

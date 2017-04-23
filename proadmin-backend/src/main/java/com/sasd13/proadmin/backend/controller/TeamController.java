@@ -20,7 +20,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/teams")
 public class TeamController {
 
 	private static final Logger LOGGER = Logger.getLogger(TeamController.class);

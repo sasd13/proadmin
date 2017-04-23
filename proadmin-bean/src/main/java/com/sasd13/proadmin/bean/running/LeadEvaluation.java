@@ -42,10 +42,12 @@ public class LeadEvaluation extends Evaluation {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("LeadEvaluation [");
-		builder.append("planningMark=" + getPlanningMark());
-		builder.append(", planningComment=" + getPlanningComment());
-		builder.append(", communicationMark=" + getCommunicationMark());
-		builder.append(", communicationComment=" + getCommunicationComment());
+		builder.append("planningMark=" + planningMark);
+		builder.append(", planningComment=" + planningComment);
+		builder.append(", communicationMark=" + communicationMark);
+		builder.append(", communicationComment=" + communicationComment);
+		builder.append(", report=" + getReport());
+		builder.append(", student=" + getStudent());
 		builder.append("]");
 
 		return builder.toString();

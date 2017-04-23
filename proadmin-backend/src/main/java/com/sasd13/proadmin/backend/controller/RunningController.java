@@ -20,7 +20,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 @RestController
-@RequestMapping("/running")
+@RequestMapping("/runnings")
 public class RunningController {
 
 	private static final Logger LOGGER = Logger.getLogger(RunningController.class);

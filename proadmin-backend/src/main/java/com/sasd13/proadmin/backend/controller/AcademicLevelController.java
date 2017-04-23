@@ -17,7 +17,7 @@ import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 
 @RestController
-@RequestMapping("/academicLevel")
+@RequestMapping("/academicLevels")
 public class AcademicLevelController {
 
 	private static final Logger LOGGER = Logger.getLogger(AcademicLevelController.class);

@@ -33,11 +33,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.sasd13.proadmin</groupId>
-			<artifactId>proadmin-bean</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sasd13.proadmin</groupId>
 			<artifactId>proadmin-itf</artifactId>
 			<version>0.1</version>
 		</dependency>

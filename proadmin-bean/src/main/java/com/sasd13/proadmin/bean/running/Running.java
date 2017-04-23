@@ -65,7 +65,9 @@ public class Running {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Running [");
-		builder.append("year=" + getYear());
+		builder.append("year=" + year);
+		builder.append(", project=" + project);
+		builder.append(", teacher=" + teacher);
 		builder.append("]");
 
 		return builder.toString();
