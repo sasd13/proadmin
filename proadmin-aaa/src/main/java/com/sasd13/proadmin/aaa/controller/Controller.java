@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.conf.AppProperties;
 import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.aaa.util.Names;
+import com.sasd13.proadmin.aaa.util.Constants;
+import com.sasd13.proadmin.itf.RequestBean;
 
 /**
  *
@@ -28,17 +28,15 @@ public abstract class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = -5449641076971430518L;
 
-	protected static final String RESPONSE_CONTENT_TYPE = AppProperties.getProperty(Names.AAA_RESPONSE_HEADER_CONTENT_TYPE);
-
-	protected <T> T readFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException {
+	protected RequestBean readFromRequest(HttpServletRequest req) throws IOException {
 		IParser parser = ParserFactory.make(req.getContentType());
 		String message = Stream.read(req.getReader());
 
-		return parser.fromString(message, mClass);
+		return (RequestBean) parser.fromString(message, RequestBean.class);
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
-		resp.setContentType(RESPONSE_CONTENT_TYPE);
+		resp.setContentType(Constants.RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}
 

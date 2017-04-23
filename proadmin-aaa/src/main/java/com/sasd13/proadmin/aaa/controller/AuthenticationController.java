@@ -24,6 +24,7 @@ import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
+import com.sasd13.proadmin.itf.RequestBean;
 
 /**
  *
@@ -43,12 +44,13 @@ public class AuthenticationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			Credential credential = readFromRequest(req, Credential.class);
+			RequestBean requestBean = readFromRequest(req);
+			Credential credential = (Credential) requestBean.getData();
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			User user = userService.find(credential);
 
 			if (user != null) {
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
+				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
 			} else {
 				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}

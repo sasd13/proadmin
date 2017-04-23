@@ -2,9 +2,10 @@ package com.sasd13.proadmin.backend.util.adapter.bean2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.Running;
-import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.LinkedInfo;
+import com.sasd13.proadmin.itf.bean.LinkedProject;
+import com.sasd13.proadmin.itf.bean.LinkedTeacher;
 import com.sasd13.proadmin.itf.bean.running.CoreInfo;
+import com.sasd13.proadmin.itf.bean.running.Id;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
@@ -21,11 +22,11 @@ public class RunningAdapterB2I implements IAdapter<Running, RunningBean> {
 		coreInfo.setYearStarted(s.getYear());
 		t.setCoreInfo(coreInfo);
 
-		LinkedInfo linkedProject = new LinkedInfo();
+		LinkedProject linkedProject = new LinkedProject();
 		linkedProject.setId(String.valueOf(s.getProject().getId()));
 		t.setLinkedProject(linkedProject);
 
-		LinkedInfo linkedTeacher = new LinkedInfo();
+		LinkedTeacher linkedTeacher = new LinkedTeacher();
 		linkedTeacher.setId(String.valueOf(s.getTeacher().getId()));
 		t.setLinkedTeacher(linkedTeacher);
 

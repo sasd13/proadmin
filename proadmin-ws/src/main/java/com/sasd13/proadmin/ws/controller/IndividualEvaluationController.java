@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,9 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
 import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
@@ -48,7 +51,7 @@ public class IndividualEvaluationController extends Controller {
 
 		try {
 			List<IndividualEvaluation> results = null;
-			ResponseBean<IndividualEvaluation> responseBean = new ResponseBean<>();
+			ResponseBean responseBean = new ResponseBean();
 
 			if (parameters.isEmpty()) {
 				results = individualEvaluationService.readAll();
@@ -59,10 +62,9 @@ public class IndividualEvaluationController extends Controller {
 			}
 
 			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
-			responseBean.getContext().setAdditionalProperties(parameters);
 			responseBean.setData(results);
 
-			writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -76,12 +78,17 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IndividualEvaluation> individualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
+			List<IndividualEvaluationBean> list = (List<IndividualEvaluationBean>) requestBean.getData();
+			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+			// IndividualEvaluationAd
 
-			for (IIndividualEvaluation individualEvaluation : individualEvaluations) {
-				individualEvaluationService.create(individualEvaluation);
+			for (IndividualEvaluationBean item : list) {
+				// individualEvaluationService.create(individualEvaluation);
 			}
+
+			individualEvaluationService.create(individualEvaluations);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

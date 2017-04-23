@@ -27,6 +27,7 @@ import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserUpdateAdapterI2B;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.user.create.UserCreateBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateBean;
@@ -58,7 +59,7 @@ public class UserController extends Controller {
 				responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
 				responseBean.setData(results);
 
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
+				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 			} else {
 				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}
@@ -74,7 +75,8 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			UserCreateBean userCreateBean = readFromRequest(req, UserCreateBean.class);
+			RequestBean requestBean = readFromRequest(req);
+			UserCreateBean userCreateBean = (UserCreateBean) requestBean.getData();
 			UserCreate userCreate = new UserCreateAdapterI2B().adapt(userCreateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
@@ -91,7 +93,8 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			UserUpdateBean userUpdateBean = readFromRequest(req, UserUpdateBean.class);
+			RequestBean requestBean = readFromRequest(req);
+			UserUpdateBean userUpdateBean = (UserUpdateBean) requestBean.getData();
 			UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			boolean updated = false;

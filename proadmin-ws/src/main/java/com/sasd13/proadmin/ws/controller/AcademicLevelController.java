@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,13 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 import com.sasd13.proadmin.ws.bean.AcademicLevel;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IAcademicLevelService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
+import com.sasd13.proadmin.ws.util.adapter.bean2itf.AcademicLevelAdapterB2I;
 
 /**
  *
@@ -47,12 +50,19 @@ public class AcademicLevelController extends Controller {
 		try {
 			if (parameters.isEmpty()) {
 				List<AcademicLevel> results = academicLevelService.readAll();
-				ResponseBean<AcademicLevel> responseBean = new ResponseBean<>();
+				ResponseBean responseBean = new ResponseBean();
+				List<AcademicLevelBean> list = new ArrayList<>();
+				AcademicLevelAdapterB2I adapter = new AcademicLevelAdapterB2I();
 
-				responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
-				responseBean.setData(results);
+				for (AcademicLevel result : results) {
+					list.add(adapter.adapt(result));
+				}
 
-				writeToResponse(resp, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(responseBean));
+				responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+				responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+				responseBean.setData(list);
+
+				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 			} else {
 				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}

@@ -1,13 +1,13 @@
 package com.sasd13.proadmin.itf.bean.report;
 
 import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.LinkedInfo;
+import com.sasd13.proadmin.itf.bean.LinkedRunningTeam;
 
 public class ReportBean {
 
 	private Id id;
 	private CoreInfo coreInfo;
-	private LinkedInfo linkedRunningTeam;
+	private LinkedRunningTeam linkedRunningTeam;
 
 	public Id getId() {
 		return id;
@@ -25,11 +25,11 @@ public class ReportBean {
 		this.coreInfo = coreInfo;
 	}
 
-	public LinkedInfo getLinkedRunningTeam() {
+	public LinkedRunningTeam getLinkedRunningTeam() {
 		return linkedRunningTeam;
 	}
 
-	public void setLinkedRunningTeam(LinkedInfo linkedRunningTeam) {
+	public void setLinkedRunningTeam(LinkedRunningTeam linkedRunningTeam) {
 		this.linkedRunningTeam = linkedRunningTeam;
 	}
 }

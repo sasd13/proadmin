@@ -3,16 +3,17 @@ package com.sasd13.proadmin.ws.util;
 public interface Names {
 
 	// INFRA
-	String WS_DB_DRIVER = "ws_db_driver";
-	String WS_DB_URL = "ws_db_url";
-	String WS_DB_USER = "ws_db_user";
-	String WS_DB_PASSWORD = "ws_db_password";
-	String WS_DB_SCHEMA = "ws_db_schema";
-	String WS_DB_SSL = "ws_db_ssl";
+	String WS_DB_DRIVER = "ws.db.driver";
+	String WS_DB_URL = "ws.db.url";
+	String WS_DB_USER = "ws.db.user";
+	String WS_DB_PASSWORD = "ws.db.password";
+	String WS_DB_SCHEMA = "ws.db.schema";
+	String WS_DB_SSL = "ws.db.ssl";
 
 	// OPE
-	String WS_TRANSLATION_DIRECTORY_PATH = "ws_translation_directory_path";
-	String WS_TRANSLATION_FILE_PREFIX = "ws_translation_file_prefix";
-	String WS_TRANSLATION_DEFAULT_LANGUAGE = "ws_translation_language_default";
-	String WS_RESPONSE_HEADER_CONTENT_TYPE = "ws_response_header_content_type";
+	String WS_TRANSLATION_DIRECTORY_PATH = "ws.translation_directory.path";
+	String WS_TRANSLATION_FILE_PREFIX = "ws.translation_file.prefix";
+	String WS_TRANSLATION_DEFAULT_LANGUAGE = "ws.translation_language.default";
+	String WS_RESPONSE_HEADER_CONTENT_TYPE = "ws.response_header.content_type";
+	String WS_PATTERN_DATE_FORMAT = "ws.pattern.date_format";
 }

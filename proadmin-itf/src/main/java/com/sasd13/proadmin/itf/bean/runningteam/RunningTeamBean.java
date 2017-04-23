@@ -1,12 +1,15 @@
 package com.sasd13.proadmin.itf.bean.runningteam;
 
-import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.LinkedInfo;
+import com.sasd13.proadmin.itf.bean.LinkedAcademicLevel;
+import com.sasd13.proadmin.itf.bean.LinkedRunning;
+import com.sasd13.proadmin.itf.bean.LinkedTeam;
 
 public class RunningTeamBean {
 
 	private Id id;
-	private LinkedInfo linkedRunning, linkedTeam, linkedAcademicLevel;
+	private LinkedRunning linkedRunning;
+	private LinkedTeam linkedTeam;
+	private LinkedAcademicLevel linkedAcademicLevel;
 
 	public Id getId() {
 		return id;
@@ -16,27 +19,27 @@ public class RunningTeamBean {
 		this.id = id;
 	}
 
-	public LinkedInfo getLinkedRunning() {
+	public LinkedRunning getLinkedRunning() {
 		return linkedRunning;
 	}
 
-	public void setLinkedRunning(LinkedInfo linkedRunning) {
+	public void setLinkedRunning(LinkedRunning linkedRunning) {
 		this.linkedRunning = linkedRunning;
 	}
 
-	public LinkedInfo getLinkedTeam() {
+	public LinkedTeam getLinkedTeam() {
 		return linkedTeam;
 	}
 
-	public void setLinkedTeam(LinkedInfo linkedTeam) {
+	public void setLinkedTeam(LinkedTeam linkedTeam) {
 		this.linkedTeam = linkedTeam;
 	}
 
-	public LinkedInfo getLinkedAcademicLevel() {
+	public LinkedAcademicLevel getLinkedAcademicLevel() {
 		return linkedAcademicLevel;
 	}
 
-	public void setLinkedAcademicLevel(LinkedInfo linkedAcademicLevel) {
+	public void setLinkedAcademicLevel(LinkedAcademicLevel linkedAcademicLevel) {
 		this.linkedAcademicLevel = linkedAcademicLevel;
 	}
 }

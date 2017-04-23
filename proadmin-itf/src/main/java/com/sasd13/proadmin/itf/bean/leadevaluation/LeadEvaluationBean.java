@@ -1,13 +1,14 @@
 package com.sasd13.proadmin.itf.bean.leadevaluation;
 
-import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.LinkedInfo;
+import com.sasd13.proadmin.itf.bean.LinkedReport;
+import com.sasd13.proadmin.itf.bean.LinkedStudent;
 
 public class LeadEvaluationBean {
 
 	private Id id;
 	private CoreInfo coreInfo;
-	private LinkedInfo linkedReport, linkedStudent;
+	private LinkedReport linkedReport;
+	private LinkedStudent linkedStudent;
 
 	public Id getId() {
 		return id;
@@ -25,19 +26,19 @@ public class LeadEvaluationBean {
 		this.coreInfo = coreInfo;
 	}
 
-	public LinkedInfo getLinkedReport() {
+	public LinkedReport getLinkedReport() {
 		return linkedReport;
 	}
 
-	public void setLinkedReport(LinkedInfo linkedReport) {
+	public void setLinkedReport(LinkedReport linkedReport) {
 		this.linkedReport = linkedReport;
 	}
 
-	public LinkedInfo getLinkedStudent() {
+	public LinkedStudent getLinkedStudent() {
 		return linkedStudent;
 	}
 
-	public void setLinkedStudent(LinkedInfo linkedStudent) {
+	public void setLinkedStudent(LinkedStudent linkedStudent) {
 		this.linkedStudent = linkedStudent;
 	}
 }
