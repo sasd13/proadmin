@@ -29,6 +29,7 @@ import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
+import com.sasd13.proadmin.ws.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
 
 /**
  *
@@ -51,7 +52,6 @@ public class IndividualEvaluationController extends Controller {
 
 		try {
 			List<IndividualEvaluation> results = null;
-			ResponseBean responseBean = new ResponseBean();
 
 			if (parameters.isEmpty()) {
 				results = individualEvaluationService.readAll();
@@ -61,8 +61,18 @@ public class IndividualEvaluationController extends Controller {
 				results = individualEvaluationService.read(parameters);
 			}
 
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
-			responseBean.setData(results);
+			ResponseBean responseBean = new ResponseBean();
+			List<IndividualEvaluationBean> list = new ArrayList<>();
+			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
+
+			for (IndividualEvaluation result : results) {
+				list.add(adapter.adapt(result));
+			}
+
+			addHeaders(responseBean);
+			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+			responseBean.setData(list);
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {

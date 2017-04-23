@@ -18,7 +18,6 @@ import com.sasd13.javaex.io.Stream;
 import com.sasd13.javaex.parser.IParser;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.ResponseBean;
-import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.ws.util.Constants;
 
 /**
@@ -36,9 +35,8 @@ public abstract class Controller extends HttpServlet {
 		return parser.fromString(message, mClass);
 	}
 
-	protected void addHeaders(SearchBean searchBean, ResponseBean responseBean) {
+	protected void addHeaders(ResponseBean responseBean) {
 		responseBean.getContext().setLanguageISOCode(responseBean.getContext().getLanguageISOCode());
-		responseBean.getContext().setAdditionalProperties(searchBean.getContext().getAdditionalProperties());
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
