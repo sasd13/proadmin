@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.bean.update.StudentUpdate;
 
 public interface IStudentDAO extends IReader<Student> {
@@ -14,7 +14,7 @@ public interface IStudentDAO extends IReader<Student> {
 
 	long create(Student student);
 
-	void update(StudentUpdate updateWrapper);
+	void update(StudentUpdate studentUpdate);
 
 	void delete(Student student);
 }

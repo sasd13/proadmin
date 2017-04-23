@@ -1,19 +1,19 @@
 package com.sasd13.proadmin.ws.dao;
 
 import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.running.IRunning;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.Running;
+import com.sasd13.proadmin.ws.bean.update.RunningUpdate;
 
-public interface IRunningDAO extends IReader<IRunning> {
+public interface IRunningDAO extends IReader<Running> {
 
 	String TABLE = "runnings";
 	String COLUMN_YEAR = "_year";
 	String COLUMN_PROJECT = "_project";
 	String COLUMN_TEACHER = "_teacher";
 
-	long create(IRunning iRunning);
+	long create(Running running);
 
-	void update(RunningUpdate updateWrapper);
+	void update(RunningUpdate runningUpdate);
 
-	void delete(IRunning iRunning);
+	void delete(Running running);
 }

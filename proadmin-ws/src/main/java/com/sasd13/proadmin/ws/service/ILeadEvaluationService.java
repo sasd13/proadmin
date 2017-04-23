@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.ILeadEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.LeadEvaluationUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.LeadEvaluation;
+import com.sasd13.proadmin.ws.bean.update.LeadEvaluationUpdate;
 
 public interface ILeadEvaluationService {
 
-	long create(ILeadEvaluation iLeadEvaluation);
+	long create(LeadEvaluation leadEvaluation);
 
-	void update(LeadEvaluationUpdate updateWrapper);
+	void update(LeadEvaluationUpdate leadEvaluationUpdate);
 
-	void delete(ILeadEvaluation iLeadEvaluation);
+	void delete(LeadEvaluation leadEvaluation);
 
-	List<ILeadEvaluation> read(Map<String, String[]> parameters);
+	List<LeadEvaluation> read(Map<String, String[]> parameters);
 
-	List<ILeadEvaluation> readAll();
+	List<LeadEvaluation> readAll();
 }

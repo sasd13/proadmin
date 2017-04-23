@@ -1,19 +1,21 @@
 package com.sasd13.proadmin.ws.dao;
 
-import com.sasd13.javaex.dao.IReader;
-import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
-import com.sasd13.proadmin.util.wrapper.update.running.IndividualEvaluationUpdateWrapper;
+import java.util.List;
 
-public interface IIndividualEvaluationDAO extends IReader<IIndividualEvaluation> {
+import com.sasd13.javaex.dao.IReader;
+import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
+import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
+
+public interface IIndividualEvaluationDAO extends IReader<IndividualEvaluation> {
 
 	String TABLE = "individualevaluations";
 	String COLUMN_MARK = "_mark";
 	String COLUMN_REPORT = "_report";
 	String COLUMN_STUDENT = "_student";
 
-	long create(IIndividualEvaluation iIndividualEvaluation);
+	long create(List<IndividualEvaluation> individualEvaluations);
 
-	void update(IndividualEvaluationUpdate updateWrapper);
+	void update(List<IndividualEvaluationUpdate> individualEvaluationUpdates);
 
-	void delete(IIndividualEvaluation iIndividualEvaluation);
+	void delete(List<IndividualEvaluation> individualEvaluations);
 }

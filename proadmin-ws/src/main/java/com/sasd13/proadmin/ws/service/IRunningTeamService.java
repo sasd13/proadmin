@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.IRunningTeam;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.RunningTeam;
+import com.sasd13.proadmin.ws.bean.update.RunningTeamUpdate;
 
 public interface IRunningTeamService {
 
-	long create(IRunningTeam iRunningTeam);
+	long create(RunningTeam runningTeam);
 
-	void update(RunningTeamUpdate updateWrapper);
+	void update(RunningTeamUpdate runningTeamUpdate);
 
-	void delete(IRunningTeam iRunningTeam);
+	void delete(RunningTeam runningTeam);
 
-	List<IRunningTeam> read(Map<String, String[]> parameters);
+	List<RunningTeam> read(Map<String, String[]> parameters);
 
-	List<IRunningTeam> readAll();
+	List<RunningTeam> readAll();
 }

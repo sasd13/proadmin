@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.running.IReport;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.update.ReportUpdate;
 
 public interface IReportService {
 
-	long create(IReport iReport);
+	long create(Report report);
 
-	void update(ReportUpdate updateWrapper);
+	void update(ReportUpdate reportUpdate);
 
-	void delete(IReport iReport);
+	void delete(Report report);
 
-	List<IReport> read(Map<String, String[]> parameters);
+	List<Report> read(Map<String, String[]> parameters);
 
-	List<IReport> readAll();
+	List<Report> readAll();
 }

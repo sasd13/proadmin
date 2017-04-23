@@ -3,18 +3,18 @@ package com.sasd13.proadmin.ws.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.bean.project.IProject;
+import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 
 public interface IProjectService {
 
-	long create(IProject iProject);
+	long create(Project project);
 
-	void update(ProjectUpdate updateWrapper);
+	void update(ProjectUpdate projectUpdate);
 
-	void delete(IProject iProject);
+	void delete(Project project);
 
-	List<IProject> read(Map<String, String[]> parameters);
+	List<Project> read(Map<String, String[]> parameters);
 
-	List<IProject> readAll();
+	List<Project> readAll();
 }
