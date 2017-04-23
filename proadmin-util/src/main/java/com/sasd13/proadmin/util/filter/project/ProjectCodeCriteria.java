@@ -18,9 +18,9 @@ public class ProjectCodeCriteria implements Criteria<IProject> {
 	public List<IProject> meetCriteria(List<IProject> list) {
 		List<IProject> results = new ArrayList<IProject>();
 
-		for (IProject iProject : list) {
-			if (iProject.getCode().equalsIgnoreCase(code)) {
-				results.add(iProject);
+		for (IProject item : list) {
+			if (item.getCode().equalsIgnoreCase(code)) {
+				results.add(item);
 			}
 		}
 

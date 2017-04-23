@@ -18,9 +18,9 @@ public class RunningProjectCriteria implements Criteria<IRunning> {
 	public List<IRunning> meetCriteria(List<IRunning> list) {
 		List<IRunning> results = new ArrayList<IRunning>();
 
-		for (IRunning iRunning : list) {
-			if (iRunning.getProject().getCode().equalsIgnoreCase(code)) {
-				results.add(iRunning);
+		for (IRunning item : list) {
+			if (item.getProject().getCode().equalsIgnoreCase(code)) {
+				results.add(item);
 			}
 		}
 

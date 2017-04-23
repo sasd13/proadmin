@@ -18,9 +18,9 @@ public class ReportNumberCriteria implements Criteria<IReport> {
 	public List<IReport> meetCriteria(List<IReport> list) {
 		List<IReport> results = new ArrayList<IReport>();
 
-		for (IReport iReport : list) {
-			if (iReport.getNumber().equalsIgnoreCase(number)) {
-				results.add(iReport);
+		for (IReport item : list) {
+			if (item.getNumber().equalsIgnoreCase(number)) {
+				results.add(item);
 			}
 		}
 

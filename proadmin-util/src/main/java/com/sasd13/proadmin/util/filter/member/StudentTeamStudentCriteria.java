@@ -18,9 +18,9 @@ public class StudentTeamStudentCriteria implements Criteria<IStudentTeam> {
 	public List<IStudentTeam> meetCriteria(List<IStudentTeam> list) {
 		List<IStudentTeam> results = new ArrayList<>();
 
-		for (IStudentTeam iStudentTeam : list) {
-			if (iStudentTeam.getStudent().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(iStudentTeam);
+		for (IStudentTeam item : list) {
+			if (item.getStudent().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(item);
 			}
 		}
 

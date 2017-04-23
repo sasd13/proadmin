@@ -18,9 +18,9 @@ public class ReportSessionCriteria implements Criteria<IReport> {
 	public List<IReport> meetCriteria(List<IReport> list) {
 		List<IReport> results = new ArrayList<IReport>();
 
-		for (IReport iReport : list) {
-			if (session == iReport.getSession()) {
-				results.add(iReport);
+		for (IReport item : list) {
+			if (session == item.getSession()) {
+				results.add(item);
 			}
 		}
 

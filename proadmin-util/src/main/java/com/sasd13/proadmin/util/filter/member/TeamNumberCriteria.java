@@ -18,9 +18,9 @@ public class TeamNumberCriteria implements Criteria<ITeam> {
 	public List<ITeam> meetCriteria(List<ITeam> list) {
 		List<ITeam> results = new ArrayList<ITeam>();
 
-		for (ITeam iTeam : list) {
-			if (iTeam.getNumber().equalsIgnoreCase(number)) {
-				results.add(iTeam);
+		for (ITeam item : list) {
+			if (item.getNumber().equalsIgnoreCase(number)) {
+				results.add(item);
 			}
 		}
 

@@ -18,9 +18,9 @@ public class RunningTeacherCriteria implements Criteria<IRunning> {
 	public List<IRunning> meetCriteria(List<IRunning> list) {
 		List<IRunning> results = new ArrayList<IRunning>();
 
-		for (IRunning iRunning : list) {
-			if (iRunning.getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(iRunning);
+		for (IRunning item : list) {
+			if (item.getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(item);
 			}
 		}
 

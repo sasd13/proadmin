@@ -18,9 +18,9 @@ public class RunningTeamTeacherCriteria implements Criteria<IRunningTeam> {
 	public List<IRunningTeam> meetCriteria(List<IRunningTeam> list) {
 		List<IRunningTeam> results = new ArrayList<IRunningTeam>();
 
-		for (IRunningTeam iRunningTeam : list) {
-			if (iRunningTeam.getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
-				results.add(iRunningTeam);
+		for (IRunningTeam item : list) {
+			if (item.getRunning().getTeacher().getIntermediary().equalsIgnoreCase(intermediary)) {
+				results.add(item);
 			}
 		}
 

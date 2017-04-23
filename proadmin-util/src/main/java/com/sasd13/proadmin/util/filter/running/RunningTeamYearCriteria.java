@@ -18,9 +18,9 @@ public class RunningTeamYearCriteria implements Criteria<IRunningTeam> {
 	public List<IRunningTeam> meetCriteria(List<IRunningTeam> list) {
 		List<IRunningTeam> results = new ArrayList<IRunningTeam>();
 
-		for (IRunningTeam iRunningTeam : list) {
-			if (year == iRunningTeam.getRunning().getYear()) {
-				results.add(iRunningTeam);
+		for (IRunningTeam item : list) {
+			if (year == item.getRunning().getYear()) {
+				results.add(item);
 			}
 		}
 

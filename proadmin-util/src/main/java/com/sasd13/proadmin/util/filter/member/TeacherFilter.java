@@ -17,7 +17,7 @@ public class TeacherFilter extends AndFilter<ITeacher> {
 	protected void setCriterias(MultiAndCriteria<ITeacher> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {
+				if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberIntermediaryCriteria<ITeacher>(value));
 				} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberFirstNameCriteria<ITeacher>(value));

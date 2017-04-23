@@ -18,9 +18,9 @@ public class ReportYearCriteria implements Criteria<IReport> {
 	public List<IReport> meetCriteria(List<IReport> list) {
 		List<IReport> results = new ArrayList<IReport>();
 
-		for (IReport iReport : list) {
-			if (year == iReport.getRunningTeam().getRunning().getYear()) {
-				results.add(iReport);
+		for (IReport item : list) {
+			if (year == item.getRunningTeam().getRunning().getYear()) {
+				results.add(item);
 			}
 		}
 

@@ -18,9 +18,9 @@ public class ReportProjectCriteria implements Criteria<IReport> {
 	public List<IReport> meetCriteria(List<IReport> list) {
 		List<IReport> results = new ArrayList<IReport>();
 
-		for (IReport iReport : list) {
-			if (iReport.getRunningTeam().getRunning().getProject().getCode().equalsIgnoreCase(code)) {
-				results.add(iReport);
+		for (IReport item : list) {
+			if (item.getRunningTeam().getRunning().getProject().getCode().equalsIgnoreCase(code)) {
+				results.add(item);
 			}
 		}
 

@@ -18,9 +18,9 @@ public class ReportAcademicLevelCriteria implements Criteria<IReport> {
 	public List<IReport> meetCriteria(List<IReport> list) {
 		List<IReport> results = new ArrayList<IReport>();
 
-		for (IReport iReport : list) {
-			if (iReport.getRunningTeam().getAcademicLevel().getCode().equalsIgnoreCase(code)) {
-				results.add(iReport);
+		for (IReport item : list) {
+			if (item.getRunningTeam().getAcademicLevel().getCode().equalsIgnoreCase(code)) {
+				results.add(item);
 			}
 		}
 

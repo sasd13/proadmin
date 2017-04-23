@@ -18,9 +18,9 @@ public class RunningYearCriteria implements Criteria<IRunning> {
 	public List<IRunning> meetCriteria(List<IRunning> list) {
 		List<IRunning> results = new ArrayList<IRunning>();
 
-		for (IRunning iRunning : list) {
-			if (year == iRunning.getYear()) {
-				results.add(iRunning);
+		for (IRunning item : list) {
+			if (year == item.getYear()) {
+				results.add(item);
 			}
 		}
 

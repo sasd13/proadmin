@@ -43,9 +43,9 @@ public class ProjectDateCreationCriteria implements Criteria<IProject> {
 	private List<IProject> filterByYear(List<IProject> list) {
 		List<IProject> results = new ArrayList<IProject>();
 
-		for (IProject iProject : list) {
-			if (year == new DateTime(iProject.getDateCreation()).getYear()) {
-				results.add(iProject);
+		for (IProject item : list) {
+			if (year == new DateTime(item.getDateCreation()).getYear()) {
+				results.add(item);
 			}
 		}
 
@@ -55,9 +55,9 @@ public class ProjectDateCreationCriteria implements Criteria<IProject> {
 	private List<IProject> filterByMonth(List<IProject> list) {
 		List<IProject> results = new ArrayList<IProject>();
 
-		for (IProject iProject : list) {
-			if (month == new DateTime(iProject.getDateCreation()).getMonthOfYear()) {
-				results.add(iProject);
+		for (IProject item : list) {
+			if (month == new DateTime(item.getDateCreation()).getMonthOfYear()) {
+				results.add(item);
 			}
 		}
 
