@@ -3,9 +3,28 @@ package com.sasd13.proadmin.itf;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@Generated("org.jsonschema2pojo")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "languageISOCode", "paginationStartItem", "paginationWantedItems", "additionalProperties" })
 public class SearchContext {
 
-	private String languageISOCode, paginationStartItem, paginationWantedItems;
+	@JsonProperty("languageISOCode")
+	private String languageISOCode;
+
+	@JsonProperty("paginationStartItem")
+	private String paginationStartItem;
+
+	@JsonProperty("paginationWantedItems")
+	private String paginationWantedItems;
+
+	@JsonProperty("additionalProperties")
 	private Map<String, Object> additionalProperties;
 
 	public SearchContext() {

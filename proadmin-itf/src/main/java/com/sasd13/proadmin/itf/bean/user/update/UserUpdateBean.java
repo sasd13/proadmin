@@ -4,16 +4,20 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "user", "credentials" })
 public class UserUpdateBean {
 
+	@JsonProperty("user")
 	private UserBean user;
-	private CredentialUpdateBean cedits;
+
+	@JsonProperty("credentials")
+	private CredentialUpdateBean credentials;
 
 	public UserBean getUser() {
 		return user;
@@ -23,11 +27,11 @@ public class UserUpdateBean {
 		this.user = user;
 	}
 
-	public CredentialUpdateBean getCedits() {
-		return cedits;
+	public CredentialUpdateBean getCredentials() {
+		return credentials;
 	}
 
-	public void setCedits(CredentialUpdateBean cedits) {
-		this.cedits = cedits;
+	public void setCredentials(CredentialUpdateBean credentials) {
+		this.credentials = credentials;
 	}
 }

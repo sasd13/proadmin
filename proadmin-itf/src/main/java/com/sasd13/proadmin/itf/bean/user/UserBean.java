@@ -4,15 +4,19 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sasd13.proadmin.itf.bean.Id;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "id", "coreInfo" })
 public class UserBean {
 
+	@JsonProperty("id")
 	private Id id;
+
+	@JsonProperty("coreInfo")
 	private CoreInfo coreInfo;
 
 	public Id getId() {

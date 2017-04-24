@@ -3,16 +3,29 @@ package com.sasd13.proadmin.itf.bean.runningteam;
 import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "yearStarted", "projectCode", "teacherIntermediary", "teamNumber", "academicLevelCode" })
 public class LinkedId {
 
+	@JsonProperty("yearStarted")
 	private int yearStarted;
-	private String projectCode, teacherIntermediary, teamNumber, academicLevelCode;
+
+	@JsonProperty("projectCode")
+	private String projectCode;
+
+	@JsonProperty("teacherIntermediary")
+	private String teacherIntermediary;
+
+	@JsonProperty("teamNumber")
+	private String teamNumber;
+
+	@JsonProperty("academicLevelCode")
+	private String academicLevelCode;
 
 	public int getYearStarted() {
 		return yearStarted;

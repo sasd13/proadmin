@@ -19,8 +19,8 @@ public class UserCreateAdapterI2B implements IAdapter<UserCreateBean, UserCreate
 		t.setUser(user);
 
 		Credential credential = new Credential();
-		credential.setUsername(s.getLinkedInfo().getUsername());
-		credential.setPassword(s.getLinkedInfo().getPassword());
+		credential.setUsername(s.getLinkedCredential().getUsername());
+		credential.setPassword(s.getLinkedCredential().getPassword());
 		t.setCredential(credential);
 
 		return t;

@@ -4,14 +4,25 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "code", "dateCreation", "title", "description" })
 public class CoreInfo {
 
-	private String code, dateCreation, title, description;
+	@JsonProperty("code")
+	private String code;
+
+	@JsonProperty("dateCreation")
+	private String dateCreation;
+
+	@JsonProperty("title")
+	private String title;
+
+	@JsonProperty("description")
+	private String description;
 
 	public String getCode() {
 		return code;

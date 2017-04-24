@@ -4,14 +4,25 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "intermediary", "firstName", "lastName", "email" })
 public class CoreInfo {
 
-	private String intermediary, firstName, lastName, email;
+	@JsonProperty("intermediary")
+	private String intermediary;
+
+	@JsonProperty("firstName")
+	private String firstName;
+
+	@JsonProperty("lastName")
+	private String lastName;
+
+	@JsonProperty("email")
+	private String email;
 
 	public String getIntermediary() {
 		return intermediary;

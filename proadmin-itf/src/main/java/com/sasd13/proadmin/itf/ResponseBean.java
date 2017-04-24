@@ -1,19 +1,32 @@
 package com.sasd13.proadmin.itf;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@Generated("org.jsonschema2pojo")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "context", "errors", "data" })
 public class ResponseBean {
 
+	@JsonProperty("context")
 	private ResponseContext context;
+
+	@JsonProperty("errors")
 	private Map<String, String> errors;
+
+	@JsonProperty("data")
 	private Object data;
 
 	public ResponseBean() {
 		context = new ResponseContext();
 		errors = new HashMap<>();
-		data = new ArrayList<>();
 	}
 
 	public ResponseContext getContext() {

@@ -4,16 +4,20 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sasd13.proadmin.itf.bean.user.LinkedInfo;
+import com.sasd13.proadmin.itf.bean.user.LinkedCredential;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "coreInfo", "linkedCredential" })
 public class UserCreateBean {
 
+	@JsonProperty("coreInfo")
 	private CoreInfo coreInfo;
-	private LinkedInfo linkedInfo;
+
+	@JsonProperty("linkedCredential")
+	private LinkedCredential linkedCredential;
 
 	public CoreInfo getCoreInfo() {
 		return coreInfo;
@@ -23,11 +27,11 @@ public class UserCreateBean {
 		this.coreInfo = coreInfo;
 	}
 
-	public LinkedInfo getLinkedInfo() {
-		return linkedInfo;
+	public LinkedCredential getLinkedCredential() {
+		return linkedCredential;
 	}
 
-	public void setLinkedInfo(LinkedInfo linkedInfo) {
-		this.linkedInfo = linkedInfo;
+	public void setLinkedCredential(LinkedCredential linkedCredential) {
+		this.linkedCredential = linkedCredential;
 	}
 }

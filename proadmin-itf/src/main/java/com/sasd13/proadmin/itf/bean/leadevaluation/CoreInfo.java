@@ -4,15 +4,25 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "planningMark", "planningComment", "communicationMark", "communicationComment" })
 public class CoreInfo {
 
-	private float planningMark, communicationMark;
-	private String planningComment, communicationComment;
+	@JsonProperty("planningMark")
+	private float planningMark;
+
+	@JsonProperty("planningComment")
+	private String planningComment;
+
+	@JsonProperty("communicationMark")
+	private float communicationMark;
+
+	@JsonProperty("communicationComment")
+	private String communicationComment;
 
 	public float getPlanningMark() {
 		return planningMark;

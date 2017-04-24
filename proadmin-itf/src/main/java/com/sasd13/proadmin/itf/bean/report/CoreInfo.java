@@ -3,16 +3,26 @@ package com.sasd13.proadmin.itf.bean.report;
 import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "number", "dateMeeting", "session", "comment" })
 public class CoreInfo {
 
-	private String number, dateMeeting, comment;
+	@JsonProperty("number")
+	private String number;
+
+	@JsonProperty("dateMeeting")
+	private String dateMeeting;
+
+	@JsonProperty("session")
 	private int session;
+
+	@JsonProperty("comment")
+	private String comment;
 
 	public String getNumber() {
 		return number;

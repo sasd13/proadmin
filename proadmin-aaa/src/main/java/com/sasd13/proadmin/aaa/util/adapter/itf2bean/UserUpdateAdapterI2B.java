@@ -22,8 +22,8 @@ public class UserUpdateAdapterI2B implements IAdapter<UserUpdateBean, UserUpdate
 			t.setUser(userAdapter.adapt(s.getUser()));
 		}
 
-		if (s.getCedits() != null) {
-			t.setCredentials(credentialUpdateAdapter.adapt(s.getCedits()));
+		if (s.getCredentials() != null) {
+			t.setCredentials(credentialUpdateAdapter.adapt(s.getCredentials()));
 		}
 
 		return t;

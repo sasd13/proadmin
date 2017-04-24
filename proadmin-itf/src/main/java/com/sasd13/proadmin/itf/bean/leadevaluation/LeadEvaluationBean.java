@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.LinkedReport;
@@ -11,12 +12,19 @@ import com.sasd13.proadmin.itf.bean.LinkedStudent;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id" })
+@JsonPropertyOrder({ "id", "coreInfo", "linkedReport", "linkedStudent" })
 public class LeadEvaluationBean {
 
+	@JsonProperty("id")
 	private Id id;
+
+	@JsonProperty("coreInfo")
 	private CoreInfo coreInfo;
+
+	@JsonProperty("linkedReport")
 	private LinkedReport linkedReport;
+
+	@JsonProperty("linkedStudent")
 	private LinkedStudent linkedStudent;
 
 	public Id getId() {
