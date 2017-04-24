@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_EMPTY)
 @JsonPropertyOrder({ "context", "criterias" })
 public class SearchBean {
 
