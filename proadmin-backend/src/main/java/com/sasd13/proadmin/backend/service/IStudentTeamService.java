@@ -7,9 +7,9 @@ import com.sasd13.proadmin.backend.bean.StudentTeam;
 
 public interface IStudentTeamService {
 
-	void create(StudentTeam studentTeam);
+	void create(List<StudentTeam> studentTeams);
 
-	void delete(StudentTeam studentTeam);
+	void delete(List<StudentTeam> studentTeams);
 
 	List<StudentTeam> read(Map<String, String[]> parameters);
 }

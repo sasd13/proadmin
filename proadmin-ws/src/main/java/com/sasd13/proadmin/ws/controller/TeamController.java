@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.member.ITeam;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
 import com.sasd13.proadmin.ws.bean.Team;
-import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.TeamAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.TeamAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.TeamUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class TeamController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Team : read");
+		LOGGER.info("[Proadmin-WS] Team : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class TeamController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Team : POST");
+		LOGGER.info("[Proadmin-WS] Team : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ITeam> iTeams = (List<ITeam>) readFromRequest(req, ITeam.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
+			TeamBean teamBean = (TeamBean) requestBean.getData();
+			TeamAdapterI2B adapter = new TeamAdapterI2B();
 
-			for (ITeam iTeam : iTeams) {
-				teamService.create(iTeam);
-			}
+			teamService.create(adapter.adapt(teamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Team : PUT");
+		LOGGER.info("[Proadmin-WS] Team : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<TeamUpdate> updateWrappers = (List<TeamUpdate>) readFromRequest(req, TeamUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
+			TeamBean teamBean = (TeamBean) requestBean.getData();
+			TeamUpdateAdapterI2B adapter = new TeamUpdateAdapterI2B();
 
-			for (TeamUpdate updateWrapper : updateWrappers) {
-				teamService.update(updateWrapper);
-			}
+			teamService.update(adapter.adapt(teamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Team : DELETE");
+		LOGGER.info("[Proadmin-WS] Team : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ITeam> iTeams = (List<ITeam>) readFromRequest(req, ITeam.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
+			TeamBean teamBean = (TeamBean) requestBean.getData();
+			TeamAdapterI2B adapter = new TeamAdapterI2B();
 
-			for (ITeam iTeam : iTeams) {
-				teamService.delete(iTeam);
-			}
+			teamService.delete(adapter.adapt(teamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

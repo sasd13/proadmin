@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 import com.sasd13.proadmin.ws.bean.Teacher;
-import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.TeacherAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.TeacherAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.TeacherUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class TeacherController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Teacher : read");
+		LOGGER.info("[Proadmin-WS] Teacher : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class TeacherController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Teacher : POST");
+		LOGGER.info("[Proadmin-WS] Teacher : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ITeacher> iTeachers = (List<ITeacher>) readFromRequest(req, ITeacher.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
+			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
+			TeacherAdapterI2B adapter = new TeacherAdapterI2B();
 
-			for (ITeacher iTeacher : iTeachers) {
-				teacherService.create(iTeacher);
-			}
+			teacherService.create(adapter.adapt(teacherBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Teacher : PUT");
+		LOGGER.info("[Proadmin-WS] Teacher : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<TeacherUpdate> updateWrappers = (List<TeacherUpdate>) readFromRequest(req, TeacherUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
+			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
+			TeacherUpdateAdapterI2B adapter = new TeacherUpdateAdapterI2B();
 
-			for (TeacherUpdate updateWrapper : updateWrappers) {
-				teacherService.update(updateWrapper);
-			}
+			teacherService.update(adapter.adapt(teacherBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Teacher : DELETE");
+		LOGGER.info("[Proadmin-WS] Teacher : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ITeacher> iTeachers = (List<ITeacher>) readFromRequest(req, ITeacher.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
+			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
+			TeacherAdapterI2B adapter = new TeacherAdapterI2B();
 
-			for (ITeacher iTeacher : iTeachers) {
-				teacherService.delete(iTeacher);
-			}
+			teacherService.delete(adapter.adapt(teacherBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

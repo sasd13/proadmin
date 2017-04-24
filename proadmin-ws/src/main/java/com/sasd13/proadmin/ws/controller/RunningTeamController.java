@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.IRunningTeam;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
 import com.sasd13.proadmin.ws.bean.RunningTeam;
-import com.sasd13.proadmin.ws.bean.update.RunningTeamUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningTeamService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.RunningTeamAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.RunningTeamAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.RunningTeamUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class RunningTeamController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] RunningTeam : read");
+		LOGGER.info("[Proadmin-WS] RunningTeam : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class RunningTeamController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] RunningTeam : POST");
+		LOGGER.info("[Proadmin-WS] RunningTeam : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IRunningTeam> iRunningTeams = (List<IRunningTeam>) readFromRequest(req, IRunningTeam.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
+			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
+			RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
 
-			for (IRunningTeam iRunningTeam : iRunningTeams) {
-				runningTeamService.create(iRunningTeam);
-			}
+			runningTeamService.create(adapter.adapt(runningTeamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] RunningTeam : PUT");
+		LOGGER.info("[Proadmin-WS] RunningTeam : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<RunningTeamUpdate> updateWrappers = (List<RunningTeamUpdate>) readFromRequest(req, RunningTeamUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
+			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
+			RunningTeamUpdateAdapterI2B adapter = new RunningTeamUpdateAdapterI2B();
 
-			for (RunningTeamUpdate updateWrapper : updateWrappers) {
-				runningTeamService.update(updateWrapper);
-			}
+			runningTeamService.update(adapter.adapt(runningTeamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] RunningTeam : DELETE");
+		LOGGER.info("[Proadmin-WS] RunningTeam : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IRunningTeam> iRunningTeams = (List<IRunningTeam>) readFromRequest(req, IRunningTeam.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
+			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
+			RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
 
-			for (IRunningTeam iRunningTeam : iRunningTeams) {
-				runningTeamService.delete(iRunningTeam);
-			}
+			runningTeamService.delete(adapter.adapt(runningTeamBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

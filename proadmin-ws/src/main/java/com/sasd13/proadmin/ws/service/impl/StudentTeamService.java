@@ -20,13 +20,13 @@ public class StudentTeamService implements IStudentTeamService {
 	}
 
 	@Override
-	public long create(StudentTeam studentTeam) {
-		return studentTeamDAO.create(studentTeam);
+	public void create(List<StudentTeam> studentTeams) {
+		studentTeamDAO.create(studentTeams);
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
-		studentTeamDAO.delete(studentTeam);
+	public void delete(List<StudentTeam> studentTeams) {
+		studentTeamDAO.delete(studentTeams);
 	}
 
 	@Override

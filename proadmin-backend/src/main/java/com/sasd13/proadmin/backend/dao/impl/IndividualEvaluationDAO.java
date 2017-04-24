@@ -38,9 +38,10 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 		List<IndividualEvaluationDTO> dtos = new ArrayList<>();
 
 		IndividualEvaluationDTO dto = null;
+		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
 
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
+			dto = adapter.adapt(individualEvaluation);
 
 			currentSession().save(dto);
 		}
@@ -53,9 +54,10 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	@Override
 	public void update(List<IndividualEvaluation> individualEvaluations) {
 		IndividualEvaluationDTO dto = null;
+		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
 
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
+			dto = adapter.adapt(individualEvaluation);
 
 			currentSession().update(dto);
 		}
@@ -66,9 +68,10 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	@Override
 	public void delete(List<IndividualEvaluation> individualEvaluations) {
 		IndividualEvaluationDTO dto = null;
+		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
 
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = new IndividualEvaluationAdapterB2D().adapt(individualEvaluation);
+			dto = adapter.adapt(individualEvaluation);
 
 			currentSession().remove(dto);
 		}
@@ -98,9 +101,9 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
-			return "ie.report.number" + " = ?";
+			return "ie.report.number = ?";
 		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return "ie.student.intermediary" + " = ?";
+			return "ie.student.intermediary = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

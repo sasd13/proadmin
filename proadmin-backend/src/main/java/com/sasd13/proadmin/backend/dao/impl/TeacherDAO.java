@@ -82,13 +82,13 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
-			return "tc.intermediary" + " = ?";
+			return "tc.intermediary = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return "tc.firstName" + " = ?";
+			return "tc.firstName = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return "tc.lastName" + " = ?";
+			return "tc.lastName = ?";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return "tc.email" + " = ?";
+			return "tc.email = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

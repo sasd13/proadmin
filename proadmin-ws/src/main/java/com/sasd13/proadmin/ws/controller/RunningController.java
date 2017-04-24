@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.IRunning;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 import com.sasd13.proadmin.ws.bean.Running;
-import com.sasd13.proadmin.ws.bean.update.RunningUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.RunningAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.RunningAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.RunningUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class RunningController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Running : read");
+		LOGGER.info("[Proadmin-WS] Running : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class RunningController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Running : POST");
+		LOGGER.info("[Proadmin-WS] Running : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IRunning> iRunnings = (List<IRunning>) readFromRequest(req, IRunning.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
+			RunningBean runningBean = (RunningBean) requestBean.getData();
+			RunningAdapterI2B adapter = new RunningAdapterI2B();
 
-			for (IRunning iRunning : iRunnings) {
-				runningService.create(iRunning);
-			}
+			runningService.create(adapter.adapt(runningBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Running : PUT");
+		LOGGER.info("[Proadmin-WS] Running : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<RunningUpdate> updateWrappers = (List<RunningUpdate>) readFromRequest(req, RunningUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
+			RunningBean runningBean = (RunningBean) requestBean.getData();
+			RunningUpdateAdapterI2B adapter = new RunningUpdateAdapterI2B();
 
-			for (RunningUpdate updateWrapper : updateWrappers) {
-				runningService.update(updateWrapper);
-			}
+			runningService.update(adapter.adapt(runningBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Running : DELETE");
+		LOGGER.info("[Proadmin-WS] Running : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IRunning> iRunnings = (List<IRunning>) readFromRequest(req, IRunning.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
+			RunningBean runningBean = (RunningBean) requestBean.getData();
+			RunningAdapterI2B adapter = new RunningAdapterI2B();
 
-			for (IRunning iRunning : iRunnings) {
-				runningService.delete(iRunning);
-			}
+			runningService.delete(adapter.adapt(runningBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

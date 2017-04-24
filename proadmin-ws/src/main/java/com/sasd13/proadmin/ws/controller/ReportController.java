@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.IReport;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
 import com.sasd13.proadmin.ws.bean.Report;
-import com.sasd13.proadmin.ws.bean.update.ReportUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IReportService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.ReportAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.ReportAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.ReportUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class ReportController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Report : read");
+		LOGGER.info("[Proadmin-WS] Report : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class ReportController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Report : POST");
+		LOGGER.info("[Proadmin-WS] Report : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IReport> iReports = (List<IReport>) readFromRequest(req, IReport.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
+			ReportBean reportBean = (ReportBean) requestBean.getData();
+			ReportAdapterI2B adapter = new ReportAdapterI2B();
 
-			for (IReport iReport : iReports) {
-				reportService.create(iReport);
-			}
+			reportService.create(adapter.adapt(reportBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Report : PUT");
+		LOGGER.info("[Proadmin-WS] Report : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ReportUpdate> updateWrappers = (List<ReportUpdate>) readFromRequest(req, ReportUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
+			ReportBean reportBean = (ReportBean) requestBean.getData();
+			ReportUpdateAdapterI2B adapter = new ReportUpdateAdapterI2B();
 
-			for (ReportUpdate updateWrapper : updateWrappers) {
-				reportService.update(updateWrapper);
-			}
+			reportService.update(adapter.adapt(reportBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Report : DELETE");
+		LOGGER.info("[Proadmin-WS] Report : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IReport> iReports = (List<IReport>) readFromRequest(req, IReport.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
+			ReportBean reportBean = (ReportBean) requestBean.getData();
+			ReportAdapterI2B adapter = new ReportAdapterI2B();
 
-			for (IReport iReport : iReports) {
-				reportService.delete(iReport);
-			}
+			reportService.delete(adapter.adapt(reportBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

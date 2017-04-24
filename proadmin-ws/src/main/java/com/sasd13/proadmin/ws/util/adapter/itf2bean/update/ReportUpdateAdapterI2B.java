@@ -17,9 +17,9 @@ import com.sasd13.proadmin.ws.bean.Team;
 import com.sasd13.proadmin.ws.bean.update.ReportUpdate;
 import com.sasd13.proadmin.ws.util.Constants;
 
-public class ReportAdapterUpdateI2B implements IAdapter<ReportBean, ReportUpdate> {
+public class ReportUpdateAdapterI2B implements IAdapter<ReportBean, ReportUpdate> {
 
-	private static final Logger LOGGER = Logger.getLogger(ProjectAdapterUpdateI2B.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectUpdateAdapterI2B.class);
 
 	@Override
 	public ReportUpdate adapt(ReportBean s) {

@@ -76,19 +76,19 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
-			return "rp.number" + " = ?";
+			return "rp.number = ?";
 		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
-			return "rp.session" + " = ?";
+			return "rp.session = ?";
 		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.year" + " = ?";
+			return "rp.runningTeam.running.year = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.project.code" + " = ?";
+			return "rp.runningTeam.running.project.code = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.teacher.intermediary" + " = ?";
+			return "rp.runningTeam.running.teacher.intermediary = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.team.number" + " = ?";
+			return "rp.runningTeam.team.number = ?";
 		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.academicLevel.code" + " = ?";
+			return "rp.runningTeam.academicLevel.code = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

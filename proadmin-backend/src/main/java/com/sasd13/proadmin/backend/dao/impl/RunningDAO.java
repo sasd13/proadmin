@@ -76,11 +76,11 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
-			return "rn.year" + " = ?";
+			return "rn.year = ?";
 		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
-			return "rn.project.code" + " = ?";
+			return "rn.project.code = ?";
 		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
-			return "rn.teacher.intermediary" + " = ?";
+			return "rn.teacher.intermediary = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

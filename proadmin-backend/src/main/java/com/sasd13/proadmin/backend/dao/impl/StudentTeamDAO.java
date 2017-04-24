@@ -5,6 +5,7 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,18 +34,34 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	}
 
 	@Override
-	public StudentTeamDTO create(StudentTeam studentTeam) {
-		StudentTeamDTO dto = new StudentTeamAdapterB2D().adapt(studentTeam);
+	public List<StudentTeamDTO> create(List<StudentTeam> studentTeams) {
+		List<StudentTeamDTO> dtos = new ArrayList<>();
 
-		currentSession().save(dto);
+		StudentTeamDTO dto = null;
+		StudentTeamAdapterB2D adapter = new StudentTeamAdapterB2D();
+
+		for (StudentTeam studentTeam : studentTeams) {
+			dto = adapter.adapt(studentTeam);
+
+			currentSession().save(dto);
+		}
+
 		currentSession().flush();
 
-		return dto;
+		return dtos;
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
-		currentSession().remove(new StudentTeamAdapterB2D().adapt(studentTeam));
+	public void delete(List<StudentTeam> studentTeams) {
+		StudentTeamDTO dto = null;
+		StudentTeamAdapterB2D adapter = new StudentTeamAdapterB2D();
+
+		for (StudentTeam studentTeam : studentTeams) {
+			dto = adapter.adapt(studentTeam);
+
+			currentSession().remove(dto);
+		}
+
 		currentSession().flush();
 	}
 
@@ -70,9 +87,9 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
-			return "sttm.student.intermediary" + " = ?";
+			return "sttm.student.intermediary = ?";
 		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
-			return "sttm.team.number" + " = ?";
+			return "sttm.team.number = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

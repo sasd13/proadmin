@@ -27,7 +27,7 @@ import com.sasd13.proadmin.ws.dao.IStudentTeamDAO;
 public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStudentTeamDAO {
 
 	@Override
-	public long create(StudentTeam studentTeam) {
+	public void create(List<StudentTeam> studentTeams) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(TABLE);
@@ -37,14 +37,16 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		builder.append(") VALUES (?, ?)");
 
 		try {
-			return JDBCUtils.insert(this, builder.toString(), studentTeam);
+			for (StudentTeam studentTeam : studentTeams) {
+				JDBCUtils.insert(this, new String(builder.toString()), studentTeam);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void delete(StudentTeam studentTeam) {
+	public void delete(List<StudentTeam> studentTeams) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DELETE FROM ");
 		builder.append(TABLE);
@@ -53,7 +55,9 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 		builder.append(" AND " + COLUMN_TEAM + " = ?");
 
 		try {
-			JDBCUtils.delete(this, builder.toString(), studentTeam);
+			for (StudentTeam studentTeam : studentTeams) {
+				JDBCUtils.delete(this, new String(builder.toString()), studentTeam);
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

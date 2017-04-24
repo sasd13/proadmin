@@ -11,9 +11,9 @@ import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.util.Constants;
 
-public class ProjectAdapterUpdateI2B implements IAdapter<ProjectBean, ProjectUpdate> {
+public class ProjectUpdateAdapterI2B implements IAdapter<ProjectBean, ProjectUpdate> {
 
-	private static final Logger LOGGER = Logger.getLogger(ProjectAdapterUpdateI2B.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectUpdateAdapterI2B.class);
 
 	@Override
 	public ProjectUpdate adapt(ProjectBean s) {

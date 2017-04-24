@@ -8,9 +8,9 @@ import com.sasd13.proadmin.backend.dao.dto.StudentTeamDTO;
 
 public interface IStudentTeamDAO {
 
-	StudentTeamDTO create(StudentTeam studentTeam);
+	List<StudentTeamDTO> create(List<StudentTeam> studentTeams);
 
-	void delete(StudentTeam studentTeam);
+	void delete(List<StudentTeam> studentTeams);
 
 	List<StudentTeamDTO> read(Map<String, String[]> parameters);
 }

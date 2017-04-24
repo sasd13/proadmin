@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.project.IProject;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 import com.sasd13.proadmin.ws.bean.Project;
-import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.ProjectAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.ProjectAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.ProjectUpdateAdapterI2B;
 
 /**
  *
@@ -43,7 +44,7 @@ public class ProjectController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Project : read");
+		LOGGER.info("[Proadmin-WS] Project : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -71,58 +72,55 @@ public class ProjectController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Project : POST");
+		LOGGER.info("[Proadmin-WS] Project : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IProject> iProjects = (List<IProject>) readFromRequest(req, IProject.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
+			ProjectBean projectBean = (ProjectBean) requestBean.getData();
+			ProjectAdapterI2B adapter = new ProjectAdapterI2B();
 
-			for (IProject iProject : iProjects) {
-				projectService.create(iProject);
-			}
+			projectService.create(adapter.adapt(projectBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Project : PUT");
+		LOGGER.info("[Proadmin-WS] Project : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<ProjectUpdate> updateWrappers = (List<ProjectUpdate>) readFromRequest(req, ProjectUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
+			ProjectBean projectBean = (ProjectBean) requestBean.getData();
+			ProjectUpdateAdapterI2B adapter = new ProjectUpdateAdapterI2B();
 
-			for (ProjectUpdate updateWrapper : updateWrappers) {
-				projectService.update(updateWrapper);
-			}
+			projectService.update(adapter.adapt(projectBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Project : DELETE");
+		LOGGER.info("[Proadmin-WS] Project : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IProject> iProjects = (List<IProject>) readFromRequest(req, IProject.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
+			ProjectBean projectBean = (ProjectBean) requestBean.getData();
+			ProjectAdapterI2B adapter = new ProjectAdapterI2B();
 
-			for (IProject iProject : iProjects) {
-				projectService.delete(iProject);
-			}
+			projectService.delete(adapter.adapt(projectBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

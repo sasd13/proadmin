@@ -87,13 +87,13 @@ public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionna
 	@Override
 	public String getCondition(String key) throws ConditionException {
 		if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
-			return "st.intermediary" + " = ?";
+			return "st.intermediary = ?";
 		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
-			return "st.firstName" + " = ?";
+			return "st.firstName = ?";
 		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
-			return "st.lastName" + " = ?";
+			return "st.lastName = ?";
 		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
-			return "st.email" + " = ?";
+			return "st.email = ?";
 		} else {
 			throw new ConditionException("Parameter " + key + " is unknown");
 		}

@@ -19,15 +19,17 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.student.StudentBean;
 import com.sasd13.proadmin.ws.bean.Student;
-import com.sasd13.proadmin.ws.bean.update.StudentUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IStudentService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.StudentAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.StudentAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.StudentUpdateAdapterI2B;
 
 /**
  *
@@ -42,7 +44,7 @@ public class StudentController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Student : read");
+		LOGGER.info("[Proadmin-WS] Student : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
@@ -70,58 +72,55 @@ public class StudentController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] student : POST");
+		LOGGER.info("[Proadmin-WS] Student : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Student> students = (List<Student>) readFromRequest(req, Student.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
+			StudentBean studentBean = (StudentBean) requestBean.getData();
+			StudentAdapterI2B adapter = new StudentAdapterI2B();
 
-			for (Student student : students) {
-				studentService.create(student);
-			}
+			studentService.create(adapter.adapt(studentBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] student : PUT");
+		LOGGER.info("[Proadmin-WS] Student : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<StudentUpdate> updateWrappers = (List<StudentUpdate>) readFromRequest(req, StudentUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
+			StudentBean studentBean = (StudentBean) requestBean.getData();
+			StudentUpdateAdapterI2B adapter = new StudentUpdateAdapterI2B();
 
-			for (StudentUpdate updateWrapper : updateWrappers) {
-				studentService.update(updateWrapper);
-			}
+			studentService.update(adapter.adapt(studentBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] student : DELETE");
+		LOGGER.info("[Proadmin-WS] Student : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<Student> students = (List<Student>) readFromRequest(req, Student.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
+			StudentBean studentBean = (StudentBean) requestBean.getData();
+			StudentAdapterI2B adapter = new StudentAdapterI2B();
 
-			for (Student student : students) {
-				studentService.delete(student);
-			}
+			studentService.delete(adapter.adapt(studentBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
