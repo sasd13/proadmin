@@ -13,8 +13,8 @@
 
 	<modules>
 		<module>proadmin-aaa</module>
-		<module>proadmin-bean</module>
 		<module>proadmin-backend</module>
+		<module>proadmin-bean</module>
 		<module>proadmin-itf</module>
 		<module>proadmin-util</module>
 		<module>proadmin-ws</module>
