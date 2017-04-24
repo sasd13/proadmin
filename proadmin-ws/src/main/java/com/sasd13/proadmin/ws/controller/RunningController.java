@@ -47,19 +47,12 @@ public class RunningController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
 
 		try {
-			List<Running> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = runningService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = runningService.read(parameters);
-			}
-
+			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
+			List<Running> results = runningService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<RunningBean> list = new ArrayList<>();
 			RunningAdapterB2I adapter = new RunningAdapterB2I();

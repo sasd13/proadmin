@@ -12,6 +12,4 @@ public interface IStudentTeamService {
 	void delete(StudentTeam studentTeam);
 
 	List<StudentTeam> read(Map<String, String[]> parameters);
-
-	List<StudentTeam> readAll();
 }

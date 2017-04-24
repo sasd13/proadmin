@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.bean.running.IIndividualEvaluation;
 import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
@@ -30,6 +29,8 @@ import com.sasd13.proadmin.ws.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
 import com.sasd13.proadmin.ws.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
+import com.sasd13.proadmin.ws.util.adapter.itf2bean.update.IndividualEvaluationUpdateAdapterI2B;
 
 /**
  *
@@ -44,23 +45,16 @@ public class IndividualEvaluationController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] IndividualEvaluation : read");
+		LOGGER.info("[Proadmin-WS] IndividualEvaluation : search");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 
 		try {
-			List<IndividualEvaluation> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = individualEvaluationService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = individualEvaluationService.read(parameters);
-			}
-
+			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
+			List<IndividualEvaluation> results = individualEvaluationService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<IndividualEvaluationBean> list = new ArrayList<>();
 			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
@@ -82,19 +76,19 @@ public class IndividualEvaluationController extends Controller {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] IndividualEvaluation : POST");
+		LOGGER.info("[Proadmin-WS] IndividualEvaluation : create");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
 			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IndividualEvaluationBean> list = (List<IndividualEvaluationBean>) requestBean.getData();
+			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
-			// IndividualEvaluationAd
+			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean item : list) {
-				// individualEvaluationService.create(individualEvaluation);
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
 			individualEvaluationService.create(individualEvaluations);
@@ -106,17 +100,22 @@ public class IndividualEvaluationController extends Controller {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] IndividualEvaluation : PUT");
+		LOGGER.info("[Proadmin-WS] IndividualEvaluation : update");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IndividualEvaluationUpdate> updateWrappers = (List<IndividualEvaluationUpdate>) readFromRequest(req, IndividualEvaluationUpdate.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
+			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
+			List<IndividualEvaluationUpdate> individualEvaluations = new ArrayList<>();
+			IndividualEvaluationUpdateAdapterI2B adapter = new IndividualEvaluationUpdateAdapterI2B();
 
-			for (IndividualEvaluationUpdate updateWrapper : updateWrappers) {
-				individualEvaluationService.update(updateWrapper);
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
+
+			individualEvaluationService.update(individualEvaluations);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -125,17 +124,22 @@ public class IndividualEvaluationController extends Controller {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] IndividualEvaluation : DELETE");
+		LOGGER.info("[Proadmin-WS] IndividualEvaluation : delete");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			List<IIndividualEvaluation> individualEvaluations = (List<IIndividualEvaluation>) readFromRequest(req, IIndividualEvaluation.class, null);
+			RequestBean requestBean = readFromRequest(req, RequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
+			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
+			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IIndividualEvaluation individualEvaluation : individualEvaluations) {
-				individualEvaluationService.delete(individualEvaluation);
+			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
+
+			individualEvaluationService.delete(individualEvaluations);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

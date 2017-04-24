@@ -15,6 +15,4 @@ public interface IRunningTeamService {
 	void delete(RunningTeam runningTeam);
 
 	List<RunningTeam> read(Map<String, String[]> parameters);
-
-	List<RunningTeam> readAll();
 }

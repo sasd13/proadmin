@@ -15,6 +15,4 @@ public interface ITeacherService {
 	void delete(Teacher teacher);
 
 	List<Teacher> read(Map<String, String[]> parameters);
-
-	List<Teacher> readAll();
 }

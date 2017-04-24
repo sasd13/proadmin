@@ -39,9 +39,4 @@ public class ReportService implements IReportService {
 	public List<Report> read(Map<String, String[]> parameters) {
 		return reportDeepReader.read(parameters);
 	}
-
-	@Override
-	public List<Report> readAll() {
-		return reportDeepReader.readAll();
-	}
 }

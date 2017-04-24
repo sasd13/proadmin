@@ -47,19 +47,12 @@ public class ProjectController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 
 		try {
-			List<Project> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = projectService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = projectService.read(parameters);
-			}
-
+			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
+			List<Project> results = projectService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<ProjectBean> list = new ArrayList<>();
 			ProjectAdapterB2I adapter = new ProjectAdapterB2I();

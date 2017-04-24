@@ -33,9 +33,4 @@ public class StudentTeamService implements IStudentTeamService {
 	public List<StudentTeam> read(Map<String, String[]> parameters) {
 		return studentTeamDeepReader.read(parameters);
 	}
-
-	@Override
-	public List<StudentTeam> readAll() {
-		return studentTeamDeepReader.readAll();
-	}
 }

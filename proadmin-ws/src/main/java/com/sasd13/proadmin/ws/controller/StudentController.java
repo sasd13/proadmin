@@ -46,19 +46,12 @@ public class StudentController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
 
 		try {
-			List<Student> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = studentService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = studentService.read(parameters);
-			}
-
+			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
+			List<Student> results = studentService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<StudentBean> list = new ArrayList<>();
 			StudentAdapterB2I adapter = new StudentAdapterB2I();

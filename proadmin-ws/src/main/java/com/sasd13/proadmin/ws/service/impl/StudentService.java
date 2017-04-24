@@ -36,9 +36,4 @@ public class StudentService implements IStudentService {
 	public List<Student> read(Map<String, String[]> parameters) {
 		return studentDAO.read(parameters);
 	}
-
-	@Override
-	public List<Student> readAll() {
-		return studentDAO.readAll();
-	}
 }

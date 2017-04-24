@@ -15,6 +15,4 @@ public interface IIndividualEvaluationService {
 	void delete(List<IndividualEvaluation> individualEvaluations);
 
 	List<IndividualEvaluation> read(Map<String, String[]> parameters);
-
-	List<IndividualEvaluation> readAll();
 }

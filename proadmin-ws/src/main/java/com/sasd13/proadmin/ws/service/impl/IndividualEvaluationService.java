@@ -39,9 +39,4 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
 		return individualEvaluationDeepReader.read(parameters);
 	}
-
-	@Override
-	public List<IndividualEvaluation> readAll() {
-		return individualEvaluationDeepReader.readAll();
-	}
 }

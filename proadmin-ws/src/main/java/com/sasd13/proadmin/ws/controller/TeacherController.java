@@ -47,19 +47,12 @@ public class TeacherController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 
 		try {
-			List<Teacher> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = teacherService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = teacherService.read(parameters);
-			}
-
+			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
+			List<Teacher> results = teacherService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<TeacherBean> list = new ArrayList<>();
 			TeacherAdapterB2I adapter = new TeacherAdapterB2I();

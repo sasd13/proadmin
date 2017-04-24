@@ -36,9 +36,4 @@ public class TeamService implements ITeamService {
 	public List<Team> read(Map<String, String[]> parameters) {
 		return teamDAO.read(parameters);
 	}
-
-	@Override
-	public List<Team> readAll() {
-		return teamDAO.readAll();
-	}
 }

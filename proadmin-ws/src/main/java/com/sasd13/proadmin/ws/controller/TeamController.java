@@ -47,19 +47,12 @@ public class TeamController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
 
 		try {
-			List<Team> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = teamService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = teamService.read(parameters);
-			}
-
+			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
+			List<Team> results = teamService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<TeamBean> list = new ArrayList<>();
 			TeamAdapterB2I adapter = new TeamAdapterB2I();

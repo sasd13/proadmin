@@ -47,19 +47,12 @@ public class RunningTeamController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
 
 		try {
-			List<RunningTeam> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = runningTeamService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = runningTeamService.read(parameters);
-			}
-
+			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
+			List<RunningTeam> results = runningTeamService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<RunningTeamBean> list = new ArrayList<>();
 			RunningTeamAdapterB2I adapter = new RunningTeamAdapterB2I();

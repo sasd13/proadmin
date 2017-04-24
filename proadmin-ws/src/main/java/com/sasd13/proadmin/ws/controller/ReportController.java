@@ -47,19 +47,12 @@ public class ReportController extends Controller {
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
-		IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 
 		try {
-			List<Report> results = null;
+			URLQueryUtils.decode(parameters);
 
-			if (parameters.isEmpty()) {
-				results = reportService.readAll();
-			} else {
-				URLQueryUtils.decode(parameters);
-
-				results = reportService.read(parameters);
-			}
-
+			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
+			List<Report> results = reportService.read(parameters);
 			ResponseBean responseBean = new ResponseBean();
 			List<ReportBean> list = new ArrayList<>();
 			ReportAdapterB2I adapter = new ReportAdapterB2I();
