@@ -1,10 +1,14 @@
 package com.sasd13.proadmin.itf.bean.academiclevel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sasd13.proadmin.itf.bean.Id;
 
 public class AcademicLevelBean {
 
+	@JsonInclude(Include.NON_NULL)
 	private Id id;
+	
 	private CoreInfo coreInfo;
 
 	public Id getId() {

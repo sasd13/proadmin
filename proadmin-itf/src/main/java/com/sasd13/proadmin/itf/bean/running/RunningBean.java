@@ -1,13 +1,21 @@
 package com.sasd13.proadmin.itf.bean.running;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sasd13.proadmin.itf.bean.LinkedProject;
 import com.sasd13.proadmin.itf.bean.LinkedTeacher;
 
 public class RunningBean {
 
+	@JsonInclude(Include.NON_NULL)
 	private Id id;
+	
 	private CoreInfo coreInfo;
+	
+	@JsonInclude(Include.NON_NULL)
 	private LinkedProject linkedProject;
+	
+	@JsonInclude(Include.NON_NULL)
 	private LinkedTeacher linkedTeacher;
 
 	public Id getId() {

@@ -1,10 +1,17 @@
 package com.sasd13.proadmin.itf.bean;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class LinkedRunning extends LinkedInfo {
 
 	private int yearStarted;
+	
+	@JsonInclude(Include.NON_NULL)
 	private LinkedProject linkedProject;
-	private LinkedTeacher linkedTeacher;;
+	
+	@JsonInclude(Include.NON_NULL)
+	private LinkedTeacher linkedTeacher;
 
 	public int getYearStarted() {
 		return yearStarted;

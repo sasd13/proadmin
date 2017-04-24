@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.ws.util.adapter.bean2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
+import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.leadevaluation.CoreInfo;
-import com.sasd13.proadmin.itf.bean.leadevaluation.Id;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
-import com.sasd13.proadmin.itf.bean.leadevaluation.LinkedId;
 import com.sasd13.proadmin.ws.bean.LeadEvaluation;
 
 public class LeadEvaluationAdapterB2I implements IAdapter<LeadEvaluation, LeadEvaluationBean> {
@@ -14,11 +13,8 @@ public class LeadEvaluationAdapterB2I implements IAdapter<LeadEvaluation, LeadEv
 		LeadEvaluationBean t = new LeadEvaluationBean();
 
 		Id id = new Id();
+		id.setId(s.getReport().getNumber());
 		t.setId(id);
-
-		LinkedId linkedId = new LinkedId();
-		linkedId.setReportNumber(s.getReport().getNumber());
-		id.setLinkedId(linkedId);
 
 		CoreInfo coreInfo = new CoreInfo();
 		coreInfo.setPlanningMark(s.getPlanningMark());

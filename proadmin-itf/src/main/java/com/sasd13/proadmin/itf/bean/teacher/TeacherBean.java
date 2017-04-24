@@ -1,10 +1,14 @@
 package com.sasd13.proadmin.itf.bean.teacher;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sasd13.proadmin.itf.bean.Id;
 
 public class TeacherBean {
 
+	@JsonInclude(Include.NON_NULL)
 	private Id id;
+	
 	private CoreInfo coreInfo;
 
 	public Id getId() {

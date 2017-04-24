@@ -15,11 +15,11 @@ public class RunningAdapterI2B implements IAdapter<RunningBean, Running> {
 		t.setYear(s.getCoreInfo().getYearStarted());
 
 		Project project = new Project();
-		project.setCode(s.getId().getLinkedId().getProjectCode());
+		project.setCode(s.getLinkedProject().getCode());
 		t.setProject(project);
 
 		Teacher teacher = new Teacher();
-		teacher.setIntermediary(s.getId().getLinkedId().getTeacherIntermediary());
+		teacher.setIntermediary(s.getLinkedTeacher().getIntermediary());
 		t.setTeacher(teacher);
 
 		return t;

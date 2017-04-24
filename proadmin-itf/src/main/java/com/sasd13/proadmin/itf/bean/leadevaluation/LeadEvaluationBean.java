@@ -1,13 +1,22 @@
 package com.sasd13.proadmin.itf.bean.leadevaluation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.LinkedReport;
 import com.sasd13.proadmin.itf.bean.LinkedStudent;
 
 public class LeadEvaluationBean {
 
+	@JsonInclude(Include.NON_NULL)
 	private Id id;
+	
 	private CoreInfo coreInfo;
+	
+	@JsonInclude(Include.NON_NULL)
 	private LinkedReport linkedReport;
+	
+	@JsonInclude(Include.NON_NULL)
 	private LinkedStudent linkedStudent;
 
 	public Id getId() {
