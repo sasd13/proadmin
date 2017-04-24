@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,15 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.running.IReport;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdateWrapper;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.report.ReportBean;
+import com.sasd13.proadmin.ws.bean.Report;
+import com.sasd13.proadmin.ws.bean.update.ReportUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IReportService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
+import com.sasd13.proadmin.ws.util.adapter.bean2itf.ReportAdapterB2I;
 
 /**
  *
@@ -38,14 +43,14 @@ public class ReportController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Report : GET");
+		LOGGER.info("[Proadmin-WS] Report : read");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 
 		try {
-			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
-			List<IReport> results = null;
+			List<Report> results = null;
 
 			if (parameters.isEmpty()) {
 				results = reportService.readAll();
@@ -55,7 +60,19 @@ public class ReportController extends Controller {
 				results = reportService.read(parameters);
 			}
 
-			writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
+			ResponseBean responseBean = new ResponseBean();
+			List<ReportBean> list = new ArrayList<>();
+			ReportAdapterB2I adapter = new ReportAdapterB2I();
+
+			for (Report result : results) {
+				list.add(adapter.adapt(result));
+			}
+
+			addHeaders(responseBean);
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

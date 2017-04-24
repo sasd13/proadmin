@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,15 @@ import org.apache.log4j.Logger;
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.member.ITeacher;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
+import com.sasd13.proadmin.ws.bean.Teacher;
 import com.sasd13.proadmin.ws.bean.update.TeacherUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
+import com.sasd13.proadmin.ws.util.adapter.bean2itf.TeacherAdapterB2I;
 
 /**
  *
@@ -38,14 +43,14 @@ public class TeacherController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Teacher : GET");
+		LOGGER.info("[Proadmin-WS] Teacher : read");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 
 		try {
-			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
-			List<ITeacher> results = null;
+			List<Teacher> results = null;
 
 			if (parameters.isEmpty()) {
 				results = teacherService.readAll();
@@ -55,7 +60,19 @@ public class TeacherController extends Controller {
 				results = teacherService.read(parameters);
 			}
 
-			writeToResponse(resp, LOGGER, ParserFactory.make(RESPONSE_CONTENT_TYPE).toString(results));
+			ResponseBean responseBean = new ResponseBean();
+			List<TeacherBean> list = new ArrayList<>();
+			TeacherAdapterB2I adapter = new TeacherAdapterB2I();
+
+			for (Teacher result : results) {
+				list.add(adapter.adapt(result));
+			}
+
+			addHeaders(responseBean);
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

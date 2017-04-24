@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,13 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.bean.project.IProject;
-import com.sasd13.proadmin.itf.bean.project.ProjectSearchResponseBean;
+import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectBean;
+import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
 import com.sasd13.proadmin.ws.service.ServiceFactory;
 import com.sasd13.proadmin.ws.util.Constants;
+import com.sasd13.proadmin.ws.util.adapter.bean2itf.ProjectAdapterB2I;
 
 /**
  *
@@ -38,34 +43,36 @@ public class ProjectController extends Controller {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-WS] Project : GET");
+		LOGGER.info("[Proadmin-WS] Project : read");
 
-		ProjectSearchResponseBean responseBean = new ProjectSearchResponseBean();
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		Map<String, String[]> parameters = req.getParameterMap();
+		IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 
 		try {
-			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
-			List<IProject> results = null;
+			List<Project> results = null;
 
 			if (parameters.isEmpty()) {
 				results = projectService.readAll();
 			} else {
 				URLQueryUtils.decode(parameters);
 
-				String wantedItems;
-				/*
-				 * if ((wantedItems = req.getHeader(EnumHttpHeader.WANTED_ITEMS.getName())) != null) { responseBean.getContext().setPaginationWantedItems(wantedItems);
-				 * 
-				 * results = projectService.read(parameters, Integer.valueOf(wantedItems)); } else { results = projectService.read(parameters); }
-				 */
+				results = projectService.read(parameters);
 			}
 
-			// responseBean.setData(results);
-			responseBean.getContext().setAdditionalProperties(parameters);
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+			ResponseBean responseBean = new ResponseBean();
+			List<ProjectBean> list = new ArrayList<>();
+			ProjectAdapterB2I adapter = new ProjectAdapterB2I();
 
-			writeToResponse(resp, LOGGER, responseBean);
+			for (Project result : results) {
+				list.add(adapter.adapt(result));
+			}
+
+			addHeaders(responseBean);
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
+			responseBean.setData(list);
+
+			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

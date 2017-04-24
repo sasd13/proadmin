@@ -18,10 +18,9 @@ public interface Resources {
 	String URL_BACKEND_RUNNINGS = URL_BACKEND + "/runnings";
 	String URL_BACKEND_RUNNINGTEAMS = URL_BACKEND + "/runningTeams";
 	String URL_BACKEND_STUDENTS = URL_BACKEND + "/students";
-	String URL_BACKEND_STUDENTTEAMS = URL_BACKEND + "/studentTeams";
 	String URL_BACKEND_TEACHERS = URL_BACKEND + "/teachers";
 	String URL_BACKEND_TEAMS = URL_BACKEND + "/teams";
-	
+
 	String URL_WS = "http://192.168.1.23:8082/proadmin-ws";
 	String URL_WS_ACADEMICLEVELS = URL_WS + "/academicLevels";
 	String URL_WS_INDIVIDUALEVALUATIONS = URL_WS + "/individualEvaluations";
@@ -31,7 +30,6 @@ public interface Resources {
 	String URL_WS_RUNNINGS = URL_WS + "/runnings";
 	String URL_WS_RUNNINGTEAMS = URL_WS + "/runningTeams";
 	String URL_WS_STUDENTS = URL_WS + "/students";
-	String URL_WS_STUDENTTEAMS = URL_WS + "/studentTeams";
 	String URL_WS_TEACHERS = URL_WS + "/teachers";
 	String URL_WS_TEAMS = URL_WS + "/teams";
 }
