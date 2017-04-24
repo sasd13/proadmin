@@ -56,7 +56,7 @@ public class UserController extends Controller {
 				List<User> results = userService.read(parameters);
 				ResponseBean responseBean = new ResponseBean();
 
-				responseBean.getContext().setPaginationCurrentItems(String.valueOf(results.size()));
+				responseBean.getContext().setPaginationTotalItems(String.valueOf(results.size()));
 				responseBean.setData(results);
 
 				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));

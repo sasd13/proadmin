@@ -40,7 +40,6 @@ public class AcademicLevelController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
 			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
 

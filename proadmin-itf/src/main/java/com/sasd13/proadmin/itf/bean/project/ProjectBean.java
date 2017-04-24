@@ -1,14 +1,18 @@
 package com.sasd13.proadmin.itf.bean.project;
 
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sasd13.proadmin.itf.bean.Id;
 
+@Generated("org.jsonschema2pojo")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "id" })
 public class ProjectBean {
 
-	@JsonInclude(Include.NON_NULL)
 	private Id id;
-	
 	private CoreInfo coreInfo;
 
 	public Id getId() {

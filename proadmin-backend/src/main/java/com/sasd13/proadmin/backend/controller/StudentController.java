@@ -82,7 +82,7 @@ public class StudentController extends Controller {
 		try {
 			Student result = studentService.read(intermediary);
 			ResponseBean responseBean = new ResponseBean();
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(1));
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(1));
 			responseBean.setData(new StudentAdapterB2I().adapt(result));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
@@ -108,7 +108,7 @@ public class StudentController extends Controller {
 			}
 
 			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);

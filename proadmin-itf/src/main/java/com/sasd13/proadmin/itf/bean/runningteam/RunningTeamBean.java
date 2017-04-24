@@ -1,23 +1,22 @@
 package com.sasd13.proadmin.itf.bean.runningteam;
 
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sasd13.proadmin.itf.bean.LinkedAcademicLevel;
 import com.sasd13.proadmin.itf.bean.LinkedRunning;
 import com.sasd13.proadmin.itf.bean.LinkedTeam;
 
+@Generated("org.jsonschema2pojo")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "id" })
 public class RunningTeamBean {
 
-	@JsonInclude(Include.NON_NULL)
 	private Id id;
-	
-	@JsonInclude(Include.NON_NULL)
 	private LinkedRunning linkedRunning;
-	
-	@JsonInclude(Include.NON_NULL)
 	private LinkedTeam linkedTeam;
-	
-	@JsonInclude(Include.NON_NULL)
 	private LinkedAcademicLevel linkedAcademicLevel;
 
 	public Id getId() {

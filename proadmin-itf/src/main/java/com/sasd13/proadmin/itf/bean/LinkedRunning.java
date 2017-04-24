@@ -1,17 +1,36 @@
 package com.sasd13.proadmin.itf.bean;
 
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class LinkedRunning extends LinkedInfo {
+@Generated("org.jsonschema2pojo")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "id", "yearStarted", "linkedProject", "linkedTeacher" })
+public class LinkedRunning {
 
+	@JsonProperty("id")
+	private String id;
+
+	@JsonProperty("yearStarted")
 	private int yearStarted;
-	
-	@JsonInclude(Include.NON_NULL)
+
+	@JsonProperty("linkedProject")
 	private LinkedProject linkedProject;
-	
-	@JsonInclude(Include.NON_NULL)
+
+	@JsonProperty("linkedTeacher")
 	private LinkedTeacher linkedTeacher;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getYearStarted() {
 		return yearStarted;

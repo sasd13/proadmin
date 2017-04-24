@@ -89,7 +89,7 @@ public class ProjectController extends Controller {
 			}
 
 			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
+			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);

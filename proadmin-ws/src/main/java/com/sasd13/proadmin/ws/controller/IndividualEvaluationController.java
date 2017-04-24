@@ -70,7 +70,6 @@ public class IndividualEvaluationController extends Controller {
 			}
 
 			addHeaders(responseBean);
-			responseBean.getContext().setPaginationCurrentItems(String.valueOf(list.size()));
 			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
 
