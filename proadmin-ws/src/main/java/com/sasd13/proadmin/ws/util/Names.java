@@ -15,5 +15,5 @@ public interface Names {
 	String WS_TRANSLATION_FILE_PREFIX = "ws.translation_file.prefix";
 	String WS_TRANSLATION_DEFAULT_LANGUAGE = "ws.translation_language.default";
 	String WS_RESPONSE_HEADER_CONTENT_TYPE = "ws.response_header.content_type";
-	String WS_PATTERN_DATE_FORMAT = "ws.pattern.date_format";
+	String WS_PATTERN_DATETIME_DEFAULT = "ws.pattern.datetime.default";
 }

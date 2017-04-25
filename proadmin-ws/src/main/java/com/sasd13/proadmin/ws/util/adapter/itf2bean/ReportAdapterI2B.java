@@ -25,7 +25,7 @@ public class ReportAdapterI2B implements IAdapter<ReportBean, Report> {
 		Report t = new Report();
 
 		try {
-			t.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATE_FORMAT).parse(s.getCoreInfo().getDateMeeting()));
+			t.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).parse(s.getCoreInfo().getDateMeeting()));
 		} catch (ParseException e) {
 			LOGGER.error(e);
 			throw new RuntimeException("ReportAdapterI2B : error parsing date " + s.getCoreInfo().getDateMeeting());
