@@ -19,7 +19,7 @@ import com.sasd13.proadmin.ws.util.Constants;
 
 public class ReportUpdateAdapterI2B implements IAdapter<ReportBean, ReportUpdate> {
 
-	private static final Logger LOGGER = Logger.getLogger(ProjectUpdateAdapterI2B.class);
+	private static final Logger LOGGER = Logger.getLogger(ReportUpdateAdapterI2B.class);
 
 	@Override
 	public ReportUpdate adapt(ReportBean s) {
@@ -33,7 +33,7 @@ public class ReportUpdateAdapterI2B implements IAdapter<ReportBean, ReportUpdate
 			report.setDateMeeting(new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).parse(s.getCoreInfo().getDateMeeting()));
 		} catch (ParseException e) {
 			LOGGER.error(e);
-			throw new RuntimeException("ReportAdapterI2B : error parsing date " + s.getCoreInfo().getDateMeeting());
+			throw new RuntimeException("ReportUpdateAdapterI2B : error parsing date " + s.getCoreInfo().getDateMeeting());
 		}
 
 		report.setNumber(s.getCoreInfo().getNumber());

@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 
 public class ReportAdapterI2B implements IAdapter<ReportBean, Report> {
 
-    private static final Logger LOGGER = Logger.getLogger(ProjectAdapterI2B.class);
+    private static final Logger LOGGER = Logger.getLogger(ReportAdapterI2B.class);
 
     @Override
     public Report adapt(ReportBean s) {

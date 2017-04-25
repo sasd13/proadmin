@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface IProjectService {
 
-    ServiceResult<List<Project>> readAll();
+    ServiceResult<List<Project>> read(int startItem);
 }
