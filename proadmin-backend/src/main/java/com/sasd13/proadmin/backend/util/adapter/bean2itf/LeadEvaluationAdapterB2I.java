@@ -2,10 +2,10 @@ package com.sasd13.proadmin.backend.util.adapter.bean2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.bean.LeadEvaluation;
-import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.LinkedReport;
 import com.sasd13.proadmin.itf.bean.LinkedStudent;
 import com.sasd13.proadmin.itf.bean.leadevaluation.CoreInfo;
+import com.sasd13.proadmin.itf.bean.leadevaluation.Id;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 public class LeadEvaluationAdapterB2I implements IAdapter<LeadEvaluation, LeadEvaluationBean> {

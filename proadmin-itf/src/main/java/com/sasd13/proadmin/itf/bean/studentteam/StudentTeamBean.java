@@ -11,14 +11,25 @@ import com.sasd13.proadmin.itf.bean.LinkedTeam;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "linkedStudent", "linkedTeam" })
+@JsonPropertyOrder({ "id", "linkedStudent", "linkedTeam" })
 public class StudentTeamBean {
+
+	@JsonProperty("id")
+	private Id id;
 
 	@JsonProperty("linkedStudent")
 	private LinkedStudent linkedStudent;
 
 	@JsonProperty("linkedTeam")
 	private LinkedTeam linkedTeam;
+
+	public Id getId() {
+		return id;
+	}
+
+	public void setId(Id id) {
+		this.id = id;
+	}
 
 	public LinkedStudent getLinkedStudent() {
 		return linkedStudent;
