@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.util.builder.running;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.bean.RunningTeam;
 
 import java.util.Date;
 

@@ -1,11 +1,12 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.service.IProjectService;
-import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.WSResources;
+import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.service.IProjectService;
+import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.util.Resources;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,14 +17,14 @@ public class ProjectService implements IProjectService {
 
     @Override
     public ServiceResult<List<Project>> readAll() {
-        Promise promise = new Promise("GET", WSResources.URL_WS_PROJECTS, Project.class);
+        Promise promise = new Promise("GET", Resources.URL_WS_PROJECTS, Project.class);
 
         List<Project> results = (List<Project>) promise.execute();
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 results
         );
     }

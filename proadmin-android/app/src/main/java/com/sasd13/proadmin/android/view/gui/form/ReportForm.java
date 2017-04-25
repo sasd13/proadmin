@@ -8,8 +8,8 @@ import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.DateItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Report;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.Report;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;

@@ -1,15 +1,15 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.service.impl.AuthenticationService;
-import com.sasd13.proadmin.service.impl.IndividualEvaluationService;
-import com.sasd13.proadmin.service.impl.LeadEvaluationService;
-import com.sasd13.proadmin.service.impl.ProjectService;
-import com.sasd13.proadmin.service.impl.ReportService;
-import com.sasd13.proadmin.service.impl.RunningService;
-import com.sasd13.proadmin.service.impl.RunningTeamService;
-import com.sasd13.proadmin.service.impl.StudentService;
-import com.sasd13.proadmin.service.impl.TeacherService;
-import com.sasd13.proadmin.service.impl.TeamService;
+import com.sasd13.proadmin.android.service.impl.AuthenticationService;
+import com.sasd13.proadmin.android.service.impl.IndividualEvaluationService;
+import com.sasd13.proadmin.android.service.impl.LeadEvaluationService;
+import com.sasd13.proadmin.android.service.impl.ProjectService;
+import com.sasd13.proadmin.android.service.impl.ReportService;
+import com.sasd13.proadmin.android.service.impl.RunningService;
+import com.sasd13.proadmin.android.service.impl.RunningTeamService;
+import com.sasd13.proadmin.android.service.impl.StudentService;
+import com.sasd13.proadmin.android.service.impl.TeacherService;
+import com.sasd13.proadmin.android.service.impl.TeamService;
 
 /**
  * Created by ssaidali2 on 02/04/2017.

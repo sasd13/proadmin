@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdate;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 
 import java.util.List;
 import java.util.Map;

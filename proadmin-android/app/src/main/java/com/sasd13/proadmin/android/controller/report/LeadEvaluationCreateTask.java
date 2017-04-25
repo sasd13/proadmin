@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.android.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
@@ -34,7 +35,7 @@ public class LeadEvaluationCreateTask extends RequestorTask {
         if (result.isSuccess()) {
             controller.onCreateLeadEvaluation();
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

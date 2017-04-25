@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.scope;
 
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.member.Team;
+import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.bean.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;

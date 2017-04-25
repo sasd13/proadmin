@@ -9,11 +9,11 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.util.Finder;
-import com.sasd13.proadmin.util.builder.member.StudentsNumbersBuilder;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.LeadEvaluation;
+import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.util.Finder;
+import com.sasd13.proadmin.android.util.builder.member.StudentsNumbersBuilder;
 
 import java.util.List;
 

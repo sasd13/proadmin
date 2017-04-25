@@ -45,7 +45,7 @@ public class LogInTask extends ReadRequestorTask {
 
             controller.onReadTeacher(userID, intermediary);
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

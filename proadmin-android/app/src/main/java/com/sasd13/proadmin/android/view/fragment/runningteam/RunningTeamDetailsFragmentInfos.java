@@ -19,19 +19,19 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.scope.RunningTeamScope;
-import com.sasd13.proadmin.util.sorter.level.AcademicLevelsSorter;
-import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.util.sorter.running.RunningsSorter;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdate;
-import com.sasd13.proadmin.view.IRunningTeamController;
-import com.sasd13.proadmin.view.gui.form.RunningTeamForm;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.bean.update.RunningTeamUpdate;
+import com.sasd13.proadmin.android.scope.RunningTeamScope;
+import com.sasd13.proadmin.android.util.sorter.AcademicLevelSorter;
+import com.sasd13.proadmin.android.util.sorter.RunningSorter;
+import com.sasd13.proadmin.android.util.sorter.TeamSorter;
+import com.sasd13.proadmin.android.view.IRunningTeamController;
+import com.sasd13.proadmin.android.view.gui.form.RunningTeamForm;
 
 import java.util.List;
 import java.util.Observable;
@@ -98,17 +98,17 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     }
 
     private void bindFormWithRunnings(List<Running> runnings, RunningTeam runningTeam) {
-        RunningsSorter.byProjectCode(runnings);
+        RunningSorter.byProjectCode(runnings);
         runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
     }
 
     private void bindFormWithTeams(List<Team> teams, RunningTeam runningTeam) {
-        TeamsSorter.byNumber(teams);
+        TeamSorter.byNumber(teams);
         runningTeamForm.bindTeams(teams, runningTeam.getTeam());
     }
 
     private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels, RunningTeam runningTeam) {
-        AcademicLevelsSorter.byCode(academicLevels);
+        AcademicLevelSorter.byCode(academicLevels);
         runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
     }
 

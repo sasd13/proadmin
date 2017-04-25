@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.android.controller.team;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.javaex.net.EnumHttpHeader;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.service.IStudentService;
-import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class StudentReadTask extends ReadRequestorTask {
         if (result.isSuccess()) {
             controller.onReadStudentTeams(result.getData());
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

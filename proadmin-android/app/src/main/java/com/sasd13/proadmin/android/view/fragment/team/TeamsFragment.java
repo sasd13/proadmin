@@ -19,13 +19,13 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.scope.TeamScope;
-import com.sasd13.proadmin.util.sorter.member.TeamsSorter;
-import com.sasd13.proadmin.view.ITeamController;
-import com.sasd13.proadmin.view.gui.tab.TeamItemModel;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.scope.TeamScope;
+import com.sasd13.proadmin.android.util.sorter.TeamSorter;
+import com.sasd13.proadmin.android.view.ITeamController;
+import com.sasd13.proadmin.android.view.gui.tab.TeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -98,7 +98,7 @@ public class TeamsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithTeams(List<Team> teams) {
-        TeamsSorter.byNumber(teams);
+        TeamSorter.byNumber(teams);
         addRunningsToTab(teams);
     }
 

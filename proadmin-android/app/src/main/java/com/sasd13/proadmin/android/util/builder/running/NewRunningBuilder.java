@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.android.util.builder.running;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.bean.member.Teacher;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.Teacher;
 
 import java.util.Calendar;
 

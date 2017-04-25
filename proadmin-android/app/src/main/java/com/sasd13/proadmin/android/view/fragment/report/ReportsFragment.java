@@ -19,13 +19,13 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.scope.ReportScope;
-import com.sasd13.proadmin.util.sorter.running.ReportsSorter;
-import com.sasd13.proadmin.view.IReportController;
-import com.sasd13.proadmin.view.gui.tab.ReportItemModel;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.scope.ReportScope;
+import com.sasd13.proadmin.android.util.sorter.ReportSorter;
+import com.sasd13.proadmin.android.view.IReportController;
+import com.sasd13.proadmin.android.view.gui.tab.ReportItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -98,7 +98,7 @@ public class ReportsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithReports(List<Report> reports) {
-        ReportsSorter.byNumber(reports);
+        ReportSorter.byNumber(reports);
         addReportsToTab(reports);
     }
 

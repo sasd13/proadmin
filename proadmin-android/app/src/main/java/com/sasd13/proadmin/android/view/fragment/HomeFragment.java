@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.view.IBrowsable;
-import com.sasd13.proadmin.view.IProjectController;
-import com.sasd13.proadmin.view.IReportController;
-import com.sasd13.proadmin.view.ISettingController;
-import com.sasd13.proadmin.view.ITeamController;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.view.IBrowsable;
+import com.sasd13.proadmin.android.view.IProjectController;
+import com.sasd13.proadmin.android.view.IReportController;
+import com.sasd13.proadmin.android.view.ISettingController;
+import com.sasd13.proadmin.android.view.ITeamController;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

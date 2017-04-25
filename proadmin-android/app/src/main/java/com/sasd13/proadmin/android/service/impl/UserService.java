@@ -1,12 +1,13 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.bean.user.User;
-import com.sasd13.proadmin.service.IUserService;
-import com.sasd13.proadmin.service.ServiceResult;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.service.IUserService;
+import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumParameter;
-import com.sasd13.proadmin.util.WSResources;
+import com.sasd13.proadmin.util.Resources;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class UserService implements IUserService {
 
     @Override
     public ServiceResult<User> find(String userID) {
-        Promise promise = new Promise("GET", WSResources.URL_AAA_USER, User.class);
+        Promise promise = new Promise("GET", Resources.URL_AAA_USERS, User.class);
 
         parameters.clear();
         parameters.put(EnumParameter.USERID.getName(), new String[]{userID});
@@ -35,7 +36,7 @@ public class UserService implements IUserService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 promise.isSuccess() && !results.isEmpty() ? results.get(0) : null
         );
     }

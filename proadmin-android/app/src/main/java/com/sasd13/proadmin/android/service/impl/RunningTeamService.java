@@ -2,14 +2,14 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.MultiReadPromise;
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.service.IRunningTeamService;
-import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.WSResources;
-import com.sasd13.proadmin.util.wrapper.update.running.RunningTeamUpdate;
+import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.bean.update.RunningTeamUpdate;
+import com.sasd13.proadmin.android.service.IRunningTeamService;
+import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.util.Resources;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +25,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<List<RunningTeam>> read(Map<String, String[]> parameters) {
-        Promise promise = new Promise("GET", WSResources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
+        Promise promise = new Promise("GET", Resources.URL_WS_RUNNINGTEAMS, RunningTeam.class);
 
         promise.setParameters(parameters);
 
@@ -34,7 +34,7 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 results
         );
     }
@@ -45,13 +45,13 @@ public class RunningTeamService implements IRunningTeamService {
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
-        requests[0] = new MultiReadPromise.Request(PARAMATERS_RUNNING, WSResources.URL_WS_RUNNINGS, Running.class);
+        requests[0] = new MultiReadPromise.Request(PARAMATERS_RUNNING, Resources.URL_WS_RUNNINGS, Running.class);
         requests[0].setParameters(allParameters.get(PARAMATERS_RUNNING));
 
-        requests[1] = new MultiReadPromise.Request(PARAMETERS_TEAM, WSResources.URL_WS_TEAMS, Team.class);
+        requests[1] = new MultiReadPromise.Request(PARAMETERS_TEAM, Resources.URL_WS_TEAMS, Team.class);
         requests[1].setParameters(allParameters.get(PARAMETERS_TEAM));
 
-        requests[2] = new MultiReadPromise.Request(PARAMETERS_ACADEMICLEVEL, WSResources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
+        requests[2] = new MultiReadPromise.Request(PARAMETERS_ACADEMICLEVEL, Resources.URL_WS_ACADEMICLEVELS, AcademicLevel.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_ACADEMICLEVEL));
 
         Map<String, Object> results = promise.execute(requests, 7000);
@@ -59,49 +59,49 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
-                Collections.<String, List<String>>emptyMap(),
+                Collections.<String, String>emptyMap(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Void> create(RunningTeam runningTeam) {
-        Promise promise = new Promise("POST", WSResources.URL_WS_RUNNINGTEAMS);
+        Promise promise = new Promise("POST", Resources.URL_WS_RUNNINGTEAMS);
 
         promise.execute(new RunningTeam[]{runningTeam});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(RunningTeamUpdate runningTeamUpdate) {
-        Promise promise = new Promise("PUT", WSResources.URL_WS_RUNNINGTEAMS);
+        Promise promise = new Promise("PUT", Resources.URL_WS_RUNNINGTEAMS);
 
         promise.execute(new RunningTeamUpdate[]{runningTeamUpdate});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(List<RunningTeam> runningTeams) {
-        Promise promise = new Promise("DELETE", WSResources.URL_WS_RUNNINGTEAMS);
+        Promise promise = new Promise("DELETE", Resources.URL_WS_RUNNINGTEAMS);
 
         promise.execute(runningTeams);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }

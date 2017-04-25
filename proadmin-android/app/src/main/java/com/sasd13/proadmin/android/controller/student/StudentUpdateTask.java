@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.android.controller.student;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.proadmin.android.bean.update.StudentUpdate;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
@@ -34,7 +35,7 @@ public class StudentUpdateTask extends RequestorTask {
         if (result.isSuccess()) {
             controller.onUpdateStudent();
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

@@ -1,9 +1,12 @@
 package com.sasd13.proadmin.android.bean;
 
-public class AcademicLevel {
+import com.sasd13.proadmin.bean.level.IAcademicLevel;
+
+public class AcademicLevel implements IAcademicLevel {
 
     private String code;
 
+    @Override
     public String getCode() {
         return code;
     }

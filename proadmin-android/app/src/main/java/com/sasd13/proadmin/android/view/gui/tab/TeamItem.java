@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.view.gui.tab;
 import android.widget.TextView;
 
 import com.sasd13.androidex.gui.widget.recycler.tab.TabItem;
-import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.android.R;
 
 import java.util.Observable;
 

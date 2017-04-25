@@ -18,13 +18,13 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.scope.ProjectScope;
-import com.sasd13.proadmin.util.sorter.project.ProjectsSorter;
-import com.sasd13.proadmin.view.IProjectController;
-import com.sasd13.proadmin.view.gui.tab.ProjectItemModel;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.scope.ProjectScope;
+import com.sasd13.proadmin.android.util.sorter.ProjectSorter;
+import com.sasd13.proadmin.android.view.IProjectController;
+import com.sasd13.proadmin.android.view.gui.tab.ProjectItemModel;
 
 import org.joda.time.DateTime;
 
@@ -88,7 +88,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithProjects(List<Project> projects) {
-        ProjectsSorter.byDateCreation(projects);
+        ProjectSorter.byDateCreation(projects);
         addProjectsToTab(projects);
     }
 

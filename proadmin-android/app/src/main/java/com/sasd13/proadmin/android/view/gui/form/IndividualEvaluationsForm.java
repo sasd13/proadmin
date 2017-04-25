@@ -5,9 +5,9 @@ import android.content.Context;
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.bean.Student;
 
 import java.util.HashMap;
 import java.util.List;

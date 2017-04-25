@@ -37,7 +37,7 @@ public class RunningTeamReadTask extends ReadRequestorTask {
         if (result.isSuccess()) {
             controller.onReadRunningTeams(result.getData());
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

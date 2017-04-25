@@ -3,7 +3,6 @@ package com.sasd13.proadmin.android.service;
 import com.sasd13.proadmin.util.EnumError;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,13 +15,13 @@ public class ServiceResult<T> {
 
     private boolean success;
     private int httpStatus;
-    private Map<String, List<String>> headers;
+    private Map<String, String> errors;
     private T data;
 
-    public ServiceResult(boolean success, int httpStatus, Map<String, List<String>> headers, T data) {
+    public ServiceResult(boolean success, int httpStatus, Map<String, String> errors, T data) {
         this.success = success;
         this.httpStatus = httpStatus;
-        this.headers = headers;
+        this.errors = errors;
         this.data = data;
     }
 
@@ -34,8 +33,8 @@ public class ServiceResult<T> {
         return httpStatus;
     }
 
-    public Map<String, List<String>> getHeaders() {
-        return headers;
+    public Map<String, String> getErrors() {
+        return errors;
     }
 
     public T getData() {

@@ -18,14 +18,14 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.scope.TeamScope;
-import com.sasd13.proadmin.util.sorter.member.StudentTeamsSorter;
-import com.sasd13.proadmin.view.IStudentController;
-import com.sasd13.proadmin.view.ITeamController;
-import com.sasd13.proadmin.view.gui.tab.StudentTeamItemModel;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.scope.TeamScope;
+import com.sasd13.proadmin.android.util.sorter.StudentTeamSorter;
+import com.sasd13.proadmin.android.view.IStudentController;
+import com.sasd13.proadmin.android.view.ITeamController;
+import com.sasd13.proadmin.android.view.gui.tab.StudentTeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -84,7 +84,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
     private void bindTabWithStudents(List<StudentTeam> studentTeams) {
         recycler.clear();
-        StudentTeamsSorter.byStudentNumber(studentTeams);
+        StudentTeamSorter.byStudentNumber(studentTeams);
         addTeamsToTab(studentTeams);
     }
 

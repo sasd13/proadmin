@@ -36,6 +36,10 @@ public class Student {
         this.email = email;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

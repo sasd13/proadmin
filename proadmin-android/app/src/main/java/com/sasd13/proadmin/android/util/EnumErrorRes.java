@@ -2,7 +2,8 @@ package com.sasd13.proadmin.android.util;
 
 import android.support.annotation.StringRes;
 
-import com.sasd13.proadmin.R;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.util.EnumError;
 
 /**
  * Created by ssaidali2 on 30/10/2016.

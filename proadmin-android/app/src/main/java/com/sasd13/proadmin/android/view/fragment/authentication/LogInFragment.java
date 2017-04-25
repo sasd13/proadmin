@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.IdentityActivity;
-import com.sasd13.proadmin.view.ILogInController;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.IdentityActivity;
+import com.sasd13.proadmin.android.view.ILogInController;
 
 public class LogInFragment extends Fragment {
 

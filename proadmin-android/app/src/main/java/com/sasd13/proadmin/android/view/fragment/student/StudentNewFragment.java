@@ -17,12 +17,12 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.member.Student;
-import com.sasd13.proadmin.scope.StudentScope;
-import com.sasd13.proadmin.view.IStudentController;
-import com.sasd13.proadmin.view.gui.form.StudentForm;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.scope.StudentScope;
+import com.sasd13.proadmin.android.view.IStudentController;
+import com.sasd13.proadmin.android.view.gui.form.StudentForm;
 
 import java.util.Observable;
 import java.util.Observer;

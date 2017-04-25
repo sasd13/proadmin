@@ -19,13 +19,13 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.scope.RunningTeamScope;
-import com.sasd13.proadmin.util.sorter.running.RunningTeamsSorter;
-import com.sasd13.proadmin.view.IRunningTeamController;
-import com.sasd13.proadmin.view.gui.tab.RunningTeamItemModel;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.scope.RunningTeamScope;
+import com.sasd13.proadmin.android.util.sorter.RunningTeamSorter;
+import com.sasd13.proadmin.android.view.IRunningTeamController;
+import com.sasd13.proadmin.android.view.gui.tab.RunningTeamItemModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -98,7 +98,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
-        RunningTeamsSorter.byAcademicLevelCode(runningTeams);
+        RunningTeamSorter.byAcademicLevelCode(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
 

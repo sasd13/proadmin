@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.android.util.builder.running;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
+import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.bean.Team;
 
 import java.util.Calendar;
 

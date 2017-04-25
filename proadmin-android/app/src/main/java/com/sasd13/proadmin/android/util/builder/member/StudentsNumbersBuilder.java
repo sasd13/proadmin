@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.util.builder.member;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.bean.member.Student;
+import com.sasd13.proadmin.android.bean.Student;
 
 import java.util.ArrayList;
 import java.util.List;

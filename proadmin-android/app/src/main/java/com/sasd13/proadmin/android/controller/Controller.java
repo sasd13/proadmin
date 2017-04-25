@@ -11,7 +11,8 @@ import com.sasd13.proadmin.android.util.EnumErrorRes;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.util.EnumError;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -38,9 +39,10 @@ public abstract class Controller implements IController {
         display(R.string.message_cancelled);
     }
 
-    public void onFail(int httpStatus, List<String> responseErrors) {
-        if (responseErrors != null && !responseErrors.isEmpty()) {
-            EnumError error = EnumError.find(Integer.valueOf(responseErrors.get(0)));
+    public void onFail(int httpStatus, Map<String, String> errors) {
+        if (errors != null && !errors.isEmpty()) {
+            Iterator<String> it = errors.keySet().iterator();
+            EnumError error = EnumError.find(Integer.valueOf(it.next()));
 
             display(EnumErrorRes.find(error).getResID());
         } else {

@@ -37,7 +37,7 @@ public class RunningTeamDeleteTask extends RequestorTask {
         if (result.isSuccess()) {
             controller.onDeleteRunningTeam();
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

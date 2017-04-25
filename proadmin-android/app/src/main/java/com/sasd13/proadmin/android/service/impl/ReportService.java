@@ -2,14 +2,14 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.MultiReadPromise;
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.bean.member.StudentTeam;
-import com.sasd13.proadmin.bean.running.IndividualEvaluation;
-import com.sasd13.proadmin.bean.running.LeadEvaluation;
-import com.sasd13.proadmin.bean.running.Report;
-import com.sasd13.proadmin.service.IReportService;
-import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.WSResources;
-import com.sasd13.proadmin.util.wrapper.update.running.ReportUpdate;
+import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.bean.LeadEvaluation;
+import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.bean.update.ReportUpdate;
+import com.sasd13.proadmin.android.service.IReportService;
+import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.util.Resources;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<List<Report>> read(Map<String, String[]> parameters) {
-        Promise promise = new Promise("GET", WSResources.URL_WS_REPORTS, Report.class);
+        Promise promise = new Promise("GET", Resources.URL_WS_REPORTS, Report.class);
 
         promise.setParameters(parameters);
 
@@ -34,7 +34,7 @@ public class ReportService implements IReportService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 results
         );
     }
@@ -45,13 +45,13 @@ public class ReportService implements IReportService {
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
-        requests[0] = new MultiReadPromise.Request(PARAMATERS_STUDENTTEAM, WSResources.URL_WS_STUDENTTEAMS, StudentTeam.class);
+        requests[0] = new MultiReadPromise.Request(PARAMATERS_STUDENTTEAM, Resources.URL_WS_STUDENTTEAMS, StudentTeam.class);
         requests[0].setParameters(allParameters.get(PARAMATERS_STUDENTTEAM));
 
-        requests[1] = new MultiReadPromise.Request(PARAMETERS_LEADEVALUATION, WSResources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
+        requests[1] = new MultiReadPromise.Request(PARAMETERS_LEADEVALUATION, Resources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
         requests[1].setParameters(allParameters.get(PARAMETERS_LEADEVALUATION));
 
-        requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, WSResources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
+        requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, Resources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_INDIVIDUALEVALUATION));
 
         Map<String, Object> results = promise.execute(requests, 7000);
@@ -59,49 +59,49 @@ public class ReportService implements IReportService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
-                Collections.<String, List<String>>emptyMap(),
+                Collections.<String, String>emptyMap(),
                 results
         );
     }
 
     @Override
     public ServiceResult<Void> create(Report report) {
-        Promise promise = new Promise("POST", WSResources.URL_WS_REPORTS);
+        Promise promise = new Promise("POST", Resources.URL_WS_REPORTS);
 
         promise.execute(new Report[]{report});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> update(ReportUpdate reportUpdate) {
-        Promise promise = new Promise("PUT", WSResources.URL_WS_REPORTS);
+        Promise promise = new Promise("PUT", Resources.URL_WS_REPORTS);
 
         promise.execute(new ReportUpdate[]{reportUpdate});
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }
 
     @Override
     public ServiceResult<Void> delete(List<Report> reports) {
-        Promise promise = new Promise("DELETE", WSResources.URL_WS_REPORTS);
+        Promise promise = new Promise("DELETE", Resources.URL_WS_REPORTS);
 
         promise.execute(reports);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                promise.getResponseHeaders(),
+                Collections.<String, String>emptyMap(),
                 null
         );
     }

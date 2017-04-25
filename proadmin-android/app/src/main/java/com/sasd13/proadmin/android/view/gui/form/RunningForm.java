@@ -6,8 +6,8 @@ import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.running.Running;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.Running;
 
 import org.apache.commons.lang3.StringUtils;
 

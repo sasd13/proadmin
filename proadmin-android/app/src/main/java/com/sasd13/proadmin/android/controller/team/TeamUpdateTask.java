@@ -1,10 +1,9 @@
 package com.sasd13.proadmin.android.controller.team;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.javaex.net.EnumHttpHeader;
-import com.sasd13.proadmin.service.ITeamService;
-import com.sasd13.proadmin.service.ServiceResult;
-import com.sasd13.proadmin.util.wrapper.update.member.TeamUpdate;
+import com.sasd13.proadmin.android.bean.update.TeamUpdate;
+import com.sasd13.proadmin.android.service.ITeamService;
+import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
@@ -36,7 +35,7 @@ public class TeamUpdateTask extends RequestorTask {
         if (result.isSuccess()) {
             controller.onUpdateTeam();
         } else {
-            controller.onFail(result.getHttpStatus(), result.getHeaders().get(EnumHttpHeader.RESPONSE_ERROR.getName()));
+            controller.onFail(result.getHttpStatus(), result.getErrors());
         }
     }
 

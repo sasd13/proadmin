@@ -13,12 +13,12 @@ import com.sasd13.androidex.gui.widget.recycler.Recycler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.activity.MainActivity;
-import com.sasd13.proadmin.bean.project.Project;
-import com.sasd13.proadmin.scope.ProjectScope;
-import com.sasd13.proadmin.view.IProjectController;
-import com.sasd13.proadmin.view.gui.form.ProjectForm;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.scope.ProjectScope;
+import com.sasd13.proadmin.android.view.IProjectController;
+import com.sasd13.proadmin.android.view.gui.form.ProjectForm;
 
 import java.util.Observable;
 import java.util.Observer;

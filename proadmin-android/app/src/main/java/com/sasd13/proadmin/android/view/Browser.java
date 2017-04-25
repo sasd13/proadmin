@@ -3,9 +3,9 @@ package com.sasd13.proadmin.android.view;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.view.gui.browser.BrowserItemModel;
-import com.sasd13.proadmin.view.gui.browser.EnumBrowserItemType;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.view.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.android.view.gui.browser.EnumBrowserItemType;
 
 import java.util.ArrayList;
 import java.util.List;

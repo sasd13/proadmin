@@ -8,7 +8,6 @@ import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.view.ILogInController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,8 +60,8 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     @Override
-    public void onFail(int httpStatus, List<String> responseErrors) {
+    public void onFail(int httpStatus, Map<String, String> errors) {
         waitDialog.dismiss();
-        super.onFail(httpStatus, responseErrors);
+        super.onFail(httpStatus, errors);
     }
 }

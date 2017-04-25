@@ -7,15 +7,15 @@ import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
-import com.sasd13.proadmin.R;
-import com.sasd13.proadmin.bean.level.AcademicLevel;
-import com.sasd13.proadmin.bean.member.Team;
-import com.sasd13.proadmin.bean.running.Running;
-import com.sasd13.proadmin.bean.running.RunningTeam;
-import com.sasd13.proadmin.util.Finder;
-import com.sasd13.proadmin.util.builder.level.AcademicLevelsCodesBuilder;
-import com.sasd13.proadmin.util.builder.member.TeamsNumbersBuilder;
-import com.sasd13.proadmin.util.builder.running.ProjectsCodesFromRunningsBuilder;
+import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.util.Finder;
+import com.sasd13.proadmin.android.util.builder.level.AcademicLevelsCodesBuilder;
+import com.sasd13.proadmin.android.util.builder.member.TeamsNumbersBuilder;
+import com.sasd13.proadmin.android.util.builder.running.ProjectsCodesFromRunningsBuilder;
 
 import java.util.List;
 

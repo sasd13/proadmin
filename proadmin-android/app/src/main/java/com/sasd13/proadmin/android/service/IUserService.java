@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.bean.user.User;
+import com.sasd13.proadmin.android.bean.User;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
