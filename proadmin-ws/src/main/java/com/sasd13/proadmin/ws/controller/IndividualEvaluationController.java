@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationRequestBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
 import com.sasd13.proadmin.ws.bean.IndividualEvaluation;
 import com.sasd13.proadmin.ws.bean.update.IndividualEvaluationUpdate;
 import com.sasd13.proadmin.ws.dao.DAO;
@@ -55,7 +55,7 @@ public class IndividualEvaluationController extends Controller {
 
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 			List<IndividualEvaluation> results = individualEvaluationService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			IndividualEvaluationResponseBean responseBean = new IndividualEvaluationResponseBean();
 			List<IndividualEvaluationBean> list = new ArrayList<>();
 			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
 
@@ -63,9 +63,8 @@ public class IndividualEvaluationController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -73,7 +72,6 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : create");
@@ -81,13 +79,12 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
+			IndividualEvaluationRequestBean requestBean = readFromRequest(req, IndividualEvaluationRequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
@@ -97,7 +94,6 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : update");
@@ -105,13 +101,12 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
+			IndividualEvaluationRequestBean requestBean = readFromRequest(req, IndividualEvaluationRequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluationUpdate> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationUpdateAdapterI2B adapter = new IndividualEvaluationUpdateAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
@@ -121,7 +116,6 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : delete");
@@ -129,13 +123,12 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
+			IndividualEvaluationRequestBean requestBean = readFromRequest(req, IndividualEvaluationRequestBean.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
-			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 

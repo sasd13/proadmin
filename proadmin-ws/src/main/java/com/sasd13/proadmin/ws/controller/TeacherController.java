@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherRequestBean;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
 import com.sasd13.proadmin.ws.bean.Teacher;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeacherService;
@@ -54,7 +54,7 @@ public class TeacherController extends Controller {
 
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
 			List<Teacher> results = teacherService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			TeacherResponseBean responseBean = new TeacherResponseBean();
 			List<TeacherBean> list = new ArrayList<>();
 			TeacherAdapterB2I adapter = new TeacherAdapterB2I();
 
@@ -62,9 +62,8 @@ public class TeacherController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeacherRequestBean requestBean = readFromRequest(req, TeacherRequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
-			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
-			TeacherAdapterI2B adapter = new TeacherAdapterI2B();
 
-			teacherService.create(adapter.adapt(teacherBean));
+			teacherService.create(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeacherRequestBean requestBean = readFromRequest(req, TeacherRequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
-			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
-			TeacherUpdateAdapterI2B adapter = new TeacherUpdateAdapterI2B();
 
-			teacherService.update(adapter.adapt(teacherBean));
+			teacherService.update(new TeacherUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class TeacherController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeacherRequestBean requestBean = readFromRequest(req, TeacherRequestBean.class);
 			ITeacherService teacherService = (ITeacherService) ServiceFactory.make(ITeacherService.class, dao);
-			TeacherBean teacherBean = (TeacherBean) requestBean.getData();
-			TeacherAdapterI2B adapter = new TeacherAdapterI2B();
 
-			teacherService.delete(adapter.adapt(teacherBean));
+			teacherService.delete(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

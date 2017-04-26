@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.ws.util.Constants;
 
@@ -29,16 +27,16 @@ public abstract class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1073440009453108500L;
 
-	protected <T> RequestBean<T> readFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException {
-		String data = Stream.read(req.getReader());
+	protected <T> T readFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException {
+		String message = Stream.read(req.getReader());
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		return objectMapper.readValue(data, new TypeReference<RequestBean<T>>() {
-		});
+		return objectMapper.readValue(message, mClass);
 	}
 
-	protected void addHeaders(ResponseBean responseBean) {
-		responseBean.getContext().setLanguageISOCode(responseBean.getContext().getLanguageISOCode());
+	protected void addHeaders(ResponseBean responseBean, int size) {
+		responseBean.getHeader().getApplicativeContext().setLanguageISOCode(responseBean.getHeader().getApplicativeContext().getLanguageISOCode());
+		responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(size));
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {

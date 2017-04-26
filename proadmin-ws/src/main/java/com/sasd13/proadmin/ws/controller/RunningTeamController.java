@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamRequestBean;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamResponseBean;
 import com.sasd13.proadmin.ws.bean.RunningTeam;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningTeamService;
@@ -54,7 +54,7 @@ public class RunningTeamController extends Controller {
 
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
 			List<RunningTeam> results = runningTeamService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			RunningTeamResponseBean responseBean = new RunningTeamResponseBean();
 			List<RunningTeamBean> list = new ArrayList<>();
 			RunningTeamAdapterB2I adapter = new RunningTeamAdapterB2I();
 
@@ -62,9 +62,8 @@ public class RunningTeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningTeamRequestBean requestBean = readFromRequest(req, RunningTeamRequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
-			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
-			RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
 
-			runningTeamService.create(adapter.adapt(runningTeamBean));
+			runningTeamService.create(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningTeamRequestBean requestBean = readFromRequest(req, RunningTeamRequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
-			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
-			RunningTeamUpdateAdapterI2B adapter = new RunningTeamUpdateAdapterI2B();
 
-			runningTeamService.update(adapter.adapt(runningTeamBean));
+			runningTeamService.update(new RunningTeamUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class RunningTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningTeamRequestBean requestBean = readFromRequest(req, RunningTeamRequestBean.class);
 			IRunningTeamService runningTeamService = (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class, dao);
-			RunningTeamBean runningTeamBean = (RunningTeamBean) requestBean.getData();
-			RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
 
-			runningTeamService.delete(adapter.adapt(runningTeamBean));
+			runningTeamService.delete(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

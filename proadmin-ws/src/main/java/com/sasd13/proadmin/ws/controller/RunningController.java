@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
+import com.sasd13.proadmin.itf.bean.running.RunningRequestBean;
+import com.sasd13.proadmin.itf.bean.running.RunningResponseBean;
 import com.sasd13.proadmin.ws.bean.Running;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IRunningService;
@@ -54,7 +54,7 @@ public class RunningController extends Controller {
 
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
 			List<Running> results = runningService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			RunningResponseBean responseBean = new RunningResponseBean();
 			List<RunningBean> list = new ArrayList<>();
 			RunningAdapterB2I adapter = new RunningAdapterB2I();
 
@@ -62,9 +62,8 @@ public class RunningController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class RunningController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningRequestBean requestBean = readFromRequest(req, RunningRequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
-			RunningBean runningBean = (RunningBean) requestBean.getData();
-			RunningAdapterI2B adapter = new RunningAdapterI2B();
 
-			runningService.create(adapter.adapt(runningBean));
+			runningService.create(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class RunningController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningRequestBean requestBean = readFromRequest(req, RunningRequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
-			RunningBean runningBean = (RunningBean) requestBean.getData();
-			RunningUpdateAdapterI2B adapter = new RunningUpdateAdapterI2B();
 
-			runningService.update(adapter.adapt(runningBean));
+			runningService.update(new RunningUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class RunningController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RunningRequestBean requestBean = readFromRequest(req, RunningRequestBean.class);
 			IRunningService runningService = (IRunningService) ServiceFactory.make(IRunningService.class, dao);
-			RunningBean runningBean = (RunningBean) requestBean.getData();
-			RunningAdapterI2B adapter = new RunningAdapterI2B();
 
-			runningService.delete(adapter.adapt(runningBean));
+			runningService.delete(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

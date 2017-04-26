@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
+import com.sasd13.proadmin.itf.bean.team.TeamRequestBean;
+import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
 import com.sasd13.proadmin.ws.bean.Team;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ITeamService;
@@ -54,7 +54,7 @@ public class TeamController extends Controller {
 
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
 			List<Team> results = teamService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			TeamResponseBean responseBean = new TeamResponseBean();
 			List<TeamBean> list = new ArrayList<>();
 			TeamAdapterB2I adapter = new TeamAdapterB2I();
 
@@ -62,9 +62,8 @@ public class TeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeamRequestBean requestBean = readFromRequest(req, TeamRequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
-			TeamBean teamBean = (TeamBean) requestBean.getData();
-			TeamAdapterI2B adapter = new TeamAdapterI2B();
 
-			teamService.create(adapter.adapt(teamBean));
+			teamService.create(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeamRequestBean requestBean = readFromRequest(req, TeamRequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
-			TeamBean teamBean = (TeamBean) requestBean.getData();
-			TeamUpdateAdapterI2B adapter = new TeamUpdateAdapterI2B();
 
-			teamService.update(adapter.adapt(teamBean));
+			teamService.update(new TeamUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class TeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			TeamRequestBean requestBean = readFromRequest(req, TeamRequestBean.class);
 			ITeamService teamService = (ITeamService) ServiceFactory.make(ITeamService.class, dao);
-			TeamBean teamBean = (TeamBean) requestBean.getData();
-			TeamAdapterI2B adapter = new TeamAdapterI2B();
 
-			teamService.delete(adapter.adapt(teamBean));
+			teamService.delete(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

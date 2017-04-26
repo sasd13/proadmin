@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
+import com.sasd13.proadmin.itf.bean.report.ReportRequestBean;
+import com.sasd13.proadmin.itf.bean.report.ReportResponseBean;
 import com.sasd13.proadmin.ws.bean.Report;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IReportService;
@@ -54,7 +54,7 @@ public class ReportController extends Controller {
 
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
 			List<Report> results = reportService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			ReportResponseBean responseBean = new ReportResponseBean();
 			List<ReportBean> list = new ArrayList<>();
 			ReportAdapterB2I adapter = new ReportAdapterB2I();
 
@@ -62,9 +62,8 @@ public class ReportController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ReportRequestBean requestBean = readFromRequest(req, ReportRequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
-			ReportBean reportBean = (ReportBean) requestBean.getData();
-			ReportAdapterI2B adapter = new ReportAdapterI2B();
 
-			reportService.create(adapter.adapt(reportBean));
+			reportService.create(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ReportRequestBean requestBean = readFromRequest(req, ReportRequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
-			ReportBean reportBean = (ReportBean) requestBean.getData();
-			ReportUpdateAdapterI2B adapter = new ReportUpdateAdapterI2B();
 
-			reportService.update(adapter.adapt(reportBean));
+			reportService.update(new ReportUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class ReportController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ReportRequestBean requestBean = readFromRequest(req, ReportRequestBean.class);
 			IReportService reportService = (IReportService) ServiceFactory.make(IReportService.class, dao);
-			ReportBean reportBean = (ReportBean) requestBean.getData();
-			ReportAdapterI2B adapter = new ReportAdapterI2B();
 
-			reportService.delete(adapter.adapt(reportBean));
+			reportService.delete(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

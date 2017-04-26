@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectRequestBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectResponseBean;
 import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IProjectService;
@@ -54,7 +54,7 @@ public class ProjectController extends Controller {
 
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
 			List<Project> results = projectService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			ProjectResponseBean responseBean = new ProjectResponseBean();
 			List<ProjectBean> list = new ArrayList<>();
 			ProjectAdapterB2I adapter = new ProjectAdapterB2I();
 
@@ -62,9 +62,8 @@ public class ProjectController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ProjectRequestBean requestBean = readFromRequest(req, ProjectRequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
-			ProjectBean projectBean = (ProjectBean) requestBean.getData();
-			ProjectAdapterI2B adapter = new ProjectAdapterI2B();
 
-			projectService.create(adapter.adapt(projectBean));
+			projectService.create(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ProjectRequestBean requestBean = readFromRequest(req, ProjectRequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
-			ProjectBean projectBean = (ProjectBean) requestBean.getData();
-			ProjectUpdateAdapterI2B adapter = new ProjectUpdateAdapterI2B();
 
-			projectService.update(adapter.adapt(projectBean));
+			projectService.update(new ProjectUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class ProjectController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			ProjectRequestBean requestBean = readFromRequest(req, ProjectRequestBean.class);
 			IProjectService projectService = (IProjectService) ServiceFactory.make(IProjectService.class, dao);
-			ProjectBean projectBean = (ProjectBean) requestBean.getData();
-			ProjectAdapterI2B adapter = new ProjectAdapterI2B();
 
-			projectService.delete(adapter.adapt(projectBean));
+			projectService.delete(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

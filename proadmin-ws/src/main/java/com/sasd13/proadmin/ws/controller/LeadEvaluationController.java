@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationRequestBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationResponseBean;
 import com.sasd13.proadmin.ws.bean.LeadEvaluation;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.ILeadEvaluationService;
@@ -54,7 +54,7 @@ public class LeadEvaluationController extends Controller {
 
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
 			List<LeadEvaluation> results = leadEvaluationService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			LeadEvaluationResponseBean responseBean = new LeadEvaluationResponseBean();
 			List<LeadEvaluationBean> list = new ArrayList<>();
 			LeadEvaluationAdapterB2I adapter = new LeadEvaluationAdapterB2I();
 
@@ -62,9 +62,8 @@ public class LeadEvaluationController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			LeadEvaluationRequestBean requestBean = readFromRequest(req, LeadEvaluationRequestBean.class);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
-			LeadEvaluationBean leadEvaluationBean = (LeadEvaluationBean) requestBean.getData();
-			LeadEvaluationAdapterI2B adapter = new LeadEvaluationAdapterI2B();
 
-			leadEvaluationService.create(adapter.adapt(leadEvaluationBean));
+			leadEvaluationService.create(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			LeadEvaluationRequestBean requestBean = readFromRequest(req, LeadEvaluationRequestBean.class);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
-			LeadEvaluationBean leadEvaluationBean = (LeadEvaluationBean) requestBean.getData();
-			LeadEvaluationUpdateAdapterI2B adapter = new LeadEvaluationUpdateAdapterI2B();
 
-			leadEvaluationService.update(adapter.adapt(leadEvaluationBean));
+			leadEvaluationService.update(new LeadEvaluationUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class LeadEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			LeadEvaluationRequestBean requestBean = readFromRequest(req, LeadEvaluationRequestBean.class);
 			ILeadEvaluationService leadEvaluationService = (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class, dao);
-			LeadEvaluationBean leadEvaluationBean = (LeadEvaluationBean) requestBean.getData();
-			LeadEvaluationAdapterI2B adapter = new LeadEvaluationAdapterI2B();
 
-			leadEvaluationService.delete(adapter.adapt(leadEvaluationBean));
+			leadEvaluationService.delete(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

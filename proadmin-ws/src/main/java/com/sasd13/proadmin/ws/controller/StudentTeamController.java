@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamRequestBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
 import com.sasd13.proadmin.ws.bean.StudentTeam;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IStudentTeamService;
@@ -53,7 +53,7 @@ public class StudentTeamController extends Controller {
 
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
 			List<StudentTeam> results = studentTeamService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			StudentTeamResponseBean responseBean = new StudentTeamResponseBean();
 			List<StudentTeamBean> list = new ArrayList<>();
 			StudentTeamAdapterB2I adapter = new StudentTeamAdapterB2I();
 
@@ -61,9 +61,8 @@ public class StudentTeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -71,7 +70,6 @@ public class StudentTeamController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] StudentTeam : create");
@@ -79,13 +77,12 @@ public class StudentTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			StudentTeamRequestBean requestBean = readFromRequest(req, StudentTeamRequestBean.class);
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
-			List<StudentTeamBean> studentTeamBeans = (List<StudentTeamBean>) requestBean.getData();
 			List<StudentTeam> studentTeams = new ArrayList<>();
 			StudentTeamAdapterI2B adapter = new StudentTeamAdapterI2B();
 
-			for (StudentTeamBean studentTeamBean : studentTeamBeans) {
+			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
 				studentTeams.add(adapter.adapt(studentTeamBean));
 			}
 
@@ -95,7 +92,6 @@ public class StudentTeamController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] StudentTeam : delete");
@@ -103,17 +99,16 @@ public class StudentTeamController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			StudentTeamRequestBean requestBean = readFromRequest(req, StudentTeamRequestBean.class);
 			IStudentTeamService studentTeamService = (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class, dao);
-			List<StudentTeamBean> studentTeamBeans = (List<StudentTeamBean>) requestBean.getData();
 			List<StudentTeam> studentTeams = new ArrayList<>();
 			StudentTeamAdapterI2B adapter = new StudentTeamAdapterI2B();
 
-			for (StudentTeamBean studentTeamBean : studentTeamBeans) {
+			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
 				studentTeams.add(adapter.adapt(studentTeamBean));
 			}
 
-			studentTeamService.create(studentTeams);
+			studentTeamService.delete(studentTeams);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

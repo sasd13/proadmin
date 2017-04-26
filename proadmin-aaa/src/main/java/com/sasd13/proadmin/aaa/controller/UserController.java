@@ -6,6 +6,7 @@
 package com.sasd13.proadmin.aaa.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +26,15 @@ import com.sasd13.proadmin.aaa.dao.DAO;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
+import com.sasd13.proadmin.aaa.util.adapter.bean2itf.UserAdapterB2I;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserUpdateAdapterI2B;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
+import com.sasd13.proadmin.itf.bean.user.UserBean;
+import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.create.UserCreateBean;
+import com.sasd13.proadmin.itf.bean.user.create.UserCreateRequestBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateBean;
+import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 
 /**
  *
@@ -54,10 +58,16 @@ public class UserController extends Controller {
 		try {
 			if (!parameters.isEmpty()) {
 				List<User> results = userService.read(parameters);
-				ResponseBean responseBean = new ResponseBean();
+				UserResponseBean responseBean = new UserResponseBean();
+				List<UserBean> list = new ArrayList<>();
+				UserAdapterB2I adapter = new UserAdapterB2I();
 
-				responseBean.getContext().setPaginationTotalItems(String.valueOf(results.size()));
-				responseBean.setData(results);
+				for (User result : results) {
+					list.add(adapter.adapt(result));
+				}
+
+				responseBean.setData(list);
+				addHeaders(responseBean, list.size());
 
 				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 			} else {
@@ -75,8 +85,8 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<UserCreateBean> requestBean = (RequestBean<UserCreateBean>) readFromRequest(req, UserCreateBean.class);
-			UserCreateBean userCreateBean = (UserCreateBean) requestBean.getData();
+			UserCreateRequestBean requestBean = readFromRequest(req, UserCreateRequestBean.class);
+			UserCreateBean userCreateBean = requestBean.getData();
 			UserCreate userCreate = new UserCreateAdapterI2B().adapt(userCreateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
@@ -93,8 +103,8 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<UserUpdateBean> requestBean = (RequestBean<UserUpdateBean>) readFromRequest(req, UserUpdateBean.class);
-			UserUpdateBean userUpdateBean = (UserUpdateBean) requestBean.getData();
+			UserUpdateRequestBean requestBean = readFromRequest(req, UserUpdateRequestBean.class);
+			UserUpdateBean userUpdateBean = requestBean.getData();
 			UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			boolean updated = false;

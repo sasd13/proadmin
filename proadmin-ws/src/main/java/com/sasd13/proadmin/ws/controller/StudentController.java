@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
 import com.sasd13.javaex.parser.ParserFactory;
-import com.sasd13.proadmin.itf.RequestBean;
-import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.student.StudentBean;
+import com.sasd13.proadmin.itf.bean.student.StudentRequestBean;
+import com.sasd13.proadmin.itf.bean.student.StudentResponseBean;
 import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.dao.DAO;
 import com.sasd13.proadmin.ws.service.IStudentService;
@@ -54,7 +54,7 @@ public class StudentController extends Controller {
 
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
 			List<Student> results = studentService.read(parameters);
-			ResponseBean responseBean = new ResponseBean();
+			StudentResponseBean responseBean = new StudentResponseBean();
 			List<StudentBean> list = new ArrayList<>();
 			StudentAdapterB2I adapter = new StudentAdapterB2I();
 
@@ -62,9 +62,8 @@ public class StudentController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
 
 			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
 		} catch (Exception e) {
@@ -79,12 +78,10 @@ public class StudentController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			StudentRequestBean requestBean = readFromRequest(req, StudentRequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
-			StudentBean studentBean = (StudentBean) requestBean.getData();
-			StudentAdapterI2B adapter = new StudentAdapterI2B();
 
-			studentService.create(adapter.adapt(studentBean));
+			studentService.create(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -97,12 +94,10 @@ public class StudentController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			StudentRequestBean requestBean = readFromRequest(req, StudentRequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
-			StudentBean studentBean = (StudentBean) requestBean.getData();
-			StudentUpdateAdapterI2B adapter = new StudentUpdateAdapterI2B();
 
-			studentService.update(adapter.adapt(studentBean));
+			studentService.update(new StudentUpdateAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
@@ -115,12 +110,10 @@ public class StudentController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			StudentRequestBean requestBean = readFromRequest(req, StudentRequestBean.class);
 			IStudentService studentService = (IStudentService) ServiceFactory.make(IStudentService.class, dao);
-			StudentBean studentBean = (StudentBean) requestBean.getData();
-			StudentAdapterI2B adapter = new StudentAdapterI2B();
 
-			studentService.delete(adapter.adapt(studentBean));
+			studentService.delete(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

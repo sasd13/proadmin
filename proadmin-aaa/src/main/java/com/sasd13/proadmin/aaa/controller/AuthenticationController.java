@@ -24,7 +24,6 @@ import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
-import com.sasd13.proadmin.itf.RequestBean;
 
 /**
  *
@@ -39,13 +38,12 @@ public class AuthenticationController extends Controller {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		LOGGER.info("[Proadmin-AAA] Login");
+		LOGGER.info("[Proadmin-AAA] Authentication");
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean<Credential> requestBean = (RequestBean<Credential>) readFromRequest(req, Credential.class);
-			Credential credential = (Credential) requestBean.getData();
+			Credential credential = readFromRequest(req, Credential.class);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			User user = userService.find(credential);
 
