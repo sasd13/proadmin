@@ -18,6 +18,13 @@ public class ServiceResult<T> {
     private Map<String, String> errors;
     private T data;
 
+    public ServiceResult(boolean success, int httpStatus) {
+        this.success = success;
+        this.httpStatus = httpStatus;
+        errors = Collections.emptyMap();
+        data = null;
+    }
+
     public ServiceResult(boolean success, int httpStatus, Map<String, String> errors, T data) {
         this.success = success;
         this.httpStatus = httpStatus;

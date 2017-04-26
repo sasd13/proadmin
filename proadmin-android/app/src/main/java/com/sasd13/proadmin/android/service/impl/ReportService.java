@@ -9,8 +9,24 @@ import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.bean.update.ReportUpdate;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.ReportAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.update.ReportUpdateAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.ReportAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.StudentTeamAdapterI2B;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationResponseBean;
+import com.sasd13.proadmin.itf.bean.report.ReportBean;
+import com.sasd13.proadmin.itf.bean.report.ReportRequestBean;
+import com.sasd13.proadmin.itf.bean.report.ReportResponseBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -25,17 +41,23 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<List<Report>> read(Map<String, String[]> parameters) {
-        Promise promise = new Promise("GET", Resources.URL_WS_REPORTS, Report.class);
+        Promise promise = new Promise("GET", Resources.URL_WS_REPORTS, ReportResponseBean.class);
 
         promise.setParameters(parameters);
 
-        List<Report> results = (List<Report>) promise.execute();
+        ReportResponseBean responseBean = (ReportResponseBean) promise.execute();
+        List<Report> list = new ArrayList<>();
+        ReportAdapterI2B adapter = new ReportAdapterI2B();
+
+        for (ReportBean reportBean : responseBean.getData()) {
+            list.add(adapter.adapt(reportBean));
+        }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                Collections.<String, String>emptyMap(),
-                results
+                responseBean.getErrors(),
+                list
         );
     }
 
@@ -45,16 +67,44 @@ public class ReportService implements IReportService {
 
         MultiReadPromise.Request[] requests = new MultiReadPromise.Request[NBR_REQUESTS];
 
-        requests[0] = new MultiReadPromise.Request(PARAMATERS_STUDENTTEAM, Resources.URL_WS_STUDENTTEAMS, StudentTeam.class);
+        requests[0] = new MultiReadPromise.Request(PARAMATERS_STUDENTTEAM, Resources.URL_WS_STUDENTTEAMS, StudentTeamResponseBean.class);
         requests[0].setParameters(allParameters.get(PARAMATERS_STUDENTTEAM));
 
-        requests[1] = new MultiReadPromise.Request(PARAMETERS_LEADEVALUATION, Resources.URL_WS_LEADEVALUATIONS, LeadEvaluation.class);
+        requests[1] = new MultiReadPromise.Request(PARAMETERS_LEADEVALUATION, Resources.URL_WS_LEADEVALUATIONS, LeadEvaluationResponseBean.class);
         requests[1].setParameters(allParameters.get(PARAMETERS_LEADEVALUATION));
 
-        requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, Resources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluation.class);
+        requests[2] = new MultiReadPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, Resources.URL_WS_INDIVIDUALEVALUATIONS, IndividualEvaluationResponseBean.class);
         requests[2].setParameters(allParameters.get(PARAMETERS_INDIVIDUALEVALUATION));
 
         Map<String, Object> results = promise.execute(requests, 7000);
+
+        StudentTeamResponseBean studentTeamResponseBean = (StudentTeamResponseBean) results.get(PARAMATERS_STUDENTTEAM);
+        LeadEvaluationResponseBean leadEvaluationResponseBean = (LeadEvaluationResponseBean) results.get(PARAMETERS_LEADEVALUATION);
+        IndividualEvaluationResponseBean individualEvaluationResponseBean = (IndividualEvaluationResponseBean) results.get(PARAMETERS_INDIVIDUALEVALUATION);
+
+        List<StudentTeam> studentTeams = new ArrayList<>();
+        List<LeadEvaluation> leadEvaluations = new ArrayList<>();
+        List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
+
+        StudentTeamAdapterI2B studentTeamAdapter = new StudentTeamAdapterI2B();
+        LeadEvaluationAdapterI2B leadEvaluationAdapter = new LeadEvaluationAdapterI2B();
+        IndividualEvaluationAdapterI2B individualEvaluationAdapter = new IndividualEvaluationAdapterI2B();
+
+        for (StudentTeamBean studentTeamBean : studentTeamResponseBean.getData()) {
+            studentTeams.add(studentTeamAdapter.adapt(studentTeamBean));
+        }
+
+        for (LeadEvaluationBean leadEvaluationBean : leadEvaluationResponseBean.getData()) {
+            leadEvaluations.add(leadEvaluationAdapter.adapt(leadEvaluationBean));
+        }
+
+        for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationResponseBean.getData()) {
+            individualEvaluations.add(individualEvaluationAdapter.adapt(individualEvaluationBean));
+        }
+
+        results.put(PARAMATERS_STUDENTTEAM, studentTeams);
+        results.put(PARAMETERS_LEADEVALUATION, leadEvaluations);
+        results.put(PARAMETERS_INDIVIDUALEVALUATION, individualEvaluations);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -68,13 +118,16 @@ public class ReportService implements IReportService {
     public ServiceResult<Void> create(Report report) {
         Promise promise = new Promise("POST", Resources.URL_WS_REPORTS);
 
-        promise.execute(new Report[]{report});
+        ReportRequestBean requestBean = new ReportRequestBean();
+        List<ReportBean> list = new ArrayList<>();
+
+        list.add(new ReportAdapterB2I().adapt(report));
+        requestBean.setData(list);
+        promise.execute(requestBean);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
-                promise.getResponseCode(),
-                Collections.<String, String>emptyMap(),
-                null
+                promise.getResponseCode()
         );
     }
 
@@ -82,13 +135,16 @@ public class ReportService implements IReportService {
     public ServiceResult<Void> update(ReportUpdate reportUpdate) {
         Promise promise = new Promise("PUT", Resources.URL_WS_REPORTS);
 
-        promise.execute(new ReportUpdate[]{reportUpdate});
+        ReportRequestBean requestBean = new ReportRequestBean();
+        List<ReportBean> list = new ArrayList<>();
+
+        list.add(new ReportUpdateAdapterB2I().adapt(reportUpdate));
+        requestBean.setData(list);
+        promise.execute(requestBean);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
-                promise.getResponseCode(),
-                Collections.<String, String>emptyMap(),
-                null
+                promise.getResponseCode()
         );
     }
 
@@ -96,13 +152,20 @@ public class ReportService implements IReportService {
     public ServiceResult<Void> delete(List<Report> reports) {
         Promise promise = new Promise("DELETE", Resources.URL_WS_REPORTS);
 
-        promise.execute(reports);
+        ReportRequestBean requestBean = new ReportRequestBean();
+        List<ReportBean> list = new ArrayList<>();
+        ReportAdapterB2I adapter = new ReportAdapterB2I();
+
+        for (Report report : reports) {
+            list.add(adapter.adapt(report));
+        }
+
+        requestBean.setData(list);
+        promise.execute(requestBean);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
-                promise.getResponseCode(),
-                Collections.<String, String>emptyMap(),
-                null
+                promise.getResponseCode()
         );
     }
 }
