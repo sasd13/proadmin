@@ -14,5 +14,7 @@ public interface ITeacherService {
 
     ServiceResult<List<Teacher>> read(Map<String, String[]> parameters);
 
+    ServiceResult<Void> create(Teacher teacher);
+
     ServiceResult<Void> update(TeacherUpdate teacherUpdate);
 }

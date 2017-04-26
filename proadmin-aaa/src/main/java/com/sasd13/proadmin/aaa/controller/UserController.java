@@ -75,7 +75,7 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req);
+			RequestBean<UserCreateBean> requestBean = (RequestBean<UserCreateBean>) readFromRequest(req, UserCreateBean.class);
 			UserCreateBean userCreateBean = (UserCreateBean) requestBean.getData();
 			UserCreate userCreate = new UserCreateAdapterI2B().adapt(userCreateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
@@ -93,7 +93,7 @@ public class UserController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req);
+			RequestBean<UserUpdateBean> requestBean = (RequestBean<UserUpdateBean>) readFromRequest(req, UserUpdateBean.class);
 			UserUpdateBean userUpdateBean = (UserUpdateBean) requestBean.getData();
 			UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);

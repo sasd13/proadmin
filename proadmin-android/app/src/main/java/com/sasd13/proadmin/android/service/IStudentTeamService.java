@@ -1,8 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.update.StudentUpdate;
 
 import java.util.List;
 import java.util.Map;

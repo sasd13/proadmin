@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sasd13.javaex.io.Stream;
-import com.sasd13.javaex.parser.IParser;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.itf.RequestBean;
 
@@ -28,11 +28,12 @@ public abstract class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = -5449641076971430518L;
 
-	protected RequestBean readFromRequest(HttpServletRequest req) throws IOException {
-		IParser parser = ParserFactory.make(req.getContentType());
-		String message = Stream.read(req.getReader());
+	protected <T> RequestBean<T> readFromRequest(HttpServletRequest req, Class<T> mClass) throws IOException {
+		String data = Stream.read(req.getReader());
+		ObjectMapper objectMapper = new ObjectMapper();
 
-		return (RequestBean) parser.fromString(message, RequestBean.class);
+		return objectMapper.readValue(data, new TypeReference<RequestBean<T>>() {
+		});
 	}
 
 	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {

@@ -5,6 +5,9 @@ import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.update.LeadEvaluationUpdate;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.LeadEvaluationAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.update.LeadEvaluationUpdateAdapterB2I;
+import com.sasd13.proadmin.itf.RequestBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.Collections;
@@ -19,7 +22,10 @@ public class LeadEvaluationService implements ILeadEvaluationService {
     public ServiceResult<Void> create(LeadEvaluation leadEvaluation) {
         Promise promise = new Promise("POST", Resources.URL_WS_LEADEVALUATIONS);
 
-        promise.execute(new LeadEvaluation[]{leadEvaluation});
+        RequestBean requestBean = new RequestBean();
+
+        requestBean.setData(new LeadEvaluationAdapterB2I().adapt(leadEvaluation));
+        promise.execute(requestBean);
 
         return new ServiceResult<>(
                 promise.isSuccess(),
@@ -33,7 +39,10 @@ public class LeadEvaluationService implements ILeadEvaluationService {
     public ServiceResult<Void> update(LeadEvaluationUpdate leadEvaluationUpdate) {
         Promise promise = new Promise("PUT", Resources.URL_WS_LEADEVALUATIONS);
 
-        promise.execute(new LeadEvaluationUpdate[]{leadEvaluationUpdate});
+        RequestBean requestBean = new RequestBean();
+
+        requestBean.setData(new LeadEvaluationUpdateAdapterB2I().adapt(leadEvaluationUpdate));
+        promise.execute(requestBean);
 
         return new ServiceResult<>(
                 promise.isSuccess(),

@@ -10,16 +10,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_EMPTY)
 @JsonPropertyOrder({ "data" })
-public class RequestBean {
+public class RequestBean<T> {
 
 	@JsonProperty("data")
-	private Object data;
+	private T data;
 
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
 
-	public void setData(Object data) {
+	public void setData(T data) {
 		this.data = data;
 	}
 }

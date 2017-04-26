@@ -44,7 +44,7 @@ public class AuthenticationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req);
+			RequestBean<Credential> requestBean = (RequestBean<Credential>) readFromRequest(req, Credential.class);
 			Credential credential = (Credential) requestBean.getData();
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			User user = userService.find(credential);

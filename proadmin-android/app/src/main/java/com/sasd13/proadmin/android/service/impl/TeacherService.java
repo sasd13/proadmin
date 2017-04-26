@@ -34,6 +34,20 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
+    public ServiceResult<Void> create(Teacher teacher) {
+        Promise promise = new Promise("POST", Resources.URL_WS_TEACHERS);
+
+        promise.execute(new Teacher[]{teacher});
+
+        return new ServiceResult<>(
+                promise.isSuccess(),
+                promise.getResponseCode(),
+                Collections.<String, String>emptyMap(),
+                null
+        );
+    }
+
+    @Override
     public ServiceResult<Void> update(TeacherUpdate teacherUpdate) {
         Promise promise = new Promise("PUT", Resources.URL_WS_TEACHERS);
 

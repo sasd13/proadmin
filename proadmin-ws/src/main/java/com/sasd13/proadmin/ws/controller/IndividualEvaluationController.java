@@ -73,7 +73,7 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : create");
@@ -81,7 +81,7 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
@@ -97,7 +97,7 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : update");
@@ -105,7 +105,7 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluationUpdate> individualEvaluations = new ArrayList<>();
@@ -121,7 +121,7 @@ public class IndividualEvaluationController extends Controller {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] IndividualEvaluation : delete");
@@ -129,7 +129,7 @@ public class IndividualEvaluationController extends Controller {
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 
 		try {
-			RequestBean requestBean = readFromRequest(req, RequestBean.class);
+			RequestBean<List> requestBean = (RequestBean<List>) readFromRequest(req, List.class);
 			IIndividualEvaluationService individualEvaluationService = (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class, dao);
 			List<IndividualEvaluationBean> individualEvaluationBeans = (List<IndividualEvaluationBean>) requestBean.getData();
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
