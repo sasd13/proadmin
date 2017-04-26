@@ -9,17 +9,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_EMPTY)
-@JsonPropertyOrder({ "data" })
-public class RequestBean<T> {
+@JsonPropertyOrder({ "header" })
+public abstract class RequestBean {
 
-	@JsonProperty("data")
-	private T data;
+	@JsonProperty("header")
+	private RequestHeader header;
 
-	public T getData() {
-		return data;
+	public RequestBean() {
+		header = new RequestHeader();
 	}
 
-	public void setData(T data) {
-		this.data = data;
+	public RequestHeader getHeader() {
+		return header;
+	}
+
+	public void setHeader(RequestHeader header) {
+		this.header = header;
 	}
 }

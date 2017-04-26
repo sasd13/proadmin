@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_EMPTY)
 @JsonPropertyOrder({ "languageISOCode", "paginationStartItem", "paginationWantedItems", "additionalProperties" })
-public class SearchContext {
+public class SearchApplicativeContext {
 
 	@JsonProperty("languageISOCode")
 	private String languageISOCode;
@@ -27,7 +27,7 @@ public class SearchContext {
 	@JsonProperty("additionalProperties")
 	private Map<String, Object> additionalProperties;
 
-	public SearchContext() {
+	public SearchApplicativeContext() {
 		additionalProperties = new HashMap<>();
 	}
 

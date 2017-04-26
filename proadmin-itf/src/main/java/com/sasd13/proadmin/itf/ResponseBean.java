@@ -12,29 +12,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_EMPTY)
-@JsonPropertyOrder({ "context", "errors", "data" })
-public class ResponseBean {
+@JsonPropertyOrder({ "header", "errors" })
+public abstract class ResponseBean {
 
-	@JsonProperty("context")
-	private ResponseContext context;
+	@JsonProperty("header")
+	private ResponseHeader header;
 
 	@JsonProperty("errors")
 	private Map<String, String> errors;
 
-	@JsonProperty("data")
-	private Object data;
-
 	public ResponseBean() {
-		context = new ResponseContext();
+		header = new ResponseHeader();
 		errors = new HashMap<>();
 	}
 
-	public ResponseContext getContext() {
-		return context;
+	public ResponseHeader getHeader() {
+		return header;
 	}
 
-	public void setContext(ResponseContext context) {
-		this.context = context;
+	public void setHeader(ResponseHeader header) {
+		this.header = header;
 	}
 
 	public Map<String, String> getErrors() {
@@ -43,13 +40,5 @@ public class ResponseBean {
 
 	public void setErrors(Map<String, String> errors) {
 		this.errors = errors;
-	}
-
-	public Object getData() {
-		return data;
-	}
-
-	public void setData(Object data) {
-		this.data = data;
 	}
 }

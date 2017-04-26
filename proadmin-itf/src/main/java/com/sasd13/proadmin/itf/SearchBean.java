@@ -11,27 +11,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Generated("org.jsonschema2pojo")
-@JsonInclude(Include.NON_EMPTY)
-@JsonPropertyOrder({ "context", "criterias" })
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "header", "criterias" })
 public class SearchBean {
 
-	@JsonProperty("context")
-	private SearchContext context;
+	@JsonProperty("header")
+	private SearchHeader header;
 
 	@JsonProperty("criterias")
 	private Map<String, String[]> criterias;
 
 	public SearchBean() {
-		context = new SearchContext();
+		header = new SearchHeader();
 		criterias = new HashMap<>();
 	}
 
-	public SearchContext getContext() {
-		return context;
+	public SearchHeader getHeader() {
+		return header;
 	}
 
-	public void setContext(SearchContext context) {
-		this.context = context;
+	public void setHeader(SearchHeader header) {
+		this.header = header;
 	}
 
 	public Map<String, String[]> getCriterias() {
