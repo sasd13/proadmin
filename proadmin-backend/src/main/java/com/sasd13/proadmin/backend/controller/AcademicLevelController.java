@@ -16,6 +16,7 @@ import com.sasd13.proadmin.backend.service.IAcademicLevelService;
 import com.sasd13.proadmin.backend.util.adapter.bean2itf.AcademicLevelAdapterB2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
+import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelResponseBean;
 
 @RestController
 @RequestMapping("/academicLevels")
@@ -32,7 +33,7 @@ public class AcademicLevelController extends Controller {
 
 		try {
 			List<AcademicLevel> results = academicLevelService.readAll();
-			ResponseBean responseBean = new ResponseBean();
+			AcademicLevelResponseBean responseBean = new AcademicLevelResponseBean();
 			List<AcademicLevelBean> list = new ArrayList<>();
 			AcademicLevelAdapterB2I adapter = new AcademicLevelAdapterB2I();
 
@@ -40,8 +41,8 @@ public class AcademicLevelController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(list.size()));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

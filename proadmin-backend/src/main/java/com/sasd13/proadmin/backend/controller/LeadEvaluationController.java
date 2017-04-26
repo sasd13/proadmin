@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.LeadEvaluationAdapterI2
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationRequestBean;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationResponseBean;
 
 @RestController
 @RequestMapping("/leadEvaluations")
@@ -30,11 +32,11 @@ public class LeadEvaluationController extends Controller {
 	private ILeadEvaluationService leadEvaluationService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+	public ResponseEntity<Integer> create(@RequestBody LeadEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : create");
 
 		try {
-			leadEvaluationService.create(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
+			leadEvaluationService.create(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class LeadEvaluationController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+	public ResponseEntity<Integer> update(@RequestBody LeadEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : update");
 
 		try {
-			leadEvaluationService.update(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
+			leadEvaluationService.update(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class LeadEvaluationController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody LeadEvaluationBean leadEvaluationBean) {
+	public ResponseEntity<Integer> delete(@RequestBody LeadEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : delete");
 
 		try {
-			leadEvaluationService.delete(new LeadEvaluationAdapterI2B().adapt(leadEvaluationBean));
+			leadEvaluationService.delete(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class LeadEvaluationController extends Controller {
 
 		try {
 			List<LeadEvaluation> results = leadEvaluationService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			LeadEvaluationResponseBean responseBean = new LeadEvaluationResponseBean();
 			List<LeadEvaluationBean> list = new ArrayList<>();
 			LeadEvaluationAdapterB2I adapter = new LeadEvaluationAdapterB2I();
 
@@ -88,9 +90,8 @@ public class LeadEvaluationController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

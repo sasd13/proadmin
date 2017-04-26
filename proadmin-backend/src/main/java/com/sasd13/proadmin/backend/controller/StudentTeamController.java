@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.StudentTeamAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamRequestBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
 
 @RestController
 @RequestMapping("/studentTeams")
@@ -30,14 +32,14 @@ public class StudentTeamController extends Controller {
 	private IStudentTeamService studentTeamService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody List<StudentTeamBean> studentTeamBeans) {
+	public ResponseEntity<Integer> create(@RequestBody StudentTeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] StudentTeam : create");
 
 		try {
 			List<StudentTeam> studentTeams = new ArrayList<>();
 			StudentTeamAdapterI2B adapter = new StudentTeamAdapterI2B();
 
-			for (StudentTeamBean studentTeamBean : studentTeamBeans) {
+			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
 				studentTeams.add(adapter.adapt(studentTeamBean));
 			}
 
@@ -52,14 +54,14 @@ public class StudentTeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody List<StudentTeamBean> studentTeamBeans) {
+	public ResponseEntity<Integer> delete(@RequestBody StudentTeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] StudentTeam : delete");
 
 		try {
 			List<StudentTeam> studentTeams = new ArrayList<>();
 			StudentTeamAdapterI2B adapter = new StudentTeamAdapterI2B();
 
-			for (StudentTeamBean studentTeamBean : studentTeamBeans) {
+			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
 				studentTeams.add(adapter.adapt(studentTeamBean));
 			}
 
@@ -79,7 +81,7 @@ public class StudentTeamController extends Controller {
 
 		try {
 			List<StudentTeam> results = studentTeamService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			StudentTeamResponseBean responseBean = new StudentTeamResponseBean();
 			List<StudentTeamBean> list = new ArrayList<>();
 			StudentTeamAdapterB2I adapter = new StudentTeamAdapterB2I();
 
@@ -87,9 +89,8 @@ public class StudentTeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

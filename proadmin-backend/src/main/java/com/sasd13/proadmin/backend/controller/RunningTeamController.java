@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningTeamAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamRequestBean;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamResponseBean;
 
 @RestController
 @RequestMapping("/runningTeams")
@@ -30,11 +32,11 @@ public class RunningTeamController extends Controller {
 	private IRunningTeamService runningTeamService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody RunningTeamBean runningTeamBean) {
+	public ResponseEntity<Integer> create(@RequestBody RunningTeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : create");
 
 		try {
-			runningTeamService.create(new RunningTeamAdapterI2B().adapt(runningTeamBean));
+			runningTeamService.create(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class RunningTeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody RunningTeamBean runningTeamBean) {
+	public ResponseEntity<Integer> update(@RequestBody RunningTeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : update");
 
 		try {
-			runningTeamService.update(new RunningTeamAdapterI2B().adapt(runningTeamBean));
+			runningTeamService.update(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class RunningTeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody RunningTeamBean runningTeamBean) {
+	public ResponseEntity<Integer> delete(@RequestBody RunningTeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : delete");
 
 		try {
-			runningTeamService.delete(new RunningTeamAdapterI2B().adapt(runningTeamBean));
+			runningTeamService.delete(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class RunningTeamController extends Controller {
 
 		try {
 			List<RunningTeam> results = runningTeamService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			RunningTeamResponseBean responseBean = new RunningTeamResponseBean();
 			List<RunningTeamBean> list = new ArrayList<>();
 			RunningTeamAdapterB2I adapter = new RunningTeamAdapterB2I();
 
@@ -88,9 +90,8 @@ public class RunningTeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

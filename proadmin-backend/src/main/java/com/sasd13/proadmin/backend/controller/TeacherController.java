@@ -20,6 +20,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeacherAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherRequestBean;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
 
 @RestController
 @RequestMapping("/teachers")
@@ -31,11 +33,11 @@ public class TeacherController extends Controller {
 	private ITeacherService teacherService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody TeacherBean teacherBean) {
+	public ResponseEntity<Integer> create(@RequestBody TeacherRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Teacher : create");
 
 		try {
-			teacherService.create(new TeacherAdapterI2B().adapt(teacherBean));
+			teacherService.create(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -46,11 +48,11 @@ public class TeacherController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody TeacherBean teacherBean) {
+	public ResponseEntity<Integer> update(@RequestBody TeacherRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Teacher : update");
 
 		try {
-			teacherService.update(new TeacherAdapterI2B().adapt(teacherBean));
+			teacherService.update(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -61,11 +63,11 @@ public class TeacherController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody TeacherBean teacherBean) {
+	public ResponseEntity<Integer> delete(@RequestBody TeacherRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Teacher : delete");
 
 		try {
-			teacherService.delete(new TeacherAdapterI2B().adapt(teacherBean));
+			teacherService.delete(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -81,9 +83,12 @@ public class TeacherController extends Controller {
 
 		try {
 			Teacher result = teacherService.read(intermediary);
-			ResponseBean responseBean = new ResponseBean();
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(1));
-			responseBean.setData(new TeacherAdapterB2I().adapt(result));
+			TeacherResponseBean responseBean = new TeacherResponseBean();
+			List<TeacherBean> list = new ArrayList<>();
+
+			list.add(new TeacherAdapterB2I().adapt(result));
+			responseBean.setData(list);
+			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
@@ -99,7 +104,7 @@ public class TeacherController extends Controller {
 
 		try {
 			List<Teacher> results = teacherService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			TeacherResponseBean responseBean = new TeacherResponseBean();
 			List<TeacherBean> list = new ArrayList<>();
 			TeacherAdapterB2I adapter = new TeacherAdapterB2I();
 
@@ -107,9 +112,8 @@ public class TeacherController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

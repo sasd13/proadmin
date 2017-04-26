@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.IndividualEvaluationAda
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationRequestBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
 
 @RestController
 @RequestMapping("/individualEvaluations")
@@ -30,14 +32,14 @@ public class IndividualEvaluationController extends Controller {
 	private IIndividualEvaluationService individualEvaluationService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+	public ResponseEntity<Integer> create(@RequestBody IndividualEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : create");
 
 		try {
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
@@ -52,14 +54,14 @@ public class IndividualEvaluationController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+	public ResponseEntity<Integer> update(@RequestBody IndividualEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : update");
 
 		try {
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
@@ -74,14 +76,14 @@ public class IndividualEvaluationController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody List<IndividualEvaluationBean> individualEvaluationBeans) {
+	public ResponseEntity<Integer> delete(@RequestBody IndividualEvaluationRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] IndividualEvaluation : delete");
 
 		try {
 			List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 			IndividualEvaluationAdapterI2B adapter = new IndividualEvaluationAdapterI2B();
 
-			for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationBeans) {
+			for (IndividualEvaluationBean individualEvaluationBean : requestBean.getData()) {
 				individualEvaluations.add(adapter.adapt(individualEvaluationBean));
 			}
 
@@ -101,7 +103,7 @@ public class IndividualEvaluationController extends Controller {
 
 		try {
 			List<IndividualEvaluation> results = individualEvaluationService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			IndividualEvaluationResponseBean responseBean = new IndividualEvaluationResponseBean();
 			List<IndividualEvaluationBean> list = new ArrayList<>();
 			IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
 
@@ -109,9 +111,8 @@ public class IndividualEvaluationController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.ReportAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
+import com.sasd13.proadmin.itf.bean.report.ReportRequestBean;
+import com.sasd13.proadmin.itf.bean.report.ReportResponseBean;
 
 @RestController
 @RequestMapping("/reports")
@@ -30,11 +32,11 @@ public class ReportController extends Controller {
 	private IReportService reportService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody ReportBean reportBean) {
+	public ResponseEntity<Integer> create(@RequestBody ReportRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Report : create");
 
 		try {
-			reportService.create(new ReportAdapterI2B().adapt(reportBean));
+			reportService.create(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class ReportController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody ReportBean reportBean) {
+	public ResponseEntity<Integer> update(@RequestBody ReportRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Report : update");
 
 		try {
-			reportService.update(new ReportAdapterI2B().adapt(reportBean));
+			reportService.update(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class ReportController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody ReportBean reportBean) {
+	public ResponseEntity<Integer> delete(@RequestBody ReportRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Report : delete");
 
 		try {
-			reportService.delete(new ReportAdapterI2B().adapt(reportBean));
+			reportService.delete(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class ReportController extends Controller {
 
 		try {
 			List<Report> results = reportService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			ReportResponseBean responseBean = new ReportResponseBean();
 			List<ReportBean> list = new ArrayList<>();
 			ReportAdapterB2I adapter = new ReportAdapterB2I();
 
@@ -88,9 +90,8 @@ public class ReportController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

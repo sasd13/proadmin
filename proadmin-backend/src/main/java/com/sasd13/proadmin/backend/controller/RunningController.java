@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
+import com.sasd13.proadmin.itf.bean.running.RunningRequestBean;
+import com.sasd13.proadmin.itf.bean.running.RunningResponseBean;
 
 @RestController
 @RequestMapping("/runnings")
@@ -30,11 +32,11 @@ public class RunningController extends Controller {
 	private IRunningService runningService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody RunningBean runningBean) {
+	public ResponseEntity<Integer> create(@RequestBody RunningRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Running : create");
 
 		try {
-			runningService.create(new RunningAdapterI2B().adapt(runningBean));
+			runningService.create(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class RunningController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody RunningBean runningBean) {
+	public ResponseEntity<Integer> update(@RequestBody RunningRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Running : update");
 
 		try {
-			runningService.update(new RunningAdapterI2B().adapt(runningBean));
+			runningService.update(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class RunningController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody RunningBean runningBean) {
+	public ResponseEntity<Integer> delete(@RequestBody RunningRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Running : delete");
 
 		try {
-			runningService.delete(new RunningAdapterI2B().adapt(runningBean));
+			runningService.delete(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class RunningController extends Controller {
 
 		try {
 			List<Running> results = runningService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			RunningResponseBean responseBean = new RunningResponseBean();
 			List<RunningBean> list = new ArrayList<>();
 			RunningAdapterB2I adapter = new RunningAdapterB2I();
 
@@ -88,9 +90,8 @@ public class RunningController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

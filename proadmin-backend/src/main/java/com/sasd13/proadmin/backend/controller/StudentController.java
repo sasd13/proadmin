@@ -20,6 +20,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.StudentAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.student.StudentBean;
+import com.sasd13.proadmin.itf.bean.student.StudentRequestBean;
+import com.sasd13.proadmin.itf.bean.student.StudentResponseBean;
 
 @RestController
 @RequestMapping("/students")
@@ -31,11 +33,11 @@ public class StudentController extends Controller {
 	private IStudentService studentService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody StudentBean studentBean) {
+	public ResponseEntity<Integer> create(@RequestBody StudentRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Student : create");
 
 		try {
-			studentService.create(new StudentAdapterI2B().adapt(studentBean));
+			studentService.create(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -46,11 +48,11 @@ public class StudentController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody StudentBean studentBean) {
+	public ResponseEntity<Integer> update(@RequestBody StudentRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Student : update");
 
 		try {
-			studentService.update(new StudentAdapterI2B().adapt(studentBean));
+			studentService.update(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -61,11 +63,11 @@ public class StudentController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody StudentBean studentBean) {
+	public ResponseEntity<Integer> delete(@RequestBody StudentRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Student : delete");
 
 		try {
-			studentService.delete(new StudentAdapterI2B().adapt(studentBean));
+			studentService.delete(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -81,9 +83,12 @@ public class StudentController extends Controller {
 
 		try {
 			Student result = studentService.read(intermediary);
-			ResponseBean responseBean = new ResponseBean();
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(1));
-			responseBean.setData(new StudentAdapterB2I().adapt(result));
+			StudentResponseBean responseBean = new StudentResponseBean();
+			List<StudentBean> list = new ArrayList<>();
+
+			list.add(new StudentAdapterB2I().adapt(result));
+			responseBean.setData(list);
+			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
@@ -99,7 +104,7 @@ public class StudentController extends Controller {
 
 		try {
 			List<Student> results = studentService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			StudentResponseBean responseBean = new StudentResponseBean();
 			List<StudentBean> list = new ArrayList<>();
 			StudentAdapterB2I adapter = new StudentAdapterB2I();
 
@@ -107,9 +112,8 @@ public class StudentController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

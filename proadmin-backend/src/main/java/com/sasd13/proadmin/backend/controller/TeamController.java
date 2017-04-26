@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeamAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
+import com.sasd13.proadmin.itf.bean.team.TeamRequestBean;
+import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
 
 @RestController
 @RequestMapping("/teams")
@@ -30,11 +32,11 @@ public class TeamController extends Controller {
 	private ITeamService teamService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody TeamBean teamBean) {
+	public ResponseEntity<Integer> create(@RequestBody TeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Team : create");
 
 		try {
-			teamService.create(new TeamAdapterI2B().adapt(teamBean));
+			teamService.create(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class TeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody TeamBean teamBean) {
+	public ResponseEntity<Integer> update(@RequestBody TeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Team : update");
 
 		try {
-			teamService.update(new TeamAdapterI2B().adapt(teamBean));
+			teamService.update(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class TeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody TeamBean teamBean) {
+	public ResponseEntity<Integer> delete(@RequestBody TeamRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Team : delete");
 
 		try {
-			teamService.delete(new TeamAdapterI2B().adapt(teamBean));
+			teamService.delete(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class TeamController extends Controller {
 
 		try {
 			List<Team> results = teamService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			TeamResponseBean responseBean = new TeamResponseBean();
 			List<TeamBean> list = new ArrayList<>();
 			TeamAdapterB2I adapter = new TeamAdapterB2I();
 
@@ -88,9 +90,8 @@ public class TeamController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

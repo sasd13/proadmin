@@ -19,6 +19,8 @@ import com.sasd13.proadmin.backend.util.adapter.itf2bean.ProjectAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectRequestBean;
+import com.sasd13.proadmin.itf.bean.project.ProjectResponseBean;
 
 @RestController
 @RequestMapping("/projects")
@@ -30,11 +32,11 @@ public class ProjectController extends Controller {
 	private IProjectService projectService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody ProjectBean projectBean) {
+	public ResponseEntity<Integer> create(@RequestBody ProjectRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Project : create");
 
 		try {
-			projectService.create(new ProjectAdapterI2B().adapt(projectBean));
+			projectService.create(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class ProjectController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody ProjectBean projectBean) {
+	public ResponseEntity<Integer> update(@RequestBody ProjectRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Project : update");
 
 		try {
-			projectService.update(new ProjectAdapterI2B().adapt(projectBean));
+			projectService.update(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,11 +62,11 @@ public class ProjectController extends Controller {
 	}
 
 	@RequestMapping(path = "/delete", method = RequestMethod.POST)
-	public ResponseEntity<Integer> delete(@RequestBody ProjectBean projectBean) {
+	public ResponseEntity<Integer> delete(@RequestBody ProjectRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] Project : delete");
 
 		try {
-			projectService.delete(new ProjectAdapterI2B().adapt(projectBean));
+			projectService.delete(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,7 +82,7 @@ public class ProjectController extends Controller {
 
 		try {
 			List<Project> results = projectService.read(searchBean.getCriterias());
-			ResponseBean responseBean = new ResponseBean();
+			ProjectResponseBean responseBean = new ProjectResponseBean();
 			List<ProjectBean> list = new ArrayList<>();
 			ProjectAdapterB2I adapter = new ProjectAdapterB2I();
 
@@ -88,9 +90,8 @@ public class ProjectController extends Controller {
 				list.add(adapter.adapt(result));
 			}
 
-			addHeaders(searchBean, responseBean);
-			responseBean.getContext().setPaginationTotalItems(String.valueOf(list.size()));
 			responseBean.setData(list);
+			addHeaders(searchBean, responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
