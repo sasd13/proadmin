@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sasd13.javaex.io.Stream;
+import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.ws.util.Constants;
 
@@ -39,7 +40,9 @@ public abstract class Controller extends HttpServlet {
 		responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(size));
 	}
 
-	protected void writeToResponse(HttpServletResponse resp, String message) throws IOException {
+	protected void writeToResponse(HttpServletResponse resp, ResponseBean responseBean) throws IOException {
+		String message = ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean);
+
 		resp.setContentType(Constants.RESPONSE_CONTENT_TYPE);
 		Stream.write(resp.getWriter(), message);
 	}

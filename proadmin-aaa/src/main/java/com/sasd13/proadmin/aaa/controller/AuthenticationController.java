@@ -6,17 +6,16 @@
 package com.sasd13.proadmin.aaa.controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.parser.ParserFactory;
+import com.sasd13.javaex.i18n.TranslationBundle;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.dao.DAO;
@@ -24,6 +23,8 @@ import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.service.ServiceFactory;
 import com.sasd13.proadmin.aaa.util.Constants;
 import com.sasd13.proadmin.aaa.util.SessionBuilder;
+import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
+import com.sasd13.proadmin.util.EnumError;
 
 /**
  *
@@ -36,6 +37,15 @@ public class AuthenticationController extends Controller {
 
 	private static final Logger LOGGER = Logger.getLogger(AuthenticationController.class);
 
+	private TranslationBundle bundle;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+
+		bundle = new TranslationBundle(Locale.ENGLISH);
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-AAA] Authentication");
@@ -46,12 +56,18 @@ public class AuthenticationController extends Controller {
 			Credential credential = readFromRequest(req, Credential.class);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 			User user = userService.find(credential);
+			AuthenticationResponseBean responseBean = new AuthenticationResponseBean();
 
 			if (user != null) {
-				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(new Map[] { SessionBuilder.build(user) }));
+				responseBean.setData(SessionBuilder.build(user));
 			} else {
-				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
+				String code = String.valueOf(EnumError.AUTHENTICATION.getCode());
+				String message = bundle.getString(EnumError.AUTHENTICATION.getBundleKey());
+
+				responseBean.getErrors().put(code, message);
 			}
+
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

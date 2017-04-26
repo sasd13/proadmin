@@ -2,6 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="exception.unknown">Exception inconnue</entry>
+	<entry key="exception.authentication">Echec de connexion</entry>
 	<entry key="exception.aaa">Exception AAA</entry>
 	<entry key="exception.ws">Exception Web service</entry>
 	<entry key="exception.parameters">Exception des parametres</entry>

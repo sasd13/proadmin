@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationRequestBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationResponseBean;
@@ -65,7 +64,7 @@ public class LeadEvaluationController extends Controller {
 			responseBean.setData(list);
 			addHeaders(responseBean, list.size());
 
-			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

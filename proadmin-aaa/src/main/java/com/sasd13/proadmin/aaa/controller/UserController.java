@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.bean.UserCreate;
 import com.sasd13.proadmin.aaa.bean.UserUpdate;
@@ -69,7 +68,7 @@ public class UserController extends Controller {
 				responseBean.setData(list);
 				addHeaders(responseBean, list.size());
 
-				writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+				writeToResponse(resp, responseBean);
 			} else {
 				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
 			}

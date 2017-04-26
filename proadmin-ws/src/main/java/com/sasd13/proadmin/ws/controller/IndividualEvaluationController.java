@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationRequestBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
@@ -66,7 +65,7 @@ public class IndividualEvaluationController extends Controller {
 			responseBean.setData(list);
 			addHeaders(responseBean, list.size());
 
-			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.bean.student.StudentBean;
 import com.sasd13.proadmin.itf.bean.student.StudentRequestBean;
 import com.sasd13.proadmin.itf.bean.student.StudentResponseBean;
@@ -65,7 +64,7 @@ public class StudentController extends Controller {
 			responseBean.setData(list);
 			addHeaders(responseBean, list.size());
 
-			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

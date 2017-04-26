@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.net.URLQueryUtils;
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
 import com.sasd13.proadmin.itf.bean.team.TeamRequestBean;
 import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
@@ -65,7 +64,7 @@ public class TeamController extends Controller {
 			responseBean.setData(list);
 			addHeaders(responseBean, list.size());
 
-			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

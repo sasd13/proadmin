@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
-import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelResponseBean;
 import com.sasd13.proadmin.ws.bean.AcademicLevel;
@@ -63,7 +62,7 @@ public class AcademicLevelController extends Controller {
 			responseBean.setData(list);
 			addHeaders(responseBean, list.size());
 
-			writeToResponse(resp, ParserFactory.make(Constants.RESPONSE_CONTENT_TYPE).toString(responseBean));
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}
