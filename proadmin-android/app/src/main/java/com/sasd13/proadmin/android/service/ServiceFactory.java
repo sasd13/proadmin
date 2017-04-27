@@ -8,6 +8,7 @@ import com.sasd13.proadmin.android.service.impl.ReportService;
 import com.sasd13.proadmin.android.service.impl.RunningService;
 import com.sasd13.proadmin.android.service.impl.RunningTeamService;
 import com.sasd13.proadmin.android.service.impl.StudentService;
+import com.sasd13.proadmin.android.service.impl.StudentTeamService;
 import com.sasd13.proadmin.android.service.impl.TeacherService;
 import com.sasd13.proadmin.android.service.impl.TeamService;
 
@@ -26,6 +27,8 @@ public class ServiceFactory {
             return new ProjectService();
         } else if (IStudentService.class.isAssignableFrom(mClass)) {
             return new StudentService();
+        } else if (IStudentTeamService.class.isAssignableFrom(mClass)) {
+            return new StudentTeamService();
         } else if (ITeamService.class.isAssignableFrom(mClass)) {
             return new TeamService();
         } else if (IRunningService.class.isAssignableFrom(mClass)) {

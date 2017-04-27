@@ -63,7 +63,6 @@ public class ControllerFactory {
             return new TeamController(
                     (MainActivity) activity,
                     (ITeamService) ServiceFactory.make(ITeamService.class),
-                    (IStudentService) ServiceFactory.make(IStudentService.class),
                     (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class)
             );
         } else if (IStudentController.class.equals(mClass)) {

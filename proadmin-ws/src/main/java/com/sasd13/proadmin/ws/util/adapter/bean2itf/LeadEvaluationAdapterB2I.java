@@ -1,6 +1,8 @@
 package com.sasd13.proadmin.ws.util.adapter.bean2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
+import com.sasd13.proadmin.itf.bean.LinkedReport;
+import com.sasd13.proadmin.itf.bean.LinkedStudent;
 import com.sasd13.proadmin.itf.bean.leadevaluation.CoreInfo;
 import com.sasd13.proadmin.itf.bean.leadevaluation.Id;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
@@ -26,6 +28,14 @@ public class LeadEvaluationAdapterB2I implements IAdapter<LeadEvaluation, LeadEv
 		coreInfo.setCommunicationMark(s.getCommunicationMark());
 		coreInfo.setCommunicationComment(s.getCommunicationComment());
 		t.setCoreInfo(coreInfo);
+
+		LinkedReport linkedReport = new LinkedReport();
+		linkedReport.setNumber(s.getReport().getNumber());
+		t.setLinkedReport(linkedReport);
+
+		LinkedStudent linkedStudent = new LinkedStudent();
+		linkedStudent.setIntermediary(s.getStudent().getIntermediary());
+		t.setLinkedStudent(linkedStudent);
 
 		return t;
 	}

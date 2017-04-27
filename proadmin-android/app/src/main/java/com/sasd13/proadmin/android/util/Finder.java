@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class Finder {
 
-    public static int indexOfProject(String projectCode, List<Project> projects) {
+    public static int indexOfProject(Project project, List<Project> projects) {
         for (int i = 0; i < projects.size(); i++) {
-            if (projects.get(i).getCode().equalsIgnoreCase(projectCode)) {
+            if (projects.get(i).equals(project)) {
                 return i;
             }
         }
@@ -23,9 +23,9 @@ public class Finder {
         return -1;
     }
 
-    public static int indexOfProjectInRunnings(String projectCode, List<Running> runnings) {
+    public static int indexOfRunning(Running running, List<Running> runnings) {
         for (int i = 0; i < runnings.size(); i++) {
-            if (runnings.get(i).getProject().getCode().equalsIgnoreCase(projectCode)) {
+            if (runnings.get(i).equals(running)) {
                 return i;
             }
         }
@@ -33,9 +33,9 @@ public class Finder {
         return -1;
     }
 
-    public static int indexOfAcademicLevel(String academicLevelCode, List<AcademicLevel> academicLevels) {
+    public static int indexOfAcademicLevel(AcademicLevel academicLevel, List<AcademicLevel> academicLevels) {
         for (int i = 0; i < academicLevels.size(); i++) {
-            if (academicLevels.get(i).getCode().equalsIgnoreCase(academicLevelCode)) {
+            if (academicLevels.get(i).equals(academicLevel)) {
                 return i;
             }
         }
@@ -43,9 +43,9 @@ public class Finder {
         return -1;
     }
 
-    public static int indexOfTeam(String teamNumber, List<Team> teams) {
+    public static int indexOfTeam(Team team, List<Team> teams) {
         for (int i = 0; i < teams.size(); i++) {
-            if (teams.get(i).getNumber().equalsIgnoreCase(teamNumber)) {
+            if (teams.get(i).equals(team)) {
                 return i;
             }
         }
@@ -53,9 +53,9 @@ public class Finder {
         return -1;
     }
 
-    public static int indexOfStudent(String studentIntermediary, List<Student> students) {
+    public static int indexOfStudent(Student student, List<Student> students) {
         for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getIntermediary().equalsIgnoreCase(studentIntermediary)) {
+            if (students.get(i).equals(student)) {
                 return i;
             }
         }

@@ -8,7 +8,6 @@ import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.TeamScope;
-import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.util.builder.member.NewTeamBuilder;
@@ -28,7 +27,6 @@ public class TeamController extends MainController implements ITeamController {
 
     private TeamScope scope;
     private ITeamService teamService;
-    private IStudentService studentService;
     private IStudentTeamService studentTeamService;
     private TeamReadTask teamReadTask;
     private TeamCreateTask teamCreateTask;
@@ -37,12 +35,11 @@ public class TeamController extends MainController implements ITeamController {
     private StudentReadTask studentReadTask;
     private StudentDeleteTask studentDeleteTask;
 
-    public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService, IStudentTeamService studentTeamService) {
+    public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentTeamService studentTeamService) {
         super(mainActivity);
 
         scope = new TeamScope();
         this.teamService = teamService;
-        this.studentService = studentService;
         this.studentTeamService = studentTeamService;
     }
 
@@ -127,7 +124,7 @@ public class TeamController extends MainController implements ITeamController {
 
     private void readStudents(Team team) {
         if (studentReadTask == null) {
-            studentReadTask = new StudentReadTask(this, studentService);
+            studentReadTask = new StudentReadTask(this, studentTeamService);
         }
 
         studentReadTask.clearParameters();

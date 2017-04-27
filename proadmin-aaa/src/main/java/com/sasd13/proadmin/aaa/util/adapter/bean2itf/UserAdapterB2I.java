@@ -22,6 +22,7 @@ public class UserAdapterB2I implements IAdapter<User, UserBean> {
 		coreInfo.setRoles(s.getRoles());
 		coreInfo.setIntermediary(s.getIntermediary());
 		coreInfo.setEmail(s.getEmail());
+		t.setCoreInfo(coreInfo);
 
 		return t;
 	}

@@ -1,6 +1,8 @@
 package com.sasd13.proadmin.ws.util.adapter.bean2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
+import com.sasd13.proadmin.itf.bean.LinkedReport;
+import com.sasd13.proadmin.itf.bean.LinkedStudent;
 import com.sasd13.proadmin.itf.bean.individualevaluation.CoreInfo;
 import com.sasd13.proadmin.itf.bean.individualevaluation.Id;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
@@ -24,6 +26,14 @@ public class IndividualEvaluationAdapterB2I implements IAdapter<IndividualEvalua
 		CoreInfo coreInfo = new CoreInfo();
 		coreInfo.setMark(s.getMark());
 		t.setCoreInfo(coreInfo);
+
+		LinkedReport linkedReport = new LinkedReport();
+		linkedReport.setNumber(s.getReport().getNumber());
+		t.setLinkedReport(linkedReport);
+
+		LinkedStudent linkedStudent = new LinkedStudent();
+		linkedStudent.setIntermediary(s.getStudent().getIntermediary());
+		t.setLinkedStudent(linkedStudent);
 
 		return t;
 	}

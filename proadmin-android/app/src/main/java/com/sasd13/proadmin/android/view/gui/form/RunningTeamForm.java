@@ -34,7 +34,7 @@ public class RunningTeamForm extends Form {
         super(context);
 
         modelYear = new TextItemModel();
-        modelYear.setReadOnly(true);
+        modelYear.setReadOnly(inModeEdit);
         modelYear.setLabel(context.getString(R.string.label_year));
         holder.add(new RecyclerHolderPair(modelYear));
 
@@ -71,7 +71,7 @@ public class RunningTeamForm extends Form {
     public void bindRunnings(List<Running> runningsToBind, Running running) {
         bindRunnings(runningsToBind);
 
-        modelRunning.setValue(Finder.indexOfProjectInRunnings(running.getProject().getCode(), runningsToBind));
+        modelRunning.setValue(Finder.indexOfRunning(running, runningsToBind));
     }
 
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
@@ -84,7 +84,7 @@ public class RunningTeamForm extends Form {
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
         bindAcademicLevels(academicLevelsToBind);
 
-        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel.getCode(), academicLevels));
+        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel, academicLevels));
     }
 
     public void bindTeams(List<Team> teamsToBind) {
@@ -97,7 +97,7 @@ public class RunningTeamForm extends Form {
     public void bindTeams(List<Team> teamsToBind, Team team) {
         bindTeams(teamsToBind);
 
-        modelTeam.setValue(Finder.indexOfTeam(team.getNumber(), teams));
+        modelTeam.setValue(Finder.indexOfTeam(team, teams));
     }
 
     public Running getRunning() throws FormException {
