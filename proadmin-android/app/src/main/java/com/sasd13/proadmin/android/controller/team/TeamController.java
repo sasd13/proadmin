@@ -9,6 +9,7 @@ import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.util.builder.member.NewTeamBuilder;
 import com.sasd13.proadmin.android.view.ITeamController;
@@ -28,6 +29,7 @@ public class TeamController extends MainController implements ITeamController {
     private TeamScope scope;
     private ITeamService teamService;
     private IStudentService studentService;
+    private IStudentTeamService studentTeamService;
     private TeamReadTask teamReadTask;
     private TeamCreateTask teamCreateTask;
     private TeamUpdateTask teamUpdateTask;
@@ -35,12 +37,13 @@ public class TeamController extends MainController implements ITeamController {
     private StudentReadTask studentReadTask;
     private StudentDeleteTask studentDeleteTask;
 
-    public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService) {
+    public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentService studentService, IStudentTeamService studentTeamService) {
         super(mainActivity);
 
         scope = new TeamScope();
         this.teamService = teamService;
         this.studentService = studentService;
+        this.studentTeamService = studentTeamService;
     }
 
     @Override
@@ -166,7 +169,7 @@ public class TeamController extends MainController implements ITeamController {
     @Override
     public void actionRemoveStudentTeams(StudentTeam[] studentTeams) {
         if (studentDeleteTask == null) {
-            studentDeleteTask = new StudentDeleteTask(this, studentService);
+            studentDeleteTask = new StudentDeleteTask(this, studentTeamService);
         }
 
         new Requestor(studentDeleteTask).execute(Arrays.asList(studentTeams));

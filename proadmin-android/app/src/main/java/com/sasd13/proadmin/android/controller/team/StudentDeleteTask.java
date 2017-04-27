@@ -2,7 +2,7 @@ package com.sasd13.proadmin.android.controller.team;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public class StudentDeleteTask extends RequestorTask {
 
     private TeamController controller;
-    private IStudentService service;
+    private IStudentTeamService service;
 
-    public StudentDeleteTask(TeamController controller, IStudentService service) {
+    public StudentDeleteTask(TeamController controller, IStudentTeamService service) {
         super();
 
         this.controller = controller;

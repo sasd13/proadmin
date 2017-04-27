@@ -91,11 +91,13 @@
 
     <!-- Web service -->
     <string name="exception_unknown">Unknown error</string>
-    <string name="exception_aaa">Username/password don\'t matched</string>
-    <string name="exception_ws">Web service error</string>
-    <string name="exception_parameters">Parameters error</string>
-    <string name="exception_parser">Parsing error</string>
-    <string name="exception_service">Service error</string>
+    <string name="exception_authentication">Log in failed</string>
+    <string name="exception_aaa">Internal server error</string>
+    <string name="exception_ws">Internal server error</string>
+    <string name="exception_parameters">Request error</string>
+    <string name="exception_parser">Request error</string>
+    <string name="exception_service">Internal server error</string>
+    <string name="exception_status">Status error</string>
     <string name="message_cancelled">Cancelled</string>
     <string name="error_no_logins">Empty username/password</string>
     <string name="error_no_runningteam_selected">Running team not selected</string>

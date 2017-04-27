@@ -21,6 +21,7 @@ import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.service.ServiceFactory;
@@ -62,12 +63,14 @@ public class ControllerFactory {
             return new TeamController(
                     (MainActivity) activity,
                     (ITeamService) ServiceFactory.make(ITeamService.class),
-                    (IStudentService) ServiceFactory.make(IStudentService.class)
+                    (IStudentService) ServiceFactory.make(IStudentService.class),
+                    (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class)
             );
         } else if (IStudentController.class.equals(mClass)) {
             return new StudentController(
                     (MainActivity) activity,
-                    (IStudentService) ServiceFactory.make(IStudentService.class)
+                    (IStudentService) ServiceFactory.make(IStudentService.class),
+                    (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class)
             );
         } else if (IRunningController.class.equals(mClass)) {
             return new RunningController(

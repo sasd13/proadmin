@@ -4,11 +4,12 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.User;
 import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.UserAdapterI2B;
+import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Resources;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,27 +18,22 @@ import java.util.Map;
 
 public class UserService implements IUserService {
 
-    private Map<String, String[]> parameters;
-
-    public UserService(Map<String, String[]> parameters) {
-        this.parameters = parameters;
-    }
-
     @Override
     public ServiceResult<User> find(String userID) {
-        Promise promise = new Promise("GET", Resources.URL_AAA_USERS, User.class);
+        Promise promise = new Promise("GET", Resources.URL_AAA_USERS, UserResponseBean.class);
+        Map<String, String[]> parameters = new HashMap<>();
 
-        parameters.clear();
         parameters.put(EnumParameter.USERID.getName(), new String[]{userID});
         promise.setParameters(parameters);
 
-        List<User> results = (List<User>) promise.execute();
+        UserResponseBean responseBean = (UserResponseBean) promise.execute();
+        User user = responseBean.getData().isEmpty() ? null : new UserAdapterI2B().adapt(responseBean.getData().get(0));
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                Collections.<String, String>emptyMap(),
-                promise.isSuccess() && !results.isEmpty() ? results.get(0) : null
+                responseBean.getErrors(),
+                user
         );
     }
 }

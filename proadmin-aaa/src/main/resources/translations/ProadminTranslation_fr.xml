@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="exception.unknown">Exception inconnue</entry>
+	<entry key="exception.unknown">Erreur inconnue</entry>
 	<entry key="exception.authentication">Echec de connexion</entry>
-	<entry key="exception.aaa">Exception AAA</entry>
-	<entry key="exception.ws">Exception Web service</entry>
-	<entry key="exception.parameters">Exception des parametres</entry>
-	<entry key="exception.parser">Exception de parsing</entry>
-	<entry key="exception.service">Exception de service</entry>
-	<entry key="exception.status">Exception de status</entry>
+	<entry key="exception.aaa">Erreur du Web service</entry>
+	<entry key="exception.ws">Erreur du Web service</entry>
+	<entry key="exception.parameters">Erreur de requête</entry>
+	<entry key="exception.parser">Erreur de requête</entry>
+	<entry key="exception.service">Erreur du Web service</entry>
+	<entry key="exception.status">Erreur de status</entry>
 </properties>

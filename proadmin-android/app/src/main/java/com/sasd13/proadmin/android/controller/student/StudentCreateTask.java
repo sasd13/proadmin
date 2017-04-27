@@ -4,6 +4,7 @@ import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumParameter;
 
@@ -18,14 +19,16 @@ import java.util.Map;
 public class StudentCreateTask extends RequestorTask {
 
     private StudentController controller;
-    private IStudentService service;
+    private IStudentService studentService;
+    private IStudentTeamService studentTeamService;
     private Map<String, String[]> parameters;
 
-    public StudentCreateTask(StudentController controller, IStudentService service) {
+    public StudentCreateTask(StudentController controller, IStudentService studentService, IStudentTeamService studentTeamService) {
         super();
 
         this.controller = controller;
-        this.service = service;
+        this.studentService = studentService;
+        this.studentTeamService = studentTeamService;
         parameters = new HashMap<>();
     }
 
@@ -38,15 +41,15 @@ public class StudentCreateTask extends RequestorTask {
         parameters.clear();
         parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[]{studentTeam.getStudent().getIntermediary()});
 
-        result = service.readStudents(parameters);
+        result = studentService.read(parameters);
 
         if (result.isSuccess()) {
             if (((ServiceResult<List<Student>>) result).getData().isEmpty()) {
-                result = service.create(studentTeam.getStudent());
+                result = studentService.create(studentTeam.getStudent());
             }
 
             if (result.isSuccess()) {
-                result = service.create(studentTeam);
+                result = studentTeamService.create(studentTeam);
             }
         }
 

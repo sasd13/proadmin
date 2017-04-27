@@ -9,6 +9,7 @@ import com.sasd13.proadmin.android.bean.update.StudentUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.util.builder.member.NewStudentBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IStudentController;
@@ -20,14 +21,16 @@ public class StudentController extends MainController implements IStudentControl
 
     private StudentScope scope;
     private IStudentService studentService;
+    private IStudentTeamService studentTeamService;
     private StudentCreateTask studentCreateTask;
     private StudentUpdateTask studentUpdateTask;
 
-    public StudentController(MainActivity mainActivity, IStudentService studentService) {
+    public StudentController(MainActivity mainActivity, IStudentService studentService, IStudentTeamService studentTeamService) {
         super(mainActivity);
 
         scope = new StudentScope();
         this.studentService = studentService;
+        this.studentTeamService = studentTeamService;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class StudentController extends MainController implements IStudentControl
     @Override
     public void actionCreateStudent(StudentTeam studentTeam) {
         if (studentCreateTask == null) {
-            studentCreateTask = new StudentCreateTask(this, studentService);
+            studentCreateTask = new StudentCreateTask(this, studentService, studentTeamService);
         }
 
         new Requestor(studentCreateTask).execute(studentTeam);

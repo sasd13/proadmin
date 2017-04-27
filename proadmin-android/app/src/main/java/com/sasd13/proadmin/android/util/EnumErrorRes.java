@@ -11,6 +11,7 @@ import com.sasd13.proadmin.util.EnumError;
 
 public enum EnumErrorRes {
     UNKNOWN(EnumError.UNKNOWN, R.string.exception_unknown),
+    AUTHENTICATION(EnumError.AUTHENTICATION, R.string.exception_authentication),
     AAA(EnumError.AAA, R.string.exception_aaa),
     WS(EnumError.WS, R.string.exception_ws),
     PARAMETERS(EnumError.PARAMETERS, R.string.exception_parameters),
