@@ -26,7 +26,7 @@ public class ProjectAdapterI2M implements IAdapter<ProjectBean, Project> {
 			t.setDateCreation(new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).parse(s.getCoreInfo().getDateCreation()));
 		} catch (ParseException e) {
 			LOGGER.error(e);
-			throw new RuntimeException("ProjectAdapterI2B : error parsing date " + s.getCoreInfo().getDateCreation());
+			throw new RuntimeException("ProjectAdapterI2M : error parsing date " + s.getCoreInfo().getDateCreation());
 		}
 
 		t.setCode(s.getCoreInfo().getCode());

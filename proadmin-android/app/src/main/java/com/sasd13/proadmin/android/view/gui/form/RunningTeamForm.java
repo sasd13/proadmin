@@ -61,17 +61,21 @@ public class RunningTeamForm extends Form {
         modelYear.setValue(String.valueOf(runningTeam.getRunning().getYear()));
     }
 
-    public void bindRunnings(List<Running> runningsToBind) {
+    public List<String> bindRunnings(List<Running> runningsToBind) {
         runnings = runningsToBind;
         List<String> projectsCodes = new ProjectsCodesFromRunningsBuilder(runnings).build();
 
         modelRunning.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
+
+        return projectsCodes;
     }
 
-    public void bindRunnings(List<Running> runningsToBind, Running running) {
-        bindRunnings(runningsToBind);
+    public List<String> bindRunnings(List<Running> runningsToBind, Running running) {
+        List<String> projectsCodes = bindRunnings(runningsToBind);
 
-        modelRunning.setValue(Finder.indexOfRunning(running, runningsToBind));
+        modelRunning.setValue(projectsCodes.indexOf(running.getProject().getCode()));
+
+        return projectsCodes;
     }
 
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
