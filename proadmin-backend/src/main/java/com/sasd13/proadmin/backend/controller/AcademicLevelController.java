@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.AcademicLevel;
+import com.sasd13.proadmin.backend.model.AcademicLevel;
 import com.sasd13.proadmin.backend.service.IAcademicLevelService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.AcademicLevelAdapterB2I;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.AcademicLevelAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelResponseBean;
@@ -35,7 +35,7 @@ public class AcademicLevelController extends Controller {
 			List<AcademicLevel> results = academicLevelService.readAll();
 			AcademicLevelResponseBean responseBean = new AcademicLevelResponseBean();
 			List<AcademicLevelBean> list = new ArrayList<>();
-			AcademicLevelAdapterB2I adapter = new AcademicLevelAdapterB2I();
+			AcademicLevelAdapterM2I adapter = new AcademicLevelAdapterM2I();
 
 			for (AcademicLevel result : results) {
 				list.add(adapter.adapt(result));

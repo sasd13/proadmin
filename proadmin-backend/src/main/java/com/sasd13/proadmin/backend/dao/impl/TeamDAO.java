@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Team;
 import com.sasd13.proadmin.backend.dao.ITeamDAO;
-import com.sasd13.proadmin.backend.dao.dto.TeamDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.TeamAdapterB2D;
+import com.sasd13.proadmin.backend.model.Team;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 	}
 
 	@Override
-	public TeamDTO create(Team team) {
-		TeamDTO dto = new TeamAdapterB2D().adapt(team);
-
-		currentSession().save(dto);
+	public Team create(Team team) {
+		currentSession().save(team);
 		currentSession().flush();
 
-		return dto;
+		return team;
 	}
 
 	@Override
 	public void update(Team team) {
-		currentSession().update(new TeamAdapterB2D().adapt(team));
+		currentSession().update(team);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Team team) {
-		currentSession().remove(new TeamAdapterB2D().adapt(team));
+		currentSession().remove(team);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TeamDTO> read(Map<String, String[]> parameters) {
+	public List<Team> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from teams tm");
 
@@ -70,7 +66,7 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 			resolveWhere(parameters, query);
 		}
 
-		return (List<TeamDTO>) query.getResultList();
+		return (List<Team>) query.getResultList();
 	}
 
 	@Override

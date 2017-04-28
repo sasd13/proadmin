@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Report;
 import com.sasd13.proadmin.backend.dao.IReportDAO;
-import com.sasd13.proadmin.backend.dao.dto.ReportDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.ReportAdapterB2D;
+import com.sasd13.proadmin.backend.model.Report;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	}
 
 	@Override
-	public ReportDTO create(Report report) {
-		ReportDTO dto = new ReportAdapterB2D().adapt(report);
-
-		currentSession().save(dto);
+	public Report create(Report report) {
+		currentSession().save(report);
 		currentSession().flush();
 
-		return dto;
+		return report;
 	}
 
 	@Override
 	public void update(Report report) {
-		currentSession().update(new ReportAdapterB2D().adapt(report));
+		currentSession().update(report);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Report report) {
-		currentSession().remove(new ReportAdapterB2D().adapt(report));
+		currentSession().remove(report);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ReportDTO> read(Map<String, String[]> parameters) {
+	public List<Report> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from reports rp");
 
@@ -70,7 +66,7 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 			resolveWhere(parameters, query);
 		}
 
-		return (List<ReportDTO>) query.getResultList();
+		return (List<Report>) query.getResultList();
 	}
 
 	@Override

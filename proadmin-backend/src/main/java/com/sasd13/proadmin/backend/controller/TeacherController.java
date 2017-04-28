@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Teacher;
+import com.sasd13.proadmin.backend.model.Teacher;
 import com.sasd13.proadmin.backend.service.ITeacherService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.TeacherAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeacherAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.TeacherAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.TeacherAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
@@ -37,7 +37,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : create");
 
 		try {
-			teacherService.create(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
+			teacherService.create(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : update");
 
 		try {
-			teacherService.update(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
+			teacherService.update(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : delete");
 
 		try {
-			teacherService.delete(new TeacherAdapterI2B().adapt(requestBean.getData().get(0)));
+			teacherService.delete(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class TeacherController extends Controller {
 			TeacherResponseBean responseBean = new TeacherResponseBean();
 			List<TeacherBean> list = new ArrayList<>();
 
-			list.add(new TeacherAdapterB2I().adapt(result));
+			list.add(new TeacherAdapterM2I().adapt(result));
 			responseBean.setData(list);
 			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
 
@@ -106,7 +106,7 @@ public class TeacherController extends Controller {
 			List<Teacher> results = teacherService.read(searchBean.getCriterias());
 			TeacherResponseBean responseBean = new TeacherResponseBean();
 			List<TeacherBean> list = new ArrayList<>();
-			TeacherAdapterB2I adapter = new TeacherAdapterB2I();
+			TeacherAdapterM2I adapter = new TeacherAdapterM2I();
 
 			for (Teacher result : results) {
 				list.add(adapter.adapt(result));

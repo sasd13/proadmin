@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Project;
 import com.sasd13.proadmin.backend.dao.IProjectDAO;
-import com.sasd13.proadmin.backend.dao.dto.ProjectDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.ProjectAdapterB2D;
+import com.sasd13.proadmin.backend.model.Project;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 	}
 
 	@Override
-	public ProjectDTO create(Project project) {
-		ProjectDTO dto = new ProjectAdapterB2D().adapt(project);
-
-		currentSession().save(dto);
+	public Project create(Project project) {
+		currentSession().save(project);
 		currentSession().flush();
 
-		return dto;
+		return project;
 	}
 
 	@Override
 	public void update(Project project) {
-		currentSession().update(new ProjectAdapterB2D().adapt(project));
+		currentSession().update(project);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Project project) {
-		currentSession().remove(new ProjectAdapterB2D().adapt(project));
+		currentSession().remove(project);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProjectDTO> read(Map<String, String[]> parameters) {
+	public List<Project> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from projects pr");
 
@@ -70,7 +66,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 			resolveWhere(parameters, query);
 		}
 
-		return (List<ProjectDTO>) query.getResultList();
+		return (List<Project>) query.getResultList();
 	}
 
 	@Override

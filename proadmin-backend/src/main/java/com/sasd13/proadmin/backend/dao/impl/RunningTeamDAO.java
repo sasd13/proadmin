@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.RunningTeam;
 import com.sasd13.proadmin.backend.dao.IRunningTeamDAO;
-import com.sasd13.proadmin.backend.dao.dto.RunningTeamDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.RunningTeamAdapterB2D;
+import com.sasd13.proadmin.backend.model.RunningTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	}
 
 	@Override
-	public RunningTeamDTO create(RunningTeam runningTeam) {
-		RunningTeamDTO dto = new RunningTeamAdapterB2D().adapt(runningTeam);
-
-		currentSession().save(dto);
+	public RunningTeam create(RunningTeam runningTeam) {
+		currentSession().save(runningTeam);
 		currentSession().flush();
 
-		return dto;
+		return runningTeam;
 	}
 
 	@Override
 	public void update(RunningTeam runningTeam) {
-		currentSession().update(new RunningTeamAdapterB2D().adapt(runningTeam));
+		currentSession().update(runningTeam);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(RunningTeam runningTeam) {
-		currentSession().remove(new RunningTeamAdapterB2D().adapt(runningTeam));
+		currentSession().remove(runningTeam);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RunningTeamDTO> read(Map<String, String[]> parameters) {
+	public List<RunningTeam> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from runningteams rntm");
 
@@ -70,7 +66,7 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 			resolveWhere(parameters, query);
 		}
 
-		return (List<RunningTeamDTO>) query.getResultList();
+		return (List<RunningTeam>) query.getResultList();
 	}
 
 	@Override

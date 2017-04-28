@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Student;
+import com.sasd13.proadmin.backend.model.Student;
 import com.sasd13.proadmin.backend.service.IStudentService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.StudentAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.StudentAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.StudentAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.StudentAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.student.StudentBean;
@@ -37,7 +37,7 @@ public class StudentController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Student : create");
 
 		try {
-			studentService.create(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
+			studentService.create(new StudentAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public class StudentController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Student : update");
 
 		try {
-			studentService.update(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
+			studentService.update(new StudentAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class StudentController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Student : delete");
 
 		try {
-			studentService.delete(new StudentAdapterI2B().adapt(requestBean.getData().get(0)));
+			studentService.delete(new StudentAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class StudentController extends Controller {
 			StudentResponseBean responseBean = new StudentResponseBean();
 			List<StudentBean> list = new ArrayList<>();
 
-			list.add(new StudentAdapterB2I().adapt(result));
+			list.add(new StudentAdapterM2I().adapt(result));
 			responseBean.setData(list);
 			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
 
@@ -106,7 +106,7 @@ public class StudentController extends Controller {
 			List<Student> results = studentService.read(searchBean.getCriterias());
 			StudentResponseBean responseBean = new StudentResponseBean();
 			List<StudentBean> list = new ArrayList<>();
-			StudentAdapterB2I adapter = new StudentAdapterB2I();
+			StudentAdapterM2I adapter = new StudentAdapterM2I();
 
 			for (Student result : results) {
 				list.add(adapter.adapt(result));

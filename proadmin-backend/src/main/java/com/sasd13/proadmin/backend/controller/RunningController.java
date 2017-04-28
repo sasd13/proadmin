@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Running;
+import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.backend.service.IRunningService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.RunningAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.RunningAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.RunningAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
@@ -36,7 +36,7 @@ public class RunningController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Running : create");
 
 		try {
-			runningService.create(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningService.create(new RunningAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class RunningController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Running : update");
 
 		try {
-			runningService.update(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningService.update(new RunningAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class RunningController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Running : delete");
 
 		try {
-			runningService.delete(new RunningAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningService.delete(new RunningAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class RunningController extends Controller {
 			List<Running> results = runningService.read(searchBean.getCriterias());
 			RunningResponseBean responseBean = new RunningResponseBean();
 			List<RunningBean> list = new ArrayList<>();
-			RunningAdapterB2I adapter = new RunningAdapterB2I();
+			RunningAdapterM2I adapter = new RunningAdapterM2I();
 
 			for (Running result : results) {
 				list.add(adapter.adapt(result));

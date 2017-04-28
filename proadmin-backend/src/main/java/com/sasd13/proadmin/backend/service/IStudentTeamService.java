@@ -3,7 +3,7 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.bean.StudentTeam;
+import com.sasd13.proadmin.backend.model.StudentTeam;
 
 public interface IStudentTeamService {
 

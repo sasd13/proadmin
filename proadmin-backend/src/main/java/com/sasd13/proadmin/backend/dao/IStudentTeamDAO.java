@@ -3,14 +3,13 @@ package com.sasd13.proadmin.backend.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.bean.StudentTeam;
-import com.sasd13.proadmin.backend.dao.dto.StudentTeamDTO;
+import com.sasd13.proadmin.backend.model.StudentTeam;
 
 public interface IStudentTeamDAO {
 
-	List<StudentTeamDTO> create(List<StudentTeam> studentTeams);
+	List<StudentTeam> create(List<StudentTeam> studentTeams);
 
 	void delete(List<StudentTeam> studentTeams);
 
-	List<StudentTeamDTO> read(Map<String, String[]> parameters);
+	List<StudentTeam> read(Map<String, String[]> parameters);
 }

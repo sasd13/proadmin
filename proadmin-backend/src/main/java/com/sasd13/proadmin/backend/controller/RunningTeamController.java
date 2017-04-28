@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.RunningTeam;
+import com.sasd13.proadmin.backend.model.RunningTeam;
 import com.sasd13.proadmin.backend.service.IRunningTeamService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.RunningTeamAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.RunningTeamAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.RunningTeamAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.RunningTeamAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
@@ -36,7 +36,7 @@ public class RunningTeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : create");
 
 		try {
-			runningTeamService.create(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningTeamService.create(new RunningTeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class RunningTeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : update");
 
 		try {
-			runningTeamService.update(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningTeamService.update(new RunningTeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class RunningTeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] RunningTeam : delete");
 
 		try {
-			runningTeamService.delete(new RunningTeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			runningTeamService.delete(new RunningTeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class RunningTeamController extends Controller {
 			List<RunningTeam> results = runningTeamService.read(searchBean.getCriterias());
 			RunningTeamResponseBean responseBean = new RunningTeamResponseBean();
 			List<RunningTeamBean> list = new ArrayList<>();
-			RunningTeamAdapterB2I adapter = new RunningTeamAdapterB2I();
+			RunningTeamAdapterM2I adapter = new RunningTeamAdapterM2I();
 
 			for (RunningTeam result : results) {
 				list.add(adapter.adapt(result));

@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.LeadEvaluation;
 import com.sasd13.proadmin.backend.dao.ILeadEvaluationDAO;
-import com.sasd13.proadmin.backend.dao.dto.LeadEvaluationDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.LeadEvaluationAdapterB2D;
+import com.sasd13.proadmin.backend.model.LeadEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 	}
 
 	@Override
-	public LeadEvaluationDTO create(LeadEvaluation leadEvaluation) {
-		LeadEvaluationDTO dto = new LeadEvaluationAdapterB2D().adapt(leadEvaluation);
-
-		currentSession().save(dto);
+	public LeadEvaluation create(LeadEvaluation leadEvaluation) {
+		currentSession().save(leadEvaluation);
 		currentSession().flush();
 
-		return dto;
+		return leadEvaluation;
 	}
 
 	@Override
 	public void update(LeadEvaluation leadEvaluation) {
-		currentSession().update(new LeadEvaluationAdapterB2D().adapt(leadEvaluation));
+		currentSession().update(leadEvaluation);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(LeadEvaluation leadEvaluation) {
-		currentSession().remove(new LeadEvaluationAdapterB2D().adapt(leadEvaluation));
+		currentSession().remove(leadEvaluation);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<LeadEvaluationDTO> read(Map<String, String[]> parameters) {
+	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from leadevaluations le");
 
@@ -70,7 +66,7 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 			resolveWhere(parameters, query);
 		}
 
-		return (List<LeadEvaluationDTO>) query.getResultList();
+		return (List<LeadEvaluation>) query.getResultList();
 	}
 
 	@Override

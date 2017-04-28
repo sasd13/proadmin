@@ -3,18 +3,17 @@ package com.sasd13.proadmin.backend.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.bean.Student;
-import com.sasd13.proadmin.backend.dao.dto.StudentDTO;
+import com.sasd13.proadmin.backend.model.Student;
 
 public interface IStudentDAO {
 
-	StudentDTO create(Student student);
+	Student create(Student student);
 
 	void update(Student student);
 
 	void delete(Student student);
 
-	StudentDTO read(String intermediary);
+	Student read(String intermediary);
 
-	List<StudentDTO> read(Map<String, String[]> parameters);
+	List<Student> read(Map<String, String[]> parameters);
 }

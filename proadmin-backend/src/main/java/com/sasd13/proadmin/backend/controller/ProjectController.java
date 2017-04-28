@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Project;
+import com.sasd13.proadmin.backend.model.Project;
 import com.sasd13.proadmin.backend.service.IProjectService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.ProjectAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.ProjectAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.ProjectAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.ProjectAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
@@ -36,7 +36,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : create");
 
 		try {
-			projectService.create(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
+			projectService.create(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : update");
 
 		try {
-			projectService.update(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
+			projectService.update(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : delete");
 
 		try {
-			projectService.delete(new ProjectAdapterI2B().adapt(requestBean.getData().get(0)));
+			projectService.delete(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class ProjectController extends Controller {
 			List<Project> results = projectService.read(searchBean.getCriterias());
 			ProjectResponseBean responseBean = new ProjectResponseBean();
 			List<ProjectBean> list = new ArrayList<>();
-			ProjectAdapterB2I adapter = new ProjectAdapterB2I();
+			ProjectAdapterM2I adapter = new ProjectAdapterM2I();
 
 			for (Project result : results) {
 				list.add(adapter.adapt(result));

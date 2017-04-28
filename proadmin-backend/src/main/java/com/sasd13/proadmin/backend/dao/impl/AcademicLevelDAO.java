@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IAcademicLevelDAO;
-import com.sasd13.proadmin.backend.dao.dto.AcademicLevelDTO;
+import com.sasd13.proadmin.backend.model.AcademicLevel;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
@@ -29,10 +29,10 @@ public class AcademicLevelDAO extends AbstractDAO implements IAcademicLevelDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<AcademicLevelDTO> readAll() {
-		CriteriaQuery<AcademicLevelDTO> criteria = currentSession().getCriteriaBuilder().createQuery(AcademicLevelDTO.class);
+	public List<AcademicLevel> readAll() {
+		CriteriaQuery<AcademicLevel> criteria = currentSession().getCriteriaBuilder().createQuery(AcademicLevel.class);
 		Query query = currentSession().createQuery(criteria);
 
-		return (List<AcademicLevelDTO>) query.getResultList();
+		return (List<AcademicLevel>) query.getResultList();
 	}
 }

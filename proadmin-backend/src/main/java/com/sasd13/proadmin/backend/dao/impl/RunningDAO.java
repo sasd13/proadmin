@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Running;
 import com.sasd13.proadmin.backend.dao.IRunningDAO;
-import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.RunningAdapterB2D;
+import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,30 +31,28 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	}
 
 	@Override
-	public RunningDTO create(Running running) {
-		RunningDTO dto = new RunningAdapterB2D().adapt(running);
-
-		currentSession().save(dto);
+	public Running create(Running running) {
+		currentSession().save(running);
 		currentSession().flush();
 
-		return dto;
+		return running;
 	}
 
 	@Override
 	public void update(Running running) {
-		currentSession().update(new RunningAdapterB2D().adapt(running));
+		currentSession().update(running);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Running running) {
-		currentSession().remove(new RunningAdapterB2D().adapt(running));
+		currentSession().remove(running);
 		currentSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RunningDTO> read(Map<String, String[]> parameters) {
+	public List<Running> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from runnings rn");
 
@@ -70,7 +66,7 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 			resolveWhere(parameters, query);
 		}
 
-		return (List<RunningDTO>) query.getResultList();
+		return (List<Running>) query.getResultList();
 	}
 
 	@Override

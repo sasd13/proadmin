@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Team;
+import com.sasd13.proadmin.backend.model.Team;
 import com.sasd13.proadmin.backend.service.ITeamService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.TeamAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.TeamAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.TeamAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.TeamAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
@@ -36,7 +36,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : create");
 
 		try {
-			teamService.create(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			teamService.create(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : update");
 
 		try {
-			teamService.update(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			teamService.update(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : delete");
 
 		try {
-			teamService.delete(new TeamAdapterI2B().adapt(requestBean.getData().get(0)));
+			teamService.delete(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class TeamController extends Controller {
 			List<Team> results = teamService.read(searchBean.getCriterias());
 			TeamResponseBean responseBean = new TeamResponseBean();
 			List<TeamBean> list = new ArrayList<>();
-			TeamAdapterB2I adapter = new TeamAdapterB2I();
+			TeamAdapterM2I adapter = new TeamAdapterM2I();
 
 			for (Team result : results) {
 				list.add(adapter.adapt(result));

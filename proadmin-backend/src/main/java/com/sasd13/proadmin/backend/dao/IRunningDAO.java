@@ -3,16 +3,15 @@ package com.sasd13.proadmin.backend.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.bean.Running;
-import com.sasd13.proadmin.backend.dao.dto.RunningDTO;
+import com.sasd13.proadmin.backend.model.Running;
 
 public interface IRunningDAO {
 
-	RunningDTO create(Running running);
+	Running create(Running running);
 
 	void update(Running running);
 
 	void delete(Running running);
 
-	List<RunningDTO> read(Map<String, String[]> parameters);
+	List<Running> read(Map<String, String[]> parameters);
 }

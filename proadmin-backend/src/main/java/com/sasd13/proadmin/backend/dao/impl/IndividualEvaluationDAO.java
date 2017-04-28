@@ -5,7 +5,6 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.IndividualEvaluation;
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.backend.dao.dto.IndividualEvaluationDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.IndividualEvaluationAdapterB2D;
+import com.sasd13.proadmin.backend.model.IndividualEvaluation;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -34,32 +31,20 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	}
 
 	@Override
-	public List<IndividualEvaluationDTO> create(List<IndividualEvaluation> individualEvaluations) {
-		List<IndividualEvaluationDTO> dtos = new ArrayList<>();
-
-		IndividualEvaluationDTO dto = null;
-		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
-
+	public List<IndividualEvaluation> create(List<IndividualEvaluation> individualEvaluations) {
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = adapter.adapt(individualEvaluation);
-
-			currentSession().save(dto);
+			currentSession().save(individualEvaluation);
 		}
 
 		currentSession().flush();
 
-		return dtos;
+		return individualEvaluations;
 	}
 
 	@Override
 	public void update(List<IndividualEvaluation> individualEvaluations) {
-		IndividualEvaluationDTO dto = null;
-		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
-
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = adapter.adapt(individualEvaluation);
-
-			currentSession().update(dto);
+			currentSession().update(individualEvaluation);
 		}
 
 		currentSession().flush();
@@ -67,13 +52,8 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 
 	@Override
 	public void delete(List<IndividualEvaluation> individualEvaluations) {
-		IndividualEvaluationDTO dto = null;
-		IndividualEvaluationAdapterB2D adapter = new IndividualEvaluationAdapterB2D();
-
 		for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-			dto = adapter.adapt(individualEvaluation);
-
-			currentSession().remove(dto);
+			currentSession().remove(individualEvaluation);
 		}
 
 		currentSession().flush();
@@ -81,7 +61,7 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<IndividualEvaluationDTO> read(Map<String, String[]> parameters) {
+	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from individualevaluations ie");
 
@@ -95,7 +75,7 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 			resolveWhere(parameters, query);
 		}
 
-		return (List<IndividualEvaluationDTO>) query.getResultList();
+		return (List<IndividualEvaluation>) query.getResultList();
 	}
 
 	@Override

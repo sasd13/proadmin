@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Student;
 import com.sasd13.proadmin.backend.dao.IStudentDAO;
-import com.sasd13.proadmin.backend.dao.dto.StudentDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.StudentAdapterB2D;
+import com.sasd13.proadmin.backend.model.Student;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -33,41 +31,39 @@ public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionna
 	}
 
 	@Override
-	public StudentDTO create(Student student) {
-		StudentDTO dto = new StudentAdapterB2D().adapt(student);
-
-		currentSession().save(dto);
+	public Student create(Student student) {
+		currentSession().save(student);
 		currentSession().flush();
 
-		return dto;
+		return student;
 	}
 
 	@Override
 	public void update(Student student) {
-		currentSession().update(new StudentAdapterB2D().adapt(student));
+		currentSession().update(student);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Student student) {
-		currentSession().remove(new StudentAdapterB2D().adapt(student));
+		currentSession().remove(student);
 		currentSession().flush();
 	}
 
 	@Override
-	public StudentDTO read(String intermediary) {
+	public Student read(String intermediary) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from students st where st.intermediary = :intermediary");
 
 		Query query = currentSession().createQuery(builder.toString());
 		query.setParameter("intermediary", intermediary);
 
-		return (StudentDTO) query.getSingleResult();
+		return (Student) query.getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<StudentDTO> read(Map<String, String[]> parameters) {
+	public List<Student> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from students st");
 
@@ -81,7 +77,7 @@ public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionna
 			resolveWhere(parameters, query);
 		}
 
-		return (List<StudentDTO>) query.getResultList();
+		return (List<Student>) query.getResultList();
 	}
 
 	@Override

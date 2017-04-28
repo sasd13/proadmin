@@ -5,7 +5,6 @@
  */
 package com.sasd13.proadmin.backend.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.StudentTeam;
 import com.sasd13.proadmin.backend.dao.IStudentTeamDAO;
-import com.sasd13.proadmin.backend.dao.dto.StudentTeamDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.StudentTeamAdapterB2D;
+import com.sasd13.proadmin.backend.model.StudentTeam;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -34,32 +31,20 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	}
 
 	@Override
-	public List<StudentTeamDTO> create(List<StudentTeam> studentTeams) {
-		List<StudentTeamDTO> dtos = new ArrayList<>();
-
-		StudentTeamDTO dto = null;
-		StudentTeamAdapterB2D adapter = new StudentTeamAdapterB2D();
-
+	public List<StudentTeam> create(List<StudentTeam> studentTeams) {
 		for (StudentTeam studentTeam : studentTeams) {
-			dto = adapter.adapt(studentTeam);
-
-			currentSession().save(dto);
+			currentSession().save(studentTeam);
 		}
 
 		currentSession().flush();
 
-		return dtos;
+		return studentTeams;
 	}
 
 	@Override
 	public void delete(List<StudentTeam> studentTeams) {
-		StudentTeamDTO dto = null;
-		StudentTeamAdapterB2D adapter = new StudentTeamAdapterB2D();
-
 		for (StudentTeam studentTeam : studentTeams) {
-			dto = adapter.adapt(studentTeam);
-
-			currentSession().remove(dto);
+			currentSession().remove(studentTeam);
 		}
 
 		currentSession().flush();
@@ -67,7 +52,7 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<StudentTeamDTO> read(Map<String, String[]> parameters) {
+	public List<StudentTeam> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from studentteams sttm");
 
@@ -81,7 +66,7 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 			resolveWhere(parameters, query);
 		}
 
-		return (List<StudentTeamDTO>) query.getResultList();
+		return (List<StudentTeam>) query.getResultList();
 	}
 
 	@Override

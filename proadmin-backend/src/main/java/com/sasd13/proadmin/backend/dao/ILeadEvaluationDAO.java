@@ -3,16 +3,15 @@ package com.sasd13.proadmin.backend.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.bean.LeadEvaluation;
-import com.sasd13.proadmin.backend.dao.dto.LeadEvaluationDTO;
+import com.sasd13.proadmin.backend.model.LeadEvaluation;
 
 public interface ILeadEvaluationDAO {
 
-	LeadEvaluationDTO create(LeadEvaluation leadEvaluation);
+	LeadEvaluation create(LeadEvaluation leadEvaluation);
 
 	void update(LeadEvaluation leadEvaluation);
 
 	void delete(LeadEvaluation leadEvaluation);
 
-	List<LeadEvaluationDTO> read(Map<String, String[]> parameters);
+	List<LeadEvaluation> read(Map<String, String[]> parameters);
 }

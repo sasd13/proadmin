@@ -13,10 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
-import com.sasd13.proadmin.backend.bean.Teacher;
 import com.sasd13.proadmin.backend.dao.ITeacherDAO;
-import com.sasd13.proadmin.backend.dao.dto.TeacherDTO;
-import com.sasd13.proadmin.backend.util.adapter.bean2dto.TeacherAdapterB2D;
+import com.sasd13.proadmin.backend.model.Teacher;
 import com.sasd13.proadmin.util.EnumParameter;
 
 @Repository
@@ -28,41 +26,39 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	}
 
 	@Override
-	public TeacherDTO create(Teacher teacher) {
-		TeacherDTO dto = new TeacherAdapterB2D().adapt(teacher);
-
-		currentSession().save(dto);
+	public Teacher create(Teacher teacher) {
+		currentSession().save(teacher);
 		currentSession().flush();
 
-		return dto;
+		return teacher;
 	}
 
 	@Override
 	public void update(Teacher teacher) {
-		currentSession().update(new TeacherAdapterB2D().adapt(teacher));
+		currentSession().update(teacher);
 		currentSession().flush();
 	}
 
 	@Override
 	public void delete(Teacher teacher) {
-		currentSession().remove(new TeacherAdapterB2D().adapt(teacher));
+		currentSession().remove(teacher);
 		currentSession().flush();
 	}
 
 	@Override
-	public TeacherDTO read(String intermediary) {
+	public Teacher read(String intermediary) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from teachers tc where tc.intermediary = :intermediary");
 
 		Query query = currentSession().createQuery(builder.toString());
 		query.setParameter("intermediary", intermediary);
 
-		return (TeacherDTO) query.getSingleResult();
+		return (Teacher) query.getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TeacherDTO> read(Map<String, String[]> parameters) {
+	public List<Teacher> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from teachers tc");
 
@@ -76,7 +72,7 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 			resolveWhere(parameters, query);
 		}
 
-		return (List<TeacherDTO>) query.getResultList();
+		return (List<Teacher>) query.getResultList();
 	}
 
 	@Override

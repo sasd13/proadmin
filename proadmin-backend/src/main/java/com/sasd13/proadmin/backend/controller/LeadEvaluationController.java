@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.LeadEvaluation;
+import com.sasd13.proadmin.backend.model.LeadEvaluation;
 import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.LeadEvaluationAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.LeadEvaluationAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.LeadEvaluationAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
@@ -36,7 +36,7 @@ public class LeadEvaluationController extends Controller {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : create");
 
 		try {
-			leadEvaluationService.create(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
+			leadEvaluationService.create(new LeadEvaluationAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class LeadEvaluationController extends Controller {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : update");
 
 		try {
-			leadEvaluationService.update(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
+			leadEvaluationService.update(new LeadEvaluationAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class LeadEvaluationController extends Controller {
 		LOGGER.info("[Proadmin-Backend] LeadEvaluation : delete");
 
 		try {
-			leadEvaluationService.delete(new LeadEvaluationAdapterI2B().adapt(requestBean.getData().get(0)));
+			leadEvaluationService.delete(new LeadEvaluationAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class LeadEvaluationController extends Controller {
 			List<LeadEvaluation> results = leadEvaluationService.read(searchBean.getCriterias());
 			LeadEvaluationResponseBean responseBean = new LeadEvaluationResponseBean();
 			List<LeadEvaluationBean> list = new ArrayList<>();
-			LeadEvaluationAdapterB2I adapter = new LeadEvaluationAdapterB2I();
+			LeadEvaluationAdapterM2I adapter = new LeadEvaluationAdapterM2I();
 
 			for (LeadEvaluation result : results) {
 				list.add(adapter.adapt(result));

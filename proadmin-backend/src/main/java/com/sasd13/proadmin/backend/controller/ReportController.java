@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.bean.Report;
+import com.sasd13.proadmin.backend.model.Report;
 import com.sasd13.proadmin.backend.service.IReportService;
-import com.sasd13.proadmin.backend.util.adapter.bean2itf.ReportAdapterB2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2bean.ReportAdapterI2B;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.ReportAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.ReportAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
@@ -36,7 +36,7 @@ public class ReportController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Report : create");
 
 		try {
-			reportService.create(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
+			reportService.create(new ReportAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class ReportController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Report : update");
 
 		try {
-			reportService.update(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
+			reportService.update(new ReportAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class ReportController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Report : delete");
 
 		try {
-			reportService.delete(new ReportAdapterI2B().adapt(requestBean.getData().get(0)));
+			reportService.delete(new ReportAdapterI2M().adapt(requestBean.getData().get(0)));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class ReportController extends Controller {
 			List<Report> results = reportService.read(searchBean.getCriterias());
 			ReportResponseBean responseBean = new ReportResponseBean();
 			List<ReportBean> list = new ArrayList<>();
-			ReportAdapterB2I adapter = new ReportAdapterB2I();
+			ReportAdapterM2I adapter = new ReportAdapterM2I();
 
 			for (Report result : results) {
 				list.add(adapter.adapt(result));
