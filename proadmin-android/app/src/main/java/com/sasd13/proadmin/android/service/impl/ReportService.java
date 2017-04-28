@@ -47,17 +47,20 @@ public class ReportService implements IReportService {
 
         ReportResponseBean responseBean = (ReportResponseBean) promise.execute();
         List<Report> list = new ArrayList<>();
-        ReportAdapterI2B adapter = new ReportAdapterI2B();
 
-        for (ReportBean reportBean : responseBean.getData()) {
-            list.add(adapter.adapt(reportBean));
+        if (promise.isSuccess()) {
+            ReportAdapterI2B adapter = new ReportAdapterI2B();
+
+            for (ReportBean reportBean : responseBean.getData()) {
+                list.add(adapter.adapt(reportBean));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                list
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<Report>emptyList()
         );
     }
 
@@ -86,20 +89,22 @@ public class ReportService implements IReportService {
         List<LeadEvaluation> leadEvaluations = new ArrayList<>();
         List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
-        StudentTeamAdapterI2B studentTeamAdapter = new StudentTeamAdapterI2B();
-        LeadEvaluationAdapterI2B leadEvaluationAdapter = new LeadEvaluationAdapterI2B();
-        IndividualEvaluationAdapterI2B individualEvaluationAdapter = new IndividualEvaluationAdapterI2B();
+        if (promise.isSuccess()) {
+            StudentTeamAdapterI2B studentTeamAdapter = new StudentTeamAdapterI2B();
+            LeadEvaluationAdapterI2B leadEvaluationAdapter = new LeadEvaluationAdapterI2B();
+            IndividualEvaluationAdapterI2B individualEvaluationAdapter = new IndividualEvaluationAdapterI2B();
 
-        for (StudentTeamBean studentTeamBean : studentTeamResponseBean.getData()) {
-            studentTeams.add(studentTeamAdapter.adapt(studentTeamBean));
-        }
+            for (StudentTeamBean studentTeamBean : studentTeamResponseBean.getData()) {
+                studentTeams.add(studentTeamAdapter.adapt(studentTeamBean));
+            }
 
-        for (LeadEvaluationBean leadEvaluationBean : leadEvaluationResponseBean.getData()) {
-            leadEvaluations.add(leadEvaluationAdapter.adapt(leadEvaluationBean));
-        }
+            for (LeadEvaluationBean leadEvaluationBean : leadEvaluationResponseBean.getData()) {
+                leadEvaluations.add(leadEvaluationAdapter.adapt(leadEvaluationBean));
+            }
 
-        for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationResponseBean.getData()) {
-            individualEvaluations.add(individualEvaluationAdapter.adapt(individualEvaluationBean));
+            for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationResponseBean.getData()) {
+                individualEvaluations.add(individualEvaluationAdapter.adapt(individualEvaluationBean));
+            }
         }
 
         results.put(PARAMATERS_STUDENTTEAM, studentTeams);
@@ -110,7 +115,7 @@ public class ReportService implements IReportService {
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
                 Collections.<String, String>emptyMap(),
-                results
+                promise.isSuccess() ? results : Collections.<String, Object>emptyMap()
         );
     }
 

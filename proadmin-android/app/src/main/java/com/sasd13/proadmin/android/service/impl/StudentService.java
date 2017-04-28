@@ -14,6 +14,7 @@ import com.sasd13.proadmin.itf.bean.student.StudentResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +32,20 @@ public class StudentService implements IStudentService {
 
         StudentResponseBean responseBean = (StudentResponseBean) promise.execute();
         List<Student> list = new ArrayList<>();
-        StudentAdapterI2B adapter = new StudentAdapterI2B();
 
-        for (StudentBean studentBean : responseBean.getData()) {
-            list.add(adapter.adapt(studentBean));
+        if (promise.isSuccess()) {
+            StudentAdapterI2B adapter = new StudentAdapterI2B();
+
+            for (StudentBean studentBean : responseBean.getData()) {
+                list.add(adapter.adapt(studentBean));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                list
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<Student>emptyList()
         );
     }
 

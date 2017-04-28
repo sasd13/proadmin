@@ -6,7 +6,6 @@
 package com.sasd13.proadmin.ws.controller;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sasd13.javaex.io.Stream;
+import com.sasd13.javaex.net.EnumHttpStatus;
 import com.sasd13.javaex.parser.ParserFactory;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.ws.util.Constants;
@@ -49,6 +49,6 @@ public abstract class Controller extends HttpServlet {
 
 	protected void handleError(HttpServletResponse resp, Logger logger, Exception e) throws IOException {
 		logger.error(e);
-		resp.setStatus(HttpURLConnection.HTTP_INTERNAL_ERROR);
+		resp.setStatus(EnumHttpStatus.EXPECTATION_FAILED.getCode());
 	}
 }

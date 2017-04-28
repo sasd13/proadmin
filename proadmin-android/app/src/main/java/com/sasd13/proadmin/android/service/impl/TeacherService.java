@@ -14,6 +14,7 @@ import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +32,20 @@ public class TeacherService implements ITeacherService {
 
         TeacherResponseBean responseBean = (TeacherResponseBean) promise.execute();
         List<Teacher> list = new ArrayList<>();
-        TeacherAdapterI2B adapter = new TeacherAdapterI2B();
 
-        for (TeacherBean teacherBean : responseBean.getData()) {
-            list.add(adapter.adapt(teacherBean));
+        if (promise.isSuccess()) {
+            TeacherAdapterI2B adapter = new TeacherAdapterI2B();
+
+            for (TeacherBean teacherBean : responseBean.getData()) {
+                list.add(adapter.adapt(teacherBean));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                list
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<Teacher>emptyList()
         );
     }
 

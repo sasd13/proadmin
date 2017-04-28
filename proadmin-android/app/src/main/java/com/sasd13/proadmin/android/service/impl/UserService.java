@@ -9,6 +9,7 @@ import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Resources;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +28,14 @@ public class UserService implements IUserService {
         promise.setParameters(parameters);
 
         UserResponseBean responseBean = (UserResponseBean) promise.execute();
-        User user = responseBean.getData().isEmpty() ? null : new UserAdapterI2B().adapt(responseBean.getData().get(0));
+        User user = promise.isSuccess() && responseBean.getData() != null && !responseBean.getData().isEmpty()
+                ? new UserAdapterI2B().adapt(responseBean.getData().get(0))
+                : null;
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
                 user
         );
     }

@@ -55,23 +55,19 @@ public class UserController extends Controller {
 		IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
 
 		try {
-			if (!parameters.isEmpty()) {
-				List<User> results = userService.read(parameters);
-				UserResponseBean responseBean = new UserResponseBean();
-				List<UserBean> list = new ArrayList<>();
-				UserAdapterB2I adapter = new UserAdapterB2I();
+			List<User> results = userService.read(parameters);
+			UserResponseBean responseBean = new UserResponseBean();
+			List<UserBean> list = new ArrayList<>();
+			UserAdapterB2I adapter = new UserAdapterB2I();
 
-				for (User result : results) {
-					list.add(adapter.adapt(result));
-				}
-
-				responseBean.setData(list);
-				addHeaders(responseBean, list.size());
-
-				writeToResponse(resp, responseBean);
-			} else {
-				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
+			for (User result : results) {
+				list.add(adapter.adapt(result));
 			}
+
+			responseBean.setData(list);
+			addHeaders(responseBean, list.size());
+
+			writeToResponse(resp, responseBean);
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);
 		}

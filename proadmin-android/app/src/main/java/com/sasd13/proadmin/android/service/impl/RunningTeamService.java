@@ -47,17 +47,20 @@ public class RunningTeamService implements IRunningTeamService {
 
         RunningTeamResponseBean responseBean = (RunningTeamResponseBean) promise.execute();
         List<RunningTeam> list = new ArrayList<>();
-        RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
 
-        for (RunningTeamBean runningTeamBean : responseBean.getData()) {
-            list.add(adapter.adapt(runningTeamBean));
+        if (promise.isSuccess()) {
+            RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
+
+            for (RunningTeamBean runningTeamBean : responseBean.getData()) {
+                list.add(adapter.adapt(runningTeamBean));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                list
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<RunningTeam>emptyList()
         );
     }
 
@@ -86,20 +89,22 @@ public class RunningTeamService implements IRunningTeamService {
         List<Team> teams = new ArrayList<>();
         List<AcademicLevel> academicLevels = new ArrayList<>();
 
-        RunningAdapterI2B runningAdapter = new RunningAdapterI2B();
-        TeamAdapterI2B teamAdapter = new TeamAdapterI2B();
-        AcademicLevelAdapterI2B academicLevelAdapter = new AcademicLevelAdapterI2B();
+        if (promise.isSuccess()) {
+            RunningAdapterI2B runningAdapter = new RunningAdapterI2B();
+            TeamAdapterI2B teamAdapter = new TeamAdapterI2B();
+            AcademicLevelAdapterI2B academicLevelAdapter = new AcademicLevelAdapterI2B();
 
-        for (RunningBean runningBean : runningResponseBean.getData()) {
-            runnings.add(runningAdapter.adapt(runningBean));
-        }
+            for (RunningBean runningBean : runningResponseBean.getData()) {
+                runnings.add(runningAdapter.adapt(runningBean));
+            }
 
-        for (TeamBean teamBean : teamResponseBean.getData()) {
-            teams.add(teamAdapter.adapt(teamBean));
-        }
+            for (TeamBean teamBean : teamResponseBean.getData()) {
+                teams.add(teamAdapter.adapt(teamBean));
+            }
 
-        for (AcademicLevelBean academicLevelBean : academicLevelResponseBean.getData()) {
-            academicLevels.add(academicLevelAdapter.adapt(academicLevelBean));
+            for (AcademicLevelBean academicLevelBean : academicLevelResponseBean.getData()) {
+                academicLevels.add(academicLevelAdapter.adapt(academicLevelBean));
+            }
         }
 
         results.put(PARAMATERS_RUNNING, runnings);
@@ -110,7 +115,7 @@ public class RunningTeamService implements IRunningTeamService {
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
                 Collections.<String, String>emptyMap(),
-                results
+                promise.isSuccess() ? results : Collections.<String, Object>emptyMap()
         );
     }
 

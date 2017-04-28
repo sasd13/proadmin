@@ -8,6 +8,7 @@ import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -17,16 +18,16 @@ import java.util.Map;
 public class AuthenticationService implements IAuthenticationService {
 
     @Override
-    public ServiceResult<Map<String, String>> logIn(Map<String, String> credentials) {
+    public ServiceResult<Map<String, String>> logIn(Map<String, String> parameters) {
         Promise promise = new Promise("POST", Resources.URL_AAA_LOGIN, AuthenticationResponseBean.class);
 
-        AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(new Credential(credentials.get(PARAMETER_USERNAME), HexEncoder.sha256(credentials.get(PARAMETER_PASSWORD))));
+        AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(new Credential(parameters.get(PARAMETER_USERNAME), HexEncoder.sha256(parameters.get(PARAMETER_PASSWORD))));
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                responseBean.getData()
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? responseBean.getData() : Collections.<String, String>emptyMap()
         );
     }
 }

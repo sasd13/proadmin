@@ -14,6 +14,7 @@ import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +32,20 @@ public class TeamService implements ITeamService {
 
         TeamResponseBean responseBean = (TeamResponseBean) promise.execute();
         List<Team> list = new ArrayList<>();
-        TeamAdapterI2B adapter = new TeamAdapterI2B();
 
-        for (TeamBean teamBean : responseBean.getData()) {
-            list.add(adapter.adapt(teamBean));
+        if (promise.isSuccess()) {
+            TeamAdapterI2B adapter = new TeamAdapterI2B();
+
+            for (TeamBean teamBean : responseBean.getData()) {
+                list.add(adapter.adapt(teamBean));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
-                list
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<Team>emptyList()
         );
     }
 
