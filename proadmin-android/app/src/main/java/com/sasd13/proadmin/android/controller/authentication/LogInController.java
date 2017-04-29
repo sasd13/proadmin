@@ -1,10 +1,12 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.controller.IdentityController;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.util.Extra;
+import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ILogInController;
 
 import java.util.HashMap;
@@ -16,19 +18,20 @@ import java.util.Map;
 
 public class LogInController extends IdentityController implements ILogInController {
 
+    private Scope scope;
     private IAuthenticationService authenticationService;
     private LogInTask logInTask;
-    private WaitDialog waitDialog;
 
     public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
         super(identityActivity);
 
+        scope = new Scope();
         this.authenticationService = authenticationService;
     }
 
     @Override
-    public Object getScope() {
-        return null;
+    public Scope getScope() {
+        return scope;
     }
 
     @Override
@@ -42,6 +45,8 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     private void connect(Map<String, String> credentials) {
+        scope.setLoading(true);
+
         if (logInTask == null) {
             logInTask = new LogInTask(this, authenticationService);
         }
@@ -49,19 +54,11 @@ public class LogInController extends IdentityController implements ILogInControl
         new Requestor(logInTask).execute(credentials);
     }
 
-    void onWaiting() {
-        waitDialog = new WaitDialog(identityActivity);
-        waitDialog.show();
-    }
+    void onReadUser(String userID, String intermediary) {
+        SessionHelper.setExtra(identityActivity, Extra.USERID, userID);
+        SessionHelper.setExtra(identityActivity, Extra.INTERMEDIARY, intermediary);
 
-    void onReadTeacher(String userID, String intermediary) {
-        waitDialog.dismiss();
-        identityActivity.goToMainActivity(userID, intermediary);
-    }
-
-    @Override
-    public void onFail(int httpStatus, Map<String, String> errors) {
-        waitDialog.dismiss();
-        super.onFail(httpStatus, errors);
+        scope.setLoading(false);
+        identityActivity.goToMainActivity();
     }
 }

@@ -99,7 +99,7 @@
     <string name="exception_service">Erreur interne du serveur</string>
     <string name="exception_status">Erreur de status</string>
     <string name="message_cancelled">Annulé</string>
-    <string name="error_no_logins">Veuillez entrer vos identifiant/mot de passe</string>
+    <string name="error_empty_credential">Veuillez entrer vos identifiant/mot de passe</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>
 
 </resources>

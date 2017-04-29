@@ -3,6 +3,7 @@ package com.sasd13.proadmin.android.view.fragment.setting;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,11 +19,11 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.bean.update.TeacherUpdate;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.update.UserUpdate;
 import com.sasd13.proadmin.android.scope.SettingScope;
 import com.sasd13.proadmin.android.view.ISettingController;
-import com.sasd13.proadmin.android.view.gui.form.TeacherForm;
+import com.sasd13.proadmin.android.view.gui.form.UserForm;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -31,7 +32,8 @@ public class SettingFragment extends Fragment implements Observer {
 
     private ISettingController controller;
     private SettingScope scope;
-    private TeacherForm teacherForm;
+    private UserForm userForm;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Menu menu;
 
     public static SettingFragment newInstance() {
@@ -55,7 +57,7 @@ public class SettingFragment extends Fragment implements Observer {
 
         scope.addObserver(this);
 
-        View view = inflater.inflate(R.layout.layout_rv, container, false);
+        View view = inflater.inflate(R.layout.layout_rv_w_srl, container, false);
 
         buildView(view);
 
@@ -63,21 +65,33 @@ public class SettingFragment extends Fragment implements Observer {
     }
 
     private void buildView(View view) {
-        buildFormTeacher(view);
-        bindFormWithTeacher(scope.getTeacher());
+        buildFormUser(view);
+        buildSwipeRefreshLayout(view);
+        bindFormWithUser(scope.getUser());
     }
 
-    private void buildFormTeacher(View view) {
-        teacherForm = new TeacherForm(getContext());
+    private void buildFormUser(View view) {
+        userForm = new UserForm(getContext());
 
-        Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+        Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
         recycler.addDividerItemDecoration();
 
-        RecyclerHelper.addAll(recycler, teacherForm.getHolder());
+        RecyclerHelper.addAll(recycler, userForm.getHolder());
     }
 
-    private void bindFormWithTeacher(Teacher teacher) {
-        teacherForm.bindTeacher(teacher);
+    private void buildSwipeRefreshLayout(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_rv_w_srl_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                controller.actionRefresh();
+            }
+        });
+    }
+
+    private void bindFormWithUser(User user) {
+        userForm.bindUser(user);
     }
 
     @Override
@@ -93,7 +107,7 @@ public class SettingFragment extends Fragment implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings_action_save:
-                updateTeacher();
+                updateUser();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,26 +116,22 @@ public class SettingFragment extends Fragment implements Observer {
         return true;
     }
 
-    private void updateTeacher() {
+    private void updateUser() {
         try {
-            controller.actionUpdateTeacher(getTeacherUpdateFromForm());
+            controller.actionUpdateUser(getUserUpdateFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private TeacherUpdate getTeacherUpdateFromForm() throws FormException {
-        TeacherUpdate teacherUpdate = new TeacherUpdate();
-        Teacher teacher = scope.getTeacher();
+    private UserUpdate getUserUpdateFromForm() throws FormException {
+        UserUpdate userUpdate = new UserUpdate();
+        User user = scope.getUser();
 
-        teacherUpdate.setIntermediary(teacher.getIntermediary());
-        teacherUpdate.setWrapped(teacher);
-        teacher.setIntermediary(teacherForm.getNumber());
-        teacher.setFirstName(teacherForm.getFirstName());
-        teacher.setLastName(teacherForm.getLastName());
-        teacher.setEmail(teacherForm.getEmail());
+        user.setEmail(userForm.getEmail());
+        userUpdate.setUser(user);
 
-        return teacherUpdate;
+        return userUpdate;
     }
 
     @Override
@@ -134,7 +144,17 @@ public class SettingFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        bindFormWithTeacher(scope.getTeacher());
+        swipeRefreshLayout.setRefreshing(scope.isLoading());
+        bindFormWithUser(scope.getUser());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.destroyDrawingCache();
+        swipeRefreshLayout.clearAnimation();
     }
 
     @Override

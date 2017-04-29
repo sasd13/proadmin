@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.sasd13.javaex.net.EnumHttpStatus;
-import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.util.EnumErrorRes;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.util.EnumError;
@@ -35,11 +34,11 @@ public abstract class Controller implements IController {
         Snackbar.make(contentView, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void onCancelled() {
-        display(R.string.message_cancelled);
-    }
-
     public void onFail(int httpStatus, Map<String, String> errors) {
+        if (getScope().isLoading()) {
+            getScope().setLoading(false);
+        }
+
         if (errors != null && !errors.isEmpty()) {
             Iterator<String> it = errors.keySet().iterator();
             EnumError error = EnumError.find(Integer.valueOf(it.next()));
@@ -54,5 +53,13 @@ public abstract class Controller implements IController {
                 display(EnumErrorRes.UNKNOWN.getResID());
             }
         }
+    }
+
+    public void onCancelled() {
+        if (getScope().isLoading()) {
+            getScope().setLoading(false);
+        }
+
+        getScope().setCancelled(true);
     }
 }

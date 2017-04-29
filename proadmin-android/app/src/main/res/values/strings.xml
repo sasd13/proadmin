@@ -99,7 +99,7 @@
     <string name="exception_service">Internal server error</string>
     <string name="exception_status">Status error</string>
     <string name="message_cancelled">Cancelled</string>
-    <string name="error_no_logins">Empty username/password</string>
+    <string name="error_empty_credential">Empty username/password</string>
     <string name="error_no_runningteam_selected">Running team not selected</string>
 
 </resources>

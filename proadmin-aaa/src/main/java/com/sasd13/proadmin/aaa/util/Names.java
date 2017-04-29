@@ -16,4 +16,5 @@ public interface Names {
 	String AAA_RESPONSE_HEADER_CONTENT_TYPE = "aaa.response_header.content_type";
 	String AAA_ROLES_SEPARATOR = "aaa.roles.separator";
 	String AAA_PASSWORD_MIN_LENGTH = "aaa.password.min_length";
+	String AAA_PATTERN_DATETIME_DEFAULT = "aaa.pattern.datetime.default";
 }

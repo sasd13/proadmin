@@ -14,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
@@ -40,11 +39,6 @@ public class AcademicLevelController extends Controller {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("[Proadmin-WS] AcademicLevel : read");
-
-		if (!req.getParameterMap().isEmpty()) {
-			resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
-			return;
-		}
 
 		DAO dao = (DAO) req.getAttribute(Constants.REQ_ATTR_DAO);
 		IAcademicLevelService academicLevelService = (IAcademicLevelService) ServiceFactory.make(IAcademicLevelService.class, dao);

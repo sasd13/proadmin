@@ -2,10 +2,13 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.update.UserUpdate;
 import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.update.UserUpdateAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.UserAdapterI2B;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
+import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 import com.sasd13.proadmin.util.EnumParameter;
 import com.sasd13.proadmin.util.Resources;
 
@@ -37,6 +40,21 @@ public class UserService implements IUserService {
                 promise.getResponseCode(),
                 responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
                 user
+        );
+    }
+
+    @Override
+    public ServiceResult<Void> update(UserUpdate userUpdate) {
+        Promise promise = new Promise("PUT", Resources.URL_AAA_USERS);
+
+        UserUpdateRequestBean requestBean = new UserUpdateRequestBean();
+
+        requestBean.setData(new UserUpdateAdapterB2I().adapt(userUpdate));
+        promise.execute(requestBean);
+
+        return new ServiceResult<>(
+                promise.isSuccess(),
+                promise.getResponseCode()
         );
     }
 }

@@ -22,8 +22,8 @@ import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
-import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ITeamService;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceFactory;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.ILogInController;
@@ -51,7 +51,7 @@ public class ControllerFactory {
         } else if (ISettingController.class.equals(mClass)) {
             return new SettingController(
                     (MainActivity) activity,
-                    (ITeacherService) ServiceFactory.make(ITeacherService.class)
+                    (IUserService) ServiceFactory.make(IUserService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(

@@ -12,6 +12,7 @@ import com.sasd13.proadmin.android.bean.update.LeadEvaluationUpdate;
 import com.sasd13.proadmin.android.bean.update.ReportUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.ReportScope;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.IReportService;
@@ -26,7 +27,6 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 
@@ -105,7 +105,7 @@ public class ReportController extends MainController implements IReportControlle
         scope.setReportsToAdd(reports);
 
         if (!reports.isEmpty()) {
-            scope.setReportsToAdd(Collections.<Report>emptyList());
+            scope.clearReportsToAdd();
         }
 
         scope.setLoading(false);

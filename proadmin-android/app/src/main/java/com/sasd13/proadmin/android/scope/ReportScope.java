@@ -9,15 +9,13 @@ import com.sasd13.proadmin.android.bean.StudentTeam;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public class ReportScope extends Observable {
+public class ReportScope extends Scope {
 
-    private boolean loading;
     private List<Report> reports, reportsToAdd;
     private Report report;
     private LeadEvaluation leadEvaluation;
@@ -28,17 +26,6 @@ public class ReportScope extends Observable {
     public ReportScope() {
         reports = new ArrayList<>();
         reportsToAdd = Collections.emptyList();
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-
-        setChanged();
-        notifyObservers();
     }
 
     public List<Report> getReports() {
@@ -61,6 +48,10 @@ public class ReportScope extends Observable {
 
         setChanged();
         notifyObservers();
+    }
+
+    public void clearReportsToAdd() {
+        reportsToAdd = Collections.emptyList();
     }
 
     public Report getReport() {

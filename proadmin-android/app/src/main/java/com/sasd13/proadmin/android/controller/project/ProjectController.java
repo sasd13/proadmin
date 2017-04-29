@@ -6,6 +6,7 @@ import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.ProjectScope;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.util.SessionHelper;
@@ -15,7 +16,6 @@ import com.sasd13.proadmin.android.view.fragment.project.ProjectsFragment;
 import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class ProjectController extends MainController implements IProjectControl
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 
@@ -80,7 +80,7 @@ public class ProjectController extends MainController implements IProjectControl
         scope.setProjectsToAdd(projects);
 
         if (!projects.isEmpty()) {
-            scope.setProjectsToAdd(Collections.<Project>emptyList());
+            scope.clearProjectsToAdd();
         }
 
         scope.setLoading(false);

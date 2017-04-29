@@ -7,6 +7,7 @@ import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.RunningScope;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.util.builder.running.NewRunningBuilder;
@@ -33,7 +34,7 @@ public class RunningController extends MainController implements IRunningControl
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 

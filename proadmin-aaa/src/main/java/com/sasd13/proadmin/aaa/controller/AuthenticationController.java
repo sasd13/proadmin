@@ -6,7 +6,9 @@
 package com.sasd13.proadmin.aaa.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,10 +63,12 @@ public class AuthenticationController extends Controller {
 			if (user != null) {
 				responseBean.setData(SessionBuilder.build(user));
 			} else {
+				Map<String, String> errors = new HashMap<String, String>();
 				String code = String.valueOf(EnumError.AUTHENTICATION.getCode());
 				String message = bundle.getString(EnumError.AUTHENTICATION.getBundleKey());
 
-				responseBean.getErrors().put(code, message);
+				errors.put(code, message);
+				responseBean.setErrors(errors);
 			}
 
 			writeToResponse(resp, responseBean);

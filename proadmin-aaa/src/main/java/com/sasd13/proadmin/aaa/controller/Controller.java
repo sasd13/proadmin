@@ -49,6 +49,6 @@ public abstract class Controller extends HttpServlet {
 
 	protected void handleError(HttpServletResponse resp, Logger logger, Exception e) throws IOException {
 		logger.error(e);
-		resp.setStatus(EnumHttpStatus.EXPECTATION_FAILED.getCode());
+		resp.sendError(EnumHttpStatus.EXPECTATION_FAILED.getCode());
 	}
 }

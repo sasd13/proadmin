@@ -7,6 +7,7 @@ import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.bean.update.StudentUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
@@ -34,7 +35,7 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 

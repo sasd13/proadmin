@@ -11,6 +11,7 @@ import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.bean.update.RunningTeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.RunningTeamScope;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
@@ -23,7 +24,6 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 
@@ -95,7 +95,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         scope.setRunningTeamsToAdd(runningTeams);
 
         if (!runningTeams.isEmpty()) {
-            scope.setRunningTeamsToAdd(Collections.<RunningTeam>emptyList());
+            scope.clearRunningTeamsToAdd();
         }
 
         scope.setLoading(false);

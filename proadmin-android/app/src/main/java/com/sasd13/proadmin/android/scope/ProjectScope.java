@@ -6,15 +6,13 @@ import com.sasd13.proadmin.android.bean.Running;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created by ssaidali2 on 06/12/2016.
  */
 
-public class ProjectScope extends Observable {
+public class ProjectScope extends Scope {
 
-    private boolean loading;
     private List<Project> projects, projectsToAdd;
     private Project project;
     private List<Running> runnings;
@@ -23,17 +21,6 @@ public class ProjectScope extends Observable {
     public ProjectScope() {
         this.projects = new ArrayList<>();
         this.projectsToAdd = Collections.emptyList();
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-
-        setChanged();
-        notifyObservers();
     }
 
     public List<Project> getProjects() {
@@ -56,6 +43,10 @@ public class ProjectScope extends Observable {
 
         setChanged();
         notifyObservers();
+    }
+
+    public void clearProjectsToAdd() {
+        projectsToAdd = Collections.emptyList();
     }
 
     public Project getProject() {

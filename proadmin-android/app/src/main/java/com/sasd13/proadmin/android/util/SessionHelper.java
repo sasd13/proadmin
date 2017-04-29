@@ -21,6 +21,10 @@ public class SessionHelper {
         Session.setAttribute(context, key, String.valueOf(value));
     }
 
+    public static String getExtraUserID(Context context) {
+        return Session.getAttribute(context, Extra.USERID);
+    }
+
     public static String getExtraIntermediary(Context context) {
         return Session.getAttribute(context, Extra.INTERMEDIARY);
     }

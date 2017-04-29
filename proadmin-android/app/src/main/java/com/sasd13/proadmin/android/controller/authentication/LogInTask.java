@@ -22,13 +22,6 @@ public class LogInTask extends ReadRequestorTask {
     }
 
     @Override
-    public void onPreExecute() {
-        super.onPreExecute();
-
-        controller.onWaiting();
-    }
-
-    @Override
     public Object execute(Object in) {
         return authenticationService.logIn((Map<String, String>) in);
     }
@@ -43,7 +36,7 @@ public class LogInTask extends ReadRequestorTask {
             String userID = result.getData().get(EnumSession.USERID.getName());
             String intermediary = result.getData().get(EnumSession.INTERMEDIARY.getName());
 
-            controller.onReadTeacher(userID, intermediary);
+            controller.onReadUser(userID, intermediary);
         } else {
             controller.onFail(result.getHttpStatus(), result.getErrors());
         }

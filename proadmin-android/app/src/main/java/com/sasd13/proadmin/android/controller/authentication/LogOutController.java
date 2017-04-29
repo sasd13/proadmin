@@ -2,6 +2,7 @@ package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.view.ILogOutController;
 
 /**
@@ -14,7 +15,7 @@ public class LogOutController extends MainController implements ILogOutControlle
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return null;
     }
 

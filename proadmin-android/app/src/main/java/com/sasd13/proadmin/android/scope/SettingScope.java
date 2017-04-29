@@ -1,23 +1,21 @@
 package com.sasd13.proadmin.android.scope;
 
-import com.sasd13.proadmin.android.bean.Teacher;
-
-import java.util.Observable;
+import com.sasd13.proadmin.android.bean.User;
 
 /**
  * Created by ssaidali2 on 06/12/2016.
  */
 
-public class SettingScope extends Observable {
+public class SettingScope extends Scope {
 
-    private Teacher teacher;
+    private User user;
 
-    public Teacher getTeacher() {
-        return teacher;
+    public User getUser() {
+        return user;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setUser(User user) {
+        this.user = user;
 
         setChanged();
         notifyObservers();

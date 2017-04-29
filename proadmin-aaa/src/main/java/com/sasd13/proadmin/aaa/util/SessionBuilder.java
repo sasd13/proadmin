@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.aaa.util;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class SessionBuilder {
 		map.put(EnumSession.USERID.getName(), user.getUserID());
 		map.put(EnumSession.INTERMEDIARY.getName(), user.getIntermediary());
 		map.put(EnumSession.TOKEN.getName(), generator.generateSessionId());
-		map.put(EnumSession.START.getName(), String.valueOf(new Timestamp(System.currentTimeMillis())));
+		map.put(EnumSession.START.getName(), new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).format(new Timestamp(System.currentTimeMillis())));
 
 		return map;
 	}

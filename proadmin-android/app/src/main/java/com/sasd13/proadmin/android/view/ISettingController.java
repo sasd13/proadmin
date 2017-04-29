@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.update.TeacherUpdate;
+import com.sasd13.proadmin.android.bean.update.UserUpdate;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -8,5 +8,7 @@ import com.sasd13.proadmin.android.bean.update.TeacherUpdate;
 
 public interface ISettingController extends IController, IBrowsable {
 
-    void actionUpdateTeacher(TeacherUpdate teacherUpdate);
+    void actionRefresh();
+
+    void actionUpdateUser(UserUpdate userUpdate);
 }

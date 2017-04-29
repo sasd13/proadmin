@@ -9,15 +9,13 @@ import com.sasd13.proadmin.android.bean.Team;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
  */
 
-public class RunningTeamScope extends Observable {
+public class RunningTeamScope extends Scope {
 
-    private boolean loading;
     private List<RunningTeam> runningTeams, runningTeamsToAdd;
     private RunningTeam runningTeam;
     private List<Running> runnings;
@@ -28,17 +26,6 @@ public class RunningTeamScope extends Observable {
     public RunningTeamScope() {
         runningTeams = new ArrayList<>();
         runningTeamsToAdd = Collections.emptyList();
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-
-        setChanged();
-        notifyObservers();
     }
 
     public List<RunningTeam> getRunningTeams() {
@@ -61,6 +48,10 @@ public class RunningTeamScope extends Observable {
 
         setChanged();
         notifyObservers();
+    }
+
+    public void clearRunningTeamsToAdd() {
+        runningTeamsToAdd = Collections.emptyList();
     }
 
     public RunningTeam getRunningTeam() {

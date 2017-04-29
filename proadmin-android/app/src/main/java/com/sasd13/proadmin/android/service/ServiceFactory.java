@@ -11,6 +11,7 @@ import com.sasd13.proadmin.android.service.impl.StudentService;
 import com.sasd13.proadmin.android.service.impl.StudentTeamService;
 import com.sasd13.proadmin.android.service.impl.TeacherService;
 import com.sasd13.proadmin.android.service.impl.TeamService;
+import com.sasd13.proadmin.android.service.impl.UserService;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
@@ -21,10 +22,12 @@ public class ServiceFactory {
     public static Object make(Class mClass) {
         if (IAuthenticationService.class.isAssignableFrom(mClass)) {
             return new AuthenticationService();
-        } else if (ITeacherService.class.isAssignableFrom(mClass)) {
-            return new TeacherService();
+        } else if (IUserService.class.isAssignableFrom(mClass)) {
+            return new UserService();
         } else if (IProjectService.class.isAssignableFrom(mClass)) {
             return new ProjectService();
+        } else if (ITeacherService.class.isAssignableFrom(mClass)) {
+            return new TeacherService();
         } else if (IStudentService.class.isAssignableFrom(mClass)) {
             return new StudentService();
         } else if (IStudentTeamService.class.isAssignableFrom(mClass)) {

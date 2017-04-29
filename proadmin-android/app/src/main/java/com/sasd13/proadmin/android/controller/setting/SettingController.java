@@ -3,11 +3,12 @@ package com.sasd13.proadmin.android.controller.setting;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.bean.update.TeacherUpdate;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.update.UserUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
-import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.fragment.setting.SettingFragment;
@@ -16,19 +17,19 @@ import com.sasd13.proadmin.util.EnumParameter;
 public class SettingController extends MainController implements ISettingController {
 
     private SettingScope scope;
-    private ITeacherService teacherService;
-    private TeacherReadTask teacherReadTask;
-    private TeacherUpdateTask teacherUpdateTask;
+    private IUserService userService;
+    private UserReadTask userReadTask;
+    private UserUpdateTask userUpdateTask;
 
-    public SettingController(MainActivity mainActivity, ITeacherService teacherService) {
+    public SettingController(MainActivity mainActivity, IUserService userService) {
         super(mainActivity);
 
         scope = new SettingScope();
-        this.teacherService = teacherService;
+        this.userService = userService;
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 
@@ -36,33 +37,41 @@ public class SettingController extends MainController implements ISettingControl
     public void browse() {
         mainActivity.clearHistory();
         startFragment(SettingFragment.newInstance());
-        readTeacher();
-    }
-
-    private void readTeacher() {
-        if (teacherReadTask == null) {
-            teacherReadTask = new TeacherReadTask(this, teacherService);
-        }
-
-        teacherReadTask.clearParameters();
-        teacherReadTask.putParameter(EnumParameter.INTERMEDIARY.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(teacherReadTask).execute();
-    }
-
-    void onReadTeacher(Teacher teacher) {
-        scope.setTeacher(teacher);
+        actionRefresh();
     }
 
     @Override
-    public void actionUpdateTeacher(TeacherUpdate teacherUpdate) {
-        if (teacherUpdateTask == null) {
-            teacherUpdateTask = new TeacherUpdateTask(this, teacherService);
-        }
-
-        new Requestor(teacherUpdateTask).execute(teacherUpdate);
+    public void actionRefresh() {
+        readUser();
     }
 
-    void onUpdateTeacher() {
+    private void readUser() {
+        scope.setLoading(true);
+
+        if (userReadTask == null) {
+            userReadTask = new UserReadTask(this, userService);
+        }
+
+        userReadTask.clearParameters();
+        userReadTask.putParameter(EnumParameter.USERID.getName(), new String[]{SessionHelper.getExtraUserID(mainActivity)});
+        new Requestor(userReadTask).execute();
+    }
+
+    void onReadUser(User user) {
+        scope.setUser(user);
+        scope.setLoading(false);
+    }
+
+    @Override
+    public void actionUpdateUser(UserUpdate userUpdate) {
+        if (userUpdateTask == null) {
+            userUpdateTask = new UserUpdateTask(this, userService);
+        }
+
+        new Requestor(userUpdateTask).execute(userUpdate);
+    }
+
+    void onUpdateUser() {
         display(R.string.message_updated);
     }
 }

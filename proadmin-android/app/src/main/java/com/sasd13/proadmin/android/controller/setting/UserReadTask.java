@@ -1,20 +1,21 @@
 package com.sasd13.proadmin.android.controller.setting;
 
-import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.TeacherUpdate;
-import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.androidex.util.requestor.ReadRequestorTask;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.util.EnumParameter;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeacherUpdateTask extends RequestorTask {
+public class UserReadTask extends ReadRequestorTask {
 
     private SettingController controller;
-    private ITeacherService service;
+    private IUserService service;
 
-    public TeacherUpdateTask(SettingController controller, ITeacherService service) {
+    public UserReadTask(SettingController controller, IUserService service) {
         super();
 
         this.controller = controller;
@@ -23,17 +24,17 @@ public class TeacherUpdateTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.update((TeacherUpdate) in);
+        return service.find(parameters.get(EnumParameter.USERID.getName())[0]);
     }
 
     @Override
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        ServiceResult<?> result = (ServiceResult<?>) out;
+        ServiceResult<User> result = (ServiceResult<User>) out;
 
         if (result.isSuccess()) {
-            controller.onUpdateTeacher();
+            controller.onReadUser(result.getData());
         } else {
             controller.onFail(result.getHttpStatus(), result.getErrors());
         }

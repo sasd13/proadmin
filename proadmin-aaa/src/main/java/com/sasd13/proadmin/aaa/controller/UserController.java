@@ -15,9 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
+import com.sasd13.javaex.net.EnumHttpStatus;
 import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.bean.UserCreate;
 import com.sasd13.proadmin.aaa.bean.UserUpdate;
@@ -39,7 +39,7 @@ import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
  *
  * @author Samir
  */
-@WebServlet("/user")
+@WebServlet("/users")
 public class UserController extends Controller {
 
 	private static final long serialVersionUID = 1073440009453108500L;
@@ -102,19 +102,19 @@ public class UserController extends Controller {
 			UserUpdateBean userUpdateBean = requestBean.getData();
 			UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 			IUserService userService = (IUserService) ServiceFactory.make(IUserService.class, dao);
-			boolean updated = false;
 
-			if (userUpdate.getUser() == null) {
+			if (userUpdate.getUser() != null) {
 				userService.update(userUpdate.getUser());
-				updated = true;
 			}
 
+			boolean updated = true;
+
 			if (userUpdate.getCredentials() != null) {
-				updated = userService.update(userUpdate.getCredentials().getPrevious(), userUpdate.getCredentials().getCurrent()) || updated;
+				updated = userService.update(userUpdate.getCredentials().getPrevious(), userUpdate.getCredentials().getCurrent());
 			}
 
 			if (!updated) {
-				resp.setStatus(HttpStatus.SC_EXPECTATION_FAILED);
+				resp.sendError(EnumHttpStatus.EXPECTATION_FAILED.getCode());
 			}
 		} catch (Exception e) {
 			handleError(resp, LOGGER, e);

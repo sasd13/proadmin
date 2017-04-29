@@ -7,6 +7,7 @@ import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeamService;
@@ -19,7 +20,6 @@ import com.sasd13.proadmin.util.EnumParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class TeamController extends MainController implements ITeamController {
     }
 
     @Override
-    public Object getScope() {
+    public Scope getScope() {
         return scope;
     }
 
@@ -88,7 +88,7 @@ public class TeamController extends MainController implements ITeamController {
         scope.setTeamsToAdd(teams);
 
         if (!teams.isEmpty()) {
-            scope.setTeamsToAdd(Collections.<Team>emptyList());
+            scope.clearTeamsToAdd();
         }
 
         scope.setLoading(false);

@@ -1,22 +1,20 @@
 package com.sasd13.proadmin.android.controller.setting;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.proadmin.android.bean.update.UserUpdate;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-
-import java.util.List;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeacherReadTask extends ReadRequestorTask {
+public class UserUpdateTask extends RequestorTask {
 
     private SettingController controller;
-    private ITeacherService service;
+    private IUserService service;
 
-    public TeacherReadTask(SettingController controller, ITeacherService service) {
+    public UserUpdateTask(SettingController controller, IUserService service) {
         super();
 
         this.controller = controller;
@@ -25,17 +23,17 @@ public class TeacherReadTask extends ReadRequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.read(parameters);
+        return service.update((UserUpdate) in);
     }
 
     @Override
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        ServiceResult<List<Teacher>> result = (ServiceResult<List<Teacher>>) out;
+        ServiceResult<?> result = (ServiceResult<?>) out;
 
         if (result.isSuccess()) {
-            controller.onReadTeacher(result.getData().get(0));
+            controller.onUpdateUser();
         } else {
             controller.onFail(result.getHttpStatus(), result.getErrors());
         }

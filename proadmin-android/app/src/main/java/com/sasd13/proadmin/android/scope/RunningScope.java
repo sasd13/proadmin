@@ -2,13 +2,11 @@ package com.sasd13.proadmin.android.scope;
 
 import com.sasd13.proadmin.android.bean.Running;
 
-import java.util.Observable;
-
 /**
  * Created by ssaidali2 on 06/12/2016.
  */
 
-public class RunningScope extends Observable {
+public class RunningScope extends Scope {
 
     private Running running;
 

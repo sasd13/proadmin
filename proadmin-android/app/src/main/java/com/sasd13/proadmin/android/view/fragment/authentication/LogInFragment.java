@@ -9,18 +9,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
+import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.view.ILogInController;
 
-public class LogInFragment extends Fragment {
+import java.util.Observable;
+import java.util.Observer;
+
+public class LogInFragment extends Fragment implements Observer {
 
     private static class LogInForm {
         EditText editTextUsername, editTextPassword;
     }
 
     private ILogInController controller;
+    private Scope scope;
     private LogInForm logInForm;
+    private WaitDialog waitDialog;
 
     public static LogInFragment newInstance() {
         return new LogInFragment();
@@ -31,11 +38,14 @@ public class LogInFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         controller = (ILogInController) ((IdentityActivity) getActivity()).lookup(ILogInController.class);
+        scope = controller.getScope();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        scope.addObserver(this);
 
         View view = inflater.inflate(R.layout.layout_login, container, false);
 
@@ -46,6 +56,7 @@ public class LogInFragment extends Fragment {
 
     private void buildView(View view) {
         buildFormLogIn(view);
+        buildWaitDialog(view);
     }
 
     private void buildFormLogIn(View view) {
@@ -74,7 +85,27 @@ public class LogInFragment extends Fragment {
         if (!username.isEmpty() && !password.isEmpty()) {
             controller.logIn(username, password);
         } else {
-            controller.display(R.string.error_no_logins);
+            controller.display(R.string.error_empty_credential);
         }
+    }
+
+    private void buildWaitDialog(View view) {
+        waitDialog = new WaitDialog(view.getContext());
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        if (scope.isLoading() && !waitDialog.isShowing()) {
+            waitDialog.show();
+        } else if (!scope.isLoading() && waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        scope.deleteObserver(this);
     }
 }
