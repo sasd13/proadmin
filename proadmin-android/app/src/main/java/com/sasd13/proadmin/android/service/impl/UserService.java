@@ -5,7 +5,7 @@ import com.sasd13.proadmin.android.bean.User;
 import com.sasd13.proadmin.android.bean.update.UserUpdate;
 import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.update.UserUpdateAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.v1.update.UserUpdateAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.UserAdapterI2B;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;

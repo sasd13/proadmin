@@ -2,7 +2,7 @@ package com.sasd13.proadmin.android.controller.project;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.service.IProjectService;
+import com.sasd13.proadmin.android.service.v1.IProjectService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;

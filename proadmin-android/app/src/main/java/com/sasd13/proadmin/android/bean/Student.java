@@ -2,7 +2,16 @@ package com.sasd13.proadmin.android.bean;
 
 public class Student {
 
+    private long id;
     private String intermediary, firstName, lastName, email;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getIntermediary() {
         return intermediary;

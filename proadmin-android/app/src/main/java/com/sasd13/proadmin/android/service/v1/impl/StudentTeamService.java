@@ -1,0 +1,87 @@
+package com.sasd13.proadmin.android.service.v1.impl;
+
+import com.sasd13.androidex.net.promise.Promise;
+import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.service.v1.IStudentTeamService;
+import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.v1.StudentTeamAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.v1.StudentTeamAdapterI2B;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamRequestBean;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
+import com.sasd13.proadmin.util.Resources;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by ssaidali2 on 27/11/2016.
+ */
+
+public class StudentTeamService implements IStudentTeamService {
+
+    @Override
+    public ServiceResult<List<StudentTeam>> read(Map<String, String[]> parameters) {
+        Promise promise = new Promise("GET", Resources.URL_WS_STUDENTTEAMS, StudentTeamResponseBean.class);
+
+        promise.setParameters(parameters);
+
+        StudentTeamResponseBean responseBean = (StudentTeamResponseBean) promise.execute();
+        List<StudentTeam> list = new ArrayList<>();
+
+        if (promise.isSuccess()) {
+            StudentTeamAdapterI2B adapter = new StudentTeamAdapterI2B();
+
+            for (StudentTeamBean studentTeamBean : responseBean.getData()) {
+                list.add(adapter.adapt(studentTeamBean));
+            }
+        }
+
+        return new ServiceResult<>(
+                promise.isSuccess(),
+                promise.getResponseCode(),
+                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                promise.isSuccess() ? list : Collections.<StudentTeam>emptyList()
+        );
+    }
+
+    @Override
+    public ServiceResult<Void> create(StudentTeam studentTeam) {
+        Promise promise = new Promise("POST", Resources.URL_WS_STUDENTTEAMS);
+
+        StudentTeamRequestBean requestBean = new StudentTeamRequestBean();
+        List<StudentTeamBean> list = new ArrayList<>();
+
+        list.add(new StudentTeamAdapterB2I().adapt(studentTeam));
+        requestBean.setData(list);
+        promise.execute(requestBean);
+
+        return new ServiceResult<>(
+                promise.isSuccess(),
+                promise.getResponseCode()
+        );
+    }
+
+    @Override
+    public ServiceResult<Void> delete(List<StudentTeam> studentTeams) {
+        Promise promise = new Promise("DELETE", Resources.URL_WS_STUDENTTEAMS);
+
+        StudentTeamRequestBean requestBean = new StudentTeamRequestBean();
+        List<StudentTeamBean> list = new ArrayList<>();
+        StudentTeamAdapterB2I adapter = new StudentTeamAdapterB2I();
+
+        for (StudentTeam studentTeam : studentTeams) {
+            list.add(adapter.adapt(studentTeam));
+        }
+
+        requestBean.setData(list);
+        promise.execute(requestBean);
+
+        return new ServiceResult<>(
+                promise.isSuccess(),
+                promise.getResponseCode()
+        );
+    }
+}

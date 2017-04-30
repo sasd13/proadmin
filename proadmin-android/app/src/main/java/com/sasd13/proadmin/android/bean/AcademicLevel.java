@@ -1,12 +1,18 @@
 package com.sasd13.proadmin.android.bean;
 
-import com.sasd13.proadmin.bean.level.IAcademicLevel;
+public class AcademicLevel {
 
-public class AcademicLevel implements IAcademicLevel {
-
+    private long id;
     private String code;
 
-    @Override
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getCode() {
         return code;
     }

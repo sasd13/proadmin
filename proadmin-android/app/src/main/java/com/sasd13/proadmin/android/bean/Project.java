@@ -4,8 +4,17 @@ import java.util.Date;
 
 public class Project {
 
+    private long id;
     private String code, title, description;
     private Date dateCreation;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

@@ -2,8 +2,17 @@ package com.sasd13.proadmin.android.bean;
 
 public class StudentTeam {
 
+    private long id;
     private Student student;
     private Team team;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Student getStudent() {
         return student;

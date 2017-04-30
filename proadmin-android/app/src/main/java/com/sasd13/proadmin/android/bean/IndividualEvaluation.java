@@ -2,9 +2,18 @@ package com.sasd13.proadmin.android.bean;
 
 public class IndividualEvaluation {
 
+    private long id;
     private Report report;
     private Student student;
     private float mark;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Report getReport() {
         return report;

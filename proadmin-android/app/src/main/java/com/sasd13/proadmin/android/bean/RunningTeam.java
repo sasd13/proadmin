@@ -2,9 +2,18 @@ package com.sasd13.proadmin.android.bean;
 
 public class RunningTeam {
 
+    private long id;
     private Running running;
     private Team team;
     private AcademicLevel academicLevel;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Running getRunning() {
         return running;

@@ -4,10 +4,19 @@ import java.util.Date;
 
 public class Report {
 
+    private long id;
     private RunningTeam runningTeam;
     private String number, comment;
     private Date dateMeeting;
     private int session;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public RunningTeam getRunningTeam() {
         return runningTeam;

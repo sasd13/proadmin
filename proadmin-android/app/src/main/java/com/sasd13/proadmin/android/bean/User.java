@@ -2,9 +2,18 @@ package com.sasd13.proadmin.android.bean;
 
 public class User {
 
+    private long id;
     private String userID, intermediary, email;
     private int status;
     private String[] roles;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getUserID() {
         return userID;

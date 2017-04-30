@@ -2,7 +2,7 @@ package com.sasd13.proadmin.android.controller.team;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.service.ITeamService;
+import com.sasd13.proadmin.android.service.v1.ITeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**

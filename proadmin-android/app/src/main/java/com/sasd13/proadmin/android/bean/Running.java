@@ -2,9 +2,18 @@ package com.sasd13.proadmin.android.bean;
 
 public class Running {
 
+    private long id;
     private Project project;
     private Teacher teacher;
     private int year;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Project getProject() {
         return project;
