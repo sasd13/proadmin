@@ -16,7 +16,7 @@ public class AcademicLevel implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8100226380687413119L;
+	private static final long serialVersionUID = 7882737223281201981L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

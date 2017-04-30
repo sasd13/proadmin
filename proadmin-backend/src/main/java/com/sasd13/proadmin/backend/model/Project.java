@@ -19,7 +19,7 @@ public class Project implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7080170606864758291L;
+	private static final long serialVersionUID = -3093628164623587405L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

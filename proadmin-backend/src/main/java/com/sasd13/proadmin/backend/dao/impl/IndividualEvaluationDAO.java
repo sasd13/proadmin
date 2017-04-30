@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO, IConditionnal {
 
-	public IndividualEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public IndividualEvaluationDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -63,7 +63,7 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	@Override
 	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from individualevaluations ie");
+		builder.append("from IndividualEvaluation ie");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

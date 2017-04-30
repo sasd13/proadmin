@@ -16,7 +16,7 @@ public class Teacher implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8155302577979140320L;
+	private static final long serialVersionUID = 4803512058394162264L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

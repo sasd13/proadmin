@@ -12,6 +12,10 @@ public class StudentTeamAdapterI2M implements IAdapter<StudentTeamBean, StudentT
 	public StudentTeam adapt(StudentTeamBean s) {
 		StudentTeam t = new StudentTeam();
 
+		if (s.getId() != null) {
+			t.setId(Long.valueOf(s.getId().getId()));
+		}
+
 		Student running = new Student();
 		running.setId(Long.valueOf(s.getLinkedStudent().getId()));
 		t.setStudent(running);

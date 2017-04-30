@@ -8,7 +8,6 @@ package com.sasd13.proadmin.backend.dao.impl;
 import java.util.List;
 
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,15 +22,14 @@ import com.sasd13.proadmin.backend.model.AcademicLevel;
 @Transactional(propagation = Propagation.REQUIRED)
 public class AcademicLevelDAO extends AbstractDAO implements IAcademicLevelDAO {
 
-	public AcademicLevelDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public AcademicLevelDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AcademicLevel> readAll() {
-		CriteriaQuery<AcademicLevel> criteria = currentSession().getCriteriaBuilder().createQuery(AcademicLevel.class);
-		Query query = currentSession().createQuery(criteria);
+		Query query = currentSession().createQuery("from AcademicLevel al");
 
 		return (List<AcademicLevel>) query.getResultList();
 	}

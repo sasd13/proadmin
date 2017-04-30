@@ -8,6 +8,8 @@ ALTER TABLE students ADD CONSTRAINT uq_st UNIQUE (_code);
 
 ALTER TABLE teams ADD CONSTRAINT uq_tm UNIQUE (_code);
 
+ALTER TABLE studentteams ADD CONSTRAINT uq_sttm UNIQUE (_student,_team);
+
 ALTER TABLE academiclevels ADD CONSTRAINT uq_al UNIQUE (_code);
 
 ALTER TABLE reports ADD CONSTRAINT uq_rp UNIQUE (_code);

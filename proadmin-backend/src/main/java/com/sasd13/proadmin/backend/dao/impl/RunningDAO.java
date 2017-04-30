@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionnal {
 
-	public RunningDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public RunningDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	@Override
 	public List<Running> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from runnings rn");
+		builder.append("from Running rn");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

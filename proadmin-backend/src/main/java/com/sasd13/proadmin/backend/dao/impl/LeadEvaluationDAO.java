@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO, IConditionnal {
 
-	public LeadEvaluationDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public LeadEvaluationDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class LeadEvaluationDAO extends AbstractDAO implements ILeadEvaluationDAO
 	@Override
 	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from leadevaluations le");
+		builder.append("from LeadEvaluation le");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

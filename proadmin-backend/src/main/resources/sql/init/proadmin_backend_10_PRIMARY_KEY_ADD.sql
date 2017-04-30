@@ -8,7 +8,7 @@ ALTER TABLE students ADD CONSTRAINT pk_st PRIMARY KEY (_id);
 
 ALTER TABLE teams ADD CONSTRAINT pk_tm PRIMARY KEY (_id);
 
-ALTER TABLE studentteams ADD CONSTRAINT pk_sttm PRIMARY KEY (_student,_team);
+ALTER TABLE studentteams ADD CONSTRAINT pk_sttm PRIMARY KEY (_id);
 
 ALTER TABLE runnings ADD CONSTRAINT pk_rn PRIMARY KEY (_id);
 

@@ -19,7 +19,7 @@ public class Running implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7579626282532440081L;
+	private static final long serialVersionUID = 4598973357758869803L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

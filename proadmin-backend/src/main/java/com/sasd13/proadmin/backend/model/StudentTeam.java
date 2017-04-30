@@ -2,8 +2,12 @@ package com.sasd13.proadmin.backend.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +19,12 @@ public class StudentTeam implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2038936998479170893L;
+	private static final long serialVersionUID = 9135716748671937754L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "_id")
+	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "_student")
@@ -24,6 +33,14 @@ public class StudentTeam implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "_team")
 	private Team team;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public Student getStudent() {
 		return student;

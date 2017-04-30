@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal {
 
-	public ReportDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public ReportDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class ReportDAO extends AbstractDAO implements IReportDAO, IConditionnal 
 	@Override
 	public List<Report> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from reports rp");
+		builder.append("from Report rp");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

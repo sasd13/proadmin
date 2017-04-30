@@ -19,7 +19,7 @@ public class IndividualEvaluation implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7862225491342411399L;
+	private static final long serialVersionUID = 5531055463325939872L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

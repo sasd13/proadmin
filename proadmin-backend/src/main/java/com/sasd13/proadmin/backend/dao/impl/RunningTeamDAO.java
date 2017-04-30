@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, IConditionnal {
 
-	public RunningTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public RunningTeamDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	@Override
 	public List<RunningTeam> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from runningteams rntm");
+		builder.append("from RunningTeam rntm");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

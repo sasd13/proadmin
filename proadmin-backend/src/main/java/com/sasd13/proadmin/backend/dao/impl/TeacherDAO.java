@@ -21,7 +21,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionnal {
 
-	public TeacherDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public TeacherDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -48,7 +48,7 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	@Override
 	public Teacher read(String intermediary) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from teachers tc where tc.intermediary = :intermediary");
+		builder.append("from Teacher tc where tc.intermediary = :intermediary");
 
 		Query query = currentSession().createQuery(builder.toString());
 		query.setParameter("intermediary", intermediary);
@@ -60,7 +60,7 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 	@Override
 	public List<Teacher> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from teachers tc");
+		builder.append("from Teacher tc");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

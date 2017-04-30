@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, IConditionnal {
 
-	public StudentTeamDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public StudentTeamDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	@Override
 	public List<StudentTeam> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from studentteams sttm");
+		builder.append("from StudentTeam sttm");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

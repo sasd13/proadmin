@@ -1,97 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s="http://www.springframework.org/schema/security"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/security 
-		http://www.springframework.org/schema/security/spring-security-3.2.xsd
-		http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee 
+    	http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
-    	
-    <context:component-scan base-package="com.sasd13.proadmin.backend" />
-	
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- Context -->
+
 	<context:annotation-config />
+	<context:component-scan base-package="com.sasd13.proadmin.backend" />
+	<context:property-placeholder location="classpath:/infra.properties" />
 
-	<jee:jndi-lookup id="offlineDataSource" jndi-name="jdbc/proadmin_db2"
-		expected-type="javax.sql.DataSource" />
+	<!-- MVC -->
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="locale" />
+		</bean>
+	</mvc:interceptors>
+
+	<!-- TX -->
+
+	<tx:annotation-driven transaction-manager="mTransactionManager" />
+
+	<!-- JEE -->
+
+	<!-- DataSource provided by the server -->
+	<!-- <jee:jndi-lookup id="mOfflineDataSource" jndi-name="jdbc/proadmin_db2" expected-type="javax.sql.DataSource" /> -->
+
+	<!-- BEANS -->
+
+	<bean id="mDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url"
-			value="jdbc:postgresql://localhost:5432/proadmin_db2" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/proadmin_db2" />
 		<property name="username" value="postgres" />
 		<property name="password" value="samir" />
 	</bean>
 
-	<bean id="reportSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="offlineDataSource" />
-		<property name="packagesToScan" value="com.sasd13.proadmin.backend.dao.dto" />
+	<bean id="mSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="mDataSource" />
+		<property name="packagesToScan" value="com.sasd13.proadmin.backend.model" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.default_schema">proadmin_db2</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop> -->
+				<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
 			</props>
 		</property>
 	</bean>
-
-	<bean id="sessionFactoryTransactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="reportSessionFactory" />
+	<bean id="mTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mSessionFactory" />
 	</bean>
 
-	<!--<tx:annotation-driven transaction-manager="sessionFactoryTransactionManager"/> -->
-
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitManager" ref="persistenceUnitManager"></property>
-		<property name="persistenceUnitName" value="up_autoecole"></property>
-	</bean>
-
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- <bean id="mPersistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager"> -->
+	<!-- <property name="persistenceXmlLocations"> -->
+	<!-- <list> -->
+	<!-- <value>classpath*:META-INF/persistence.xml</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="defaultDataSource" ref="mDataSource"></property> -->
+	<!-- </bean> -->
+	<!-- <bean id="mEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> -->
+	<!-- <property name="persistenceUnitManager" ref="mPersistenceUnitManager"></property> -->
+	<!-- <property name="persistenceUnitName" value="up_proadmin"></property> -->
+	<!-- </bean> -->
+	<!-- <bean id="mTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
+	<!-- <property name="entityManagerFactory" ref="mEntityManagerFactory"></property> -->
+	<!-- </bean> -->
+	<!-- <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->
 
 	<!-- Spring Security -->
-	<!--<s:http use-expressions="true"> <s:intercept-url pattern="/admin/**" 
-		access="hasRole('ROLE_ADMIN_SYS')"/> <s:intercept-url pattern="/manager/**" 
-		access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_INTERNAL')"/> <s:intercept-url 
-		pattern="/internal/**" access="hasRole('ROLE_INTERNAL')"/> <s:form-login 
-		login-page="/index" authentication-success-handler-ref="myAuthenticationSuccessHandler" 
-		authentication-failure-url="/index?connextionFaild=true"/> <s:logout logout-success-url="/index"/> 
-		<s:session-management> <s:concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/> 
-		</s:session-management> </s:http> -->
+	<!-- <s:authentication-manager> -->
+	<!-- <s:authentication-provider> -->
+	<!-- <s:password-encoder hash="sha-256"></s:password-encoder> -->
+	<!-- <s:jdbc-user-service data-source-ref="mDataSource" -->
+	<!-- users-by-username-query="select username, password, status from USERS where username=?" -->
+	<!-- authorities-by-username-query="select u.login, r.role from USERS u, ROLES r where u.user_id = r.user_id and u.login=?" 
+		/> -->
+	<!-- </s:authentication-provider> -->
+	<!-- </s:authentication-manager> -->
 
-	<s:authentication-manager>
-		<s:authentication-provider>
-			<s:password-encoder hash="sha-256"></s:password-encoder>
-			<s:jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select login, password, actived from USERS where login=?"
-				authorities-by-username-query="select u.login, r.role from USERS u, ROLES r where u.user_id = r.user_id and  u.login=?" />
+	<!-- <s:http use-expressions="true"> -->
+	<!-- <s:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN_SYS')" /> -->
+	<!-- <s:intercept-url pattern="/manager/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_INTERNAL')" /> -->
+	<!-- <s:intercept-url pattern="/internal/**" access="hasRole('ROLE_INTERNAL')" /> -->
+	<!-- <s:form-login login-page="/index" authentication-success-handler-ref="mAuthenticationSuccessHandler" -->
+	<!-- authentication-failure-url="/index?connextionFaild=true" /> -->
+	<!-- <s:logout logout-success-url="/index" /> -->
+	<!-- <s:session-management> -->
+	<!-- <s:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" /> -->
+	<!-- </s:session-management> -->
+	<!-- </s:http> -->
 
-		</s:authentication-provider>
-	</s:authentication-manager>
+	<!-- <bean id="mAuthenticationSuccessHandler" class="com.proadmin.controllers.AuthenticationSuccessHandler" /> -->
 
-	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
-	<!-- <property name="host" value="smtp.gmail.com" /> -->
-	<!-- <property name="port" value="587" /> -->
-	<!-- <property name="username" value="username" /> -->
-	<!-- <property name="password" value="P@ssw0rd" /> -->
-	<!-- <property name="javaMailProperties"> -->
-	<!-- <props> -->
-	<!-- <prop key="mail.smtp.auth">true</prop> -->
-	<!-- <prop key="mail.smtp.starttls.enable">true</prop> -->
-	<!-- </props> -->
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"> -->
+	<!-- <property name="order" value="1"></property> -->
+	<!-- <property name="basename" value="views"></property> -->
+	<!-- </bean> -->
+
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+	<!-- <property name="order" value="2"></property> -->
+	<!-- <property name="prefix" value="/WEB-INF/views/" /> -->
+	<!-- <property name="suffix" value=".jsp" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> -->
+	<!-- <property name="definitions"> -->
+	<!-- <list> -->
+	<!-- <value>/WEB-INF/tiles/tiles-definitions.xml</value> -->
+	<!-- </list> -->
 	<!-- </property> -->
 	<!-- </bean> -->
 
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
+	<!-- <property name="basename"> -->
+	<!-- <value>/WEB-INF/messages/messages</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="userDaoImpl" class="com.proadmin.dao.impl.UserDaoImpl"></bean> -->
+	<!-- <bean id="userService" class="com.proadmin.services.impl.UserServiceImpl"> -->
+	<!-- <property name="userDao" ref="userDaoImpl"></property> -->
+	<!-- </bean> -->
+
 	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
-	<!-- <property name="host" value="mail.proadmin.fr" /> -->
+	<!-- <property name="host" value="smtp.proadmin.fr" /> -->
 	<!-- <property name="port" value="25" /> -->
 	<!-- <property name="username" value="noreplay@proadmin.fr" /> -->
 	<!-- <property name="password" value="noreply" /> -->
@@ -104,33 +152,9 @@
 	<!-- </property> -->
 	<!-- </bean> -->
 
-	<!-- <bean id="mailService" class=""> -->
-	<!-- <property name="mailSender" ref="mailSender"></property> -->
+	<!-- Configuration upload -->
+	<!-- <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+	<!-- <property name="maxUploadSize" value="5048576"></property> -->
 	<!-- </bean> -->
-
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
-	<bean id="persistenceUnitManager"
-		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
-		<property name="persistenceXmlLocations">
-			<list>
-				<value>classpath*:META-INF/persistence.xml</value>
-			</list>
-		</property>
-		<property name="defaultDataSource" ref="dataSource"></property>
-	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
-	</bean>
-
-<!-- 	<bean id="AuthenticationSuccessHandler" -->
-<!-- 		class="com.proadmin.controllers.AuthenticationSuccessHandler" /> -->
-
-<!-- 	<bean id="userDaoImpl" class="com.proadmin.dao.impl.UserDaoImpl"></bean> -->
-<!-- 	<bean id="userService" class="com.proadmin.services.impl.UserServiceImpl"> -->
-<!-- 		<property name="userDao" ref="userDaoImpl"></property> -->
-<!-- 	</bean> -->
 
 </beans>

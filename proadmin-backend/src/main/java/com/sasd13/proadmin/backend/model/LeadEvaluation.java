@@ -20,7 +20,7 @@ public class LeadEvaluation implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 255571673514443352L;
+	private static final long serialVersionUID = 8757829134881475129L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

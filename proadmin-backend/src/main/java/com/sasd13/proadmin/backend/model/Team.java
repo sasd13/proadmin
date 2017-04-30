@@ -16,7 +16,7 @@ public class Team implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1738292554927147241L;
+	private static final long serialVersionUID = 2035301428207336853L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

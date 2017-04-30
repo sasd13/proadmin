@@ -42,7 +42,7 @@ public class AcademicLevelController extends Controller {
 			}
 
 			responseBean.setData(list);
-			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(list.size()));
+			addHeaders(responseBean, list.size());
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

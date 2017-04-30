@@ -91,7 +91,7 @@ public class TeamController extends Controller {
 			}
 
 			responseBean.setData(list);
-			addHeaders(searchBean, responseBean, list.size());
+			addHeaders(responseBean, list.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

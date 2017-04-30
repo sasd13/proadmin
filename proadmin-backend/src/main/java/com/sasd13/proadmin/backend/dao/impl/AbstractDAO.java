@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -20,7 +21,11 @@ public abstract class AbstractDAO {
 	}
 
 	protected Session currentSession() {
-		return sessionFactory.getCurrentSession();
+		try {
+			return sessionFactory.getCurrentSession();
+		} catch (HibernateException e) {
+			return sessionFactory.openSession();
+		}
 	}
 
 	protected String appendWhere(Map<String, String[]> parameters, StringBuilder builder, IConditionnal conditionnal) {

@@ -19,7 +19,7 @@ public class RunningTeam implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4845628221764465271L;
+	private static final long serialVersionUID = 3783572108372933061L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

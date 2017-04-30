@@ -26,7 +26,7 @@ import com.sasd13.proadmin.util.EnumParameter;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionnal {
 
-	public ProjectDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+	public ProjectDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
@@ -54,7 +54,7 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 	@Override
 	public List<Project> read(Map<String, String[]> parameters) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("from projects pr");
+		builder.append("from Project pr");
 
 		if (!parameters.isEmpty()) {
 			appendWhere(parameters, builder, this);

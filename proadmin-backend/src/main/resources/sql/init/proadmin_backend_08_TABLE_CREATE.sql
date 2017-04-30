@@ -31,6 +31,7 @@ CREATE TABLE teams (
 );
 
 CREATE TABLE studentteams (
+	_id SERIAL NOT NULL,
 	_student INT NOT NULL,
 	_team INT NOT NULL
 );

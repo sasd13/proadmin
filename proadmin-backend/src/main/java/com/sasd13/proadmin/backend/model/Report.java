@@ -22,7 +22,7 @@ public class Report implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2380228683911940802L;
+	private static final long serialVersionUID = 7502800220972491513L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
