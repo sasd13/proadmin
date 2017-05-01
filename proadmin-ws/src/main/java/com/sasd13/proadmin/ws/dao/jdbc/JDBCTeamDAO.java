@@ -111,7 +111,7 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
 		} else if (EnumCriteria.NAME.getCode().equalsIgnoreCase(key)) {

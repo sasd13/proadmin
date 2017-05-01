@@ -24,10 +24,12 @@ public class RunningAdapterM2I implements IAdapter<Running, RunningBean> {
 
 		LinkedProject linkedProject = new LinkedProject();
 		linkedProject.setId(String.valueOf(s.getProject().getId()));
+		linkedProject.setCode(s.getProject().getCode());
 		t.setLinkedProject(linkedProject);
 
 		LinkedTeacher linkedTeacher = new LinkedTeacher();
 		linkedTeacher.setId(String.valueOf(s.getTeacher().getId()));
+		linkedTeacher.setIntermediary(s.getTeacher().getIntermediary());
 		t.setLinkedTeacher(linkedTeacher);
 
 		return t;

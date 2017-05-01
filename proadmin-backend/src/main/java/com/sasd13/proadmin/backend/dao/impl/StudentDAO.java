@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
@@ -24,7 +22,6 @@ import com.sasd13.proadmin.backend.model.Student;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionnal {
 
 	public StudentDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -82,15 +79,15 @@ public class StudentDAO extends AbstractDAO implements IStudentDAO, IConditionna
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
-			return "st.intermediary = ?";
+			return "st.intermediary = ?" + index;
 		} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(key)) {
-			return "st.firstName = ?";
+			return "st.firstName = ?" + index;
 		} else if (EnumCriteria.LASTNAME.getCode().equalsIgnoreCase(key)) {
-			return "st.lastName = ?";
+			return "st.lastName = ?" + index;
 		} else if (EnumCriteria.EMAIL.getCode().equalsIgnoreCase(key)) {
-			return "st.email = ?";
+			return "st.email = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

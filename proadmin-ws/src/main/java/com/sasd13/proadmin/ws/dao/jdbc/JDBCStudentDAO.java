@@ -121,7 +121,7 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_CODE + " = ?";
 		} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(key)) {

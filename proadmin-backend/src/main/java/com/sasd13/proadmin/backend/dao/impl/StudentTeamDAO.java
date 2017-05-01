@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
@@ -24,7 +22,6 @@ import com.sasd13.proadmin.backend.model.StudentTeam;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, IConditionnal {
 
 	public StudentTeamDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -71,11 +68,11 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
-			return "sttm.student.intermediary = ?";
+			return "sttm.student.intermediary = ?" + index;
 		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
-			return "sttm.team.number = ?";
+			return "sttm.team.number = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

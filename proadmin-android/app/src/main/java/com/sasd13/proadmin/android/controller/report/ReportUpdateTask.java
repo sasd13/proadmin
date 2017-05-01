@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.ReportUpdate;
-import com.sasd13.proadmin.android.service.v1.IReportService;
+import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**
@@ -23,7 +23,7 @@ public class ReportUpdateTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.update((ReportUpdate) in);
+        return service.update((Report) in);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.controller.setting;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.UserUpdate;
-import com.sasd13.proadmin.android.service.v1.IUserService;
+import com.sasd13.proadmin.android.bean.UserUpdate;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**

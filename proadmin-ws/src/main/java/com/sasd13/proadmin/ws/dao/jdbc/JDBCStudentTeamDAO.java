@@ -94,7 +94,7 @@ public class JDBCStudentTeamDAO extends JDBCSession<StudentTeam> implements IStu
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_STUDENT + " = ?";
 		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {

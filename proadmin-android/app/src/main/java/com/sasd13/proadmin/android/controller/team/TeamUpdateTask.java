@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.controller.team;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.TeamUpdate;
-import com.sasd13.proadmin.android.service.v1.ITeamService;
+import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**
@@ -23,7 +23,7 @@ public class TeamUpdateTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.update((TeamUpdate) in);
+        return service.update((Team) in);
     }
 
     @Override

@@ -148,7 +148,7 @@ public class JDBCRunningTeamDAO extends JDBCSession<RunningTeam> implements IRun
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_YEAR + " = ?";
 		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {

@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.order.OrderException;
@@ -23,7 +21,6 @@ import com.sasd13.proadmin.backend.model.Project;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 
 	public ProjectDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -70,9 +67,9 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
-			return "pr.code = ?";
+			return "pr.code = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

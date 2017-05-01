@@ -3,14 +3,14 @@ package com.sasd13.proadmin.android.controller.student;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.bean.update.StudentUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.StudentScope;
-import com.sasd13.proadmin.android.service.v1.IStudentService;
-import com.sasd13.proadmin.android.service.v1.IStudentTeamService;
+import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.util.builder.member.NewStudentBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IStudentController;
@@ -75,12 +75,12 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     @Override
-    public void actionUpdateStudent(StudentUpdate studentUpdate) {
+    public void actionUpdateStudent(Student student) {
         if (studentUpdateTask == null) {
             studentUpdateTask = new StudentUpdateTask(this, studentService);
         }
 
-        new Requestor(studentUpdateTask).execute(studentUpdate);
+        new Requestor(studentUpdateTask).execute(student);
     }
 
     void onUpdateStudent() {

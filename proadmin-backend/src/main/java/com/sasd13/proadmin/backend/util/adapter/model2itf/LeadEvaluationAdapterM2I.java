@@ -27,10 +27,12 @@ public class LeadEvaluationAdapterM2I implements IAdapter<LeadEvaluation, LeadEv
 
 		LinkedReport linkedReport = new LinkedReport();
 		linkedReport.setId(String.valueOf(s.getReport().getId()));
+		linkedReport.setNumber(s.getReport().getNumber());
 		t.setLinkedReport(linkedReport);
 
 		LinkedStudent linkedStudent = new LinkedStudent();
 		linkedStudent.setId(String.valueOf(s.getStudent().getId()));
+		linkedStudent.setIntermediary(s.getStudent().getIntermediary());
 		t.setLinkedStudent(linkedStudent);
 
 		return t;

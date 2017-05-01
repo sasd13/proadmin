@@ -22,7 +22,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.update.ReportUpdate;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.ReportForm;
@@ -110,23 +109,20 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateReport() {
         try {
-            controller.actionUpdateReport(getReportUpdateFromForm());
+            controller.actionUpdateReport(getUpdatedReportFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private ReportUpdate getReportUpdateFromForm() throws FormException {
-        ReportUpdate reportUpdate = new ReportUpdate();
+    private Report getUpdatedReportFromForm() throws FormException {
         Report report = scope.getReport();
 
-        reportUpdate.setNumber(report.getNumber());
-        reportUpdate.setWrapped(report);
         report.setDateMeeting(reportForm.getDateMeeting());
         report.setSession(reportForm.getSession());
         report.setComment(reportForm.getComment());
 
-        return reportUpdate;
+        return report;
     }
 
     private void deleteReport() {

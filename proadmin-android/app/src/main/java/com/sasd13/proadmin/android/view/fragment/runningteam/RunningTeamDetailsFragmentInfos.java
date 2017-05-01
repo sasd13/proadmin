@@ -25,7 +25,6 @@ import com.sasd13.proadmin.android.bean.AcademicLevel;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.bean.update.RunningTeamUpdate;
 import com.sasd13.proadmin.android.scope.RunningTeamScope;
 import com.sasd13.proadmin.android.util.sorter.AcademicLevelSorter;
 import com.sasd13.proadmin.android.util.sorter.RunningSorter;
@@ -139,27 +138,20 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void updateRunningTeam() {
         try {
-            controller.actionUpdateRunningTeam(getRunningTeamUpdateFromForm());
+            controller.actionUpdateRunningTeam(getUpdatedRunningTeamFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private RunningTeamUpdate getRunningTeamUpdateFromForm() throws FormException {
-        RunningTeamUpdate runningTeamUpdate = new RunningTeamUpdate();
+    private RunningTeam getUpdatedRunningTeamFromForm() throws FormException {
         RunningTeam runningTeam = scope.getRunningTeam();
 
-        runningTeamUpdate.setRunningYear(runningTeam.getRunning().getYear());
-        runningTeamUpdate.setProjectCode(runningTeam.getRunning().getProject().getCode());
-        runningTeamUpdate.setTeacherIntermediary(runningTeam.getRunning().getTeacher().getIntermediary());
-        runningTeamUpdate.setTeamNumber(runningTeam.getTeam().getNumber());
-        runningTeamUpdate.setAcademicLevelCode(runningTeam.getAcademicLevel().getCode());
-        runningTeamUpdate.setWrapped(runningTeam);
         runningTeam.setRunning(runningTeamForm.getRunning());
         runningTeam.setTeam(runningTeamForm.getTeam());
         runningTeam.setAcademicLevel(runningTeamForm.getAcademicLevel());
 
-        return runningTeamUpdate;
+        return runningTeam;
     }
 
     private void deleteRunningTeam() {

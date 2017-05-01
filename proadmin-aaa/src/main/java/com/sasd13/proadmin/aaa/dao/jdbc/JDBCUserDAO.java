@@ -248,7 +248,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 		PreparedStatement statement = null;
 
 		try {
-			builder.append(ConditionBuilder.build(criterias, this));
+			builder.append(ConditionBuilder.build(this, criterias));
 
 			statement = getConnection().prepareStatement(builder.toString());
 
@@ -280,7 +280,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.USERID.getCode().equalsIgnoreCase(key)) {
 			return IUserDAO.COLUMN_USERID + " = ?";
 		} else if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {

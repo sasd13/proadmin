@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IRunningDAO;
 import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.backend.service.IRunningService;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class RunningService implements IRunningService {
 
 	@Autowired

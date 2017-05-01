@@ -34,7 +34,7 @@ public class JDBCAcademicLevelDAO extends JDBCSession<AcademicLevel> implements 
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
 		} else {

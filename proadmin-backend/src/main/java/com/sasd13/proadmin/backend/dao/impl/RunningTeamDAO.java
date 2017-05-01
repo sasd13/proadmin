@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
@@ -24,7 +22,6 @@ import com.sasd13.proadmin.backend.model.RunningTeam;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, IConditionnal {
 
 	public RunningTeamDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -71,17 +68,17 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
-			return "rntm.running.year = ?";
+			return "rntm.running.year = ?" + index;
 		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
-			return "rntm.running.project.code = ?";
+			return "rntm.running.project.code = ?" + index;
 		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
-			return "rntm.running.teacher.number = ?";
+			return "rntm.running.teacher.intermediary = ?" + index;
 		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
-			return "rntm.team.number = ?";
+			return "rntm.team.number = ?" + index;
 		} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(key)) {
-			return "rntm.academicLevel.code = ?";
+			return "rntm.academicLevel.code = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}
@@ -94,7 +91,7 @@ public class RunningTeamDAO extends AbstractDAO implements IRunningTeamDAO, ICon
 		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
 			return "rntm.running.project.code";
 		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
-			return "rntm.running.teacher.number";
+			return "rntm.running.teacher.intermediary";
 		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
 			return "rntm.team.number";
 		} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(key)) {

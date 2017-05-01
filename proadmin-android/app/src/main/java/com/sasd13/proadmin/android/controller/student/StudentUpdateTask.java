@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.controller.student;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.StudentUpdate;
-import com.sasd13.proadmin.android.service.v1.IStudentService;
+import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**
@@ -23,7 +23,7 @@ public class StudentUpdateTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.update((StudentUpdate) in);
+        return service.update((Student) in);
     }
 
     @Override

@@ -5,23 +5,25 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.TeamScope;
-import com.sasd13.proadmin.android.service.v1.IStudentTeamService;
-import com.sasd13.proadmin.android.service.v1.ITeamService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
+import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.util.builder.member.NewTeamBuilder;
 import com.sasd13.proadmin.android.view.ITeamController;
 import com.sasd13.proadmin.android.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.team.TeamNewFragment;
 import com.sasd13.proadmin.android.view.fragment.team.TeamsFragment;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class TeamController extends MainController implements ITeamController {
 
@@ -32,8 +34,10 @@ public class TeamController extends MainController implements ITeamController {
     private TeamCreateTask teamCreateTask;
     private TeamUpdateTask teamUpdateTask;
     private TeamDeleteTask teamDeleteTask;
-    private StudentReadTask studentReadTask;
-    private StudentDeleteTask studentDeleteTask;
+    private StudentTeamReadTask studentTeamReadTask;
+    private StudentTeamDeleteTask studentTeamDeleteTask;
+    private Map<String, Object> allCriterias;
+    private Map<String, String[]> studentTeamCriterias;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentTeamService studentTeamService) {
         super(mainActivity);
@@ -41,6 +45,7 @@ public class TeamController extends MainController implements ITeamController {
         scope = new TeamScope();
         this.teamService = teamService;
         this.studentTeamService = studentTeamService;
+        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -119,17 +124,22 @@ public class TeamController extends MainController implements ITeamController {
         scope.setTeam(team);
         scope.setStudentTeams(new ArrayList<StudentTeam>());
         startFragment(TeamDetailsFragment.newInstance());
-        readStudents(team);
+        readStudentTeams(team);
     }
 
-    private void readStudents(Team team) {
-        if (studentReadTask == null) {
-            studentReadTask = new StudentReadTask(this, studentTeamService);
+    private void readStudentTeams(Team team) {
+        if (studentTeamReadTask == null) {
+            studentTeamReadTask = new StudentTeamReadTask(this, studentTeamService);
+            studentTeamCriterias = new HashMap<>();
+        } else {
+            studentTeamCriterias.clear();
         }
 
-        studentReadTask.clearParameters();
-        studentReadTask.putParameter(EnumParameter.TEAM.getName(), new String[]{team.getNumber()});
-        new Requestor(studentReadTask).execute();
+        allCriterias.clear();
+        studentTeamCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{team.getNumber()});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), studentTeamCriterias);
+
+        new Requestor(studentTeamReadTask).execute(studentTeamCriterias);
     }
 
     void onReadStudentTeams(List<StudentTeam> studentTeams) {
@@ -137,12 +147,12 @@ public class TeamController extends MainController implements ITeamController {
     }
 
     @Override
-    public void actionUpdateTeam(TeamUpdate teamUpdate) {
+    public void actionUpdateTeam(Team team) {
         if (teamUpdateTask == null) {
             teamUpdateTask = new TeamUpdateTask(this, teamService);
         }
 
-        new Requestor(teamUpdateTask).execute(teamUpdate);
+        new Requestor(teamUpdateTask).execute(team);
     }
 
     void onUpdateTeam() {
@@ -164,12 +174,12 @@ public class TeamController extends MainController implements ITeamController {
     }
 
     @Override
-    public void actionRemoveStudentTeams(StudentTeam[] studentTeams) {
-        if (studentDeleteTask == null) {
-            studentDeleteTask = new StudentDeleteTask(this, studentTeamService);
+    public void actionRemoveStudentTeams(List<StudentTeam> studentTeams) {
+        if (studentTeamDeleteTask == null) {
+            studentTeamDeleteTask = new StudentTeamDeleteTask(this, studentTeamService);
         }
 
-        new Requestor(studentDeleteTask).execute(Arrays.asList(studentTeams));
+        new Requestor(studentTeamDeleteTask).execute(studentTeams);
     }
 
     void onDeleteStudentTeams() {

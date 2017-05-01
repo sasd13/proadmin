@@ -1,17 +1,18 @@
 package com.sasd13.proadmin.android.controller.project;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorTask;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.service.v1.IProjectService;
+import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ProjectReadTask extends ReadRequestorTask {
+public class ProjectReadTask extends RequestorTask {
 
     private ProjectController controller;
     private IProjectService service;
@@ -25,7 +26,7 @@ public class ProjectReadTask extends ReadRequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.readAll();
+        return service.read((Map<String, Object>) in);
     }
 
     @Override

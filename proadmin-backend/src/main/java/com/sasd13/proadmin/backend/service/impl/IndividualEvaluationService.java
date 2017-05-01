@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.backend.model.IndividualEvaluation;
 import com.sasd13.proadmin.backend.service.IIndividualEvaluationService;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationService implements IIndividualEvaluationService {
 
 	@Autowired

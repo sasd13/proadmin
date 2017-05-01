@@ -3,10 +3,11 @@ package com.sasd13.proadmin.android.controller.student;
 import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.service.v1.IStudentService;
-import com.sasd13.proadmin.android.service.v1.IStudentTeamService;
+import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ public class StudentCreateTask extends RequestorTask {
     private StudentController controller;
     private IStudentService studentService;
     private IStudentTeamService studentTeamService;
-    private Map<String, String[]> parameters;
+    private Map<String, Object> criterias;
 
     public StudentCreateTask(StudentController controller, IStudentService studentService, IStudentTeamService studentTeamService) {
         super();
@@ -29,19 +30,22 @@ public class StudentCreateTask extends RequestorTask {
         this.controller = controller;
         this.studentService = studentService;
         this.studentTeamService = studentTeamService;
-        parameters = new HashMap<>();
+        criterias = new HashMap<>();
     }
 
     @Override
     public Object execute(Object in) {
         ServiceResult result;
 
+        criterias.clear();
+
         StudentTeam studentTeam = (StudentTeam) in;
+        Map<String, String[]> map = new HashMap<>();
 
-        parameters.clear();
-        parameters.put(EnumParameter.INTERMEDIARY.getName(), new String[]{studentTeam.getStudent().getIntermediary()});
+        map.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{studentTeam.getStudent().getIntermediary()});
+        criterias.put(EnumRestriction.WHERE.getCode(), map);
 
-        result = studentService.read(parameters);
+        result = studentService.read(criterias);
 
         if (result.isSuccess()) {
             if (((ServiceResult<List<Student>>) result).getData().isEmpty()) {

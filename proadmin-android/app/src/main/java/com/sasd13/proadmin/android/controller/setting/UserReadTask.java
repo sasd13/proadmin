@@ -1,16 +1,15 @@
 package com.sasd13.proadmin.android.controller.setting;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorTask;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.service.v1.IUserService;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumParameter;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class UserReadTask extends ReadRequestorTask {
+public class UserReadTask extends RequestorTask {
 
     private SettingController controller;
     private IUserService service;
@@ -24,7 +23,7 @@ public class UserReadTask extends ReadRequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.find(parameters.get(EnumParameter.USERID.getName())[0]);
+        return service.find((String) in);
     }
 
     @Override

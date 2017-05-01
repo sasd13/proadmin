@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.update.LeadEvaluationUpdate;
-import com.sasd13.proadmin.android.service.v1.ILeadEvaluationService;
+import com.sasd13.proadmin.android.bean.LeadEvaluation;
+import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 /**
@@ -23,7 +23,7 @@ public class LeadEvaluationUpdateTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.update((LeadEvaluationUpdate) in);
+        return service.update((LeadEvaluation) in);
     }
 
     @Override

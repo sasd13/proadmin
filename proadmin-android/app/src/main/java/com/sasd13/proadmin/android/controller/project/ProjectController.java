@@ -7,17 +7,20 @@ import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.scope.Scope;
-import com.sasd13.proadmin.android.service.v1.IProjectService;
-import com.sasd13.proadmin.android.service.v1.IRunningService;
+import com.sasd13.proadmin.android.service.IProjectService;
+import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectsFragment;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectController extends MainController implements IProjectController {
 
@@ -26,6 +29,8 @@ public class ProjectController extends MainController implements IProjectControl
     private IRunningService runningService;
     private ProjectReadTask projectReadTask;
     private RunningReadTask runningReadTask;
+    private Map<String, Object> allCriterias;
+    private Map<String, String[]> runningCriterias;
 
     public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
         super(mainActivity);
@@ -33,6 +38,7 @@ public class ProjectController extends MainController implements IProjectControl
         scope = new ProjectScope();
         this.projectService = projectService;
         this.runningService = runningService;
+        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -97,12 +103,17 @@ public class ProjectController extends MainController implements IProjectControl
     private void readRunnings(Project project) {
         if (runningReadTask == null) {
             runningReadTask = new RunningReadTask(this, runningService);
+            runningCriterias = new HashMap<>();
+        } else {
+            runningCriterias.clear();
         }
 
-        runningReadTask.clearParameters();
-        runningReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{project.getCode()});
-        runningReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(runningReadTask).execute();
+        allCriterias.clear();
+        runningCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{project.getCode()});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
+
+        new Requestor(runningReadTask).execute(allCriterias);
     }
 
     void onReadRunnings(List<Running> runnings) {

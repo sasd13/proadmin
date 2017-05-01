@@ -21,7 +21,6 @@ import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.IndividualEvaluation;
 import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.update.IndividualEvaluationUpdate;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.builder.member.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
@@ -29,7 +28,6 @@ import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsFormException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -119,15 +117,13 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void updateIndividualEvaluations() {
         try {
-            controller.actionUpdateIndividualEvaluations(getAllIndividualEvaluations());
+            controller.actionUpdateIndividualEvaluations(getIndividualEvaluationsToCreate());
         } catch (IndividualEvaluationsFormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    public Map<Class, List> getAllIndividualEvaluations() throws IndividualEvaluationsFormException {
-        Map<Class, List> map = new HashMap<>();
-        List<IndividualEvaluationUpdate> individualEvaluationsToUpdate = new ArrayList<>();
+    public List<IndividualEvaluation> getIndividualEvaluationsToCreate() throws IndividualEvaluationsFormException {
         List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
 
         Map<Student, Float> marks = individualEvaluationsForm.getMarks();
@@ -140,7 +136,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
                 if (individualEvaluation.getStudent().equals(entry.getKey())) {
                     toCreate = false;
 
-                    individualEvaluationsToUpdate.add(getIndividualEvaluationUpdate(individualEvaluation, entry.getValue()));
+                    individualEvaluation.setMark(entry.getValue());
 
                     break;
                 }
@@ -151,21 +147,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
             }
         }
 
-        map.put(IndividualEvaluationUpdate.class, individualEvaluationsToUpdate);
-        map.put(IndividualEvaluation.class, individualEvaluationsToCreate);
-
-        return map;
-    }
-
-    private IndividualEvaluationUpdate getIndividualEvaluationUpdate(IndividualEvaluation individualEvaluation, Float mark) {
-        IndividualEvaluationUpdate individualEvaluationUpdate = new IndividualEvaluationUpdate();
-
-        individualEvaluationUpdate.setReportNumber(individualEvaluation.getReport().getNumber());
-        individualEvaluationUpdate.setStudentIntermediary(individualEvaluation.getStudent().getIntermediary());
-        individualEvaluationUpdate.setWrapped(individualEvaluation);
-        individualEvaluation.setMark(mark);
-
-        return individualEvaluationUpdate;
+        return individualEvaluationsToCreate;
     }
 
     private IndividualEvaluation getIndividualEvaluation(Student student, Float mark) {

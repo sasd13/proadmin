@@ -121,7 +121,7 @@ public class JDBCTeacherDAO extends JDBCSession<Teacher> implements ITeacherDAO 
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
 		} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(key)) {

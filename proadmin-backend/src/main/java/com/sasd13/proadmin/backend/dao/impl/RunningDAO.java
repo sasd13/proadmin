@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
@@ -24,7 +22,6 @@ import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionnal {
 
 	public RunningDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -71,13 +68,13 @@ public class RunningDAO extends AbstractDAO implements IRunningDAO, IConditionna
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
-			return "rn.year = ?";
+			return "rn.year = ?" + index;
 		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
-			return "rn.project.code = ?";
+			return "rn.project.code = ?" + index;
 		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
-			return "rn.teacher.intermediary = ?";
+			return "rn.teacher.intermediary = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

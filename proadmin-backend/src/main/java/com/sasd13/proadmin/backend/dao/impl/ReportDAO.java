@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.order.OrderException;
@@ -23,7 +21,6 @@ import com.sasd13.proadmin.backend.model.Report;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class ReportDAO extends AbstractDAO implements IReportDAO {
 
 	public ReportDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -70,21 +67,21 @@ public class ReportDAO extends AbstractDAO implements IReportDAO {
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
-			return "rp.number = ?";
+			return "rp.number = ?" + index;
 		} else if (EnumCriteria.SESSION.getCode().equalsIgnoreCase(key)) {
-			return "rp.session = ?";
+			return "rp.session = ?" + index;
 		} else if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.year = ?";
+			return "rp.runningTeam.running.year = ?" + index;
 		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.project.code = ?";
+			return "rp.runningTeam.running.project.code = ?" + index;
 		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.running.teacher.intermediary = ?";
+			return "rp.runningTeam.running.teacher.intermediary = ?" + index;
 		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.team.number = ?";
+			return "rp.runningTeam.team.number = ?" + index;
 		} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(key)) {
-			return "rp.runningTeam.academicLevel.code = ?";
+			return "rp.runningTeam.academicLevel.code = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

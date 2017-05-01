@@ -1,5 +1,8 @@
 package com.sasd13.proadmin.backend.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
@@ -36,7 +39,7 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 		Object criteria;
 
 		if ((criteria = criterias.get(EnumRestriction.WHERE.getCode())) != null) {
-			appendWhere((Map<String, String[]>) criteria, builder);
+			appendWhere((Map<String, Object>) criteria, builder);
 		}
 
 		if ((criteria = criterias.get(EnumRestriction.ORDER.getCode())) != null) {
@@ -44,7 +47,7 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 		}
 	}
 
-	private void appendWhere(Map<String, String[]> criterias, StringBuilder builder) {
+	private void appendWhere(Map<String, Object> criterias, StringBuilder builder) {
 		builder.append(" where ");
 		builder.append(ConditionBuilder.build(criterias, this));
 	}
@@ -59,7 +62,7 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 		Object criteria;
 
 		if ((criteria = criterias.get(EnumRestriction.WHERE.getCode())) != null) {
-			resolveWhere((Map<String, String[]>) criteria, query);
+			resolveWhere((Map<String, Object>) criteria, query);
 		}
 
 		if ((criteria = criterias.get(EnumRestriction.LIMIT.getCode())) != null) {
@@ -71,18 +74,28 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 		}
 	}
 
-	private void resolveWhere(Map<String, String[]> criterias, Query query) {
+	@SuppressWarnings("unchecked")
+	private void resolveWhere(Map<String, Object> criterias, Query query) {
 		int i = 0;
+		List<String> values = new ArrayList<>();
 
-		for (Map.Entry<String, String[]> entry : criterias.entrySet()) {
-			for (String value : entry.getValue()) {
-				editQueryForSelect(query, i++, entry.getKey(), value);
+		for (Map.Entry<String, Object> entry : criterias.entrySet()) {
+			if (entry.getValue() instanceof List<?>) {
+				values = (List<String>) entry.getValue();
+			} else if (entry.getValue().getClass().isArray()) {
+				values = Arrays.asList((String[]) entry.getValue());
+			} else {
+				values.add(String.valueOf(entry.getValue()));
+			}
+
+			for (String value : values) {
+				editQueryForSelect(query, ++i, entry.getKey(), value);
 			}
 		}
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		throw new NotImplementedException("Not implemented");
 	}
 

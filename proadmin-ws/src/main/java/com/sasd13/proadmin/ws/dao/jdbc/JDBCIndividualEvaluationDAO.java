@@ -127,7 +127,7 @@ public class JDBCIndividualEvaluationDAO extends JDBCSession<IndividualEvaluatio
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.REPORT.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_REPORT + " = ?";
 		} else if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {

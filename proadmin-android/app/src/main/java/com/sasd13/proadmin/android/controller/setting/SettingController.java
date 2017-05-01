@@ -4,15 +4,14 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.update.UserUpdate;
+import com.sasd13.proadmin.android.bean.UserUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
-import com.sasd13.proadmin.android.service.v1.IUserService;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.fragment.setting.SettingFragment;
-import com.sasd13.proadmin.util.EnumParameter;
 
 public class SettingController extends MainController implements ISettingController {
 
@@ -52,9 +51,7 @@ public class SettingController extends MainController implements ISettingControl
             userReadTask = new UserReadTask(this, userService);
         }
 
-        userReadTask.clearParameters();
-        userReadTask.putParameter(EnumParameter.USERID.getName(), new String[]{SessionHelper.getExtraUserID(mainActivity)});
-        new Requestor(userReadTask).execute();
+        new Requestor(userReadTask).execute(SessionHelper.getExtraUserID(mainActivity));
     }
 
     void onReadUser(User user) {

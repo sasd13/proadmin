@@ -21,7 +21,6 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.update.LeadEvaluationUpdate;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.builder.member.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
@@ -116,7 +115,7 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
     private void saveLeadEvaluation() {
         try {
             if (scope.getLeadEvaluation() != null) {
-                controller.actionUpdateLeadEvaluation(getLeadEvaluationUpdateFromForm());
+                controller.actionUpdateLeadEvaluation(getUpdatedLeadEvaluationFromForm());
             } else {
                 controller.actionCreateLeadEvaluation(getLeadEvaluationFromForm());
             }
@@ -125,15 +124,12 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
         }
     }
 
-    private LeadEvaluationUpdate getLeadEvaluationUpdateFromForm() throws FormException {
-        LeadEvaluationUpdate leadEvaluationUpdate = new LeadEvaluationUpdate();
+    private LeadEvaluation getUpdatedLeadEvaluationFromForm() throws FormException {
         LeadEvaluation leadEvaluation = scope.getLeadEvaluation();
 
-        leadEvaluationUpdate.setReportNumber(scope.getReport().getNumber());
-        leadEvaluationUpdate.setWrapped(leadEvaluation);
         editLeadEvaluationWithForm(leadEvaluation);
 
-        return leadEvaluationUpdate;
+        return leadEvaluation;
     }
 
     private LeadEvaluation getLeadEvaluationFromForm() throws FormException {

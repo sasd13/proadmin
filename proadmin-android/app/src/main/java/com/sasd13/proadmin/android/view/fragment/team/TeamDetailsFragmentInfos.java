@@ -22,7 +22,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.bean.update.TeamUpdate;
 import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.view.ITeamController;
 import com.sasd13.proadmin.android.view.gui.form.TeamForm;
@@ -110,21 +109,19 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateTeam() {
         try {
-            controller.actionUpdateTeam(getTeamUpdateFromForm());
+            controller.actionUpdateTeam(getUpdatedTeamFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private TeamUpdate getTeamUpdateFromForm() throws FormException {
-        TeamUpdate teamUpdate = new TeamUpdate();
+    private Team getUpdatedTeamFromForm() throws FormException {
         Team team = scope.getTeam();
 
-        teamUpdate.setNumber(team.getNumber());
-        teamUpdate.setWrapped(team);
         team.setNumber(teamForm.getNumber());
+        team.setName(teamForm.getName());
 
-        return teamUpdate;
+        return team;
     }
 
     private void deleteTeam() {

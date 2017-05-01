@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.update.UserUpdate;
+import com.sasd13.proadmin.android.bean.UserUpdate;
 import com.sasd13.proadmin.android.scope.SettingScope;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.gui.form.UserForm;

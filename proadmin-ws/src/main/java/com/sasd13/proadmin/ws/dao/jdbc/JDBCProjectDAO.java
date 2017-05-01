@@ -125,7 +125,7 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
 		} else if (EnumCriteria.DATE.getCode().equalsIgnoreCase(key)) {

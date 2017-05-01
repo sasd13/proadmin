@@ -8,22 +8,23 @@ import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.bean.update.RunningTeamUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.RunningTeamScope;
 import com.sasd13.proadmin.android.scope.Scope;
-import com.sasd13.proadmin.android.service.v1.IReportService;
-import com.sasd13.proadmin.android.service.v1.IRunningTeamService;
+import com.sasd13.proadmin.android.service.IReportService;
+import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.util.builder.running.NewRunningTeamBuilder;
 import com.sasd13.proadmin.android.view.IRunningTeamController;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamNewFragment;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamsFragment;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,8 @@ public class RunningTeamController extends MainController implements IRunningTea
     private RunningTeamCreateTask runningTeamCreateTask;
     private RunningTeamUpdateTask runningTeamUpdateTask;
     private RunningTeamDeleteTask runningTeamDeleteTask;
+    private Map<String, Object> allCriterias;
+    private Map<String, String[]> runningTeamCriterias, runningCriterias, reportCriterias;
 
     public RunningTeamController(MainActivity mainActivity, IRunningTeamService runningTeamService, IReportService reportService) {
         super(mainActivity);
@@ -46,6 +49,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         scope = new RunningTeamScope();
         this.runningTeamService = runningTeamService;
         this.reportService = reportService;
+        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -70,11 +74,16 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         if (runningTeamReadTask == null) {
             runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
+            runningTeamCriterias = new HashMap<>();
+        } else {
+            runningTeamCriterias.clear();
         }
 
-        runningTeamReadTask.clearParameters();
-        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(runningTeamReadTask).execute();
+        allCriterias.clear();
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
+
+        new Requestor(runningTeamReadTask).execute(allCriterias);
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -118,11 +127,16 @@ public class RunningTeamController extends MainController implements IRunningTea
     private void readDependencies() {
         if (runningTeamDependenciesTask == null) {
             runningTeamDependenciesTask = new RunningTeamDependenciesTask(this, runningTeamService);
+            runningCriterias = new HashMap<>();
+        } else {
+            runningCriterias.clear();
         }
 
-        runningTeamDependenciesTask.resetParameters();
-        runningTeamDependenciesTask.putParameter(IRunningTeamService.PARAMATERS_RUNNING, EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(runningTeamDependenciesTask).execute();
+        allCriterias.clear();
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, runningCriterias);
+
+        new Requestor(runningTeamDependenciesTask).execute(allCriterias);
     }
 
     void onRetrieved(Map<String, Object> results) {
@@ -158,15 +172,20 @@ public class RunningTeamController extends MainController implements IRunningTea
     private void readReports(RunningTeam runningTeam) {
         if (reportReadTask == null) {
             reportReadTask = new ReportReadTask(this, reportService);
+            reportCriterias = new HashMap<>();
+        } else {
+            reportCriterias.clear();
         }
 
-        reportReadTask.clearParameters();
-        reportReadTask.putParameter(EnumParameter.YEAR.getName(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
-        reportReadTask.putParameter(EnumParameter.PROJECT.getName(), new String[]{runningTeam.getRunning().getProject().getCode()});
-        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{runningTeam.getRunning().getTeacher().getIntermediary()});
-        reportReadTask.putParameter(EnumParameter.TEAM.getName(), new String[]{runningTeam.getTeam().getNumber()});
-        reportReadTask.putParameter(EnumParameter.ACADEMICLEVEL.getName(), new String[]{runningTeam.getAcademicLevel().getCode()});
-        new Requestor(reportReadTask).execute();
+        allCriterias.clear();
+        reportCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
+        reportCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{runningTeam.getRunning().getProject().getCode()});
+        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{runningTeam.getRunning().getTeacher().getIntermediary()});
+        reportCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{runningTeam.getTeam().getNumber()});
+        reportCriterias.put(EnumCriteria.ACADEMICLEVEL.getCode(), new String[]{runningTeam.getAcademicLevel().getCode()});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
+
+        new Requestor(reportReadTask).execute(allCriterias);
     }
 
     void onReadReports(List<Report> reports) {
@@ -174,12 +193,12 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     @Override
-    public void actionUpdateRunningTeam(RunningTeamUpdate runningTeamUpdate) {
+    public void actionUpdateRunningTeam(RunningTeam runningTeam) {
         if (runningTeamUpdateTask == null) {
             runningTeamUpdateTask = new RunningTeamUpdateTask(this, runningTeamService);
         }
 
-        new Requestor(runningTeamUpdateTask).execute(runningTeamUpdate);
+        new Requestor(runningTeamUpdateTask).execute(runningTeam);
     }
 
     void onUpdateRunningTeam() {

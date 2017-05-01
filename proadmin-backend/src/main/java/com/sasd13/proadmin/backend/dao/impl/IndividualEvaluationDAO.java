@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.order.OrderException;
@@ -23,7 +21,6 @@ import com.sasd13.proadmin.backend.model.IndividualEvaluation;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
-@Transactional(propagation = Propagation.REQUIRED)
 public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO {
 
 	public IndividualEvaluationDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
@@ -79,11 +76,11 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 	}
 
 	@Override
-	public String getCondition(String key) {
+	public String getCondition(String key, int index) {
 		if (EnumCriteria.REPORT.getCode().equalsIgnoreCase(key)) {
-			return "ie.report.number = ?";
+			return "ie.report.number = ?" + index;
 		} else if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
-			return "ie.student.intermediary = ?";
+			return "ie.student.intermediary = ?" + index;
 		} else {
 			throw new ConditionException("Criteria " + key + " is unknown");
 		}

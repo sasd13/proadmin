@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.android.service.v1.IAuthenticationService;
+import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumSession;
 
@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class LogInTask extends ReadRequestorTask {
+public class LogInTask extends RequestorTask {
 
     private LogInController controller;
     private IAuthenticationService authenticationService;
@@ -33,8 +33,8 @@ public class LogInTask extends ReadRequestorTask {
         ServiceResult<Map<String, String>> result = (ServiceResult<Map<String, String>>) out;
 
         if (result.isSuccess()) {
-            String userID = result.getData().get(EnumSession.USERID.getName());
-            String intermediary = result.getData().get(EnumSession.INTERMEDIARY.getName());
+            String userID = result.getData().get(EnumSession.USERID.getKey());
+            String intermediary = result.getData().get(EnumSession.INTERMEDIARY.getKey());
 
             controller.onReadUser(userID, intermediary);
         } else {

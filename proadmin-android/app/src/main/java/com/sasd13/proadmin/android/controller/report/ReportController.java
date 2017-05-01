@@ -8,25 +8,25 @@ import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.update.LeadEvaluationUpdate;
-import com.sasd13.proadmin.android.bean.update.ReportUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.scope.Scope;
-import com.sasd13.proadmin.android.service.v1.IIndividualEvaluationService;
-import com.sasd13.proadmin.android.service.v1.ILeadEvaluationService;
-import com.sasd13.proadmin.android.service.v1.IReportService;
-import com.sasd13.proadmin.android.service.v1.IRunningTeamService;
+import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
+import com.sasd13.proadmin.android.service.ILeadEvaluationService;
+import com.sasd13.proadmin.android.service.IReportService;
+import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.util.builder.running.NewReportBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.report.ReportNewFragment;
 import com.sasd13.proadmin.android.view.fragment.report.ReportsFragment;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +47,8 @@ public class ReportController extends MainController implements IReportControlle
     private LeadEvaluationUpdateTask leadEvaluationUpdateTask;
     private IndividualEvaluationUpdateTask individualEvaluationUpdateTask;
     private ReportDeleteTask reportDeleteTask;
+    private Map<String, Object> allCriterias;
+    private Map<String, String[]> reportCriterias, runningTeamCriterias, studentTeamCriterias, leadEvaluationCriterias, individualEvaluationCriterias;
 
     public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
@@ -56,6 +58,7 @@ public class ReportController extends MainController implements IReportControlle
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
         this.runningTeamService = runningTeamService;
+        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -80,11 +83,16 @@ public class ReportController extends MainController implements IReportControlle
 
         if (reportReadTask == null) {
             reportReadTask = new ReportReadTask(this, reportService);
+            reportCriterias = new HashMap<>();
+        } else {
+            reportCriterias.clear();
         }
 
-        reportReadTask.clearParameters();
-        reportReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(reportReadTask).execute();
+        allCriterias.clear();
+        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
+
+        new Requestor(reportReadTask).execute(allCriterias);
     }
 
     void onReadReports(List<Report> reports) {
@@ -122,11 +130,16 @@ public class ReportController extends MainController implements IReportControlle
     private void readRunningTeams() {
         if (runningTeamReadTask == null) {
             runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
+            runningTeamCriterias = new HashMap<>();
+        } else {
+            runningTeamCriterias.clear();
         }
 
-        runningTeamReadTask.clearParameters();
-        runningTeamReadTask.putParameter(EnumParameter.TEACHER.getName(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        new Requestor(runningTeamReadTask).execute();
+        allCriterias.clear();
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
+
+        new Requestor(runningTeamReadTask).execute(allCriterias);
     }
 
     void onReadRunningTeams(List<RunningTeam> runningTeams) {
@@ -167,13 +180,27 @@ public class ReportController extends MainController implements IReportControlle
     private void readDependencies(Report report) {
         if (reportDependenciesTask == null) {
             reportDependenciesTask = new ReportDependenciesTask(this, reportService);
+            studentTeamCriterias = new HashMap<>();
+            leadEvaluationCriterias = new HashMap<>();
+            individualEvaluationCriterias = new HashMap<>();
+        } else {
+            studentTeamCriterias.clear();
+            leadEvaluationCriterias.clear();
+            individualEvaluationCriterias.clear();
         }
 
-        reportDependenciesTask.resetParameters();
-        reportDependenciesTask.putParameter(IReportService.PARAMATERS_STUDENTTEAM, EnumParameter.TEAM.getName(), new String[]{report.getRunningTeam().getTeam().getNumber()});
-        reportDependenciesTask.putParameter(IReportService.PARAMETERS_LEADEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        reportDependenciesTask.putParameter(IReportService.PARAMETERS_INDIVIDUALEVALUATION, EnumParameter.REPORT.getName(), new String[]{report.getNumber()});
-        new Requestor(reportDependenciesTask).execute();
+        allCriterias.clear();
+
+        studentTeamCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{report.getRunningTeam().getTeam().getNumber()});
+        allCriterias.put(IReportService.PARAMATERS_STUDENTTEAM, studentTeamCriterias);
+
+        leadEvaluationCriterias.put(EnumCriteria.REPORT.getCode(), new String[]{report.getNumber()});
+        allCriterias.put(IReportService.PARAMETERS_LEADEVALUATION, leadEvaluationCriterias);
+
+        individualEvaluationCriterias.put(EnumCriteria.REPORT.getCode(), new String[]{report.getNumber()});
+        allCriterias.put(IReportService.PARAMETERS_INDIVIDUALEVALUATION, individualEvaluationCriterias);
+
+        new Requestor(reportDependenciesTask).execute(allCriterias);
     }
 
     void onRetrieved(Map<String, Object> results) {
@@ -188,12 +215,12 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateReport(ReportUpdate reportUpdate) {
+    public void actionUpdateReport(Report report) {
         if (reportUpdateTask == null) {
             reportUpdateTask = new ReportUpdateTask(this, reportService);
         }
 
-        new Requestor(reportUpdateTask).execute(reportUpdate);
+        new Requestor(reportUpdateTask).execute(report);
     }
 
     void onUpdateReport() {
@@ -228,12 +255,12 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateLeadEvaluation(LeadEvaluationUpdate leadEvaluationUpdate) {
+    public void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation) {
         if (leadEvaluationUpdateTask == null) {
             leadEvaluationUpdateTask = new LeadEvaluationUpdateTask(this, leadEvaluationService);
         }
 
-        new Requestor(leadEvaluationUpdateTask).execute(leadEvaluationUpdate);
+        new Requestor(leadEvaluationUpdateTask).execute(leadEvaluation);
     }
 
     void onUpdateLeadEvaluation() {
@@ -241,10 +268,12 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateIndividualEvaluations(Map<Class, List> allIndividualEvaluations) {
+    public void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluationsToCreate) {
         if (individualEvaluationUpdateTask == null) {
             individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
         }
+
+        List[] allIndividualEvaluations = {scope.getIndividualEvaluations(), individualEvaluationsToCreate};
 
         new Requestor(individualEvaluationUpdateTask).execute(allIndividualEvaluations);
     }

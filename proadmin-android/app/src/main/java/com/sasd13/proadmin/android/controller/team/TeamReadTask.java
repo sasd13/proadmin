@@ -1,17 +1,18 @@
 package com.sasd13.proadmin.android.controller.team;
 
-import com.sasd13.androidex.util.requestor.ReadRequestorTask;
+import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.service.v1.ITeamService;
+import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class TeamReadTask extends ReadRequestorTask {
+public class TeamReadTask extends RequestorTask {
 
     private TeamController controller;
     private ITeamService service;
@@ -25,7 +26,7 @@ public class TeamReadTask extends ReadRequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return service.read(parameters);
+        return service.read((Map<String, Object>) in);
     }
 
     @Override

@@ -20,14 +20,17 @@ public class RunningTeamAdapterM2I implements IAdapter<RunningTeam, RunningTeamB
 
 		LinkedRunning linkedRunning = new LinkedRunning();
 		linkedRunning.setId(String.valueOf(s.getRunning().getId()));
+		linkedRunning.setYearStarted(s.getRunning().getYear());
 		t.setLinkedRunning(linkedRunning);
 
 		LinkedTeam linkedTeam = new LinkedTeam();
 		linkedTeam.setId(String.valueOf(s.getTeam().getId()));
+		linkedTeam.setNumber(s.getTeam().getNumber());
 		t.setLinkedTeam(linkedTeam);
 
 		LinkedAcademicLevel linkedAcademicLevel = new LinkedAcademicLevel();
 		linkedAcademicLevel.setId(String.valueOf(s.getAcademicLevel().getId()));
+		linkedAcademicLevel.setCode(s.getAcademicLevel().getCode());
 		t.setLinkedAcademicLevel(linkedAcademicLevel);
 
 		return t;
