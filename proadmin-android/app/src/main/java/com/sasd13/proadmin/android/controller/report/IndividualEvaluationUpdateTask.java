@@ -6,6 +6,7 @@ import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
@@ -27,9 +28,9 @@ public class IndividualEvaluationUpdateTask extends RequestorTask {
     public Object execute(Object in) {
         ServiceResult result = ServiceResult.NULL;
 
-        List[] allIndividualEvaluations = (List[]) in;
-        List<IndividualEvaluation> individualEvaluationsToUpdate = (List<IndividualEvaluation>) allIndividualEvaluations[0];
-        List<IndividualEvaluation> individualEvaluationsToCreate = (List<IndividualEvaluation>) allIndividualEvaluations[1];
+        Map<String, List> allIndividualEvaluations = (Map<String, List>) in;
+        List<IndividualEvaluation> individualEvaluationsToUpdate = (List<IndividualEvaluation>) allIndividualEvaluations.get(ReportController.INDIVIDUALEVALUATIONS_TO_UPDATE);
+        List<IndividualEvaluation> individualEvaluationsToCreate = (List<IndividualEvaluation>) allIndividualEvaluations.get(ReportController.INDIVIDUALEVALUATIONS_TO_CREATE);
 
         if (!individualEvaluationsToUpdate.isEmpty()) {
             result = service.update(individualEvaluationsToUpdate);

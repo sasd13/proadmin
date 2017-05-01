@@ -20,6 +20,9 @@ public class StudentTeamAdapterM2I implements IAdapter<StudentTeam, StudentTeamB
 		LinkedStudent linkedStudent = new LinkedStudent();
 		linkedStudent.setId(String.valueOf(s.getStudent().getId()));
 		linkedStudent.setIntermediary(s.getStudent().getIntermediary());
+		linkedStudent.setFirstName(s.getStudent().getFirstName());
+		linkedStudent.setLastName(s.getStudent().getLastName());
+		linkedStudent.setEmail(s.getStudent().getEmail());
 		t.setLinkedStudent(linkedStudent);
 
 		LinkedTeam linkedTeam = new LinkedTeam();

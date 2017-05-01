@@ -67,7 +67,7 @@ public class TeamNewFragment extends Fragment implements Observer {
     }
 
     private void buildFormTeam(View view) {
-        teamForm = new TeamForm(getContext());
+        teamForm = new TeamForm(getContext(), false);
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();
@@ -116,7 +116,7 @@ public class TeamNewFragment extends Fragment implements Observer {
     private void editTeamWithForm() throws FormException {
         Team team = scope.getTeam();
 
-        team.setNumber(teamForm.getNumber());
+        team.setName(teamForm.getName());
     }
 
     @Override

@@ -76,6 +76,7 @@ public class RunningTeamService implements IRunningTeamService {
         SearchBean searchBeanRunnings = new SearchBean();
         searchBeanRunnings.setCriterias(allCriterias.get(PARAMATERS_RUNNING));
         requests[0].setBody(searchBeanRunnings);
+        requests[1].setBody(new SearchBean());
 
         Map<String, Object> results = promise.execute(requests, 7000);
 

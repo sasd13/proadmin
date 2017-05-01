@@ -2,6 +2,7 @@ package com.sasd13.proadmin.android.scope;
 
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.Teacher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ public class ProjectScope extends Scope {
     private Project project;
     private List<Running> runnings;
     private Running running;
+    private Teacher teacher;
 
     public ProjectScope() {
         this.projects = new ArrayList<>();
@@ -77,6 +79,17 @@ public class ProjectScope extends Scope {
 
     public void setRunning(Running running) {
         this.running = running;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
 
         setChanged();
         notifyObservers();

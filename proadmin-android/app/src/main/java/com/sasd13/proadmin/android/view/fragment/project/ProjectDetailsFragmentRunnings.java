@@ -76,7 +76,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class)).actionNewRunning(scope.getProject());
+                ((IRunningController) ((MainActivity) getActivity()).lookup(IRunningController.class)).actionNewRunning(scope.getProject(), scope.getTeacher());
             }
         });
     }

@@ -15,6 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 @Entity
 @Table(name = "reports")
 public class Report implements Serializable {
@@ -30,6 +33,7 @@ public class Report implements Serializable {
 	private long id;
 
 	@Column(name = "_code")
+	@Generated(GenerationTime.INSERT)
 	private String number;
 
 	@Column(name = "_datemeeting")

@@ -10,7 +10,7 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeamService;
-import com.sasd13.proadmin.android.util.builder.member.NewTeamBuilder;
+import com.sasd13.proadmin.android.util.builder.NewTeamBuilder;
 import com.sasd13.proadmin.android.view.ITeamController;
 import com.sasd13.proadmin.android.view.fragment.team.TeamDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.team.TeamNewFragment;
@@ -36,7 +36,6 @@ public class TeamController extends MainController implements ITeamController {
     private TeamDeleteTask teamDeleteTask;
     private StudentTeamReadTask studentTeamReadTask;
     private StudentTeamDeleteTask studentTeamDeleteTask;
-    private Map<String, Object> allCriterias;
     private Map<String, String[]> studentTeamCriterias;
 
     public TeamController(MainActivity mainActivity, ITeamService teamService, IStudentTeamService studentTeamService) {
@@ -45,7 +44,6 @@ public class TeamController extends MainController implements ITeamController {
         scope = new TeamScope();
         this.teamService = teamService;
         this.studentTeamService = studentTeamService;
-        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -135,7 +133,8 @@ public class TeamController extends MainController implements ITeamController {
             studentTeamCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         studentTeamCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{team.getNumber()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), studentTeamCriterias);
 

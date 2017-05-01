@@ -16,7 +16,7 @@ import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
-import com.sasd13.proadmin.android.util.builder.running.NewReportBuilder;
+import com.sasd13.proadmin.android.util.builder.NewReportBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.report.ReportNewFragment;
@@ -33,6 +33,9 @@ import java.util.Map;
 
 public class ReportController extends MainController implements IReportController {
 
+    public static final String INDIVIDUALEVALUATIONS_TO_CREATE = "TO_CREATE";
+    public static final String INDIVIDUALEVALUATIONS_TO_UPDATE = "TO_UPDATE";
+
     private ReportScope scope;
     private IReportService reportService;
     private ILeadEvaluationService leadEvaluationService;
@@ -47,7 +50,6 @@ public class ReportController extends MainController implements IReportControlle
     private LeadEvaluationUpdateTask leadEvaluationUpdateTask;
     private IndividualEvaluationUpdateTask individualEvaluationUpdateTask;
     private ReportDeleteTask reportDeleteTask;
-    private Map<String, Object> allCriterias;
     private Map<String, String[]> reportCriterias, runningTeamCriterias, studentTeamCriterias, leadEvaluationCriterias, individualEvaluationCriterias;
 
     public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
@@ -58,7 +60,6 @@ public class ReportController extends MainController implements IReportControlle
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
         this.runningTeamService = runningTeamService;
-        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -88,7 +89,8 @@ public class ReportController extends MainController implements IReportControlle
             reportCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
 
@@ -135,7 +137,8 @@ public class ReportController extends MainController implements IReportControlle
             runningTeamCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
@@ -189,16 +192,22 @@ public class ReportController extends MainController implements IReportControlle
             individualEvaluationCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+        Map<String, Object> allStudentTeamCriterias = new HashMap<>();
+        Map<String, Object> allLeadEvaluationCriterias = new HashMap<>();
+        Map<String, Object> allIndividualEvaluationCriterias = new HashMap<>();
 
         studentTeamCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{report.getRunningTeam().getTeam().getNumber()});
-        allCriterias.put(IReportService.PARAMATERS_STUDENTTEAM, studentTeamCriterias);
+        allStudentTeamCriterias.put(EnumRestriction.WHERE.getCode(), studentTeamCriterias);
+        allCriterias.put(IReportService.PARAMATERS_STUDENTTEAM, allStudentTeamCriterias);
 
         leadEvaluationCriterias.put(EnumCriteria.REPORT.getCode(), new String[]{report.getNumber()});
-        allCriterias.put(IReportService.PARAMETERS_LEADEVALUATION, leadEvaluationCriterias);
+        allLeadEvaluationCriterias.put(EnumRestriction.WHERE.getCode(), leadEvaluationCriterias);
+        allCriterias.put(IReportService.PARAMETERS_LEADEVALUATION, allLeadEvaluationCriterias);
 
         individualEvaluationCriterias.put(EnumCriteria.REPORT.getCode(), new String[]{report.getNumber()});
-        allCriterias.put(IReportService.PARAMETERS_INDIVIDUALEVALUATION, individualEvaluationCriterias);
+        allIndividualEvaluationCriterias.put(EnumRestriction.WHERE.getCode(), individualEvaluationCriterias);
+        allCriterias.put(IReportService.PARAMETERS_INDIVIDUALEVALUATION, allIndividualEvaluationCriterias);
 
         new Requestor(reportDependenciesTask).execute(allCriterias);
     }
@@ -273,7 +282,10 @@ public class ReportController extends MainController implements IReportControlle
             individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
         }
 
-        List[] allIndividualEvaluations = {scope.getIndividualEvaluations(), individualEvaluationsToCreate};
+        Map<String, List> allIndividualEvaluations = new HashMap<>();
+
+        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_UPDATE, scope.getIndividualEvaluations());
+        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_CREATE, individualEvaluationsToCreate);
 
         new Requestor(individualEvaluationUpdateTask).execute(allIndividualEvaluations);
     }

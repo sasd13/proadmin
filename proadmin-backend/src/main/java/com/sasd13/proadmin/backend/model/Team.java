@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 @Entity
 @Table(name = "teams")
 public class Team implements Serializable {
@@ -24,6 +27,7 @@ public class Team implements Serializable {
 	private long id;
 
 	@Column(name = "_code")
+	@Generated(GenerationTime.INSERT)
 	private String number;
 
 	@Column(name = "_name")

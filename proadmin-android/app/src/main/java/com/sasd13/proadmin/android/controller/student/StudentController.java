@@ -11,7 +11,7 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
-import com.sasd13.proadmin.android.util.builder.member.NewStudentBuilder;
+import com.sasd13.proadmin.android.util.builder.NewStudentBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IStudentController;
 import com.sasd13.proadmin.android.view.ITeamController;

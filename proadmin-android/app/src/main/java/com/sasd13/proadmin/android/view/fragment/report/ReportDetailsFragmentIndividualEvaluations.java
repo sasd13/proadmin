@@ -22,7 +22,7 @@ import com.sasd13.proadmin.android.bean.IndividualEvaluation;
 import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.scope.ReportScope;
-import com.sasd13.proadmin.android.util.builder.member.StudentsFromStudentTeamsBuilder;
+import com.sasd13.proadmin.android.util.builder.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsFormException;
@@ -82,6 +82,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     }
 
     private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
+        recycler.clear();
         individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamsBuilder(studentTeams).build());
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }

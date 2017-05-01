@@ -16,14 +16,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class TeamForm extends Form {
 
+    private boolean inModeEdit;
     private TextItemModel modelNumber, modelName;
 
-    public TeamForm(Context context) {
+    public TeamForm(Context context, boolean inModeEdit) {
         super(context);
 
-        modelNumber = new TextItemModel();
-        modelNumber.setLabel(context.getString(R.string.label_number));
-        holder.add(new RecyclerHolderPair(modelNumber));
+        this.inModeEdit = inModeEdit;
+
+        if (inModeEdit) {
+            modelNumber = new TextItemModel();
+            modelNumber.setLabel(context.getString(R.string.label_number));
+            modelNumber.setReadOnly(true);
+            holder.add(new RecyclerHolderPair(modelNumber));
+        }
 
         modelName = new TextItemModel();
         modelName.setLabel(context.getString(R.string.label_name));
@@ -31,16 +37,11 @@ public class TeamForm extends Form {
     }
 
     public void bindTeam(Team team) {
-        modelNumber.setValue(team.getNumber());
-        modelName.setValue(team.getName());
-    }
-
-    public String getNumber() throws FormException {
-        if (StringUtils.isBlank(modelNumber.getValue())) {
-            throw new FormException(context, R.string.form_team_message_error_number);
+        if (inModeEdit) {
+            modelNumber.setValue(team.getNumber());
         }
 
-        return modelNumber.getValue().trim();
+        modelName.setValue(team.getName());
     }
 
     public String getName() throws FormException {

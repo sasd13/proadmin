@@ -14,7 +14,7 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
-import com.sasd13.proadmin.android.util.builder.running.NewRunningTeamBuilder;
+import com.sasd13.proadmin.android.util.builder.NewRunningTeamBuilder;
 import com.sasd13.proadmin.android.view.IRunningTeamController;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamNewFragment;
@@ -40,7 +40,6 @@ public class RunningTeamController extends MainController implements IRunningTea
     private RunningTeamCreateTask runningTeamCreateTask;
     private RunningTeamUpdateTask runningTeamUpdateTask;
     private RunningTeamDeleteTask runningTeamDeleteTask;
-    private Map<String, Object> allCriterias;
     private Map<String, String[]> runningTeamCriterias, runningCriterias, reportCriterias;
 
     public RunningTeamController(MainActivity mainActivity, IRunningTeamService runningTeamService, IReportService reportService) {
@@ -49,7 +48,6 @@ public class RunningTeamController extends MainController implements IRunningTea
         scope = new RunningTeamScope();
         this.runningTeamService = runningTeamService;
         this.reportService = reportService;
-        allCriterias = new HashMap<>();
     }
 
     @Override
@@ -79,7 +77,8 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningTeamCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
@@ -132,9 +131,12 @@ public class RunningTeamController extends MainController implements IRunningTea
             runningCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+        Map<String, Object> allRunningCriterias = new HashMap<>();
+
         runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
-        allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, runningCriterias);
+        allRunningCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
+        allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, allRunningCriterias);
 
         new Requestor(runningTeamDependenciesTask).execute(allCriterias);
     }
@@ -177,7 +179,8 @@ public class RunningTeamController extends MainController implements IRunningTea
             reportCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         reportCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(runningTeam.getRunning().getYear())});
         reportCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{runningTeam.getRunning().getProject().getCode()});
         reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{runningTeam.getRunning().getTeacher().getIntermediary()});

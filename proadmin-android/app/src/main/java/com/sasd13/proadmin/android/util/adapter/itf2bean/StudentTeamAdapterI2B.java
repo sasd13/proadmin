@@ -17,6 +17,9 @@ public class StudentTeamAdapterI2B implements IAdapter<StudentTeamBean, StudentT
         Student student = new Student();
         student.setId(Long.valueOf(s.getLinkedStudent().getId()));
         student.setIntermediary(s.getLinkedStudent().getIntermediary());
+        student.setFirstName(s.getLinkedStudent().getFirstName());
+        student.setLastName(s.getLinkedStudent().getLastName());
+        student.setEmail(s.getLinkedStudent().getEmail());
         t.setStudent(student);
 
         Team team = new Team();

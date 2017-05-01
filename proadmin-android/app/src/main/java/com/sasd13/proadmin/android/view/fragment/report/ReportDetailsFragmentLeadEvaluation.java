@@ -22,7 +22,7 @@ import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.scope.ReportScope;
-import com.sasd13.proadmin.android.util.builder.member.StudentsFromStudentTeamsBuilder;
+import com.sasd13.proadmin.android.util.builder.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.LeadEvaluationForm;
 

@@ -4,11 +4,13 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.Teacher;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IRunningService;
+import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectDetailsFragment;
@@ -27,18 +29,19 @@ public class ProjectController extends MainController implements IProjectControl
     private ProjectScope scope;
     private IProjectService projectService;
     private IRunningService runningService;
+    private ITeacherService teacherService;
     private ProjectReadTask projectReadTask;
     private RunningReadTask runningReadTask;
-    private Map<String, Object> allCriterias;
-    private Map<String, String[]> runningCriterias;
+    private TeacherReadTask teacherReadTask;
+    private Map<String, String[]> runningCriterias, teacherCriterias;
 
-    public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService) {
+    public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService, ITeacherService teacherService) {
         super(mainActivity);
 
         scope = new ProjectScope();
         this.projectService = projectService;
         this.runningService = runningService;
-        allCriterias = new HashMap<>();
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -98,6 +101,10 @@ public class ProjectController extends MainController implements IProjectControl
         scope.setRunnings(new ArrayList<Running>());
         startFragment(ProjectDetailsFragment.newInstance());
         readRunnings(project);
+
+        if (scope.getTeacher() == null) {
+            readTeacher();
+        }
     }
 
     private void readRunnings(Project project) {
@@ -108,7 +115,8 @@ public class ProjectController extends MainController implements IProjectControl
             runningCriterias.clear();
         }
 
-        allCriterias.clear();
+        Map<String, Object> allCriterias = new HashMap<>();
+
         runningCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{project.getCode()});
         runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
@@ -118,5 +126,25 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadRunnings(List<Running> runnings) {
         scope.setRunnings(runnings);
+    }
+
+    private void readTeacher() {
+        if (teacherReadTask == null) {
+            teacherReadTask = new TeacherReadTask(this, teacherService);
+            teacherCriterias = new HashMap<>();
+        } else {
+            teacherCriterias.clear();
+        }
+
+        Map<String, Object> allCriterias = new HashMap<>();
+
+        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
+
+        new Requestor(teacherReadTask).execute(allCriterias);
+    }
+
+    void onReadTeacher(Teacher teacher) {
+        scope.setTeacher(teacher);
     }
 }

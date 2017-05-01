@@ -5,12 +5,12 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.bean.Teacher;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.RunningScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IRunningService;
-import com.sasd13.proadmin.android.util.SessionHelper;
-import com.sasd13.proadmin.android.util.builder.running.NewRunningBuilder;
+import com.sasd13.proadmin.android.util.builder.NewRunningBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.IRunningController;
@@ -39,8 +39,8 @@ public class RunningController extends MainController implements IRunningControl
     }
 
     @Override
-    public void actionNewRunning(Project project) {
-        scope.setRunning(new NewRunningBuilder(project, SessionHelper.getExtraIntermediary(mainActivity)).build());
+    public void actionNewRunning(Project project, Teacher teacher) {
+        scope.setRunning(new NewRunningBuilder(project, teacher).build());
         startFragment(RunningNewFragment.newInstance());
     }
 

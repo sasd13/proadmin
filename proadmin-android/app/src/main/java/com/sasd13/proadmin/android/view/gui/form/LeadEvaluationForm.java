@@ -13,7 +13,7 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.Student;
 import com.sasd13.proadmin.android.util.Finder;
-import com.sasd13.proadmin.android.util.builder.member.StudentsNumbersBuilder;
+import com.sasd13.proadmin.android.util.builder.StudentsNumbersBuilder;
 
 import java.util.List;
 

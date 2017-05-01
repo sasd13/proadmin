@@ -6,16 +6,15 @@ import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.form.FormException;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
-import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.AcademicLevel;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.util.Finder;
-import com.sasd13.proadmin.android.util.builder.level.AcademicLevelsCodesBuilder;
-import com.sasd13.proadmin.android.util.builder.member.TeamsNumbersBuilder;
-import com.sasd13.proadmin.android.util.builder.running.ProjectsCodesFromRunningsBuilder;
+import com.sasd13.proadmin.android.util.builder.AcademicLevelsCodesBuilder;
+import com.sasd13.proadmin.android.util.builder.TeamsNumbersBuilder;
+import com.sasd13.proadmin.android.util.builder.ProjectsCodesFromRunningsBuilder;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ import java.util.List;
  */
 public class RunningTeamForm extends Form {
 
-    private TextItemModel modelYear;
     private SpinRadioItemModel modelRunning, modelAcademicLevel, modelTeam;
     private List<Running> runnings;
     private List<AcademicLevel> academicLevels;
@@ -33,32 +31,24 @@ public class RunningTeamForm extends Form {
     public RunningTeamForm(Context context, boolean inModeEdit) {
         super(context);
 
-        modelYear = new TextItemModel();
-        modelYear.setReadOnly(inModeEdit);
-        modelYear.setLabel(context.getString(R.string.label_year));
-        holder.add(new RecyclerHolderPair(modelYear));
-
         modelRunning = new SpinRadioItemModel();
         modelRunning.setLabel(context.getString(R.string.label_project));
+        modelRunning.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelRunning));
 
         modelAcademicLevel = new SpinRadioItemModel();
         modelAcademicLevel.setLabel(context.getString(R.string.label_academiclevel));
+        modelAcademicLevel.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelAcademicLevel));
 
         modelTeam = new SpinRadioItemModel();
         modelTeam.setLabel(context.getString(R.string.label_team));
+        modelTeam.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelTeam));
-
-        if (inModeEdit) {
-            modelRunning.setReadOnly(true);
-            modelAcademicLevel.setReadOnly(true);
-            modelTeam.setReadOnly(true);
-        }
     }
 
     public void bindRunningTeam(RunningTeam runningTeam) {
-        modelYear.setValue(String.valueOf(runningTeam.getRunning().getYear()));
+        //Do nothing
     }
 
     public List<String> bindRunnings(List<Running> runningsToBind) {
