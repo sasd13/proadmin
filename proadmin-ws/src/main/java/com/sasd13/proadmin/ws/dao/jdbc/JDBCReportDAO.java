@@ -21,7 +21,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.ws.bean.AcademicLevel;
 import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.bean.Report;
@@ -101,9 +101,9 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 	}
 
 	@Override
-	public List<Report> read(Map<String, String[]> parameters) {
+	public List<Report> read(Map<String, String[]> criterias) {
 		try {
-			return JDBCUtils.select(this, TABLE, parameters);
+			return JDBCUtils.select(this, TABLE, criterias);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -152,51 +152,47 @@ public class JDBCReportDAO extends JDBCSession<Report> implements IReportDAO {
 
 	@Override
 	public String getCondition(String key) {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
-		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
-			return COLUMN_DATEMEETING + " >= ?";
-		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
-			return COLUMN_DATEMEETING + " <= ?";
-		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.DATE.getCode().equalsIgnoreCase(key)) {
+			return COLUMN_DATEMEETING + " = ?";
+		} else if (EnumCriteria.SESSION.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_SESSION + " = ?";
-		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_YEAR + " = ?";
-		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_PROJECT + " = ?";
-		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_TEACHER + " = ?";
-		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_TEAM + " = ?";
-		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_ACADEMICLEVEL + " = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.DATE.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.SESSION.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setInt(index, Integer.parseInt(value));
-		} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setInt(index, Integer.parseInt(value));
-		} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 

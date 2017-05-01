@@ -32,7 +32,7 @@ public class RunningService implements IRunningService {
 	}
 
 	@Override
-	public List<Running> read(Map<String, String[]> parameters) {
-		return runningDAO.read(parameters);
+	public List<Running> read(Map<String, Object> criterias) {
+		return runningDAO.read(criterias);
 	}
 }

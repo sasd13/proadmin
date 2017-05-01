@@ -32,7 +32,7 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public List<RunningTeam> read(Map<String, String[]> parameters) {
-		return runningTeamDAO.read(parameters);
+	public List<RunningTeam> read(Map<String, Object> criterias) {
+		return runningTeamDAO.read(criterias);
 	}
 }

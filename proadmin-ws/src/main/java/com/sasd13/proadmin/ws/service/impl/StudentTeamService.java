@@ -30,7 +30,7 @@ public class StudentTeamService implements IStudentTeamService {
 	}
 
 	@Override
-	public List<StudentTeam> read(Map<String, String[]> parameters) {
-		return studentTeamDeepReader.read(parameters);
+	public List<StudentTeam> read(Map<String, String[]> criterias) {
+		return studentTeamDeepReader.read(criterias);
 	}
 }

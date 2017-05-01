@@ -36,7 +36,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public List<Report> read(Map<String, String[]> parameters) {
-		return reportDeepReader.read(parameters);
+	public List<Report> read(Map<String, String[]> criterias) {
+		return reportDeepReader.read(criterias);
 	}
 }

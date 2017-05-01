@@ -13,5 +13,5 @@ public interface IReportService {
 
 	void delete(Report report);
 
-	List<Report> read(Map<String, String[]> parameters);
+	List<Report> read(Map<String, Object> criterias);
 }

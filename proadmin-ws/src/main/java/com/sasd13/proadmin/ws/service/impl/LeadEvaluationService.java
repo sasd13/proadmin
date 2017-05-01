@@ -36,7 +36,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
-		return leadEvaluationDeepReader.read(parameters);
+	public List<LeadEvaluation> read(Map<String, String[]> criterias) {
+		return leadEvaluationDeepReader.read(criterias);
 	}
 }

@@ -14,5 +14,5 @@ public interface ITeamService {
 
 	void delete(Team team);
 
-	List<Team> read(Map<String, String[]> parameters);
+	List<Team> read(Map<String, String[]> criterias);
 }

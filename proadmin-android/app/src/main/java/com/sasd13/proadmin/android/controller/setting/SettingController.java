@@ -8,7 +8,7 @@ import com.sasd13.proadmin.android.bean.update.UserUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
-import com.sasd13.proadmin.android.service.IUserService;
+import com.sasd13.proadmin.android.service.v1.IUserService;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.fragment.setting.SettingFragment;

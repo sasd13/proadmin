@@ -27,5 +27,5 @@ public interface IUserDAO {
 
 	User find(String userID);
 
-	List<User> read(Map<String, String[]> parameters);
+	List<User> read(Map<String, String[]> criterias);
 }

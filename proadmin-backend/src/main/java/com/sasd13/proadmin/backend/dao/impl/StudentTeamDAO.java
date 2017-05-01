@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.IStudentTeamDAO;
 import com.sasd13.proadmin.backend.model.StudentTeam;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
@@ -52,42 +53,53 @@ public class StudentTeamDAO extends AbstractDAO implements IStudentTeamDAO, ICon
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<StudentTeam> read(Map<String, String[]> parameters) {
+	public List<StudentTeam> read(Map<String, Object> criterias) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from StudentTeam sttm");
 
-		if (!parameters.isEmpty()) {
-			appendWhere(parameters, builder, this);
+		if (!criterias.isEmpty()) {
+			appendCriterias(criterias, builder);
 		}
 
 		Query query = currentSession().createQuery(builder.toString());
 
-		if (!parameters.isEmpty()) {
-			resolveWhere(parameters, query);
+		if (!criterias.isEmpty()) {
+			resolveCriterias(criterias, query);
 		}
 
 		return (List<StudentTeam>) query.getResultList();
 	}
 
 	@Override
-	public String getCondition(String key) throws ConditionException {
-		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+	public String getCondition(String key) {
+		if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
 			return "sttm.student.intermediary = ?";
-		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
 			return "sttm.team.number = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
-		if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+	public String getOrdered(String key) {
+		if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
+			return "sttm.student.intermediary";
+		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
+			return "sttm.team.number";
+		} else {
+			throw new OrderException("Criteria " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editQueryForSelect(Query query, int index, String key, String value) {
+		if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
-		} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 }

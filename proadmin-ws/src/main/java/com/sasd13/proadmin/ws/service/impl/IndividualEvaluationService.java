@@ -36,7 +36,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	}
 
 	@Override
-	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
-		return individualEvaluationDeepReader.read(parameters);
+	public List<IndividualEvaluation> read(Map<String, String[]> criterias) {
+		return individualEvaluationDeepReader.read(criterias);
 	}
 }

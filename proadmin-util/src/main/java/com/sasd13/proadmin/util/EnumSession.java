@@ -1,27 +1,26 @@
 package com.sasd13.proadmin.util;
 
 public enum EnumSession {
-	UNKNOWN("unknown"), 
-	INTERMEDIARY("intermediary"), 
-	START("start"), 
-	TOKEN("token"), 
-	USERID("uid"), 
-	;
+	UNKNOWN("unknown"),
+	INTERMEDIARY("intermediary"),
+	START("start"),
+	TOKEN("token"),
+	USERID("uid"),;
 
-	private String name;
+	private String key;
 
-	private EnumSession(String name) {
-		this.name = name;
+	private EnumSession(String key) {
+		this.key = key;
 	}
 
-	public String getName() {
-		return name;
+	public String getKey() {
+		return key;
 	}
 
-	public static EnumSession find(String name) {
-		for (EnumSession aaaSession : values()) {
-			if (aaaSession.name.equalsIgnoreCase(name)) {
-				return aaaSession;
+	public static EnumSession find(String key) {
+		for (EnumSession session : values()) {
+			if (session.key.equalsIgnoreCase(key)) {
+				return session;
 			}
 		}
 

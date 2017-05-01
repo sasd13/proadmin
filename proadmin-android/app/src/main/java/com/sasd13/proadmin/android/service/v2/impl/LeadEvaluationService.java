@@ -20,7 +20,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 
     @Override
     public ServiceResult<Void> create(LeadEvaluation leadEvaluation) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_LEADEVALUATIONS);
+        Promise promise = new Promise("POST", Resources.URL_BACKEND_LEADEVALUATIONS + "/create");
 
         LeadEvaluationRequestBean requestBean = new LeadEvaluationRequestBean();
         List<LeadEvaluationBean> list = new ArrayList<>();
@@ -37,7 +37,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 
     @Override
     public ServiceResult<Void> update(LeadEvaluation leadEvaluation) {
-        Promise promise = new Promise("PUT", Resources.URL_BACKEND_LEADEVALUATIONS);
+        Promise promise = new Promise("POST", Resources.URL_BACKEND_LEADEVALUATIONS + "/update");
 
         LeadEvaluationRequestBean requestBean = new LeadEvaluationRequestBean();
         List<LeadEvaluationBean> list = new ArrayList<>();

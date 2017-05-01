@@ -19,7 +19,7 @@ public class SearchBean {
 	private SearchHeader header;
 
 	@JsonProperty("criterias")
-	private Map<String, String[]> criterias;
+	private Map<String, Object> criterias;
 
 	public SearchBean() {
 		header = new SearchHeader();
@@ -34,11 +34,11 @@ public class SearchBean {
 		this.header = header;
 	}
 
-	public Map<String, String[]> getCriterias() {
+	public Map<String, Object> getCriterias() {
 		return criterias;
 	}
 
-	public void setCriterias(Map<String, String[]> criterias) {
+	public void setCriterias(Map<String, Object> criterias) {
 		this.criterias = criterias;
 	}
 }

@@ -15,7 +15,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.ws.bean.Team;
 import com.sasd13.proadmin.ws.bean.update.TeamUpdate;
 import com.sasd13.proadmin.ws.dao.ITeamDAO;
@@ -75,9 +75,9 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 	}
 
 	@Override
-	public List<Team> read(Map<String, String[]> parameters) {
+	public List<Team> read(Map<String, String[]> criterias) {
 		try {
-			return JDBCUtils.select(this, TABLE, parameters);
+			return JDBCUtils.select(this, TABLE, criterias);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -112,23 +112,23 @@ public class JDBCTeamDAO extends JDBCSession<Team> implements ITeamDAO {
 
 	@Override
 	public String getCondition(String key) {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
-		} else if (EnumParameter.NAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.NAME.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_NAME + " = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.NAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.NAME.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 

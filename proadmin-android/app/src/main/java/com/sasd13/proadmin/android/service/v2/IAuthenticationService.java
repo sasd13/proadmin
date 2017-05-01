@@ -1,4 +1,6 @@
-package com.sasd13.proadmin.android.service;
+package com.sasd13.proadmin.android.service.v2;
+
+import com.sasd13.proadmin.android.service.ServiceResult;
 
 import java.util.Map;
 

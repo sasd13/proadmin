@@ -2,7 +2,7 @@ package com.sasd13.proadmin.android.controller.setting;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.service.IUserService;
+import com.sasd13.proadmin.android.service.v1.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumParameter;
 

@@ -13,5 +13,5 @@ public interface ILeadEvaluationDAO {
 
 	void delete(LeadEvaluation leadEvaluation);
 
-	List<LeadEvaluation> read(Map<String, String[]> parameters);
+	List<LeadEvaluation> read(Map<String, Object> criterias);
 }

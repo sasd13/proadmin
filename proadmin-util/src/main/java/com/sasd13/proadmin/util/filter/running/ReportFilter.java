@@ -5,7 +5,7 @@ import java.util.Map;
 import com.sasd13.javaex.pattern.filter.AndFilter;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
 import com.sasd13.proadmin.bean.running.IReport;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 public class ReportFilter extends AndFilter<IReport> {
 
@@ -17,19 +17,19 @@ public class ReportFilter extends AndFilter<IReport> {
 	protected void setCriterias(MultiAndCriteria<IReport> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.NUMBER.getName().equalsIgnoreCase(entry.getKey())) {
+				if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportNumberCriteria(value));
-				} else if (EnumParameter.SESSION.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.SESSION.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportSessionCriteria(Integer.parseInt(value)));
-				} else if (EnumParameter.YEAR.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.YEAR.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportYearCriteria(Integer.parseInt(value)));
-				} else if (EnumParameter.PROJECT.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.PROJECT.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportProjectCriteria(value));
-				} else if (EnumParameter.TEACHER.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.TEACHER.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportTeacherCriteria(value));
-				} else if (EnumParameter.TEAM.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.TEAM.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportTeamCriteria(value));
-				} else if (EnumParameter.ACADEMICLEVEL.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.ACADEMICLEVEL.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new ReportAcademicLevelCriteria(value));
 				}
 			}

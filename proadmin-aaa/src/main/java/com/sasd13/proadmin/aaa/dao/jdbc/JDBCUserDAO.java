@@ -17,7 +17,7 @@ import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.proadmin.aaa.bean.User;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.util.Names;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal {
 
@@ -237,7 +237,7 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 	}
 
 	@Override
-	public List<User> read(Map<String, String[]> parameters) {
+	public List<User> read(Map<String, String[]> criterias) {
 		List<User> list = new ArrayList<>();
 
 		StringBuilder builder = new StringBuilder();
@@ -248,13 +248,13 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 		PreparedStatement statement = null;
 
 		try {
-			builder.append(ConditionBuilder.build(parameters, this));
+			builder.append(ConditionBuilder.build(criterias, this));
 
 			statement = getConnection().prepareStatement(builder.toString());
 
 			int i = 0;
 
-			for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			for (Map.Entry<String, String[]> entry : criterias.entrySet()) {
 				for (String value : entry.getValue()) {
 					editPreparedStatementForSelect(statement, ++i, entry.getKey(), value);
 				}
@@ -281,22 +281,22 @@ public class JDBCUserDAO extends JDBCSession implements IUserDAO, IConditionnal 
 
 	@Override
 	public String getCondition(String key) {
-		if (EnumParameter.USERID.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.USERID.getCode().equalsIgnoreCase(key)) {
 			return IUserDAO.COLUMN_USERID + " = ?";
-		} else if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			return IUserDAO.COLUMN_INTERMEDIARY + " = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	private void editPreparedStatementForSelect(PreparedStatement statement, int index, String key, String value) throws SQLException {
-		if (EnumParameter.USERID.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.USERID.getCode().equalsIgnoreCase(key)) {
 			statement.setString(index, value);
-		} else if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			statement.setString(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 }

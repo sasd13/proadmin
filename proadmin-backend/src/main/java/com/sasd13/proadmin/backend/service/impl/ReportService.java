@@ -32,7 +32,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public List<Report> read(Map<String, String[]> parameters) {
-		return reportDAO.read(parameters);
+	public List<Report> read(Map<String, Object> criterias) {
+		return reportDAO.read(criterias);
 	}
 }

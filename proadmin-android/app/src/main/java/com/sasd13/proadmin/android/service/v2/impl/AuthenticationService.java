@@ -1,10 +1,10 @@
-package com.sasd13.proadmin.android.service.impl;
+package com.sasd13.proadmin.android.service.v2.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.javaex.security.HexEncoder;
-import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.service.v1.IAuthenticationService;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
 import com.sasd13.proadmin.util.EnumSession;

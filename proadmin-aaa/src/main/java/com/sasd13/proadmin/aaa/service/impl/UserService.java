@@ -49,7 +49,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<User> read(Map<String, String[]> parameters) {
-		return userDAO.read(parameters);
+	public List<User> read(Map<String, String[]> criterias) {
+		return userDAO.read(criterias);
 	}
 }

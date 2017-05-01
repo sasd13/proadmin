@@ -11,5 +11,5 @@ public interface IStudentTeamDAO {
 
 	void delete(List<StudentTeam> studentTeams);
 
-	List<StudentTeam> read(Map<String, String[]> parameters);
+	List<StudentTeam> read(Map<String, Object> criterias);
 }

@@ -14,5 +14,5 @@ public interface IStudentService {
 
 	void delete(Student student);
 
-	List<Student> read(Map<String, String[]> parameters);
+	List<Student> read(Map<String, String[]> criterias);
 }

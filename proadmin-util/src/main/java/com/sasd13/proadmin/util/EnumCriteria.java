@@ -1,8 +1,9 @@
 package com.sasd13.proadmin.util;
 
-public enum EnumParameter {
+public enum EnumCriteria {
 	ACADEMICLEVEL("academiclevel"),
 	CODE("code"),
+	DATE("date"),
 	EMAIL("email"),
 	FIRSTNAME("firstname"),
 	INTERMEDIARY("intermediary"),
@@ -13,28 +14,26 @@ public enum EnumParameter {
 	REPORT("report"),
 	RUNNING("running"),
 	SESSION("session"),
-	START_DATE("startDate"),
-	END_DATE("endDate"),
 	STUDENT("student"),
 	TEACHER("teacher"),
 	TEAM("team"),
 	USERID("uid"),
 	YEAR("year"),;
 
-	private String name;
+	private String code;
 
-	private EnumParameter(String name) {
-		this.name = name;
+	private EnumCriteria(String code) {
+		this.code = code;
 	}
 
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
 
-	public static EnumParameter find(String name) {
-		for (EnumParameter parameter : values()) {
-			if (parameter.name.equalsIgnoreCase(name)) {
-				return parameter;
+	public static EnumCriteria find(String code) {
+		for (EnumCriteria criteria : values()) {
+			if (criteria.code.equalsIgnoreCase(code)) {
+				return criteria;
 			}
 		}
 

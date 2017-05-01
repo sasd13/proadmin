@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.ITeamDAO;
 import com.sasd13.proadmin.backend.model.Team;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
@@ -52,38 +53,47 @@ public class TeamDAO extends AbstractDAO implements ITeamDAO, IConditionnal {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Team> read(Map<String, String[]> parameters) {
+	public List<Team> read(Map<String, Object> criterias) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from Team tm");
 
-		if (!parameters.isEmpty()) {
-			appendWhere(parameters, builder, this);
+		if (!criterias.isEmpty()) {
+			appendCriterias(criterias, builder);
 		}
 
 		Query query = currentSession().createQuery(builder.toString());
 
-		if (!parameters.isEmpty()) {
-			resolveWhere(parameters, query);
+		if (!criterias.isEmpty()) {
+			resolveCriterias(criterias, query);
 		}
 
 		return (List<Team>) query.getResultList();
 	}
 
 	@Override
-	public String getCondition(String key) throws ConditionException {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+	public String getCondition(String key) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			return "tm.number = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
-		if (EnumParameter.NUMBER.getName().equalsIgnoreCase(key)) {
+	public String getOrdered(String key) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
+			return "tm.number";
+		} else {
+			throw new OrderException("Criteria " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editQueryForSelect(Query query, int index, String key, String value) {
+		if (EnumCriteria.NUMBER.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 }

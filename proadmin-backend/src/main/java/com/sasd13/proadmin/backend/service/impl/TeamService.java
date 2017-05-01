@@ -32,7 +32,7 @@ public class TeamService implements ITeamService {
 	}
 
 	@Override
-	public List<Team> read(Map<String, String[]> parameters) {
-		return teamDAO.read(parameters);
+	public List<Team> read(Map<String, Object> criterias) {
+		return teamDAO.read(criterias);
 	}
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sasd13.javaex.dao.DeepReader;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.ws.bean.AcademicLevel;
 import com.sasd13.proadmin.ws.bean.Running;
 import com.sasd13.proadmin.ws.bean.RunningTeam;
@@ -18,7 +18,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	private RunningDeepReader runningDeepReader;
 	private ITeamDAO teamDAO;
 	private IAcademicLevelDAO academicLevelDAO;
-	private Map<String, String[]> parameters;
+	private Map<String, String[]> criterias;
 
 	public RunningTeamDeepReader(IRunningTeamDAO runningTeamDAO, RunningDeepReader runningDeepReader, ITeamDAO teamDAO, IAcademicLevelDAO academicLevelDAO) {
 		super(runningTeamDAO);
@@ -26,7 +26,7 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 		this.runningDeepReader = runningDeepReader;
 		this.teamDAO = teamDAO;
 		this.academicLevelDAO = academicLevelDAO;
-		parameters = new HashMap<>();
+		criterias = new HashMap<>();
 	}
 
 	@Override
@@ -37,28 +37,28 @@ public class RunningTeamDeepReader extends DeepReader<RunningTeam> {
 	}
 
 	private void retrieveDataRunning(RunningTeam runningTeam) {
-		parameters.clear();
-		parameters.put(EnumParameter.YEAR.getName(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
-		parameters.put(EnumParameter.PROJECT.getName(), new String[] { runningTeam.getRunning().getProject().getCode() });
-		parameters.put(EnumParameter.TEACHER.getName(), new String[] { runningTeam.getRunning().getTeacher().getIntermediary() });
+		criterias.clear();
+		criterias.put(EnumCriteria.YEAR.getCode(), new String[] { String.valueOf(runningTeam.getRunning().getYear()) });
+		criterias.put(EnumCriteria.PROJECT.getCode(), new String[] { runningTeam.getRunning().getProject().getCode() });
+		criterias.put(EnumCriteria.TEACHER.getCode(), new String[] { runningTeam.getRunning().getTeacher().getIntermediary() });
 
-		Running running = runningDeepReader.read(parameters).get(0);
+		Running running = runningDeepReader.read(criterias).get(0);
 		runningTeam.setRunning(running);
 	}
 
 	private void retrieveDataTeam(RunningTeam runningTeam) {
-		parameters.clear();
-		parameters.put(EnumParameter.NUMBER.getName(), new String[] { runningTeam.getTeam().getNumber() });
+		criterias.clear();
+		criterias.put(EnumCriteria.NUMBER.getCode(), new String[] { runningTeam.getTeam().getNumber() });
 
-		Team team = teamDAO.read(parameters).get(0);
+		Team team = teamDAO.read(criterias).get(0);
 		runningTeam.setTeam(team);
 	}
 
 	private void retrieveDataAcademicLevel(RunningTeam runningTeam) {
-		parameters.clear();
-		parameters.put(EnumParameter.CODE.getName(), new String[] { runningTeam.getAcademicLevel().getCode() });
+		criterias.clear();
+		criterias.put(EnumCriteria.CODE.getCode(), new String[] { runningTeam.getAcademicLevel().getCode() });
 
-		AcademicLevel academicLevel = academicLevelDAO.read(parameters).get(0);
+		AcademicLevel academicLevel = academicLevelDAO.read(criterias).get(0);
 		runningTeam.setAcademicLevel(academicLevel);
 	}
 }

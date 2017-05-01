@@ -32,7 +32,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 	}
 
 	@Override
-	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
-		return individualEvaluationDAO.read(parameters);
+	public List<IndividualEvaluation> read(Map<String, Object> criterias) {
+		return individualEvaluationDAO.read(criterias);
 	}
 }

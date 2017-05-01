@@ -13,6 +13,7 @@ import com.sasd13.proadmin.android.util.adapter.itf2bean.v2.IndividualEvaluation
 import com.sasd13.proadmin.android.util.adapter.itf2bean.v2.LeadEvaluationAdapterI2B;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.v2.ReportAdapterI2B;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.v2.StudentTeamAdapterI2B;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
@@ -39,9 +40,10 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<List<Report>> read(Map<String, String[]> parameters) {
-        Promise promise = new Promise("GET", Resources.URL_BACKEND_REPORTS, ReportResponseBean.class);
+        Promise promise = new Promise("GET", Resources.URL_BACKEND_REPORTS + "/search", ReportResponseBean.class);
 
-        promise.setParameters(parameters);
+        SearchBean searchBean = new SearchBean();
+        searchBean.setCriterias(parameters);
 
         ReportResponseBean responseBean = (ReportResponseBean) promise.execute();
         List<Report> list = new ArrayList<>();

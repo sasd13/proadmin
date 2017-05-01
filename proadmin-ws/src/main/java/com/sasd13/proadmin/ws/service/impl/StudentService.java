@@ -33,7 +33,7 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public List<Student> read(Map<String, String[]> parameters) {
-		return studentDAO.read(parameters);
+	public List<Student> read(Map<String, String[]> criterias) {
+		return studentDAO.read(criterias);
 	}
 }

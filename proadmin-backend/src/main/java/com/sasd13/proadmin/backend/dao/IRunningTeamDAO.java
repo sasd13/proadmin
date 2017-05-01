@@ -13,5 +13,5 @@ public interface IRunningTeamDAO {
 
 	void delete(RunningTeam runningTeam);
 
-	List<RunningTeam> read(Map<String, String[]> parameters);
+	List<RunningTeam> read(Map<String, Object> criterias);
 }

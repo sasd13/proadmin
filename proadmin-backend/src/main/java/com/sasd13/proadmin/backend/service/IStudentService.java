@@ -15,5 +15,5 @@ public interface IStudentService {
 
 	Student read(String intermediary);
 
-	List<Student> read(Map<String, String[]> parameters);
+	List<Student> read(Map<String, Object> criterias);
 }

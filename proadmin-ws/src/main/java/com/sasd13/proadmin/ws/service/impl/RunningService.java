@@ -36,7 +36,7 @@ public class RunningService implements IRunningService {
 	}
 
 	@Override
-	public List<Running> read(Map<String, String[]> parameters) {
-		return runningDeepReader.read(parameters);
+	public List<Running> read(Map<String, String[]> criterias) {
+		return runningDeepReader.read(criterias);
 	}
 }

@@ -21,7 +21,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.ws.bean.Project;
 import com.sasd13.proadmin.ws.bean.update.ProjectUpdate;
 import com.sasd13.proadmin.ws.dao.IProjectDAO;
@@ -85,9 +85,9 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 	}
 
 	@Override
-	public List<Project> read(Map<String, String[]> parameters) {
+	public List<Project> read(Map<String, String[]> criterias) {
 		try {
-			return JDBCUtils.select(this, TABLE, parameters);
+			return JDBCUtils.select(this, TABLE, criterias);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -126,27 +126,23 @@ public class JDBCProjectDAO extends JDBCSession<Project> implements IProjectDAO 
 
 	@Override
 	public String getCondition(String key) {
-		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			return COLUMN_CODE + " = ?";
-		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
-			return COLUMN_DATECREATION + " >= ?";
-		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
-			return COLUMN_DATECREATION + " <= ?";
+		} else if (EnumCriteria.DATE.getCode().equalsIgnoreCase(key)) {
+			return COLUMN_DATECREATION + " = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
-		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.START_DATE.getName().equalsIgnoreCase(key)) {
-			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-		} else if (EnumParameter.END_DATE.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.DATE.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setTimestamp(index, new Timestamp(new DateTime(value).getMillis()), Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 

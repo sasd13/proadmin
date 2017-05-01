@@ -5,7 +5,7 @@ import java.util.Map;
 import com.sasd13.javaex.pattern.filter.AndFilter;
 import com.sasd13.javaex.pattern.filter.MultiAndCriteria;
 import com.sasd13.proadmin.bean.member.ITeacher;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 public class TeacherFilter extends AndFilter<ITeacher> {
 
@@ -17,13 +17,13 @@ public class TeacherFilter extends AndFilter<ITeacher> {
 	protected void setCriterias(MultiAndCriteria<ITeacher> multiAndCriteria, Map<String, String[]> parameters) {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			for (String value : entry.getValue()) {
-				if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(entry.getKey())) {
+				if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberIntermediaryCriteria<ITeacher>(value));
-				} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberFirstNameCriteria<ITeacher>(value));
-				} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.LASTNAME.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberLastNameCriteria<ITeacher>(value));
-				} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(entry.getKey())) {
+				} else if (EnumCriteria.EMAIL.getCode().equalsIgnoreCase(entry.getKey())) {
 					multiAndCriteria.addCriteria(new MemberEmailCriteria<ITeacher>(value));
 				}
 			}

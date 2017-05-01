@@ -17,14 +17,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.IProjectDAO;
 import com.sasd13.proadmin.backend.model.Project;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionnal {
+public class ProjectDAO extends AbstractDAO implements IProjectDAO {
 
 	public ProjectDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -52,38 +52,47 @@ public class ProjectDAO extends AbstractDAO implements IProjectDAO, IConditionna
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Project> read(Map<String, String[]> parameters) {
+	public List<Project> read(Map<String, Object> criterias) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from Project pr");
 
-		if (!parameters.isEmpty()) {
-			appendWhere(parameters, builder, this);
+		if (!criterias.isEmpty()) {
+			appendCriterias(criterias, builder);
 		}
 
 		Query query = currentSession().createQuery(builder.toString());
 
-		if (!parameters.isEmpty()) {
-			resolveWhere(parameters, query);
+		if (!criterias.isEmpty()) {
+			resolveCriterias(criterias, query);
 		}
 
 		return (List<Project>) query.getResultList();
 	}
 
 	@Override
-	public String getCondition(String key) throws ConditionException {
-		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+	public String getCondition(String key) {
+		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			return "pr.code = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
-	public void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
-		if (EnumParameter.CODE.getName().equalsIgnoreCase(key)) {
+	public String getOrdered(String key) {
+		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
+			return "pr.code";
+		} else {
+			throw new OrderException("Criteria " + key + " is unknown");
+		}
+	}
+
+	@Override
+	public void editQueryForSelect(Query query, int index, String key, String value) {
+		if (EnumCriteria.CODE.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 }

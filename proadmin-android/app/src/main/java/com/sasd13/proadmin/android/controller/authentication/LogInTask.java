@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.ReadRequestorTask;
-import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.service.v1.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.util.EnumSession;
 

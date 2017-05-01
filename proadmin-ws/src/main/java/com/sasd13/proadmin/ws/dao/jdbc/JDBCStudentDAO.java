@@ -15,7 +15,7 @@ import com.sasd13.javaex.dao.jdbc.JDBCSession;
 import com.sasd13.javaex.dao.jdbc.JDBCUtils;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.wrapper.IUpdateWrapper;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.ws.bean.Student;
 import com.sasd13.proadmin.ws.bean.update.StudentUpdate;
 import com.sasd13.proadmin.ws.dao.IStudentDAO;
@@ -80,9 +80,9 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 	}
 
 	@Override
-	public List<Student> read(Map<String, String[]> parameters) {
+	public List<Student> read(Map<String, String[]> criterias) {
 		try {
-			return JDBCUtils.select(this, TABLE, parameters);
+			return JDBCUtils.select(this, TABLE, criterias);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -122,31 +122,31 @@ public class JDBCStudentDAO extends JDBCSession<Student> implements IStudentDAO 
 
 	@Override
 	public String getCondition(String key) {
-		if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_CODE + " = ?";
-		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_FIRSTNAME + " = ?";
-		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.LASTNAME.getCode().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_LASTNAME + " = ?";
-		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.EMAIL.getCode().equalsIgnoreCase(key)) {
 			return IStudentDAO.COLUMN_EMAIL + " = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
 	public void editPreparedStatementForSelect(PreparedStatement preparedStatement, int index, String key, String value) throws SQLException {
-		if (EnumParameter.INTERMEDIARY.getName().equalsIgnoreCase(key)) {
+		if (EnumCriteria.INTERMEDIARY.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.FIRSTNAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.FIRSTNAME.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.LASTNAME.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.LASTNAME.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
-		} else if (EnumParameter.EMAIL.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.EMAIL.getCode().equalsIgnoreCase(key)) {
 			preparedStatement.setString(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 

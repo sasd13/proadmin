@@ -13,5 +13,5 @@ public interface IProjectService {
 
 	void delete(Project project);
 
-	List<Project> read(Map<String, String[]> parameters);
+	List<Project> read(Map<String, Object> criterias);
 }

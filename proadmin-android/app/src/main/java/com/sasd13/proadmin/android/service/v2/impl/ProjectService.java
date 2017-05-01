@@ -5,6 +5,7 @@ import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.service.v2.IProjectService;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.v2.ProjectAdapterI2B;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectResponseBean;
 import com.sasd13.proadmin.util.Resources;
@@ -21,9 +22,10 @@ public class ProjectService implements IProjectService {
 
     @Override
     public ServiceResult<List<Project>> readAll() {
-        Promise promise = new Promise("GET", Resources.URL_BACKEND_PROJECTS, ProjectResponseBean.class);
+        Promise promise = new Promise("POST", Resources.URL_BACKEND_PROJECTS + "/search", ProjectResponseBean.class);
 
-        ProjectResponseBean responseBean = (ProjectResponseBean) promise.execute();
+        SearchBean searchBean = new SearchBean();
+        ProjectResponseBean responseBean = (ProjectResponseBean) promise.execute(searchBean);
 
         List<Project> list = new ArrayList<>();
         ProjectAdapterI2B adapter = new ProjectAdapterI2B();

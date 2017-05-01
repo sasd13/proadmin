@@ -17,14 +17,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.util.condition.ConditionException;
-import com.sasd13.javaex.util.condition.IConditionnal;
+import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
 import com.sasd13.proadmin.backend.model.IndividualEvaluation;
-import com.sasd13.proadmin.util.EnumParameter;
+import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO, IConditionnal {
+public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualEvaluationDAO {
 
 	public IndividualEvaluationDAO(@Qualifier("mSessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -61,42 +61,53 @@ public class IndividualEvaluationDAO extends AbstractDAO implements IIndividualE
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<IndividualEvaluation> read(Map<String, String[]> parameters) {
+	public List<IndividualEvaluation> read(Map<String, Object> criterias) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("from IndividualEvaluation ie");
 
-		if (!parameters.isEmpty()) {
-			appendWhere(parameters, builder, this);
+		if (!criterias.isEmpty()) {
+			appendCriterias(criterias, builder);
 		}
 
 		Query query = currentSession().createQuery(builder.toString());
 
-		if (!parameters.isEmpty()) {
-			resolveWhere(parameters, query);
+		if (!criterias.isEmpty()) {
+			resolveCriterias(criterias, query);
 		}
 
 		return (List<IndividualEvaluation>) query.getResultList();
 	}
 
 	@Override
-	public String getCondition(String key) throws ConditionException {
-		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
+	public String getCondition(String key) {
+		if (EnumCriteria.REPORT.getCode().equalsIgnoreCase(key)) {
 			return "ie.report.number = ?";
-		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
 			return "ie.student.intermediary = ?";
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 
 	@Override
-	protected void editQueryForSelect(Query query, int index, String key, String value) throws ConditionException {
-		if (EnumParameter.REPORT.getName().equalsIgnoreCase(key)) {
+	public String getOrdered(String key) {
+		if (EnumCriteria.REPORT.getCode().equalsIgnoreCase(key)) {
+			return "ie.report.number";
+		} else if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
+			return "ie.student.intermediary";
+		} else {
+			throw new OrderException("Criteria " + key + " is unknown");
+		}
+	}
+
+	@Override
+	protected void editQueryForSelect(Query query, int index, String key, String value) {
+		if (EnumCriteria.REPORT.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
-		} else if (EnumParameter.STUDENT.getName().equalsIgnoreCase(key)) {
+		} else if (EnumCriteria.STUDENT.getCode().equalsIgnoreCase(key)) {
 			query.setParameter(index, value);
 		} else {
-			throw new ConditionException("Parameter " + key + " is unknown");
+			throw new ConditionException("Criteria " + key + " is unknown");
 		}
 	}
 }

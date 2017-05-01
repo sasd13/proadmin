@@ -13,5 +13,5 @@ public interface IRunningService {
 
 	void delete(Running running);
 
-	List<Running> read(Map<String, String[]> parameters);
+	List<Running> read(Map<String, Object> criterias);
 }

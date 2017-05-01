@@ -36,7 +36,7 @@ public class RunningTeamService implements IRunningTeamService {
 	}
 
 	@Override
-	public List<RunningTeam> read(Map<String, String[]> parameters) {
-		return runningTeamDeepReader.read(parameters);
+	public List<RunningTeam> read(Map<String, String[]> criterias) {
+		return runningTeamDeepReader.read(criterias);
 	}
 }

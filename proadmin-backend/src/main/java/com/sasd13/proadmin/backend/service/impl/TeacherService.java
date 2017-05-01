@@ -37,7 +37,7 @@ public class TeacherService implements ITeacherService {
 	}
 
 	@Override
-	public List<Teacher> read(Map<String, String[]> parameters) {
-		return teacherDAO.read(parameters);
+	public List<Teacher> read(Map<String, Object> criterias) {
+		return teacherDAO.read(criterias);
 	}
 }

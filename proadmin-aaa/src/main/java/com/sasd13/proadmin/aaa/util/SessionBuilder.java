@@ -17,10 +17,10 @@ public class SessionBuilder {
 	public static Map<String, String> build(User user) {
 		Map<String, String> map = new HashMap<>();
 
-		map.put(EnumSession.USERID.getName(), user.getUserID());
-		map.put(EnumSession.INTERMEDIARY.getName(), user.getIntermediary());
-		map.put(EnumSession.TOKEN.getName(), generator.generateSessionId());
-		map.put(EnumSession.START.getName(), new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).format(new Timestamp(System.currentTimeMillis())));
+		map.put(EnumSession.USERID.getKey(), user.getUserID());
+		map.put(EnumSession.INTERMEDIARY.getKey(), user.getIntermediary());
+		map.put(EnumSession.TOKEN.getKey(), generator.generateSessionId());
+		map.put(EnumSession.START.getKey(), new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).format(new Timestamp(System.currentTimeMillis())));
 
 		return map;
 	}

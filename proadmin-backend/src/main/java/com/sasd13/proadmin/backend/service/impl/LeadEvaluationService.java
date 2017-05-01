@@ -32,7 +32,7 @@ public class LeadEvaluationService implements ILeadEvaluationService {
 	}
 
 	@Override
-	public List<LeadEvaluation> read(Map<String, String[]> parameters) {
-		return leadEvaluationDAO.read(parameters);
+	public List<LeadEvaluation> read(Map<String, Object> criterias) {
+		return leadEvaluationDAO.read(criterias);
 	}
 }

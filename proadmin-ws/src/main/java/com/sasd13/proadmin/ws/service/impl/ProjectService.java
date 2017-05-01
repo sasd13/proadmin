@@ -33,7 +33,7 @@ public class ProjectService implements IProjectService {
 	}
 
 	@Override
-	public List<Project> read(Map<String, String[]> parameters) {
-		return projectDAO.read(parameters);
+	public List<Project> read(Map<String, String[]> criterias) {
+		return projectDAO.read(criterias);
 	}
 }

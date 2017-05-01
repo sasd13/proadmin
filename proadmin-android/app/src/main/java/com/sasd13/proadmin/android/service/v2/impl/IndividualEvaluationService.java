@@ -20,7 +20,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 
     @Override
     public ServiceResult<Void> create(List<IndividualEvaluation> individualEvaluations) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_INDIVIDUALEVALUATIONS);
+        Promise promise = new Promise("POST", Resources.URL_BACKEND_INDIVIDUALEVALUATIONS + "/create");
 
         IndividualEvaluationRequestBean requestBean = new IndividualEvaluationRequestBean();
         List<IndividualEvaluationBean> list = new ArrayList<>();
@@ -41,7 +41,7 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 
     @Override
     public ServiceResult<Void> update(List<IndividualEvaluation> individualEvaluations) {
-        Promise promise = new Promise("PUT", Resources.URL_BACKEND_INDIVIDUALEVALUATIONS);
+        Promise promise = new Promise("POST", Resources.URL_BACKEND_INDIVIDUALEVALUATIONS + "/update");
 
         IndividualEvaluationRequestBean requestBean = new IndividualEvaluationRequestBean();
         List<IndividualEvaluationBean> list = new ArrayList<>();

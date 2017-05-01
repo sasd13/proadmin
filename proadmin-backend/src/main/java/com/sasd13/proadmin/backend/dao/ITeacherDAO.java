@@ -15,5 +15,5 @@ public interface ITeacherDAO {
 
 	Teacher read(String intermediary);
 
-	List<Teacher> read(Map<String, String[]> parameters);
+	List<Teacher> read(Map<String, Object> criterias);
 }
