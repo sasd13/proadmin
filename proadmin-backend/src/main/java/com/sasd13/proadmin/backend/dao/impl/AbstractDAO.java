@@ -76,8 +76,8 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 
 	@SuppressWarnings("unchecked")
 	private void resolveWhere(Map<String, Object> criterias, Query query) {
+		List<String> values;
 		int i = 0;
-		List<String> values = new ArrayList<>();
 
 		for (Map.Entry<String, Object> entry : criterias.entrySet()) {
 			if (entry.getValue() instanceof List<?>) {
@@ -85,6 +85,7 @@ public abstract class AbstractDAO implements IConditionnal, IOrderable {
 			} else if (entry.getValue().getClass().isArray()) {
 				values = Arrays.asList((String[]) entry.getValue());
 			} else {
+				values = new ArrayList<>();
 				values.add(String.valueOf(entry.getValue()));
 			}
 
