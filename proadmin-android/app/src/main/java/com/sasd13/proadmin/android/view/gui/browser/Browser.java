@@ -1,11 +1,15 @@
-package com.sasd13.proadmin.android.view;
+package com.sasd13.proadmin.android.view.gui.browser;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.view.gui.browser.BrowserItemModel;
-import com.sasd13.proadmin.android.view.gui.browser.EnumBrowserItemType;
+import com.sasd13.proadmin.android.view.ILogOutController;
+import com.sasd13.proadmin.android.view.IProjectController;
+import com.sasd13.proadmin.android.view.IReportController;
+import com.sasd13.proadmin.android.view.IRunningTeamController;
+import com.sasd13.proadmin.android.view.ISettingController;
+import com.sasd13.proadmin.android.view.ITeamController;
 
 import java.util.ArrayList;
 import java.util.List;

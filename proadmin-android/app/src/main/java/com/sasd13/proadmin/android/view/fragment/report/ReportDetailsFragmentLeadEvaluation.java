@@ -114,39 +114,22 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     private void saveLeadEvaluation() {
         try {
-            if (scope.getLeadEvaluation() != null) {
-                controller.actionUpdateLeadEvaluation(getUpdatedLeadEvaluationFromForm());
-            } else {
-                controller.actionCreateLeadEvaluation(getLeadEvaluationFromForm());
-            }
+            controller.actionSaveLeadEvaluation(getEditedLeadEvaluationFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private LeadEvaluation getUpdatedLeadEvaluationFromForm() throws FormException {
+    private LeadEvaluation getEditedLeadEvaluationFromForm() throws FormException {
         LeadEvaluation leadEvaluation = scope.getLeadEvaluation();
 
-        editLeadEvaluationWithForm(leadEvaluation);
-
-        return leadEvaluation;
-    }
-
-    private LeadEvaluation getLeadEvaluationFromForm() throws FormException {
-        LeadEvaluation leadEvaluation = new LeadEvaluation();
-
-        editLeadEvaluationWithForm(leadEvaluation);
-
-        return leadEvaluation;
-    }
-
-    private void editLeadEvaluationWithForm(LeadEvaluation leadEvaluation) throws FormException {
         leadEvaluation.setPlanningMark(leadEvaluationForm.getPlanningMark());
         leadEvaluation.setPlanningComment(leadEvaluationForm.getPlanningComment());
         leadEvaluation.setCommunicationMark(leadEvaluationForm.getCommunicationMark());
         leadEvaluation.setCommunicationComment(leadEvaluationForm.getCommunicationComment());
-        leadEvaluation.setReport(scope.getReport());
         leadEvaluation.setStudent(leadEvaluationForm.getLeader());
+
+        return leadEvaluation;
     }
 
     @Override

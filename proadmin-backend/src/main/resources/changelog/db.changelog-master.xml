@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/changelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xml:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbcjangelog/dbchangelog-2.0.xsd">
+		
+	<changeSet id="CREATE_TABLE" author="sasd13" dbms="postgresql">
+		<preConfitions onFail="MARK_RAN">
+			<tableExists tableName="TABLE" />
+			<columnExists tableName="TABLE" columnName="COLUMN" />
+		</preConfitions>
+		<sqlFile path="sql/test.sql" />
+	</changeSet>
+		
+</databaseChangeLog>

@@ -45,7 +45,7 @@ public class ReportNewFragment extends Fragment implements IPagerHandler {
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_viewpager);
 
-        pager.setAdapter(new ReportNewPagerFactory(this));
+        pager.setAdapter(new ReportNewPagerAdapter(this));
         pager.setScrollable(false);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }

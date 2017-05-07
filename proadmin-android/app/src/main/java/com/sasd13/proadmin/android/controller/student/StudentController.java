@@ -11,6 +11,7 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
+import com.sasd13.proadmin.android.util.NewStudentTeamBuilder;
 import com.sasd13.proadmin.android.util.builder.NewStudentBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IStudentController;
@@ -41,17 +42,8 @@ public class StudentController extends MainController implements IStudentControl
 
     @Override
     public void actionNewStudent(Team team) {
-        scope.setStudentTeam(getStudentTeam(team));
+        scope.setStudentTeam(new NewStudentTeamBuilder(new NewStudentBuilder().build(), team).build());
         startFragment(StudentNewFragment.newInstance());
-    }
-
-    private StudentTeam getStudentTeam(Team team) {
-        StudentTeam studentTeam = new StudentTeam();
-
-        studentTeam.setStudent(new NewStudentBuilder().build());
-        studentTeam.setTeam(team);
-
-        return studentTeam;
     }
 
     @Override

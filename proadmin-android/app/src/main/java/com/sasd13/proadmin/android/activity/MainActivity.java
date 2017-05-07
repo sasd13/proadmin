@@ -20,10 +20,10 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.provider.ControllerProvider;
 import com.sasd13.proadmin.android.util.SessionHelper;
-import com.sasd13.proadmin.android.view.Browser;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.HomeFragment;
+import com.sasd13.proadmin.android.view.gui.browser.Browser;
 import com.sasd13.proadmin.android.view.gui.browser.BrowserItemModel;
 
 import java.util.ArrayList;
@@ -89,6 +89,7 @@ public class MainActivity extends DrawerActivity {
 
             pairs.add(pair);
         }
+
         return pairs;
     }
 

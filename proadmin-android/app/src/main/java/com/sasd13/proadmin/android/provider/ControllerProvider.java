@@ -2,7 +2,6 @@ package com.sasd13.proadmin.android.provider;
 
 import android.app.Activity;
 
-import com.sasd13.proadmin.android.controller.ControllerFactory;
 import com.sasd13.proadmin.android.view.IController;
 
 import java.util.HashMap;
@@ -14,19 +13,19 @@ import java.util.Map;
 
 public class ControllerProvider {
 
-    private Map<Class<? extends IController>, IController> provider;
+    private Map<Class<? extends IController>, IController> container;
 
     public ControllerProvider() {
-        provider = new HashMap<>();
+        container = new HashMap<>();
     }
 
     public IController provide(Class<? extends IController> mClass, Activity activity) {
-        IController controller = provider.get(mClass);
+        IController controller = container.get(mClass);
 
         if (controller == null) {
             controller = ControllerFactory.make(mClass, activity);
 
-            provider.put(mClass, controller);
+            container.put(mClass, controller);
         }
 
         return controller;

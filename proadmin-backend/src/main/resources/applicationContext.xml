@@ -17,13 +17,11 @@
 		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<!-- Context -->
-
 	<context:annotation-config />
 	<context:component-scan base-package="com.sasd13.proadmin.backend" />
 	<context:property-placeholder location="classpath:/infra.properties" />
 
 	<!-- MVC -->
-
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:interceptors>
@@ -33,16 +31,19 @@
 	</mvc:interceptors>
 
 	<!-- TX -->
-
 	<tx:annotation-driven transaction-manager="mTransactionManager" />
 
 	<!-- JEE -->
-
 	<!-- DataSource provided by the server -->
 	<!-- <jee:jndi-lookup id="mOfflineDataSource" jndi-name="jdbc/proadmin_db2" expected-type="javax.sql.DataSource" /> -->
 
-	<!-- BEANS -->
+	<!-- LIQUIBASE -->
+	<!-- <bean id="com.sasd13.proadmin.backend.liquibase" class="liquibase.integration.spring.SpringLiquibase"> -->
+	<!-- <property name="dataSource" ref="mOfflineDataSource" /> -->
+	<!-- <property name="changeLog" value="classpath:changelog/db.changelog-master.xml" /> -->
+	<!-- </bean> -->
 
+	<!-- BEANS -->
 	<bean id="mDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/proadmin_db2" />
@@ -65,6 +66,12 @@
 	<bean id="mTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="mSessionFactory" />
 	</bean>
+
+	<!-- <bean id="propsApp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="locations"> -->
+	<!-- <value>classpath:/infra.properties</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
 
 	<!-- <bean id="mPersistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager"> -->
 	<!-- <property name="persistenceXmlLocations"> -->
@@ -155,6 +162,19 @@
 	<!-- Configuration upload -->
 	<!-- <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
 	<!-- <property name="maxUploadSize" value="5048576"></property> -->
+	<!-- </bean> -->
+
+	<!-- Register message converters (eg. ByteArrayHttpMessageConverter for octet-stream) that can convert from and to HTTP 
+		requests and responses -->
+	<!-- Marked as deprecated and not necessary since element <mvc:annotation-driven/> is used -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+	<!-- <property name="messageConverters"> -->
+	<!-- <array> -->
+	<!-- <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"> -->
+	<!-- <property name="supportedMediaTypes" value="application/octet-stream;charset=UTF-8" /> -->
+	<!-- </bean> -->
+	<!-- </array> -->
+	<!-- </property> -->
 	<!-- </bean> -->
 
 </beans>

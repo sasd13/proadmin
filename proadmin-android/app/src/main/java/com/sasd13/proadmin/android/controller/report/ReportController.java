@@ -16,6 +16,8 @@ import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.util.SessionHelper;
+import com.sasd13.proadmin.android.util.builder.NewIndividualEvaluationBuilder;
+import com.sasd13.proadmin.android.util.builder.NewLeadEvaluationBuilder;
 import com.sasd13.proadmin.android.util.builder.NewReportBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.fragment.report.ReportDetailsFragment;
@@ -48,7 +50,7 @@ public class ReportController extends MainController implements IReportControlle
     private ReportUpdateTask reportUpdateTask;
     private LeadEvaluationCreateTask leadEvaluationCreateTask;
     private LeadEvaluationUpdateTask leadEvaluationUpdateTask;
-    private IndividualEvaluationUpdateTask individualEvaluationUpdateTask;
+    private IndividualEvaluationSaveTask individualEvaluationSaveTask;
     private ReportDeleteTask reportDeleteTask;
     private Map<String, String[]> reportCriterias, runningTeamCriterias, studentTeamCriterias, leadEvaluationCriterias, individualEvaluationCriterias;
 
@@ -175,6 +177,7 @@ public class ReportController extends MainController implements IReportControlle
     public void actionShowReport(Report report) {
         scope.setReport(report);
         scope.setStudentTeams(new ArrayList<StudentTeam>());
+        scope.setLeadEvaluation(new NewLeadEvaluationBuilder(report).build());
         scope.setIndividualEvaluations(new ArrayList<IndividualEvaluation>());
         startFragment(ReportDetailsFragment.newInstance());
         readDependencies(report);
@@ -213,14 +216,33 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onRetrieved(Map<String, Object> results) {
-        scope.setStudentTeams((List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM));
-
+        List<StudentTeam> studentTeams = (List<StudentTeam>) results.get(IReportService.PARAMATERS_STUDENTTEAM);
         List<LeadEvaluation> leadEvaluations = (List<LeadEvaluation>) results.get(IReportService.PARAMETERS_LEADEVALUATION);
+        List<IndividualEvaluation> individualEvaluations = (List<IndividualEvaluation>) results.get(IReportService.PARAMETERS_INDIVIDUALEVALUATION);
+
+        boolean contains;
+
+        for (StudentTeam studentTeam : scope.getStudentTeams()) {
+            contains = false;
+
+            for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+                if (individualEvaluation.getStudent().equals(studentTeam.getStudent())) {
+                    contains = true;
+                }
+            }
+
+            if (!contains) {
+                individualEvaluations.add(new NewIndividualEvaluationBuilder(scope.getReport(), studentTeam.getStudent()).build());
+            }
+        }
+
+        scope.setStudentTeams(studentTeams);
+
         if (!leadEvaluations.isEmpty()) {
             scope.setLeadEvaluation(leadEvaluations.get(0));
         }
 
-        scope.setIndividualEvaluations((List<IndividualEvaluation>) results.get(IReportService.PARAMETERS_INDIVIDUALEVALUATION));
+        scope.setIndividualEvaluations(individualEvaluations);
     }
 
     @Override
@@ -251,7 +273,15 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation) {
+    public void actionSaveLeadEvaluation(LeadEvaluation leadEvaluation) {
+        if (leadEvaluation.getId() > 0) {
+            updateLeadEvaluation(leadEvaluation);
+        } else {
+            createLeadEvaluation(leadEvaluation);
+        }
+    }
+
+    private void createLeadEvaluation(LeadEvaluation leadEvaluation) {
         if (leadEvaluationCreateTask == null) {
             leadEvaluationCreateTask = new LeadEvaluationCreateTask(this, leadEvaluationService);
         }
@@ -263,8 +293,7 @@ public class ReportController extends MainController implements IReportControlle
         display(R.string.message_saved);
     }
 
-    @Override
-    public void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation) {
+    private void updateLeadEvaluation(LeadEvaluation leadEvaluation) {
         if (leadEvaluationUpdateTask == null) {
             leadEvaluationUpdateTask = new LeadEvaluationUpdateTask(this, leadEvaluationService);
         }
@@ -277,17 +306,27 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     @Override
-    public void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluationsToCreate) {
-        if (individualEvaluationUpdateTask == null) {
-            individualEvaluationUpdateTask = new IndividualEvaluationUpdateTask(this, individualEvaluationService);
+    public void actionSaveIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
+        if (individualEvaluationSaveTask == null) {
+            individualEvaluationSaveTask = new IndividualEvaluationSaveTask(this, individualEvaluationService);
         }
 
         Map<String, List> allIndividualEvaluations = new HashMap<>();
+        List<IndividualEvaluation> individualEvaluationsToUpdate = new ArrayList<>();
+        List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
 
-        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_UPDATE, scope.getIndividualEvaluations());
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            if (individualEvaluation.getId() > 0) {
+                individualEvaluationsToUpdate.add(individualEvaluation);
+            } else {
+                individualEvaluationsToCreate.add(individualEvaluation);
+            }
+        }
+
+        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_UPDATE, individualEvaluationsToUpdate);
         allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_CREATE, individualEvaluationsToCreate);
 
-        new Requestor(individualEvaluationUpdateTask).execute(allIndividualEvaluations);
+        new Requestor(individualEvaluationSaveTask).execute(allIndividualEvaluations);
     }
 
     void onUpdateIndividualEvaluations() {

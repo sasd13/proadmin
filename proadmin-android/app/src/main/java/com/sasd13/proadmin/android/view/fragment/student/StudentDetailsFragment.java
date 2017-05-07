@@ -104,13 +104,13 @@ public class StudentDetailsFragment extends Fragment implements Observer {
 
     private void updateStudent() {
         try {
-            controller.actionUpdateStudent(getUpdatedStudentFromForm());
+            controller.actionUpdateStudent(getEditedStudentFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Student getUpdatedStudentFromForm() throws FormException {
+    private Student getEditedStudentFromForm() throws FormException {
         Student student = scope.getStudentTeam().getStudent();
 
         student.setIntermediary(studentForm.getNumber());

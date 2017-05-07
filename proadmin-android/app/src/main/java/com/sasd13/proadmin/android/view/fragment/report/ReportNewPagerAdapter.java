@@ -6,13 +6,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportNewPagerFactory extends FragmentStatePagerAdapter {
+public class ReportNewPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
     private ReportNewFragment parentFragment;
 
-    public ReportNewPagerFactory(ReportNewFragment parentFragment) {
+    public ReportNewPagerAdapter(ReportNewFragment parentFragment) {
         super(parentFragment.getChildFragmentManager());
 
         this.parentFragment = parentFragment;

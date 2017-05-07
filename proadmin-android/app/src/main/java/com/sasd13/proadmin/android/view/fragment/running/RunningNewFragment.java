@@ -111,17 +111,18 @@ public class RunningNewFragment extends Fragment implements Observer {
 
     private void createRunning() {
         try {
-            editRunningWithForm();
-            controller.actionCreateRunning(scope.getRunning());
+            controller.actionCreateRunning(getEditedRunningWithForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private void editRunningWithForm() throws FormException {
+    private Running getEditedRunningWithForm() throws FormException {
         Running running = scope.getRunning();
 
         running.setYear(runningForm.getYear());
+
+        return running;
     }
 
     @Override

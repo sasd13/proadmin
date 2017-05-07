@@ -86,19 +86,20 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
 
     private void createReport() {
         try {
-            editReportWithForm();
-            controller.actionCreateReport(scope.getReport());
+            controller.actionCreateReport(getEditedReportWithForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private void editReportWithForm() throws FormException {
+    private Report getEditedReportWithForm() throws FormException {
         Report report = scope.getReport();
 
         report.setDateMeeting(reportForm.getDateMeeting());
         report.setSession(reportForm.getSession());
         report.setComment(reportForm.getComment());
+
+        return report;
     }
 
     private void bindFormWithReport(Report report) {

@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class LeadEvaluationForm extends Form {
 
-    private static final String[] MARKS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    private final String[] MARKS;
 
     private SpinRadioItemModel modelLeader;
     private NumberItemModel modelPlanningMark, modelCommunicationMark;
@@ -31,6 +31,8 @@ public class LeadEvaluationForm extends Form {
 
     public LeadEvaluationForm(Context context) {
         super(context);
+
+        MARKS = context.getResources().getStringArray(R.array.marks);
 
         modelLeader = new SpinRadioItemModel();
         modelLeader.setLabel(context.getString(R.string.label_leader));

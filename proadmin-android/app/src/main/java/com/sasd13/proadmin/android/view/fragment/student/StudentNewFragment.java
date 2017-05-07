@@ -20,6 +20,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.view.IStudentController;
 import com.sasd13.proadmin.android.view.gui.form.StudentForm;
@@ -111,20 +112,21 @@ public class StudentNewFragment extends Fragment implements Observer {
 
     private void createStudent() {
         try {
-            editStudentWithForm();
-            controller.actionCreateStudent(scope.getStudentTeam());
+            controller.actionCreateStudent(getEditedStudentWithForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private void editStudentWithForm() throws FormException {
-        Student student = scope.getStudentTeam().getStudent();
+    private StudentTeam getEditedStudentWithForm() throws FormException {
+        StudentTeam studentTeam = scope.getStudentTeam();
 
-        student.setIntermediary(studentForm.getNumber());
-        student.setFirstName(studentForm.getFirstName());
-        student.setLastName(studentForm.getLastName());
-        student.setEmail(studentForm.getEmail());
+        studentTeam.getStudent().setIntermediary(studentForm.getNumber());
+        studentTeam.getStudent().setFirstName(studentForm.getFirstName());
+        studentTeam.getStudent().setLastName(studentForm.getLastName());
+        studentTeam.getStudent().setEmail(studentForm.getEmail());
+
+        return studentTeam;
     }
 
     @Override

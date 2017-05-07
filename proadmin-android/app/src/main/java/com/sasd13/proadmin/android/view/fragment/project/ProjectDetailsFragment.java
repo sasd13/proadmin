@@ -45,10 +45,10 @@ public class ProjectDetailsFragment extends Fragment implements IPagerHandler {
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new ProjectDetailsPagerFactory(this));
-        tabsStrip.setViewPager(pager);
+        pager.setAdapter(new ProjectDetailsPagerAdapter(this));
+        tabStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
 

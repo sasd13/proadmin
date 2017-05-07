@@ -1,5 +1,17 @@
-package com.sasd13.proadmin.android.service;
+package com.sasd13.proadmin.android.provider;
 
+import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
+import com.sasd13.proadmin.android.service.ILeadEvaluationService;
+import com.sasd13.proadmin.android.service.IProjectService;
+import com.sasd13.proadmin.android.service.IReportService;
+import com.sasd13.proadmin.android.service.IRunningService;
+import com.sasd13.proadmin.android.service.IRunningTeamService;
+import com.sasd13.proadmin.android.service.IStudentService;
+import com.sasd13.proadmin.android.service.IStudentTeamService;
+import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.proadmin.android.service.ITeamService;
+import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.impl.AuthenticationService;
 import com.sasd13.proadmin.android.service.impl.IndividualEvaluationService;
 import com.sasd13.proadmin.android.service.impl.LeadEvaluationService;

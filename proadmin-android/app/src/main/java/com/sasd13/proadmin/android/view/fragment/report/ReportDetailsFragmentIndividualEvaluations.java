@@ -19,15 +19,11 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.bean.Student;
-import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.scope.ReportScope;
-import com.sasd13.proadmin.android.util.builder.StudentsFromStudentTeamsBuilder;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsForm;
 import com.sasd13.proadmin.android.view.gui.form.IndividualEvaluationsFormException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -71,7 +67,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormIndividualEvaluations(view);
-        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
+        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations());
     }
 
     private void buildFormIndividualEvaluations(View view) {
@@ -81,9 +77,9 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         recycler.addDividerItemDecoration();
     }
 
-    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations, List<StudentTeam> studentTeams) {
+    private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
         recycler.clear();
-        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations, new StudentsFromStudentTeamsBuilder(studentTeams).build());
+        individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }
 
@@ -107,7 +103,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit_action_save:
-                updateIndividualEvaluations();
+                saveIndividualEvaluations();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -116,54 +112,28 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
         return true;
     }
 
-    private void updateIndividualEvaluations() {
+    private void saveIndividualEvaluations() {
         try {
-            controller.actionUpdateIndividualEvaluations(getIndividualEvaluationsToCreate());
+            controller.actionSaveIndividualEvaluations(getEditedIndividualEvaluationsWithForm());
         } catch (IndividualEvaluationsFormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    public List<IndividualEvaluation> getIndividualEvaluationsToCreate() throws IndividualEvaluationsFormException {
-        List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
+    public List<IndividualEvaluation> getEditedIndividualEvaluationsWithForm() throws IndividualEvaluationsFormException {
+        List<IndividualEvaluation> individualEvaluations = scope.getIndividualEvaluations();
+        Map<IndividualEvaluation, Float> marks = individualEvaluationsForm.getMarks();
 
-        Map<Student, Float> marks = individualEvaluationsForm.getMarks();
-        boolean toCreate;
-
-        for (Map.Entry<Student, Float> entry : marks.entrySet()) {
-            toCreate = true;
-
-            for (IndividualEvaluation individualEvaluation : scope.getIndividualEvaluations()) {
-                if (individualEvaluation.getStudent().equals(entry.getKey())) {
-                    toCreate = false;
-
-                    individualEvaluation.setMark(entry.getValue());
-
-                    break;
-                }
-            }
-
-            if (toCreate) {
-                individualEvaluationsToCreate.add(getIndividualEvaluation(entry.getKey(), entry.getValue()));
-            }
+        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
+            individualEvaluation.setMark(marks.get(individualEvaluation));
         }
 
-        return individualEvaluationsToCreate;
-    }
-
-    private IndividualEvaluation getIndividualEvaluation(Student student, Float mark) {
-        IndividualEvaluation individualEvaluation = new IndividualEvaluation();
-
-        individualEvaluation.setReport(scope.getReport());
-        individualEvaluation.setStudent(student);
-        individualEvaluation.setMark(mark);
-
-        return individualEvaluation;
+        return individualEvaluations;
     }
 
     @Override
     public void update(Observable observable, Object o) {
-        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations(), scope.getStudentTeams());
+        bindFormWithIndividualEvaluations(scope.getIndividualEvaluations());
     }
 
     @Override

@@ -140,19 +140,20 @@ public class RunningTeamNewFragment extends Fragment implements Observer {
 
     private void createRunningTeam() {
         try {
-            editRunningTeamWithForm();
-            controller.actionCreateRunningTeam(scope.getRunningTeam());
+            controller.actionCreateRunningTeam(getEditedRunningTeamWithForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private void editRunningTeamWithForm() throws FormException {
+    private RunningTeam getEditedRunningTeamWithForm() throws FormException {
         RunningTeam runningTeam = scope.getRunningTeam();
 
         runningTeam.setRunning(runningTeamForm.getRunning());
         runningTeam.setTeam(runningTeamForm.getTeam());
         runningTeam.setAcademicLevel(runningTeamForm.getAcademicLevel());
+
+        return runningTeam;
     }
 
     @Override

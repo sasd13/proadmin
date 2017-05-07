@@ -22,6 +22,7 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.scope.ProjectScope;
+import com.sasd13.proadmin.android.util.sorter.RunningSorter;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.IRunningController;
 import com.sasd13.proadmin.android.view.gui.tab.RunningItemModel;
@@ -83,6 +84,7 @@ public class ProjectDetailsFragmentRunnings extends Fragment implements Observer
 
     private void bindTabWithRunnings(List<Running> runnings) {
         recycler.clear();
+        RunningSorter.byYear(runnings);
         addRunningsToTab(runnings);
     }
 

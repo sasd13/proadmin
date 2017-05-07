@@ -45,10 +45,10 @@ public class RunningTeamDetailsFragment extends Fragment implements IPagerHandle
 
     private void buildPager(View view) {
         pager = (Pager) view.findViewById(R.id.layout_vp_w_psts_viewpager);
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.layout_vp_w_psts_pagerslidingtabstrip);
 
-        pager.setAdapter(new RunningTeamDetailsPagerFactory(this));
-        tabsStrip.setViewPager(pager);
+        pager.setAdapter(new RunningTeamDetailsPagerAdapter(this));
+        tabStrip.setViewPager(pager);
         ((MainActivity) getActivity()).setPagerHandler(this);
     }
 

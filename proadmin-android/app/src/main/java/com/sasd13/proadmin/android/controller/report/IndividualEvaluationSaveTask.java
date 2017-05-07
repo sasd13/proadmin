@@ -12,12 +12,12 @@ import java.util.Map;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class IndividualEvaluationUpdateTask extends RequestorTask {
+public class IndividualEvaluationSaveTask extends RequestorTask {
 
     private ReportController controller;
     private IIndividualEvaluationService service;
 
-    public IndividualEvaluationUpdateTask(ReportController controller, IIndividualEvaluationService service) {
+    public IndividualEvaluationSaveTask(ReportController controller, IIndividualEvaluationService service) {
         super();
 
         this.controller = controller;

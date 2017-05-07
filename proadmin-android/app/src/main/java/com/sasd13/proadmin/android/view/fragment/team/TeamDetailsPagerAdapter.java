@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.view.fragment.runningteam;
+package com.sasd13.proadmin.android.view.fragment.team;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -8,18 +8,18 @@ import com.sasd13.proadmin.android.R;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
+public class TeamDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
 
     private final String[] TITLES;
 
-    public RunningTeamDetailsPagerFactory(Fragment fragment) {
+    public TeamDetailsPagerAdapter(Fragment fragment) {
         super(fragment.getChildFragmentManager());
 
         TITLES = new String[]{
                 fragment.getString(R.string.title_information),
-                fragment.getString(R.string.title_reports)
+                fragment.getString(R.string.title_students)
         };
     }
 
@@ -27,9 +27,9 @@ public class RunningTeamDetailsPagerFactory extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return RunningTeamDetailsFragmentInfos.newInstance();
+                return TeamDetailsFragmentInfos.newInstance();
             case 1:
-                return RunningTeamDetailsFragmentReports.newInstance();
+                return TeamDetailsFragmentStudents.newInstance();
             default:
                 return null;
         }

@@ -27,9 +27,7 @@ public interface IReportController extends IController, IBrowsable {
 
     void actionRemoveReport(Report report);
 
-    void actionCreateLeadEvaluation(LeadEvaluation leadEvaluation);
+    void actionSaveLeadEvaluation(LeadEvaluation leadEvaluation);
 
-    void actionUpdateLeadEvaluation(LeadEvaluation leadEvaluation);
-
-    void actionUpdateIndividualEvaluations(List<IndividualEvaluation> individualEvaluationsToCreate);
+    void actionSaveIndividualEvaluations(List<IndividualEvaluation> individualEvaluations);
 }

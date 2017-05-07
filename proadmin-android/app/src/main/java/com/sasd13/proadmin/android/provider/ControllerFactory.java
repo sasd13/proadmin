@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.controller;
+package com.sasd13.proadmin.android.provider;
 
 import android.app.Activity;
 
@@ -25,7 +25,6 @@ import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.service.IUserService;
-import com.sasd13.proadmin.android.service.ServiceFactory;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.ILogInController;
 import com.sasd13.proadmin.android.view.ILogOutController;
@@ -47,50 +46,50 @@ public class ControllerFactory {
         if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
-                    (IAuthenticationService) ServiceFactory.make(IAuthenticationService.class)
+                    (IAuthenticationService) ServiceProvider.provide(IAuthenticationService.class)
             );
         } else if (ISettingController.class.equals(mClass)) {
             return new SettingController(
                     (MainActivity) activity,
-                    (IUserService) ServiceFactory.make(IUserService.class)
+                    (IUserService) ServiceProvider.provide(IUserService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
-                    (IProjectService) ServiceFactory.make(IProjectService.class),
-                    (IRunningService) ServiceFactory.make(IRunningService.class),
-                    (ITeacherService) ServiceFactory.make(ITeacherService.class)
+                    (IProjectService) ServiceProvider.provide(IProjectService.class),
+                    (IRunningService) ServiceProvider.provide(IRunningService.class),
+                    (ITeacherService) ServiceProvider.provide(ITeacherService.class)
             );
         } else if (ITeamController.class.equals(mClass)) {
             return new TeamController(
                     (MainActivity) activity,
-                    (ITeamService) ServiceFactory.make(ITeamService.class),
-                    (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class)
+                    (ITeamService) ServiceProvider.provide(ITeamService.class),
+                    (IStudentTeamService) ServiceProvider.provide(IStudentTeamService.class)
             );
         } else if (IStudentController.class.equals(mClass)) {
             return new StudentController(
                     (MainActivity) activity,
-                    (IStudentService) ServiceFactory.make(IStudentService.class),
-                    (IStudentTeamService) ServiceFactory.make(IStudentTeamService.class)
+                    (IStudentService) ServiceProvider.provide(IStudentService.class),
+                    (IStudentTeamService) ServiceProvider.provide(IStudentTeamService.class)
             );
         } else if (IRunningController.class.equals(mClass)) {
             return new RunningController(
                     (MainActivity) activity,
-                    (IRunningService) ServiceFactory.make(IRunningService.class)
+                    (IRunningService) ServiceProvider.provide(IRunningService.class)
             );
         } else if (IRunningTeamController.class.equals(mClass)) {
             return new RunningTeamController(
                     (MainActivity) activity,
-                    (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class),
-                    (IReportService) ServiceFactory.make(IReportService.class)
+                    (IRunningTeamService) ServiceProvider.provide(IRunningTeamService.class),
+                    (IReportService) ServiceProvider.provide(IReportService.class)
             );
         } else if (IReportController.class.equals(mClass)) {
             return new ReportController(
                     (MainActivity) activity,
-                    (IReportService) ServiceFactory.make(IReportService.class),
-                    (ILeadEvaluationService) ServiceFactory.make(ILeadEvaluationService.class),
-                    (IIndividualEvaluationService) ServiceFactory.make(IIndividualEvaluationService.class),
-                    (IRunningTeamService) ServiceFactory.make(IRunningTeamService.class)
+                    (IReportService) ServiceProvider.provide(IReportService.class),
+                    (ILeadEvaluationService) ServiceProvider.provide(ILeadEvaluationService.class),
+                    (IIndividualEvaluationService) ServiceProvider.provide(IIndividualEvaluationService.class),
+                    (IRunningTeamService) ServiceProvider.provide(IRunningTeamService.class)
             );
         } else if (ILogOutController.class.equals(mClass)) {
             return new LogOutController((MainActivity) activity);

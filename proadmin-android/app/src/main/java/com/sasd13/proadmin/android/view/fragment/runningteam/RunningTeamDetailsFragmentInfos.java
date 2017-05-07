@@ -138,13 +138,13 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
 
     private void updateRunningTeam() {
         try {
-            controller.actionUpdateRunningTeam(getUpdatedRunningTeamFromForm());
+            controller.actionUpdateRunningTeam(getEditedRunningTeamFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private RunningTeam getUpdatedRunningTeamFromForm() throws FormException {
+    private RunningTeam getEditedRunningTeamFromForm() throws FormException {
         RunningTeam runningTeam = scope.getRunningTeam();
 
         runningTeam.setRunning(runningTeamForm.getRunning());

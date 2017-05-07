@@ -8,13 +8,13 @@ import com.sasd13.proadmin.android.R;
 /**
  * Created by ssaidali2 on 05/11/2016.
  */
-public class ReportDetailsPagerFactory extends FragmentStatePagerAdapter {
+public class ReportDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 3;
 
     private final String[] TITLES;
 
-    public ReportDetailsPagerFactory(Fragment fragment) {
+    public ReportDetailsPagerAdapter(Fragment fragment) {
         super(fragment.getChildFragmentManager());
 
         TITLES = new String[]{

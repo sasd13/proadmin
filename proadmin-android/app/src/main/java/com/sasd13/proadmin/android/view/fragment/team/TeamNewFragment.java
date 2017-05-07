@@ -64,6 +64,7 @@ public class TeamNewFragment extends Fragment implements Observer {
     private void buildView(View view) {
         GUIHelper.colorTitles(view);
         buildFormTeam(view);
+        bindFormWithTeam(scope.getTeam());
     }
 
     private void buildFormTeam(View view) {
@@ -73,6 +74,10 @@ public class TeamNewFragment extends Fragment implements Observer {
         recycler.addDividerItemDecoration();
 
         RecyclerHelper.addAll(recycler, teamForm.getHolder());
+    }
+
+    private void bindFormWithTeam(Team team) {
+        teamForm.bindTeam(team);
     }
 
     @Override
@@ -106,17 +111,18 @@ public class TeamNewFragment extends Fragment implements Observer {
 
     private void createTeam() {
         try {
-            editTeamWithForm();
-            controller.actionCreateTeam(scope.getTeam());
+            controller.actionCreateTeam(getEditedTeamWithForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private void editTeamWithForm() throws FormException {
+    private Team getEditedTeamWithForm() throws FormException {
         Team team = scope.getTeam();
 
         team.setName(teamForm.getName());
+
+        return team;
     }
 
     @Override
@@ -129,7 +135,7 @@ public class TeamNewFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        //Do nothing
+        bindFormWithTeam(scope.getTeam());
     }
 
     @Override

@@ -109,13 +109,13 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateReport() {
         try {
-            controller.actionUpdateReport(getUpdatedReportFromForm());
+            controller.actionUpdateReport(getEditedReportFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Report getUpdatedReportFromForm() throws FormException {
+    private Report getEditedReportFromForm() throws FormException {
         Report report = scope.getReport();
 
         report.setDateMeeting(reportForm.getDateMeeting());

@@ -109,13 +109,13 @@ public class TeamDetailsFragmentInfos extends Fragment implements Observer {
 
     private void updateTeam() {
         try {
-            controller.actionUpdateTeam(getUpdatedTeamFromForm());
+            controller.actionUpdateTeam(getEditedTeamFromForm());
         } catch (FormException e) {
             controller.display(e.getMessage());
         }
     }
 
-    private Team getUpdatedTeamFromForm() throws FormException {
+    private Team getEditedTeamFromForm() throws FormException {
         Team team = scope.getTeam();
 
         team.setName(teamForm.getName());
