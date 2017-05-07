@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 15/08/2016.
  */
-public class ProjectsCodesFromRunningsBuilder implements IBuilder<List<String>> {
+public class RunningsLabelsFromRunningsBuilder implements IBuilder<List<String>> {
 
     private List<Running> runnings;
 
-    public ProjectsCodesFromRunningsBuilder(List<Running> runnings) {
+    public RunningsLabelsFromRunningsBuilder(List<Running> runnings) {
         this.runnings = runnings;
     }
 
@@ -22,9 +22,7 @@ public class ProjectsCodesFromRunningsBuilder implements IBuilder<List<String>> 
         List<String> list = new ArrayList<>();
 
         for (Running running : runnings) {
-            if (!list.contains(running.getProject().getCode())) {
-                list.add(running.getProject().getCode());
-            }
+            list.add(running.getYear() + " / " + running.getProject().getCode());
         }
 
         return list;

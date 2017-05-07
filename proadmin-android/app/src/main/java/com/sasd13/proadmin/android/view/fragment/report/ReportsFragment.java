@@ -98,7 +98,7 @@ public class ReportsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithReports(List<Report> reports) {
-        ReportSorter.byNumber(reports);
+        ReportSorter.byDateMeeting(reports);
         addReportsToTab(reports);
     }
 

@@ -59,8 +59,8 @@ public class ReportService implements IReportService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
-                promise.isSuccess() ? list : Collections.<Report>emptyList()
+                responseBean.getErrors(),
+                list
         );
     }
 
@@ -121,7 +121,7 @@ public class ReportService implements IReportService {
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
                 Collections.<String, String>emptyMap(),
-                promise.isSuccess() ? results : Collections.<String, Object>emptyMap()
+                results
         );
     }
 

@@ -2,8 +2,8 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
+import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationRequestBean;

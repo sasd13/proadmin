@@ -24,6 +24,7 @@ import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -114,7 +115,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         scope.setRunningTeam(new NewRunningTeamBuilder().build());
         resetDependencies();
         startFragment(RunningTeamNewFragment.newInstance());
-        readDependencies();
+        readDependencies(Calendar.getInstance().get(Calendar.YEAR));
     }
 
     private void resetDependencies() {
@@ -123,7 +124,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         scope.setAcademicLevels(new ArrayList<AcademicLevel>());
     }
 
-    private void readDependencies() {
+    private void readDependencies(int year) {
         if (runningTeamDependenciesTask == null) {
             runningTeamDependenciesTask = new RunningTeamDependenciesTask(this, runningTeamService);
             runningCriterias = new HashMap<>();
@@ -134,6 +135,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         Map<String, Object> allCriterias = new HashMap<>();
         Map<String, Object> allRunningCriterias = new HashMap<>();
 
+        runningCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(year)});
         runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allRunningCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
         allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, allRunningCriterias);
@@ -167,7 +169,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         resetDependencies();
         scope.setReports(new ArrayList<Report>());
         startFragment(RunningTeamDetailsFragment.newInstance());
-        readDependencies();
+        readDependencies(runningTeam.getRunning().getYear());
         readReports(runningTeam);
     }
 

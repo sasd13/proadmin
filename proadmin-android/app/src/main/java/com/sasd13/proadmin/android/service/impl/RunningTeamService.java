@@ -59,8 +59,8 @@ public class RunningTeamService implements IRunningTeamService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
-                promise.isSuccess() ? list : Collections.<RunningTeam>emptyList()
+                responseBean.getErrors(),
+                list
         );
     }
 
@@ -114,7 +114,7 @@ public class RunningTeamService implements IRunningTeamService {
                 promise.isSuccess(),
                 promise.isSuccess() ? 200 : 417,
                 Collections.<String, String>emptyMap(),
-                promise.isSuccess() ? results : Collections.<String, Object>emptyMap()
+                results
         );
     }
 

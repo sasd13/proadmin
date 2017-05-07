@@ -13,7 +13,7 @@ public class IndividualEvaluationAdapterI2B implements IAdapter<IndividualEvalua
         IndividualEvaluation t = new IndividualEvaluation();
 
         t.setId(Long.valueOf(s.getId().getId()));
-        t.setMark(Float.valueOf(s.getCoreInfo().getMark()));
+        t.setMark(s.getCoreInfo().getMark());
 
         Report report = new Report();
         report.setId(Long.valueOf(s.getLinkedReport().getId()));
@@ -23,6 +23,8 @@ public class IndividualEvaluationAdapterI2B implements IAdapter<IndividualEvalua
         Student student = new Student();
         student.setId(Long.valueOf(s.getLinkedStudent().getId()));
         student.setIntermediary(s.getLinkedStudent().getIntermediary());
+        student.setFirstName(s.getLinkedStudent().getFirstName());
+        student.setLastName(s.getLinkedStudent().getLastName());
         t.setStudent(student);
 
         return t;

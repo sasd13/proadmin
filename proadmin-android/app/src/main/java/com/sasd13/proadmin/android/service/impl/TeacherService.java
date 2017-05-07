@@ -2,8 +2,8 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.TeacherAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.TeacherAdapterI2B;
 import com.sasd13.proadmin.itf.SearchBean;
@@ -13,7 +13,6 @@ import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +43,8 @@ public class TeacherService implements ITeacherService {
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
-                promise.isSuccess() ? list : Collections.<Teacher>emptyList()
+                responseBean.getErrors(),
+                list
         );
     }
 

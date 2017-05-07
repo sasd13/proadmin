@@ -7,6 +7,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.util.builder.LabelBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class IndividualEvaluationsForm extends Form {
 
         for (IndividualEvaluation individualEvaluation : individualEvaluations) {
             modelMark = new NumberItemModel();
-            modelMark.setLabel(individualEvaluation.getStudent().getFullName());
+            modelMark.setLabel(LabelBuilder.studentIntermediaryWithShortenFullName(individualEvaluation.getStudent()));
             modelMark.setItems(MARKS);
             modelMark.setValue(indexOf(individualEvaluation.getMark(), MARKS));
 

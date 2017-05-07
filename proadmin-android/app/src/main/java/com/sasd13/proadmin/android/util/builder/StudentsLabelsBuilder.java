@@ -10,11 +10,11 @@ import java.util.List;
  * Created by ssaidali2 on 13/11/2016.
  */
 
-public class StudentsNumbersBuilder implements IBuilder<List<String>> {
+public class StudentsLabelsBuilder implements IBuilder<List<String>> {
 
     private List<Student> students;
 
-    public StudentsNumbersBuilder(List<Student> students) {
+    public StudentsLabelsBuilder(List<Student> students) {
         this.students = students;
     }
 
@@ -37,12 +37,7 @@ public class StudentsNumbersBuilder implements IBuilder<List<String>> {
         for (Student student : students) {
             builder = new StringBuilder();
 
-            builder.append(student.getIntermediary());
-            builder.append(" - ");
-            builder.append(student.getFirstName());
-            builder.append(" ");
-            builder.append(student.getLastName().substring(0, 1));
-            builder.append(".");
+            builder.append(LabelBuilder.studentIntermediaryWithShortenFullName(student));
 
             list.add(builder.toString());
         }

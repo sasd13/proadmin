@@ -12,7 +12,6 @@ import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.util.Resources;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,14 +30,16 @@ public class UserService implements IUserService {
         promise.setParameters(parameters);
 
         UserResponseBean responseBean = (UserResponseBean) promise.execute();
-        User user = promise.isSuccess() && responseBean.getData() != null && !responseBean.getData().isEmpty()
-                ? new UserAdapterI2B().adapt(responseBean.getData().get(0))
-                : null;
+        User user = null;
+
+        if (promise.isSuccess() && !responseBean.getData().isEmpty()) {
+            user = new UserAdapterI2B().adapt(responseBean.getData().get(0));
+        }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean != null ? responseBean.getErrors() : Collections.<String, String>emptyMap(),
+                responseBean.getErrors(),
                 user
         );
     }

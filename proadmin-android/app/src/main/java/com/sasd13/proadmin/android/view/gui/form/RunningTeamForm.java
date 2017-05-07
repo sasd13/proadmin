@@ -13,8 +13,8 @@ import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.util.Finder;
 import com.sasd13.proadmin.android.util.builder.AcademicLevelsCodesBuilder;
+import com.sasd13.proadmin.android.util.builder.RunningsLabelsFromRunningsBuilder;
 import com.sasd13.proadmin.android.util.builder.TeamsNumbersBuilder;
-import com.sasd13.proadmin.android.util.builder.ProjectsCodesFromRunningsBuilder;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class RunningTeamForm extends Form {
         super(context);
 
         modelRunning = new SpinRadioItemModel();
-        modelRunning.setLabel(context.getString(R.string.label_project));
+        modelRunning.setLabel(context.getString(R.string.label_running));
         modelRunning.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelRunning));
 
@@ -53,19 +53,19 @@ public class RunningTeamForm extends Form {
 
     public List<String> bindRunnings(List<Running> runningsToBind) {
         runnings = runningsToBind;
-        List<String> projectsCodes = new ProjectsCodesFromRunningsBuilder(runnings).build();
+        List<String> runningsLabels = new RunningsLabelsFromRunningsBuilder(runnings).build();
 
-        modelRunning.setItems(projectsCodes.toArray(new String[projectsCodes.size()]));
+        modelRunning.setItems(runningsLabels.toArray(new String[runningsLabels.size()]));
 
-        return projectsCodes;
+        return runningsLabels;
     }
 
     public List<String> bindRunnings(List<Running> runningsToBind, Running running) {
-        List<String> projectsCodes = bindRunnings(runningsToBind);
+        List<String> runningsLabels = bindRunnings(runningsToBind);
 
-        modelRunning.setValue(projectsCodes.indexOf(running.getProject().getCode()));
+        modelRunning.setValue(runningsToBind.indexOf(running));
 
-        return projectsCodes;
+        return runningsLabels;
     }
 
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {

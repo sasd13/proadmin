@@ -138,7 +138,7 @@ public class TeamController extends MainController implements ITeamController {
         studentTeamCriterias.put(EnumCriteria.TEAM.getCode(), new String[]{team.getNumber()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), studentTeamCriterias);
 
-        new Requestor(studentTeamReadTask).execute(studentTeamCriterias);
+        new Requestor(studentTeamReadTask).execute(allCriterias);
     }
 
     void onReadStudentTeams(List<StudentTeam> studentTeams) {

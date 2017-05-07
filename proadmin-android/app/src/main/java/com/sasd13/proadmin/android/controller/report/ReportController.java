@@ -28,6 +28,7 @@ import com.sasd13.proadmin.util.EnumRestriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -128,10 +129,10 @@ public class ReportController extends MainController implements IReportControlle
         scope.setReport(new NewReportBuilder().build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(ReportNewFragment.newInstance());
-        readRunningTeams();
+        readRunningTeams(Calendar.getInstance().get(Calendar.YEAR));
     }
 
-    private void readRunningTeams() {
+    private void readRunningTeams(int year) {
         if (runningTeamReadTask == null) {
             runningTeamReadTask = new RunningTeamReadTask(this, runningTeamService);
             runningTeamCriterias = new HashMap<>();
@@ -141,6 +142,7 @@ public class ReportController extends MainController implements IReportControlle
 
         Map<String, Object> allCriterias = new HashMap<>();
 
+        runningTeamCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(year)});
         runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
@@ -156,7 +158,7 @@ public class ReportController extends MainController implements IReportControlle
         scope.setReport(new NewReportBuilder(runningTeam).build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
         startFragment(ReportNewFragment.newInstance());
-        readRunningTeams();
+        readRunningTeams(runningTeam.getRunning().getYear());
     }
 
     @Override
@@ -222,7 +224,7 @@ public class ReportController extends MainController implements IReportControlle
 
         boolean contains;
 
-        for (StudentTeam studentTeam : scope.getStudentTeams()) {
+        for (StudentTeam studentTeam : studentTeams) {
             contains = false;
 
             for (IndividualEvaluation individualEvaluation : individualEvaluations) {

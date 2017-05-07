@@ -30,6 +30,8 @@ public class IndividualEvaluationAdapterM2I implements IAdapter<IndividualEvalua
 		LinkedStudent linkedStudent = new LinkedStudent();
 		linkedStudent.setId(String.valueOf(s.getStudent().getId()));
 		linkedStudent.setIntermediary(s.getStudent().getIntermediary());
+		linkedStudent.setFirstName(s.getStudent().getFirstName());
+		linkedStudent.setLastName(s.getStudent().getLastName());
 		t.setLinkedStudent(linkedStudent);
 
 		return t;

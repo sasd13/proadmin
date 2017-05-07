@@ -13,9 +13,9 @@ public class LeadEvaluationAdapterI2B implements IAdapter<LeadEvaluationBean, Le
         LeadEvaluation t = new LeadEvaluation();
 
         t.setId(Long.valueOf(s.getId().getId()));
-        t.setPlanningMark(Float.valueOf(s.getCoreInfo().getPlanningMark()));
+        t.setPlanningMark(s.getCoreInfo().getPlanningMark());
         t.setPlanningComment(s.getCoreInfo().getPlanningComment());
-        t.setCommunicationMark(Float.valueOf(s.getCoreInfo().getCommunicationMark()));
+        t.setCommunicationMark(s.getCoreInfo().getCommunicationMark());
         t.setCommunicationComment(s.getCoreInfo().getCommunicationComment());
 
         Report report = new Report();
@@ -26,6 +26,8 @@ public class LeadEvaluationAdapterI2B implements IAdapter<LeadEvaluationBean, Le
         Student student = new Student();
         student.setId(Long.valueOf(s.getLinkedStudent().getId()));
         student.setIntermediary(s.getLinkedStudent().getIntermediary());
+        student.setFirstName(s.getLinkedStudent().getFirstName());
+        student.setLastName(s.getLinkedStudent().getLastName());
         t.setStudent(student);
 
         return t;
