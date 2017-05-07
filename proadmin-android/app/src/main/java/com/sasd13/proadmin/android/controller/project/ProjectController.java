@@ -100,11 +100,32 @@ public class ProjectController extends MainController implements IProjectControl
         scope.setProject(project);
         scope.setRunnings(new ArrayList<Running>());
         startFragment(ProjectDetailsFragment.newInstance());
-        readRunnings(project);
 
         if (scope.getTeacher() == null) {
             readTeacher();
         }
+
+        readRunnings(project);
+    }
+
+    private void readTeacher() {
+        if (teacherReadTask == null) {
+            teacherReadTask = new TeacherReadTask(this, teacherService);
+            teacherCriterias = new HashMap<>();
+        } else {
+            teacherCriterias.clear();
+        }
+
+        Map<String, Object> allCriterias = new HashMap<>();
+
+        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
+
+        new Requestor(teacherReadTask).execute(allCriterias);
+    }
+
+    void onReadTeacher(Teacher teacher) {
+        scope.setTeacher(teacher);
     }
 
     private void readRunnings(Project project) {
@@ -126,25 +147,5 @@ public class ProjectController extends MainController implements IProjectControl
 
     void onReadRunnings(List<Running> runnings) {
         scope.setRunnings(runnings);
-    }
-
-    private void readTeacher() {
-        if (teacherReadTask == null) {
-            teacherReadTask = new TeacherReadTask(this, teacherService);
-            teacherCriterias = new HashMap<>();
-        } else {
-            teacherCriterias.clear();
-        }
-
-        Map<String, Object> allCriterias = new HashMap<>();
-
-        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
-        allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
-
-        new Requestor(teacherReadTask).execute(allCriterias);
-    }
-
-    void onReadTeacher(Teacher teacher) {
-        scope.setTeacher(teacher);
     }
 }
