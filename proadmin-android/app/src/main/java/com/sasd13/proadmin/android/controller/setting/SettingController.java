@@ -36,11 +36,11 @@ public class SettingController extends MainController implements ISettingControl
     public void browse() {
         getActivity().clearHistory();
         startFragment(SettingFragment.newInstance());
-        actionRefresh();
+        actionLoadUser();
     }
 
     @Override
-    public void actionRefresh() {
+    public void actionLoadUser() {
         readUser();
     }
 

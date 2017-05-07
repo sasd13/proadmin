@@ -85,7 +85,7 @@ public class SettingFragment extends Fragment implements Observer {
 
             @Override
             public void onRefresh() {
-                controller.actionRefresh();
+                controller.actionLoadUser();
             }
         });
     }

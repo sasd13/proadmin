@@ -8,7 +8,7 @@ import com.sasd13.proadmin.android.bean.UserUpdate;
 
 public interface ISettingController extends IController, IBrowsable {
 
-    void actionRefresh();
+    void actionLoadUser();
 
     void actionUpdateUser(UserUpdate userUpdate);
 }
