@@ -17,8 +17,6 @@ public class ReportDeleteTask extends RequestorTask {
     private IReportService service;
 
     public ReportDeleteTask(ReportController controller, IReportService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

@@ -15,8 +15,6 @@ public class UserUpdateTask extends RequestorTask {
     private IUserService service;
 
     public UserUpdateTask(SettingController controller, IUserService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

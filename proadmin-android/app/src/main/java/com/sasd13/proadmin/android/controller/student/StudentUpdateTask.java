@@ -15,8 +15,6 @@ public class StudentUpdateTask extends RequestorTask {
     private IStudentService service;
 
     public StudentUpdateTask(StudentController controller, IStudentService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

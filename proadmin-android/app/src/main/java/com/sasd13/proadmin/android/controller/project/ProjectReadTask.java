@@ -18,8 +18,6 @@ public class ProjectReadTask extends RequestorTask {
     private IProjectService service;
 
     public ProjectReadTask(ProjectController controller, IProjectService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

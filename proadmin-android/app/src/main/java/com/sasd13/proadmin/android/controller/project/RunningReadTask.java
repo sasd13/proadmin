@@ -18,8 +18,6 @@ public class RunningReadTask extends RequestorTask {
     private IRunningService service;
 
     public RunningReadTask(ProjectController controller, IRunningService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

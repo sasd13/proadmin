@@ -15,8 +15,6 @@ public class TeamUpdateTask extends RequestorTask {
     private ITeamService service;
 
     public TeamUpdateTask(TeamController controller, ITeamService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

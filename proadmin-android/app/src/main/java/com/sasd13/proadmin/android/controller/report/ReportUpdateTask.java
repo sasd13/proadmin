@@ -15,8 +15,6 @@ public class ReportUpdateTask extends RequestorTask {
     private IReportService service;
 
     public ReportUpdateTask(ReportController controller, IReportService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

@@ -25,8 +25,6 @@ public class StudentCreateTask extends RequestorTask {
     private Map<String, Object> criterias;
 
     public StudentCreateTask(StudentController controller, IStudentService studentService, IStudentTeamService studentTeamService) {
-        super();
-
         this.controller = controller;
         this.studentService = studentService;
         this.studentTeamService = studentTeamService;

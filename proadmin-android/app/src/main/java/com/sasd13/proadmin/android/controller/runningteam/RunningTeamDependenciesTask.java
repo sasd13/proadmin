@@ -16,8 +16,6 @@ public class RunningTeamDependenciesTask extends RequestorTask {
     private IRunningTeamService service;
 
     public RunningTeamDependenciesTask(RunningTeamController controller, IRunningTeamService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

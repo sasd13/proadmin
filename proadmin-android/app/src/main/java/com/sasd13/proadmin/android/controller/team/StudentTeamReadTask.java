@@ -18,8 +18,6 @@ public class StudentTeamReadTask extends RequestorTask {
     private IStudentTeamService service;
 
     public StudentTeamReadTask(TeamController controller, IStudentTeamService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

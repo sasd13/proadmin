@@ -15,8 +15,6 @@ public class UserReadTask extends RequestorTask {
     private IUserService service;
 
     public UserReadTask(SettingController controller, IUserService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

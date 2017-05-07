@@ -17,8 +17,6 @@ public class StudentTeamDeleteTask extends RequestorTask {
     private IStudentTeamService service;
 
     public StudentTeamDeleteTask(TeamController controller, IStudentTeamService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

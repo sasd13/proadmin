@@ -15,8 +15,6 @@ public class RunningCreateTask extends RequestorTask {
     private IRunningService service;
 
     public RunningCreateTask(RunningController controller, IRunningService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

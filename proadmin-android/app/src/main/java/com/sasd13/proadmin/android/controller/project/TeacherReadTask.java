@@ -18,8 +18,6 @@ public class TeacherReadTask extends RequestorTask {
     private ITeacherService service;
 
     public TeacherReadTask(ProjectController controller, ITeacherService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

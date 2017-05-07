@@ -18,8 +18,6 @@ public class RunningTeamReadTask extends RequestorTask {
     private IRunningTeamService service;
 
     public RunningTeamReadTask(ReportController controller, IRunningTeamService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

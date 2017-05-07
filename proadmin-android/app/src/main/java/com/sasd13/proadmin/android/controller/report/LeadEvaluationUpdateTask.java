@@ -15,8 +15,6 @@ public class LeadEvaluationUpdateTask extends RequestorTask {
     private ILeadEvaluationService service;
 
     public LeadEvaluationUpdateTask(ReportController controller, ILeadEvaluationService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

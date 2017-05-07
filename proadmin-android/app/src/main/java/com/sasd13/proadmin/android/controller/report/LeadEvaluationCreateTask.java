@@ -15,8 +15,6 @@ public class LeadEvaluationCreateTask extends RequestorTask {
     private ILeadEvaluationService service;
 
     public LeadEvaluationCreateTask(ReportController controller, ILeadEvaluationService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }

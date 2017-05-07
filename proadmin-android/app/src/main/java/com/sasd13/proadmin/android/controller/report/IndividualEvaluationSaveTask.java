@@ -18,8 +18,6 @@ public class IndividualEvaluationSaveTask extends RequestorTask {
     private IIndividualEvaluationService service;
 
     public IndividualEvaluationSaveTask(ReportController controller, IIndividualEvaluationService service) {
-        super();
-
         this.controller = controller;
         this.service = service;
     }
