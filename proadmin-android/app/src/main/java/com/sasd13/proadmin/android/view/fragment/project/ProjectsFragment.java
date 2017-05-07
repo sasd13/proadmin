@@ -88,7 +88,7 @@ public class ProjectsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithProjects(List<Project> projects) {
-        ProjectSorter.byDateCreation(projects);
+        ProjectSorter.byDateCreationAndCode(projects);
         addProjectsToTab(projects);
     }
 

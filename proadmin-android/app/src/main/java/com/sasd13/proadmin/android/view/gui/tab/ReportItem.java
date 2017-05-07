@@ -9,7 +9,7 @@ import java.util.Observable;
 
 public class ReportItem extends TabItem {
 
-    private TextView textViewDateMeeting, textViewSession;
+    private TextView textViewSession;
 
     public ReportItem() {
         super(R.layout.tabitem_report);
@@ -19,7 +19,6 @@ public class ReportItem extends TabItem {
     protected void findViews() {
         super.findViews();
 
-        textViewDateMeeting = (TextView) view.findViewById(R.id.tabitem_report_textview_datemeeting);
         textViewSession = (TextView) view.findViewById(R.id.tabitem_report_textview_session);
     }
 
@@ -27,14 +26,7 @@ public class ReportItem extends TabItem {
     public void update(Observable observable, Object o) {
         super.update(observable, o);
 
-        setDateMeeting((ReportItemModel) observable);
         setSession((ReportItemModel) observable);
-    }
-
-    private void setDateMeeting(ReportItemModel reportItemModel) {
-        if (textViewDateMeeting != null) {
-            textViewDateMeeting.setText(reportItemModel.getDateMeeting());
-        }
     }
 
     private void setSession(ReportItemModel reportItemModel) {

@@ -7,4 +7,5 @@ package com.sasd13.proadmin.android.util;
 public interface Constants {
 
     String PATTERN_DATETIME_DEFAULT = "yyyy-MM-dd HH:mm:ss Z";
+    String PATTERN_DATE_DEFAULT = "yyyy-MM-dd";
 }

@@ -134,7 +134,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
     private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
         recycler.clear();
-        RunningTeamSorter.byRunningYear(runningTeams);
+        RunningTeamSorter.byRunningYearAndProjectCode(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
 

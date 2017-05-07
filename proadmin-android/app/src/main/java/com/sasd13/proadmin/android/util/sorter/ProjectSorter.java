@@ -8,41 +8,29 @@ import java.util.List;
 
 public class ProjectSorter {
 
-    public static void byCode(List<Project> list) {
-        byCode(list, true);
+    public static void byDateCreationAndCode(List<Project> list) {
+        byDateCreationAndCode(list, true);
     }
 
-    public static void byCode(List<Project> list, final boolean byAsc) {
+    public static void byDateCreationAndCode(List<Project> list, final boolean byDesc) {
         if (!list.isEmpty()) {
             Collections.sort(list, new Comparator<Project>() {
 
                 @Override
                 public int compare(Project item1, Project item2) {
-                    if (byAsc) {
-                        return item1.getCode().compareTo(item2.getCode());
-                    } else {
-                        return item2.getCode().compareTo(item1.getCode());
-                    }
-                }
-            });
-        }
-    }
+                    int value;
 
-    public static void byDateCreation(List<Project> list) {
-        byCode(list, true);
-    }
-
-    public static void byDateCreation(List<Project> list, final boolean byDesc) {
-        if (!list.isEmpty()) {
-            Collections.sort(list, new Comparator<Project>() {
-
-                @Override
-                public int compare(Project item1, Project item2) {
                     if (!byDesc) {
-                        return item1.getDateCreation().compareTo(item2.getDateCreation());
+                        value = item1.getDateCreation().compareTo(item2.getDateCreation());
                     } else {
-                        return item2.getDateCreation().compareTo(item1.getDateCreation());
+                        value = item2.getDateCreation().compareTo(item1.getDateCreation());
                     }
+
+                    if (value == 0) {
+                        value = item1.getCode().compareTo(item2.getCode());
+                    }
+
+                    return value;
                 }
             });
         }

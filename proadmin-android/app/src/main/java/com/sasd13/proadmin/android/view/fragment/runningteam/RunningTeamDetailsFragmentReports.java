@@ -84,7 +84,7 @@ public class RunningTeamDetailsFragmentReports extends Fragment implements Obser
 
     private void bindTabWithReports(List<Report> reports) {
         recycler.clear();
-        ReportSorter.byNumber(reports);
+        ReportSorter.byDateMeeting(reports);
         addReportsToTab(reports);
     }
 

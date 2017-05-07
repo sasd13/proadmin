@@ -80,7 +80,7 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void bindFormWithIndividualEvaluations(List<IndividualEvaluation> individualEvaluations) {
         recycler.clear();
-        IndividualEvaluationSorter.byStudentNumber(individualEvaluations);
+        IndividualEvaluationSorter.byStudentIntermediary(individualEvaluations);
         individualEvaluationsForm.bindIndividualEvaluations(individualEvaluations);
         RecyclerHelper.addAll(recycler, individualEvaluationsForm.getHolder());
     }

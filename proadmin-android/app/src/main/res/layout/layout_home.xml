@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AndroidEX.Activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AndroidEX.Activity"
     android:scrollbars="vertical">
 
     <RelativeLayout
@@ -10,7 +10,7 @@
         android:layout_width="@dimen/home_relativelayout_imageviews_dimen"
         android:layout_height="@dimen/home_relativelayout_imageviews_dimen"
         android:layout_centerInParent="true"
-        android:layout_gravity="center" >
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/home_imageview_report"
@@ -54,18 +54,18 @@
             android:id="@+id/home_imageview_team"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="43dp"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="43dp"
+            android:layout_marginLeft="43dp"
             android:clickable="true" />
 
         <View
             android:id="@+id/home_view_team_new"
             android:layout_width="1dp"
             android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="142dp"
             android:background="#659025" />
 
@@ -73,8 +73,8 @@
             android:id="@+id/home_view_team_list"
             android:layout_width="80dp"
             android:layout_height="1dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="142dp"
             android:background="#659025" />
 
@@ -82,10 +82,10 @@
             android:id="@+id/home_imageview_calendar"
             android:layout_width="@dimen/home_imageview_dimen"
             android:layout_height="@dimen/home_imageview_dimen"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="80dp"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="80dp"
+            android:layout_marginRight="80dp"
             android:clickable="true"
             android:persistentDrawingCache="animation|scrolling" />
 

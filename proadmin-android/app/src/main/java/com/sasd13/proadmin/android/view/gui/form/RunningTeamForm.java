@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class RunningTeamForm extends Form {
 
-    private SpinRadioItemModel modelRunning, modelAcademicLevel, modelTeam;
+    private SpinRadioItemModel modelRunning, modelTeam, modelAcademicLevel;
     private List<Running> runnings;
     private List<AcademicLevel> academicLevels;
     private List<Team> teams;
@@ -36,15 +36,15 @@ public class RunningTeamForm extends Form {
         modelRunning.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelRunning));
 
-        modelAcademicLevel = new SpinRadioItemModel();
-        modelAcademicLevel.setLabel(context.getString(R.string.label_academiclevel));
-        modelAcademicLevel.setReadOnly(inModeEdit);
-        holder.add(new RecyclerHolderPair(modelAcademicLevel));
-
         modelTeam = new SpinRadioItemModel();
         modelTeam.setLabel(context.getString(R.string.label_team));
         modelTeam.setReadOnly(inModeEdit);
         holder.add(new RecyclerHolderPair(modelTeam));
+
+        modelAcademicLevel = new SpinRadioItemModel();
+        modelAcademicLevel.setLabel(context.getString(R.string.label_academiclevel));
+        modelAcademicLevel.setReadOnly(inModeEdit);
+        holder.add(new RecyclerHolderPair(modelAcademicLevel));
     }
 
     public void bindRunningTeam(RunningTeam runningTeam) {
@@ -68,19 +68,6 @@ public class RunningTeamForm extends Form {
         return runningsLabels;
     }
 
-    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
-        academicLevels = academicLevelsToBind;
-        List<String> academicLevelsCodes = new AcademicLevelsCodesBuilder(academicLevels).build();
-
-        modelAcademicLevel.setItems(academicLevelsCodes.toArray(new String[academicLevelsCodes.size()]));
-    }
-
-    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
-        bindAcademicLevels(academicLevelsToBind);
-
-        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel, academicLevels));
-    }
-
     public void bindTeams(List<Team> teamsToBind) {
         teams = teamsToBind;
         List<String> teamsCodes = new TeamsNumbersBuilder(teams).build();
@@ -94,6 +81,19 @@ public class RunningTeamForm extends Form {
         modelTeam.setValue(Finder.indexOfTeam(team, teams));
     }
 
+    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
+        academicLevels = academicLevelsToBind;
+        List<String> academicLevelsCodes = new AcademicLevelsCodesBuilder(academicLevels).build();
+
+        modelAcademicLevel.setItems(academicLevelsCodes.toArray(new String[academicLevelsCodes.size()]));
+    }
+
+    public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
+        bindAcademicLevels(academicLevelsToBind);
+
+        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel, academicLevels));
+    }
+
     public Running getRunning() throws FormException {
         if (modelRunning.getValue() < 0) {
             throw new FormException(context, R.string.form_runningteam_message_error_project);
@@ -102,19 +102,19 @@ public class RunningTeamForm extends Form {
         return runnings.get(modelRunning.getValue());
     }
 
-    public AcademicLevel getAcademicLevel() throws FormException {
-        if (modelAcademicLevel.getValue() < 0) {
-            throw new FormException(context, R.string.form_runningteam_message_error_academiclevel);
-        }
-
-        return academicLevels.get(modelAcademicLevel.getValue());
-    }
-
     public Team getTeam() throws FormException {
         if (modelTeam.getValue() < 0) {
             throw new FormException(context, R.string.form_runningteam_message_error_team);
         }
 
         return teams.get(modelTeam.getValue());
+    }
+
+    public AcademicLevel getAcademicLevel() throws FormException {
+        if (modelAcademicLevel.getValue() < 0) {
+            throw new FormException(context, R.string.form_runningteam_message_error_academiclevel);
+        }
+
+        return academicLevels.get(modelAcademicLevel.getValue());
     }
 }

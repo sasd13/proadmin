@@ -98,7 +98,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
     }
 
     private void bindTabWithRunningTeams(List<RunningTeam> runningTeams) {
-        RunningTeamSorter.byAcademicLevelCode(runningTeams);
+        RunningTeamSorter.byRunningYearAndProjectCode(runningTeams);
         addRunningTeamsToTab(runningTeams);
     }
 
@@ -116,7 +116,7 @@ public class RunningTeamsFragment extends Fragment implements Observer {
                 }
             });
 
-            holder.add(runningTeam.getAcademicLevel().getCode(), pair);
+            holder.add(String.valueOf(runningTeam.getRunning().getYear()), pair);
         }
 
         RecyclerHelper.addAll(recycler, holder);

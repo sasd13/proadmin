@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AndroidEX.Activity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/AndroidEX.Activity">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/login_view_load"
@@ -11,12 +11,12 @@
         android:visibility="gone">
 
         <ProgressBar
-            style="?android:attr/progressBarStyle"
             android:id="@+id/login_progressbar"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="@dimen/splashscreen_progressbar_margin"/>
+            android:layout_margin="@dimen/splashscreen_progressbar_margin" />
 
     </RelativeLayout>
 
@@ -24,10 +24,10 @@
         android:id="@+id/login_view_formlogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        android:visibility="visible"
+        android:orientation="vertical"
         android:padding="@dimen/activity_padding"
+        android:visibility="visible"
         android:weightSum="9">
 
         <RelativeLayout
@@ -73,9 +73,9 @@
 
             <Button
                 android:id="@+id/login_button_connect"
+                style="@style/AndroidEX.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AndroidEX.Button"
                 android:layout_marginTop="@dimen/view_margin_medium"
                 android:text="@string/login_button_connect"
                 android:textColor="@color/white"

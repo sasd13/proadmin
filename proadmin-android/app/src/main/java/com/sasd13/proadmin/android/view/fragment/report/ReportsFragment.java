@@ -23,10 +23,12 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.scope.ReportScope;
+import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.util.sorter.ReportSorter;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.tab.ReportItemModel;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -116,7 +118,7 @@ public class ReportsFragment extends Fragment implements Observer {
                 }
             });
 
-            holder.add(pair);
+            holder.add(new SimpleDateFormat(Constants.PATTERN_DATE_DEFAULT).format(report.getDateMeeting()), pair);
         }
 
         RecyclerHelper.addAll(recycler, holder);

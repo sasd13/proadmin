@@ -8,11 +8,11 @@ import java.util.List;
 
 public class IndividualEvaluationSorter {
 
-    public static void byStudentNumber(List<IndividualEvaluation> list) {
-        byStudentNumber(list, true);
+    public static void byStudentIntermediary(List<IndividualEvaluation> list) {
+        byStudentIntermediary(list, true);
     }
 
-    public static void byStudentNumber(List<IndividualEvaluation> list, final boolean byAsc) {
+    public static void byStudentIntermediary(List<IndividualEvaluation> list, final boolean byAsc) {
         if (!list.isEmpty()) {
             Collections.sort(list, new Comparator<IndividualEvaluation>() {
 
@@ -22,26 +22,6 @@ public class IndividualEvaluationSorter {
                         return item1.getStudent().getIntermediary().compareTo(item2.getStudent().getIntermediary());
                     } else {
                         return item2.getStudent().getIntermediary().compareTo(item1.getStudent().getIntermediary());
-                    }
-                }
-            });
-        }
-    }
-
-    public static void byStudentFullName(List<IndividualEvaluation> list) {
-        byStudentFullName(list, true);
-    }
-
-    public static void byStudentFullName(List<IndividualEvaluation> list, final boolean byAsc) {
-        if (!list.isEmpty()) {
-            Collections.sort(list, new Comparator<IndividualEvaluation>() {
-
-                @Override
-                public int compare(IndividualEvaluation item1, IndividualEvaluation item2) {
-                    if (byAsc) {
-                        return item1.getStudent().getFullName().compareTo(item2.getStudent().getFullName());
-                    } else {
-                        return item2.getStudent().getFullName().compareTo(item1.getStudent().getFullName());
                     }
                 }
             });

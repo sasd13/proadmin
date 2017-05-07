@@ -19,9 +19,9 @@ public class RunningSorter {
                 @Override
                 public int compare(Running item1, Running item2) {
                     if (!byDesc) {
-                        return Integer.compare(item1.getYear(), item2.getYear());
+                        return item1.getYear() - item2.getYear();
                     } else {
-                        return Integer.compare(item2.getYear(), item1.getYear());
+                        return item2.getYear() - item1.getYear();
                     }
                 }
             });

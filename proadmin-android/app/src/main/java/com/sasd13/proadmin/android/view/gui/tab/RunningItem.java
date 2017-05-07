@@ -9,7 +9,7 @@ import java.util.Observable;
 
 public class RunningItem extends TabItem {
 
-    private TextView textViewYear;
+    private TextView textViewProject;
 
     public RunningItem() {
         super(R.layout.tabitem_running);
@@ -19,19 +19,19 @@ public class RunningItem extends TabItem {
     protected void findViews() {
         super.findViews();
 
-        textViewYear = (TextView) view.findViewById(R.id.tabitem_running_textview_year);
+        textViewProject = (TextView) view.findViewById(R.id.tabitem_running_textview_project);
     }
 
     @Override
     public void update(Observable observable, Object o) {
         super.update(observable, o);
 
-        setYear((RunningItemModel) observable);
+        setProject((RunningItemModel) observable);
     }
 
-    private void setYear(RunningItemModel runningItemModel) {
-        if (textViewYear != null) {
-            textViewYear.setText(runningItemModel.getYear());
+    private void setProject(RunningItemModel runningItemModel) {
+        if (textViewProject != null) {
+            textViewProject.setText(runningItemModel.getProject());
         }
     }
 }

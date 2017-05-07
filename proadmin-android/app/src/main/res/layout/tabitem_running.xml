@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    style="@style/AndroidEX.Recycler.Item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/AndroidEX.Recycler.Item"
     android:minHeight="@dimen/recycleritem_height_medium"
-    android:weightSum="10"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/recycleritem_padding_vertical"
     android:paddingTop="@dimen/recycleritem_padding_vertical"
-    android:paddingBottom="@dimen/recycleritem_padding_vertical">
-
-    <TextView
-        android:id="@+id/tabitem_running_textview_year"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/recycleritem_padding_horizontal"
-        android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
-        android:layout_gravity="left|center_vertical"
-        android:layout_weight="3"
-        android:gravity="center_vertical"
-        android:text="@string/tabitem_textview_label"
-        android:textSize="@dimen/text_size_large"
-        android:textStyle="bold"
-        android:ellipsize="end"/>
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/tabitem_textview_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
         android:layout_marginLeft="@dimen/recycleritem_padding_horizontal"
         android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
-        android:layout_gravity="right|center_vertical"
-        android:layout_weight="7"
-        android:gravity="center_vertical"
-        android:text="@string/tabitem_textview_label"
+        android:layout_weight="3"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:text="Year"
         android:textSize="@dimen/text_size_large"
-        android:textStyle="bold"
-        android:ellipsize="end"/>
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tabitem_running_textview_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="@dimen/recycleritem_padding_horizontal"
+        android:layout_marginRight="@dimen/recycleritem_padding_horizontal"
+        android:layout_weight="7"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:text="project"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold" />
 
 </LinearLayout>
 

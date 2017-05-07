@@ -84,7 +84,7 @@ public class TeamDetailsFragmentStudents extends Fragment implements Observer {
 
     private void bindTabWithStudents(List<StudentTeam> studentTeams) {
         recycler.clear();
-        StudentTeamSorter.byStudentNumber(studentTeams);
+        StudentTeamSorter.byStudentIntermediary(studentTeams);
         addTeamsToTab(studentTeams);
     }
 
