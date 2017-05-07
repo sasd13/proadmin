@@ -57,7 +57,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
+        getActivity().clearHistory();
         startFragment(RunningTeamsFragment.newInstance());
         actionLoadRunningTeams();
     }
@@ -79,7 +79,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
         new Requestor(runningTeamReadTask).execute(allCriterias);
@@ -134,7 +134,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         Map<String, Object> allCriterias = new HashMap<>();
         Map<String, Object> allRunningCriterias = new HashMap<>();
 
-        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allRunningCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
         allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, allRunningCriterias);
 

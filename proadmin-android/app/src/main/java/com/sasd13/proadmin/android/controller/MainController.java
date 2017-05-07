@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.android.controller;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.proadmin.android.activity.MainActivity;
@@ -10,15 +9,16 @@ import com.sasd13.proadmin.android.activity.MainActivity;
  */
 public abstract class MainController extends Controller {
 
-    protected MainActivity mainActivity;
+    protected MainController(MainActivity mainActivity) {
+        super(mainActivity);
+    }
 
-    protected MainController(Activity activity) {
-        super(activity);
-
-        mainActivity = (MainActivity) activity;
+    @Override
+    public MainActivity getActivity() {
+        return (MainActivity) super.getActivity();
     }
 
     protected void startFragment(Fragment fragment) {
-        mainActivity.startFragment(fragment);
+        getActivity().startFragment(fragment);
     }
 }

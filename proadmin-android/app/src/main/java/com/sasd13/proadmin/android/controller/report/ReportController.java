@@ -71,7 +71,7 @@ public class ReportController extends MainController implements IReportControlle
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
+        getActivity().clearHistory();
         startFragment(ReportsFragment.newInstance());
         actionLoadReports();
     }
@@ -93,7 +93,7 @@ public class ReportController extends MainController implements IReportControlle
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
 
         new Requestor(reportReadTask).execute(allCriterias);
@@ -141,7 +141,7 @@ public class ReportController extends MainController implements IReportControlle
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
         new Requestor(runningTeamReadTask).execute(allCriterias);

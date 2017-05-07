@@ -51,7 +51,7 @@ public class ProjectController extends MainController implements IProjectControl
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
+        getActivity().clearHistory();
         startFragment(ProjectsFragment.newInstance());
         actionLoadProjects();
     }
@@ -118,7 +118,7 @@ public class ProjectController extends MainController implements IProjectControl
         Map<String, Object> allCriterias = new HashMap<>();
 
         runningCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{project.getCode()});
-        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
 
         new Requestor(runningReadTask).execute(allCriterias);
@@ -138,7 +138,7 @@ public class ProjectController extends MainController implements IProjectControl
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(mainActivity)});
+        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
         allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
 
         new Requestor(teacherReadTask).execute(allCriterias);

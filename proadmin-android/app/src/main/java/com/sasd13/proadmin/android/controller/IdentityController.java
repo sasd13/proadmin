@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.android.controller;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.proadmin.android.activity.IdentityActivity;
@@ -10,15 +9,16 @@ import com.sasd13.proadmin.android.activity.IdentityActivity;
  */
 public abstract class IdentityController extends Controller {
 
-    protected IdentityActivity identityActivity;
+    protected IdentityController(IdentityActivity identityActivity) {
+        super(identityActivity);
+    }
 
-    protected IdentityController(Activity activity) {
-        super(activity);
-
-        identityActivity = (IdentityActivity) activity;
+    @Override
+    public IdentityActivity getActivity() {
+        return (IdentityActivity) super.getActivity();
     }
 
     protected void startFragment(Fragment fragment) {
-        identityActivity.startFragment(fragment);
+        getActivity().startFragment(fragment);
     }
 }

@@ -18,10 +18,16 @@ import java.util.Map;
  */
 public abstract class Controller implements IController {
 
+    private Activity activity;
     private View contentView;
 
     protected Controller(Activity activity) {
+        this.activity = activity;
         contentView = activity.findViewById(android.R.id.content);
+    }
+
+    public Activity getActivity() {
+        return activity;
     }
 
     @Override

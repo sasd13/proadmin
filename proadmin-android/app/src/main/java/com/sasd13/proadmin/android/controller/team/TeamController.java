@@ -53,7 +53,7 @@ public class TeamController extends MainController implements ITeamController {
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
+        getActivity().clearHistory();
         startFragment(TeamsFragment.newInstance());
         actionLoadTeams();
     }

@@ -55,10 +55,10 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     void onReadUser(String userID, String intermediary) {
-        SessionHelper.setExtra(identityActivity, Extra.USERID, userID);
-        SessionHelper.setExtra(identityActivity, Extra.INTERMEDIARY, intermediary);
+        SessionHelper.setExtra(getActivity(), Extra.USERID, userID);
+        SessionHelper.setExtra(getActivity(), Extra.INTERMEDIARY, intermediary);
 
         scope.setLoading(false);
-        identityActivity.goToMainActivity();
+        getActivity().goToMainActivity();
     }
 }

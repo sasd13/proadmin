@@ -34,7 +34,7 @@ public class SettingController extends MainController implements ISettingControl
 
     @Override
     public void browse() {
-        mainActivity.clearHistory();
+        getActivity().clearHistory();
         startFragment(SettingFragment.newInstance());
         actionRefresh();
     }
@@ -51,7 +51,7 @@ public class SettingController extends MainController implements ISettingControl
             userReadTask = new UserReadTask(this, userService);
         }
 
-        new Requestor(userReadTask).execute(SessionHelper.getExtraUserID(mainActivity));
+        new Requestor(userReadTask).execute(SessionHelper.getExtraUserID(getActivity()));
     }
 
     void onReadUser(User user) {

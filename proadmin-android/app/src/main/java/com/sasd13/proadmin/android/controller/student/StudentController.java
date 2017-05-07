@@ -57,7 +57,7 @@ public class StudentController extends MainController implements IStudentControl
 
     void onCreateStudent() {
         display(R.string.message_saved);
-        ((IBrowsable) mainActivity.lookup(ITeamController.class)).browse();
+        ((IBrowsable) getActivity().lookup(ITeamController.class)).browse();
     }
 
     @Override

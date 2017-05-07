@@ -55,7 +55,7 @@ public class RunningController extends MainController implements IRunningControl
 
     void onCreateRunning() {
         display(R.string.message_saved);
-        ((IBrowsable) mainActivity.lookup(IProjectController.class)).browse();
+        ((IBrowsable) getActivity().lookup(IProjectController.class)).browse();
     }
 
     @Override
@@ -75,6 +75,6 @@ public class RunningController extends MainController implements IRunningControl
 
     void onDeleteRunnings() {
         display(R.string.message_deleted);
-        ((IBrowsable) mainActivity.lookup(IProjectController.class)).browse();
+        ((IBrowsable) getActivity().lookup(IProjectController.class)).browse();
     }
 }
