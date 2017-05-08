@@ -91,24 +91,24 @@ public class RunningTeamDetailsFragmentInfos extends Fragment implements Observe
     }
 
     private void bindFormWithDependencies() {
-        bindFormWithRunnings(scope.getRunnings(), scope.getRunningTeam());
-        bindFormWithTeams(scope.getTeams(), scope.getRunningTeam());
-        bindFormWithAcademicLevels(scope.getAcademicLevels(), scope.getRunningTeam());
+        bindFormWithRunnings(scope.getRunnings(), scope.getRunningTeam().getRunning());
+        bindFormWithTeams(scope.getTeams(), scope.getRunningTeam().getTeam());
+        bindFormWithAcademicLevels(scope.getAcademicLevels(), scope.getRunningTeam().getAcademicLevel());
     }
 
-    private void bindFormWithRunnings(List<Running> runnings, RunningTeam runningTeam) {
+    private void bindFormWithRunnings(List<Running> runnings, Running running) {
         RunningSorter.byProjectCode(runnings);
-        runningTeamForm.bindRunnings(runnings, runningTeam.getRunning());
+        runningTeamForm.bindRunnings(runnings, running);
     }
 
-    private void bindFormWithTeams(List<Team> teams, RunningTeam runningTeam) {
+    private void bindFormWithTeams(List<Team> teams, Team team) {
         TeamSorter.byNumber(teams);
-        runningTeamForm.bindTeams(teams, runningTeam.getTeam());
+        runningTeamForm.bindTeams(teams, team);
     }
 
-    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels, RunningTeam runningTeam) {
+    private void bindFormWithAcademicLevels(List<AcademicLevel> academicLevels, AcademicLevel academicLevel) {
         AcademicLevelSorter.byCode(academicLevels);
-        runningTeamForm.bindAcademicLevels(academicLevels, runningTeam.getAcademicLevel());
+        runningTeamForm.bindAcademicLevels(academicLevels, academicLevel);
     }
 
     @Override
