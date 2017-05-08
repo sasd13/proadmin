@@ -9,7 +9,6 @@ import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
 import com.sasd13.proadmin.android.service.IUserService;
-import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.fragment.setting.SettingFragment;
 
@@ -51,7 +50,7 @@ public class SettingController extends MainController implements ISettingControl
             userReadTask = new UserReadTask(this, userService);
         }
 
-        new Requestor(userReadTask).execute(SessionHelper.getExtraUserID(getActivity()));
+        new Requestor(userReadTask).execute(getUserIDFromSession());
     }
 
     void onReadUser(User user) {

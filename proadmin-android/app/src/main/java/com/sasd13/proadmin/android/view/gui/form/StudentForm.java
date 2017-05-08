@@ -67,7 +67,7 @@ public class StudentForm extends Form {
             throw new FormException(context, R.string.form_student_message_error_number);
         }
 
-        return modelNumber.getValue().trim();
+        return modelNumber.getValue();
     }
 
     public String getFirstName() throws FormException {
@@ -75,7 +75,7 @@ public class StudentForm extends Form {
             throw new FormException(context, R.string.form_student_message_error_firstname);
         }
 
-        return modelFirstName.getValue().trim();
+        return modelFirstName.getValue();
     }
 
     public String getLastName() throws FormException {
@@ -83,7 +83,7 @@ public class StudentForm extends Form {
             throw new FormException(context, R.string.form_student_message_error_lastname);
         }
 
-        return modelLastName.getValue().trim();
+        return modelLastName.getValue();
     }
 
     public String getEmail() throws FormException {
@@ -91,6 +91,6 @@ public class StudentForm extends Form {
             throw new FormException(context, R.string.form_student_message_error_email);
         }
 
-        return modelEmail.getValue().trim();
+        return modelEmail.getValue();
     }
 }

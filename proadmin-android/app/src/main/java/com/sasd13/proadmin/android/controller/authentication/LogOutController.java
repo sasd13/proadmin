@@ -26,6 +26,6 @@ public class LogOutController extends MainController implements ILogOutControlle
 
     @Override
     public void logOut() {
-        getActivity().logOut();
+        getActivity().exit();
     }
 }

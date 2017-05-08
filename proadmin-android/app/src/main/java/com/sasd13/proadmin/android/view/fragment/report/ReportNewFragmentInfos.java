@@ -19,6 +19,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.bean.UserPreferences;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.ReportForm;
@@ -30,6 +31,7 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
+    private UserPreferences preferences;
     private ReportForm reportForm;
 
     public static ReportNewFragmentInfos newInstance() {
@@ -42,6 +44,7 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
+        preferences = ((MainActivity) getActivity()).getPreferences();
     }
 
     @Override
@@ -65,7 +68,7 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormReport(View view) {
-        reportForm = new ReportForm(getContext(), false);
+        reportForm = new ReportForm(getContext(), false, preferences.getPatternDate());
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_fab_recyclerview));
         recycler.addDividerItemDecoration();

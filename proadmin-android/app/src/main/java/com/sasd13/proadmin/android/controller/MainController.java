@@ -3,6 +3,7 @@ package com.sasd13.proadmin.android.controller;
 import android.support.v4.app.Fragment;
 
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.util.Constants;
 
 /**
  * Created by ssaidali2 on 04/12/2016.
@@ -20,5 +21,13 @@ public abstract class MainController extends Controller {
 
     protected void startFragment(Fragment fragment) {
         getActivity().startFragment(fragment);
+    }
+
+    protected String getUserIDFromSession() {
+        return getActivity().getSessionStorage().get(Constants.USERID);
+    }
+
+    protected String getIntermediaryFromSession() {
+        return getActivity().getSessionStorage().get(Constants.INTERMEDIARY);
     }
 }

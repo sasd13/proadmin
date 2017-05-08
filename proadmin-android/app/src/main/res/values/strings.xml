@@ -51,6 +51,7 @@
     <string name="label_title">Title</string>
     <string name="label_academiclevel">Academic level</string>
     <string name="label_code">Code</string>
+    <string name="label_datecreation">Creation date</string>
     <string name="label_description">Description</string>
     <string name="label_project">Project</string>
     <string name="label_running">Running</string>

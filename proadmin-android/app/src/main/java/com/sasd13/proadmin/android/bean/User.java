@@ -6,6 +6,11 @@ public class User {
     private String userID, intermediary, email;
     private int status;
     private String[] roles;
+    private UserPreferences preferences;
+
+    public User() {
+        preferences = new UserPreferences();
+    }
 
     public long getId() {
         return id;
@@ -53,5 +58,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserPreferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(UserPreferences preferences) {
+        this.preferences = preferences;
     }
 }

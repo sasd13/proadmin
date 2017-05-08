@@ -3,7 +3,7 @@
     style="@style/AndroidEX.Recycler.Item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/recycleritem_height_large"
+    android:minHeight="@dimen/recycleritem_height_medium"
     android:orientation="vertical"
     android:paddingLeft="@dimen/recycleritem_padding_horizontal"
     android:paddingRight="@dimen/recycleritem_padding_horizontal"

@@ -50,7 +50,7 @@ public class UserForm extends Form {
             throw new FormException(context, R.string.form_settings_message_error_number);
         }
 
-        return modelIntermediary.getValue().trim();
+        return modelIntermediary.getValue();
     }
 
     public String getEmail() throws FormException {
@@ -58,6 +58,6 @@ public class UserForm extends Form {
             throw new FormException(context, R.string.form_settings_message_error_email);
         }
 
-        return modelEmail.getValue().trim();
+        return modelEmail.getValue();
     }
 }

@@ -49,6 +49,6 @@ public class TeamForm extends Form {
             throw new FormException(context, R.string.form_team_message_error_name);
         }
 
-        return modelName.getValue().trim();
+        return modelName.getValue();
     }
 }

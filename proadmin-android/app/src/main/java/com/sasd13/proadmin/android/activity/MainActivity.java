@@ -16,10 +16,12 @@ import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.bean.UserPreferences;
 import com.sasd13.proadmin.android.provider.ControllerProvider;
-import com.sasd13.proadmin.android.util.SessionHelper;
+import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.HomeFragment;
@@ -32,7 +34,17 @@ import java.util.List;
 public class MainActivity extends DrawerActivity {
 
     private ControllerProvider controllerProvider;
+    private SessionStorage sessionStorage;
+    private UserPreferences preferences;
     private IPagerHandler pagerHandler;
+
+    public SessionStorage getSessionStorage() {
+        return sessionStorage;
+    }
+
+    public UserPreferences getPreferences() {
+        return preferences;
+    }
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
         this.pagerHandler = pagerHandler;
@@ -42,9 +54,16 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controllerProvider = new ControllerProvider();
-
         setContentView(R.layout.layout_container);
+
+        init();
+    }
+
+    private void init() {
+        controllerProvider = new ControllerProvider();
+        sessionStorage = new SessionStorage(this);
+        preferences = getIntent().getExtras().getParcelable(Constants.USER_PREFERENCES);
+
         startHomeFragment();
     }
 
@@ -118,7 +137,7 @@ public class MainActivity extends DrawerActivity {
                 .commit();
     }
 
-    public void logOut() {
+    public void exit() {
         OptionDialog.showOkCancelDialog(
                 this,
                 getString(R.string.button_logout),
@@ -126,22 +145,21 @@ public class MainActivity extends DrawerActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        exit();
+                        goToIdentityActivity();
                     }
                 }
         );
     }
 
-    private void exit() {
+    private void goToIdentityActivity() {
         final WaitDialog waitDialog = new WaitDialog(this);
         final Intent intent = new Intent(this, IdentityActivity.class);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                SessionHelper.clear(MainActivity.this);
+                sessionStorage.clear();
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();

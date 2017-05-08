@@ -2,11 +2,11 @@ package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.UserPreferences;
 import com.sasd13.proadmin.android.controller.IdentityController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
-import com.sasd13.proadmin.android.util.Extra;
-import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ILogInController;
 import com.sasd13.proadmin.util.EnumSession;
 
@@ -56,10 +56,16 @@ public class LogInController extends IdentityController implements ILogInControl
     }
 
     void onReadSession(Map<String, String> session) {
-        SessionHelper.setExtra(getActivity(), Extra.USERID, session.get(EnumSession.USERID.getKey()));
-        SessionHelper.setExtra(getActivity(), Extra.INTERMEDIARY, session.get(EnumSession.INTERMEDIARY.getKey()));
+        String userID = session.get(EnumSession.USERID.getKey());
+        String intermediary = session.get(EnumSession.INTERMEDIARY.getKey());
+
+        //TODO
+        User user = new User();
+        user.setUserID(userID);
+        user.setIntermediary(intermediary);
+        user.setPreferences(new UserPreferences(getActivity()));
 
         scope.setLoading(false);
-        getActivity().goToMainActivity();
+        getActivity().goToMainActivity(user);
     }
 }

@@ -1,71 +1,73 @@
 package com.sasd13.proadmin.android.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 
 import com.sasd13.androidex.gui.GUIConstants;
+import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.util.SessionHelper;
+import com.sasd13.proadmin.android.bean.UserPreferences;
+import com.sasd13.proadmin.android.provider.ControllerProvider;
+import com.sasd13.proadmin.android.util.Constants;
+import com.sasd13.proadmin.android.view.IController;
+import com.sasd13.proadmin.android.view.fragment.SplashScreenFragment;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static final int TIMEOUT = 2 * GUIConstants.TIMEOUT_ACTIVITY;
+    private ControllerProvider controllerProvider;
+    private SessionStorage sessionStorage;
 
-    private TaskPlanner taskPlanner;
+    public SessionStorage getSessionStorage() {
+        return sessionStorage;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.layout_splashscreen);
-        buildView();
-        run();
+        setContentView(R.layout.layout_container);
+
+        init();
     }
 
-    private void buildView() {
-        ImageView imageViewLogo = (ImageView) findViewById(R.id.splashscreen_imageview);
-        imageViewLogo.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_app_logo));
+    private void init() {
+        controllerProvider = new ControllerProvider();
+        sessionStorage = new SessionStorage(this);
+
+        startSplashScreenFragment();
     }
 
-    public void run() {
-        if (SessionHelper.isLogged(this)) {
-            goToActivity(MainActivity.class);
-        } else {
-            goToActivity(IdentityActivity.class);
-        }
+    private void startSplashScreenFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, SplashScreenFragment.newInstance())
+                .commit();
     }
 
-    private void goToActivity(final Class<? extends Activity> mClass) {
-        taskPlanner = new TaskPlanner(new Runnable() {
+    public IController lookup(Class mClass) {
+        return controllerProvider.provide(mClass, this);
+    }
+
+    public void goToMainActivity(final UserPreferences preferences) {
+        final Intent intent = new Intent(this, MainActivity.class);
+
+        new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, mClass));
+                intent.putExtra(Constants.USER_PREFERENCES, preferences);
+                startActivity(intent);
             }
-        }).start(TIMEOUT);
+        }).start(GUIConstants.TIMEOUT_ACTIVITY / 2);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        stopGoToActivity();
-    }
-
-    private void stopGoToActivity() {
-        if (taskPlanner != null) {
-            taskPlanner.stop();
-        }
-    }
-
-    @Override
-    protected void onUserLeaveHint() {
-        super.onUserLeaveHint();
-
-        stopGoToActivity();
+    public void goToIdentityActivity() {
+        new TaskPlanner(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashScreenActivity.this, IdentityActivity.class));
+            }
+        }).start(GUIConstants.TIMEOUT_ACTIVITY / 2);
     }
 }

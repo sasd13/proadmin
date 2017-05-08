@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.activity.SplashScreenActivity;
 import com.sasd13.proadmin.android.controller.authentication.LogInController;
 import com.sasd13.proadmin.android.controller.authentication.LogOutController;
 import com.sasd13.proadmin.android.controller.project.ProjectController;
@@ -11,6 +12,7 @@ import com.sasd13.proadmin.android.controller.report.ReportController;
 import com.sasd13.proadmin.android.controller.running.RunningController;
 import com.sasd13.proadmin.android.controller.runningteam.RunningTeamController;
 import com.sasd13.proadmin.android.controller.setting.SettingController;
+import com.sasd13.proadmin.android.controller.splashscreen.SplashScreenController;
 import com.sasd13.proadmin.android.controller.student.StudentController;
 import com.sasd13.proadmin.android.controller.team.TeamController;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
@@ -33,6 +35,7 @@ import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.IRunningController;
 import com.sasd13.proadmin.android.view.IRunningTeamController;
 import com.sasd13.proadmin.android.view.ISettingController;
+import com.sasd13.proadmin.android.view.ISplashScreenController;
 import com.sasd13.proadmin.android.view.IStudentController;
 import com.sasd13.proadmin.android.view.ITeamController;
 
@@ -43,7 +46,12 @@ import com.sasd13.proadmin.android.view.ITeamController;
 public class ControllerFactory {
 
     public static IController make(Class<? extends IController> mClass, Activity activity) {
-        if (ILogInController.class.equals(mClass)) {
+        if (ISplashScreenController.class.equals(mClass)) {
+            return new SplashScreenController(
+                    (SplashScreenActivity) activity,
+                    (IUserService) ServiceProvider.provide(IUserService.class)
+            );
+        } else if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
                     (IAuthenticationService) ServiceProvider.provide(IAuthenticationService.class)

@@ -6,6 +6,8 @@ package com.sasd13.proadmin.android.util;
 
 public interface Constants {
 
-    String PATTERN_DATETIME_DEFAULT = "yyyy-MM-dd HH:mm:ss Z";
-    String PATTERN_DATE_DEFAULT = "yyyy-MM-dd";
+    String INTERMEDIARY = "INTERMEDIARY";
+    String PATTERN_ZONEDDATETIME_DEFAULT = "yyyy-MM-dd HH:mm:ss Z";
+    String USERID = "UID";
+    String USER_PREFERENCES = "USER_PREFERENCES";
 }

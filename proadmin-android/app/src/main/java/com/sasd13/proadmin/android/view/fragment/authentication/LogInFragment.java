@@ -79,8 +79,8 @@ public class LogInFragment extends Fragment implements Observer {
     }
 
     private void logIn() {
-        String username = logInForm.editTextUsername.getText().toString().trim();
-        String password = logInForm.editTextPassword.getText().toString().trim();
+        String username = logInForm.editTextUsername.getText().toString();
+        String password = logInForm.editTextPassword.getText().toString();
 
         if (!username.isEmpty() && !password.isEmpty()) {
             controller.logIn(username, password);

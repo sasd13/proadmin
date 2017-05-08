@@ -13,7 +13,6 @@ import com.sasd13.proadmin.android.scope.RunningTeamScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
-import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.util.builder.NewRunningTeamBuilder;
 import com.sasd13.proadmin.android.view.IRunningTeamController;
 import com.sasd13.proadmin.android.view.fragment.runningteam.RunningTeamDetailsFragment;
@@ -80,7 +79,7 @@ public class RunningTeamController extends MainController implements IRunningTea
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
         new Requestor(runningTeamReadTask).execute(allCriterias);
@@ -136,7 +135,7 @@ public class RunningTeamController extends MainController implements IRunningTea
         Map<String, Object> allRunningCriterias = new HashMap<>();
 
         runningCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(year)});
-        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
         allRunningCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
         allCriterias.put(IRunningTeamService.PARAMATERS_RUNNING, allRunningCriterias);
 

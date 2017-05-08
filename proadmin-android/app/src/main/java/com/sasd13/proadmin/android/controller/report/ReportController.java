@@ -15,7 +15,6 @@ import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
-import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.util.builder.NewIndividualEvaluationBuilder;
 import com.sasd13.proadmin.android.util.builder.NewLeadEvaluationBuilder;
 import com.sasd13.proadmin.android.util.builder.NewReportBuilder;
@@ -94,7 +93,7 @@ public class ReportController extends MainController implements IReportControlle
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
 
         new Requestor(reportReadTask).execute(allCriterias);
@@ -143,7 +142,7 @@ public class ReportController extends MainController implements IReportControlle
         Map<String, Object> allCriterias = new HashMap<>();
 
         runningTeamCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(year)});
-        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
         new Requestor(runningTeamReadTask).execute(allCriterias);

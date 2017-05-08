@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.sasd13.androidex.gui.form.Form;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
+import com.sasd13.androidex.gui.widget.recycler.form.DateItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.Project;
+
+import org.joda.time.LocalDate;
 
 /**
  * Created by ssaidali2 on 26/07/2016.
@@ -14,14 +17,20 @@ import com.sasd13.proadmin.android.bean.Project;
 public class ProjectForm extends Form {
 
     private TextItemModel modelTitle, modelCode, modelDescription;
+    private DateItemModel modelDateCreation;
 
-    public ProjectForm(Context context) {
+    public ProjectForm(Context context, String patternDate) {
         super(context);
 
         modelCode = new TextItemModel();
         modelCode.setReadOnly(true);
         modelCode.setLabel(context.getString(R.string.label_code));
         holder.add(new RecyclerHolderPair(modelCode));
+
+        modelDateCreation = new DateItemModel(patternDate);
+        modelDateCreation.setReadOnly(true);
+        modelDateCreation.setLabel(context.getString(R.string.label_datecreation));
+        holder.add(new RecyclerHolderPair(modelDateCreation));
 
         modelTitle = new TextItemModel();
         modelTitle.setReadOnly(true);
@@ -36,6 +45,7 @@ public class ProjectForm extends Form {
 
     public void bind(Project project) {
         modelCode.setValue(project.getCode());
+        modelDateCreation.setValue(new LocalDate(project.getDateCreation()));
         modelTitle.setValue(project.getTitle());
         modelDescription.setValue(project.getDescription());
     }

@@ -51,6 +51,7 @@
     <string name="label_title">Intitulé</string>
     <string name="label_academiclevel">Niveau académique</string>
     <string name="label_code">Code</string>
+    <string name="label_datecreation">Date de création</string>
     <string name="label_description">Description</string>
     <string name="label_project">Projet</string>
     <string name="label_running">Gestion de projet</string>

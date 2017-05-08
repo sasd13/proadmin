@@ -46,7 +46,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (!session.isEmpty()) {
             try {
                 DateTime now = new DateTime();
-                DateTime start = new DateTime(new SimpleDateFormat(Constants.PATTERN_DATETIME_DEFAULT).parse(session.get(EnumSession.START.getKey())));
+                DateTime start = new DateTime(new SimpleDateFormat(Constants.PATTERN_ZONEDDATETIME_DEFAULT).parse(session.get(EnumSession.START.getKey())));
 
                 if (start.isAfter(now.minus(LIMIT_IN_MILLISECONDS)) && start.isBefore(now.plus(LIMIT_IN_MILLISECONDS))) {
                     valid = true;

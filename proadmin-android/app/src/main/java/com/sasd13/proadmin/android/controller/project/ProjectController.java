@@ -11,7 +11,6 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.service.ITeacherService;
-import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectsFragment;
@@ -118,7 +117,7 @@ public class ProjectController extends MainController implements IProjectControl
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{getIntermediaryFromSession()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
 
         new Requestor(teacherReadTask).execute(allCriterias);
@@ -139,7 +138,7 @@ public class ProjectController extends MainController implements IProjectControl
         Map<String, Object> allCriterias = new HashMap<>();
 
         runningCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{project.getCode()});
-        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{SessionHelper.getExtraIntermediary(getActivity())});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
 
         new Requestor(runningReadTask).execute(allCriterias);
