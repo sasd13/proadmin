@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ServiceResult<T> {
 
-    public static final ServiceResult NULL = new ServiceResult<>(false, EnumError.UNKNOWN.getCode(), null, Collections.EMPTY_MAP);
+    public static final ServiceResult NULL = new ServiceResult<>(false, EnumError.UNKNOWN.getCode());
 
     private boolean success;
     private int httpStatus;
@@ -22,7 +22,6 @@ public class ServiceResult<T> {
         this.success = success;
         this.httpStatus = httpStatus;
         errors = Collections.emptyMap();
-        data = null;
     }
 
     public ServiceResult(boolean success, int httpStatus, Map<String, String> errors, T data) {
