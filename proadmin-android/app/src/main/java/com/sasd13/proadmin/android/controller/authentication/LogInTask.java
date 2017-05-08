@@ -3,7 +3,6 @@ package com.sasd13.proadmin.android.controller.authentication;
 import com.sasd13.androidex.util.requestor.RequestorTask;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.util.EnumSession;
 
 import java.util.Map;
 
@@ -33,10 +32,7 @@ public class LogInTask extends RequestorTask {
         ServiceResult<Map<String, String>> result = (ServiceResult<Map<String, String>>) out;
 
         if (result.isSuccess()) {
-            String userID = result.getData().get(EnumSession.USERID.getKey());
-            String intermediary = result.getData().get(EnumSession.INTERMEDIARY.getKey());
-
-            controller.onReadUser(userID, intermediary);
+            controller.onReadSession(result.getData());
         } else {
             controller.onFail(result.getHttpStatus(), result.getErrors());
         }

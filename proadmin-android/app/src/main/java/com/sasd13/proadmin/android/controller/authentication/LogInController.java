@@ -8,6 +8,7 @@ import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.util.Extra;
 import com.sasd13.proadmin.android.util.SessionHelper;
 import com.sasd13.proadmin.android.view.ILogInController;
+import com.sasd13.proadmin.util.EnumSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,9 +55,9 @@ public class LogInController extends IdentityController implements ILogInControl
         new Requestor(logInTask).execute(credentials);
     }
 
-    void onReadUser(String userID, String intermediary) {
-        SessionHelper.setExtra(getActivity(), Extra.USERID, userID);
-        SessionHelper.setExtra(getActivity(), Extra.INTERMEDIARY, intermediary);
+    void onReadSession(Map<String, String> session) {
+        SessionHelper.setExtra(getActivity(), Extra.USERID, session.get(EnumSession.USERID.getKey()));
+        SessionHelper.setExtra(getActivity(), Extra.INTERMEDIARY, session.get(EnumSession.INTERMEDIARY.getKey()));
 
         scope.setLoading(false);
         getActivity().goToMainActivity();
