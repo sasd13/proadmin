@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- Context -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.sasd13.proadmin.aaa" />
+	<context:property-placeholder location="classpath:/infra.properties" />
+
+	<!-- MVC -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="locale" />
+		</bean>
+	</mvc:interceptors>
+
+	<!-- TX -->
+	<tx:annotation-driven transaction-manager="mTransactionManager" />
+
+	<!-- JEE -->
+	<!-- DataSource provided by the server -->
+	<!-- <jee:jndi-lookup id="mOfflineDataSource" jndi-name="jdbc/proadmin_aaa" expected-type="javax.sql.DataSource" /> -->
+
+	<!-- LIQUIBASE -->
+	<!-- <bean id="com.sasd13.proadmin.aaa.liquibase" class="liquibase.integration.spring.SpringLiquibase"> -->
+	<!-- <property name="dataSource" ref="mOfflineDataSource" /> -->
+	<!-- <property name="changeLog" value="classpath:changelog/db.changelog-master.xml" /> -->
+	<!-- </bean> -->
+
+	<!-- BEANS -->
+	<bean id="mDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/proadmin_aaa" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	<bean id="mSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="mDataSource" />
+		<property name="packagesToScan" value="com.sasd13.proadmin.aaa.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.default_schema">proadmin_aaa</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+			</props>
+		</property>
+	</bean>
+	<bean id="mTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mSessionFactory" />
+	</bean>
+
+	<!-- <bean id="propsApp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="locations"> -->
+	<!-- <value>classpath:/infra.properties</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="mPersistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager"> -->
+	<!-- <property name="persistenceXmlLocations"> -->
+	<!-- <list> -->
+	<!-- <value>classpath*:META-INF/persistence.xml</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="defaultDataSource" ref="mDataSource"></property> -->
+	<!-- </bean> -->
+	<!-- <bean id="mEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> -->
+	<!-- <property name="persistenceUnitManager" ref="mPersistenceUnitManager"></property> -->
+	<!-- <property name="persistenceUnitName" value="up_proadmin"></property> -->
+	<!-- </bean> -->
+	<!-- <bean id="mTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
+	<!-- <property name="entityManagerFactory" ref="mEntityManagerFactory"></property> -->
+	<!-- </bean> -->
+	<!-- <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->
+
+	<!-- Spring Security -->
+	<!-- <s:authentication-manager> -->
+	<!-- <s:authentication-provider> -->
+	<!-- <s:password-encoder hash="sha-256"></s:password-encoder> -->
+	<!-- <s:jdbc-user-service data-source-ref="mDataSource" -->
+	<!-- users-by-username-query="select username, password, status from USERS where username=?" -->
+	<!-- authorities-by-username-query="select u.login, r.role from USERS u, ROLES r where u.user_id = r.user_id and u.login=?" 
+		/> -->
+	<!-- </s:authentication-provider> -->
+	<!-- </s:authentication-manager> -->
+
+	<!-- <s:http use-expressions="true"> -->
+	<!-- <s:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN_SYS')" /> -->
+	<!-- <s:intercept-url pattern="/manager/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_INTERNAL')" /> -->
+	<!-- <s:intercept-url pattern="/internal/**" access="hasRole('ROLE_INTERNAL')" /> -->
+	<!-- <s:form-login login-page="/index" authentication-success-handler-ref="mAuthenticationSuccessHandler" -->
+	<!-- authentication-failure-url="/index?connextionFaild=true" /> -->
+	<!-- <s:logout logout-success-url="/index" /> -->
+	<!-- <s:session-management> -->
+	<!-- <s:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" /> -->
+	<!-- </s:session-management> -->
+	<!-- </s:http> -->
+
+	<!-- <bean id="mAuthenticationSuccessHandler" class="com.proadmin.controllers.AuthenticationSuccessHandler" /> -->
+
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"> -->
+	<!-- <property name="order" value="1"></property> -->
+	<!-- <property name="basename" value="views"></property> -->
+	<!-- </bean> -->
+
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+	<!-- <property name="order" value="2"></property> -->
+	<!-- <property name="prefix" value="/WEB-INF/views/" /> -->
+	<!-- <property name="suffix" value=".jsp" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> -->
+	<!-- <property name="definitions"> -->
+	<!-- <list> -->
+	<!-- <value>/WEB-INF/tiles/tiles-definitions.xml</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
+	<!-- <property name="basename"> -->
+	<!-- <value>/WEB-INF/messages/messages</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="userDaoImpl" class="com.proadmin.dao.impl.UserDaoImpl"></bean> -->
+	<!-- <bean id="userService" class="com.proadmin.services.impl.UserServiceImpl"> -->
+	<!-- <property name="userDao" ref="userDaoImpl"></property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
+	<!-- <property name="host" value="smtp.proadmin.fr" /> -->
+	<!-- <property name="port" value="25" /> -->
+	<!-- <property name="username" value="noreplay@proadmin.fr" /> -->
+	<!-- <property name="password" value="noreply" /> -->
+	<!-- <property name="javaMailProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="mail.smtp.auth">true</prop> -->
+	<!-- <prop key="mail.smtp.starttls.enable">true</prop> -->
+	<!-- <prop key="mail.debug">true</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- Configuration upload -->
+	<!-- <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+	<!-- <property name="maxUploadSize" value="5048576"></property> -->
+	<!-- </bean> -->
+
+	<!-- Register message converters (eg. ByteArrayHttpMessageConverter for octet-stream) that can convert from and to HTTP 
+		requests and responses -->
+	<!-- Marked as deprecated and not necessary since element <mvc:annotation-driven/> is used -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+	<!-- <property name="messageConverters"> -->
+	<!-- <array> -->
+	<!-- <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"> -->
+	<!-- <property name="supportedMediaTypes" value="application/octet-stream;charset=UTF-8" /> -->
+	<!-- </bean> -->
+	<!-- </array> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+</beans>

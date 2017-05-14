@@ -1,41 +1,56 @@
 package com.sasd13.proadmin.aaa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.aaa.bean.EnumStatus;
-import com.sasd13.proadmin.aaa.bean.User;
-import com.sasd13.proadmin.aaa.dao.DAO;
-import com.sasd13.proadmin.aaa.dao.IUserDAO;
-import com.sasd13.proadmin.aaa.service.IUserService;
-import com.sasd13.proadmin.util.StatusException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.sasd13.javaex.security.Credential;
+import com.sasd13.proadmin.aaa.bean.EnumPreferenceCategory;
+import com.sasd13.proadmin.aaa.dao.IPreferenceDAO;
+import com.sasd13.proadmin.aaa.dao.IUserDAO;
+import com.sasd13.proadmin.aaa.model.Preference;
+import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.aaa.model.UserPreference;
+import com.sasd13.proadmin.aaa.service.IUserService;
+
+@Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserService implements IUserService {
 
+	@Autowired
 	private IUserDAO userDAO;
 
-	public UserService(DAO dao) {
-		userDAO = (IUserDAO) dao.getSession(IUserDAO.class);
-	}
+	@Autowired
+	private IPreferenceDAO preferenceDAO;
 
 	@Override
-	public void create(User user, Credential credential) {
-		userDAO.create(user, credential);
+	public User create(User user) {
+		List<Preference> preferences = preferenceDAO.findByCategory(EnumPreferenceCategory.GENERAL.getCode());
+		List<UserPreference> userPreferences = new ArrayList<>();
+		UserPreference userPreference;
+
+		for (Preference preference : preferences) {
+			userPreference = new UserPreference();
+
+			userPreference.setValue(preference.getDefaultValue());
+			userPreference.setUser(user);
+			userPreference.setPreference(preference);
+			userPreferences.add(userPreference);
+		}
+
+		user.setUserPreferences(userPreferences);
+
+		return userDAO.create(user);
 	}
 
 	@Override
 	public void update(User user) {
-		if (EnumStatus.find(user.getStatus()) == EnumStatus.UNKNOWN) {
-			throw new StatusException("Status unknown : " + user.getStatus());
-		}
-
 		userDAO.update(user);
-	}
-
-	@Override
-	public boolean update(Credential previous, Credential current) {
-		return userDAO.update(previous, current);
 	}
 
 	@Override
@@ -49,7 +64,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<User> read(Map<String, String[]> criterias) {
+	public List<User> read(Map<String, Object> criterias) {
 		return userDAO.read(criterias);
 	}
 }

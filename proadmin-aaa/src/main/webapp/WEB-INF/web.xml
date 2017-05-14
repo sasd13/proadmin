@@ -1,23 +1,86 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-<web-app>
-	<display-name>Proadmin AAA</display-name>
+	<display-name>proadmin-aaa</display-name>
+
+	<!-- <context-param> -->
+	<!-- <param-name>contextClass</param-name> -->
+	<!-- <param-value> -->
+	<!-- org.springframework.web.context.support.AnnotationConfigWebApplicationContext -->
+	<!-- </param-value> -->
+	<!-- </context-param> -->
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- <resource-ref> -->
+	<!-- <description>Database connection</description> -->
+	<!-- <res-ref-name>jdbc/proadmin</res-ref-name> -->
+	<!-- <res-type>javax.sql.DataSource</res-type> -->
+	<!-- <res-auth>Container</res-auth> -->
+	<!-- </resource-ref> -->
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- <listener> -->
+	<!-- <listener-class> -->
+	<!-- org.springframework.security.web.session.HttpSessionEventPublisher -->
+	<!-- </listener-class> -->
+	<!-- </listener> -->
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
 	<filter>
-		<filter-name>DAOFilter</filter-name>
-		<filter-class>com.sasd13.proadmin.aaa.filter.DAOFilter</filter-class>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
-
 	<filter-mapping>
-		<filter-name>DAOFilter</filter-name>
+		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Spring Security -->
+	<!-- <filter> -->
+	<!-- <filter-name>springSecurityFilterChain</filter-name> -->
+	<!-- <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> -->
+	<!-- </filter> -->
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>springSecurityFilterChain</filter-name> -->
+	<!-- <url-pattern>/*</url-pattern> -->
+	<!-- </filter-mapping> -->
+
 	<servlet>
-		<servlet-name>Configuration</servlet-name>
-		<servlet-class>com.sasd13.proadmin.aaa.config.Configuration</servlet-class>
+		<servlet-name>SpringDispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/servletContext.xml</param-value>
+		</init-param>
+		<!-- <init-param> -->
+		<!-- <param-name>contextClass</param-name> -->
+		<!-- <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value> -->
+		<!-- </init-param> -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringDispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
 </web-app>

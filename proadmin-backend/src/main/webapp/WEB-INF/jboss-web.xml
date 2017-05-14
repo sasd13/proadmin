@@ -5,7 +5,7 @@
 
 <!-- <jboss-web> -->
 <!-- <resource-ref> -->
-<!-- <res-ref-name>jdbc/proadmin</res-ref-name> -->
-<!-- <jndi-name>java:jdbc/proadmin</jndi-name> -->
+<!-- <res-ref-name>jdbc/proadmin_db2</res-ref-name> -->
+<!-- <jndi-name>java:jdbc/proadmin_db2</jndi-name> -->
 <!-- </resource-ref> -->
 <!-- </jboss-web> -->
