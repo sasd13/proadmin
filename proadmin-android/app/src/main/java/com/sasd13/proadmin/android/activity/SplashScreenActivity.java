@@ -8,8 +8,7 @@ import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.bean.UserPreferences;
-import com.sasd13.proadmin.android.provider.ControllerProvider;
+import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.SplashScreenFragment;
@@ -50,7 +49,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         return controllerProvider.provide(mClass, this);
     }
 
-    public void goToMainActivity(final UserPreferences preferences) {
+    public void goToMainActivity(final UserPreference preferences) {
         final Intent intent = new Intent(this, MainActivity.class);
 
         new TaskPlanner(new Runnable() {

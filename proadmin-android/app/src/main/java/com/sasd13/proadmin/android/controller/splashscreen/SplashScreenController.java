@@ -4,7 +4,7 @@ import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.SplashScreenActivity;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.UserPreferences;
+import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.controller.Controller;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IUserService;
@@ -61,7 +61,7 @@ public class SplashScreenController extends Controller implements ISplashScreenC
 
     void onReadUser(User user) {
         //TODO
-        user.setPreferences(new UserPreferences(getActivity()));
+        user.setPreferences(new UserPreference(getActivity()));
 
         getActivity().goToMainActivity(user.getPreferences());
     }

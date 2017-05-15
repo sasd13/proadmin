@@ -8,17 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.android.Config;
 import com.sasd13.proadmin.android.R;
+import com.sasd13.proadmin.android.Resolver;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.provider.ControllerProvider;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.authentication.LogInFragment;
 
 public class IdentityActivity extends AppCompatActivity {
 
-    private ControllerProvider controllerProvider;
-    private SessionStorage sessionStorage;
+    private Resolver resolver;
+
+    public SessionStorage getSessionStorage() {
+        return (SessionStorage) resolver.resolve(SessionStorage.class);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     private void init() {
-        controllerProvider = new ControllerProvider();
-        sessionStorage = new SessionStorage(this);
+        resolver = Config.init(this);
 
         startLogInFragment();
     }
@@ -44,7 +47,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     public IController lookup(Class mClass) {
-        return controllerProvider.provide(mClass, this);
+        return resolver.resolveController(mClass, this);
     }
 
     public void startFragment(Fragment fragment) {
@@ -62,8 +65,8 @@ public class IdentityActivity extends AppCompatActivity {
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                sessionStorage.put(Constants.USERID, user.getUserID());
-                sessionStorage.put(Constants.INTERMEDIARY, user.getIntermediary());
+                getSessionStorage().put(Constants.USERID, user.getUserID());
+                getSessionStorage().put(Constants.INTERMEDIARY, user.getIntermediary());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(Constants.USER_PREFERENCES, user.getPreferences());
                 startActivity(intent);

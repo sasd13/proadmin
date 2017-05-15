@@ -16,7 +16,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.UserPreferences;
+import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.gui.form.ProjectForm;
@@ -27,7 +27,7 @@ import java.util.Observer;
 public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
     private ProjectScope scope;
-    private UserPreferences preferences;
+    private UserPreference preferences;
     private ProjectForm projectForm;
 
     public static ProjectDetailsFragmentInfos newInstance() {

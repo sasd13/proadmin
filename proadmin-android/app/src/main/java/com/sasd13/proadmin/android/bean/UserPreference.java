@@ -13,34 +13,34 @@ import java.util.Locale;
  * Created by ssaidali2 on 08/05/2017.
  */
 
-public class UserPreferences implements Parcelable {
+public class UserPreference implements Parcelable {
 
     private static final String DATETIME_SEPARATOR = " ";
     public static final String PATTERN_DATE_DEFAULT = "yyyy-MM-dd";
     public static final String PATTERN_TIME_DEFAULT = "HH-mm";
     public static final String PATTERN_DATETIME_DEFAULT = PATTERN_DATE_DEFAULT + DATETIME_SEPARATOR + PATTERN_TIME_DEFAULT;
-    public static final Creator<UserPreferences> CREATOR = new Creator<UserPreferences>() {
+    public static final Creator<UserPreference> CREATOR = new Creator<UserPreference>() {
         @Override
-        public UserPreferences createFromParcel(Parcel in) {
-            return new UserPreferences(in);
+        public UserPreference createFromParcel(Parcel in) {
+            return new UserPreference(in);
         }
 
         @Override
-        public UserPreferences[] newArray(int size) {
-            return new UserPreferences[size];
+        public UserPreference[] newArray(int size) {
+            return new UserPreference[size];
         }
     };
 
     private String language;
     private String patternDate, patternTime;
 
-    public UserPreferences() {
+    public UserPreference() {
         language = Locale.ENGLISH.getLanguage();
         patternDate = PATTERN_DATE_DEFAULT;
         patternTime = PATTERN_TIME_DEFAULT;
     }
 
-    public UserPreferences(Context context) {
+    public UserPreference(Context context) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             language = context.getResources().getConfiguration().getLocales().get(0).getLanguage();
         } else {
@@ -51,7 +51,7 @@ public class UserPreferences implements Parcelable {
         patternTime = DateTimeHelper.getLocaleTimeFormatPattern(context, DateTimeHelper.EnumFormat.SHORT);
     }
 
-    protected UserPreferences(Parcel in) {
+    protected UserPreference(Parcel in) {
         language = in.readString();
         patternDate = in.readString();
         patternTime = in.readString();

@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.controller.authentication;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.UserPreferences;
+import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.controller.IdentityController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
@@ -63,7 +63,7 @@ public class LogInController extends IdentityController implements ILogInControl
         User user = new User();
         user.setUserID(userID);
         user.setIntermediary(intermediary);
-        user.setPreferences(new UserPreferences(getActivity()));
+        user.setPreferences(new UserPreference(getActivity()));
 
         scope.setLoading(false);
         getActivity().goToMainActivity(user);

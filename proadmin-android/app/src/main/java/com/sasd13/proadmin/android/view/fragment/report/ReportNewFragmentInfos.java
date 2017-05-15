@@ -19,7 +19,7 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.UserPreferences;
+import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.ReportForm;
@@ -31,7 +31,7 @@ public class ReportNewFragmentInfos extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
-    private UserPreferences preferences;
+    private UserPreference preferences;
     private ReportForm reportForm;
 
     public static ReportNewFragmentInfos newInstance() {

@@ -1,15 +1,18 @@
 package com.sasd13.proadmin.android.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 
     private long id;
     private String userID, intermediary, email;
     private int status;
     private String[] roles;
-    private UserPreferences preferences;
+    private List<UserPreference> userPreferences;
 
     public User() {
-        preferences = new UserPreferences();
+        userPreferences = new ArrayList<>();
     }
 
     public long getId() {
@@ -60,11 +63,11 @@ public class User {
         this.email = email;
     }
 
-    public UserPreferences getPreferences() {
-        return preferences;
+    public List<UserPreference> getUserPreferences() {
+        return userPreferences;
     }
 
-    public void setPreferences(UserPreferences preferences) {
-        this.preferences = preferences;
+    public void setUserPreferences(List<UserPreference> userPreferences) {
+        this.userPreferences = userPreferences;
     }
 }

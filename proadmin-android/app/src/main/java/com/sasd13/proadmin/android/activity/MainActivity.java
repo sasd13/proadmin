@@ -18,10 +18,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.android.Config;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.bean.UserPreferences;
-import com.sasd13.proadmin.android.provider.ControllerProvider;
-import com.sasd13.proadmin.android.util.Constants;
+import com.sasd13.proadmin.android.Resolver;
+import com.sasd13.proadmin.android.util.UserStorage;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.HomeFragment;
@@ -33,17 +33,15 @@ import java.util.List;
 
 public class MainActivity extends DrawerActivity {
 
-    private ControllerProvider controllerProvider;
-    private SessionStorage sessionStorage;
-    private UserPreferences preferences;
+    private Resolver resolver;
     private IPagerHandler pagerHandler;
 
     public SessionStorage getSessionStorage() {
-        return sessionStorage;
+        return (SessionStorage) resolver.resolve(SessionStorage.class);
     }
 
-    public UserPreferences getPreferences() {
-        return preferences;
+    public UserStorage getUserStorage() {
+        return (UserStorage) resolver.resolve(UserStorage.class);
     }
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
@@ -60,9 +58,9 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        controllerProvider = new ControllerProvider();
-        sessionStorage = new SessionStorage(this);
-        preferences = getIntent().getExtras().getParcelable(Constants.USER_PREFERENCES);
+        resolver = Config.init(this);
+
+        //preferences = getIntent().getExtras().getParcelable(Constants.USER_PREFERENCES);
 
         startHomeFragment();
     }
@@ -113,7 +111,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class mClass) {
-        return controllerProvider.provide(mClass, this);
+        return resolver.resolveController(mClass, this);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {
@@ -158,7 +156,7 @@ public class MainActivity extends DrawerActivity {
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                sessionStorage.clear();
+                getSessionStorage().clear();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 waitDialog.dismiss();

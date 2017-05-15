@@ -1,7 +1,8 @@
-package com.sasd13.proadmin.android.provider;
+package com.sasd13.proadmin.android.factory;
 
 import android.app.Activity;
 
+import com.sasd13.proadmin.android.Resolver;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.activity.SplashScreenActivity;
@@ -45,59 +46,65 @@ import com.sasd13.proadmin.android.view.ITeamController;
 
 public class ControllerFactory {
 
-    public static IController make(Class<? extends IController> mClass, Activity activity) {
+    private Resolver resolver;
+
+    public ControllerFactory(Resolver resolver) {
+        this.resolver = resolver;
+    }
+
+    public IController make(Class<? extends IController> mClass, Activity activity) {
         if (ISplashScreenController.class.equals(mClass)) {
             return new SplashScreenController(
                     (SplashScreenActivity) activity,
-                    (IUserService) ServiceProvider.provide(IUserService.class)
+                    (IUserService) resolver.resolveService(IUserService.class)
             );
         } else if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
-                    (IAuthenticationService) ServiceProvider.provide(IAuthenticationService.class)
+                    (IAuthenticationService) resolver.resolveService(IAuthenticationService.class)
             );
         } else if (ISettingController.class.equals(mClass)) {
             return new SettingController(
                     (MainActivity) activity,
-                    (IUserService) ServiceProvider.provide(IUserService.class)
+                    (IUserService) resolver.resolveService(IUserService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
-                    (IProjectService) ServiceProvider.provide(IProjectService.class),
-                    (IRunningService) ServiceProvider.provide(IRunningService.class),
-                    (ITeacherService) ServiceProvider.provide(ITeacherService.class)
+                    (IProjectService) resolver.resolveService(IProjectService.class),
+                    (IRunningService) resolver.resolveService(IRunningService.class),
+                    (ITeacherService) resolver.resolveService(ITeacherService.class)
             );
         } else if (ITeamController.class.equals(mClass)) {
             return new TeamController(
                     (MainActivity) activity,
-                    (ITeamService) ServiceProvider.provide(ITeamService.class),
-                    (IStudentTeamService) ServiceProvider.provide(IStudentTeamService.class)
+                    (ITeamService) resolver.resolveService(ITeamService.class),
+                    (IStudentTeamService) resolver.resolveService(IStudentTeamService.class)
             );
         } else if (IStudentController.class.equals(mClass)) {
             return new StudentController(
                     (MainActivity) activity,
-                    (IStudentService) ServiceProvider.provide(IStudentService.class),
-                    (IStudentTeamService) ServiceProvider.provide(IStudentTeamService.class)
+                    (IStudentService) resolver.resolveService(IStudentService.class),
+                    (IStudentTeamService) resolver.resolveService(IStudentTeamService.class)
             );
         } else if (IRunningController.class.equals(mClass)) {
             return new RunningController(
                     (MainActivity) activity,
-                    (IRunningService) ServiceProvider.provide(IRunningService.class)
+                    (IRunningService) resolver.resolveService(IRunningService.class)
             );
         } else if (IRunningTeamController.class.equals(mClass)) {
             return new RunningTeamController(
                     (MainActivity) activity,
-                    (IRunningTeamService) ServiceProvider.provide(IRunningTeamService.class),
-                    (IReportService) ServiceProvider.provide(IReportService.class)
+                    (IRunningTeamService) resolver.resolveService(IRunningTeamService.class),
+                    (IReportService) resolver.resolveService(IReportService.class)
             );
         } else if (IReportController.class.equals(mClass)) {
             return new ReportController(
                     (MainActivity) activity,
-                    (IReportService) ServiceProvider.provide(IReportService.class),
-                    (ILeadEvaluationService) ServiceProvider.provide(ILeadEvaluationService.class),
-                    (IIndividualEvaluationService) ServiceProvider.provide(IIndividualEvaluationService.class),
-                    (IRunningTeamService) ServiceProvider.provide(IRunningTeamService.class)
+                    (IReportService) resolver.resolveService(IReportService.class),
+                    (ILeadEvaluationService) resolver.resolveService(ILeadEvaluationService.class),
+                    (IIndividualEvaluationService) resolver.resolveService(IIndividualEvaluationService.class),
+                    (IRunningTeamService) resolver.resolveService(IRunningTeamService.class)
             );
         } else if (ILogOutController.class.equals(mClass)) {
             return new LogOutController((MainActivity) activity);

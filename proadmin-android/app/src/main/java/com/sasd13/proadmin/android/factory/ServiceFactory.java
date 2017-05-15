@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.provider;
+package com.sasd13.proadmin.android.factory;
 
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
