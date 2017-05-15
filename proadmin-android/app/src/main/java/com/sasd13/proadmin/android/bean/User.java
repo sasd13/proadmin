@@ -1,9 +1,24 @@
 package com.sasd13.proadmin.android.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Parcelable {
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     private long id;
     private String userID, intermediary, email;
@@ -13,6 +28,16 @@ public class User {
 
     public User() {
         userPreferences = new ArrayList<>();
+    }
+
+    protected User(Parcel in) {
+        id = in.readLong();
+        userID = in.readString();
+        intermediary = in.readString();
+        email = in.readString();
+        status = in.readInt();
+        roles = in.createStringArray();
+        userPreferences = in.createTypedArrayList(UserPreference.CREATOR);
     }
 
     public long getId() {
@@ -69,5 +94,21 @@ public class User {
 
     public void setUserPreferences(List<UserPreference> userPreferences) {
         this.userPreferences = userPreferences;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(userID);
+        parcel.writeString(intermediary);
+        parcel.writeString(email);
+        parcel.writeInt(status);
+        parcel.writeStringArray(roles);
+        parcel.writeTypedList(userPreferences);
     }
 }

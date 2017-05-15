@@ -16,7 +16,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.gui.form.ProjectForm;
@@ -27,7 +26,6 @@ import java.util.Observer;
 public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
     private ProjectScope scope;
-    private UserPreference preferences;
     private ProjectForm projectForm;
 
     public static ProjectDetailsFragmentInfos newInstance() {
@@ -39,7 +37,6 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
         super.onCreate(savedInstanceState);
 
         scope = (ProjectScope) ((MainActivity) getActivity()).lookup(IProjectController.class).getScope();
-        preferences = ((MainActivity) getActivity()).getPreferences();
     }
 
     @Override
@@ -62,7 +59,7 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormProject(View view) {
-        projectForm = new ProjectForm(getContext(), preferences.getPatternDate());
+        projectForm = new ProjectForm(getContext(), scope.getPatternDate());
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

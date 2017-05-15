@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.android.Config;
+import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Resolver;
 import com.sasd13.proadmin.android.bean.User;
@@ -34,7 +34,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     private void init() {
-        resolver = Config.init(this);
+        resolver = Configuration.init(this);
 
         startLogInFragment();
     }
@@ -68,7 +68,7 @@ public class IdentityActivity extends AppCompatActivity {
                 getSessionStorage().put(Constants.USERID, user.getUserID());
                 getSessionStorage().put(Constants.INTERMEDIARY, user.getIntermediary());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra(Constants.USER_PREFERENCES, user.getPreferences());
+                intent.putExtra(Constants.USER, user);
                 startActivity(intent);
                 waitDialog.dismiss();
                 finish();

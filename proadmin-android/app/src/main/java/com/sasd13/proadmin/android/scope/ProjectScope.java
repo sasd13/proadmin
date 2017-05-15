@@ -19,6 +19,7 @@ public class ProjectScope extends Scope {
     private List<Running> runnings;
     private Running running;
     private Teacher teacher;
+    private String patternDate;
 
     public ProjectScope() {
         this.projects = new ArrayList<>();
@@ -90,6 +91,17 @@ public class ProjectScope extends Scope {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public String getPatternDate() {
+        return patternDate;
+    }
+
+    public void setPatternDate(String patternDate) {
+        this.patternDate = patternDate;
 
         setChanged();
         notifyObservers();

@@ -7,19 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
+import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.bean.UserPreference;
+import com.sasd13.proadmin.android.Resolver;
+import com.sasd13.proadmin.android.bean.User;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.SplashScreenFragment;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private ControllerProvider controllerProvider;
-    private SessionStorage sessionStorage;
+    private Resolver resolver;
 
     public SessionStorage getSessionStorage() {
-        return sessionStorage;
+        return (SessionStorage) resolver.resolve(SessionStorage.class);
     }
 
     @Override
@@ -32,8 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void init() {
-        controllerProvider = new ControllerProvider();
-        sessionStorage = new SessionStorage(this);
+        resolver = Configuration.init(this);
 
         startSplashScreenFragment();
     }
@@ -46,16 +46,16 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public IController lookup(Class mClass) {
-        return controllerProvider.provide(mClass, this);
+        return resolver.resolveController(mClass, this);
     }
 
-    public void goToMainActivity(final UserPreference preferences) {
+    public void goToMainActivity(final User user) {
         final Intent intent = new Intent(this, MainActivity.class);
 
         new TaskPlanner(new Runnable() {
             @Override
             public void run() {
-                intent.putExtra(Constants.USER_PREFERENCES, preferences);
+                intent.putExtra(Constants.USER, user);
                 startActivity(intent);
             }
         }).start(GUIConstants.TIMEOUT_ACTIVITY / 2);

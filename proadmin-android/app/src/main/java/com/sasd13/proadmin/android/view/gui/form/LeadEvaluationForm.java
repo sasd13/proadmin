@@ -12,7 +12,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.Student;
-import com.sasd13.proadmin.android.util.Finder;
+import com.sasd13.proadmin.android.util.IndexFinder;
 import com.sasd13.proadmin.android.util.builder.StudentsLabelsBuilder;
 
 import java.util.List;
@@ -111,7 +111,7 @@ public class LeadEvaluationForm extends Form {
     private void bindLeader(List<Student> studentsToBind, Student student) {
         bindLeader(studentsToBind);
 
-        modelLeader.setValue(Finder.indexOfStudent(student, studentsToBind));
+        modelLeader.setValue(IndexFinder.indexOfStudent(student, studentsToBind));
     }
 
     public Student getLeader() throws FormException {

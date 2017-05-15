@@ -19,6 +19,7 @@ import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.util.Constants;
+import com.sasd13.proadmin.aaa.util.adapter.bean2itf.UserAdapterB2I;
 import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
 import com.sasd13.proadmin.util.EnumError;
 import com.sasd13.proadmin.util.EnumSession;
@@ -40,7 +41,8 @@ public class AuthenticationController extends Controller {
 			AuthenticationResponseBean responseBean = new AuthenticationResponseBean();
 
 			if (user != null) {
-				responseBean.setData(buildSession(user));
+				responseBean.setSession(buildSession(user));
+				responseBean.setUser(new UserAdapterB2I().adapt(user));
 			} else {
 				Map<String, String> errors = new HashMap<String, String>();
 				String code = String.valueOf(EnumError.AUTHENTICATION.getCode());

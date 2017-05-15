@@ -1,13 +1,7 @@
 package com.sasd13.proadmin.android.bean;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.sasd13.androidex.util.DateTimeHelper;
-
-import java.util.Locale;
 
 /**
  * Created by ssaidali2 on 08/05/2017.
@@ -15,10 +9,6 @@ import java.util.Locale;
 
 public class UserPreference implements Parcelable {
 
-    private static final String DATETIME_SEPARATOR = " ";
-    public static final String PATTERN_DATE_DEFAULT = "yyyy-MM-dd";
-    public static final String PATTERN_TIME_DEFAULT = "HH-mm";
-    public static final String PATTERN_DATETIME_DEFAULT = PATTERN_DATE_DEFAULT + DATETIME_SEPARATOR + PATTERN_TIME_DEFAULT;
     public static final Creator<UserPreference> CREATOR = new Creator<UserPreference>() {
         @Override
         public UserPreference createFromParcel(Parcel in) {
@@ -31,30 +21,15 @@ public class UserPreference implements Parcelable {
         }
     };
 
-    private String language;
-    private String patternDate, patternTime;
-
-    public UserPreference() {
-        language = Locale.ENGLISH.getLanguage();
-        patternDate = PATTERN_DATE_DEFAULT;
-        patternTime = PATTERN_TIME_DEFAULT;
-    }
-
-    public UserPreference(Context context) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            language = context.getResources().getConfiguration().getLocales().get(0).getLanguage();
-        } else {
-            language = context.getResources().getConfiguration().locale.getLanguage();
-        }
-
-        patternDate = DateTimeHelper.getLocaleDateFormatPattern(context, DateTimeHelper.EnumFormat.SHORT);
-        patternTime = DateTimeHelper.getLocaleTimeFormatPattern(context, DateTimeHelper.EnumFormat.SHORT);
-    }
+    private long id;
+    private String value, category, name, defaultValue;
 
     protected UserPreference(Parcel in) {
-        language = in.readString();
-        patternDate = in.readString();
-        patternTime = in.readString();
+        id = in.readLong();
+        value = in.readString();
+        category = in.readString();
+        name = in.readString();
+        defaultValue = in.readString();
     }
 
     @Override
@@ -64,36 +39,50 @@ public class UserPreference implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(language);
-        parcel.writeString(patternDate);
-        parcel.writeString(patternTime);
+        parcel.writeLong(id);
+        parcel.writeString(value);
+        parcel.writeString(category);
+        parcel.writeString(name);
+        parcel.writeString(defaultValue);
     }
 
-    public String getLanguage() {
-        return language;
+    public long getId() {
+        return id;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getPatternDate() {
-        return patternDate;
+    public String getValue() {
+        return value;
     }
 
-    public void setPatternDate(String patternDate) {
-        this.patternDate = patternDate;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String getPatternTime() {
-        return patternTime;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPatternTime(String patternTime) {
-        this.patternTime = patternTime;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getPatternDateTime() {
-        return patternDate + DATETIME_SEPARATOR + patternTime;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

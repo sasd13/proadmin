@@ -1,6 +1,7 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.proadmin.android.bean.User;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 
@@ -29,10 +30,10 @@ public class LogInTask extends RequestorTask {
     public void onPostExecute(Object out) {
         super.onPostExecute(out);
 
-        ServiceResult<Map<String, String>> result = (ServiceResult<Map<String, String>>) out;
+        ServiceResult<User> result = (ServiceResult<User>) out;
 
         if (result.isSuccess()) {
-            controller.onReadSession(result.getData());
+            controller.onAuthenticated(result.getData());
         } else {
             controller.onFail(result.getHttpStatus(), result.getErrors());
         }

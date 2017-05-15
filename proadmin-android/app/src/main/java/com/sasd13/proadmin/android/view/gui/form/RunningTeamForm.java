@@ -11,7 +11,7 @@ import com.sasd13.proadmin.android.bean.AcademicLevel;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
-import com.sasd13.proadmin.android.util.Finder;
+import com.sasd13.proadmin.android.util.IndexFinder;
 import com.sasd13.proadmin.android.util.builder.AcademicLevelsCodesBuilder;
 import com.sasd13.proadmin.android.util.builder.RunningsLabelsFromRunningsBuilder;
 import com.sasd13.proadmin.android.util.builder.TeamsNumbersBuilder;
@@ -78,7 +78,7 @@ public class RunningTeamForm extends Form {
     public void bindTeams(List<Team> teamsToBind, Team team) {
         bindTeams(teamsToBind);
 
-        modelTeam.setValue(Finder.indexOfTeam(team, teams));
+        modelTeam.setValue(IndexFinder.indexOfTeam(team, teams));
     }
 
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind) {
@@ -91,7 +91,7 @@ public class RunningTeamForm extends Form {
     public void bindAcademicLevels(List<AcademicLevel> academicLevelsToBind, AcademicLevel academicLevel) {
         bindAcademicLevels(academicLevelsToBind);
 
-        modelAcademicLevel.setValue(Finder.indexOfAcademicLevel(academicLevel, academicLevels));
+        modelAcademicLevel.setValue(IndexFinder.indexOfAcademicLevel(academicLevel, academicLevels));
     }
 
     public Running getRunning() throws FormException {

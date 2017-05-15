@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by ssaidali2 on 06/11/2016.
  */
-public class Finder {
+public class IndexFinder {
 
     public static int indexOfProject(Project project, List<Project> projects) {
         for (int i = 0; i < projects.size(); i++) {

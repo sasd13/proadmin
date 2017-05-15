@@ -18,9 +18,11 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.android.Config;
+import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Resolver;
+import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.util.UserStorage;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
@@ -34,6 +36,7 @@ import java.util.List;
 public class MainActivity extends DrawerActivity {
 
     private Resolver resolver;
+    private UserStorage userStorage;
     private IPagerHandler pagerHandler;
 
     public SessionStorage getSessionStorage() {
@@ -41,7 +44,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public UserStorage getUserStorage() {
-        return (UserStorage) resolver.resolve(UserStorage.class);
+        return userStorage;
     }
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
@@ -58,9 +61,9 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        resolver = Config.init(this);
-
-        //preferences = getIntent().getExtras().getParcelable(Constants.USER_PREFERENCES);
+        resolver = Configuration.init(this);
+        User user = getIntent().getExtras().getParcelable(Constants.USER);
+        userStorage = new UserStorage(user);
 
         startHomeFragment();
     }

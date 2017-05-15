@@ -1,5 +1,7 @@
 package com.sasd13.proadmin.android.service;
 
+import com.sasd13.proadmin.android.bean.User;
+
 import java.util.Map;
 
 /**
@@ -11,5 +13,5 @@ public interface IAuthenticationService {
     String PARAMETER_USERNAME = "PARAMETER_USERNAME";
     String PARAMETER_PASSWORD = "PARAMETER_PASSWORD";
 
-    ServiceResult<Map<String, String>> logIn(Map<String, String> credentials);
+    ServiceResult<User> logIn(Map<String, String> credentials);
 }

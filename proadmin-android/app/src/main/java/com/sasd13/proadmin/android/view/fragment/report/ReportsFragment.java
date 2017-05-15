@@ -22,7 +22,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.UserPreference;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.sorter.ReportSorter;
 import com.sasd13.proadmin.android.view.IReportController;
@@ -37,7 +36,6 @@ public class ReportsFragment extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
-    private UserPreference preferences;
     private Recycler recycler;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -51,7 +49,6 @@ public class ReportsFragment extends Fragment implements Observer {
 
         controller = (IReportController) ((MainActivity) getActivity()).lookup(IReportController.class);
         scope = (ReportScope) controller.getScope();
-        preferences = ((MainActivity) getActivity()).getPreferences();
     }
 
     @Override
@@ -120,7 +117,7 @@ public class ReportsFragment extends Fragment implements Observer {
                 }
             });
 
-            holder.add(new SimpleDateFormat(preferences.getPatternDate()).format(report.getDateMeeting()), pair);
+            holder.add(new SimpleDateFormat(scope.getPatternDate()).format(report.getDateMeeting()), pair);
         }
 
         RecyclerHelper.addAll(recycler, holder);

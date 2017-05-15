@@ -22,6 +22,7 @@ public class ReportScope extends Scope {
     private List<IndividualEvaluation> individualEvaluations;
     private List<RunningTeam> runningTeams;
     private List<StudentTeam> studentTeams;
+    private String patternDate;
 
     public ReportScope() {
         reports = new ArrayList<>();
@@ -104,6 +105,17 @@ public class ReportScope extends Scope {
 
     public void setStudentTeams(List<StudentTeam> studentTeams) {
         this.studentTeams = studentTeams;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public String getPatternDate() {
+        return patternDate;
+    }
+
+    public void setPatternDate(String patternDate) {
+        this.patternDate = patternDate;
 
         setChanged();
         notifyObservers();

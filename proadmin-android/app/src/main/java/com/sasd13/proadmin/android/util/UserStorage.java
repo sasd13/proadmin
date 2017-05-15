@@ -1,8 +1,7 @@
 package com.sasd13.proadmin.android.util;
 
+import com.sasd13.proadmin.android.bean.User;
 import com.sasd13.proadmin.android.bean.UserPreference;
-
-import java.util.List;
 
 /**
  * Created by ssaidali2 on 15/05/2017.
@@ -10,13 +9,19 @@ import java.util.List;
 
 public class UserStorage {
 
-    private List<UserPreference> userPreferences;
+    private User user;
 
-    public List<UserPreference> getUserPreferences() {
-        return userPreferences;
+    public UserStorage(User user) {
+        this.user = user;
     }
 
-    public void setUserPreferences(List<UserPreference> userPreferences) {
-        this.userPreferences = userPreferences;
+    public UserPreference getUserPreference(String category, String name) {
+        for (UserPreference userPreference : user.getUserPreferences()) {
+            if (userPreference.getCategory().equalsIgnoreCase(category) && userPreference.getName().equalsIgnoreCase(name)) {
+                return userPreference;
+            }
+        }
+
+        return null;
     }
 }
