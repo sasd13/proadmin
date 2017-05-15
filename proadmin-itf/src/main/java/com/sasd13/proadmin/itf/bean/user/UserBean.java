@@ -1,5 +1,7 @@
 package com.sasd13.proadmin.itf.bean.user;
 
+import java.util.List;
+
 import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,7 +12,7 @@ import com.sasd13.proadmin.itf.bean.Id;
 
 @Generated("org.jsonschema2pojo")
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "id", "coreInfo" })
+@JsonPropertyOrder({ "id", "coreInfo", "linkedPreferences" })
 public class UserBean {
 
 	@JsonProperty("id")
@@ -18,6 +20,9 @@ public class UserBean {
 
 	@JsonProperty("coreInfo")
 	private CoreInfo coreInfo;
+
+	@JsonProperty("linkedPreferences")
+	private List<UserPreferenceBean> linkedPreferences;
 
 	public Id getId() {
 		return id;
@@ -33,5 +38,13 @@ public class UserBean {
 
 	public void setCoreInfo(CoreInfo coreInfo) {
 		this.coreInfo = coreInfo;
+	}
+
+	public List<UserPreferenceBean> getLinkedPreferences() {
+		return linkedPreferences;
+	}
+
+	public void setLinkedPreferences(List<UserPreferenceBean> linkedPreferences) {
+		this.linkedPreferences = linkedPreferences;
 	}
 }

@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.service.IUserService;
-import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserAdapterI2B;
+import com.sasd13.proadmin.aaa.util.adapter.bean2itf.UserAdapterB2I;
+import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
+import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserUpdateAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.create.UserCreateRequestBean;
+import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 
 @RestController
 @RequestMapping("/users")
@@ -32,11 +36,11 @@ public class UserController extends Controller {
 	private IUserService userService;
 
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody UserRequestBean requestBean) {
+	public ResponseEntity<Integer> create(@RequestBody UserCreateRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] User : create");
 
 		try {
-			userService.create(new UserAdapterI2B().adapt(requestBean.getData()));
+			userService.create(new UserCreateAdapterI2B().adapt(requestBean.getData()));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -47,11 +51,11 @@ public class UserController extends Controller {
 	}
 
 	@RequestMapping(path = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Integer> update(@RequestBody UserRequestBean requestBean) {
+	public ResponseEntity<Integer> update(@RequestBody UserUpdateRequestBean requestBean) {
 		LOGGER.info("[Proadmin-Backend] User : update");
 
 		try {
-			userService.update(new UserAdapterI2M().adapt(requestBean.getData().get(0)));
+			userService.update(new UserUpdateAdapterI2B().adapt(requestBean.getData()));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -70,7 +74,7 @@ public class UserController extends Controller {
 			List<User> results = userService.read(searchBean.getCriterias());
 			UserResponseBean responseBean = new UserResponseBean();
 			List<UserBean> list = new ArrayList<>();
-			UserAdapterM2I adapter = new UserAdapterM2I();
+			UserAdapterB2I adapter = new UserAdapterB2I();
 
 			for (User result : results) {
 				list.add(adapter.adapt(result));
