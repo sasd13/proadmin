@@ -38,7 +38,7 @@ public class UserAdapterB2I implements IAdapter<User, UserBean> {
         List<UserPreferenceBean> linkedPreferences = new ArrayList<>();
         t.setLinkedPreferences(linkedPreferences);
 
-        for (UserPreference userPreference : s.getUserPreferences()) {
+        for (UserPreference userPreference : s.getUserPreferences().getPreferences()) {
             linkedPreferences.add(userPreferenceAdapter.adapt(userPreference));
         }
 

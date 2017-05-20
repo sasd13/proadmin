@@ -71,6 +71,13 @@
 			<artifactId>proadmin-util</artifactId>
 			<version>0.1</version>
 		</dependency>
+		
+		<!-- Tomcat -->
+		<dependency>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>${tomcat7-maven.version}</version>
+		</dependency>
 
 		<!-- MySQL -->
 		<dependency>

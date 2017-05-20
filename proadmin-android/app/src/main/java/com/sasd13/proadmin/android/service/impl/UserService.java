@@ -7,9 +7,11 @@ import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.user.UserUpdateAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.user.UserAdapterI2B;
+import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 import com.sasd13.proadmin.util.EnumCriteria;
+import com.sasd13.proadmin.util.EnumRestriction;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.HashMap;
@@ -23,13 +25,16 @@ public class UserService implements IUserService {
 
     @Override
     public ServiceResult<User> find(String userID) {
-        Promise promise = new Promise("GET", Resources.URL_AAA_USERS, UserResponseBean.class);
-        Map<String, String[]> parameters = new HashMap<>();
+        Promise promise = new Promise("POST", Resources.URL_AAA_USERS + "/search", UserResponseBean.class);
+        SearchBean searchBean = new SearchBean();
+        Map<String, Object> criterias = new HashMap<>();
+        Map<String, String[]> whereCriterias = new HashMap<>();
 
-        parameters.put(EnumCriteria.USERID.getCode(), new String[]{userID});
-        promise.setParameters(parameters);
+        whereCriterias.put(EnumCriteria.USERID.getCode(), new String[]{userID});
+        criterias.put(EnumRestriction.WHERE.getCode(), whereCriterias);
+        searchBean.setCriterias(criterias);
 
-        UserResponseBean responseBean = (UserResponseBean) promise.execute();
+        UserResponseBean responseBean = (UserResponseBean) promise.execute(searchBean);
         User user = null;
 
         if (promise.isSuccess() && !responseBean.getData().isEmpty()) {
@@ -46,7 +51,7 @@ public class UserService implements IUserService {
 
     @Override
     public ServiceResult<Void> update(UserUpdate userUpdate) {
-        Promise promise = new Promise("PUT", Resources.URL_AAA_USERS);
+        Promise promise = new Promise("PUT", Resources.URL_AAA_USERS + "/update");
 
         UserUpdateRequestBean requestBean = new UserUpdateRequestBean();
 

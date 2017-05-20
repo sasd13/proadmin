@@ -16,9 +16,11 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.gui.form.ProjectForm;
+import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -26,6 +28,7 @@ import java.util.Observer;
 public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
     private ProjectScope scope;
+    private UserPreferences userPreferences;
     private ProjectForm projectForm;
 
     public static ProjectDetailsFragmentInfos newInstance() {
@@ -45,6 +48,7 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
 
         scope.addObserver(this);
 
+        userPreferences = ((MainActivity) getActivity()).getUser().getUserPreferences();
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
@@ -59,7 +63,7 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormProject(View view) {
-        projectForm = new ProjectForm(getContext(), scope.getPatternDate());
+        projectForm = new ProjectForm(getContext(), userPreferences.find(EnumPreference.GENERAL_DATE));
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

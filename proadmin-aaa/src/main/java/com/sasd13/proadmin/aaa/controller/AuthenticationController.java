@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +35,7 @@ public class AuthenticationController extends Controller {
 	private IUserService userService;
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<AuthenticationResponseBean> create(@RequestBody Credential credential) {
 		LOGGER.info("[Proadmin-Backend] User : login");
 

@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.aaa.bean;
+package com.sasd13.proadmin.util;
 
 public enum EnumPreferenceCategory {
 	GENERAL("GEN"), ;

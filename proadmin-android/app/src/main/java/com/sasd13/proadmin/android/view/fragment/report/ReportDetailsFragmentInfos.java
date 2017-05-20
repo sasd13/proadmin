@@ -22,9 +22,11 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.ReportForm;
+import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -33,6 +35,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
+    private UserPreferences userPreferences;
     private ReportForm reportForm;
     private Menu menu;
 
@@ -56,6 +59,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
         scope.addObserver(this);
 
+        userPreferences = ((MainActivity) getActivity()).getUser().getUserPreferences();
         View view = inflater.inflate(R.layout.layout_rv, container, false);
 
         buildView(view);
@@ -70,7 +74,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormReport(View view) {
-        reportForm = new ReportForm(getContext(), true, scope.getPatternDate());
+        reportForm = new ReportForm(getContext(), true, userPreferences.find(EnumPreference.GENERAL_DATE));
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

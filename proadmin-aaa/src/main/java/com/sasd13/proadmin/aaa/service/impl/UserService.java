@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.aaa.bean.EnumPreferenceCategory;
 import com.sasd13.proadmin.aaa.dao.IPreferenceDAO;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.model.Preference;
 import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.model.UserPreference;
 import com.sasd13.proadmin.aaa.service.IUserService;
+import com.sasd13.proadmin.util.EnumPreferenceCategory;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)

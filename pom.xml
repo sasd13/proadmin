@@ -111,13 +111,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<!-- Tomcat -->
-		<dependency>
-			<groupId>org.apache.tomcat.maven</groupId>
-			<artifactId>tomcat7-maven-plugin</artifactId>
-			<version>${tomcat7-maven.version}</version>
-		</dependency>
-		
 		<!-- Servlet Spec -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
