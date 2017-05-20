@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.bean;
+package com.sasd13.proadmin.android.bean.user;
 
 import com.sasd13.javaex.security.Credential;
 

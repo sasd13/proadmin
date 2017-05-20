@@ -2,7 +2,7 @@ package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
-import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.controller.IdentityController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;

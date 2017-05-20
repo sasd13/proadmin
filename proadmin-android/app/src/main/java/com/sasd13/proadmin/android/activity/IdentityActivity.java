@@ -11,7 +11,7 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Resolver;
-import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.authentication.LogInFragment;

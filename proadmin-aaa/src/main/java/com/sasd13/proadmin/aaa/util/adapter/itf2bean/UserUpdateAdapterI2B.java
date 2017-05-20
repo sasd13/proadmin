@@ -14,6 +14,12 @@ public class UserUpdateAdapterI2B implements IAdapter<UserUpdateBean, User> {
 
 	private static final String DELIMITER = ";";
 
+	private UserPreferenceAdapterI2B userPreferenceAdapter;
+
+	public UserUpdateAdapterI2B() {
+		userPreferenceAdapter = new UserPreferenceAdapterI2B();
+	}
+
 	@Override
 	public User adapt(UserUpdateBean s) {
 		User t = new User();
@@ -28,13 +34,8 @@ public class UserUpdateAdapterI2B implements IAdapter<UserUpdateBean, User> {
 		List<UserPreference> userPreferences = new ArrayList<>();
 		t.setUserPreferences(userPreferences);
 
-		UserPreference userPreference;
 		for (UserPreferenceBean userPreferenceBean : s.getUser().getLinkedPreferences()) {
-			userPreference = new UserPreference();
-
-			userPreference.setId(Integer.valueOf(userPreferenceBean.getId()));
-			userPreference.setValue(userPreference.getValue());
-			userPreferences.add(userPreference);
+			userPreferences.add(userPreferenceAdapter.adapt(userPreferenceBean));
 		}
 
 		return t;

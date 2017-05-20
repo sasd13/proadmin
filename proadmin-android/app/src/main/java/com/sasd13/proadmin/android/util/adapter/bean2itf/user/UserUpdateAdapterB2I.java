@@ -1,9 +1,7 @@
-package com.sasd13.proadmin.android.util.adapter.bean2itf;
+package com.sasd13.proadmin.android.util.adapter.bean2itf.user;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.android.bean.UserUpdate;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.CredentialUpdateAdapterB2I;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.UserAdapterB2I;
+import com.sasd13.proadmin.android.bean.user.UserUpdate;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateBean;
 
 public class UserUpdateAdapterB2I implements IAdapter<UserUpdate, UserUpdateBean> {

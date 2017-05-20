@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.bean;
+package com.sasd13.proadmin.android.bean.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -23,6 +23,8 @@ public class UserPreference implements Parcelable {
 
     private long id;
     private String value, category, name, defaultValue;
+
+    public UserPreference() {}
 
     protected UserPreference(Parcel in) {
         id = in.readLong();

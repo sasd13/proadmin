@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.user.User;
 
 import java.util.Map;
 

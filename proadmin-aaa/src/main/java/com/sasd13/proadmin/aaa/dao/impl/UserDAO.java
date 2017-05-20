@@ -20,6 +20,7 @@ import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.aaa.model.UserPreference;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
@@ -39,6 +40,18 @@ public class UserDAO extends AbstractDAO implements IUserDAO, IConditionnal {
 
 	@Override
 	public void update(User user) {
+		User userToUpdate = find(user.getUserID());
+
+		for (UserPreference userPreference : user.getUserPreferences()) {
+			for (UserPreference userPreferenceToUpdate : userToUpdate.getUserPreferences()) {
+				if (userPreferenceToUpdate.getId() == userPreference.getId()) {
+					userPreferenceToUpdate.setValue(userPreference.getValue());
+
+					break;
+				}
+			}
+		}
+
 		currentSession().update(user);
 		currentSession().flush();
 	}

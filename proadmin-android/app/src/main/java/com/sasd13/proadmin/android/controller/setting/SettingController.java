@@ -3,8 +3,8 @@ package com.sasd13.proadmin.android.controller.setting;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.UserUpdate;
+import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.bean.user.UserUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
@@ -54,6 +54,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onReadUser(User user) {
+        getActivity().setUser(user);
         scope.setUser(user);
         scope.setLoading(false);
     }
@@ -68,6 +69,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onUpdateUser() {
+        getActivity().setUser(scope.getUser());
         display(R.string.message_updated);
     }
 }

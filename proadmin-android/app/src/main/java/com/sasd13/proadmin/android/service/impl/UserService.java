@@ -1,12 +1,12 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.android.bean.User;
-import com.sasd13.proadmin.android.bean.UserUpdate;
+import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.bean.user.UserUpdate;
 import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.UserUpdateAdapterB2I;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.UserAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.bean2itf.user.UserUpdateAdapterB2I;
+import com.sasd13.proadmin.android.util.adapter.itf2bean.user.UserAdapterI2B;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
 import com.sasd13.proadmin.util.EnumCriteria;

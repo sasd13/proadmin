@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.controller.splashscreen;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.SplashScreenActivity;
-import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.controller.Controller;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IUserService;

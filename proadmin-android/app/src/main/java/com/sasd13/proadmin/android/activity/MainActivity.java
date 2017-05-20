@@ -21,9 +21,8 @@ import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Resolver;
-import com.sasd13.proadmin.android.bean.User;
+import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.util.Constants;
-import com.sasd13.proadmin.android.util.UserStorage;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.fragment.HomeFragment;
@@ -36,15 +35,19 @@ import java.util.List;
 public class MainActivity extends DrawerActivity {
 
     private Resolver resolver;
-    private UserStorage userStorage;
+    private User user;
     private IPagerHandler pagerHandler;
 
     public SessionStorage getSessionStorage() {
         return (SessionStorage) resolver.resolve(SessionStorage.class);
     }
 
-    public UserStorage getUserStorage() {
-        return userStorage;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
@@ -62,8 +65,7 @@ public class MainActivity extends DrawerActivity {
 
     private void init() {
         resolver = Configuration.init(this);
-        User user = getIntent().getExtras().getParcelable(Constants.USER);
-        userStorage = new UserStorage(user);
+        user = getIntent().getExtras().getParcelable(Constants.USER);
 
         startHomeFragment();
     }

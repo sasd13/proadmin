@@ -1,7 +1,7 @@
-package com.sasd13.proadmin.android.util.adapter.bean2itf;
+package com.sasd13.proadmin.android.util.adapter.bean2itf.user;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.android.bean.CredentialUpdate;
+import com.sasd13.proadmin.android.bean.user.CredentialUpdate;
 import com.sasd13.proadmin.itf.bean.user.LinkedCredential;
 import com.sasd13.proadmin.itf.bean.user.update.CredentialUpdateBean;
 
