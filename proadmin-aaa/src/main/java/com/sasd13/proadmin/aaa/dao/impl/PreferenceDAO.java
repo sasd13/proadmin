@@ -7,6 +7,7 @@ package com.sasd13.proadmin.aaa.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
@@ -33,7 +34,11 @@ public class PreferenceDAO extends AbstractDAO implements IPreferenceDAO, ICondi
 		query.setParameter("category", category);
 		query.setParameter("name", name);
 
-		return (Preference) query.getSingleResult();
+		try {
+			return (Preference) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

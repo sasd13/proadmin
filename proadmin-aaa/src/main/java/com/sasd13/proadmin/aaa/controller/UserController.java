@@ -1,24 +1,17 @@
 package com.sasd13.proadmin.aaa.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.service.IUserService;
-import com.sasd13.proadmin.aaa.util.adapter.bean2itf.UserAdapterB2I;
-import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
-import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserUpdateAdapterI2B;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
@@ -40,7 +33,7 @@ public class UserController extends Controller {
 		LOGGER.info("[Proadmin-Backend] User : create");
 
 		try {
-			userService.create(new UserCreateAdapterI2B().adapt(requestBean.getData()));
+			userService.create(requestBean.getData());
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -55,7 +48,7 @@ public class UserController extends Controller {
 		LOGGER.info("[Proadmin-Backend] User : update");
 
 		try {
-			userService.update(new UserUpdateAdapterI2B().adapt(requestBean.getData()));
+			userService.update(requestBean.getData());
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -66,22 +59,15 @@ public class UserController extends Controller {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] User : search");
 
 		try {
-			List<User> results = userService.read(searchBean.getCriterias());
+			List<UserBean> results = userService.read(searchBean.getCriterias());
 			UserResponseBean responseBean = new UserResponseBean();
-			List<UserBean> list = new ArrayList<>();
-			UserAdapterB2I adapter = new UserAdapterB2I();
 
-			for (User result : results) {
-				list.add(adapter.adapt(result));
-			}
-
-			responseBean.setData(list);
-			addHeaders(responseBean, list.size(), searchBean);
+			responseBean.setData(results);
+			addHeaders(responseBean, results.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

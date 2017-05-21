@@ -3,17 +3,17 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Teacher;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 
 public interface ITeacherService {
 
-	void create(Teacher teacher);
+	void create(TeacherBean teacherBean);
 
-	void update(Teacher teacher);
+	void update(TeacherBean teacherBean);
 
-	void delete(Teacher teacher);
+	void delete(TeacherBean teacherBean);
 
-	Teacher read(String intermediary);
+	TeacherBean read(String intermediary);
 
-	List<Teacher> read(Map<String, Object> criterias);
+	List<TeacherBean> read(Map<String, Object> criterias);
 }

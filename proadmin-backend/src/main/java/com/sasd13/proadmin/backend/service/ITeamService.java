@@ -3,15 +3,15 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Team;
+import com.sasd13.proadmin.itf.bean.team.TeamBean;
 
 public interface ITeamService {
 
-	void create(Team team);
+	void create(TeamBean teamBean);
 
-	void update(Team team);
+	void update(TeamBean teamBean);
 
-	void delete(Team team);
+	void delete(TeamBean teamBean);
 
-	List<Team> read(Map<String, Object> criterias);
+	List<TeamBean> read(Map<String, Object> criterias);
 }

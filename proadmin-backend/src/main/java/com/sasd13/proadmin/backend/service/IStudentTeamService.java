@@ -3,13 +3,13 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.StudentTeam;
+import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
 
 public interface IStudentTeamService {
 
-	void create(List<StudentTeam> studentTeams);
+	void create(List<StudentTeamBean> studentTeamBeans);
 
-	void delete(List<StudentTeam> studentTeams);
+	void delete(List<StudentTeamBean> studentTeamBeans);
 
-	List<StudentTeam> read(Map<String, Object> criterias);
+	List<StudentTeamBean> read(Map<String, Object> criterias);
 }

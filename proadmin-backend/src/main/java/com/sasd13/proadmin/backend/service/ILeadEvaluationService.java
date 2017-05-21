@@ -3,15 +3,15 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.LeadEvaluation;
+import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 public interface ILeadEvaluationService {
 
-	void create(LeadEvaluation leadEvaluation);
+	void create(LeadEvaluationBean leadEvaluationBean);
 
-	void update(LeadEvaluation leadEvaluation);
+	void update(LeadEvaluationBean leadEvaluationBean);
 
-	void delete(LeadEvaluation leadEvaluation);
+	void delete(LeadEvaluationBean leadEvaluationBean);
 
-	List<LeadEvaluation> read(Map<String, Object> criterias);
+	List<LeadEvaluationBean> read(Map<String, Object> criterias);
 }

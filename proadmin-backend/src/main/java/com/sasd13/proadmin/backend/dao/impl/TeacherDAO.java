@@ -3,6 +3,7 @@ package com.sasd13.proadmin.backend.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
@@ -51,7 +52,11 @@ public class TeacherDAO extends AbstractDAO implements ITeacherDAO, IConditionna
 		Query query = currentSession().createQuery(builder.toString());
 		query.setParameter("intermediary", intermediary);
 
-		return (Teacher) query.getSingleResult();
+		try {
+			return (Teacher) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -4,7 +4,7 @@ import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.aaa.model.UserPreference;
 import com.sasd13.proadmin.itf.bean.user.UserPreferenceBean;
 
-public class UserPreferenceAdapterB2I implements IAdapter<UserPreference, UserPreferenceBean> {
+public class UserPreferenceAdapterM2I implements IAdapter<UserPreference, UserPreferenceBean> {
 
 	@Override
 	public UserPreferenceBean adapt(UserPreference s) {

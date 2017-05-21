@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -32,13 +33,23 @@ public class AuthenticationService implements IAuthenticationService {
 
         Credential credential = new Credential(parameters.get(PARAMETER_USERNAME), HexEncoder.sha256(parameters.get(PARAMETER_PASSWORD)));
         AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(credential);
-        Map<String, String> session = responseBean.getSession();
-        User user = new UserAdapterI2B().adapt(responseBean.getUser());
+        Map<String, String> errors = Collections.EMPTY_MAP;
+        Map<String, String> session = Collections.EMPTY_MAP;
+        User user = null;
+
+        if (promise.isSuccess()) {
+            errors = responseBean.getErrors();
+
+            if (errors.isEmpty()) {
+                session = responseBean.getSession();
+                user = new UserAdapterI2B().adapt(responseBean.getUser());
+            }
+        }
 
         return new ServiceResult<>(
-                responseBean.getErrors().isEmpty() && isSessionValid(session),
+                isSessionValid(session),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 user
         );
     }

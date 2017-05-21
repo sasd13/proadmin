@@ -8,6 +8,7 @@ package com.sasd13.proadmin.aaa.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
@@ -65,7 +66,11 @@ public class UserDAO extends AbstractDAO implements IUserDAO, IConditionnal {
 		query.setParameter("username", credential.getUsername());
 		query.setParameter("password", credential.getPassword());
 
-		return (User) query.getSingleResult();
+		try {
+			return (User) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -76,7 +81,11 @@ public class UserDAO extends AbstractDAO implements IUserDAO, IConditionnal {
 		Query query = currentSession().createQuery(builder.toString());
 		query.setParameter("userID", userID);
 
-		return (User) query.getSingleResult();
+		try {
+			return (User) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

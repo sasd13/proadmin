@@ -3,17 +3,17 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Student;
+import com.sasd13.proadmin.itf.bean.student.StudentBean;
 
 public interface IStudentService {
 
-	void create(Student student);
+	void create(StudentBean studentBean);
 
-	void update(Student student);
+	void update(StudentBean studentBean);
 
-	void delete(Student student);
+	void delete(StudentBean studentBean);
 
-	Student read(String intermediary);
+	StudentBean read(String intermediary);
 
-	List<Student> read(Map<String, Object> criterias);
+	List<StudentBean> read(Map<String, Object> criterias);
 }

@@ -3,15 +3,15 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Project;
+import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 
 public interface IProjectService {
 
-	void create(Project project);
+	void create(ProjectBean projectBean);
 
-	void update(Project project);
+	void update(ProjectBean projectBean);
 
-	void delete(Project project);
+	void delete(ProjectBean projectBean);
 
-	List<Project> read(Map<String, Object> criterias);
+	List<ProjectBean> read(Map<String, Object> criterias);
 }

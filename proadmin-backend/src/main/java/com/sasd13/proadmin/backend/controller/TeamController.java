@@ -1,23 +1,17 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.model.Team;
 import com.sasd13.proadmin.backend.service.ITeamService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.TeamAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.TeamAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
@@ -38,7 +32,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : create");
 
 		try {
-			teamService.create(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
+			teamService.create(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -53,7 +47,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : update");
 
 		try {
-			teamService.update(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
+			teamService.update(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -68,7 +62,7 @@ public class TeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Team : delete");
 
 		try {
-			teamService.delete(new TeamAdapterI2M().adapt(requestBean.getData().get(0)));
+			teamService.delete(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -79,22 +73,15 @@ public class TeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Team : search");
 
 		try {
-			List<Team> results = teamService.read(searchBean.getCriterias());
+			List<TeamBean> results = teamService.read(searchBean.getCriterias());
 			TeamResponseBean responseBean = new TeamResponseBean();
-			List<TeamBean> list = new ArrayList<>();
-			TeamAdapterM2I adapter = new TeamAdapterM2I();
 
-			for (Team result : results) {
-				list.add(adapter.adapt(result));
-			}
-
-			responseBean.setData(list);
-			addHeaders(responseBean, list.size(), searchBean);
+			responseBean.setData(results);
+			addHeaders(responseBean, results.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

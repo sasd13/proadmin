@@ -3,15 +3,15 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.RunningTeam;
+import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
 
 public interface IRunningTeamService {
 
-	void create(RunningTeam runningTeam);
+	void create(RunningTeamBean runningTeamBean);
 
-	void update(RunningTeam runningTeam);
+	void update(RunningTeamBean runningTeamBean);
 
-	void delete(RunningTeam runningTeam);
+	void delete(RunningTeamBean runningTeamBean);
 
-	List<RunningTeam> read(Map<String, Object> criterias);
+	List<RunningTeamBean> read(Map<String, Object> criterias);
 }

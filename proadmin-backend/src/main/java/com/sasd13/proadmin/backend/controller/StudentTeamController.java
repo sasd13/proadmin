@@ -1,23 +1,17 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.model.StudentTeam;
 import com.sasd13.proadmin.backend.service.IStudentTeamService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.StudentTeamAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.StudentTeamAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
@@ -38,14 +32,7 @@ public class StudentTeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] StudentTeam : create");
 
 		try {
-			List<StudentTeam> studentTeams = new ArrayList<>();
-			StudentTeamAdapterI2M adapter = new StudentTeamAdapterI2M();
-
-			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
-				studentTeams.add(adapter.adapt(studentTeamBean));
-			}
-
-			studentTeamService.create(studentTeams);
+			studentTeamService.create(requestBean.getData());
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,14 +47,7 @@ public class StudentTeamController extends Controller {
 		LOGGER.info("[Proadmin-Backend] StudentTeam : delete");
 
 		try {
-			List<StudentTeam> studentTeams = new ArrayList<>();
-			StudentTeamAdapterI2M adapter = new StudentTeamAdapterI2M();
-
-			for (StudentTeamBean studentTeamBean : requestBean.getData()) {
-				studentTeams.add(adapter.adapt(studentTeamBean));
-			}
-
-			studentTeamService.delete(studentTeams);
+			studentTeamService.delete(requestBean.getData());
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -78,22 +58,15 @@ public class StudentTeamController extends Controller {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] StudentTeam : search");
 
 		try {
-			List<StudentTeam> results = studentTeamService.read(searchBean.getCriterias());
+			List<StudentTeamBean> results = studentTeamService.read(searchBean.getCriterias());
 			StudentTeamResponseBean responseBean = new StudentTeamResponseBean();
-			List<StudentTeamBean> list = new ArrayList<>();
-			StudentTeamAdapterM2I adapter = new StudentTeamAdapterM2I();
 
-			for (StudentTeam result : results) {
-				list.add(adapter.adapt(result));
-			}
-
-			responseBean.setData(list);
-			addHeaders(responseBean, list.size(), searchBean);
+			responseBean.setData(results);
+			addHeaders(responseBean, results.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

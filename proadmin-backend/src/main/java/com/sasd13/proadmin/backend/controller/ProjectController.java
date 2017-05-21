@@ -1,23 +1,17 @@
 package com.sasd13.proadmin.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.model.Project;
 import com.sasd13.proadmin.backend.service.IProjectService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.ProjectAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.ProjectAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
@@ -38,7 +32,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : create");
 
 		try {
-			projectService.create(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
+			projectService.create(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -53,7 +47,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : update");
 
 		try {
-			projectService.update(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
+			projectService.update(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -68,7 +62,7 @@ public class ProjectController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Project : delete");
 
 		try {
-			projectService.delete(new ProjectAdapterI2M().adapt(requestBean.getData().get(0)));
+			projectService.delete(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -79,22 +73,15 @@ public class ProjectController extends Controller {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Project : search");
 
 		try {
-			List<Project> results = projectService.read(searchBean.getCriterias());
+			List<ProjectBean> results = projectService.read(searchBean.getCriterias());
 			ProjectResponseBean responseBean = new ProjectResponseBean();
-			List<ProjectBean> list = new ArrayList<>();
-			ProjectAdapterM2I adapter = new ProjectAdapterM2I();
 
-			for (Project result : results) {
-				list.add(adapter.adapt(result));
-			}
-
-			responseBean.setData(list);
-			addHeaders(responseBean, list.size(), searchBean);
+			responseBean.setData(results);
+			addHeaders(responseBean, results.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

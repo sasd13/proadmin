@@ -11,14 +11,14 @@ import com.sasd13.proadmin.itf.bean.user.CoreInfo;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
 import com.sasd13.proadmin.itf.bean.user.UserPreferenceBean;
 
-public class UserAdapterB2I implements IAdapter<User, UserBean> {
+public class UserAdapterM2I implements IAdapter<User, UserBean> {
 
 	private static final String DELIMITER = ";";
 
-	private UserPreferenceAdapterB2I userPreferenceAdapter;
+	private UserPreferenceAdapterM2I userPreferenceAdapter;
 
-	public UserAdapterB2I() {
-		userPreferenceAdapter = new UserPreferenceAdapterB2I();
+	public UserAdapterM2I() {
+		userPreferenceAdapter = new UserPreferenceAdapterM2I();
 	}
 
 	@Override

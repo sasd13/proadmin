@@ -7,18 +7,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sasd13.proadmin.backend.model.Teacher;
 import com.sasd13.proadmin.backend.service.ITeacherService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.TeacherAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.TeacherAdapterM2I;
 import com.sasd13.proadmin.itf.ResponseBean;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
@@ -39,7 +34,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : create");
 
 		try {
-			teacherService.create(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
+			teacherService.create(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -54,7 +49,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : update");
 
 		try {
-			teacherService.update(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
+			teacherService.update(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -69,7 +64,7 @@ public class TeacherController extends Controller {
 		LOGGER.info("[Proadmin-Backend] Teacher : delete");
 
 		try {
-			teacherService.delete(new TeacherAdapterI2M().adapt(requestBean.getData().get(0)));
+			teacherService.delete(requestBean.getData().get(0));
 
 			return new ResponseEntity<Integer>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -80,17 +75,16 @@ public class TeacherController extends Controller {
 	}
 
 	@RequestMapping(path = "/read", method = RequestMethod.GET)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestParam(value = "intermediary", required = true) String intermediary) {
 		LOGGER.info("[Proadmin-Backend] Teacher : read");
 
 		try {
-			Teacher result = teacherService.read(intermediary);
+			TeacherBean result = teacherService.read(intermediary);
 			TeacherResponseBean responseBean = new TeacherResponseBean();
-			List<TeacherBean> list = new ArrayList<>();
+			List<TeacherBean> results = new ArrayList<>();
 
-			list.add(new TeacherAdapterM2I().adapt(result));
-			responseBean.setData(list);
+			results.add(result);
+			responseBean.setData(results);
 			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
@@ -102,22 +96,15 @@ public class TeacherController extends Controller {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Transactional(propagation = Propagation.REQUIRED)
 	public ResponseEntity<ResponseBean> search(@RequestBody SearchBean searchBean) {
 		LOGGER.info("[Proadmin-Backend] Teacher : search");
 
 		try {
-			List<Teacher> results = teacherService.read(searchBean.getCriterias());
+			List<TeacherBean> results = teacherService.read(searchBean.getCriterias());
 			TeacherResponseBean responseBean = new TeacherResponseBean();
-			List<TeacherBean> list = new ArrayList<>();
-			TeacherAdapterM2I adapter = new TeacherAdapterM2I();
 
-			for (Teacher result : results) {
-				list.add(adapter.adapt(result));
-			}
-
-			responseBean.setData(list);
-			addHeaders(responseBean, list.size(), searchBean);
+			responseBean.setData(results);
+			addHeaders(responseBean, results.size(), searchBean);
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {

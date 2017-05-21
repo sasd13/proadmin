@@ -3,15 +3,15 @@ package com.sasd13.proadmin.backend.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.itf.bean.report.ReportBean;
 
 public interface IReportService {
 
-	void create(Report report);
+	void create(ReportBean reportBean);
 
-	void update(Report report);
+	void update(ReportBean reportBean);
 
-	void delete(Report report);
+	void delete(ReportBean reportBean);
 
-	List<Report> read(Map<String, Object> criterias);
+	List<ReportBean> read(Map<String, Object> criterias);
 }

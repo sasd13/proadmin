@@ -3,18 +3,17 @@ package com.sasd13.proadmin.aaa.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.itf.bean.user.UserBean;
+import com.sasd13.proadmin.itf.bean.user.create.UserCreateBean;
+import com.sasd13.proadmin.itf.bean.user.update.UserUpdateBean;
 
 public interface IUserService {
 
-	User create(User user);
+	UserBean create(UserCreateBean userCreateBean);
 
-	void update(User user);
+	void update(UserUpdateBean userUpdateBean);
 
-	User find(Credential credential);
+	UserBean find(String userID);
 
-	User find(String userID);
-
-	List<User> read(Map<String, Object> criterias);
+	List<UserBean> read(Map<String, Object> criterias);
 }
