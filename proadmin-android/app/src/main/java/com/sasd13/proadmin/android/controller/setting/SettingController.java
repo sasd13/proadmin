@@ -69,7 +69,6 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onUpdateUser() {
-        getActivity().setUser(scope.getUser());
         display(R.string.message_updated);
     }
 }
