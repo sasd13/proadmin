@@ -8,7 +8,8 @@ public enum EnumError {
 	PARAMETERS(5, "exception.parameters"),
 	PARSER(6, "exception.parser"),
 	SERVICE(7, "exception.service"),
-	STATUS(8, "exception.status"),;
+	STATUS(8, "exception.status"),
+	CREDENTIAL(9, "exception.credential"), ;
 
 	private int code;
 	private String bundleKey;

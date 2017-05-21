@@ -8,6 +8,8 @@ import com.sasd13.androidex.gui.widget.recycler.form.DateItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.util.EnumPreference;
 
 import org.joda.time.LocalDate;
 
@@ -19,7 +21,7 @@ public class ProjectForm extends Form {
     private TextItemModel modelTitle, modelCode, modelDescription;
     private DateItemModel modelDateCreation;
 
-    public ProjectForm(Context context, String patternDate) {
+    public ProjectForm(Context context, UserPreferences userPreferences) {
         super(context);
 
         modelCode = new TextItemModel();
@@ -27,7 +29,7 @@ public class ProjectForm extends Form {
         modelCode.setLabel(context.getString(R.string.label_code));
         holder.add(new RecyclerHolderPair(modelCode));
 
-        modelDateCreation = new DateItemModel(patternDate);
+        modelDateCreation = new DateItemModel(userPreferences.findValue(EnumPreference.GENERAL_DATE));
         modelDateCreation.setReadOnly(true);
         modelDateCreation.setLabel(context.getString(R.string.label_datecreation));
         holder.add(new RecyclerHolderPair(modelDateCreation));

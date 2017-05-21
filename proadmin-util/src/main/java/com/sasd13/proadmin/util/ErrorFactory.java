@@ -12,6 +12,8 @@ public class ErrorFactory {
 			return EnumError.PARAMETERS;
 		} else if (StatusException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.STATUS;
+		} else if (CredentialException.class.isAssignableFrom(e.getClass())) {
+			return EnumError.CREDENTIAL;
 		} else if (RuntimeException.class.isAssignableFrom(e.getClass())) {
 			return EnumError.SERVICE;
 		} else {

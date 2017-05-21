@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.Resolver;
+import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IBrowsable;
@@ -34,12 +34,13 @@ import java.util.List;
 
 public class MainActivity extends DrawerActivity {
 
-    private Resolver resolver;
+    private Router router;
+    private SessionStorage sessionStorage;
     private User user;
     private IPagerHandler pagerHandler;
 
     public SessionStorage getSessionStorage() {
-        return (SessionStorage) resolver.resolve(SessionStorage.class);
+        return sessionStorage;
     }
 
     public User getUser() {
@@ -64,7 +65,8 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        resolver = Configuration.init(this);
+        router = Configuration.init();
+        sessionStorage = new SessionStorage(this);
         user = getIntent().getExtras().getParcelable(Constants.USER);
 
         startHomeFragment();
@@ -116,7 +118,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class mClass) {
-        return resolver.resolveController(mClass, this);
+        return router.dispatch(mClass, this);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {

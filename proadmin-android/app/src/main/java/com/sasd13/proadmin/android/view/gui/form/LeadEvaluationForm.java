@@ -78,17 +78,7 @@ public class LeadEvaluationForm extends Form {
     private void bindPlanningMark(String[] values, float mark) {
         bindPlanningMark(values);
 
-        modelPlanningMark.setValue(indexOf(mark, values));
-    }
-
-    private int indexOf(float mark, String[] values) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(String.valueOf((int) mark))) {
-                return i;
-            }
-        }
-
-        return 0;
+        modelPlanningMark.setValue(IndexFinder.indexOf(mark, values));
     }
 
     private void bindCommunicationMark(String[] values) {
@@ -98,7 +88,7 @@ public class LeadEvaluationForm extends Form {
     private void bindCommunicationMark(String[] values, float mark) {
         bindCommunicationMark(values);
 
-        modelCommunicationMark.setValue(indexOf(mark, values));
+        modelCommunicationMark.setValue(IndexFinder.indexOf(mark, values));
     }
 
     private void bindLeader(List<Student> studentsToBind) {

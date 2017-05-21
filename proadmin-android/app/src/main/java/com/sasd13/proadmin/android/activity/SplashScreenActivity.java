@@ -9,7 +9,7 @@ import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.proadmin.android.Configuration;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.Resolver;
+import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IController;
@@ -17,10 +17,11 @@ import com.sasd13.proadmin.android.view.fragment.SplashScreenFragment;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private Resolver resolver;
+    private Router router;
+    private SessionStorage sessionStorage;
 
     public SessionStorage getSessionStorage() {
-        return (SessionStorage) resolver.resolve(SessionStorage.class);
+        return sessionStorage;
     }
 
     @Override
@@ -33,7 +34,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void init() {
-        resolver = Configuration.init(this);
+        router = Configuration.init();
+        sessionStorage = new SessionStorage(this);
 
         startSplashScreenFragment();
     }
@@ -46,7 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public IController lookup(Class mClass) {
-        return resolver.resolveController(mClass, this);
+        return router.dispatch(mClass, this);
     }
 
     public void goToMainActivity(final User user) {

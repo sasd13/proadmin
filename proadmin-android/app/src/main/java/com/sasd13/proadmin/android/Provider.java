@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.factory;
+package com.sasd13.proadmin.android;
 
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
@@ -29,9 +29,27 @@ import com.sasd13.proadmin.android.service.impl.UserService;
  * Created by ssaidali2 on 02/04/2017.
  */
 
-public class ServiceFactory {
+public class Provider {
 
-    public static Object make(Class mClass) {
+    private Resolver resolver;
+
+    public Provider(Resolver resolver) {
+        this.resolver = resolver;
+    }
+
+    public Object provide(Class mClass) {
+        Object service = resolver.resolve(mClass);
+
+        if (service == null) {
+            service = make(mClass);
+
+            resolver.register(mClass, service);
+        }
+
+        return service;
+    }
+
+    private Object make(Class mClass) {
         if (IAuthenticationService.class.isAssignableFrom(mClass)) {
             return new AuthenticationService();
         } else if (IUserService.class.isAssignableFrom(mClass)) {

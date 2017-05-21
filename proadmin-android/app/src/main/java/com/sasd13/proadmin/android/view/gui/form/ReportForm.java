@@ -10,6 +10,8 @@ import com.sasd13.androidex.gui.widget.recycler.form.DateItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.util.EnumPreference;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
@@ -25,7 +27,7 @@ public class ReportForm extends Form {
     private TextItemModel modelNumber, modelSession, modelComment;
     private DateItemModel modelDateMeeting;
 
-    public ReportForm(Context context, boolean inModeEdit, String patternDate) {
+    public ReportForm(Context context, boolean inModeEdit, UserPreferences userPreferences) {
         super(context);
 
         this.inModeEdit = inModeEdit;
@@ -42,7 +44,7 @@ public class ReportForm extends Form {
         modelSession.setLabel(context.getString(R.string.label_session));
         holder.add(new RecyclerHolderPair(modelSession));
 
-        modelDateMeeting = new DateItemModel(patternDate);
+        modelDateMeeting = new DateItemModel(userPreferences.findValue(EnumPreference.GENERAL_DATE));
         modelDateMeeting.setLabel(context.getString(R.string.label_datemeeting));
         modelDateMeeting.setValue(new LocalDate());
         holder.add(new RecyclerHolderPair(modelDateMeeting));

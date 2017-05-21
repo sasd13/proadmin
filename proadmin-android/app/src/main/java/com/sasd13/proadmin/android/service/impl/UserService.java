@@ -14,6 +14,7 @@ import com.sasd13.proadmin.util.EnumCriteria;
 import com.sasd13.proadmin.util.EnumRestriction;
 import com.sasd13.proadmin.util.Resources;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,23 +36,28 @@ public class UserService implements IUserService {
         searchBean.setCriterias(criterias);
 
         UserResponseBean responseBean = (UserResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         User user = null;
 
-        if (promise.isSuccess() && !responseBean.getData().isEmpty()) {
-            user = new UserAdapterI2B().adapt(responseBean.getData().get(0));
+        if (promise.isSuccess()) {
+            errors = responseBean.getErrors();
+
+            if (errors.isEmpty()) {
+                user = new UserAdapterI2B().adapt(responseBean.getData().get(0));
+            }
         }
 
         return new ServiceResult<>(
                 promise.isSuccess(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 user
         );
     }
 
     @Override
     public ServiceResult<Void> update(UserUpdate userUpdate) {
-        Promise promise = new Promise("PUT", Resources.URL_AAA_USERS + "/update");
+        Promise promise = new Promise("POST", Resources.URL_AAA_USERS + "/update");
 
         UserUpdateRequestBean requestBean = new UserUpdateRequestBean();
 

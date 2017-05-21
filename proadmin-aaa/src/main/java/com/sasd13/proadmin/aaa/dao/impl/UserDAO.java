@@ -22,6 +22,8 @@ import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.model.UserPreference;
+import com.sasd13.proadmin.aaa.model.UserUpdate;
+import com.sasd13.proadmin.util.CredentialException;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository
@@ -40,13 +42,31 @@ public class UserDAO extends AbstractDAO implements IUserDAO, IConditionnal {
 	}
 
 	@Override
-	public void update(User user) {
-		User userToUpdate = find(user.getUserID());
+	public void update(UserUpdate userUpdate) {
+		User user = null;
 
-		for (UserPreference userPreference : user.getUserPreferences()) {
-			for (UserPreference userPreferenceToUpdate : userToUpdate.getUserPreferences()) {
-				if (userPreferenceToUpdate.getId() == userPreference.getId()) {
-					userPreferenceToUpdate.setValue(userPreference.getValue());
+		if (userUpdate.getCredentials() != null) {
+			user = find(userUpdate.getCredentials().getPrevious());
+
+			if (user == null) {
+				throw new CredentialException("credentials not matched");
+			} else {
+				user.setUsername(userUpdate.getCredentials().getCurrent().getUsername());
+				user.setPassword(userUpdate.getCredentials().getCurrent().getPassword());
+			}
+		} else {
+			user = find(userUpdate.getUser().getUserID());
+		}
+
+		user.setStatus(userUpdate.getUser().getStatus());
+		user.setRoles(userUpdate.getUser().getRoles());
+		user.setIntermediary(userUpdate.getUser().getIntermediary());
+		user.setEmail(userUpdate.getUser().getEmail());
+
+		for (UserPreference userPreferenceUpdate : userUpdate.getUser().getUserPreferences()) {
+			for (UserPreference userPreference : user.getUserPreferences()) {
+				if (userPreference.getId() == userPreferenceUpdate.getId()) {
+					userPreference.setValue(userPreferenceUpdate.getValue());
 
 					break;
 				}

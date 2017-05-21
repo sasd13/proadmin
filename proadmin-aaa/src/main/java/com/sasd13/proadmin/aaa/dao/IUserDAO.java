@@ -5,12 +5,13 @@ import java.util.Map;
 
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.aaa.model.User;
+import com.sasd13.proadmin.aaa.model.UserUpdate;
 
 public interface IUserDAO {
 
 	User create(User user);
 
-	void update(User user);
+	void update(UserUpdate userUpdate);
 
 	User find(Credential credential);
 

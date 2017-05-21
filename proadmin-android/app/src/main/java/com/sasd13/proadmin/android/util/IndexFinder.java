@@ -13,6 +13,26 @@ import java.util.List;
  */
 public class IndexFinder {
 
+    public static int indexOf(String pattern, String[] values) {
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(pattern)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static int indexOf(float pattern, String[] values) {
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(String.valueOf((int) pattern))) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public static int indexOfProject(Project project, List<Project> projects) {
         for (int i = 0; i < projects.size(); i++) {
             if (projects.get(i).equals(project)) {

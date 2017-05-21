@@ -14,6 +14,7 @@ import com.sasd13.proadmin.aaa.dao.IUserDAO;
 import com.sasd13.proadmin.aaa.model.Preference;
 import com.sasd13.proadmin.aaa.model.User;
 import com.sasd13.proadmin.aaa.model.UserPreference;
+import com.sasd13.proadmin.aaa.model.UserUpdate;
 import com.sasd13.proadmin.aaa.service.IUserService;
 import com.sasd13.proadmin.aaa.util.adapter.bean2itf.UserAdapterM2I;
 import com.sasd13.proadmin.aaa.util.adapter.itf2bean.UserCreateAdapterI2B;
@@ -58,9 +59,9 @@ public class UserService implements IUserService {
 
 	@Override
 	public void update(UserUpdateBean userUpdateBean) {
-		User user = new UserUpdateAdapterI2B().adapt(userUpdateBean);
+		UserUpdate userUpdate = new UserUpdateAdapterI2B().adapt(userUpdateBean);
 
-		userDAO.update(user);
+		userDAO.update(userUpdate);
 	}
 
 	@Override

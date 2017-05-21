@@ -7,6 +7,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.util.IndexFinder;
 import com.sasd13.proadmin.android.util.builder.LabelBuilder;
 
 import java.util.HashMap;
@@ -37,21 +38,11 @@ public class IndividualEvaluationsForm extends Form {
             modelMark = new NumberItemModel();
             modelMark.setLabel(LabelBuilder.studentIntermediaryWithShortenFullName(individualEvaluation.getStudent()));
             modelMark.setItems(MARKS);
-            modelMark.setValue(indexOf(individualEvaluation.getMark(), MARKS));
+            modelMark.setValue(IndexFinder.indexOf(individualEvaluation.getMark(), MARKS));
 
             modelsMarks.put(individualEvaluation, modelMark);
             holder.add(new RecyclerHolderPair(modelMark));
         }
-    }
-
-    private int indexOf(float mark, String[] values) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(String.valueOf((int) mark))) {
-                return i;
-            }
-        }
-
-        return 0;
     }
 
     public Map<IndividualEvaluation, Float> getMarks() throws IndividualEvaluationsFormException {

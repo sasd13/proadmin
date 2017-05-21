@@ -3,6 +3,8 @@ package com.sasd13.proadmin.android.bean.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sasd13.proadmin.util.EnumPreference;
+
 /**
  * Created by ssaidali2 on 08/05/2017.
  */
@@ -24,7 +26,8 @@ public class UserPreference implements Parcelable {
     private long id;
     private String value, category, name, defaultValue;
 
-    public UserPreference() {}
+    public UserPreference() {
+    }
 
     protected UserPreference(Parcel in) {
         id = in.readLong();
@@ -86,5 +89,33 @@ public class UserPreference implements Parcelable {
 
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        UserPreference other = (UserPreference) obj;
+
+        if (category == null && other.category != null)
+            return false;
+        else if (!category.equals(other.category))
+            return false;
+
+        if (name == null && other.name != null)
+            return false;
+        else if (!name.equals(other.name))
+            return false;
+
+        return true;
+    }
+
+    public boolean matches(EnumPreference mate) {
+        return category.equalsIgnoreCase(mate.getCategory()) && name.equalsIgnoreCase(mate.getName());
     }
 }

@@ -5,8 +5,9 @@ import android.os.Parcelable;
 
 import com.sasd13.proadmin.util.EnumPreference;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ssaidali2 on 20/05/2017.
@@ -27,31 +28,36 @@ public class UserPreferences implements Parcelable {
     };
 
     private List<UserPreference> preferences;
-
-    public UserPreferences() {
-        preferences = new ArrayList<>();
-    }
+    private Map<EnumPreference, UserPreference> map = new HashMap<>();
 
     public UserPreferences(List<UserPreference> preferences) {
         this.preferences = preferences;
+
+        for (EnumPreference mate : EnumPreference.values()) {
+            for (UserPreference preference : preferences) {
+                if (preference.matches(mate)) {
+                    map.put(mate, preference);
+
+                    break;
+                }
+            }
+        }
     }
 
     protected UserPreferences(Parcel in) {
-        preferences = in.createTypedArrayList(UserPreference.CREATOR);
+        this(in.createTypedArrayList(UserPreference.CREATOR));
     }
 
     public List<UserPreference> getPreferences() {
         return preferences;
     }
 
-    public String find(EnumPreference criteria) {
-        for (UserPreference preference : preferences) {
-            if (preference.getCategory().equalsIgnoreCase(criteria.getCategory()) && preference.getName().equalsIgnoreCase(criteria.getName())) {
-                return preference.getValue();
-            }
-        }
+    public UserPreference findPreference(EnumPreference mate) {
+        return map.get(mate);
+    }
 
-        return null;
+    public String findValue(EnumPreference mate) {
+        return findPreference(mate).getValue();
     }
 
     @Override

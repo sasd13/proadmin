@@ -1,22 +1,15 @@
 package com.sasd13.proadmin.android;
 
-import android.app.Activity;
-
-import com.sasd13.androidex.util.SessionStorage;
-import com.sasd13.proadmin.android.factory.ControllerFactory;
-
 /**
  * Created by ssaidali2 on 15/05/2017.
  */
 
 public class Configuration {
 
-    public static Resolver init(Activity activity) {
+    public static Router init() {
         Resolver resolver = new Resolver();
+        Provider provider = new Provider(resolver);
 
-        resolver.register(ControllerFactory.class, new ControllerFactory(resolver));
-        resolver.register(SessionStorage.class, new SessionStorage(activity));
-
-        return resolver;
+        return new Router(resolver, provider);
     }
 }

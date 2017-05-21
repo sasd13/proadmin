@@ -26,7 +26,6 @@ import com.sasd13.proadmin.android.bean.user.UserPreferences;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.gui.form.ReportForm;
-import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -74,7 +73,7 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormReport(View view) {
-        reportForm = new ReportForm(getContext(), true, userPreferences.find(EnumPreference.GENERAL_DATE));
+        reportForm = new ReportForm(getContext(), true, userPreferences);
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

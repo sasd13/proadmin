@@ -16,8 +16,9 @@ public enum EnumErrorRes {
     WS(EnumError.WS, R.string.exception_ws),
     PARAMETERS(EnumError.PARAMETERS, R.string.exception_parameters),
     PARSER(EnumError.PARSER, R.string.exception_parser),
-    SERVICE(EnumError.SERVICE, R.string.exception_service),;
-
+    SERVICE(EnumError.SERVICE, R.string.exception_service),
+    STATUS(EnumError.STATUS, R.string.exception_status),
+    CREDENTIAL(EnumError.CREDENTIAL, R.string.exception_credential),;
 
     private EnumError error;
 

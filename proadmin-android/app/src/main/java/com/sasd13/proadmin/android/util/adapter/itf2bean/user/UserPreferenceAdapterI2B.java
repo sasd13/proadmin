@@ -10,7 +10,7 @@ public class UserPreferenceAdapterI2B implements IAdapter<UserPreferenceBean, Us
     public UserPreference adapt(UserPreferenceBean s) {
         UserPreference t = new UserPreference();
 
-        t.setId(Integer.valueOf(s.getId()));
+        t.setId(Long.valueOf(s.getId()));
         t.setValue(s.getValue());
         t.setCategory(s.getCategory());
         t.setName(s.getName());

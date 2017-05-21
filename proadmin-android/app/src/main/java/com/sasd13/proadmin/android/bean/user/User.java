@@ -24,7 +24,6 @@ public class User implements Parcelable {
     private UserPreferences userPreferences;
 
     public User() {
-        userPreferences = new UserPreferences();
     }
 
     protected User(Parcel in) {

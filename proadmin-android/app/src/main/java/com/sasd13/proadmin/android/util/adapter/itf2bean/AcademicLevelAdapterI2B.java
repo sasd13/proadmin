@@ -10,7 +10,7 @@ public class AcademicLevelAdapterI2B implements IAdapter<AcademicLevelBean, Acad
     public AcademicLevel adapt(AcademicLevelBean s) {
         AcademicLevel t = new AcademicLevel();
 
-        t.setId(Integer.valueOf(s.getId().getId()));
+        t.setId(Long.valueOf(s.getId().getId()));
         t.setCode(s.getCoreInfo().getCode());
 
         return t;

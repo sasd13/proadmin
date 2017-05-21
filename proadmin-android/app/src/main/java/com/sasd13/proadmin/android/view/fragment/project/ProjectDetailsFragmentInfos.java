@@ -20,7 +20,6 @@ import com.sasd13.proadmin.android.bean.user.UserPreferences;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.gui.form.ProjectForm;
-import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -63,7 +62,7 @@ public class ProjectDetailsFragmentInfos extends Fragment implements Observer {
     }
 
     private void buildFormProject(View view) {
-        projectForm = new ProjectForm(getContext(), userPreferences.find(EnumPreference.GENERAL_DATE));
+        projectForm = new ProjectForm(getContext(), userPreferences);
 
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
         recycler.addDividerItemDecoration();

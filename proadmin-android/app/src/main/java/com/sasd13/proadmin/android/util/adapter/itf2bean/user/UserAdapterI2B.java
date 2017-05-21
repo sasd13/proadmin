@@ -22,7 +22,7 @@ public class UserAdapterI2B implements IAdapter<UserBean, User> {
     public User adapt(UserBean s) {
         User t = new User();
 
-        t.setId(Integer.valueOf(s.getId().getId()));
+        t.setId(Long.valueOf(s.getId().getId()));
         t.setUserID(s.getCoreInfo().getUserID());
         t.setStatus(s.getCoreInfo().getStatus());
         t.setRoles(s.getCoreInfo().getRoles());
@@ -30,11 +30,12 @@ public class UserAdapterI2B implements IAdapter<UserBean, User> {
         t.setEmail(s.getCoreInfo().getEmail());
 
         List<UserPreference> preferences = new ArrayList<>();
-        t.setUserPreferences(new UserPreferences(preferences));
 
         for (UserPreferenceBean userPreferenceBean : s.getLinkedPreferences()) {
             preferences.add(userPreferenceAdapter.adapt(userPreferenceBean));
         }
+
+        t.setUserPreferences(new UserPreferences(preferences));
 
         return t;
     }

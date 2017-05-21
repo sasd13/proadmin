@@ -23,6 +23,7 @@
     <string name="form_settings_message_error_firstname">Prénom invalide</string>
     <string name="form_settings_message_error_lastname">Nom invalide</string>
     <string name="form_settings_message_error_email">Email invalide</string>
+    <string name="form_settings_message_error_preference_date">Format de date invalide</string>
     <string name="form_running_message_error_year">Année invalide</string>
     <string name="form_running_message_error_project">Projet invalide</string>
     <string name="form_runningteam_message_error_project">Projet invalide</string>
@@ -68,6 +69,7 @@
     <string name="label_communicationcomment">Commentaire de communication</string>
     <string name="label_student">Etudiant</string>
     <string name="label_mark">Note</string>
+    <string name="label_date">Date</string>
     <string name="title_identity">Identité</string>
     <string name="title_projects">Projets</string>
     <string name="title_project">Projet</string>
@@ -86,19 +88,21 @@
     <string name="title_leadevaluation">Evaluation du chef</string>
     <string name="title_individualevaluations">Evaluations individuelles</string>
     <string name="title_individualevaluation">Evaluation individuelle</string>
-    <string name="title_settings">Paramètres</string>
+    <string name="title_settings">Options</string>
+    <string name="title_parameters">Paramètres</string>
     <string name="title_home">Accueil</string>
     <string name="title_new">Nouveau</string>
 
     <!-- Web service -->
     <string name="exception_unknown">Erreur inconnue</string>
-    <string name="exception_authentication">Echec de connexion</string>
+    <string name="exception_authentication">Identifiant/mot de passe non reconnus</string>
     <string name="exception_aaa">Erreur interne du serveur</string>
     <string name="exception_ws">Erreur interne du serveur</string>
     <string name="exception_parameters">Erreur de requête</string>
     <string name="exception_parser">Erreur de requête</string>
     <string name="exception_service">Erreur interne du serveur</string>
     <string name="exception_status">Erreur de status</string>
+    <string name="exception_credential">Erreur identifiant/mot de passe</string>
     <string name="message_cancelled">Annulé</string>
     <string name="error_empty_credential">Veuillez entrer vos identifiant/mot de passe</string>
     <string name="error_no_runningteam_selected">Gestion d\'équipe non sélectionnée</string>

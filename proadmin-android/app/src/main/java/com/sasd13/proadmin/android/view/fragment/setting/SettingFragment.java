@@ -24,6 +24,7 @@ import com.sasd13.proadmin.android.bean.user.UserUpdate;
 import com.sasd13.proadmin.android.scope.SettingScope;
 import com.sasd13.proadmin.android.view.ISettingController;
 import com.sasd13.proadmin.android.view.gui.form.UserForm;
+import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -129,6 +130,7 @@ public class SettingFragment extends Fragment implements Observer {
         User user = scope.getUser();
 
         user.setEmail(userForm.getEmail());
+        user.getUserPreferences().findPreference(EnumPreference.GENERAL_DATE).setValue(userForm.getPreferenceDate());
         userUpdate.setUser(user);
 
         return userUpdate;

@@ -110,7 +110,7 @@ public class ReportsFragment extends Fragment implements Observer {
     private void addReportsToTab(List<Report> reports) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
-        String patternDate = userPreferences.find(EnumPreference.GENERAL_DATE);
+        String patternDate = userPreferences.findValue(EnumPreference.GENERAL_DATE);
 
         for (final Report report : reports) {
             pair = new RecyclerHolderPair(new ReportItemModel(report, getContext()));
