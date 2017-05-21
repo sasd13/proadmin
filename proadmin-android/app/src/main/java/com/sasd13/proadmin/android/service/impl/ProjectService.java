@@ -11,6 +11,7 @@ import com.sasd13.proadmin.itf.bean.project.ProjectResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,20 +29,25 @@ public class ProjectService implements IProjectService {
         searchBean.setCriterias(criterias);
 
         ProjectResponseBean responseBean = (ProjectResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<Project> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            ProjectAdapterI2B adapter = new ProjectAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (ProjectBean projectBean : responseBean.getData()) {
-                list.add(adapter.adapt(projectBean));
+            if (errors.isEmpty()) {
+                ProjectAdapterI2B adapter = new ProjectAdapterI2B();
+
+                for (ProjectBean projectBean : responseBean.getData()) {
+                    list.add(adapter.adapt(projectBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }

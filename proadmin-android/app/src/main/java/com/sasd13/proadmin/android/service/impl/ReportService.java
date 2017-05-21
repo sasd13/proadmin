@@ -46,20 +46,25 @@ public class ReportService implements IReportService {
         searchBean.setCriterias(criterias);
 
         ReportResponseBean responseBean = (ReportResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<Report> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            ReportAdapterI2B adapter = new ReportAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (ReportBean reportBean : responseBean.getData()) {
-                list.add(adapter.adapt(reportBean));
+            if (errors.isEmpty()) {
+                ReportAdapterI2B adapter = new ReportAdapterI2B();
+
+                for (ReportBean reportBean : responseBean.getData()) {
+                    list.add(adapter.adapt(reportBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }

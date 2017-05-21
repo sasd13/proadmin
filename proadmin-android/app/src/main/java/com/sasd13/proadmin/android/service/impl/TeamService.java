@@ -13,6 +13,7 @@ import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,20 +31,25 @@ public class TeamService implements ITeamService {
         searchBean.setCriterias(criterias);
 
         TeamResponseBean responseBean = (TeamResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<Team> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            TeamAdapterI2B adapter = new TeamAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (TeamBean teamBean : responseBean.getData()) {
-                list.add(adapter.adapt(teamBean));
+            if (errors.isEmpty()) {
+                TeamAdapterI2B adapter = new TeamAdapterI2B();
+
+                for (TeamBean teamBean : responseBean.getData()) {
+                    list.add(adapter.adapt(teamBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }

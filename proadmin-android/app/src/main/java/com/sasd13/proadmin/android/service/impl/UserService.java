@@ -48,7 +48,7 @@ public class UserService implements IUserService {
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
                 errors,
                 user

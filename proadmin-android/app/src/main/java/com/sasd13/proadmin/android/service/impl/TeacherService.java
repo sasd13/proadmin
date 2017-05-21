@@ -13,6 +13,7 @@ import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,20 +31,25 @@ public class TeacherService implements ITeacherService {
         searchBean.setCriterias(criterias);
 
         TeacherResponseBean responseBean = (TeacherResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<Teacher> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            TeacherAdapterI2B adapter = new TeacherAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (TeacherBean teacherBean : responseBean.getData()) {
-                list.add(adapter.adapt(teacherBean));
+            if (errors.isEmpty()) {
+                TeacherAdapterI2B adapter = new TeacherAdapterI2B();
+
+                for (TeacherBean teacherBean : responseBean.getData()) {
+                    list.add(adapter.adapt(teacherBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }

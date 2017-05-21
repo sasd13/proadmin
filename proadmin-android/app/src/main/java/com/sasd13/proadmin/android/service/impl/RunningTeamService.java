@@ -46,20 +46,25 @@ public class RunningTeamService implements IRunningTeamService {
         searchBean.setCriterias(criterias);
 
         RunningTeamResponseBean responseBean = (RunningTeamResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<RunningTeam> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (RunningTeamBean runningTeamBean : responseBean.getData()) {
-                list.add(adapter.adapt(runningTeamBean));
+            if (errors.isEmpty()) {
+                RunningTeamAdapterI2B adapter = new RunningTeamAdapterI2B();
+
+                for (RunningTeamBean runningTeamBean : responseBean.getData()) {
+                    list.add(adapter.adapt(runningTeamBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }

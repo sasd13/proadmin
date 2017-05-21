@@ -13,6 +13,7 @@ import com.sasd13.proadmin.itf.bean.running.RunningResponseBean;
 import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,20 +31,25 @@ public class RunningService implements IRunningService {
         searchBean.setCriterias(criterias);
 
         RunningResponseBean responseBean = (RunningResponseBean) promise.execute(searchBean);
+        Map<String, String> errors = Collections.emptyMap();
         List<Running> list = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            RunningAdapterI2B adapter = new RunningAdapterI2B();
+            errors = responseBean.getErrors();
 
-            for (RunningBean runningBean : responseBean.getData()) {
-                list.add(adapter.adapt(runningBean));
+            if (errors.isEmpty()) {
+                RunningAdapterI2B adapter = new RunningAdapterI2B();
+
+                for (RunningBean runningBean : responseBean.getData()) {
+                    list.add(adapter.adapt(runningBean));
+                }
             }
         }
 
         return new ServiceResult<>(
-                promise.isSuccess(),
+                promise.isSuccess() && errors.isEmpty(),
                 promise.getResponseCode(),
-                responseBean.getErrors(),
+                errors,
                 list
         );
     }
