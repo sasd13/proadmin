@@ -2,7 +2,6 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
@@ -28,10 +27,9 @@ public class AuthenticationService implements IAuthenticationService {
     private static final int LIMIT_IN_MILLISECONDS = 90000;
 
     @Override
-    public ServiceResult<User> logIn(Map<String, String> parameters) {
+    public ServiceResult<User> logIn(Credential credential) {
         Promise promise = new Promise("POST", Resources.URL_AAA_LOGIN, AuthenticationResponseBean.class);
 
-        Credential credential = new Credential(parameters.get(PARAMETER_USERNAME), HexEncoder.sha256(parameters.get(PARAMETER_PASSWORD)));
         AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(credential);
         Map<String, String> errors = Collections.emptyMap();
         Map<String, String> session = Collections.emptyMap();

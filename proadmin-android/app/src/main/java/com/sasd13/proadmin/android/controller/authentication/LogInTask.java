@@ -1,11 +1,10 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
+import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-
-import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
@@ -23,7 +22,7 @@ public class LogInTask extends RequestorTask {
 
     @Override
     public Object execute(Object in) {
-        return authenticationService.logIn((Map<String, String>) in);
+        return authenticationService.logIn((Credential) in);
     }
 
     @Override

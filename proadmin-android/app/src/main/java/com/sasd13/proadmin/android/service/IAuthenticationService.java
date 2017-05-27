@@ -1,8 +1,7 @@
 package com.sasd13.proadmin.android.service;
 
+import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.bean.user.User;
-
-import java.util.Map;
 
 /**
  * Created by ssaidali2 on 02/04/2017.
@@ -10,8 +9,5 @@ import java.util.Map;
 
 public interface IAuthenticationService {
 
-    String PARAMETER_USERNAME = "PARAMETER_USERNAME";
-    String PARAMETER_PASSWORD = "PARAMETER_PASSWORD";
-
-    ServiceResult<User> logIn(Map<String, String> credentials);
+    ServiceResult<User> logIn(Credential credential);
 }
