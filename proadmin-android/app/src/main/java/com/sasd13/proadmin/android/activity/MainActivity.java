@@ -47,12 +47,12 @@ public class MainActivity extends DrawerActivity {
 
     private void init() {
         Configurator.Config config = Configurator.init(this);
-        router = (Router) config.getResolver().resolve(Router.class);
+        router = config.getRouter();
 
         if (getIntent().hasExtra(Constants.USER)) {
             User user = getIntent().getExtras().getParcelable(Constants.USER);
 
-            ((IUserStorageService) config.getResolver().resolve(IUserStorageService.class)).write(user);
+            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(user);
             getIntent().removeExtra(Constants.USER);
         }
     }

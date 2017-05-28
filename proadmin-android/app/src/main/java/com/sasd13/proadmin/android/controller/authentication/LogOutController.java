@@ -60,6 +60,6 @@ public class LogOutController extends MainController implements ILogOutControlle
     }
 
     private void goToIdentityActivity() {
-        startIntent(new Intent(getActivity(), IdentityActivity.class));
+        startActivity(new Intent(getActivity(), IdentityActivity.class));
     }
 }

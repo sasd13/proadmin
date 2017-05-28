@@ -2,7 +2,6 @@ package com.sasd13.proadmin.android.controller.splashscreen;
 
 import android.content.Intent;
 
-import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
@@ -50,7 +49,7 @@ public class SplashScreenController extends Controller implements ISplashScreenC
     }
 
     private void goToIdentityActivity() {
-        startIntent(new Intent(getActivity(), IdentityActivity.class), GUIConstants.TIMEOUT_ACTIVITY / 2);
+        startActivity(new Intent(getActivity(), IdentityActivity.class));
     }
 
     private void readUser() {
@@ -70,6 +69,6 @@ public class SplashScreenController extends Controller implements ISplashScreenC
 
         intent.putExtra(Constants.USER, user);
 
-        startIntent(intent, GUIConstants.TIMEOUT_ACTIVITY / 2);
+        startActivity(intent);
     }
 }

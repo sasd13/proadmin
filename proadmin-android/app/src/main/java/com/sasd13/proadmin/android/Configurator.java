@@ -13,19 +13,26 @@ public class Configurator {
     public static class Config {
 
         private Resolver resolver;
+        private Provider provider;
+        private Router router;
 
-        public Resolver getResolver() {
-            return resolver;
+        public Provider getProvider() {
+            return provider;
+        }
+
+        public Router getRouter() {
+            return router;
         }
     }
 
     public static Config init(Activity activity) {
         Config config = new Config();
         config.resolver = new Resolver();
-        Provider provider = new Provider(config.resolver);
+        config.provider = new Provider(config.resolver);
+        config.router = new Router(config.resolver, config.provider);
 
-        config.resolver.register(Provider.class, provider);
-        config.resolver.register(Router.class, new Router(config.resolver, provider));
+        config.resolver.register(Provider.class, config.provider);
+        config.resolver.register(Router.class, config.router);
         config.resolver.register(SessionStorage.class, new SessionStorage(activity));
 
         return config;

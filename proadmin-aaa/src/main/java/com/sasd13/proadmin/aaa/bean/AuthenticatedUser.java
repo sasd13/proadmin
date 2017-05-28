@@ -18,12 +18,13 @@ public class AuthenticatedUser {
 
 	public AuthenticatedUser(UserBean userBean) {
 		this.userBean = userBean;
-		session = new HashMap<>();
 
 		buildSession();
 	}
 
 	private void buildSession() {
+		session = new HashMap<>();
+
 		session.put(EnumSession.USERID.getKey(), userBean.getCoreInfo().getUserID());
 		session.put(EnumSession.INTERMEDIARY.getKey(), userBean.getCoreInfo().getIntermediary());
 		session.put(EnumSession.TOKEN.getKey(), new SessionIdGenerator().generateSessionId());

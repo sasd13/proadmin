@@ -26,7 +26,7 @@ public class IdentityActivity extends AppCompatActivity {
 
     private void init() {
         Configurator.Config config = Configurator.init(this);
-        router = (Router) config.getResolver().resolve(Router.class);
+        router = config.getRouter();
     }
 
     private void startLogInFragment() {

@@ -65,6 +65,6 @@ public class LogInController extends IdentityController implements ILogInControl
 
         intent.putExtra(Constants.USER, user);
 
-        startIntent(intent);
+        startActivity(intent);
     }
 }

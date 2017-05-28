@@ -2,6 +2,7 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.javaex.security.Credential;
+import com.sasd13.javaex.security.HexEncoder;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ISessionStorageService;
@@ -37,7 +38,7 @@ public class AuthenticationService implements IAuthenticationService {
     public ServiceResult<User> logIn(Credential credential) {
         Promise promise = new Promise("POST", Resources.URL_AAA_LOGIN, AuthenticationResponseBean.class);
 
-        AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(credential);
+        AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(new Credential(credential.getUsername(), HexEncoder.sha256(credential.getPassword())));
         boolean authenticated = false;
         Map<String, String> errors = Collections.emptyMap();
         User user = null;

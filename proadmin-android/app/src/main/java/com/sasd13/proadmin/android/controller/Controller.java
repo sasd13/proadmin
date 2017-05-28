@@ -6,8 +6,6 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
-import com.sasd13.androidex.util.TaskPlanner;
 import com.sasd13.javaex.net.EnumHttpStatus;
 import com.sasd13.proadmin.android.util.EnumErrorRes;
 import com.sasd13.proadmin.android.view.IController;
@@ -33,24 +31,10 @@ public abstract class Controller implements IController {
         return activity;
     }
 
-    protected void startIntent(Intent intent) {
-        startIntent(intent, 0);
-    }
-
-    protected void startIntent(final Intent intent, int timeout) {
-        final WaitDialog waitDialog = new WaitDialog(activity);
-
-        new TaskPlanner(new Runnable() {
-            @Override
-            public void run() {
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                getActivity().startActivity(intent);
-                waitDialog.dismiss();
-                activity.finish();
-            }
-        }).start(timeout);
-
-        waitDialog.show();
+    protected void startActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        getActivity().startActivity(intent);
+        activity.finish();
     }
 
     @Override

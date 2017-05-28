@@ -28,8 +28,8 @@ import java.util.Map;
 public class ProjectController extends MainController implements IProjectController {
 
     private ProjectScope scope;
-    private ISessionStorageService sessionStorageService;
     private IUserStorageService userStorageService;
+    private ISessionStorageService sessionStorageService;
     private IProjectService projectService;
     private IRunningService runningService;
     private ITeacherService teacherService;
@@ -42,8 +42,8 @@ public class ProjectController extends MainController implements IProjectControl
         super(mainActivity);
 
         scope = new ProjectScope();
-        this.sessionStorageService = sessionStorageService;
         this.userStorageService = userStorageService;
+        this.sessionStorageService = sessionStorageService;
         this.projectService = projectService;
         this.runningService = runningService;
         this.teacherService = teacherService;
@@ -105,6 +105,7 @@ public class ProjectController extends MainController implements IProjectControl
     public void actionShowProject(Project project) {
         scope.setProject(project);
         scope.setRunnings(new ArrayList<Running>());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ProjectDetailsFragment.newInstance());
 
         if (scope.getTeacher() == null) {
