@@ -48,7 +48,7 @@ public abstract class Controller implements IController {
     }
 
     public void onFail(int httpStatus, Map<String, String> errors) {
-        if (getScope().isLoading()) {
+        if (getScope() != null && getScope().isLoading()) {
             getScope().setLoading(false);
         }
 
@@ -69,10 +69,12 @@ public abstract class Controller implements IController {
     }
 
     public void onCancelled() {
-        if (getScope().isLoading()) {
-            getScope().setLoading(false);
-        }
+        if (getScope() != null) {
+            if (getScope().isLoading()) {
+                getScope().setLoading(false);
+            }
 
-        getScope().setCancelled(true);
+            getScope().setCancelled(true);
+        }
     }
 }
