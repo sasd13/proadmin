@@ -77,8 +77,7 @@ public class Router {
         } else if (ILogOutController.class.equals(mClass)) {
             return new LogOutController(
                     (MainActivity) activity,
-                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
-                    (IUserStorageService) provider.provide(IUserStorageService.class)
+                    (IAuthenticationService) provider.provide(IAuthenticationService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(

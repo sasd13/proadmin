@@ -13,5 +13,5 @@ public interface IAuthenticationService {
 
     ServiceResult<User> logIn(Credential credential);
 
-    ServiceResult<Void> logOut();
+    void logOut();
 }

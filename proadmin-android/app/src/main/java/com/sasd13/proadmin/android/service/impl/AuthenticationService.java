@@ -61,13 +61,8 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public ServiceResult<Void> logOut() {
+    public void logOut() {
         sessionStorageService.clear();
         userStorageService.clear();
-
-        return new ServiceResult<>(
-                true,
-                200
-        );
     }
 }
