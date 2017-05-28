@@ -22,7 +22,6 @@ import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.user.UserPreferences;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.sorter.ReportSorter;
 import com.sasd13.proadmin.android.view.IReportController;
@@ -38,7 +37,6 @@ public class ReportsFragment extends Fragment implements Observer {
 
     private IReportController controller;
     private ReportScope scope;
-    private UserPreferences userPreferences;
     private Recycler recycler;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -60,7 +58,6 @@ public class ReportsFragment extends Fragment implements Observer {
 
         scope.addObserver(this);
 
-        userPreferences = ((MainActivity) getActivity()).getUser().getUserPreferences();
         View view = inflater.inflate(R.layout.layout_rv_w_srl_fab, container, false);
 
         buildView(view);
@@ -110,7 +107,7 @@ public class ReportsFragment extends Fragment implements Observer {
     private void addReportsToTab(List<Report> reports) {
         RecyclerHolder holder = new RecyclerHolder();
         RecyclerHolderPair pair;
-        String patternDate = userPreferences.findValue(EnumPreference.GENERAL_DATE);
+        String patternDate = scope.getUserPreferences().findValue(EnumPreference.GENERAL_DATE);
 
         for (final Report report : reports) {
             pair = new RecyclerHolderPair(new ReportItemModel(report, getContext()));

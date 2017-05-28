@@ -10,7 +10,9 @@ import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IRunningService;
+import com.sasd13.proadmin.android.service.ISessionStorageService;
 import com.sasd13.proadmin.android.service.ITeacherService;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.view.IProjectController;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.project.ProjectsFragment;
@@ -26,6 +28,8 @@ import java.util.Map;
 public class ProjectController extends MainController implements IProjectController {
 
     private ProjectScope scope;
+    private ISessionStorageService sessionStorageService;
+    private IUserStorageService userStorageService;
     private IProjectService projectService;
     private IRunningService runningService;
     private ITeacherService teacherService;
@@ -34,10 +38,12 @@ public class ProjectController extends MainController implements IProjectControl
     private TeacherReadTask teacherReadTask;
     private Map<String, String[]> runningCriterias, teacherCriterias;
 
-    public ProjectController(MainActivity mainActivity, IProjectService projectService, IRunningService runningService, ITeacherService teacherService) {
+    public ProjectController(MainActivity mainActivity, ISessionStorageService sessionStorageService, IUserStorageService userStorageService, IProjectService projectService, IRunningService runningService, ITeacherService teacherService) {
         super(mainActivity);
 
         scope = new ProjectScope();
+        this.sessionStorageService = sessionStorageService;
+        this.userStorageService = userStorageService;
         this.projectService = projectService;
         this.runningService = runningService;
         this.teacherService = teacherService;
@@ -51,6 +57,7 @@ public class ProjectController extends MainController implements IProjectControl
     @Override
     public void browse() {
         getActivity().clearHistory();
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ProjectsFragment.newInstance());
         actionLoadProjects();
     }
@@ -117,7 +124,7 @@ public class ProjectController extends MainController implements IProjectControl
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{getIntermediaryFromSession()});
+        teacherCriterias.put(EnumCriteria.INTERMEDIARY.getCode(), new String[]{sessionStorageService.getIntermediary()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), teacherCriterias);
 
         new Requestor(teacherReadTask).execute(allCriterias);
@@ -138,7 +145,7 @@ public class ProjectController extends MainController implements IProjectControl
         Map<String, Object> allCriterias = new HashMap<>();
 
         runningCriterias.put(EnumCriteria.PROJECT.getCode(), new String[]{project.getCode()});
-        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
+        runningCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{sessionStorageService.getIntermediary()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningCriterias);
 
         new Requestor(runningReadTask).execute(allCriterias);

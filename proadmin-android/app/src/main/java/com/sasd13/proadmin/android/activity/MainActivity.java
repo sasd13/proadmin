@@ -1,27 +1,21 @@
 package com.sasd13.proadmin.android.activity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.sasd13.androidex.activity.DrawerActivity;
-import com.sasd13.androidex.gui.GUIConstants;
 import com.sasd13.androidex.gui.IAction;
 import com.sasd13.androidex.gui.widget.EnumActionEvent;
-import com.sasd13.androidex.gui.widget.dialog.OptionDialog;
-import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.androidex.util.SessionStorage;
-import com.sasd13.androidex.util.TaskPlanner;
-import com.sasd13.proadmin.android.Configuration;
+import com.sasd13.proadmin.android.Configurator;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IController;
@@ -35,21 +29,7 @@ import java.util.List;
 public class MainActivity extends DrawerActivity {
 
     private Router router;
-    private SessionStorage sessionStorage;
-    private User user;
     private IPagerHandler pagerHandler;
-
-    public SessionStorage getSessionStorage() {
-        return sessionStorage;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public void setPagerHandler(IPagerHandler pagerHandler) {
         this.pagerHandler = pagerHandler;
@@ -62,14 +42,19 @@ public class MainActivity extends DrawerActivity {
         setContentView(R.layout.layout_container);
 
         init();
+        startHomeFragment();
     }
 
     private void init() {
-        router = Configuration.init();
-        sessionStorage = new SessionStorage(this);
-        user = getIntent().getExtras().getParcelable(Constants.USER);
+        Configurator.Config config = Configurator.init(this);
+        router = (Router) config.getResolver().resolve(Router.class);
 
-        startHomeFragment();
+        if (getIntent().hasExtra(Constants.USER)) {
+            User user = getIntent().getExtras().getParcelable(Constants.USER);
+
+            ((IUserStorageService) config.getResolver().resolve(IUserStorageService.class)).write(user);
+            getIntent().removeExtra(Constants.USER);
+        }
     }
 
     private void startHomeFragment() {
@@ -118,7 +103,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public IController lookup(Class mClass) {
-        return router.dispatch(mClass, this);
+        return router.navigate(mClass, this);
     }
 
     private void addAccountItems(RecyclerHolder recyclerHolder) {
@@ -140,38 +125,6 @@ public class MainActivity extends DrawerActivity {
                 .replace(R.id.layout_container_fragment, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    public void exit() {
-        OptionDialog.showOkCancelDialog(
-                this,
-                getString(R.string.button_logout),
-                getString(R.string.message_confirm),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        goToIdentityActivity();
-                    }
-                }
-        );
-    }
-
-    private void goToIdentityActivity() {
-        final WaitDialog waitDialog = new WaitDialog(this);
-        final Intent intent = new Intent(this, IdentityActivity.class);
-
-        new TaskPlanner(new Runnable() {
-            @Override
-            public void run() {
-                getSessionStorage().clear();
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                waitDialog.dismiss();
-                finish();
-            }
-        }).start(GUIConstants.TIMEOUT_ACTIVITY);
-
-        waitDialog.show();
     }
 
     public void clearHistory() {

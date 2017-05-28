@@ -22,11 +22,13 @@ import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
+import com.sasd13.proadmin.android.service.ISessionStorageService;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ITeamService;
 import com.sasd13.proadmin.android.service.IUserService;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.view.IController;
 import com.sasd13.proadmin.android.view.ILogInController;
 import com.sasd13.proadmin.android.view.ILogOutController;
@@ -53,7 +55,7 @@ public class Router {
         this.provider = provider;
     }
 
-    public IController dispatch(Class mClass, Activity activity) {
+    public IController navigate(Class mClass, Activity activity) {
         IController controller = (IController) resolver.resolve(mClass);
 
         if (controller == null) {
@@ -66,39 +68,36 @@ public class Router {
     }
 
     private IController make(Class<? extends IController> mClass, Activity activity) {
-        if (ISplashScreenController.class.equals(mClass)) {
-            return new SplashScreenController(
-                    (SplashScreenActivity) activity,
-                    (IUserService) provider.provide(IUserService.class)
-            );
-        } else if (ILogInController.class.equals(mClass)) {
+        if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
                     (IAuthenticationService) provider.provide(IAuthenticationService.class)
             );
-        } else if (ISettingController.class.equals(mClass)) {
-            return new SettingController(
+        } else if (ILogOutController.class.equals(mClass)) {
+            return new LogOutController(
                     (MainActivity) activity,
-                    (IUserService) provider.provide(IUserService.class)
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(
                     (MainActivity) activity,
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class),
                     (IProjectService) provider.provide(IProjectService.class),
                     (IRunningService) provider.provide(IRunningService.class),
                     (ITeacherService) provider.provide(ITeacherService.class)
             );
-        } else if (ITeamController.class.equals(mClass)) {
-            return new TeamController(
+        } else if (IReportController.class.equals(mClass)) {
+            return new ReportController(
                     (MainActivity) activity,
-                    (ITeamService) provider.provide(ITeamService.class),
-                    (IStudentTeamService) provider.provide(IStudentTeamService.class)
-            );
-        } else if (IStudentController.class.equals(mClass)) {
-            return new StudentController(
-                    (MainActivity) activity,
-                    (IStudentService) provider.provide(IStudentService.class),
-                    (IStudentTeamService) provider.provide(IStudentTeamService.class)
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class),
+                    (IReportService) provider.provide(IReportService.class),
+                    (ILeadEvaluationService) provider.provide(ILeadEvaluationService.class),
+                    (IIndividualEvaluationService) provider.provide(IIndividualEvaluationService.class),
+                    (IRunningTeamService) provider.provide(IRunningTeamService.class)
             );
         } else if (IRunningController.class.equals(mClass)) {
             return new RunningController(
@@ -108,19 +107,36 @@ public class Router {
         } else if (IRunningTeamController.class.equals(mClass)) {
             return new RunningTeamController(
                     (MainActivity) activity,
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
                     (IRunningTeamService) provider.provide(IRunningTeamService.class),
                     (IReportService) provider.provide(IReportService.class)
             );
-        } else if (IReportController.class.equals(mClass)) {
-            return new ReportController(
+        } else if (ISettingController.class.equals(mClass)) {
+            return new SettingController(
                     (MainActivity) activity,
-                    (IReportService) provider.provide(IReportService.class),
-                    (ILeadEvaluationService) provider.provide(ILeadEvaluationService.class),
-                    (IIndividualEvaluationService) provider.provide(IIndividualEvaluationService.class),
-                    (IRunningTeamService) provider.provide(IRunningTeamService.class)
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class),
+                    (IUserService) provider.provide(IUserService.class)
             );
-        } else if (ILogOutController.class.equals(mClass)) {
-            return new LogOutController((MainActivity) activity);
+        } else if (ISplashScreenController.class.equals(mClass)) {
+            return new SplashScreenController(
+                    (SplashScreenActivity) activity,
+                    (ISessionStorageService) provider.provide(ISessionStorageService.class),
+                    (IAuthenticationService) provider.provide(IAuthenticationService.class),
+                    (IUserService) provider.provide(IUserService.class)
+            );
+        } else if (IStudentController.class.equals(mClass)) {
+            return new StudentController(
+                    (MainActivity) activity,
+                    (IStudentService) provider.provide(IStudentService.class),
+                    (IStudentTeamService) provider.provide(IStudentTeamService.class)
+            );
+        } else if (ITeamController.class.equals(mClass)) {
+            return new TeamController(
+                    (MainActivity) activity,
+                    (ITeamService) provider.provide(ITeamService.class),
+                    (IStudentTeamService) provider.provide(IStudentTeamService.class)
+            );
         } else {
             return null;
         }

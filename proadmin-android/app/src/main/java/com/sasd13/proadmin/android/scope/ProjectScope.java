@@ -3,6 +3,7 @@ package com.sasd13.proadmin.android.scope;
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.Teacher;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,7 @@ public class ProjectScope extends Scope {
     private List<Running> runnings;
     private Running running;
     private Teacher teacher;
+    private UserPreferences userPreferences;
 
     public ProjectScope() {
         this.projects = new ArrayList<>();
@@ -90,6 +92,17 @@ public class ProjectScope extends Scope {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public UserPreferences getUserPreferences() {
+        return userPreferences;
+    }
+
+    public void setUserPreferences(UserPreferences userPreferences) {
+        this.userPreferences = userPreferences;
 
         setChanged();
         notifyObservers();

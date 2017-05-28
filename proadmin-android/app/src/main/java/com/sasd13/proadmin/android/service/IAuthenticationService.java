@@ -9,5 +9,9 @@ import com.sasd13.proadmin.android.bean.user.User;
 
 public interface IAuthenticationService {
 
+    boolean isAuthenticated();
+
     ServiceResult<User> logIn(Credential credential);
+
+    ServiceResult<Void> logOut();
 }

@@ -1,12 +1,17 @@
 package com.sasd13.proadmin.android.controller.authentication;
 
+import android.content.Intent;
+
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
+import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.controller.IdentityController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.service.ISessionStorageService;
+import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.ILogInController;
 
 /**
@@ -16,13 +21,15 @@ import com.sasd13.proadmin.android.view.ILogInController;
 public class LogInController extends IdentityController implements ILogInController {
 
     private Scope scope;
+    private ISessionStorageService sessionStorageService;
     private IAuthenticationService authenticationService;
     private LogInTask logInTask;
 
-    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
+    public LogInController(IdentityActivity identityActivity, ISessionStorageService sessionStorageService, IAuthenticationService authenticationService) {
         super(identityActivity);
 
         scope = new Scope();
+        this.sessionStorageService = sessionStorageService;
         this.authenticationService = authenticationService;
     }
 
@@ -48,6 +55,16 @@ public class LogInController extends IdentityController implements ILogInControl
 
     void onAuthenticated(User user) {
         scope.setLoading(false);
-        getActivity().goToMainActivity(user);
+        sessionStorageService.putUserID(user.getUserID());
+        sessionStorageService.putIntermediary(user.getIntermediary());
+        goToMainActivity(user);
+    }
+
+    private void goToMainActivity(User user) {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+
+        intent.putExtra(Constants.USER, user);
+
+        startIntent(intent);
     }
 }

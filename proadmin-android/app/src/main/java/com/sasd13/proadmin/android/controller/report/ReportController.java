@@ -15,9 +15,12 @@ import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
+import com.sasd13.proadmin.android.service.ISessionStorageService;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.util.builder.NewIndividualEvaluationBuilder;
 import com.sasd13.proadmin.android.util.builder.NewLeadEvaluationBuilder;
 import com.sasd13.proadmin.android.util.builder.NewReportBuilder;
+import com.sasd13.proadmin.android.util.wrapper.IndividualEvaluationSaveWrapper;
 import com.sasd13.proadmin.android.view.IReportController;
 import com.sasd13.proadmin.android.view.fragment.report.ReportDetailsFragment;
 import com.sasd13.proadmin.android.view.fragment.report.ReportNewFragment;
@@ -35,10 +38,9 @@ import java.util.Map;
 
 public class ReportController extends MainController implements IReportController {
 
-    public static final String INDIVIDUALEVALUATIONS_TO_CREATE = "TO_CREATE";
-    public static final String INDIVIDUALEVALUATIONS_TO_UPDATE = "TO_UPDATE";
-
     private ReportScope scope;
+    private ISessionStorageService sessionStorageService;
+    private IUserStorageService userStorageService;
     private IReportService reportService;
     private ILeadEvaluationService leadEvaluationService;
     private IIndividualEvaluationService individualEvaluationService;
@@ -54,10 +56,12 @@ public class ReportController extends MainController implements IReportControlle
     private ReportDeleteTask reportDeleteTask;
     private Map<String, String[]> reportCriterias, runningTeamCriterias, studentTeamCriterias, leadEvaluationCriterias, individualEvaluationCriterias;
 
-    public ReportController(MainActivity mainActivity, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
+    public ReportController(MainActivity mainActivity, ISessionStorageService sessionStorageService, IUserStorageService userStorageService, IReportService reportService, ILeadEvaluationService leadEvaluationService, IIndividualEvaluationService individualEvaluationService, IRunningTeamService runningTeamService) {
         super(mainActivity);
 
         scope = new ReportScope();
+        this.sessionStorageService = sessionStorageService;
+        this.userStorageService = userStorageService;
         this.reportService = reportService;
         this.leadEvaluationService = leadEvaluationService;
         this.individualEvaluationService = individualEvaluationService;
@@ -72,6 +76,7 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void browse() {
         getActivity().clearHistory();
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportsFragment.newInstance());
         actionLoadReports();
     }
@@ -93,7 +98,7 @@ public class ReportController extends MainController implements IReportControlle
 
         Map<String, Object> allCriterias = new HashMap<>();
 
-        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
+        reportCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{sessionStorageService.getIntermediary()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), reportCriterias);
 
         new Requestor(reportReadTask).execute(allCriterias);
@@ -142,7 +147,7 @@ public class ReportController extends MainController implements IReportControlle
         Map<String, Object> allCriterias = new HashMap<>();
 
         runningTeamCriterias.put(EnumCriteria.YEAR.getCode(), new String[]{String.valueOf(year)});
-        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{getIntermediaryFromSession()});
+        runningTeamCriterias.put(EnumCriteria.TEACHER.getCode(), new String[]{sessionStorageService.getIntermediary()});
         allCriterias.put(EnumRestriction.WHERE.getCode(), runningTeamCriterias);
 
         new Requestor(runningTeamReadTask).execute(allCriterias);
@@ -312,7 +317,7 @@ public class ReportController extends MainController implements IReportControlle
             individualEvaluationSaveTask = new IndividualEvaluationSaveTask(this, individualEvaluationService);
         }
 
-        Map<String, List> allIndividualEvaluations = new HashMap<>();
+        IndividualEvaluationSaveWrapper wrapper = new IndividualEvaluationSaveWrapper();
         List<IndividualEvaluation> individualEvaluationsToUpdate = new ArrayList<>();
         List<IndividualEvaluation> individualEvaluationsToCreate = new ArrayList<>();
 
@@ -324,10 +329,10 @@ public class ReportController extends MainController implements IReportControlle
             }
         }
 
-        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_UPDATE, individualEvaluationsToUpdate);
-        allIndividualEvaluations.put(INDIVIDUALEVALUATIONS_TO_CREATE, individualEvaluationsToCreate);
+        wrapper.setIndividualEvaluationsToUpdate(individualEvaluationsToUpdate);
+        wrapper.setIndividualEvaluationsToCreate(individualEvaluationsToCreate);
 
-        new Requestor(individualEvaluationSaveTask).execute(allIndividualEvaluations);
+        new Requestor(individualEvaluationSaveTask).execute(wrapper);
     }
 
     void onUpdateIndividualEvaluations() {

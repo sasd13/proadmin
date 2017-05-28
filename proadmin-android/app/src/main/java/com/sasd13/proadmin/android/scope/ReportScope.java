@@ -5,6 +5,7 @@ import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.bean.user.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class ReportScope extends Scope {
     private List<IndividualEvaluation> individualEvaluations;
     private List<RunningTeam> runningTeams;
     private List<StudentTeam> studentTeams;
+    private UserPreferences userPreferences;
 
     public ReportScope() {
         reports = new ArrayList<>();
@@ -104,6 +106,17 @@ public class ReportScope extends Scope {
 
     public void setStudentTeams(List<StudentTeam> studentTeams) {
         this.studentTeams = studentTeams;
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public UserPreferences getUserPreferences() {
+        return userPreferences;
+    }
+
+    public void setUserPreferences(UserPreferences userPreferences) {
+        this.userPreferences = userPreferences;
 
         setChanged();
         notifyObservers();

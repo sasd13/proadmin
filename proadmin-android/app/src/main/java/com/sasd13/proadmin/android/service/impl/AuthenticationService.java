@@ -4,17 +4,13 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.service.ISessionStorageService;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.service.ServiceResult;
-import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.user.UserAdapterI2B;
 import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
-import com.sasd13.proadmin.util.EnumSession;
 import com.sasd13.proadmin.util.Resources;
 
-import org.joda.time.DateTime;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Map;
 
@@ -24,50 +20,53 @@ import java.util.Map;
 
 public class AuthenticationService implements IAuthenticationService {
 
-    private static final int LIMIT_IN_MILLISECONDS = 90000;
+    private ISessionStorageService sessionStorageService;
+    private IUserStorageService userStorageService;
+
+    public AuthenticationService(ISessionStorageService sessionStorageService, IUserStorageService userStorageService) {
+        this.sessionStorageService = sessionStorageService;
+        this.userStorageService = userStorageService;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return sessionStorageService.getUserID() != null && sessionStorageService.getIntermediary() != null;
+    }
 
     @Override
     public ServiceResult<User> logIn(Credential credential) {
         Promise promise = new Promise("POST", Resources.URL_AAA_LOGIN, AuthenticationResponseBean.class);
 
         AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(credential);
+        boolean authenticated = false;
         Map<String, String> errors = Collections.emptyMap();
-        Map<String, String> session = Collections.emptyMap();
         User user = null;
 
         if (promise.isSuccess()) {
             errors = responseBean.getErrors();
 
             if (errors.isEmpty()) {
-                session = responseBean.getSession();
+                authenticated = true;
                 user = new UserAdapterI2B().adapt(responseBean.getUser());
             }
         }
 
         return new ServiceResult<>(
-                isSessionValid(session),
+                authenticated,
                 promise.getResponseCode(),
                 errors,
                 user
         );
     }
 
-    private boolean isSessionValid(Map<String, String> session) {
-        boolean valid = false;
+    @Override
+    public ServiceResult<Void> logOut() {
+        sessionStorageService.clear();
+        userStorageService.clear();
 
-        if (!session.isEmpty()) {
-            try {
-                DateTime now = new DateTime();
-                DateTime start = new DateTime(new SimpleDateFormat(Constants.PATTERN_ZONEDDATETIME_DEFAULT).parse(session.get(EnumSession.START.getKey())));
-
-                if (start.isAfter(now.minus(LIMIT_IN_MILLISECONDS)) && start.isBefore(now.plus(LIMIT_IN_MILLISECONDS))) {
-                    valid = true;
-                }
-            } catch (ParseException | IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return valid;
+        return new ServiceResult<>(
+                true,
+                200
+        );
     }
 }
