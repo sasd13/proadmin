@@ -64,6 +64,18 @@ public class MainActivity extends DrawerActivity {
                 .commit();
     }
 
+    public void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_container_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public IController lookup(Class mClass) {
+        return router.navigate(mClass, this);
+    }
+
     @Override
     protected RecyclerHolder getDrawerHolder() {
         RecyclerHolder recyclerHolder = new RecyclerHolder();
@@ -102,10 +114,6 @@ public class MainActivity extends DrawerActivity {
         return pairs;
     }
 
-    public IController lookup(Class mClass) {
-        return router.navigate(mClass, this);
-    }
-
     private void addAccountItems(RecyclerHolder recyclerHolder) {
         List<RecyclerHolderPair> pairs = makeItems(Browser.getInstance().getAccountItems(this));
 
@@ -117,14 +125,6 @@ public class MainActivity extends DrawerActivity {
         if (pagerHandler == null || !pagerHandler.handleBackPress()) {
             super.onBackPressed();
         }
-    }
-
-    public void startFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_container_fragment, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     public void clearHistory() {
