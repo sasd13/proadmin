@@ -49,6 +49,10 @@ public class AuthenticationService implements IAuthenticationService {
             if (errors.isEmpty()) {
                 authenticated = true;
                 user = new UserAdapterI2B().adapt(responseBean.getUser());
+
+                sessionStorageService.putUserID(user.getUserID());
+                sessionStorageService.putIntermediary(user.getIntermediary());
+                userStorageService.write(user);
             }
         }
 
