@@ -10,7 +10,6 @@ import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.controller.IdentityController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
-import com.sasd13.proadmin.android.service.ISessionStorageService;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.ILogInController;
 
@@ -21,15 +20,13 @@ import com.sasd13.proadmin.android.view.ILogInController;
 public class LogInController extends IdentityController implements ILogInController {
 
     private Scope scope;
-    private ISessionStorageService sessionStorageService;
     private IAuthenticationService authenticationService;
     private LogInTask logInTask;
 
-    public LogInController(IdentityActivity identityActivity, ISessionStorageService sessionStorageService, IAuthenticationService authenticationService) {
+    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
         super(identityActivity);
 
         scope = new Scope();
-        this.sessionStorageService = sessionStorageService;
         this.authenticationService = authenticationService;
     }
 
