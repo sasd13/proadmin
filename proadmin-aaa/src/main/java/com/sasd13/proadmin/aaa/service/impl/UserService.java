@@ -3,6 +3,7 @@ package com.sasd13.proadmin.aaa.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class UserService implements IUserService {
 		}
 
 		user.setUserPreferences(userPreferences);
+		user.setUserID(UUID.randomUUID().toString());
 
 		user = userDAO.create(user);
 
