@@ -82,7 +82,7 @@ public class TeamsFragment extends Fragment implements Observer {
 
             @Override
             public void onRefresh() {
-                controller.actionLoadTeams();
+                controller.actionReadTeams();
             }
         });
     }

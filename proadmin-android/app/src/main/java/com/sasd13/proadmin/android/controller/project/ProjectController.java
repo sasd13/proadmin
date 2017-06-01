@@ -59,11 +59,11 @@ public class ProjectController extends MainController implements IProjectControl
         getActivity().clearHistory();
         scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ProjectsFragment.newInstance());
-        actionLoadProjects();
+        actionReadProjects();
     }
 
     @Override
-    public void actionLoadProjects() {
+    public void actionReadProjects() {
         readProjects();
     }
 

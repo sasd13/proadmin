@@ -5,5 +5,5 @@ package com.sasd13.proadmin.android.view;
  */
 public interface ILogOutController extends IController, IBrowsable {
 
-    void logOut();
+    void actionLogOut();
 }

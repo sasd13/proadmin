@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IReportController extends IController, IBrowsable {
 
-    void actionLoadReports();
+    void actionReadReports();
 
     void actionNewReport();
 

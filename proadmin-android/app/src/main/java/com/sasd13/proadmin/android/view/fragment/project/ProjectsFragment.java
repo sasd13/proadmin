@@ -82,7 +82,7 @@ public class ProjectsFragment extends Fragment implements Observer {
 
             @Override
             public void onRefresh() {
-                controller.actionLoadProjects();
+                controller.actionReadProjects();
             }
         });
     }

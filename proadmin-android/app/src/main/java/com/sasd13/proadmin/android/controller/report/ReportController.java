@@ -78,11 +78,11 @@ public class ReportController extends MainController implements IReportControlle
         getActivity().clearHistory();
         scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportsFragment.newInstance());
-        actionLoadReports();
+        actionReadReports();
     }
 
     @Override
-    public void actionLoadReports() {
+    public void actionReadReports() {
         readReports();
     }
 

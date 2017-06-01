@@ -62,11 +62,11 @@ public class RunningTeamController extends MainController implements IRunningTea
     public void browse() {
         getActivity().clearHistory();
         startFragment(RunningTeamsFragment.newInstance());
-        actionLoadRunningTeams();
+        actionReadRunningTeams();
     }
 
     @Override
-    public void actionLoadRunningTeams() {
+    public void actionReadRunningTeams() {
         readRunningTeams();
     }
 

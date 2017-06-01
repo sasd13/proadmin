@@ -84,7 +84,7 @@ public class ReportsFragment extends Fragment implements Observer {
 
             @Override
             public void onRefresh() {
-                controller.actionLoadReports();
+                controller.actionReadReports();
             }
         });
     }

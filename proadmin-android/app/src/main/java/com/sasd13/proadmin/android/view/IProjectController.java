@@ -7,7 +7,7 @@ import com.sasd13.proadmin.android.bean.Project;
  */
 public interface IProjectController extends IController, IBrowsable {
 
-    void actionLoadProjects();
+    void actionReadProjects();
 
     void actionShowProject(Project project);
 }

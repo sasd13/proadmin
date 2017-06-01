@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ITeamController extends IController, IBrowsable {
 
-    void actionLoadTeams();
+    void actionReadTeams();
 
     void actionNewTeam();
 

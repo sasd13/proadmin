@@ -8,7 +8,7 @@ import com.sasd13.proadmin.android.bean.RunningTeam;
 
 public interface IRunningTeamController extends IController, IBrowsable {
 
-    void actionLoadRunningTeams();
+    void actionReadRunningTeams();
 
     void actionNewRunningTeam();
 
