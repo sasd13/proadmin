@@ -68,7 +68,7 @@ public class SettingFragment extends Fragment implements Observer {
     private void buildView(View view) {
         buildFormUser(view);
         buildSwipeRefreshLayout(view);
-        bindFormWithUser(scope.getUser());
+        bindFormWithUser(scope.getUserUpdate().getUser());
     }
 
     private void buildFormUser(View view) {
@@ -107,7 +107,7 @@ public class SettingFragment extends Fragment implements Observer {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_settings_action_save:
+            case R.id.menu_setting_action_save:
                 updateUser();
                 break;
             default:
@@ -126,12 +126,10 @@ public class SettingFragment extends Fragment implements Observer {
     }
 
     private UserUpdate getUserUpdateFromForm() throws FormException {
-        UserUpdate userUpdate = new UserUpdate();
-        User user = scope.getUser();
+        UserUpdate userUpdate = scope.getUserUpdate();
 
-        user.setEmail(userForm.getEmail());
-        user.getUserPreferences().findPreference(EnumPreference.GENERAL_DATE).setValue(userForm.getPreferenceDate());
-        userUpdate.setUser(user);
+        userUpdate.getUser().setEmail(userForm.getEmail());
+        userUpdate.getUser().getUserPreferences().findPreference(EnumPreference.GENERAL_DATE).setValue(userForm.getPreferenceDate());
 
         return userUpdate;
     }
@@ -147,7 +145,7 @@ public class SettingFragment extends Fragment implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         swipeRefreshLayout.setRefreshing(scope.isLoading());
-        bindFormWithUser(scope.getUser());
+        bindFormWithUser(scope.getUserUpdate().getUser());
     }
 
     @Override
@@ -166,7 +164,7 @@ public class SettingFragment extends Fragment implements Observer {
         scope.deleteObserver(this);
 
         if (menu != null) {
-            menu.setGroupVisible(R.id.menu_edit_group, false);
+            menu.setGroupVisible(R.id.menu_setting_group, false);
         }
     }
 }

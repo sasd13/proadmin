@@ -1,9 +1,11 @@
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:proadmin="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_settings_action_save"
-        android:icon="@drawable/ic_save_white_36dp"
-        android:title="@string/button_save"
-        proadmin:showAsAction="ifRoom"/>
+    <group android:id="@+id/menu_setting_group">
+        <item
+            android:id="@+id/menu_setting_action_save"
+            android:icon="@drawable/ic_save_white_36dp"
+            android:title="@string/button_save"
+            proadmin:showAsAction="ifRoom" />
+    </group>
 </menu>
