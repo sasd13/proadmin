@@ -8,7 +8,7 @@ import com.sasd13.androidex.gui.widget.recycler.form.DateItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.android.bean.user.preference.UserPreferences;
 import com.sasd13.proadmin.util.EnumPreference;
 
 import org.joda.time.LocalDate;

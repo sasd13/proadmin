@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.bean.user;
+package com.sasd13.proadmin.android.bean.user.preference;
 
 import android.os.Parcel;
 import android.os.Parcelable;

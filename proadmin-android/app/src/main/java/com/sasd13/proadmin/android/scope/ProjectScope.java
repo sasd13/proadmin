@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.scope;
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.bean.Running;
 import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.android.bean.user.preference.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;

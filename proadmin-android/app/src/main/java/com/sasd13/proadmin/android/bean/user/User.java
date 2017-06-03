@@ -3,6 +3,8 @@ package com.sasd13.proadmin.android.bean.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sasd13.proadmin.android.bean.user.preference.UserPreferences;
+
 public class User implements Parcelable {
 
     public static final Creator<User> CREATOR = new Creator<User>() {

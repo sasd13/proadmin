@@ -2,8 +2,8 @@ package com.sasd13.proadmin.android.util.adapter.itf2bean.user;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.android.bean.user.User;
-import com.sasd13.proadmin.android.bean.user.UserPreference;
-import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.android.bean.user.preference.UserPreference;
+import com.sasd13.proadmin.android.bean.user.preference.UserPreferences;
 import com.sasd13.proadmin.itf.bean.user.UserBean;
 import com.sasd13.proadmin.itf.bean.user.UserPreferenceBean;
 

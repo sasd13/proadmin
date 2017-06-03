@@ -5,7 +5,7 @@ import com.sasd13.proadmin.android.bean.LeadEvaluation;
 import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.user.UserPreferences;
+import com.sasd13.proadmin.android.bean.user.preference.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
