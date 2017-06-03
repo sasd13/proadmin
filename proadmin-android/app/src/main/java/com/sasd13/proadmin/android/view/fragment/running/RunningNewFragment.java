@@ -69,10 +69,9 @@ public class RunningNewFragment extends Fragment implements Observer {
 
     private void buildFormRunning(View view) {
         runningForm = new RunningForm(getContext());
-
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        recycler.addDividerItemDecoration();
 
+        recycler.addDividerItemDecoration();
         RecyclerHelper.addAll(recycler, runningForm.getHolder());
     }
 

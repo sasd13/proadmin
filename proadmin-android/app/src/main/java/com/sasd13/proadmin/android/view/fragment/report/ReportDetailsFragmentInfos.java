@@ -71,10 +71,9 @@ public class ReportDetailsFragmentInfos extends Fragment implements Observer {
 
     private void buildFormReport(View view) {
         reportForm = new ReportForm(getContext(), true, scope.getUserPreferences());
-
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        recycler.addDividerItemDecoration();
 
+        recycler.addDividerItemDecoration();
         RecyclerHelper.addAll(recycler, reportForm.getHolder());
     }
 

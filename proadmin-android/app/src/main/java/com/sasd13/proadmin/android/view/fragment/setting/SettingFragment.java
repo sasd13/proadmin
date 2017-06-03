@@ -73,10 +73,9 @@ public class SettingFragment extends Fragment implements Observer {
 
     private void buildFormUser(View view) {
         userForm = new UserForm(getContext());
-
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_w_srl_recyclerview));
-        recycler.addDividerItemDecoration();
 
+        recycler.addDividerItemDecoration();
         RecyclerHelper.addAll(recycler, userForm.getHolder());
     }
 

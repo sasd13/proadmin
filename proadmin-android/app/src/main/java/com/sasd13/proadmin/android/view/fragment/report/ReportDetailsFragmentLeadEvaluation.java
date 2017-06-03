@@ -72,10 +72,9 @@ public class ReportDetailsFragmentLeadEvaluation extends Fragment implements Obs
 
     private void buildFormLeadEvaluation(View view) {
         leadEvaluationForm = new LeadEvaluationForm(getContext());
-
         Recycler recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
-        recycler.addDividerItemDecoration();
 
+        recycler.addDividerItemDecoration();
         RecyclerHelper.addAll(recycler, leadEvaluationForm.getHolder());
     }
 

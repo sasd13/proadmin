@@ -75,6 +75,7 @@ public class ReportNewFragmentRunningTeams extends Fragment implements Observer 
 
     public static ReportNewFragmentRunningTeams newInstance(ReportNewFragment parentFragment) {
         ReportNewFragmentRunningTeams fragment = new ReportNewFragmentRunningTeams();
+
         fragment.parentFragment = parentFragment;
 
         return fragment;

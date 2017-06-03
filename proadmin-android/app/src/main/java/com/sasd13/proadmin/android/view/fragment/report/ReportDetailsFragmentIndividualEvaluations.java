@@ -73,8 +73,8 @@ public class ReportDetailsFragmentIndividualEvaluations extends Fragment impleme
 
     private void buildFormIndividualEvaluations(View view) {
         individualEvaluationsForm = new IndividualEvaluationsForm(getContext());
-
         recycler = RecyclerFactory.makeBuilder(EnumRecyclerType.FORM).build((RecyclerView) view.findViewById(R.id.layout_rv_recyclerview));
+
         recycler.addDividerItemDecoration();
     }
 
