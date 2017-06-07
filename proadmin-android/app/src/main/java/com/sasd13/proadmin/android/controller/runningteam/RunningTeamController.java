@@ -209,7 +209,7 @@ public class RunningTeamController extends MainController implements IRunningTea
     }
 
     void onUpdateRunningTeam() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 
     @Override

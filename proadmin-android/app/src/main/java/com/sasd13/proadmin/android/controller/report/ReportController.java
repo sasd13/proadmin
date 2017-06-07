@@ -264,7 +264,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onUpdateReport() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 
     @Override
@@ -311,7 +311,7 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onUpdateLeadEvaluation() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 
     @Override
@@ -339,6 +339,6 @@ public class ReportController extends MainController implements IReportControlle
     }
 
     void onUpdateIndividualEvaluations() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 }

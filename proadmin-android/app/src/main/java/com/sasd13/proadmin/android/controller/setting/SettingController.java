@@ -77,6 +77,6 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onUpdateUser() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 }

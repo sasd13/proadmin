@@ -155,7 +155,7 @@ public class TeamController extends MainController implements ITeamController {
     }
 
     void onUpdateTeam() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 
     @Override

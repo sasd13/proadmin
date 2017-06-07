@@ -11,8 +11,8 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
-import com.sasd13.proadmin.android.util.builder.NewStudentTeamBuilder;
 import com.sasd13.proadmin.android.util.builder.NewStudentBuilder;
+import com.sasd13.proadmin.android.util.builder.NewStudentTeamBuilder;
 import com.sasd13.proadmin.android.view.IBrowsable;
 import com.sasd13.proadmin.android.view.IStudentController;
 import com.sasd13.proadmin.android.view.ITeamController;
@@ -76,6 +76,6 @@ public class StudentController extends MainController implements IStudentControl
     }
 
     void onUpdateStudent() {
-        display(R.string.message_updated);
+        display(R.string.message_saved);
     }
 }
