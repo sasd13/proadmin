@@ -3,6 +3,7 @@ package com.sasd13.proadmin.android;
 import android.app.Activity;
 
 import com.sasd13.androidex.util.SessionStorage;
+import com.sasd13.proadmin.android.util.AppProperties;
 
 /**
  * Created by ssaidali2 on 15/05/2017.
@@ -26,6 +27,8 @@ public class Configurator {
     }
 
     public static Config init(Activity activity) {
+        AppProperties.init(activity);
+
         Config config = new Config();
         config.resolver = new Resolver();
         config.provider = new Provider(config.resolver);

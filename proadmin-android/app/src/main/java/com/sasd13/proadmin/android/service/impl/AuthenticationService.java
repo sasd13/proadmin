@@ -8,9 +8,10 @@ import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ISessionStorageService;
 import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.user.UserAdapterI2B;
 import com.sasd13.proadmin.itf.bean.user.log.AuthenticationResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.Collections;
 import java.util.Map;
@@ -20,6 +21,8 @@ import java.util.Map;
  */
 
 public class AuthenticationService implements IAuthenticationService {
+
+    private static final String URL_AAA_LOGIN = AppProperties.getProperty(Names.URL_AAA_LOGIN);
 
     private ISessionStorageService sessionStorageService;
     private IUserStorageService userStorageService;
@@ -36,7 +39,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public ServiceResult<User> logIn(Credential credential) {
-        Promise promise = new Promise("POST", Resources.URL_AAA_LOGIN, AuthenticationResponseBean.class);
+        Promise promise = new Promise("POST", URL_AAA_LOGIN, AuthenticationResponseBean.class);
 
         AuthenticationResponseBean responseBean = (AuthenticationResponseBean) promise.execute(new Credential(credential.getUsername(), HexEncoder.sha256(credential.getPassword())));
         boolean authenticated = false;

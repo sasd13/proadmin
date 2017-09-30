@@ -4,13 +4,14 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.service.IStudentTeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.StudentTeamAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.StudentTeamAdapterI2B;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamRequestBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +24,11 @@ import java.util.Map;
 
 public class StudentTeamService implements IStudentTeamService {
 
+    private static final String URL_WS2_STUDENTTEAMS = AppProperties.getProperty(Names.URL_WS2_STUDENTTEAMS);
+
     @Override
     public ServiceResult<List<StudentTeam>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
@@ -56,7 +59,7 @@ public class StudentTeamService implements IStudentTeamService {
 
     @Override
     public ServiceResult<Void> create(StudentTeam studentTeam) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_STUDENTTEAMS + "/create");
+        Promise promise = new Promise("POST", URL_WS2_STUDENTTEAMS + "/create");
 
         StudentTeamRequestBean requestBean = new StudentTeamRequestBean();
         List<StudentTeamBean> list = new ArrayList<>();
@@ -73,7 +76,7 @@ public class StudentTeamService implements IStudentTeamService {
 
     @Override
     public ServiceResult<Void> delete(List<StudentTeam> studentTeams) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_STUDENTTEAMS + "/delete");
+        Promise promise = new Promise("POST", URL_WS2_STUDENTTEAMS + "/delete");
 
         StudentTeamRequestBean requestBean = new StudentTeamRequestBean();
         List<StudentTeamBean> list = new ArrayList<>();

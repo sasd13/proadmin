@@ -8,6 +8,8 @@ import com.sasd13.proadmin.android.bean.RunningTeam;
 import com.sasd13.proadmin.android.bean.Team;
 import com.sasd13.proadmin.android.service.IRunningTeamService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.RunningTeamAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.AcademicLevelAdapterI2B;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.RunningAdapterI2B;
@@ -23,7 +25,6 @@ import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamRequestBean;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamResponseBean;
 import com.sasd13.proadmin.itf.bean.team.TeamBean;
 import com.sasd13.proadmin.itf.bean.team.TeamResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,11 +37,15 @@ import java.util.Map;
 
 public class RunningTeamService implements IRunningTeamService {
 
+    private static final String URL_WS2_REPORTS = AppProperties.getProperty(Names.URL_WS2_REPORTS);
+    private static final String URL_WS2_RUNNINGS = AppProperties.getProperty(Names.URL_WS2_RUNNINGS);
+    private static final String URL_WS2_TEAMS = AppProperties.getProperty(Names.URL_WS2_TEAMS);
+    private static final String URL_WS2_ACADEMICLEVELS = AppProperties.getProperty(Names.URL_WS2_ACADEMICLEVELS);
     private static final int NBR_REQUESTS = 3;
 
     @Override
     public ServiceResult<List<RunningTeam>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_RUNNINGTEAMS + "/search", RunningTeamResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/search", RunningTeamResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
@@ -74,9 +79,9 @@ public class RunningTeamService implements IRunningTeamService {
         MultiPromise promise = new MultiPromise(NBR_REQUESTS);
 
         MultiPromise.Request[] requests = new MultiPromise.Request[NBR_REQUESTS];
-        requests[0] = new MultiPromise.Request(PARAMATERS_RUNNING, "POST", Resources.URL_BACKEND_RUNNINGS + "/search", RunningResponseBean.class);
-        requests[1] = new MultiPromise.Request(PARAMETERS_TEAM, "POST", Resources.URL_BACKEND_TEAMS + "/search", TeamResponseBean.class);
-        requests[2] = new MultiPromise.Request(PARAMETERS_ACADEMICLEVEL, "GET", Resources.URL_BACKEND_ACADEMICLEVELS + "/read", AcademicLevelResponseBean.class);
+        requests[0] = new MultiPromise.Request(PARAMATERS_RUNNING, "POST", URL_WS2_RUNNINGS + "/search", RunningResponseBean.class);
+        requests[1] = new MultiPromise.Request(PARAMETERS_TEAM, "POST", URL_WS2_TEAMS + "/search", TeamResponseBean.class);
+        requests[2] = new MultiPromise.Request(PARAMETERS_ACADEMICLEVEL, "GET", URL_WS2_ACADEMICLEVELS + "/read", AcademicLevelResponseBean.class);
 
         SearchBean searchBeanRunnings = new SearchBean();
         searchBeanRunnings.setCriterias(allCriterias.get(PARAMATERS_RUNNING));
@@ -125,7 +130,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> create(RunningTeam runningTeam) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_RUNNINGTEAMS + "/create");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/create");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();
@@ -142,7 +147,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> update(RunningTeam runningTeam) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_RUNNINGTEAMS + "/update");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/update");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();
@@ -159,7 +164,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> delete(List<RunningTeam> runningTeams) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_RUNNINGTEAMS + "/delete");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/delete");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();

@@ -4,13 +4,14 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.Teacher;
 import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.TeacherAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.TeacherAdapterI2B;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherRequestBean;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +24,11 @@ import java.util.Map;
 
 public class TeacherService implements ITeacherService {
 
+    private static final String URL_WS2_TEACHERS = AppProperties.getProperty(Names.URL_WS2_TEACHERS);
+
     @Override
     public ServiceResult<List<Teacher>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_TEACHERS + "/search", TeacherResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_TEACHERS + "/search", TeacherResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
@@ -56,7 +59,7 @@ public class TeacherService implements ITeacherService {
 
     @Override
     public ServiceResult<Void> create(Teacher teacher) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_TEACHERS + "/create");
+        Promise promise = new Promise("POST", URL_WS2_TEACHERS + "/create");
 
         TeacherRequestBean requestBean = new TeacherRequestBean();
         List<TeacherBean> list = new ArrayList<>();
@@ -73,7 +76,7 @@ public class TeacherService implements ITeacherService {
 
     @Override
     public ServiceResult<Void> update(Teacher teacher) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_TEACHERS + "/update");
+        Promise promise = new Promise("POST", URL_WS2_TEACHERS + "/update");
 
         TeacherRequestBean requestBean = new TeacherRequestBean();
         List<TeacherBean> list = new ArrayList<>();

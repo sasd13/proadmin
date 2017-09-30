@@ -8,6 +8,8 @@ import com.sasd13.proadmin.android.bean.Report;
 import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.bean2itf.ReportAdapterB2I;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
@@ -23,7 +25,6 @@ import com.sasd13.proadmin.itf.bean.report.ReportRequestBean;
 import com.sasd13.proadmin.itf.bean.report.ReportResponseBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,11 +37,14 @@ import java.util.Map;
 
 public class ReportService implements IReportService {
 
+    private static final String URL_WS2_REPORTS = AppProperties.getProperty(Names.URL_WS2_REPORTS);
+    private static final String URL_WS2_STUDENTTEAMS = AppProperties.getProperty(Names.URL_WS2_STUDENTTEAMS);
+    private static final String URL_WS2_LEADEVALUATIONS = AppProperties.getProperty(Names.URL_WS2_LEADEVALUATIONS);
     private static final int NBR_REQUESTS = 3;
 
     @Override
     public ServiceResult<List<Report>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_REPORTS + "/search", ReportResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/search", ReportResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
@@ -74,9 +78,9 @@ public class ReportService implements IReportService {
         MultiPromise promise = new MultiPromise(NBR_REQUESTS);
 
         MultiPromise.Request[] requests = new MultiPromise.Request[NBR_REQUESTS];
-        requests[0] = new MultiPromise.Request(PARAMATERS_STUDENTTEAM, "POST", Resources.URL_BACKEND_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
-        requests[1] = new MultiPromise.Request(PARAMETERS_LEADEVALUATION, "POST", Resources.URL_BACKEND_LEADEVALUATIONS + "/search", LeadEvaluationResponseBean.class);
-        requests[2] = new MultiPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, "POST", Resources.URL_BACKEND_INDIVIDUALEVALUATIONS + "/search", IndividualEvaluationResponseBean.class);
+        requests[0] = new MultiPromise.Request(PARAMATERS_STUDENTTEAM, "POST", URL_WS2_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
+        requests[1] = new MultiPromise.Request(PARAMETERS_LEADEVALUATION, "POST", URL_WS2_LEADEVALUATIONS + "/search", LeadEvaluationResponseBean.class);
+        requests[2] = new MultiPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, "POST", URL_WS2_REPORTS + "/search", IndividualEvaluationResponseBean.class);
 
         SearchBean searchBeanStudentTeams = new SearchBean();
         searchBeanStudentTeams.setCriterias(allCriterias.get(PARAMATERS_STUDENTTEAM));
@@ -132,7 +136,7 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<Void> create(Report report) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_REPORTS + "/create");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/create");
 
         ReportRequestBean requestBean = new ReportRequestBean();
         List<ReportBean> list = new ArrayList<>();
@@ -149,7 +153,7 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<Void> update(Report report) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_REPORTS + "/update");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/update");
 
         ReportRequestBean requestBean = new ReportRequestBean();
         List<ReportBean> list = new ArrayList<>();
@@ -166,7 +170,7 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<Void> delete(List<Report> reports) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_REPORTS + "/delete");
+        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/delete");
 
         ReportRequestBean requestBean = new ReportRequestBean();
         List<ReportBean> list = new ArrayList<>();

@@ -4,11 +4,12 @@ import com.sasd13.androidex.net.promise.Promise;
 import com.sasd13.proadmin.android.bean.Project;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.util.AppProperties;
+import com.sasd13.proadmin.android.util.Names;
 import com.sasd13.proadmin.android.util.adapter.itf2bean.ProjectAdapterI2B;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 import com.sasd13.proadmin.itf.bean.project.ProjectResponseBean;
-import com.sasd13.proadmin.util.Resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,9 +22,11 @@ import java.util.Map;
 
 public class ProjectService implements IProjectService {
 
+    private static final String URL_WS2_PROJECTS = AppProperties.getProperty(Names.URL_WS2_PROJECTS);
+
     @Override
     public ServiceResult<List<Project>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", Resources.URL_BACKEND_PROJECTS + "/search", ProjectResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_PROJECTS + "/search", ProjectResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
