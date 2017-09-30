@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class RunningTeamService implements IRunningTeamService {
 
-    private static final String URL_WS2_REPORTS = AppProperties.getProperty(Names.URL_WS2_REPORTS);
+    private static final String URL_WS2_RUNNINGTEAMS = AppProperties.getProperty(Names.URL_WS2_RUNNINGTEAMS);
     private static final String URL_WS2_RUNNINGS = AppProperties.getProperty(Names.URL_WS2_RUNNINGS);
     private static final String URL_WS2_TEAMS = AppProperties.getProperty(Names.URL_WS2_TEAMS);
     private static final String URL_WS2_ACADEMICLEVELS = AppProperties.getProperty(Names.URL_WS2_ACADEMICLEVELS);
@@ -45,7 +45,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<List<RunningTeam>> read(Map<String, Object> criterias) {
-        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/search", RunningTeamResponseBean.class);
+        Promise promise = new Promise("POST", URL_WS2_RUNNINGTEAMS + "/search", RunningTeamResponseBean.class);
 
         SearchBean searchBean = new SearchBean();
         searchBean.setCriterias(criterias);
@@ -130,7 +130,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> create(RunningTeam runningTeam) {
-        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/create");
+        Promise promise = new Promise("POST", URL_WS2_RUNNINGTEAMS + "/create");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();
@@ -147,7 +147,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> update(RunningTeam runningTeam) {
-        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/update");
+        Promise promise = new Promise("POST", URL_WS2_RUNNINGTEAMS + "/update");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();
@@ -164,7 +164,7 @@ public class RunningTeamService implements IRunningTeamService {
 
     @Override
     public ServiceResult<Void> delete(List<RunningTeam> runningTeams) {
-        Promise promise = new Promise("POST", URL_WS2_REPORTS + "/delete");
+        Promise promise = new Promise("POST", URL_WS2_RUNNINGTEAMS + "/delete");
 
         RunningTeamRequestBean requestBean = new RunningTeamRequestBean();
         List<RunningTeamBean> list = new ArrayList<>();

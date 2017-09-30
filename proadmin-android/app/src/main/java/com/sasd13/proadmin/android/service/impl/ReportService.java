@@ -40,6 +40,7 @@ public class ReportService implements IReportService {
     private static final String URL_WS2_REPORTS = AppProperties.getProperty(Names.URL_WS2_REPORTS);
     private static final String URL_WS2_STUDENTTEAMS = AppProperties.getProperty(Names.URL_WS2_STUDENTTEAMS);
     private static final String URL_WS2_LEADEVALUATIONS = AppProperties.getProperty(Names.URL_WS2_LEADEVALUATIONS);
+    private static final String URL_WS2_INDIVIDUALEVALUATIONS = AppProperties.getProperty(Names.URL_WS2_INDIVIDUALEVALUATIONS);
     private static final int NBR_REQUESTS = 3;
 
     @Override
@@ -80,7 +81,7 @@ public class ReportService implements IReportService {
         MultiPromise.Request[] requests = new MultiPromise.Request[NBR_REQUESTS];
         requests[0] = new MultiPromise.Request(PARAMATERS_STUDENTTEAM, "POST", URL_WS2_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
         requests[1] = new MultiPromise.Request(PARAMETERS_LEADEVALUATION, "POST", URL_WS2_LEADEVALUATIONS + "/search", LeadEvaluationResponseBean.class);
-        requests[2] = new MultiPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, "POST", URL_WS2_REPORTS + "/search", IndividualEvaluationResponseBean.class);
+        requests[2] = new MultiPromise.Request(PARAMETERS_INDIVIDUALEVALUATION, "POST", URL_WS2_INDIVIDUALEVALUATIONS + "/search", IndividualEvaluationResponseBean.class);
 
         SearchBean searchBeanStudentTeams = new SearchBean();
         searchBeanStudentTeams.setCriterias(allCriterias.get(PARAMATERS_STUDENTTEAM));
