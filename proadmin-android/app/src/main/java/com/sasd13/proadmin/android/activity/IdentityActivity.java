@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.proadmin.android.Configurator;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
-import com.sasd13.proadmin.android.view.IController;
-import com.sasd13.proadmin.android.view.fragment.authentication.LogInFragment;
+import com.sasd13.proadmin.android.component.IController;
+import com.sasd13.proadmin.android.component.authentication.view.LogInFragment;
 
 public class IdentityActivity extends AppCompatActivity {
 

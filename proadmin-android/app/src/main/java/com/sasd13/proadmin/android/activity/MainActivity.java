@@ -17,11 +17,11 @@ import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.util.Constants;
-import com.sasd13.proadmin.android.view.IBrowsable;
-import com.sasd13.proadmin.android.view.IController;
-import com.sasd13.proadmin.android.view.fragment.HomeFragment;
-import com.sasd13.proadmin.android.view.gui.browser.Browser;
-import com.sasd13.proadmin.android.view.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.android.util.browser.IBrowsable;
+import com.sasd13.proadmin.android.component.IController;
+import com.sasd13.proadmin.android.component.home.view.HomeFragment;
+import com.sasd13.proadmin.android.gui.browser.Browser;
+import com.sasd13.proadmin.android.gui.browser.BrowserItemModel;
 
 import java.util.ArrayList;
 import java.util.List;

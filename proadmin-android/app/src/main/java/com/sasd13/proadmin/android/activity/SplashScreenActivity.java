@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.sasd13.proadmin.android.Configurator;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
-import com.sasd13.proadmin.android.view.IController;
-import com.sasd13.proadmin.android.view.fragment.SplashScreenFragment;
+import com.sasd13.proadmin.android.component.IController;
+import com.sasd13.proadmin.android.component.splashscreen.view.SplashScreenFragment;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
