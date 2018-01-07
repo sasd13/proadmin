@@ -1,0 +1,19 @@
+{
+    "curly": true,
+    "boss": true,
+    "undef": true,
+    "predef": [
+        "angular",
+        "_",
+        "$",
+        "window",
+        "console",
+        "document",
+        "sessionStorage",
+        "localStorage"
+    ],
+    "globalstrict": true,
+    "strict": true,
+    "sub": true,
+    "unused": true
+}
