@@ -82,10 +82,15 @@ public class TeacherController extends Controller {
 			TeacherBean result = teacherService.read(intermediary);
 			TeacherResponseBean responseBean = new TeacherResponseBean();
 			List<TeacherBean> results = new ArrayList<>();
+			int totalItem = 0;
 
-			results.add(result);
+			if (result != null) {
+				results.add(result);
+				totalItem = 1;
+			}
+
 			responseBean.setData(results);
-			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(1));
+			responseBean.getHeader().getApplicativeContext().setPaginationTotalItems(String.valueOf(totalItem));
 
 			return new ResponseEntity<ResponseBean>(responseBean, HttpStatus.OK);
 		} catch (Exception e) {
