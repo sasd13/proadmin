@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.backend.util.adapter.entity2itf;
+package com.sasd13.proadmin.backend.util.adapter.model2itf;
 
 import java.text.SimpleDateFormat;
 

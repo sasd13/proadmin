@@ -1,16 +1,16 @@
-package com.sasd13.proadmin.backend.util.adapter.entity2itf;
+package com.sasd13.proadmin.backend.util.adapter.model2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.Student;
+import com.sasd13.proadmin.backend.entity.Teacher;
 import com.sasd13.proadmin.itf.bean.Id;
-import com.sasd13.proadmin.itf.bean.student.CoreInfo;
-import com.sasd13.proadmin.itf.bean.student.StudentBean;
+import com.sasd13.proadmin.itf.bean.teacher.CoreInfo;
+import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 
-public class StudentAdapterM2I implements IAdapter<Student, StudentBean> {
+public class TeacherAdapterM2I implements IAdapter<Teacher, TeacherBean> {
 
 	@Override
-	public StudentBean adapt(Student s) {
-		StudentBean t = new StudentBean();
+	public TeacherBean adapt(Teacher s) {
+		TeacherBean t = new TeacherBean();
 
 		Id id = new Id();
 		id.setId(String.valueOf(s.getId()));

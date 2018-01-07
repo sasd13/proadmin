@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sasd13.proadmin.backend.dao.IProjectDAO;
 import com.sasd13.proadmin.backend.entity.Project;
 import com.sasd13.proadmin.backend.service.IProjectService;
-import com.sasd13.proadmin.backend.util.adapter.entity2itf.ProjectAdapterM2I;
-import com.sasd13.proadmin.backend.util.adapter.itf2entity.ProjectAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.itf2model.ProjectAdapterI2M;
+import com.sasd13.proadmin.backend.util.adapter.model2itf.ProjectAdapterM2I;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 
 @Service
