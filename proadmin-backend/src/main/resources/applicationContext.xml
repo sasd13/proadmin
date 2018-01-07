@@ -35,11 +35,11 @@
 
 	<!-- JEE -->
 	<!-- DataSource provided by the server -->
-	<!-- <jee:jndi-lookup id="mOfflineDataSource" jndi-name="jdbc/proadmin_db2" expected-type="javax.sql.DataSource" /> -->
+	<!-- <jee:jndi-lookup id="mDataSource" jndi-name="jdbc/proadmin_db2" expected-type="javax.sql.DataSource" /> -->
 
 	<!-- LIQUIBASE -->
 	<!-- <bean id="com.sasd13.proadmin.backend.liquibase" class="liquibase.integration.spring.SpringLiquibase"> -->
-	<!-- <property name="dataSource" ref="mOfflineDataSource" /> -->
+	<!-- <property name="dataSource" ref="mDataSource" /> -->
 	<!-- <property name="changeLog" value="classpath:changelog/db.changelog-master.xml" /> -->
 	<!-- </bean> -->
 

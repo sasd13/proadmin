@@ -4,7 +4,7 @@ import javax.persistence.AttributeConverter;
 
 import com.sasd13.proadmin.aaa.bean.EnumStatus;
 
-public class StatusEnumConverter implements AttributeConverter<EnumStatus, Integer> {
+public class EnumStatusConverter implements AttributeConverter<EnumStatus, Integer> {
 
 	@Override
 	public Integer convertToDatabaseColumn(EnumStatus status) {

@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.sasd13.proadmin.aaa.bean.EnumStatus;
-import com.sasd13.proadmin.aaa.util.StatusEnumConverter;
+import com.sasd13.proadmin.aaa.util.EnumStatusConverter;
 
 @Entity
 @Table(name = "users")
@@ -41,7 +41,7 @@ public class User implements Serializable {
 	private String password;
 
 	@Column(name = "_status")
-	@Convert(converter = StatusEnumConverter.class)
+	@Convert(converter = EnumStatusConverter.class)
 	private EnumStatus status;
 
 	@Column(name = "_roles")
