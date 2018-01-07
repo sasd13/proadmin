@@ -52,7 +52,7 @@ public class MainActivity extends DrawerActivity {
         if (getIntent().hasExtra(Constants.USER)) {
             User user = getIntent().getExtras().getParcelable(Constants.USER);
 
-            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(this, user);
+            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(user);
             getIntent().removeExtra(Constants.USER);
         }
     }

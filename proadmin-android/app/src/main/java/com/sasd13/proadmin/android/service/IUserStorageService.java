@@ -1,8 +1,5 @@
 package com.sasd13.proadmin.android.service;
 
-import android.app.Activity;
-import android.content.Intent;
-
 import com.sasd13.proadmin.android.model.user.User;
 
 /**
@@ -11,15 +8,9 @@ import com.sasd13.proadmin.android.model.user.User;
 
 public interface IUserStorageService {
 
-    User read(Intent intent);
+    User read();
 
-    User read(Activity activity);
+    void write(User user);
 
-    void write(Intent intent, User user);
-
-    void write(Activity activity, User user);
-
-    void clear(Intent intent);
-
-    void clear(Activity activity);
+    void clear();
 }

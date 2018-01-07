@@ -41,7 +41,7 @@ public class SettingController extends MainController implements ISettingControl
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserUpdate(new NewUserUpdateBuilder(userStorageService.read(getActivity())).build());
+        scope.setUserUpdate(new NewUserUpdateBuilder(userStorageService.read()).build());
         startFragment(SettingFragment.newInstance());
         actionReadUser();
     }
@@ -62,7 +62,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onReadUser(User user) {
-        userStorageService.write(getActivity(), user);
+        userStorageService.write(user);
         scope.setUserUpdate(new NewUserUpdateBuilder(user).build());
         scope.setLoading(false);
     }

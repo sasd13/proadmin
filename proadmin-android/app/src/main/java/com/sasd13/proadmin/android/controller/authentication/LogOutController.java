@@ -59,7 +59,7 @@ public class LogOutController extends MainController implements ILogOutControlle
 
     private void exit() {
         authenticationService.logOut();
-        userStorageService.clear(getActivity());
+        userStorageService.clear();
         goToIdentityActivity();
     }
 

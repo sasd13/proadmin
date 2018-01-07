@@ -57,7 +57,7 @@ public class ProjectController extends MainController implements IProjectControl
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ProjectsFragment.newInstance());
         actionReadProjects();
     }
@@ -105,7 +105,7 @@ public class ProjectController extends MainController implements IProjectControl
     public void actionShowProject(Project project) {
         scope.setProject(project);
         scope.setRunnings(new ArrayList<Running>());
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ProjectDetailsFragment.newInstance());
 
         if (scope.getTeacher() == null) {

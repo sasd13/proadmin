@@ -60,7 +60,7 @@ public class LogInController extends IdentityController implements ILogInControl
     private void goToMainActivity(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
 
-        userStorageService.write(intent, user);
+        userStorageService.write(user);
         startActivity(intent);
     }
 }

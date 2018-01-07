@@ -76,7 +76,7 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportsFragment.newInstance());
         actionReadReports();
     }
@@ -132,7 +132,7 @@ public class ReportController extends MainController implements IReportControlle
     public void actionNewReport() {
         scope.setReport(new NewReportBuilder().build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams(Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -162,7 +162,7 @@ public class ReportController extends MainController implements IReportControlle
     public void actionNewReport(RunningTeam runningTeam) {
         scope.setReport(new NewReportBuilder(runningTeam).build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams(runningTeam.getRunning().getYear());
     }
@@ -187,7 +187,7 @@ public class ReportController extends MainController implements IReportControlle
         scope.setStudentTeams(new ArrayList<StudentTeam>());
         scope.setLeadEvaluation(new NewLeadEvaluationBuilder(report).build());
         scope.setIndividualEvaluations(new ArrayList<IndividualEvaluation>());
-        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
+        scope.setUserPreferences(userStorageService.read().getUserPreferences());
         startFragment(ReportDetailsFragment.newInstance());
         readDependencies(report);
     }

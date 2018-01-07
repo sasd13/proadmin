@@ -2,6 +2,7 @@ package com.sasd13.proadmin.android;
 
 import android.app.Activity;
 
+import com.sasd13.androidex.util.LocalStorage;
 import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.proadmin.android.util.AppProperties;
 
@@ -37,6 +38,7 @@ public class Configurator {
         config.resolver.register(Provider.class, config.provider);
         config.resolver.register(Router.class, config.router);
         config.resolver.register(SessionStorage.class, new SessionStorage(activity));
+        config.resolver.register(LocalStorage.class, new LocalStorage(activity.getIntent()));
 
         return config;
     }
