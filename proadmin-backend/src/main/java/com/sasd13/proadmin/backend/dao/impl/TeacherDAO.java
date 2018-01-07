@@ -14,7 +14,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.ITeacherDAO;
-import com.sasd13.proadmin.backend.model.Teacher;
+import com.sasd13.proadmin.backend.entity.Teacher;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository

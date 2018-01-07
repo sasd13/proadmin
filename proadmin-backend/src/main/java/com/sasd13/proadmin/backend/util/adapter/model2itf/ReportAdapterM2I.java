@@ -3,7 +3,7 @@ package com.sasd13.proadmin.backend.util.adapter.model2itf;
 import java.text.SimpleDateFormat;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.backend.entity.Report;
 import com.sasd13.proadmin.backend.util.Constants;
 import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.LinkedAcademicLevel;

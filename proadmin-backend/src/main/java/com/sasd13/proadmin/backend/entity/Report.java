@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.backend.model;
+package com.sasd13.proadmin.backend.entity;
 
 import java.io.Serializable;
 import java.util.Date;

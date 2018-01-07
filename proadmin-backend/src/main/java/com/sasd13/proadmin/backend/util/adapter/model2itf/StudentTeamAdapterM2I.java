@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.backend.util.adapter.model2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.model.StudentTeam;
+import com.sasd13.proadmin.backend.entity.StudentTeam;
 import com.sasd13.proadmin.itf.bean.LinkedStudent;
 import com.sasd13.proadmin.itf.bean.LinkedTeam;
 import com.sasd13.proadmin.itf.bean.studentteam.Id;

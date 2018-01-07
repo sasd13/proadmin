@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IIndividualEvaluationDAO;
-import com.sasd13.proadmin.backend.model.IndividualEvaluation;
+import com.sasd13.proadmin.backend.entity.IndividualEvaluation;
 import com.sasd13.proadmin.backend.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.backend.util.adapter.itf2model.IndividualEvaluationAdapterI2M;
 import com.sasd13.proadmin.backend.util.adapter.model2itf.IndividualEvaluationAdapterM2I;

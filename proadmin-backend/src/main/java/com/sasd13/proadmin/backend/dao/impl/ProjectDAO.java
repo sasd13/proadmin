@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.IProjectDAO;
-import com.sasd13.proadmin.backend.model.Project;
+import com.sasd13.proadmin.backend.entity.Project;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository

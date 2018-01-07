@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.backend.util.adapter.model2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.model.Teacher;
+import com.sasd13.proadmin.backend.entity.Teacher;
 import com.sasd13.proadmin.itf.bean.Id;
 import com.sasd13.proadmin.itf.bean.teacher.CoreInfo;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;

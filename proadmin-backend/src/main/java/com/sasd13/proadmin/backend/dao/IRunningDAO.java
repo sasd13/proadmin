@@ -3,7 +3,7 @@ package com.sasd13.proadmin.backend.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.sasd13.proadmin.backend.model.Running;
+import com.sasd13.proadmin.backend.entity.Running;
 
 public interface IRunningDAO {
 

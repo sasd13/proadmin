@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.sasd13.proadmin.backend.dao.IAcademicLevelDAO;
-import com.sasd13.proadmin.backend.model.AcademicLevel;
+import com.sasd13.proadmin.backend.entity.AcademicLevel;
 
 @Repository
 public class AcademicLevelDAO extends AbstractDAO implements IAcademicLevelDAO {

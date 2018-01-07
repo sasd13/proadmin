@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.model.Student;
-import com.sasd13.proadmin.backend.model.StudentTeam;
-import com.sasd13.proadmin.backend.model.Team;
+import com.sasd13.proadmin.backend.entity.Student;
+import com.sasd13.proadmin.backend.entity.StudentTeam;
+import com.sasd13.proadmin.backend.entity.Team;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
 
 public class StudentTeamAdapterI2M implements IAdapter<StudentTeamBean, StudentTeam> {

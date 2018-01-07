@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IReportDAO;
-import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.backend.entity.Report;
 import com.sasd13.proadmin.backend.service.IReportService;
 import com.sasd13.proadmin.backend.util.adapter.itf2model.ReportAdapterI2M;
 import com.sasd13.proadmin.backend.util.adapter.model2itf.ReportAdapterM2I;
