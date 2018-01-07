@@ -11,7 +11,7 @@ import com.sasd13.androidex.gui.widget.EnumActionEvent;
 import com.sasd13.androidex.gui.widget.pager.IPagerHandler;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolder;
 import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
-import com.sasd13.proadmin.android.Configurator;
+import com.sasd13.proadmin.android.Config;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.component.IController;
@@ -43,7 +43,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void init() {
-        Configurator.Config config = Configurator.init(this);
+        Config config = new Config(this);
         router = config.getRouter();
     }
 

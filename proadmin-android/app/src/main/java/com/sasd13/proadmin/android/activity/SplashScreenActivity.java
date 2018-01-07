@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sasd13.proadmin.android.Configurator;
+import com.sasd13.proadmin.android.Config;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
 import com.sasd13.proadmin.android.component.IController;
@@ -24,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Configurator.Config config = Configurator.init(this);
+        Config config = new Config(this);
         router = config.getRouter();
     }
 
