@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.backend.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sasd13.proadmin.backend.dao.IRunningDAO;
 import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.backend.service.IRunningService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.RunningAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.RunningAdapterM2I;
+import com.sasd13.proadmin.backend.util.adapter.itf.RunningITFAdapter;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 @Service
@@ -23,27 +21,29 @@ public class RunningService implements IRunningService {
 	@Autowired
 	private IRunningDAO runningDAO;
 
+	private RunningITFAdapter adapter;
+
+	public RunningService() {
+		adapter = new RunningITFAdapter();
+	}
+
 	@Override
 	public void create(RunningBean runningBean) {
-		Running running = adaptI2M(runningBean);
+		Running running = adapter.adaptI2M(runningBean);
 
 		runningDAO.create(running);
 	}
 
-	private Running adaptI2M(RunningBean runningBean) {
-		return new RunningAdapterI2M().adapt(runningBean);
-	}
-
 	@Override
 	public void update(RunningBean runningBean) {
-		Running running = adaptI2M(runningBean);
+		Running running = adapter.adaptI2M(runningBean);
 
 		runningDAO.update(running);
 	}
 
 	@Override
 	public void delete(RunningBean runningBean) {
-		Running running = adaptI2M(runningBean);
+		Running running = adapter.adaptI2M(runningBean);
 
 		runningDAO.delete(running);
 	}
@@ -52,17 +52,6 @@ public class RunningService implements IRunningService {
 	public List<RunningBean> read(Map<String, Object> criterias) {
 		List<Running> runnings = runningDAO.read(criterias);
 
-		return adaptM2I(runnings);
-	}
-
-	private List<RunningBean> adaptM2I(List<Running> runnings) {
-		List<RunningBean> list = new ArrayList<>();
-		RunningAdapterM2I adapter = new RunningAdapterM2I();
-
-		for (Running running : runnings) {
-			list.add(adapter.adapt(running));
-		}
-
-		return list;
+		return adapter.adaptM2I(runnings);
 	}
 }

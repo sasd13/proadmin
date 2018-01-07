@@ -1,28 +1,25 @@
-package com.sasd13.proadmin.backend.util.adapter.model2itf;
+package com.sasd13.proadmin.backend.util.adapter.itf.model2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.model.LeadEvaluation;
+import com.sasd13.proadmin.backend.model.IndividualEvaluation;
 import com.sasd13.proadmin.itf.bean.LinkedReport;
 import com.sasd13.proadmin.itf.bean.LinkedStudent;
-import com.sasd13.proadmin.itf.bean.leadevaluation.CoreInfo;
-import com.sasd13.proadmin.itf.bean.leadevaluation.Id;
-import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
+import com.sasd13.proadmin.itf.bean.individualevaluation.CoreInfo;
+import com.sasd13.proadmin.itf.bean.individualevaluation.Id;
+import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 
-public class LeadEvaluationAdapterM2I implements IAdapter<LeadEvaluation, LeadEvaluationBean> {
+public class IndividualEvaluationAdapterM2I implements IAdapter<IndividualEvaluation, IndividualEvaluationBean> {
 
 	@Override
-	public LeadEvaluationBean adapt(LeadEvaluation s) {
-		LeadEvaluationBean t = new LeadEvaluationBean();
+	public IndividualEvaluationBean adapt(IndividualEvaluation s) {
+		IndividualEvaluationBean t = new IndividualEvaluationBean();
 
 		Id id = new Id();
 		id.setId(String.valueOf(s.getId()));
 		t.setId(id);
 
 		CoreInfo coreInfo = new CoreInfo();
-		coreInfo.setPlanningMark(s.getPlanningMark());
-		coreInfo.setPlanningComment(s.getPlanningComment());
-		coreInfo.setCommunicationMark(s.getCommunicationMark());
-		coreInfo.setCommunicationComment(s.getCommunicationComment());
+		coreInfo.setMark(s.getMark());
 		t.setCoreInfo(coreInfo);
 
 		LinkedReport linkedReport = new LinkedReport();

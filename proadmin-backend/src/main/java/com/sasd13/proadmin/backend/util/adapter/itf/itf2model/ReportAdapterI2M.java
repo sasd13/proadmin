@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.backend.util.adapter.itf2model;
+package com.sasd13.proadmin.backend.util.adapter.itf.itf2model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

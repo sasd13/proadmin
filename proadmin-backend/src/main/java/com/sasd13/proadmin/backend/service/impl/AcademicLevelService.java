@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.backend.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sasd13.proadmin.backend.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.backend.model.AcademicLevel;
 import com.sasd13.proadmin.backend.service.IAcademicLevelService;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.AcademicLevelAdapterM2I;
+import com.sasd13.proadmin.backend.util.adapter.itf.AcademicLevelITFAdapter;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 
 @Service
@@ -21,21 +20,16 @@ public class AcademicLevelService implements IAcademicLevelService {
 	@Autowired
 	private IAcademicLevelDAO academicLevelDAO;
 
+	private AcademicLevelITFAdapter adapter;
+
+	public AcademicLevelService() {
+		adapter = new AcademicLevelITFAdapter();
+	}
+
 	@Override
 	public List<AcademicLevelBean> readAll() {
 		List<AcademicLevel> academicLevels = academicLevelDAO.readAll();
 
-		return adaptM2I(academicLevels);
-	}
-
-	private List<AcademicLevelBean> adaptM2I(List<AcademicLevel> academicLevels) {
-		List<AcademicLevelBean> list = new ArrayList<>();
-		AcademicLevelAdapterM2I adapter = new AcademicLevelAdapterM2I();
-
-		for (AcademicLevel academicLevel : academicLevels) {
-			list.add(adapter.adapt(academicLevel));
-		}
-
-		return list;
+		return adapter.adaptM2I(academicLevels);
 	}
 }

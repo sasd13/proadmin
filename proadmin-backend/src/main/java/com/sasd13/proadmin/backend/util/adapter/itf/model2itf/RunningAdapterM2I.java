@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.backend.util.adapter.model2itf;
+package com.sasd13.proadmin.backend.util.adapter.itf.model2itf;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.model.Running;
