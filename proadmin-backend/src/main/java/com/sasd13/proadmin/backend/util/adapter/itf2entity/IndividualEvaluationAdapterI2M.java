@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.backend.util.adapter.itf2model;
+package com.sasd13.proadmin.backend.util.adapter.itf2entity;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
 import com.sasd13.proadmin.backend.entity.IndividualEvaluation;

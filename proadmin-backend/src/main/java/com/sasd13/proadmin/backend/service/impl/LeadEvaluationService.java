@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sasd13.proadmin.backend.dao.ILeadEvaluationDAO;
 import com.sasd13.proadmin.backend.entity.LeadEvaluation;
 import com.sasd13.proadmin.backend.service.ILeadEvaluationService;
-import com.sasd13.proadmin.backend.util.adapter.itf2model.LeadEvaluationAdapterI2M;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.LeadEvaluationAdapterM2I;
+import com.sasd13.proadmin.backend.util.adapter.entity2itf.LeadEvaluationAdapterM2I;
+import com.sasd13.proadmin.backend.util.adapter.itf2entity.LeadEvaluationAdapterI2M;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 @Service

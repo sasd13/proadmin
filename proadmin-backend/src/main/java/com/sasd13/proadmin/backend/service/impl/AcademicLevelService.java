@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sasd13.proadmin.backend.dao.IAcademicLevelDAO;
 import com.sasd13.proadmin.backend.entity.AcademicLevel;
 import com.sasd13.proadmin.backend.service.IAcademicLevelService;
-import com.sasd13.proadmin.backend.util.adapter.model2itf.AcademicLevelAdapterM2I;
+import com.sasd13.proadmin.backend.util.adapter.entity2itf.AcademicLevelAdapterM2I;
 import com.sasd13.proadmin.itf.bean.academiclevel.AcademicLevelBean;
 
 @Service
