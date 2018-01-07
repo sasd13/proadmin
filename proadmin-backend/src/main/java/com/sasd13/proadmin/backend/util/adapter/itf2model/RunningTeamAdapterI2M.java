@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.AcademicLevel;
-import com.sasd13.proadmin.backend.entity.Running;
-import com.sasd13.proadmin.backend.entity.RunningTeam;
-import com.sasd13.proadmin.backend.entity.Team;
+import com.sasd13.proadmin.backend.model.AcademicLevel;
+import com.sasd13.proadmin.backend.model.Running;
+import com.sasd13.proadmin.backend.model.RunningTeam;
+import com.sasd13.proadmin.backend.model.Team;
 import com.sasd13.proadmin.itf.bean.runningteam.RunningTeamBean;
 
 public class RunningTeamAdapterI2M implements IAdapter<RunningTeamBean, RunningTeam> {

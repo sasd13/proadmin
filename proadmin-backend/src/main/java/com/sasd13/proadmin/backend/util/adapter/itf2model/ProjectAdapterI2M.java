@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.Project;
+import com.sasd13.proadmin.backend.model.Project;
 import com.sasd13.proadmin.backend.util.Constants;
 import com.sasd13.proadmin.itf.bean.project.ProjectBean;
 

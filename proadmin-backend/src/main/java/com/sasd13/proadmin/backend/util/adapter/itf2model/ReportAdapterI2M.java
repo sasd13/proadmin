@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 import org.apache.log4j.Logger;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.Report;
-import com.sasd13.proadmin.backend.entity.RunningTeam;
+import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.backend.model.RunningTeam;
 import com.sasd13.proadmin.backend.util.Constants;
 import com.sasd13.proadmin.itf.bean.report.ReportBean;
 

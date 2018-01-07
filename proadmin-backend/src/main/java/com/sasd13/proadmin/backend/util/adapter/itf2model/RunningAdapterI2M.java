@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.Project;
-import com.sasd13.proadmin.backend.entity.Running;
-import com.sasd13.proadmin.backend.entity.Teacher;
+import com.sasd13.proadmin.backend.model.Project;
+import com.sasd13.proadmin.backend.model.Running;
+import com.sasd13.proadmin.backend.model.Teacher;
 import com.sasd13.proadmin.itf.bean.running.RunningBean;
 
 public class RunningAdapterI2M implements IAdapter<RunningBean, Running> {

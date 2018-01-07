@@ -18,7 +18,7 @@ import com.sasd13.javaex.util.condition.ConditionException;
 import com.sasd13.javaex.util.condition.IConditionnal;
 import com.sasd13.javaex.util.order.OrderException;
 import com.sasd13.proadmin.backend.dao.ITeamDAO;
-import com.sasd13.proadmin.backend.entity.Team;
+import com.sasd13.proadmin.backend.model.Team;
 import com.sasd13.proadmin.util.EnumCriteria;
 
 @Repository

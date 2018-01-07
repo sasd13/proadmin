@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.Teacher;
+import com.sasd13.proadmin.backend.model.Teacher;
 import com.sasd13.proadmin.itf.bean.teacher.TeacherBean;
 
 public class TeacherAdapterI2M implements IAdapter<TeacherBean, Teacher> {

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IRunningDAO;
-import com.sasd13.proadmin.backend.entity.Running;
+import com.sasd13.proadmin.backend.model.Running;
 import com.sasd13.proadmin.backend.service.IRunningService;
 import com.sasd13.proadmin.backend.util.adapter.itf2model.RunningAdapterI2M;
 import com.sasd13.proadmin.backend.util.adapter.model2itf.RunningAdapterM2I;

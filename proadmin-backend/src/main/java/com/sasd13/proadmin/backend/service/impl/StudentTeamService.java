@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sasd13.proadmin.backend.dao.IStudentTeamDAO;
-import com.sasd13.proadmin.backend.entity.StudentTeam;
+import com.sasd13.proadmin.backend.model.StudentTeam;
 import com.sasd13.proadmin.backend.service.IStudentTeamService;
 import com.sasd13.proadmin.backend.util.adapter.itf2model.StudentTeamAdapterI2M;
 import com.sasd13.proadmin.backend.util.adapter.model2itf.StudentTeamAdapterM2I;

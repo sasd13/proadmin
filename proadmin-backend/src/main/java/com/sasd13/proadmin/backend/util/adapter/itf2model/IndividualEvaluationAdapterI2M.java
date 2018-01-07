@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.IndividualEvaluation;
-import com.sasd13.proadmin.backend.entity.Report;
-import com.sasd13.proadmin.backend.entity.Student;
+import com.sasd13.proadmin.backend.model.IndividualEvaluation;
+import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.backend.model.Student;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 
 public class IndividualEvaluationAdapterI2M implements IAdapter<IndividualEvaluationBean, IndividualEvaluation> {

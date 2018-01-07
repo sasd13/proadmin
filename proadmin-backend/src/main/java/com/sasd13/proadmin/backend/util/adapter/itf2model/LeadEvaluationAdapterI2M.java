@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.backend.util.adapter.itf2model;
 
 import com.sasd13.javaex.pattern.adapter.IAdapter;
-import com.sasd13.proadmin.backend.entity.LeadEvaluation;
-import com.sasd13.proadmin.backend.entity.Report;
-import com.sasd13.proadmin.backend.entity.Student;
+import com.sasd13.proadmin.backend.model.LeadEvaluation;
+import com.sasd13.proadmin.backend.model.Report;
+import com.sasd13.proadmin.backend.model.Student;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 
 public class LeadEvaluationAdapterI2M implements IAdapter<LeadEvaluationBean, LeadEvaluation> {
