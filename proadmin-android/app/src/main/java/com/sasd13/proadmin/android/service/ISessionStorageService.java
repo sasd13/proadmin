@@ -6,6 +6,9 @@ package com.sasd13.proadmin.android.service;
 
 public interface ISessionStorageService {
 
+    String KEY_USERID = "_USERID";
+    String KEY_INTERMEDIARY = "_INTERMEDIARY";
+
     String get(String key);
 
     String getUserID();

@@ -11,7 +11,7 @@ import com.sasd13.proadmin.android.R;
 public class ProjectDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 2;
-    
+
     private final String[] TITLES;
 
     public ProjectDetailsPagerAdapter(Fragment fragment) {

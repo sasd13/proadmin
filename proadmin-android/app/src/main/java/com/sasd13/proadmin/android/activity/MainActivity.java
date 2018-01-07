@@ -14,14 +14,11 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.proadmin.android.Configurator;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
-import com.sasd13.proadmin.android.model.user.User;
-import com.sasd13.proadmin.android.service.IUserStorageService;
-import com.sasd13.proadmin.android.util.Constants;
-import com.sasd13.proadmin.android.util.browser.IBrowsable;
 import com.sasd13.proadmin.android.component.IController;
 import com.sasd13.proadmin.android.component.home.view.HomeFragment;
 import com.sasd13.proadmin.android.gui.browser.Browser;
 import com.sasd13.proadmin.android.gui.browser.BrowserItemModel;
+import com.sasd13.proadmin.android.util.browser.IBrowsable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +45,6 @@ public class MainActivity extends DrawerActivity {
     private void init() {
         Configurator.Config config = Configurator.init(this);
         router = config.getRouter();
-
-        if (getIntent().hasExtra(Constants.USER)) {
-            User user = getIntent().getExtras().getParcelable(Constants.USER);
-
-            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(user);
-            getIntent().removeExtra(Constants.USER);
-        }
     }
 
     private void startHomeFragment() {

@@ -7,5 +7,4 @@ package com.sasd13.proadmin.android.util;
 public interface Constants {
 
     String PATTERN_ZONEDDATETIME_DEFAULT = "yyyy-MM-dd HH:mm:ss Z";
-    String USER = "USER";
 }

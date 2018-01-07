@@ -10,8 +10,6 @@ import com.sasd13.proadmin.android.service.IUserStorageService;
 
 public class UserStorageService implements IUserStorageService {
 
-    private static final String KEY_USER = "_USER";
-
     private LocalStorage localStorage;
 
     public UserStorageService(LocalStorage localStorage) {

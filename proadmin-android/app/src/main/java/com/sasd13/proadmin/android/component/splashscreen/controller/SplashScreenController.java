@@ -14,7 +14,7 @@ import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.ISessionStorageService;
 import com.sasd13.proadmin.android.service.IUserService;
-import com.sasd13.proadmin.android.util.Constants;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 
 /**
  * Created by ssaidali2 on 08/05/2017.
@@ -68,7 +68,7 @@ public class SplashScreenController extends Controller implements ISplashScreenC
     private void goToMainActivity(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
 
-        intent.putExtra(Constants.USER, user);
+        intent.putExtra(IUserStorageService.KEY_USER, user);
         startActivity(intent);
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.sasd13.javaex.net.EnumHttpStatus;
 import com.sasd13.proadmin.android.util.EnumErrorRes;
-import com.sasd13.proadmin.android.component.IController;
 import com.sasd13.proadmin.util.EnumError;
 
 import java.util.Iterator;

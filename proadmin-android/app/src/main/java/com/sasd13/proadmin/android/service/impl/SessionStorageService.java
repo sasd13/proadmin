@@ -9,9 +9,6 @@ import com.sasd13.proadmin.android.service.ISessionStorageService;
 
 public class SessionStorageService implements ISessionStorageService {
 
-    private static final String KEY_USERID = "_USERID";
-    private static final String KEY_INTERMEDIARY = "_INTERMEDIARY";
-
     private SessionStorage sessionStorage;
 
     public SessionStorageService(SessionStorage sessionStorage) {

@@ -19,10 +19,10 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerFactory;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.gui.form.UserForm;
 import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.model.user.UserUpdate;
 import com.sasd13.proadmin.android.scope.SettingScope;
-import com.sasd13.proadmin.android.gui.form.UserForm;
 import com.sasd13.proadmin.util.EnumPreference;
 
 import java.util.Observable;

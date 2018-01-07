@@ -22,15 +22,13 @@ public class LogInController extends IdentityController implements ILogInControl
 
     private Scope scope;
     private IAuthenticationService authenticationService;
-    private IUserStorageService userStorageService;
     private LogInTask logInTask;
 
-    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService, IUserStorageService userStorageService) {
+    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
         super(identityActivity);
 
         scope = new Scope();
         this.authenticationService = authenticationService;
-        this.userStorageService = userStorageService;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class LogInController extends IdentityController implements ILogInControl
     private void goToMainActivity(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
 
-        userStorageService.write(user);
+        intent.putExtra(IUserStorageService.KEY_USER, user);
         startActivity(intent);
     }
 }

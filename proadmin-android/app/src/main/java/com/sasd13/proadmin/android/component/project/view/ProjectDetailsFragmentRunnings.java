@@ -20,11 +20,11 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.component.running.view.IRunningController;
+import com.sasd13.proadmin.android.gui.tab.RunningItemModel;
 import com.sasd13.proadmin.android.model.Running;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.util.sorter.RunningSorter;
-import com.sasd13.proadmin.android.component.running.view.IRunningController;
-import com.sasd13.proadmin.android.gui.tab.RunningItemModel;
 
 import java.util.List;
 import java.util.Observable;

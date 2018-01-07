@@ -21,6 +21,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.gui.form.RunningTeamForm;
 import com.sasd13.proadmin.android.model.AcademicLevel;
 import com.sasd13.proadmin.android.model.Running;
 import com.sasd13.proadmin.android.model.RunningTeam;
@@ -29,7 +30,6 @@ import com.sasd13.proadmin.android.scope.RunningTeamScope;
 import com.sasd13.proadmin.android.util.sorter.AcademicLevelSorter;
 import com.sasd13.proadmin.android.util.sorter.RunningSorter;
 import com.sasd13.proadmin.android.util.sorter.TeamSorter;
-import com.sasd13.proadmin.android.gui.form.RunningTeamForm;
 
 import java.util.List;
 import java.util.Observable;

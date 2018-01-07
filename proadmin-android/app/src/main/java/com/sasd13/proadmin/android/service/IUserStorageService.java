@@ -8,6 +8,8 @@ import com.sasd13.proadmin.android.model.user.User;
 
 public interface IUserStorageService {
 
+    String KEY_USER = "_USER";
+
     User read();
 
     void write(User user);

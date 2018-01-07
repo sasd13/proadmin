@@ -11,11 +11,11 @@ import android.widget.ImageView;
 
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.util.browser.IBrowsable;
 import com.sasd13.proadmin.android.component.project.view.IProjectController;
 import com.sasd13.proadmin.android.component.report.view.IReportController;
 import com.sasd13.proadmin.android.component.setting.view.ISettingController;
 import com.sasd13.proadmin.android.component.team.view.ITeamController;
+import com.sasd13.proadmin.android.util.browser.IBrowsable;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

@@ -18,9 +18,9 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.gui.form.ReportForm;
 import com.sasd13.proadmin.android.model.Report;
 import com.sasd13.proadmin.android.scope.ReportScope;
-import com.sasd13.proadmin.android.gui.form.ReportForm;
 
 import java.util.Observable;
 import java.util.Observer;

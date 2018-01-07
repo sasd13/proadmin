@@ -13,8 +13,7 @@ public enum TabItemType implements IRecyclerItemType {
     RUNNINGTEAM("RUNNINGTEAM_ITEM", RunningTeamItem.class, RecyclerItemBuilder.class),
     TEAM("TEAM_ITEM", TeamItem.class, RecyclerItemBuilder.class),
     STUDENTTEAM("STUDENTTEAM_ITEM", StudentTeamItem.class, RecyclerItemBuilder.class),
-    REPORT("REPORT_ITEM", ReportItem.class, RecyclerItemBuilder.class),
-    ;
+    REPORT("REPORT_ITEM", ReportItem.class, RecyclerItemBuilder.class),;
 
     private String code;
     private Class<? extends RecyclerItem> recyclerItemClass;

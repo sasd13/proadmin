@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.android.component.team.view;
 
+import com.sasd13.proadmin.android.component.IController;
 import com.sasd13.proadmin.android.model.StudentTeam;
 import com.sasd13.proadmin.android.model.Team;
 import com.sasd13.proadmin.android.util.browser.IBrowsable;
-import com.sasd13.proadmin.android.component.IController;
 
 import java.util.List;
 

@@ -13,8 +13,7 @@ public enum EnumBrowserItemType {
     RUNNINGTEAMS("RUNNINGTEAMS", EnumDrawerItemType.NAV),
     REPORTS("REPORTS", EnumDrawerItemType.NAV),
     SETTINGS("SETTINGS", EnumDrawerItemType.NAV),
-    LOGOUT("LOGOUT", EnumDrawerItemType.NAV),
-    ;
+    LOGOUT("LOGOUT", EnumDrawerItemType.NAV),;
 
     private String code;
     private IRecyclerItemType recyclerItemType;

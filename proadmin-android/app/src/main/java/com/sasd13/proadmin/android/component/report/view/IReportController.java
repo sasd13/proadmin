@@ -1,11 +1,11 @@
 package com.sasd13.proadmin.android.component.report.view;
 
+import com.sasd13.proadmin.android.component.IController;
 import com.sasd13.proadmin.android.model.IndividualEvaluation;
 import com.sasd13.proadmin.android.model.LeadEvaluation;
 import com.sasd13.proadmin.android.model.Report;
 import com.sasd13.proadmin.android.model.RunningTeam;
 import com.sasd13.proadmin.android.util.browser.IBrowsable;
-import com.sasd13.proadmin.android.component.IController;
 
 import java.util.List;
 
