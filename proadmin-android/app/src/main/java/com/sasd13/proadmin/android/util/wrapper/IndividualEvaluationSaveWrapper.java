@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.util.wrapper;
 
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,12 +3,12 @@ package com.sasd13.proadmin.android.controller.report;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.RunningTeam;
-import com.sasd13.proadmin.android.bean.StudentTeam;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
+import com.sasd13.proadmin.android.model.Report;
+import com.sasd13.proadmin.android.model.RunningTeam;
+import com.sasd13.proadmin.android.model.StudentTeam;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
@@ -76,7 +76,7 @@ public class ReportController extends MainController implements IReportControlle
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ReportsFragment.newInstance());
         actionReadReports();
     }
@@ -132,7 +132,7 @@ public class ReportController extends MainController implements IReportControlle
     public void actionNewReport() {
         scope.setReport(new NewReportBuilder().build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams(Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -162,7 +162,7 @@ public class ReportController extends MainController implements IReportControlle
     public void actionNewReport(RunningTeam runningTeam) {
         scope.setReport(new NewReportBuilder(runningTeam).build());
         scope.setRunningTeams(new ArrayList<RunningTeam>());
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ReportNewFragment.newInstance());
         readRunningTeams(runningTeam.getRunning().getYear());
     }
@@ -187,7 +187,7 @@ public class ReportController extends MainController implements IReportControlle
         scope.setStudentTeams(new ArrayList<StudentTeam>());
         scope.setLeadEvaluation(new NewLeadEvaluationBuilder(report).build());
         scope.setIndividualEvaluations(new ArrayList<IndividualEvaluation>());
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ReportDetailsFragment.newInstance());
         readDependencies(report);
     }

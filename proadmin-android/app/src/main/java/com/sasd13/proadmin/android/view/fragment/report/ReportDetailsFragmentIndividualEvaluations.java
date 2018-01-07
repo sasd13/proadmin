@@ -18,7 +18,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
 import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.sorter.IndividualEvaluationSorter;
 import com.sasd13.proadmin.android.view.IReportController;

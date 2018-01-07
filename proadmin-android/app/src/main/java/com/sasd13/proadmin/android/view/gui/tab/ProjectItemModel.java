@@ -3,7 +3,7 @@ package com.sasd13.proadmin.android.view.gui.tab;
 import com.sasd13.androidex.gui.widget.ILabelizable;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
-import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.model.Project;
 
 import java.util.Observable;
 

@@ -9,7 +9,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.util.IndexFinder;
 import com.sasd13.proadmin.util.EnumPreference;
 

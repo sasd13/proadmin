@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.util.sorter;
 
-import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.model.Team;
 
 import java.util.Collections;
 import java.util.Comparator;

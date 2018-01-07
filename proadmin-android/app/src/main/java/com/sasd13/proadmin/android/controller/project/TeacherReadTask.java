@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.project;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.Teacher;
+import com.sasd13.proadmin.android.model.Teacher;
 import com.sasd13.proadmin.android.service.ITeacherService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 

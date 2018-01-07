@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.runningteam;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.model.Report;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 

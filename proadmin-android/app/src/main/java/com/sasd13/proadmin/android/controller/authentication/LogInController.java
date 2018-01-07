@@ -6,11 +6,11 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.user.User;
 import com.sasd13.proadmin.android.controller.IdentityController;
+import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
-import com.sasd13.proadmin.android.util.Constants;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.view.ILogInController;
 
 /**
@@ -21,13 +21,15 @@ public class LogInController extends IdentityController implements ILogInControl
 
     private Scope scope;
     private IAuthenticationService authenticationService;
+    private IUserStorageService userStorageService;
     private LogInTask logInTask;
 
-    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService) {
+    public LogInController(IdentityActivity identityActivity, IAuthenticationService authenticationService, IUserStorageService userStorageService) {
         super(identityActivity);
 
         scope = new Scope();
         this.authenticationService = authenticationService;
+        this.userStorageService = userStorageService;
     }
 
     @Override
@@ -58,8 +60,7 @@ public class LogInController extends IdentityController implements ILogInControl
     private void goToMainActivity(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
 
-        intent.putExtra(Constants.USER, user);
-
+        userStorageService.write(intent, user);
         startActivity(intent);
     }
 }

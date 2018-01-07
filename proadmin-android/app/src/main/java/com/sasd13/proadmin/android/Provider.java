@@ -4,6 +4,7 @@ import com.sasd13.androidex.util.SessionStorage;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
+import com.sasd13.proadmin.android.service.ILocalStorageService;
 import com.sasd13.proadmin.android.service.IProjectService;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.IRunningService;
@@ -18,6 +19,7 @@ import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.service.impl.AuthenticationService;
 import com.sasd13.proadmin.android.service.impl.IndividualEvaluationService;
 import com.sasd13.proadmin.android.service.impl.LeadEvaluationService;
+import com.sasd13.proadmin.android.service.impl.LocalStorageService;
 import com.sasd13.proadmin.android.service.impl.ProjectService;
 import com.sasd13.proadmin.android.service.impl.ReportService;
 import com.sasd13.proadmin.android.service.impl.RunningService;
@@ -57,13 +59,14 @@ public class Provider {
     private Object make(Class mClass) {
         if (IAuthenticationService.class.isAssignableFrom(mClass)) {
             return new AuthenticationService(
-                    (ISessionStorageService) provide(ISessionStorageService.class),
-                    (IUserStorageService) provide(IUserStorageService.class)
+                    (ISessionStorageService) provide(ISessionStorageService.class)
             );
         } else if (IIndividualEvaluationService.class.isAssignableFrom(mClass)) {
             return new IndividualEvaluationService();
         } else if (ILeadEvaluationService.class.isAssignableFrom(mClass)) {
             return new LeadEvaluationService();
+        } else if (ILocalStorageService.class.isAssignableFrom(mClass)) {
+            return new LocalStorageService();
         } else if (IProjectService.class.isAssignableFrom(mClass)) {
             return new ProjectService();
         } else if (IReportService.class.isAssignableFrom(mClass)) {
@@ -87,7 +90,9 @@ public class Provider {
         } else if (IUserService.class.isAssignableFrom(mClass)) {
             return new UserService();
         } else if (IUserStorageService.class.isAssignableFrom(mClass)) {
-            return new UserStorageService();
+            return new UserStorageService(
+                    (ILocalStorageService) resolver.resolve(ILocalStorageService.class)
+            );
         } else {
             return null;
         }

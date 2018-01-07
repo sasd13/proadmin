@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
 import com.sasd13.proadmin.android.service.ILeadEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 

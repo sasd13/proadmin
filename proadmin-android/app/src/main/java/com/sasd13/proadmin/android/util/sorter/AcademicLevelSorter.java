@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.util.sorter;
 
-import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.model.AcademicLevel;
 
 import java.util.Collections;
 import java.util.Comparator;

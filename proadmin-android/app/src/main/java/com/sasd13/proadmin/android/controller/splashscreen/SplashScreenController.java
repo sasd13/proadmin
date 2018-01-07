@@ -6,7 +6,7 @@ import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.activity.SplashScreenActivity;
-import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.controller.Controller;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;

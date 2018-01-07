@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.user.UserUpdate;
+import com.sasd13.proadmin.android.model.user.UserUpdate;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.android.scope;
 
-import com.sasd13.proadmin.android.bean.AcademicLevel;
-import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.Running;
-import com.sasd13.proadmin.android.bean.RunningTeam;
-import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.model.AcademicLevel;
+import com.sasd13.proadmin.android.model.Report;
+import com.sasd13.proadmin.android.model.Running;
+import com.sasd13.proadmin.android.model.RunningTeam;
+import com.sasd13.proadmin.android.model.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;

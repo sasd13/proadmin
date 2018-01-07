@@ -2,10 +2,10 @@ package com.sasd13.proadmin.android.controller.project;
 
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.Running;
-import com.sasd13.proadmin.android.bean.Teacher;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.model.Project;
+import com.sasd13.proadmin.android.model.Running;
+import com.sasd13.proadmin.android.model.Teacher;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IProjectService;
@@ -57,7 +57,7 @@ public class ProjectController extends MainController implements IProjectControl
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ProjectsFragment.newInstance());
         actionReadProjects();
     }
@@ -105,7 +105,7 @@ public class ProjectController extends MainController implements IProjectControl
     public void actionShowProject(Project project) {
         scope.setProject(project);
         scope.setRunnings(new ArrayList<Running>());
-        scope.setUserPreferences(userStorageService.read().getUserPreferences());
+        scope.setUserPreferences(userStorageService.read(getActivity()).getUserPreferences());
         startFragment(ProjectDetailsFragment.newInstance());
 
         if (scope.getTeacher() == null) {

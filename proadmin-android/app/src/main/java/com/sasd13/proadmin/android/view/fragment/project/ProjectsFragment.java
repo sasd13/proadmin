@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.model.Project;
 import com.sasd13.proadmin.android.scope.ProjectScope;
 import com.sasd13.proadmin.android.util.sorter.ProjectSorter;
 import com.sasd13.proadmin.android.view.IProjectController;

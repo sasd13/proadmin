@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.scope;
 
-import com.sasd13.proadmin.android.bean.Running;
+import com.sasd13.proadmin.android.model.Running;
 
 /**
  * Created by ssaidali2 on 06/12/2016.

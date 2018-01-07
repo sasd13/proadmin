@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.user.User;
-import com.sasd13.proadmin.android.bean.user.UserUpdate;
+import com.sasd13.proadmin.android.model.user.User;
+import com.sasd13.proadmin.android.model.user.UserUpdate;
 
 /**
  * Created by ssaidali2 on 02/04/2017.

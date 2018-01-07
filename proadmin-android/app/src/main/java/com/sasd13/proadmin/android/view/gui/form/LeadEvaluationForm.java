@@ -10,8 +10,8 @@ import com.sasd13.androidex.gui.widget.recycler.form.NumberItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.SpinRadioItemModel;
 import com.sasd13.androidex.gui.widget.recycler.form.TextItemModel;
 import com.sasd13.proadmin.android.R;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
+import com.sasd13.proadmin.android.model.Student;
 import com.sasd13.proadmin.android.util.IndexFinder;
 import com.sasd13.proadmin.android.util.builder.StudentsLabelsBuilder;
 

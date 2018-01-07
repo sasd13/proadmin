@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.util.builder;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.bean.Report;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
+import com.sasd13.proadmin.android.model.Report;
 
 /**
  * Created by ssaidali2 on 02/12/2016.

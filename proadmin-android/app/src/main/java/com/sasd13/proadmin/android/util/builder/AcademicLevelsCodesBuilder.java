@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.util.builder;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.android.bean.AcademicLevel;
+import com.sasd13.proadmin.android.model.AcademicLevel;
 
 import java.util.ArrayList;
 import java.util.List;

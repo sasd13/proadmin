@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.controller.report;
 
 import com.sasd13.androidex.util.requestor.RequestorTask;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.wrapper.IndividualEvaluationSaveWrapper;

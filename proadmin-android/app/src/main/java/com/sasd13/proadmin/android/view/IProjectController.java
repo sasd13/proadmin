@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.Project;
+import com.sasd13.proadmin.android.model.Project;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

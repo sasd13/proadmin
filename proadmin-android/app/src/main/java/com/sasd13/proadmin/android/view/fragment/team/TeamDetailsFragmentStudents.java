@@ -20,7 +20,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.model.StudentTeam;
 import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.util.sorter.StudentTeamSorter;
 import com.sasd13.proadmin.android.view.IStudentController;

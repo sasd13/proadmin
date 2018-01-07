@@ -1,10 +1,10 @@
 package com.sasd13.proadmin.android.util;
 
-import com.sasd13.proadmin.android.bean.AcademicLevel;
-import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.Running;
-import com.sasd13.proadmin.android.bean.Student;
-import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.model.AcademicLevel;
+import com.sasd13.proadmin.android.model.Project;
+import com.sasd13.proadmin.android.model.Running;
+import com.sasd13.proadmin.android.model.Student;
+import com.sasd13.proadmin.android.model.Team;
 
 import java.util.List;
 

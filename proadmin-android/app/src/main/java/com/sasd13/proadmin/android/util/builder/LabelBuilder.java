@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.util.builder;
 
-import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.model.Student;
 
 /**
  * Created by ssaidali2 on 07/05/2017.

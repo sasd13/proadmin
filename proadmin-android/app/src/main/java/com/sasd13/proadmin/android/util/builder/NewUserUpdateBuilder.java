@@ -2,9 +2,9 @@ package com.sasd13.proadmin.android.util.builder;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
 import com.sasd13.javaex.security.Credential;
-import com.sasd13.proadmin.android.bean.user.CredentialUpdate;
-import com.sasd13.proadmin.android.bean.user.User;
-import com.sasd13.proadmin.android.bean.user.UserUpdate;
+import com.sasd13.proadmin.android.model.user.CredentialUpdate;
+import com.sasd13.proadmin.android.model.user.User;
+import com.sasd13.proadmin.android.model.user.UserUpdate;
 
 /**
  * Created by ssaidali2 on 02/06/2017.

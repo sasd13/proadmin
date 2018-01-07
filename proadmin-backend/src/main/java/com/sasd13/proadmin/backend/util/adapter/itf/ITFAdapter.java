@@ -11,6 +11,8 @@ public abstract class ITFAdapter<M, I> {
 	private IAdapter<M, I> adapterM2I;
 
 	protected ITFAdapter(IAdapter<I, M> adapterI2M, IAdapter<M, I> adapterM2I) {
+		this.adapterI2M = adapterI2M;
+		this.adapterM2I = adapterM2I;
 	}
 
 	public M adaptI2M(I item) {

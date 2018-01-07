@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
+import com.sasd13.proadmin.android.model.Report;
+import com.sasd13.proadmin.android.model.RunningTeam;
 
 import java.util.List;
 

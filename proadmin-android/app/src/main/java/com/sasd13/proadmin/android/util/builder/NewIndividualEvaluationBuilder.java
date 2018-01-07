@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.android.util.builder;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.Report;
+import com.sasd13.proadmin.android.model.Student;
 
 /**
  * Created by ssaidali2 on 02/12/2016.

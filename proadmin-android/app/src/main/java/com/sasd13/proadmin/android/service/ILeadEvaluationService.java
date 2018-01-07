@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
 
 /**
  * Created by ssaidali2 on 01/04/2017.

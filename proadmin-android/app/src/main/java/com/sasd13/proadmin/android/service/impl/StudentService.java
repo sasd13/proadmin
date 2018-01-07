@@ -1,19 +1,18 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.model.Student;
 import com.sasd13.proadmin.android.service.IStudentService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.AppProperties;
 import com.sasd13.proadmin.android.util.Names;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.StudentAdapterB2I;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.StudentAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf.StudentITFAdapter;
 import com.sasd13.proadmin.itf.SearchBean;
-import com.sasd13.proadmin.itf.bean.student.StudentBean;
 import com.sasd13.proadmin.itf.bean.student.StudentRequestBean;
 import com.sasd13.proadmin.itf.bean.student.StudentResponseBean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,17 @@ public class StudentService implements IStudentService {
 
     private static final String URL_WS2_STUDENTS = AppProperties.getProperty(Names.URL_WS2_STUDENTS);
 
+    private StudentITFAdapter adapter;
+
+    public StudentService() {
+        adapter = new StudentITFAdapter();
+    }
+
     @Override
     public ServiceResult<List<Student>> read(Map<String, Object> criterias) {
         Promise promise = new Promise("POST", URL_WS2_STUDENTS + "/search", StudentResponseBean.class);
-
         SearchBean searchBean = new SearchBean();
+
         searchBean.setCriterias(criterias);
 
         StudentResponseBean responseBean = (StudentResponseBean) promise.execute(searchBean);
@@ -41,11 +46,7 @@ public class StudentService implements IStudentService {
             errors = responseBean.getErrors();
 
             if (errors.isEmpty()) {
-                StudentAdapterI2B adapter = new StudentAdapterI2B();
-
-                for (StudentBean studentBean : responseBean.getData()) {
-                    list.add(adapter.adapt(studentBean));
-                }
+                list = adapter.adaptI2M(responseBean.getData());
             }
         }
 
@@ -60,12 +61,9 @@ public class StudentService implements IStudentService {
     @Override
     public ServiceResult<Void> create(Student student) {
         Promise promise = new Promise("POST", URL_WS2_STUDENTS + "/create");
-
         StudentRequestBean requestBean = new StudentRequestBean();
-        List<StudentBean> list = new ArrayList<>();
 
-        list.add(new StudentAdapterB2I().adapt(student));
-        requestBean.setData(list);
+        requestBean.setData(Arrays.asList(adapter.adaptM2I(student)));
         promise.execute(requestBean);
 
         return new ServiceResult<>(
@@ -77,12 +75,9 @@ public class StudentService implements IStudentService {
     @Override
     public ServiceResult<Void> update(Student student) {
         Promise promise = new Promise("POST", URL_WS2_STUDENTS + "/update");
-
         StudentRequestBean requestBean = new StudentRequestBean();
-        List<StudentBean> list = new ArrayList<>();
 
-        list.add(new StudentAdapterB2I().adapt(student));
-        requestBean.setData(list);
+        requestBean.setData(Arrays.asList(adapter.adaptM2I(student)));
         promise.execute(requestBean);
 
         return new ServiceResult<>(

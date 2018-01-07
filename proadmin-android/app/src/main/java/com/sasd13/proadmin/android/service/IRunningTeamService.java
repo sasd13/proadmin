@@ -1,6 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.model.RunningTeam;
 
 import java.util.List;
 import java.util.Map;

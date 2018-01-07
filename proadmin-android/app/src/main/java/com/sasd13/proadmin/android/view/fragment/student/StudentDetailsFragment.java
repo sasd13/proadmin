@@ -19,7 +19,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.Student;
+import com.sasd13.proadmin.android.model.Student;
 import com.sasd13.proadmin.android.scope.StudentScope;
 import com.sasd13.proadmin.android.view.IStudentController;
 import com.sasd13.proadmin.android.view.gui.form.StudentForm;

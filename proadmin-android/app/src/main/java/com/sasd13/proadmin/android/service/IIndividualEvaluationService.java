@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.Teacher;
-import com.sasd13.proadmin.android.service.ServiceResult;
+import com.sasd13.proadmin.android.model.Teacher;
 
 import java.util.List;
 import java.util.Map;

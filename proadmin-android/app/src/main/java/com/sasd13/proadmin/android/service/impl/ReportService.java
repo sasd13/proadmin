@@ -2,31 +2,27 @@ package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.MultiPromise;
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
-import com.sasd13.proadmin.android.bean.LeadEvaluation;
-import com.sasd13.proadmin.android.bean.Report;
-import com.sasd13.proadmin.android.bean.StudentTeam;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.LeadEvaluation;
+import com.sasd13.proadmin.android.model.Report;
+import com.sasd13.proadmin.android.model.StudentTeam;
 import com.sasd13.proadmin.android.service.IReportService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.AppProperties;
 import com.sasd13.proadmin.android.util.Names;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.ReportAdapterB2I;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.IndividualEvaluationAdapterI2B;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.LeadEvaluationAdapterI2B;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.ReportAdapterI2B;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.StudentTeamAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf.IndividualEvaluationITFAdapter;
+import com.sasd13.proadmin.android.util.adapter.itf.LeadEvaluationITFAdapter;
+import com.sasd13.proadmin.android.util.adapter.itf.ReportITFAdapter;
+import com.sasd13.proadmin.android.util.adapter.itf.StudentTeamITFAdapter;
 import com.sasd13.proadmin.itf.SearchBean;
-import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationResponseBean;
-import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationBean;
 import com.sasd13.proadmin.itf.bean.leadevaluation.LeadEvaluationResponseBean;
-import com.sasd13.proadmin.itf.bean.report.ReportBean;
 import com.sasd13.proadmin.itf.bean.report.ReportRequestBean;
 import com.sasd13.proadmin.itf.bean.report.ReportResponseBean;
-import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamBean;
 import com.sasd13.proadmin.itf.bean.studentteam.StudentTeamResponseBean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +39,23 @@ public class ReportService implements IReportService {
     private static final String URL_WS2_INDIVIDUALEVALUATIONS = AppProperties.getProperty(Names.URL_WS2_INDIVIDUALEVALUATIONS);
     private static final int NBR_REQUESTS = 3;
 
+    private ReportITFAdapter reportAdapter;
+    private StudentTeamITFAdapter studentTeamAdapter;
+    private LeadEvaluationITFAdapter leadEvaluationAdapter;
+    private IndividualEvaluationITFAdapter individualEvaluationAdapter;
+
+    public ReportService() {
+        reportAdapter = new ReportITFAdapter();
+        studentTeamAdapter = new StudentTeamITFAdapter();
+        leadEvaluationAdapter = new LeadEvaluationITFAdapter();
+        individualEvaluationAdapter = new IndividualEvaluationITFAdapter();
+    }
+
     @Override
     public ServiceResult<List<Report>> read(Map<String, Object> criterias) {
         Promise promise = new Promise("POST", URL_WS2_REPORTS + "/search", ReportResponseBean.class);
-
         SearchBean searchBean = new SearchBean();
+
         searchBean.setCriterias(criterias);
 
         ReportResponseBean responseBean = (ReportResponseBean) promise.execute(searchBean);
@@ -58,11 +66,7 @@ public class ReportService implements IReportService {
             errors = responseBean.getErrors();
 
             if (errors.isEmpty()) {
-                ReportAdapterI2B adapter = new ReportAdapterI2B();
-
-                for (ReportBean reportBean : responseBean.getData()) {
-                    list.add(adapter.adapt(reportBean));
-                }
+                list = reportAdapter.adaptI2M(responseBean.getData());
             }
         }
 
@@ -76,8 +80,6 @@ public class ReportService implements IReportService {
 
     @Override
     public ServiceResult<Map<String, Object>> retrieve(Map<String, Map<String, Object>> allCriterias) {
-        MultiPromise promise = new MultiPromise(NBR_REQUESTS);
-
         MultiPromise.Request[] requests = new MultiPromise.Request[NBR_REQUESTS];
         requests[0] = new MultiPromise.Request(PARAMATERS_STUDENTTEAM, "POST", URL_WS2_STUDENTTEAMS + "/search", StudentTeamResponseBean.class);
         requests[1] = new MultiPromise.Request(PARAMETERS_LEADEVALUATION, "POST", URL_WS2_LEADEVALUATIONS + "/search", LeadEvaluationResponseBean.class);
@@ -95,6 +97,7 @@ public class ReportService implements IReportService {
         searchBeanIndividualEvaluations.setCriterias(allCriterias.get(PARAMETERS_INDIVIDUALEVALUATION));
         requests[2].setBody(searchBeanIndividualEvaluations);
 
+        MultiPromise promise = new MultiPromise(NBR_REQUESTS);
         Map<String, Object> results = promise.execute(requests, 7000);
 
         StudentTeamResponseBean studentTeamResponseBean = (StudentTeamResponseBean) results.get(PARAMATERS_STUDENTTEAM);
@@ -106,21 +109,9 @@ public class ReportService implements IReportService {
         List<IndividualEvaluation> individualEvaluations = new ArrayList<>();
 
         if (promise.isSuccess()) {
-            StudentTeamAdapterI2B studentTeamAdapter = new StudentTeamAdapterI2B();
-            LeadEvaluationAdapterI2B leadEvaluationAdapter = new LeadEvaluationAdapterI2B();
-            IndividualEvaluationAdapterI2B individualEvaluationAdapter = new IndividualEvaluationAdapterI2B();
-
-            for (StudentTeamBean studentTeamBean : studentTeamResponseBean.getData()) {
-                studentTeams.add(studentTeamAdapter.adapt(studentTeamBean));
-            }
-
-            for (LeadEvaluationBean leadEvaluationBean : leadEvaluationResponseBean.getData()) {
-                leadEvaluations.add(leadEvaluationAdapter.adapt(leadEvaluationBean));
-            }
-
-            for (IndividualEvaluationBean individualEvaluationBean : individualEvaluationResponseBean.getData()) {
-                individualEvaluations.add(individualEvaluationAdapter.adapt(individualEvaluationBean));
-            }
+            studentTeams = studentTeamAdapter.adaptI2M(studentTeamResponseBean.getData());
+            leadEvaluations = leadEvaluationAdapter.adaptI2M(leadEvaluationResponseBean.getData());
+            individualEvaluations = individualEvaluationAdapter.adaptI2M(individualEvaluationResponseBean.getData());
         }
 
         results.put(PARAMATERS_STUDENTTEAM, studentTeams);
@@ -138,12 +129,9 @@ public class ReportService implements IReportService {
     @Override
     public ServiceResult<Void> create(Report report) {
         Promise promise = new Promise("POST", URL_WS2_REPORTS + "/create");
-
         ReportRequestBean requestBean = new ReportRequestBean();
-        List<ReportBean> list = new ArrayList<>();
 
-        list.add(new ReportAdapterB2I().adapt(report));
-        requestBean.setData(list);
+        requestBean.setData(reportAdapter.adaptM2I(Arrays.asList(report)));
         promise.execute(requestBean);
 
         return new ServiceResult<>(
@@ -155,12 +143,9 @@ public class ReportService implements IReportService {
     @Override
     public ServiceResult<Void> update(Report report) {
         Promise promise = new Promise("POST", URL_WS2_REPORTS + "/update");
-
         ReportRequestBean requestBean = new ReportRequestBean();
-        List<ReportBean> list = new ArrayList<>();
 
-        list.add(new ReportAdapterB2I().adapt(report));
-        requestBean.setData(list);
+        requestBean.setData(Arrays.asList(reportAdapter.adaptM2I(report)));
         promise.execute(requestBean);
 
         return new ServiceResult<>(
@@ -172,16 +157,9 @@ public class ReportService implements IReportService {
     @Override
     public ServiceResult<Void> delete(List<Report> reports) {
         Promise promise = new Promise("POST", URL_WS2_REPORTS + "/delete");
-
         ReportRequestBean requestBean = new ReportRequestBean();
-        List<ReportBean> list = new ArrayList<>();
-        ReportAdapterB2I adapter = new ReportAdapterB2I();
 
-        for (Report report : reports) {
-            list.add(adapter.adapt(report));
-        }
-
-        requestBean.setData(list);
+        requestBean.setData(reportAdapter.adaptM2I(reports));
         promise.execute(requestBean);
 
         return new ServiceResult<>(

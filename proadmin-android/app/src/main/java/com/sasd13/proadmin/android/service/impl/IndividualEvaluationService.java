@@ -1,16 +1,14 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.android.bean.IndividualEvaluation;
+import com.sasd13.proadmin.android.model.IndividualEvaluation;
 import com.sasd13.proadmin.android.service.IIndividualEvaluationService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.AppProperties;
 import com.sasd13.proadmin.android.util.Names;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.IndividualEvaluationAdapterB2I;
-import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationBean;
+import com.sasd13.proadmin.android.util.adapter.itf.IndividualEvaluationITFAdapter;
 import com.sasd13.proadmin.itf.bean.individualevaluation.IndividualEvaluationRequestBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,19 +19,18 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
 
     private static final String URL_WS2_INDIVIDUALEVALUATIONS = AppProperties.getProperty(Names.URL_WS2_INDIVIDUALEVALUATIONS);
 
+    private IndividualEvaluationITFAdapter adapter;
+
+    public IndividualEvaluationService() {
+        adapter = new IndividualEvaluationITFAdapter();
+    }
+
     @Override
     public ServiceResult<Void> create(List<IndividualEvaluation> individualEvaluations) {
         Promise promise = new Promise("POST", URL_WS2_INDIVIDUALEVALUATIONS + "/create");
-
         IndividualEvaluationRequestBean requestBean = new IndividualEvaluationRequestBean();
-        List<IndividualEvaluationBean> list = new ArrayList<>();
-        IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
 
-        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-            list.add(adapter.adapt(individualEvaluation));
-        }
-
-        requestBean.setData(list);
+        requestBean.setData(adapter.adaptM2I(individualEvaluations));
         promise.execute(requestBean);
 
         return new ServiceResult<>(
@@ -45,16 +42,9 @@ public class IndividualEvaluationService implements IIndividualEvaluationService
     @Override
     public ServiceResult<Void> update(List<IndividualEvaluation> individualEvaluations) {
         Promise promise = new Promise("POST", URL_WS2_INDIVIDUALEVALUATIONS + "/update");
-
         IndividualEvaluationRequestBean requestBean = new IndividualEvaluationRequestBean();
-        List<IndividualEvaluationBean> list = new ArrayList<>();
-        IndividualEvaluationAdapterB2I adapter = new IndividualEvaluationAdapterB2I();
 
-        for (IndividualEvaluation individualEvaluation : individualEvaluations) {
-            list.add(adapter.adapt(individualEvaluation));
-        }
-
-        requestBean.setData(list);
+        requestBean.setData(adapter.adaptM2I(individualEvaluations));
         promise.execute(requestBean);
 
         return new ServiceResult<>(

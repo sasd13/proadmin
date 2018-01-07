@@ -10,6 +10,7 @@ import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.controller.MainController;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
+import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.view.ILogOutController;
 
 /**
@@ -18,11 +19,13 @@ import com.sasd13.proadmin.android.view.ILogOutController;
 public class LogOutController extends MainController implements ILogOutController {
 
     private IAuthenticationService authenticationService;
+    private IUserStorageService userStorageService;
 
-    public LogOutController(MainActivity mainActivity, IAuthenticationService authenticationService) {
+    public LogOutController(MainActivity mainActivity, IAuthenticationService authenticationService, IUserStorageService userStorageService) {
         super(mainActivity);
 
         this.authenticationService = authenticationService;
+        this.userStorageService = userStorageService;
     }
 
     @Override
@@ -56,6 +59,7 @@ public class LogOutController extends MainController implements ILogOutControlle
 
     private void exit() {
         authenticationService.logOut();
+        userStorageService.clear(getActivity());
         goToIdentityActivity();
     }
 

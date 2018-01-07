@@ -4,7 +4,7 @@ import com.sasd13.androidex.gui.widget.ILabelizable;
 import com.sasd13.androidex.gui.widget.ISelectable;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemModel;
 import com.sasd13.androidex.gui.widget.recycler.IRecyclerItemType;
-import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.model.RunningTeam;
 
 import java.util.Observable;
 

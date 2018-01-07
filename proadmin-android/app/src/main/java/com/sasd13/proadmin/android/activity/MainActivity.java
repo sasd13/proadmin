@@ -14,7 +14,7 @@ import com.sasd13.androidex.gui.widget.recycler.RecyclerHolderPair;
 import com.sasd13.proadmin.android.Configurator;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.Router;
-import com.sasd13.proadmin.android.bean.user.User;
+import com.sasd13.proadmin.android.model.user.User;
 import com.sasd13.proadmin.android.service.IUserStorageService;
 import com.sasd13.proadmin.android.util.Constants;
 import com.sasd13.proadmin.android.view.IBrowsable;
@@ -52,7 +52,7 @@ public class MainActivity extends DrawerActivity {
         if (getIntent().hasExtra(Constants.USER)) {
             User user = getIntent().getExtras().getParcelable(Constants.USER);
 
-            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(user);
+            ((IUserStorageService) config.getProvider().provide(IUserStorageService.class)).write(this, user);
             getIntent().removeExtra(Constants.USER);
         }
     }

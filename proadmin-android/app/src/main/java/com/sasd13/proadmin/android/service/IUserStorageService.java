@@ -1,6 +1,9 @@
 package com.sasd13.proadmin.android.service;
 
-import com.sasd13.proadmin.android.bean.user.User;
+import android.app.Activity;
+import android.content.Intent;
+
+import com.sasd13.proadmin.android.model.user.User;
 
 /**
  * Created by ssaidali2 on 28/05/2017.
@@ -8,9 +11,15 @@ import com.sasd13.proadmin.android.bean.user.User;
 
 public interface IUserStorageService {
 
-    User read();
+    User read(Intent intent);
 
-    void write(User user);
+    User read(Activity activity);
 
-    void clear();
+    void write(Intent intent, User user);
+
+    void write(Activity activity, User user);
+
+    void clear(Intent intent);
+
+    void clear(Activity activity);
 }

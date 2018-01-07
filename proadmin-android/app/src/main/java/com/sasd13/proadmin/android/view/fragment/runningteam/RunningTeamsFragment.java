@@ -21,7 +21,7 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.RunningTeam;
+import com.sasd13.proadmin.android.model.RunningTeam;
 import com.sasd13.proadmin.android.scope.RunningTeamScope;
 import com.sasd13.proadmin.android.util.sorter.RunningTeamSorter;
 import com.sasd13.proadmin.android.view.IRunningTeamController;

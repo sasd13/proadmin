@@ -3,9 +3,9 @@ package com.sasd13.proadmin.android.controller.setting;
 import com.sasd13.androidex.util.requestor.Requestor;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
-import com.sasd13.proadmin.android.bean.user.User;
-import com.sasd13.proadmin.android.bean.user.UserUpdate;
 import com.sasd13.proadmin.android.controller.MainController;
+import com.sasd13.proadmin.android.model.user.User;
+import com.sasd13.proadmin.android.model.user.UserUpdate;
 import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.scope.SettingScope;
 import com.sasd13.proadmin.android.service.ISessionStorageService;
@@ -41,7 +41,7 @@ public class SettingController extends MainController implements ISettingControl
     @Override
     public void browse() {
         getActivity().clearHistory();
-        scope.setUserUpdate(new NewUserUpdateBuilder(userStorageService.read()).build());
+        scope.setUserUpdate(new NewUserUpdateBuilder(userStorageService.read(getActivity())).build());
         startFragment(SettingFragment.newInstance());
         actionReadUser();
     }
@@ -62,7 +62,7 @@ public class SettingController extends MainController implements ISettingControl
     }
 
     void onReadUser(User user) {
-        userStorageService.write(user);
+        userStorageService.write(getActivity(), user);
         scope.setUserUpdate(new NewUserUpdateBuilder(user).build());
         scope.setLoading(false);
     }

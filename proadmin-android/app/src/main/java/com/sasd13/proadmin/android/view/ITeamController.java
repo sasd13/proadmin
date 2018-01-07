@@ -1,7 +1,7 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.model.StudentTeam;
+import com.sasd13.proadmin.android.model.Team;
 
 import java.util.List;
 

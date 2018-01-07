@@ -1,9 +1,9 @@
 package com.sasd13.proadmin.android.util.builder;
 
 import com.sasd13.javaex.pattern.builder.IBuilder;
-import com.sasd13.proadmin.android.bean.Student;
-import com.sasd13.proadmin.android.bean.StudentTeam;
-import com.sasd13.proadmin.android.bean.Team;
+import com.sasd13.proadmin.android.model.Student;
+import com.sasd13.proadmin.android.model.StudentTeam;
+import com.sasd13.proadmin.android.model.Team;
 
 /**
  * Created by ssaidali2 on 23/07/2016.

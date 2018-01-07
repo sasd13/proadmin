@@ -1,14 +1,14 @@
 package com.sasd13.proadmin.android.service.impl;
 
 import com.sasd13.androidex.net.promise.Promise;
-import com.sasd13.proadmin.android.bean.user.User;
-import com.sasd13.proadmin.android.bean.user.UserUpdate;
+import com.sasd13.proadmin.android.model.user.User;
+import com.sasd13.proadmin.android.model.user.UserUpdate;
 import com.sasd13.proadmin.android.service.IUserService;
 import com.sasd13.proadmin.android.service.ServiceResult;
 import com.sasd13.proadmin.android.util.AppProperties;
 import com.sasd13.proadmin.android.util.Names;
-import com.sasd13.proadmin.android.util.adapter.bean2itf.user.UserUpdateAdapterB2I;
-import com.sasd13.proadmin.android.util.adapter.itf2bean.user.UserAdapterI2B;
+import com.sasd13.proadmin.android.util.adapter.itf.model2itf.user.UserUpdateAdapterM2I;
+import com.sasd13.proadmin.android.util.adapter.itf.itf2model.user.UserAdapterI2M;
 import com.sasd13.proadmin.itf.SearchBean;
 import com.sasd13.proadmin.itf.bean.user.UserResponseBean;
 import com.sasd13.proadmin.itf.bean.user.update.UserUpdateRequestBean;
@@ -46,7 +46,7 @@ public class UserService implements IUserService {
             errors = responseBean.getErrors();
 
             if (errors.isEmpty()) {
-                user = new UserAdapterI2B().adapt(responseBean.getData().get(0));
+                user = new UserAdapterI2M().adapt(responseBean.getData().get(0));
             }
         }
 
@@ -61,10 +61,9 @@ public class UserService implements IUserService {
     @Override
     public ServiceResult<Void> update(UserUpdate userUpdate) {
         Promise promise = new Promise("POST", URL_AAA_USERS + "/update");
-
         UserUpdateRequestBean requestBean = new UserUpdateRequestBean();
 
-        requestBean.setData(new UserUpdateAdapterB2I().adapt(userUpdate));
+        requestBean.setData(new UserUpdateAdapterM2I().adapt(userUpdate));
         promise.execute(requestBean);
 
         return new ServiceResult<>(

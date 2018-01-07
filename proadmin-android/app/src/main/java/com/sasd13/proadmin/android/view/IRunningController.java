@@ -1,8 +1,8 @@
 package com.sasd13.proadmin.android.view;
 
-import com.sasd13.proadmin.android.bean.Project;
-import com.sasd13.proadmin.android.bean.Running;
-import com.sasd13.proadmin.android.bean.Teacher;
+import com.sasd13.proadmin.android.model.Project;
+import com.sasd13.proadmin.android.model.Running;
+import com.sasd13.proadmin.android.model.Teacher;
 
 /**
  * Created by ssaidali2 on 04/12/2016.

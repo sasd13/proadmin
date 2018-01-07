@@ -71,12 +71,14 @@ public class Router {
         if (ILogInController.class.equals(mClass)) {
             return new LogInController(
                     (IdentityActivity) activity,
-                    (IAuthenticationService) provider.provide(IAuthenticationService.class)
+                    (IAuthenticationService) provider.provide(IAuthenticationService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class)
             );
         } else if (ILogOutController.class.equals(mClass)) {
             return new LogOutController(
                     (MainActivity) activity,
-                    (IAuthenticationService) provider.provide(IAuthenticationService.class)
+                    (IAuthenticationService) provider.provide(IAuthenticationService.class),
+                    (IUserStorageService) provider.provide(IUserStorageService.class)
             );
         } else if (IProjectController.class.equals(mClass)) {
             return new ProjectController(
