@@ -1,4 +1,4 @@
-package com.sasd13.proadmin.android.scope;
+package com.sasd13.proadmin.android.component;
 
 import java.util.Observable;
 

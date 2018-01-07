@@ -1,5 +1,6 @@
-package com.sasd13.proadmin.android.scope;
+package com.sasd13.proadmin.android.component.report.scope;
 
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.model.IndividualEvaluation;
 import com.sasd13.proadmin.android.model.LeadEvaluation;
 import com.sasd13.proadmin.android.model.Report;

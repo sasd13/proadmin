@@ -1,5 +1,6 @@
-package com.sasd13.proadmin.android.scope;
+package com.sasd13.proadmin.android.component.runningteam.scope;
 
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.model.AcademicLevel;
 import com.sasd13.proadmin.android.model.Report;
 import com.sasd13.proadmin.android.model.Running;

@@ -8,8 +8,8 @@ import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.component.MainController;
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.component.authentication.view.ILogOutController;
-import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.IUserStorageService;
 

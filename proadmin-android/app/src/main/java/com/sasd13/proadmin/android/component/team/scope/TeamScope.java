@@ -1,5 +1,6 @@
-package com.sasd13.proadmin.android.scope;
+package com.sasd13.proadmin.android.component.team.scope;
 
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.model.StudentTeam;
 import com.sasd13.proadmin.android.model.Team;
 

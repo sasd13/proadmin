@@ -19,9 +19,9 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.component.team.scope.TeamScope;
 import com.sasd13.proadmin.android.gui.form.TeamForm;
 import com.sasd13.proadmin.android.model.Team;
-import com.sasd13.proadmin.android.scope.TeamScope;
 
 import java.util.Observable;
 import java.util.Observer;

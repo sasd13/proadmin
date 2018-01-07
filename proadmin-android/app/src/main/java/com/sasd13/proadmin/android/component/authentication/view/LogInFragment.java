@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.sasd13.androidex.gui.widget.dialog.WaitDialog;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
-import com.sasd13.proadmin.android.scope.Scope;
+import com.sasd13.proadmin.android.component.Scope;
 
 import java.util.Observable;
 import java.util.Observer;

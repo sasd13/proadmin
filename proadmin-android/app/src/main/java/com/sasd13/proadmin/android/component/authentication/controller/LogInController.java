@@ -7,10 +7,10 @@ import com.sasd13.javaex.security.Credential;
 import com.sasd13.proadmin.android.activity.IdentityActivity;
 import com.sasd13.proadmin.android.activity.MainActivity;
 import com.sasd13.proadmin.android.component.IdentityController;
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.component.authentication.task.LogInTask;
 import com.sasd13.proadmin.android.component.authentication.view.ILogInController;
 import com.sasd13.proadmin.android.model.user.User;
-import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.service.IAuthenticationService;
 import com.sasd13.proadmin.android.service.IUserStorageService;
 

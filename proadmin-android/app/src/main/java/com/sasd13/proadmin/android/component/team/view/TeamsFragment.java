@@ -21,9 +21,9 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.component.team.scope.TeamScope;
 import com.sasd13.proadmin.android.gui.tab.TeamItemModel;
 import com.sasd13.proadmin.android.model.Team;
-import com.sasd13.proadmin.android.scope.TeamScope;
 import com.sasd13.proadmin.android.util.sorter.TeamSorter;
 
 import java.util.List;

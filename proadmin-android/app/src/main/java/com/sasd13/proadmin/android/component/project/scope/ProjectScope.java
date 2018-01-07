@@ -1,5 +1,6 @@
-package com.sasd13.proadmin.android.scope;
+package com.sasd13.proadmin.android.component.project.scope;
 
+import com.sasd13.proadmin.android.component.Scope;
 import com.sasd13.proadmin.android.model.Project;
 import com.sasd13.proadmin.android.model.Running;
 import com.sasd13.proadmin.android.model.Teacher;

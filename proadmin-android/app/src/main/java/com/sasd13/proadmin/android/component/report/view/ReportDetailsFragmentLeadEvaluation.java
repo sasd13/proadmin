@@ -19,10 +19,10 @@ import com.sasd13.androidex.util.GUIHelper;
 import com.sasd13.androidex.util.RecyclerHelper;
 import com.sasd13.proadmin.android.R;
 import com.sasd13.proadmin.android.activity.MainActivity;
+import com.sasd13.proadmin.android.component.report.scope.ReportScope;
 import com.sasd13.proadmin.android.gui.form.LeadEvaluationForm;
 import com.sasd13.proadmin.android.model.LeadEvaluation;
 import com.sasd13.proadmin.android.model.StudentTeam;
-import com.sasd13.proadmin.android.scope.ReportScope;
 import com.sasd13.proadmin.android.util.builder.StudentsFromStudentTeamsBuilder;
 
 import java.util.List;

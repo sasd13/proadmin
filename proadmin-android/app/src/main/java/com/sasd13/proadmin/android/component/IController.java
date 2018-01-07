@@ -1,6 +1,5 @@
 package com.sasd13.proadmin.android.component;
 
-import com.sasd13.proadmin.android.scope.Scope;
 import com.sasd13.proadmin.android.util.message.IMessageHandler;
 
 /**
